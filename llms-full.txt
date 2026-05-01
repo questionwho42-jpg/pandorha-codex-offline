@@ -1,0 +1,47 @@
+# 📚 PANDORHA ENGINE: FULL CONTEXT SPECIFICATION
+
+[INJECT: Quick Commands Table from llms.txt]
+
+## 📜 SECTION 1: GOVERNANCE & ARCHITECTURE
+### SDD (Software Design Description)
+[INJECT: FULL CONTENT OF sdd.md]
+
+### Data Blueprint
+[INJECT: FULL CONTENT OF blueprint.md]
+
+## 🧱 SECTION 2: TECHNICAL CORE
+### DiceService Interface
+```typescript
+export interface RollResult {
+  total: number;
+  natural: number;
+  isCrit: boolean;
+  isFumble: boolean;
+}
+// Logic: Always audit to 'rpc_audit_logs' table.
+```
+
+## ⚔️ SECTION 3: DOMAIN MANIFESTOS
+### COMBATE (Capítulo 03)
+[INJECT: FULL CONTENT OF 03_Codex_de_Combate_e_Condicoes.md]
+
+#### Combat Data Contracts
+[INJECT: TS Interfaces from combat.schema.ts]
+
+### MAGIA & GRIMÓRIO
+*Synthetic Data Representation (Sample):*
+```yaml
+spells:
+  - id: "bola_de_fogo"
+    circle: 1
+    cost: 2
+    damage: "3d6 Fogo"
+    tags: ["Area", "Evocação"]
+    ref: "GDD_12_SPELL_042"
+  [... all 100+ spells in this compact format ...]
+```
+
+[... more domain injections follow ...]
+```
+
+---

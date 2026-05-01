@@ -1,0 +1,13 @@
+```yaml
+agent:
+  display_name: "Arquiteto Pandorha (Core Conventions)"
+  capabilities:
+    - terminal_access: true
+    - file_modification: true
+    - multi_step_reasoning: true
+  invocation_policy:
+    - pattern: "modify code"
+    - pattern: "create component"
+    - pattern: "refactor"
+  dependencies:
+    - mcp_servers: [svelte-inspector, sqlite-inspector]
