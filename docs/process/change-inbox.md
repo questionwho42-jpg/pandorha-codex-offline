@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260502-114935-tracer-bullet-character-domain -->
+### Tracer bullet Character domain
+- id: 20260502-114935-tracer-bullet-character-domain
+- status: open
+- created_at: 2026-05-02T11:49:35-03:00
+- source: task-ledger
+- summary: Create the first Character domain tracer bullet with Drizzle schema, Result-based service, in-memory fake repository, and TDD coverage.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260502-114935-tracer-bullet-character-domain -->
 <!-- pandorha-inbox:20260501-013428-implement-zero-token-maintenance-automation -->
 ### Implement zero-token maintenance automation
 - id: 20260501-013428-implement-zero-token-maintenance-automation
@@ -15,7 +24,6 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - summary: Create the full Option A maintenance workflow with process docs, task ledger, change inbox, changelog promotion, local script, hooks, and skill guidance.
 - expected_promotion: official docs after merge to main
 <!-- /pandorha-inbox:20260501-013428-implement-zero-token-maintenance-automation -->
-
 <!-- /pandorha-inbox:open -->
 
 ## Promoted

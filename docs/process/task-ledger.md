@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260502-114935-tracer-bullet-character-domain -->
+### Tracer bullet Character domain
+- id: 20260502-114935-tracer-bullet-character-domain
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-02T11:49:35-03:00
+- finished_at: 2026-05-02T12:03:35-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-02T12:03:35-03:00
+- branch: feat/metadata-tags-codex
+- commit_at_start: 4ee50c8 chore: snapshot pandorha workspace updates
+- summary: Create the first Character domain tracer bullet with Drizzle schema, Result-based service, in-memory fake repository, and TDD coverage.
+- last_change: Implemented Character domain tracer bullet with Drizzle schema, Drizzle-Zod validation, Result-based service, in-memory fake repository, Biome/TypeScript scaffold, 21 unit tests, and 100% coverage for executable service/model files.
+#### Files At Start
+- docs/process/task-ledger.md
+- .codex/
+- .lla-embeddings.json
+- .lla-index.json
+- .lla-profile.json
+- dev.db
+- scratch/
+- system-backup/
+#### Checkpoints
+#### Checkpoint 2026-05-02T11:49:35-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-02T12:03:35-03:00
+- Done: Implemented Character domain tracer bullet with Drizzle schema, Drizzle-Zod validation, Result-based service, in-memory fake repository, Biome/TypeScript scaffold, 21 unit tests, and 100% coverage for executable service/model files.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260502-114935-tracer-bullet-character-domain -->
 <!-- pandorha-task:20260501-013428-implement-zero-token-maintenance-automation -->
 ### Implement zero-token maintenance automation
 - id: 20260501-013428-implement-zero-token-maintenance-automation
@@ -92,7 +131,6 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - Improvements: consider adding a scheduled Windows Task Scheduler wrapper later
 - Model/config: gpt-5.5 xhigh final review; local automation zero-token
 <!-- /pandorha-task:20260501-013428-implement-zero-token-maintenance-automation -->
-
 <!-- /pandorha-ledger:completed -->
 
 ## Unfinished
@@ -101,6 +139,50 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-02T12:03:35-03:00 - manual
+- branch: feat/metadata-tags-codex
+- commit: 4ee50c8 chore: snapshot pandorha workspace updates
+- changed_files_count: 17
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/shared/game-rules.ts
+- .codex/
+- .gitignore
+- .lla-embeddings.json
+- .lla-index.json
+- .lla-profile.json
+- dev.db
+- package-lock.json
+- package.json
+- scratch/
+- src/entities/
+- src/shared/lib/
+- system-backup/
+- tsconfig.json
+- vitest.config.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-02T10:33:51-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 4ee50c8 chore: snapshot pandorha workspace updates
+- changed_files_count: 7
+#### Changed Files
+- .codex/
+- .lla-embeddings.json
+- .lla-index.json
+- .lla-profile.json
+- dev.db
+- scratch/
+- system-backup/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-01T19:25:10-03:00 - Infraestrutura Codex configurada: setup.bat e UI toolbar docs.
 - branch: feat/metadata-tags-codex
 - commit: aa80d68 chore: inicializacao para processamento de tags

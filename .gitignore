@@ -1,0 +1,9 @@
+node_modules/
+coverage/
+dist/
+.svelte-kit/
+.codex/
+.lla-*.json
+dev.db
+scratch/
+system-backup/

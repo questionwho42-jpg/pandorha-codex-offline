@@ -1,0 +1,24 @@
+{
+	"name": "pandorha-engine",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"test": "vitest run",
+		"test:unit": "vitest run",
+		"test:coverage": "vitest run --coverage.enabled true --coverage.reporter=json-summary",
+		"lint": "biome check src package.json tsconfig.json vitest.config.mjs && tsc --noEmit"
+	},
+	"dependencies": {
+		"drizzle-orm": "^0.45.2",
+		"drizzle-zod": "^0.8.3",
+		"zod": "^3.25.76"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.0",
+		"@types/node": "^22.15.3",
+		"@vitest/coverage-v8": "^3.2.4",
+		"typescript": "^5.8.3",
+		"vitest": "^3.2.4"
+	}
+}
