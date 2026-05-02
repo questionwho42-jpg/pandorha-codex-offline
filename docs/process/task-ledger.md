@@ -206,6 +206,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-02T20:32:34-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 651c994 feat(quality): adiciona gate unificado de validacao
+- changed_files_count: 1
+#### Changed Files
+- Untitled-1.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-02T18:05:34-03:00 - post-commit
 - branch: feat/metadata-tags-codex
 - commit: db9a74b feat(character): implementa tracer bullet de dominio [GDD 00]
