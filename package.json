@@ -7,7 +7,11 @@
 		"test": "vitest run",
 		"test:unit": "vitest run",
 		"test:coverage": "vitest run --coverage.enabled true --coverage.reporter=json-summary",
-		"lint": "biome check src package.json tsconfig.json vitest.config.mjs && tsc --noEmit"
+		"lint": "biome check src package.json tsconfig.json vitest.config.mjs scripts/run_full_quality_gate.mjs && tsc --noEmit",
+		"quality:gate": "node scripts/run_full_quality_gate.mjs",
+		"quality:root": "node scripts/run_full_quality_gate.mjs --only=root",
+		"quality:mcp": "node scripts/run_full_quality_gate.mjs --only=mcp",
+		"quality:skills": "node scripts/run_full_quality_gate.mjs --only=skills"
 	},
 	"dependencies": {
 		"drizzle-orm": "^0.45.2",

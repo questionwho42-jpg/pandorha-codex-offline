@@ -13,6 +13,73 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260502-202511-implement-unified-quality-gate -->
+### Implement unified quality gate
+- id: 20260502-202511-implement-unified-quality-gate
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-02T20:25:11-03:00
+- finished_at: 2026-05-02T20:31:53-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-02T20:31:53-03:00
+- branch: feat/metadata-tags-codex
+- commit_at_start: e5b2284 chore(process): registra snapshot pos-commit da tracer bullet
+- summary: Create the zero-token full quality gate script, package commands, documentation update, and process records for future validation runs.
+- last_change: Implemented scripts/run_full_quality_gate.mjs, added root quality scripts, ignored generated artifacts, normalized missing skill metadata, documented first successful full gate run, and verified root/MCP/skill gates pass.
+#### Files At Start
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- Untitled-1.md
+- docs/process/testing-and-next-steps-roadmap.md
+#### Checkpoints
+#### Checkpoint 2026-05-02T20:25:11-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-02T20:31:53-03:00
+- Done: Implemented scripts/run_full_quality_gate.mjs, added root quality scripts, ignored generated artifacts, normalized missing skill metadata, documented first successful full gate run, and verified root/MCP/skill gates pass.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260502-202511-implement-unified-quality-gate -->
+<!-- pandorha-task:20260502-201538-qa-roadmap-for-implemented-systems -->
+### QA roadmap for implemented systems
+- id: 20260502-201538-qa-roadmap-for-implemented-systems
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-05-02T20:15:39-03:00
+- finished_at: 2026-05-02T20:17:25-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-02T20:17:25-03:00
+- branch: feat/metadata-tags-codex
+- commit_at_start: e5b2284 chore(process): registra snapshot pos-commit da tracer bullet
+- summary: Create a detailed testing and next-steps guide covering implemented code, MCPs, skills, and future project implementation flow.
+- last_change: Created docs/process/testing-and-next-steps-roadmap.md with a full QA roadmap for implemented code, MCPs, skills, unified quality gate automation, and next implementation phases.
+#### Files At Start
+- Untitled-1.md
+#### Checkpoints
+#### Checkpoint 2026-05-02T20:15:39-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-02T20:17:25-03:00
+- Done: Created docs/process/testing-and-next-steps-roadmap.md with a full QA roadmap for implemented code, MCPs, skills, unified quality gate automation, and next implementation phases.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260502-201538-qa-roadmap-for-implemented-systems -->
 <!-- pandorha-task:20260502-114935-tracer-bullet-character-domain -->
 ### Tracer bullet Character domain
 - id: 20260502-114935-tracer-bullet-character-domain

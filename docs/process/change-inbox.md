@@ -6,6 +6,24 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260502-202511-implement-unified-quality-gate -->
+### Implement unified quality gate
+- id: 20260502-202511-implement-unified-quality-gate
+- status: open
+- created_at: 2026-05-02T20:25:11-03:00
+- source: task-ledger
+- summary: Create the zero-token full quality gate script, package commands, documentation update, and process records for future validation runs.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260502-202511-implement-unified-quality-gate -->
+<!-- pandorha-inbox:20260502-201538-qa-roadmap-for-implemented-systems -->
+### QA roadmap for implemented systems
+- id: 20260502-201538-qa-roadmap-for-implemented-systems
+- status: open
+- created_at: 2026-05-02T20:15:39-03:00
+- source: task-ledger
+- summary: Create a detailed testing and next-steps guide covering implemented code, MCPs, skills, and future project implementation flow.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260502-201538-qa-roadmap-for-implemented-systems -->
 <!-- pandorha-inbox:20260502-114935-tracer-bullet-character-domain -->
 ### Tracer bullet Character domain
 - id: 20260502-114935-tracer-bullet-character-domain
