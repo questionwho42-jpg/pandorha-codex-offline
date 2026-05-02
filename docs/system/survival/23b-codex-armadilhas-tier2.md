@@ -3,16 +3,17 @@ sourceFile: "23b_Codex_Armadilhas_Tier2.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.163Z"
 ---
-
+<ai_context>
+<ai_context>
 # 23b_Codex_Armadilhas_Tier2.md
 
-c79c6d27-1f22-46fe-b3ed-a054ac0ffee4
 
-23b\_Codex\_Armadilhas\_Tier2.md
 
-46eb5f61-8dec-4ab0-83ca-e8d7edc2534b
+23b_Codex_Armadilhas_Tier2.md
 
-Arquivo: M04\_DESAFIOS\23b\_Codex\_Armadilhas\_Tier2.md
+
+
+Arquivo: M04_DESAFIOS\23b_Codex_Armadilhas_Tier2.md
 
 Pandorha: Capítulo 23.2 - Tomo de Armadilhas (Tier II)
 
@@ -290,7 +291,7 @@ Patógeno antigo projetado por agulha morta envenenada injeta nas cutículas dos
 
 Exatos 5d6 escalados como Condição de Doença Corrosiva. Drena Vigor (PV base) a
 
-. A regeneração por Descanso Curto é nula pelas contagens do relógio da campanha. Somente poções Panaceia raras tiram o patógeno. Salvar pelo menos não abaixa max\_hp da constituição global.
+. A regeneração por Descanso Curto é nula pelas contagens do relógio da campanha. Somente poções Panaceia raras tiram o patógeno. Salvar pelo menos não abaixa max_hp da constituição global.
 
 45. Maldição dos Ossos
 
@@ -386,7 +387,7 @@ DC 25 para suportar rasgo fantasma no tendão interno.
 
 8d6 Dano assustador de base Necrótica Dano massivo letal. Falha leva decapitação espiritual, ou seja Mudo + Vida indo pra casa do desespero (Zero, ou um quarto de folego).
 
-with open(os.path.join(base\_dir, "23b\_Codex\_Armadilhas\_Tier2.md"), "w", encoding="utf-8") as file:
+with open(os.path.join(base_dir, "23b_Codex_Armadilhas_Tier2.md"), "w", encoding="utf-8") as file:
 
 file.write(tier2)
 
@@ -395,4 +396,5 @@ file.write(tier2)
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

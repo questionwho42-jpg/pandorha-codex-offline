@@ -3,16 +3,16 @@ sourceFile: "07_01b_Tier1_Sobrenatural.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.151Z"
 ---
-
+<ai_context>
 # 07_01b_Tier1_Sobrenatural.md
 
-a1190610-a9f2-4152-8888-8a8500f00c76
 
-07\_01b\_Tier1\_Sobrenatural.md
 
-c533413a-4e16-4e62-8829-86420e267287
+07_01b_Tier1_Sobrenatural.md
 
-Arquivo: M04\_DESAFIOS\07\_01b\_Tier1\_Sobrenatural.md
+
+
+Arquivo: M04_DESAFIOS\07_01b_Tier1_Sobrenatural.md
 
 Pandorha: Bestiário Narrativo Vol. 1B - O Sobrenatural (Níveis 1-5)
 
@@ -26,11 +26,11 @@ Este tomo apresenta as criaturas sobrenaturais com estatísticas completas para 
 
 A. Esqueleto Guerreiro (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Eles não são cadáveres quaisquer; são soldados que morreram em batalha e cujas almas ficaram presas à disciplina militar. Eles não sentem medo, dor ou dúvida. Mantêm a formação de escudo perfeitamente alinhada mesmo enquanto seus corpos são quebrados, e executam ordens complexas deixadas por generais mortos há séculos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Ossos amarelados limpos de qualquer vestígio de carne, unidos por magia negra invisível. Vestem restos de armaduras enferrujadas e tabardos desbotados de reinos esquecidos. As órbitas vazias ardem com pontinhos de luz vermelha que seguem os vivos com ódio frio. Movem-se com tiques mecânicos, produzindo um som de "clac-clac" enervante.
 
@@ -66,11 +66,11 @@ de armas de Esmagamento (Vulnerável).
 
 B. Esqueleto Arqueiro (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Em vida, eram batedores e caçadores de elite. Na morte, tornaram-se sentinelas incansáveis que vigiam as muralhas de fortalezas negras. Eles não enxergam com olhos, mas sentem a pulsação da vida à distância, disparando flechas de osso com precisão sobrenatural.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Mais leves e ágeis que os guerreiros, com ossos porosos manchados de terra e musgo. Carregam arcos feitos de madeira podre ou costelas curvas. Preferem locais elevados, ficando imóveis como gárgulas até o momento do disparo.
 
@@ -96,11 +96,11 @@ Conflito +1, Resistência +1, Interação -2.
 
 C. Guarda de Elite (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Os restos mortais de paladinos caídos ou guardas reais juramentados. Sua lealdade era tão forte que nem a morte a quebrou. Guardam tumbas de reis antigos e tesouros malditos, recusando-se a deixar seus postos mesmo quando o teto desaba sobre eles.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Imponente e assustador, com quase 2 metros de altura. Usa uma armadura de placas completa, polida magicamente para brilhar nas trevas, e empunha um escudo torre pesado. Sua voz, quando fala, é metálica e oca, ecoando como se viesse de dentro de um barril de ferro.
 
@@ -140,11 +140,11 @@ Cobertura Total
 
 A. Zumbi Pútrido (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O degrau mais baixo da necromancia. Corpos recém-enterrados reanimados sem alma, movidos apenas por uma fome mágica insaciável. Eles são lentos e estúpidos, mas implacáveis; se você cortar um ao meio, a parte de cima continuará rastejando para morder seu tornozelo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele cinza-esverdeada rasgada em vários pontos, com vermes brancos expostos na carne. Um gemido molhado e constante escapa de suas gargantas. O cheiro é adocicado e insuportável, uma mistura de flores de funeral e carne estragada.
 
@@ -182,11 +182,11 @@ Vulnerável a Radiante (+1d6 Dano)
 
 B. Zumbi Inchado (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Crias de pântanos ou esgotos, cheios de gases da decomposição e alquimia vil. Necromantes os usam como "bombas biológicas" para quebrar linhas de defesa inimigas, pois matá-los é tão perigoso quanto deixá-los viver.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Grotescamente obeso, com a pele translúcida e esticada ao limite. Um brilho verde doentio pulsa em sua barriga. Líquido necrótico vaza constantemente de seus orifícios.
 
@@ -218,11 +218,11 @@ Teste Global de Físico + Resistência + Nível (DC 14)
 
 C. Corredor (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Cadáveres muito frescos reanimados com rituais de adrenalina e ódio concentrado. Eles não sofrem o rigor mortis; pelo contrário, seus músculos estão em espasmo perpétuo. Caçam em bandos como lobos mortos-vivos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Olhos injetados de sangue negro, veias saltadas por todo o corpo. Corre de quatro apoios como um animal, com movimentos bruscos e erráticos que dificultam a mira.
 
@@ -256,11 +256,11 @@ que deve ser usada exclusivamente para Mover (Totalizando 4 Ações no turno).
 
 A. Aranha Gigante (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Predadores perfeitos crescidos por magia selvagem nas profundezas das florestas antigas. Elas não distinguem um cervo de um elfo; ambos são apenas pacotes de comida quente para serem estocados em suas teias pegajosas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Quitina negra e brilhante coberta de pelos sensoriais rígidos. Possui 8 olhos sem alma que refletem a luz e mandíbulas que gotejam veneno verde. Move-se pelas paredes com um som de arranhar seco.
 
@@ -296,11 +296,11 @@ veneno à metade).
 
 B. Tecelã de Fase (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Aranhas raras que aprenderam a caçar entre os planos Material e Etéreo. Elas surgem do nada para dar o golpe fatal e desaparecem antes que a espada do inimigo possa tocá-las. Magos pagam fortunas por sua seda.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Cores iridescentes mudam conforme o ângulo de visão. Seu corpo parece tremeluzir como uma imagem falha ou uma miragem.
 
@@ -322,7 +322,7 @@ Conflito +3, Resistência +2, Interação 0.
 
 #### Passiva - Salto Etéreo:
 
-Pode usar 1 Ação \[L\] para ficar invisível e intangível até o início do seu próximo turno.
+Pode usar 1 Ação [L] para ficar invisível e intangível até o início do seu próximo turno.
 
 #### Picada Dimensional:
 
@@ -336,11 +336,11 @@ na sua CA contra este ataque (Toque).
 
 C. Rainha do Ninho (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma aranha antiga que viveu séculos consumindo aventureiros e monstros. Comanda o enxame como uma general, usando telepatia primitiva. Seu covil é um labirinto tridimensional de seda branca.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Enorme (Tamanho Grande), com o abdômen inchado e pulsante cheio de ovos. Suas patas são blindadas com quitina grossa como aço.
 
@@ -380,11 +380,11 @@ Teste Global de Físico + Resistência + Nível (DC 20)
 
 A. Carniçal Faminto (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Humanos que cometeram o tabu do canibalismo e foram amaldiçoados por deuses da morte. Mantêm uma inteligência astuta e memórias de sua vida, mas são escravos biológicos de uma fome que nunca passa.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Emaciado, com membros alongados e dedos que terminam em garras de osso. A língua é preta e comprida, lambendo dentes que foram lixados até virarem agulhas.
 
@@ -426,11 +426,11 @@ Imobilizado
 
 B. Carniçal Rastejante (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma variante adaptada para viver em criptas apertadas e tubulações. Seus membros foram quebrados e curados de forma errada para permitir movimentos impossíveis. Eles caem do teto sobre suas vítimas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Seus joelhos e cotovelos dobram para ambos os lados. Tem ventosas de carne nas palmas das mãos e pés.
 
@@ -456,11 +456,11 @@ e o Carniçal tem uma ação de Ataque extra gratuita.
 
 C. Ghast (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um lorde entre os carniceiros. Quando um ghoul consome carne suficiente de heróis ou nobres, ele evolui. Exala um cheiro de morte tão potente que faz os vivos vomitarem e ficarem indefesos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Maior e mais musculoso que seus primos, com a pele úmida e pálida que emite um vapor visível de podridão.
 
@@ -498,11 +498,11 @@ em todos os testes e ataques (Envenenado).
 
 A. Geleia Ocre (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma colônia ácida com mente coletiva primitiva. Elas limpam masmorras de toda matéria orgânica, deixando apenas pedra e metal limpos. Não podem ser mortas por cortes simples.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma poça de lodo amarelo-mostarda que escorre pelas paredes e pelo teto, desafiando a gravidade.
 
@@ -534,11 +534,11 @@ Imune a Corte
 
 B. Cubo Gelatinoso (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O predador perfeito de corredores de masmorra. Sua transparência é sua maior arma; aventureiros distraídos costumam andar diretamente para dentro dele, onde são digeridos vivos enquanto flutuam paralisados.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um cubo perfeito de 3x3 metros de gelatina transparente. Olhando de perto, pode-se ver ossos, moedas e armas de vítimas anteriores flutuando em seu interior.
 
@@ -572,11 +572,11 @@ Teste Global de Físico + Resistência + Nível (DC 18)
 
 C. Pudim Negro (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O limo supremo. Ao contrário dos outros, possui uma inteligência maligna e odeia a vida. Seu ácido é tão potente que dissolve metal e magia em segundos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa de piche negro borbulhante que parece absorver a luz ao seu redor.
 
@@ -608,11 +608,11 @@ Armas não-mágicas de metal toque tocam nele derretem (recebem penalidade de -1
 
 A. Sombra (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A sombra de alguém que morreu de medo extremo, ganhando vida própria. Elas se alimentam da força vital dos vivos, transformando campeões em fracos trêmulos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma silhueta bidimensional negra que desliza pelas superfícies, mas que pode se erguer no ar como um rasgo na realidade.
 
@@ -644,11 +644,11 @@ temporariamente (recupera no descanso). Se Força chegar a 0, morre.
 
 B. Espectro (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A alma de alguém que morreu com ódio violento e inacabado. Odeiam a luz do sol e qualquer lembrança de vida. Sua mera presença suga a vontade de viver.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um fantasma translúcido cinza, flutuando sem pés. Seu rosto é uma máscara de fúria contorcida.
 
@@ -682,11 +682,11 @@ pelo mesmo valor do dano.
 
 C. Banshee (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O espírito de uma mulher nobre corrompida pela vaidade e egoísmo. Ela foi amaldiçoada a lamentar eternamente sua própria beleza perdida. Ouvir seu grito é a morte certa.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma figura feminina flutuante, bela mas terrível, com cabelos flutuando em água invisível e rosto distorcido em um grito eterno.
 
@@ -724,11 +724,11 @@ Sofre metade do dano e não fica Abalado.
 
 A. Iniciado (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Aldeões comuns seduzidos pela promessa de poder fácil ou proteção. Eles são descartáveis para seus mestres e sabem disso, lutando com o desespero de quem não tem volta.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Vestem túnicas simples com capuz para esconder o rosto. Carregam adagas rituais tortas e têm símbolos profanos marcados na pele.
 
@@ -748,11 +748,11 @@ Conflito +1, Resistência 0, Interação +1.
 
 B. Fanático (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Membros do culto que passaram pelos ritos de iniciação sangrentos. Sua mente foi quebrada e reconstruída para lealdade absoluta. Eles lutam com uma fúria suicida, ignorando ferimentos mortais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Cobertos de cicatrizes rituais e escarificações. Seus olhos são vidrados de loucura. Murmuram orações constantes para entidades sombrias.
 
@@ -778,11 +778,11 @@ Infligir Ferimentos
 
 C. Mestre do Pacto (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um líder que fez contato direto com demônios ou deuses antigos. Ele vendeu sua alma por poder etérico real e comanda a célula do culto com mão de ferro e magia negra.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Veste mantos de seda negra e carrega um cajado feito de ossos humanos. Uma aura de frio o cerca.
 
@@ -820,11 +820,11 @@ Conflito +3, Resistência +3, Interação +5.
 
 A. Harpia (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Seres amaldiçoados pela vaidade ou criados por deuses do vento furiosos. Elas vivem em penhascos costeiros e usam seu canto mágico para atrair viajantes para a morte nas pedras.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Corpo de abutre sujo com o rosto de uma velha enrugada e perversa. Suas garras estão sempre incrustadas de sangue seco.
 
@@ -858,11 +858,11 @@ Teste Global de Mental + Resistência + Nível (DC 16)
 
 B. Sirena (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Primas aquáticas das harpias que caçam marinheiros. Elas não querem apenas carne; elas querem afogar a esperança. Constroem seus ninhos em naufrágios.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Belas de longe, monstruosas de perto. Têm penas azuis oleosas e guelras no pescoço.
 
@@ -894,11 +894,11 @@ ficam Atordoados.
 
 C. Matriarca dos Ventos (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A rainha do ninho, abençoada com o controle sobre o clima. Ela pode convocar tempestades localizadas para derrubar navios ou caravanas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Usa uma coroa feita de ossos de dedos e suas asas são negras como nuvens de tempestade.
 
@@ -928,11 +928,11 @@ Conflito +4, Resistência +3, Interação +4.
 
 A. Pixie (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Espíritos da natureza minúsculos e travessos. Eles não entendem o conceito de propriedade ou mortalidade, pregando peças que podem ser fatais para humanos sem querer.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Apenas 30cm de altura, com asas de inseto brilhantes (borboleta ou libélula). Deixam rastro de pó dourado por onde passam e sua pele brilha suavemente à noite.
 
@@ -952,7 +952,7 @@ Físico -2, Mental +3, Social +3.
 
 Conflito 0, Resistência 0, Interação +3.
 
-Pode ficar Invisível à vontade (1 Ação \[L\]).
+Pode ficar Invisível à vontade (1 Ação [L]).
 
 Pó Mágico: Alcance 3m. Alvo faz
 
@@ -974,11 +974,11 @@ Sono Profundo (Exige 1 Ação de aliado para acordar, além de dano).
 
 B. Sprite de Guerra (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Os guardiões militantes das florestas feéricas. Eles levam a proteção da natureza a sério e atacam lenhadores ou invasores com venenos de sono.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Vestem armaduras feitas de carapaças de besouro e carregam espadas finas como agulhas. Seus rostos são belos, mas duros e sem piedade.
 
@@ -1010,11 +1010,11 @@ por 1 hora ou até sofrer dano).
 
 C. Dríade (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um espírito ligado à alma de uma árvore antiga (geralmente um carvalho). Se a árvore morre, ela morre. Ela pode encantar intrusos para servirem como adubo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Sua pele parece casca de árvore polida, e seus cabelos mudam de cor com as estações (verde, dourado, branco). Seus olhos são lagos profundos de verde antigo.
 
@@ -1036,7 +1036,7 @@ Físico +2, Mental +4, Social +4.
 
 Conflito +2, Resistência +4, Interação +5.
 
-Teleporte entre árvores (1 Ação \[L\]).
+Teleporte entre árvores (1 Ação [L]).
 
 Teste Global de Mental + Interação + Nível (DC 19)
 
@@ -1054,11 +1054,11 @@ Teste Global de Mental + Interação + Nível (DC 19)
 
 A. Espantalho (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Bonecos de palha animados por espíritos malignos ou bruxas para vigiar campos. Eles não sentem dor e não param até que sejam queimados ou desmembrados. Seu olhar pode paralisar corvos e homens de medo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um boneco tosco cheio de palha seca, vestindo roupas de fazendeiro podres. Sua cabeça é um saco de estopa costurado ou uma abóbora murcha esculpida com um sorriso cruel. Move-se de forma espasmódica e antinatural.
 
@@ -1096,11 +1096,11 @@ por 1 minuto (Teste novo no fim de cada turno).
 
 B. Armadura Animada (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma armadura vazia movida por magia. Frequentemente guardam corredores de castelos e tesouros de magos, fingindo ser decoração até atacarem. Elas seguem ordens literalmente e lutam até serem destruídas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma armadura de placas completa antiga, mas sem ninguém dentro. Ouve-se o rangido de metal contra metal e o som oco quando ela se move. Elmos vazios que parecem olhar para você.
 
@@ -1126,11 +1126,11 @@ RD 5 (Corte)
 
 C. Gárgula de Bronze (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma construção mais cara e letal que a gárgula de pedra, feita de metal puro. Usada por magos ricos e artífices paranóicos. Diferente da pedra, o metal é mais ágil e resistente.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma estátua alada feita de bronze polido ou oxidado (verde-azulado). Engrenagens e pistões mágicos podem ser ouvidos zumbindo em seu interior. Seus olhos brilham como fornalhas vermelhas.
 
@@ -1161,4 +1161,4 @@ RD 8 (Dano Físico não-mágico)
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

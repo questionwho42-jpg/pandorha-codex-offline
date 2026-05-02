@@ -3,14 +3,15 @@ sourceFile: "Capitulo_XX_Contramagia_e_Anulacao.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.167Z"
 ---
-
+<ai_context>
+<ai_context>
 # Capitulo_XX_Contramagia_e_Anulacao.md
 
-d38e98ce-aa62-4127-b9aa-ea7d0271f0b3
 
-Capitulo\_XX\_Contramagia\_e\_Anulacao.md
 
-65a50986-ee4c-49f5-8e3a-07891e752e97
+Capitulo_XX_Contramagia_e_Anulacao.md
+
+
 
 Pandorha: Capítulo XX - Contramagia, Interrupção e Anulação de Magias
 
@@ -41,21 +42,27 @@ O nome dado à técnica de Interrupção, geralmente associada a escolas de Abju
 💥 2. Interrupção de Conjuração (Contra-Mágica)
 
 A interrupção é um teste de reação que exige que o conjurador adversário esteja em processo ativo de lançamento.
+</ai_context>
+</ai_context>
 
 ## A Mecânica Básica (Nível 3º Círculo)
-
-1 Reação \[R\] (Quando você vê o conjurador começar o ritual).
+<ai_context>
+<ai_context>
+1 Reação [R] (Quando você vê o conjurador começar o ritual).
 
 Habilidade de Conjuração (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 10 + Círculo da Magia
 
 Se você passar no teste, a magia falha e não tem efeito.
+</ai_context>
+</ai_context>
 
 ## Escalando a Interrupção
-
+<ai_context>
+<ai_context>
 #### Magia de 3º Círculo ou inferior:
 
 Falha automaticamente.
@@ -63,9 +70,12 @@ Falha automaticamente.
 #### Magia de 4º Círculo ou superior:
 
 Deve ser feito o teste de Habilidade de Conjuração contra a CD escalada.
+</ai_context>
+</ai_context>
 
 ## Técnicas Avançadas de Interrupção
-
+<ai_context>
+<ai_context>
 #### Prisão do Vazio (Técnica de Alto Nível):
 
 Uma técnica de maestria que não apenas interrompe, mas pode forçar o conjurador a gastar recursos (como Energia Etérica) ou até mesmo a perder a ação.
@@ -79,17 +89,23 @@ Uma manobra de alto nível que exige um teste de Habilidade de Conjuração cont
 🪄 3. Anulação de Efeitos (Dissipar Magia)
 
 A anulação é usada para remover efeitos mágicos já estabelecidos no campo de batalha.
+</ai_context>
+</ai_context>
 
 ## A Mecânica Básica
-
-2 Ações \[AA\] (Standard).
+<ai_context>
+<ai_context>
+2 Ações [AA] (Standard).
 
 Você escolhe um alvo e tenta remover qualquer magia de 3º círculo ou inferior.
 
 Para magias de 4º círculo ou superior, é necessário um teste de Habilidade de Conjuração contra a CD do nível da magia.
+</ai_context>
+</ai_context>
 
 ## Escalando a Anulação
-
+<ai_context>
+<ai_ignore>
 #### Potencializar:
 
 Se você usar um slot de magia mais alto, a anulação é automática para magias de círculo igual ou inferior ao slot gasto.
@@ -97,9 +113,12 @@ Se você usar um slot de magia mais alto, a anulação é automática para magia
 --------------------------------------------------------------------------------
 
 🔮 4. Outras Formas de Neutralização
+</ai_ignore>
+</ai_context>
 
 ## Resistência e Imunidade (Defesas Passivas)
-
+<ai_context>
+<ai_context>
 #### Resistência:
 
 Reduz o dano recebido de um tipo específico pela
@@ -113,9 +132,12 @@ daquele tipo.
 #### Anulação Mútua:
 
 Se um alvo tiver Resistência e Vulnerabilidade ao mesmo tipo de dano, os efeitos se anulam, e ele recebe o Dano Base normal.
+</ai_context>
+</ai_context>
 
 ## Efeitos de Área e Status
-
+<ai_context>
+<ai_context>
 #### Barreira Prismática (Buff):
 
 Concede Vantagem em TODAS as salvaguardas contra magias por 1 rodada.
@@ -157,4 +179,5 @@ de conjurar; a Anulação ataca o
 já lançado.
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

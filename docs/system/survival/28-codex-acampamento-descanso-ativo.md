@@ -3,16 +3,17 @@ sourceFile: "28_Codex_Acampamento_Descanso_Ativo.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.165Z"
 ---
-
+<ai_context>
+<ai_context>
 # 28_Codex_Acampamento_Descanso_Ativo.md
 
-40a8ea69-ab6b-46ed-a36f-5374e7296114
 
-28\_Codex\_Acampamento\_Descanso\_Ativo.md
 
-6bf11881-c1e6-43ae-98e6-95ea4a8c00b5
+28_Codex_Acampamento_Descanso_Ativo.md
 
-Arquivo: M02\_MESTRE\28\_Codex\_Acampamento\_Descanso\_Ativo.md
+
+
+Arquivo: M02_MESTRE\28_Codex_Acampamento_Descanso_Ativo.md
 
 Pandorha: Capítulo 28 - Códex de Acampamento e Descanso Ativo
 
@@ -34,7 +35,7 @@ Descanso Longo
 
 #### O número de Ações de Acampamento (1 hora cada) disponíveis é igual a:
 
-\[Tempo Total de Acampamento\] - 8 horas
+[Tempo Total de Acampamento] - 8 horas
 
 #### Ancestralidades e Sono:
 
@@ -306,8 +307,6 @@ Eixo Social
 
 de todo o grupo.
 
---------------------------------------------------------------------------------
-
 🌓 Atividade Mista
 
 #### Sinalizador de Emergência / Distração (Físico ou Mental + Interação):
@@ -319,4 +318,5 @@ de todo o grupo.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

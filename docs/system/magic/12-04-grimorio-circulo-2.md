@@ -3,16 +3,16 @@ sourceFile: "12_04_Grimorio_Circulo_2.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.157Z"
 ---
-
+<ai_context>
 # 12_04_Grimorio_Circulo_2.md
 
-60ec21e0-c45d-4388-9c88-22b7c2816eef
 
-12\_04\_Grimorio\_Circulo\_2.md
 
-bb83e367-7516-4d91-9394-6dbce6254f42
+12_04_Grimorio_Circulo_2.md
 
-Arquivo: M01\_JOGADOR\12\_04\_Grimorio\_Circulo\_2.md
+
+
+Arquivo: M01_JOGADOR\12_04_Grimorio_Circulo_2.md
 
 Grimório: Círculo 2 - O Adepto
 
@@ -58,7 +58,7 @@ Você conjura uma massa de teias grossas e grudentas num ponto à sua escolha de
 
 Cada criatura que começar seu turno nas teias ou que entrar nelas durante seu turno deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . Se falhar, fica
 
@@ -82,7 +82,7 @@ Instantânea
 
 Você cria três raios de fogo e os arremessa em alvos dentro do alcance. Você pode arremessá-los em um alvo ou em vários. Faça um Ataque Mágico à distância (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ) para cada raio. Se acertar, o alvo sofre
 
@@ -106,7 +106,7 @@ Concentração, até 1 minuto
 
 Escolha um humanoide que você possa ver dentro do alcance. O alvo deve ser bem sucedido num teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 pela duração. No final de cada turno dele, o alvo pode fazer outro teste. Se passar, a magia encerra.
 
@@ -178,7 +178,7 @@ Instantânea
 
 Um som alto e doloroso range em um ponto a sua escolha dentro do alcance. Cada criatura numa esfera de 3m de raio deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 . Uma criatura sofre
 
@@ -206,7 +206,7 @@ Você sugere um curso de atividade (limitado a uma ou duas sentenças) e influen
 
 O alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 . Se falhar, ele segue a sugestão. A ação sugerida pode continuar pela duração inteira. Se a atividade for completada em tempo menor, a magia acaba quando o sujeito termina o que foi pedido.
 
@@ -219,4 +219,4 @@ Duração aumenta em +24h se usar slot de 7º.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

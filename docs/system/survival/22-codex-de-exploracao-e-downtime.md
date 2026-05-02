@@ -3,16 +3,17 @@ sourceFile: "22_Codex_de_Exploracao_e_Downtime.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.162Z"
 ---
-
+<ai_context>
+<ai_context>
 # 22_Codex_de_Exploracao_e_Downtime.md
 
-7e682ddd-3c50-456a-a247-32deee664f5f
 
-22\_Codex\_de\_Exploracao\_e\_Downtime.md
 
-cd1d7109-1192-41fd-9442-08d13eaea2f7
+22_Codex_de_Exploracao_e_Downtime.md
 
-Arquivo: M02\_MESTRE\22\_Codex\_de\_Exploracao\_e\_Downtime.md
+
+
+Arquivo: M02_MESTRE\22_Codex_de_Exploracao_e_Downtime.md
 
 Pandorha: Capítulo 22 - Codex de Exploração e Downtime
 
@@ -50,7 +51,7 @@ absoluto. Tesouros roubados pesam e forçam o grupo a abandonar mantimentos na v
 
 1.2 Viagem e Navegação
 
-Em viagens que duram dias rumo ao destino, o Mestre pede rolagens de Navegação (geralmente \[Mental + Rastreio/Sobrevivência\] no começo de cada dia de "Cena de Viagem").
+Em viagens que duram dias rumo ao destino, o Mestre pede rolagens de Navegação (geralmente [Mental + Rastreio/Sobrevivência] no começo de cada dia de "Cena de Viagem").
 
 #### Errar a Rota (Sucesso com Custo):
 
@@ -90,7 +91,7 @@ O funcionamento completo da Economia de Tempo, Atividades e Eventos de Acampamen
 
 Capítulo 28 - Códex de Acampamento e Descanso Ativo
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/28\_Codex\_Acampamento\_Descanso\_Ativo.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/28_Codex_Acampamento_Descanso_Ativo.md
 
 --------------------------------------------------------------------------------
 
@@ -150,7 +151,7 @@ Veja como gerenciar o tempo extra e as ações disponíveis no
 
 Capítulo 28
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/28\_Codex\_Acampamento\_Descanso\_Ativo.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/28_Codex_Acampamento_Descanso_Ativo.md
 
 --------------------------------------------------------------------------------
 
@@ -174,7 +175,7 @@ e gasta 2 a 3 Dias parado na ferragem reestruturando as peças pra sobreviver.
 
 O Paladino não quer lutar. Ele saca o nome Heroico Oficial contra a Guilda. "Testes de Prestígio Tático"
 
-\[d20+Social+NívelDeFama\]
+[d20+Social+NívelDeFama]
 
 , convencem os guardas a enviarem divisões bélicas extras em missões.
 
@@ -190,7 +191,7 @@ construídos (veja o
 
 Capítulo 30
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/30\_Codex\_do\_Bastiao.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/30_Codex_do_Bastiao.md
 
 ) podem conceder Vantagens permanentes, descontos em ouro ou bônus diretos nestas 6 Operações de Metrópole. O Bastião é o motor que transforma o Downtime em domínio regional.
 
@@ -202,7 +203,7 @@ Ao invés do mestre narrar cena a cena de compras e falatório chato, cada jogad
 
 por Semana na cidade e os resolve de Trama:
 
-\[Tag A\] - A Busca Legal de Ouro Semanal (Sustento Global)
+[Tag A] - A Busca Legal de Ouro Semanal (Sustento Global)
 
 O Aventureiro vai simplesmente trabalhar pra bater as hospedagens Caras, sem tocar no Pote Loot da Caverna.
 
@@ -238,7 +239,7 @@ na semana final.
 
 . Falha Crítica: Escorregão de Etiqueta Absurdo. O Personagem Perde -10 XP Fama direto.
 
-\[Tag B\] - Recuperação Prolongada Intensiva
+[Tag B] - Recuperação Prolongada Intensiva
 
 Um braço foi carbonizado pelo dragão, infligindo Enfermidade de Estágio 3 ou Condição Permanente Combalido letal (-20 HpMAX) (-2 Constituição Fixo Geral Ficha). Apenas magias no Turno Tático de Círculo Alto não limpam Maldições do corpo físico final.
 
@@ -254,7 +255,7 @@ Semana Inativa
 
 . Elimina as Enfermidades Urbanas Táticas Restritas Permanentes, recupera todos Níveis Brutos Cortados em vida passados por Dano Necrótico Absolutos Boss T3. Ele não participa em Rolagens Globais nesta Semana em outras Opções (Tag A/C!). Fica Isolado na Sala branca Curativa.
 
-\[Tag C\] - Investigação Arcana/Urbana Extrema
+[Tag C] - Investigação Arcana/Urbana Extrema
 
 Deseja não ser esmagado pelo Encontro do Final do Calendário Missão Bruta de Mês de Frio?
 
@@ -266,7 +267,7 @@ Personagem afunila dias no clero antigo / ou espionagem Furtiva Pura na Base. Ga
 
 Gira Fio de
 
-\[Mental+Interação ou Furtividade Dura\] vs CD Específica Elevada Alta Específica (20/25)
+[Mental+Interação ou Furtividade Dura] vs CD Específica Elevada Alta Específica (20/25)
 
 #### Sucesso Vivo:
 
@@ -274,7 +275,7 @@ Puxa Informações sobre as IMUNIDADES e EIXOS de FRAQUEZAS EXTREMAS DANO (Fogo,
 
 Caçam na trilha falsa, e no Combate Incial Futuro Mestre esconde a informação como Certa e era mentira de Papiro Escrivão (Imunidade Certa Dano). Perigo Elevado na emboscada Boss.
 
-\[Tag D\] - Compra e Venda Especulativa no Submundo
+[Tag D] - Compra e Venda Especulativa no Submundo
 
 Sabe Avaliar Itens e Ouro Roubado Sem Rastreio Real. Você vende tesouros ou compra Obras Primas Mágicas raras a base de suor Mercantil Frio nas folgas?
 
@@ -282,7 +283,7 @@ Sabe Avaliar Itens e Ouro Roubado Sem Rastreio Real. Você vende tesouros ou com
 
 Rolar o Preço do Tempo Fechado. Investe na semana com o Ouro total
 
-\[Social+Afinidade Bradesca Avaliação\] vs Barreira Alta Resistência DC(20) Bizarra Exótica de Compra Venda (Sábado de Feira)
+[Social+Afinidade Bradesca Avaliação] vs Barreira Alta Resistência DC(20) Bizarra Exótica de Compra Venda (Sábado de Feira)
 
 #### Especula Positiva Acertada:
 
@@ -300,7 +301,7 @@ Meliantes percebem a inexperiência de Novatos nas ruas do Ouro Frio. Cai Em con
 
 com um Item Cópia Falso vendido ou Runa podre Morta (Básica Falsa que o Mestre esconde na Ficha) Destruída No Choque Frio.
 
-\[Tag E\] - Boemia e Lavagem de Infâmia Político
+[Tag E] - Boemia e Lavagem de Infâmia Político
 
 Você sujou o Sangue Feio por assassinato Público para Vencer o Combate Passado? A Fama Virou Infâmia. Tavernas de cura tem Taxas absurdas Extras Punitivas (+100%).
 
@@ -310,7 +311,7 @@ Se jogar Bêbado no meio Das Guildas para apagar o Rastro Frio de Nome Mau Gasto
 
 Gira Custo e Festas de
 
-\[15 A 50 Ouro Livre Dependendo da Multidão Bebida (Tier)\]
+[15 A 50 Ouro Livre Dependendo da Multidão Bebida (Tier)]
 
 Para jogar o suborno Caridoso no Meio Social. E limpa a Fama
 
@@ -318,11 +319,11 @@ Teste Crítico Social Bruto Carisma / vs DC do Ódio dos Guardas Elevadas
 
 Reduzindo aos Poucos Pontos de XP - Infâmia Bruta que o caça na Morte Exata Certa nos Tabelas Oficiais Fama. Retornando do Vermelho Cru e Brutal.
 
-\[Tag F\] - Re-Treinamento (O 'Respec' Biológico Profundo)
+[Tag F] - Re-Treinamento (O 'Respec' Biológico Profundo)
 
 Você percebeu no Lv3 que Seu Ataque Furioso Brutal não está Combando Táticamente com a Alquimia de Destino do Artífice Amigo. Deseja Reciclar Ficha.
 
-\[Tag G\] - Gestão de Domínio (Estratégia Regional)
+[Tag G] - Gestão de Domínio (Estratégia Regional)
 
 A partir do Tier 2, quando o grupo possui um território, os heróis podem dedicar suas semanas à administração direta de suas terras.
 
@@ -344,11 +345,11 @@ Se uma Crise estiver ativa e o grupo escolher "Ação Direta", esta semana é ga
 
 Regras detalhadas em
 
-27\_Codex\_Influencia\_Dominio\_Regional.md
+27_Codex_Influencia_Dominio_Regional.md
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/27\_Codex\_Influencia\_Dominio\_Regional.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/27_Codex_Influencia_Dominio_Regional.md
 
-\[Tag H\] - O Juramento de Sangue (Busca por Patrocínio)
+[Tag H] - O Juramento de Sangue (Busca por Patrocínio)
 
 Deseja forjar uma aliança com uma das grandes Facções de Pandorha para obter segredos e favores?
 
@@ -366,7 +367,7 @@ Deve realizar um sacrifício material de
 
 #### Teste de Pacto:
 
-\[Social + Influência\] vs DC da Facção (mínimo 15)
+[Social + Influência] vs DC da Facção (mínimo 15)
 
 O pacto é selado. O grupo ganha
 
@@ -382,11 +383,12 @@ Regras completas no
 
 Capítulo 31 - Códex de Teia de Infâmia
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/31\_Codex\_Teia\_Infamia\_Patrocinio.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/31_Codex_Teia_Infamia_Patrocinio.md
 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

@@ -3,14 +3,15 @@ sourceFile: "REGRAS_COMPLETAS_INTERACOES_SOCIAIS.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.188Z"
 ---
-
+<ai_context>
+<ai_context>
 # REGRAS_COMPLETAS_INTERACOES_SOCIAIS.md
 
-7ae4236b-22cc-4edd-b87f-8dc73d426d6d
 
-REGRAS\_COMPLETAS\_INTERACOES\_SOCIAIS.md
 
-ac722abd-6aa9-4f1f-8bb5-7381027cd9f7
+REGRAS_COMPLETAS_INTERACOES_SOCIAIS.md
+
+
 
 🎭 REGRAS COMPLETAS DE INTERAÇÕES SOCIAIS - SISTEMA PANDORHA
 
@@ -199,15 +200,21 @@ Apresentações e Exemplos de Debate
 Exemplo 1: Persuadindo um Nobre
 
 - Complexidade: Alto Valor (4 pontos)
+
 - Tier do NPC: 2
+
 - Trilha Total: 6 segmentos
+
 - Teste: Mental + Negociação vs DC 20
 
 Exemplo 2: Debatendo com Um Acadêmico
 
 - Complexidade: Médio (2 pontos)
+
 - Tier do NPC: 2
+
 - Trilha Total: 4 segmentos
+
 - Teste: Mental + Conhecimento vs DC 15
 
 Chefes Sociais (Bosses)
@@ -216,13 +223,13 @@ Chefes Sociais (Bosses)
 
 #### Reações Extras:
 
-Número de Reações \[R\] adicionais = Seu Tier
+Número de Reações [R] adicionais = Seu Tier
 
 Permite múltiplos Contra-Argumentos por rodada
 
 #### Discurso de Domínio:
 
-Ação de 3 pontos \[AAA\]
+Ação de 3 pontos [AAA]
 
 Ataca a CA Mental de todo o grupo em área
 
@@ -586,7 +593,7 @@ Cada facção é rastreada individualmente. O grupo pode ter múltiplos pactos s
 
 #### Limite Máximo de Dívida:
 
-\[Nível de Fama com a Facção × 3\]
+[Nível de Fama com a Facção × 3]
 
 Fama Nível 1 = Limite 3
 
@@ -636,11 +643,11 @@ Varia de Tier 1 a Tier 4
 
 #### Custo em Dívida:
 
-+\[Tier escolhido\] pontos de Dívida
++[Tier escolhido] pontos de Dívida
 
 #### Recompensa:
 
-\[Tier\] Pontos de Intriga instantaneamente
+[Tier] Pontos de Intriga instantaneamente
 
 #### Efeito Narrativo:
 
@@ -708,7 +715,7 @@ O Mestre define o Tier (1 a 4)
 
 Ao completar: Abre mão de todo ouro, XP e itens
 
-Reduz Dívida em \[Tier\] pontos
+Reduz Dívida em [Tier] pontos
 
 O Favor Impossível (Estouro do Limite)
 
@@ -762,7 +769,7 @@ Ressurreição falhará automaticamente
 
 #### Para liberar alma:
 
-Pagar Ouro: \[Dívida Atual × 500 Peças de Ouro\]
+Pagar Ouro: [Dívida Atual × 500 Peças de Ouro]
 
 Completar Missão de Redenção sem o companheiro
 
@@ -1144,7 +1151,7 @@ Ações de Furtividade
 
 #### Esconder-se:
 
-Custo: 1 Ação \[A\]
+Custo: 1 Ação [A]
 
 Requisito: Cobertura ou penumbra
 
@@ -1457,4 +1464,5 @@ Todo personagem social molda a narrativa através de suas ações, e o mundo rea
 #### Compatibilidade:
 
 Sistema Pandorha Tier 1-5
-
+</ai_context>
+</ai_context>

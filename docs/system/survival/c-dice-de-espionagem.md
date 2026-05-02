@@ -3,14 +3,15 @@ sourceFile: "Códice de Espionagem.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.169Z"
 ---
-
+<ai_context>
+<ai_context>
 # Códice de Espionagem.md
 
-43ee4751-8364-41d1-8ee6-936f2ae588c8
+
 
 Códice de Espionagem.md
 
-f49f0034-ef86-4a3c-90c9-6283b13384d7
+
 
 🕸️ Códice de Espionagem: Módulo 1 - A Teia
 
@@ -114,7 +115,7 @@ Imunidade a rastreio de Fama do herói. Custo: Tenentes não podem usar bônus d
 
 #### Vetores de Manobra:
 
-O herói pode usar ações de sua célula na Cena Tática. A célula executa uma Manobra de Matriz (ex: Pulso Estático \[408\] ou Olhar Intrigante \[707\]) usando os bônus do Tenente, sem gastar as ações do herói.
+O herói pode usar ações de sua célula na Cena Tática. A célula executa uma Manobra de Matriz (ex: Pulso Estático [408] ou Olhar Intrigante [707]) usando os bônus do Tenente, sem gastar as ações do herói.
 
 #### O Golpe de Mestre (Queimar Célula):
 
@@ -132,7 +133,7 @@ Imunidade a ganho de Infâmia por ações políticas ou criminais.
 
 #### Sabotagem de Éter:
 
-Inimigos na região começam com -2 EE. Células usam Romper Trama \[409\] como Reação \[R\] automática.
+Inimigos na região começam com -2 EE. Células usam Romper Trama [409] como Reação [R] automática.
 
 #### Nexo de Destino:
 
@@ -457,6 +458,7 @@ Alvo nocauteado/morto em silêncio.
 Alvo cai, mas há ruído na luta (+1 Fatia no Relógio).
 
 3. Execução Tática
+
 1 Ação (A) + 2 PV
 
 Sucesso Automático e 100% Silencioso.
@@ -520,6 +522,7 @@ Escuridão Total
 (apagando tochas previamente), o Cone de Visão daquele terreno é anulado. Ele cruza livremente sem rolar dados.
 
 2. Deslizamento Furtivo (Ativo)
+
 1 Ação (A) + 1 Ponto de Vigor (PV)
 
 O herói corre num momento de distração. Ele move o seu Deslocamento total cruzando o Cone de Visão (mesmo em áreas iluminadas) sem ser detetado e sem rolar dados. O esforço cobra um preço físico (PV).
@@ -940,4 +943,5 @@ Se o herói chegar ao Boss furtivamente e usar os "Segredos Táticos" (obtidos e
 Dano Reduzido e Defesa Baixa
 
 pelas primeiras 3 rodadas.
-
+</ai_context>
+</ai_context>

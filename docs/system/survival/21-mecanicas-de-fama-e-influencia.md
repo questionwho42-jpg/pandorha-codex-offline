@@ -3,16 +3,17 @@ sourceFile: "21_Mecanicas_de_Fama_e_Influencia.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.162Z"
 ---
-
+<ai_context>
+<ai_context>
 # 21_Mecanicas_de_Fama_e_Influencia.md
 
-3c4af7c9-0184-4604-8d6d-ed567df0cade
 
-21\_Mecanicas\_de\_Fama\_e\_Influencia.md
 
-21c35b49-903d-4f20-9d26-f5c5178ddb2e
+21_Mecanicas_de_Fama_e_Influencia.md
 
-Arquivo: M02\_MESTRE\21\_Mecanicas\_de\_Fama\_e\_Influencia.md
+
+
+Arquivo: M02_MESTRE\21_Mecanicas_de_Fama_e_Influencia.md
 
 Pandorha: Capítulo 21 - Fama e Influência (O Poder do Nome)
 
@@ -76,7 +77,7 @@ Não há disfarce.
 
 A Fama é uma faca de dois gumes. Ser um "Mito do Éter" facilita entrar em castelos, mas torna impossível caminhar em uma taverna sem ser cercado por admiradores ou assassinos.
 
-\[!IMPORTANT\]
+[!IMPORTANT]
 
 #### A Teia de Infâmia:
 
@@ -86,13 +87,13 @@ Limite Máximo de Dívida
 
 com qualquer Facção Patrocinadora é igual ao seu
 
-\[Nível de Fama atual × 3\]
+[Nível de Fama atual × 3]
 
 . Para mais detalhes sobre Favores e Dívida de Sangue, consulte o
 
 Capítulo 31 - Códex de Teia de Infâmia e Patrocínio
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/31\_Codex\_Teia\_Infamia\_Patrocinio.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/31_Codex_Teia_Infamia_Patrocinio.md
 
 --------------------------------------------------------------------------------
 
@@ -134,7 +135,7 @@ Sempre que quiser usar sua Fama ou Influência para dobrar a vontade de alguém 
 
 Teste de Prestígio
 
-Check = \[d20\] + \[Nível\] + \[Eixo Social\] + \[Nível de Fama\]
+Check = [d20] + [Nível] + [Eixo Social] + [Nível de Fama]
 
 O NPC cede por respeito ou medo da sua reputação.
 
@@ -202,7 +203,7 @@ instantaneamente.
 
 🏛️ 6. Domínio Regional: O Ápice da Influência
 
-\[!IMPORTANT\]
+[!IMPORTANT]
 
 #### A Sede do Poder:
 
@@ -210,7 +211,7 @@ O Domínio Regional exige uma base física para operar. O
 
 Capítulo 30
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/30\_Codex\_do\_Bastiao.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/30_Codex_do_Bastiao.md
 
 ) é a manifestação tática deste domínio, permitindo que o grupo converta sua Fama e Influência em melhorias estruturais e segurança para suas terras.
 
@@ -226,9 +227,9 @@ Ao atingir o
 
 Para regras completas sobre gestão de territórios, renda de impostos e bônus de exército, consulte o
 
-27\_Codex\_Influencia\_Dominio\_Regional.md
+27_Codex_Influencia_Dominio_Regional.md
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/27\_Codex\_Influencia\_Dominio\_Regional.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/27_Codex_Influencia_Dominio_Regional.md
 
 #### Dica do Mestre:
 
@@ -239,4 +240,5 @@ A Fama é orgânica. Se o jogador atingir 500 XP mas os seus feitos foram apenas
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

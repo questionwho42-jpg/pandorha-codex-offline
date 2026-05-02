@@ -3,16 +3,16 @@ sourceFile: "12_07_Grimorio_Circulo_5.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.157Z"
 ---
-
+<ai_context>
 # 12_07_Grimorio_Circulo_5.md
 
-5a5210a5-1513-40d8-a97c-69a21d071d96
 
-12\_07\_Grimorio\_Circulo\_5.md
 
-a43994b2-c26b-44f3-b14d-e70850d00e8d
+12_07_Grimorio_Circulo_5.md
 
-Arquivo: M01\_JOGADOR\12\_07\_Grimorio\_Circulo\_5.md
+
+
+Arquivo: M01_JOGADOR\12_07_Grimorio_Circulo_5.md
 
 Grimório: Círculo 5 - O Arquimago
 
@@ -52,7 +52,7 @@ Instantânea
 
 Uma rajada de ar congelante irrompe das suas mãos. Cada criatura num cone de 18m deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 . Se falhar, sofre
 
@@ -78,7 +78,7 @@ Concentração, até 1 minuto
 
 Você tenta seduzir um humanoide que possa ver. O alvo deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ou ficará enfeitiçado. Enquanto enfeitiçado, você tem um elo telepático com ele. Você pode usar sua ação para tomar controle total e preciso do corpo dele. Durante esse tempo, a criatura apenas age conforme você decide (incluindo atacar aliados).
 
@@ -140,7 +140,7 @@ Concentração, até 10 minutos
 
 Uma nuvem de gafanhotos vorazes preenche uma esfera de 6m de raio dentro do alcance. A área é de visibilidade nula e terreno difícil. Quando uma criatura entra na área ou começa o turno nela, deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 . Se falhar, sofre
 
@@ -190,7 +190,7 @@ V, S, M (uma joia de 1000po, consumida)
 
 Você prende uma criatura extraplanar (celestial, elemental, fada ou corruptor) no plano atual. O alvo deve falhar num teste de
 
-\[d20\] + \[Nível\] + \[Social\] + \[Interação\] + \[Item\]
+[d20] + [Nível] + [Social] + [Interação] + [Item]
 
 contra sua CD. Se falhar, ele é obrigado a seguir suas instruções por 24h. Se a criatura for hostil, ela terá vantagem no teste.
 
@@ -228,7 +228,7 @@ Você aparece e conversa pacificamente.
 
 Você assume uma forma monstruosa. O alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 . Se falhar, sofre
 
@@ -245,4 +245,4 @@ e não ganha os benefícios do descanso.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

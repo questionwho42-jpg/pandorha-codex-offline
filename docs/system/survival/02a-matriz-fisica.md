@@ -3,16 +3,17 @@ sourceFile: "02a_Matriz_Fisica.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.148Z"
 ---
-
+<ai_context>
+<ai_context>
 # 02a_Matriz_Fisica.md
 
-95516ebf-a65d-44db-8d81-c236e21b9b2f
 
-02a\_Matriz\_Fisica.md
 
-0d44ea76-c6ef-461e-90bb-e4ff726153b1
+02a_Matriz_Fisica.md
 
-Arquivo: M01\_JOGADOR\02a\_Matriz\_Fisica.md
+
+
+Arquivo: M01_JOGADOR\02a_Matriz_Fisica.md
 
 Pandorha: Capítulo 02A - Matriz Física (Guia de Uso Dinâmico)
 
@@ -352,7 +353,7 @@ Estabiliza em 0 HP automático (não precisa rolar
 
 302. Pele de Ferro
 
-\[Passiva\] |
+[Passiva] |
 
 Permanente.
 
@@ -390,7 +391,7 @@ Reduz o dano em 1d4.
 
 305. Pulmões de Aço
 
-\[Passiva\] |
+[Passiva] |
 
 Você pode prender a respiração por (Resistência x 2) minutos adicionais.
 
@@ -410,7 +411,7 @@ Encerra + Sofre 2 de dano fixo (fadiga).
 
 307. Estreito de Couraça
 
-\[Passiva\] |
+[Passiva] |
 
 Você ignora metade da penalidade de movimento de armaduras pesadas.
 
@@ -432,13 +433,14 @@ Somente você ganha o bônus.
 
 309. Metabolismo Hiper-Acelerado
 
-\[Passiva\] |
+[Passiva] |
 
 Você recupera o dobro de HP e PV durante descansos curtos e longos.
 
 Seus ferimentos fecham visivelmente rápido (estanca Sangrando em 1R auto).
 
 310. Sacrifício do Vanguarda
+
 1,5m (Adjacente) |
 
 Aliado adjacente ser atacado.
@@ -454,4 +456,5 @@ Você recebe o dano com RD igual ao seu Físico total.
 Ambos recebem 50% do dano.
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

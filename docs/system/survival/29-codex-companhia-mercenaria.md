@@ -3,16 +3,17 @@ sourceFile: "29_Codex_Companhia_Mercenaria.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.165Z"
 ---
-
+<ai_context>
+<ai_context>
 # 29_Codex_Companhia_Mercenaria.md
 
-7a58c4ef-b41a-47af-a581-b0468b7686c2
 
-29\_Codex\_Companhia\_Mercenaria.md
 
-5cdda4b8-19ea-4c4f-b292-14b15da4941d
+29_Codex_Companhia_Mercenaria.md
 
-Arquivo: M02\_MESTRE\29\_Codex\_Companhia\_Mercenaria.md
+
+
+Arquivo: M02_MESTRE\29_Codex_Companhia_Mercenaria.md
 
 ⚔️ Códex: A Companhia Mercenária (Gestão de Peões)
 
@@ -146,7 +147,7 @@ Tier da Sede
 
 A Rolagem Padrão
 
-Resultado = 1d20 + Matriz + (Tags\_{Match} \times 2) - (Tags\_{Missing} \times 2) + Modificador de Tática
+Resultado = 1d20 + Matriz + (Tags_{Match} \times 2) - (Tags_{Missing} \times 2) + Modificador de Tática
 
 --------------------------------------------------------------------------------
 
@@ -340,163 +341,163 @@ Missões (Tags Requeridas)
 
 1. Limpar Esgotos
 
-\[Supressão, Resistência\]
+[Supressão, Resistência]
 
 , 2. Entrega Expressa
 
-\[Cartografia, Marcha Forçada\]
+[Cartografia, Marcha Forçada]
 
 , 3. Coleta de Ervas
 
-\[Alquimia, Rastreio\]
+[Alquimia, Rastreio]
 
 , 4. Guarda de Celeiro
 
-\[Vanguarda, Supressão\]
+[Vanguarda, Supressão]
 
 , 5. Acalmar Multidão
 
-\[Inspirar, Diplomacia\]
+[Inspirar, Diplomacia]
 
 , 6. Vigilância de Muro
 
-\[Vanguarda, Resistência\]
+[Vanguarda, Resistência]
 
 , 7. Organizar Inventário
 
-\[Logística, Engenharia\]
+[Logística, Engenharia]
 
 , 8. Intermediar Disputa
 
-\[Etiqueta, Diplomacia\]
+[Etiqueta, Diplomacia]
 
 , 9. Mapear Trilhas
 
-\[Cartografia, Escalada\]
+[Cartografia, Escalada]
 
 , 10. Avisar Guarnições
 
-\[Marcha Forçada, Cartografia\]
+[Marcha Forçada, Cartografia]
 
 1. Abater Predador
 
-\[Rastreio, Guerrilha\]
+[Rastreio, Guerrilha]
 
 , 2. Reparar Portão
 
-\[Engenharia, Logística\]
+[Engenharia, Logística]
 
 , 3. Cobrar Inadimplentes
 
-\[Intimidação, Submundo\]
+[Intimidação, Submundo]
 
 , 4. Mapear Minas
 
-\[Cartografia, Escalada\]
+[Cartografia, Escalada]
 
 , 5. Escolta de Comitiva
 
-\[Vanguarda, Marcha Forçada\]
+[Vanguarda, Marcha Forçada]
 
 , 6. Identificar Veneno
 
-\[Alquimia, Ocultismo\]
+[Alquimia, Ocultismo]
 
 , 7. Espalhar Boatos
 
-\[Rumores, Disfarce\]
+[Rumores, Disfarce]
 
 , 8. Sabotagem de Rival
 
-\[Sabotagem, Infiltração\]
+[Sabotagem, Infiltração]
 
 , 9. Desalojar Bandidos
 
-\[Supressão, Cerco\]
+[Supressão, Cerco]
 
 , 10. Comércio em Feira
 
-\[Comércio, Etiqueta\]
+[Comércio, Etiqueta]
 
 1. Cativeiro de Feras
 
-\[Guerrilha, Resistência\]
+[Guerrilha, Resistência]
 
 , 2. Infiltrar Gangue
 
-\[Infiltração, Disfarce\]
+[Infiltração, Disfarce]
 
 , 3. Resgate de Refém
 
-\[Vanguarda, Infiltração\]
+[Vanguarda, Infiltração]
 
 , 4. Anular Selo Menor
 
-\[Ocultismo, Sabotagem\]
+[Ocultismo, Sabotagem]
 
 , 5. Chantagem Política
 
-\[Rumores, Suborno\]
+[Rumores, Suborno]
 
 , 6. Bloqueio de Estrada
 
-\[Cerco, Logística\]
+[Cerco, Logística]
 
 , 7. Fuga de Prisão
 
-\[Infiltração, Sabotagem\]
+[Infiltração, Sabotagem]
 
 , 8. Diplomacia de Vila
 
-\[Diplomacia, Inspirar\]
+[Diplomacia, Inspirar]
 
 , 9. Rastrear Assassino
 
-\[Rastreio, Infiltração\]
+[Rastreio, Infiltração]
 
 , 10. Recuperar Carga Marinha
 
-\[Aquático, Logística\]
+[Aquático, Logística]
 
 1. Caçar Wyvern Jovem
 
-\[Vanguarda, Escalada, Resistência\]
+[Vanguarda, Escalada, Resistência]
 
 , 2. Necromante Iniciante
 
-\[Ocultismo, Sabotagem, Alquimia\]
+[Ocultismo, Sabotagem, Alquimia]
 
 , 3. Depor Prefeito
 
-\[Disfarce, Suborno, Rumores\]
+[Disfarce, Suborno, Rumores]
 
 , 4. Destruir Posto Avançado
 
-\[Sabotagem, Infiltração, Demolição\]
+[Sabotagem, Infiltração, Demolição]
 
 , 5. Conter Invasão Goblin
 
-\[Guerrilha, Marcha Forçada, Supressão\]
+[Guerrilha, Marcha Forçada, Supressão]
 
 , 6. Roubar Joia de Nobre
 
-\[Infiltração, Sabotagem, Suborno\]
+[Infiltração, Sabotagem, Suborno]
 
 , 7. Instigar Rebelião
 
-\[Inspirar, Intimidação, Combate em Massa\]
+[Inspirar, Intimidação, Combate em Massa]
 
 , 8. Defesa sob Cerco
 
-\[Vanguarda, Resistência, Cerco\]
+[Vanguarda, Resistência, Cerco]
 
 , 9. Selar Fenda Menor
 
-\[Ocultismo, Criptografia, Demolição\]
+[Ocultismo, Criptografia, Demolição]
 
 , 10. Controlar Epidemia
 
-\[Alquimia, Ocultismo, Logística\]
+[Alquimia, Ocultismo, Logística]
 
 TIER 2: REGIONAL (CDs: 17 / 19 / 22 / 25)
 
@@ -504,163 +505,163 @@ Missões (Tags Requeridas)
 
 1. Patrulha Fronteira
 
-\[Guerrilha, Cartografia\]
+[Guerrilha, Cartografia]
 
 , 2. Mapear Deserto
 
-\[Cartografia, Resistência\]
+[Cartografia, Resistência]
 
 , 3. Auditar Impostos
 
-\[Criptografia, Logística\]
+[Criptografia, Logística]
 
 , 4. Treinar Milícia
 
-\[Inspirar, Vanguarda\]
+[Inspirar, Vanguarda]
 
 , 5. Comércio Fluvial
 
-\[Aquático, Comércio\]
+[Aquático, Comércio]
 
 , 6. Entrega Diplomática
 
-\[Etiqueta, Marcha Forçada\]
+[Etiqueta, Marcha Forçada]
 
 , 7. Rastrear Manada
 
-\[Rastreio, Marcha Forçada\]
+[Rastreio, Marcha Forçada]
 
 , 8. Escolta Intendente
 
-\[Vanguarda, Etiqueta\]
+[Vanguarda, Etiqueta]
 
 , 9. Consertar Diques
 
-\[Engenharia, Aquático\]
+[Engenharia, Aquático]
 
 , 10. Caça Salteadores
 
-\[Rastreio, Supressão\]
+[Rastreio, Supressão]
 
 1. Quebrar Barricadas
 
-\[Cerco, Demolição\]
+[Cerco, Demolição]
 
 , 2. Sabotagem Alquímica
 
-\[Sabotagem, Alquimia\]
+[Sabotagem, Alquimia]
 
 , 3. Subornar Magistrado
 
-\[Suborno, Etiqueta\]
+[Suborno, Etiqueta]
 
 , 4. Mercado Negro
 
-\[Comércio, Submundo\]
+[Comércio, Submundo]
 
 , 5. Expedição Ruínas
 
-\[Ocultismo, Escalada\]
+[Ocultismo, Escalada]
 
 , 6. Bloqueio Porto
 
-\[Aquático, Cerco\]
+[Aquático, Cerco]
 
 , 7. Interrogar Espião
 
-\[Interrogatório, Contra-Inteligência\]
+[Interrogatório, Contra-Inteligência]
 
 , 8. Infiltrar Quartel
 
-\[Infiltração, Disfarce\]
+[Infiltração, Disfarce]
 
 , 9. Eliminar Capitão
 
-\[Guerrilha, Vanguarda\]
+[Guerrilha, Vanguarda]
 
 , 10. Coletar Informação
 
-\[Rumores, Infiltração\]
+[Rumores, Infiltração]
 
 1. Retomar Forte
 
-\[Cerco, Combate em Massa\]
+[Cerco, Combate em Massa]
 
 , 2. Destruir Pontes
 
-\[Demolição, Sabotagem\]
+[Demolição, Sabotagem]
 
 , 3. Negociar Trégua
 
-\[Diplomacia, Etiqueta\]
+[Diplomacia, Etiqueta]
 
 , 4. Caçar Ogro
 
-\[Vanguarda, Resistência\]
+[Vanguarda, Resistência]
 
 , 5. Decifrar Plano
 
-\[Criptografia, Contra-Inteligência\]
+[Criptografia, Contra-Inteligência]
 
 , 6. Assassinato Furtivo
 
-\[Infiltração, Alquimia\]
+[Infiltração, Alquimia]
 
 , 7. Convencer Conselho
 
-\[Diplomacia, Inspirar\]
+[Diplomacia, Inspirar]
 
 , 8. Rastrear Culto
 
-\[Rastreio, Ocultismo\]
+[Rastreio, Ocultismo]
 
 , 9. Caravana Real
 
-\[Vanguarda, Logística\]
+[Vanguarda, Logística]
 
 , 10. Operação Subaquática
 
-\[Aquático, Infiltração\]
+[Aquático, Infiltração]
 
 1. Matar Dragão Jovem
 
-\[Vanguarda, Resistência, Escalada\]
+[Vanguarda, Resistência, Escalada]
 
 , 2. Destruir Forja Mágica
 
-\[Demolição, Sabotagem, Engenharia\]
+[Demolição, Sabotagem, Engenharia]
 
 , 3. Golpe de Estado
 
-\[Rumores, Suborno, Intimidação\]
+[Rumores, Suborno, Intimidação]
 
 , 4. Soberania Estrada
 
-\[Combate em Massa, Logística, Cerco\]
+[Combate em Massa, Logística, Cerco]
 
 , 5. Selar Portal Menor
 
-\[Ocultismo, Criptografia, Sabotagem\]
+[Ocultismo, Criptografia, Sabotagem]
 
 , 6. Extração Inimiga
 
-\[Disfarce, Infiltração, Marcha Forçada\]
+[Disfarce, Infiltração, Marcha Forçada]
 
 , 7. Linha de Frente
 
-\[Combate em Massa, Supressão, Resistência\]
+[Combate em Massa, Supressão, Resistência]
 
 , 8. Enganar Inquisição
 
-\[Disfarce, Contra-Inteligência, Submundo\]
+[Disfarce, Contra-Inteligência, Submundo]
 
 , 9. Epidemia Mágica
 
-\[Alquimia, Ocultismo, Logística\]
+[Alquimia, Ocultismo, Logística]
 
 , 10. Infiltração Castelo
 
-\[Infiltração, Sabotagem, Escalada\]
+[Infiltração, Sabotagem, Escalada]
 
 TIER 3: CONTINENTAL (CDs: 22 / 24 / 27 / 30)
 
@@ -668,163 +669,163 @@ Missões (Tags Requeridas)
 
 1. Patrulha Aérea
 
-\[Escalada, Cartografia\]
+[Escalada, Cartografia]
 
 , 2. Logística Exército
 
-\[Logística, Comércio\]
+[Logística, Comércio]
 
 , 3. Espionagem Corte
 
-\[Etiqueta, Infiltração\]
+[Etiqueta, Infiltração]
 
 , 4. Rastrear Generais
 
-\[Rastreio, Contra-Inteligência\]
+[Rastreio, Contra-Inteligência]
 
 , 5. Diplomacia Fronteira
 
-\[Diplomacia, Marcha Forçada\]
+[Diplomacia, Marcha Forçada]
 
 , 6. Sabotar Linhas
 
-\[Sabotagem, Guerrilha\]
+[Sabotagem, Guerrilha]
 
 , 7. Vanguarda Legião
 
-\[Vanguarda, Combate em Massa\]
+[Vanguarda, Combate em Massa]
 
 , 8. Inspirar Tropas
 
-\[Inspirar, Resistência\]
+[Inspirar, Resistência]
 
 , 9. Criptografar Ordens
 
-\[Criptografia, Logística\]
+[Criptografia, Logística]
 
 , 10. Segurança Porto
 
-\[Aquático, Supressão\]
+[Aquático, Supressão]
 
 1. Destruir Muralhas
 
-\[Cerco, Demolição\]
+[Cerco, Demolição]
 
 , 2. Desativar Selo
 
-\[Ocultismo, Sabotagem\]
+[Ocultismo, Sabotagem]
 
 , 3. Guerra Civil
 
-\[Rumores, Intimidação\]
+[Rumores, Intimidação]
 
 , 4. Rastrear Artefato
 
-\[Rastreio, Cartografia\]
+[Rastreio, Cartografia]
 
 , 5. Bloqueio Naval
 
-\[Aquático, Logística\]
+[Aquático, Logística]
 
 , 6. Subornar Grão-Mestre
 
-\[Suborno, Etiqueta\]
+[Suborno, Etiqueta]
 
 , 7. Sabotagem Alquimia
 
-\[Alquimia, Engenharia\]
+[Alquimia, Engenharia]
 
 , 8. Defesa Fortaleza
 
-\[Cerco, Vanguarda\]
+[Cerco, Vanguarda]
 
 , 9. Infiltrar Conselho
 
-\[Disfarce, Diplomacia\]
+[Disfarce, Diplomacia]
 
 , 10. Marcha Vulcão
 
-\[Resistência, Escalada\]
+[Resistência, Escalada]
 
 1. Hidra Lendária
 
-\[Guerrilha, Vanguarda, Resistência\]
+[Guerrilha, Vanguarda, Resistência]
 
 , 2. Sabotagem Golem
 
-\[Sabotagem, Engenharia, Ocultismo\]
+[Sabotagem, Engenharia, Ocultismo]
 
 , 3. Consolidar Federação
 
-\[Inspirar, Diplomacia, Comércio\]
+[Inspirar, Diplomacia, Comércio]
 
 , 4. Cerco Mágico
 
-\[Criptografia, Ocultismo, Logística\]
+[Criptografia, Ocultismo, Logística]
 
 , 5. Assalto Anfíbio
 
-\[Aquático, Infiltração, Combate em Massa\]
+[Aquático, Infiltração, Combate em Massa]
 
 , 6. Interrogar Traidor
 
-\[Interrogatório, Disfarce, Submundo\]
+[Interrogatório, Disfarce, Submundo]
 
 , 7. Rota de Fuga
 
-\[Marcha Forçada, Cartografia, Guerrilha\]
+[Marcha Forçada, Cartografia, Guerrilha]
 
 , 8. Infiltrar Seita
 
-\[Infiltração, Ocultismo, Disfarce\]
+[Infiltração, Ocultismo, Disfarce]
 
 , 9. Armazém Cerco
 
-\[Demolição, Infiltração, Resistência\]
+[Demolição, Infiltração, Resistência]
 
 , 10. Rebelião Continental
 
-\[Supressão, Inspirar, Intimidação\]
+[Supressão, Inspirar, Intimidação]
 
 1. Dragão Ancião
 
-\[Vanguarda, Resistência, Escalada\]
+[Vanguarda, Resistência, Escalada]
 
 , 2. Selar Fenda Planar
 
-\[Ocultismo, Criptografia, Sabotagem\]
+[Ocultismo, Criptografia, Sabotagem]
 
 , 3. Destronar Imperador
 
-\[Disfarce, Rumores, Diplomacia\]
+[Disfarce, Rumores, Diplomacia]
 
 , 4. Destruir Cidade
 
-\[Demolição, Cerco, Combate em Massa\]
+[Demolição, Cerco, Combate em Massa]
 
 , 5. Mapa do Destino
 
-\[Infiltração, Sabotagem, Cartografia\]
+[Infiltração, Sabotagem, Cartografia]
 
 , 6. Mercado Global
 
-\[Comércio, Logística, Suborno\]
+[Comércio, Logística, Suborno]
 
 , 7. Defesa Capital
 
-\[Vanguarda, Resistência, Combate em Massa\]
+[Vanguarda, Resistência, Combate em Massa]
 
 , 8. Líder de Culto
 
-\[Rastreio, Alquimia, Infiltração\]
+[Rastreio, Alquimia, Infiltração]
 
 , 9. Convencer Deuses
 
-\[Inspirar, Etiqueta, Diplomacia\]
+[Inspirar, Etiqueta, Diplomacia]
 
 , 10. Sabotar Máquina
 
-\[Engenharia, Sabotagem, Demolição\]
+[Engenharia, Sabotagem, Demolição]
 
 TIER 4: GLOBAL (CDs: 27 / 29 / 32 / 35)
 
@@ -832,161 +833,161 @@ Missões (Tags Requeridas)
 
 1. Vigilância Estrelas
 
-\[Cartografia, Ocultismo\]
+[Cartografia, Ocultismo]
 
 , 2. Escolta Semideus
 
-\[Vanguarda, Resistência\]
+[Vanguarda, Resistência]
 
 , 3. Diplomacia Planar
 
-\[Etiqueta, Diplomacia\]
+[Etiqueta, Diplomacia]
 
 , 4. Marcha Vazio
 
-\[Marcha Forçada, Resistência\]
+[Marcha Forçada, Resistência]
 
 , 5. Criptografia Divina
 
-\[Criptografia, Criptografia\]
+[Criptografia, Criptografia]
 
 , 6. Contenção Eter
 
-\[Ocultismo, Engenharia\]
+[Ocultismo, Engenharia]
 
 , 7. Inspirar Reinos
 
-\[Inspirar, Rumores\]
+[Inspirar, Rumores]
 
 , 8. Navegação Astral
 
-\[Cartografia, Aquático\]
+[Cartografia, Aquático]
 
 , 9. Manobras Vanguarda
 
-\[Vanguarda, Combate em Massa\]
+[Vanguarda, Combate em Massa]
 
 , 10. Comércio Planar
 
-\[Comércio, Logística\]
+[Comércio, Logística]
 
 1. Motor Planar
 
-\[Demolição, Engenharia\]
+[Demolição, Engenharia]
 
 , 2. Plano dos Mortos
 
-\[Infiltração, Disfarce\]
+[Infiltração, Disfarce]
 
 , 3. Subornar Entidade
 
-\[Suborno, Submundo\]
+[Suborno, Submundo]
 
 , 4. Portal Abismo
 
-\[Ocultismo, Sabotagem\]
+[Ocultismo, Sabotagem]
 
-\[Combate em Massa, Vanguarda\]
+[Combate em Massa, Vanguarda]
 
 , 6. Intimidar Destino
 
-\[Intimidação, Inspirar\]
+[Intimidação, Inspirar]
 
 , 7. Sabotagem Realidade
 
-\[Sabotagem, Criptografia\]
+[Sabotagem, Criptografia]
 
 , 8. Mar Abissal
 
-\[Aquático, Cerco\]
+[Aquático, Cerco]
 
 , 9. Espionagem Divina
 
-\[Infiltração, Contra-Inteligência\]
+[Infiltração, Contra-Inteligência]
 
 , 10. Defesa Panteão
 
-\[Resistência, Vanguarda\]
+[Resistência, Vanguarda]
 
 1. Avatar do Caos
 
-\[Supressão, Vanguarda, Resistência\]
+[Supressão, Vanguarda, Resistência]
 
 , 2. Sabotar Destino
 
-\[Criptografia, Sabotagem, Ocultismo\]
+[Criptografia, Sabotagem, Ocultismo]
 
 , 3. Unificar Planos
 
-\[Inspirar, Diplomacia, Logística\]
+[Inspirar, Diplomacia, Logística]
 
 , 4. Marcha Noite
 
-\[Marcha Forçada, Resistência, Guerrilha\]
+[Marcha Forçada, Resistência, Guerrilha]
 
 , 5. Infinito
 
-\[Cartografia, Engenharia, Escalada\]
+[Cartografia, Engenharia, Escalada]
 
 , 6. Disfarce Deuses
 
-\[Disfarce, Etiqueta, Infiltração\]
+[Disfarce, Etiqueta, Infiltração]
 
 , 7. Forja Estelar
 
-\[Cerco, Demolição, Combate em Massa\]
+[Cerco, Demolição, Combate em Massa]
 
 , 8. Alquimia Suprema
 
-\[Alquimia, Logística, Ocultismo\]
+[Alquimia, Logística, Ocultismo]
 
 , 9. Negociar Vazio
 
-\[Diplomacia, Interrogatório, Submundo\]
+[Diplomacia, Interrogatório, Submundo]
 
 , 10. Guerrilha Planar
 
-\[Guerrilha, Infiltração, Resistência\]
+[Guerrilha, Infiltração, Resistência]
 
 1. Titã Primordial
 
-\[Vanguarda, Resistência, Combate em Massa\]
+[Vanguarda, Resistência, Combate em Massa]
 
 , 2. Recalibrar Criação
 
-\[Ocultismo, Criptografia, Engenharia\]
+[Ocultismo, Criptografia, Engenharia]
 
 , 3. Impedir Apocalipse
 
-\[Inspirar, Diplomacia, Marcha Forçada\]
+[Inspirar, Diplomacia, Marcha Forçada]
 
 , 4. Trono Eterno
 
-\[Demolição, Cerco, Supressão\]
+[Demolição, Cerco, Supressão]
 
 , 5. Mente Coletiva
 
-\[Infiltração, Sabotagem, Contra-Inteligência\]
+[Infiltração, Sabotagem, Contra-Inteligência]
 
 , 6. Compra Existência
 
-\[Comércio, Logística, Suborno\]
+[Comércio, Logística, Suborno]
 
 , 7. Guerra Planar
 
-\[Combate em Massa, Logística, Marcha Forçada\]
+[Combate em Massa, Logística, Marcha Forçada]
 
 , 8. Selar Morte
 
-\[Ocultismo, Criptografia, Alquimia\]
+[Ocultismo, Criptografia, Alquimia]
 
 , 9. Soberano Astral
 
-\[Intimidação, Rumores, Diplomacia\]
+[Intimidação, Rumores, Diplomacia]
 
 , 10. Mar de Almas
 
-\[Aquático, Resistência, Infiltração\]
+[Aquático, Resistência, Infiltração]
 
 --------------------------------------------------------------------------------
 
@@ -1009,4 +1010,5 @@ Mantém o suporte logístico e impede que o Boss final receba reforços ou recur
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

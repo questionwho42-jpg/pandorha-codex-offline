@@ -3,16 +3,17 @@ sourceFile: "02b_Matriz_Mental.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.148Z"
 ---
-
+<ai_context>
+<ai_context>
 # 02b_Matriz_Mental.md
 
-34dc49bb-b36e-4ab4-95c8-319b99c7ffb6
 
-02b\_Matriz\_Mental.md
 
-ad301daa-7c71-4b21-b1eb-8551fba5e1f0
+02b_Matriz_Mental.md
 
-Arquivo: M01\_JOGADOR\02b\_Matriz\_Mental.md
+
+
+Arquivo: M01_JOGADOR\02b_Matriz_Mental.md
 
 Pandorha: Capítulo 02B - Matriz Mental (Guia de Uso Dinâmico)
 
@@ -49,6 +50,7 @@ Mental + Conflito + Nível (Magia).
 0,5x dano + Self Feedback: 1d4 de dano mental.
 
 402. Explosão de Éter
+
 24m (Raio 3m) |
 
 Mental + Conflito + Nível (Magia).
@@ -65,7 +67,7 @@ Mental + Conflito + Nível (Magia).
 
 Mental + Conflito + Nível vs Mental + Resistência.
 
-Alvo proibido de realizar qualquer ação de \[Conflito\] por 1R.
+Alvo proibido de realizar qualquer ação de [Conflito] por 1R.
 
 Status Alvo: Incapacitado (1R).
 
@@ -395,7 +397,7 @@ Dano de feedback reduzido em 50%.
 
 608. Detecção Lógica Passiva
 
-\[Passiva\] |
+[Passiva] |
 
 Mental + Resistência + Nível DC (10 + Nível).
 
@@ -440,4 +442,5 @@ extras (Total de 5 ações no próximo turno).
 Ganha 1 ação extra, mas ganha o Status: Exausto (Duração: Cena).
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

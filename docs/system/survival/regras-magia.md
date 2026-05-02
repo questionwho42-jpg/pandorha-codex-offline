@@ -3,14 +3,15 @@ sourceFile: "REGRAS_MAGIA.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.191Z"
 ---
-
+<ai_context>
+<ai_context>
 # REGRAS_MAGIA.md
 
-d3b8d847-a562-4176-8271-6b1a975ae809
 
-REGRAS\_MAGIA.md
 
-8b0122db-7e7d-4bcf-9e65-9d4c72ced35b
+REGRAS_MAGIA.md
+
+
 
 Pandorha: Regras Completas de Magia
 
@@ -106,17 +107,17 @@ B. O Teste de Magia
 
 Usada quando você mira um raio, uma flecha ou um toque.
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\]
+[d20] + [Nível] + [Mental] + [Conflito]
 
 2. Difficulty Class (CD) - Dificuldade para Resistir
 
 Usada quando a magia afeta uma área ou a mente do alvo. O alvo deve rolar um Teste de Resistência.
 
-10 + \[Nível\] + \[Mental\]
+10 + [Nível] + [Mental]
 
 #### Teste do Alvo:
 
-\[d20\] + \[Nível\] + \[Eixo do Alvo\] + \[Resistência\]
+[d20] + [Nível] + [Eixo do Alvo] + [Resistência]
 
 #### Sucesso do Alvo:
 
@@ -130,19 +131,19 @@ C. Componentes da Magia
 
 Para conjurar, você precisa cumprir os requisitos da magia (indicados na descrição).
 
-#### Verbal \[V\]:
+#### Verbal [V]:
 
 Exige a capacidade de falar palavras de poder em voz alta.
 
 Você não pode conjurar se estiver Amordaçado ou em uma área de Silêncio.
 
-#### Somático \[S\]:
+#### Somático [S]:
 
 Exige gestos precisos com pelo menos uma mão livre.
 
 Você não pode conjurar se estiver com as duas mãos ocupadas (ex: Espada e Escudo) ou Amarrado.
 
-#### Material \[M\]:
+#### Material [M]:
 
 Foco de Éter
 
@@ -162,7 +163,7 @@ a mais para conjurar.
 
 Identificação, alarmes, criar abrigo. Não serve para combate.
 
-Concentração \[C\]
+Concentração [C]
 
 Algumas magias duram enquanto você foca nelas (ex: Voo, Invisibilidade).
 
@@ -426,7 +427,7 @@ A alma do conjurador pode ser projetada para fora de seu corpo, ganhando vida pr
 
 Códex de Magia: O Familiar Místico
 
-25\_Codex\_Familiar\_Mistico.md
+25_Codex_Familiar_Mistico.md
 
 12. Magia Híbrida (Meio-Conjuradores)
 
@@ -442,7 +443,7 @@ utilizam um sistema de conjuração simplificado e instintivo. Eles progridem at
 
 Códex Expandido - Magia Híbrida
 
-12\_13\_Codex\_Expandido\_Magia\_Hibrida.md
+12_13_Codex_Expandido_Magia_Hibrida.md
 
 --------------------------------------------------------------------------------
 
@@ -501,21 +502,27 @@ Sussurro à distância (30m).
 Infalível. 1d4+1 Energia.
 
 9. Raio de Gelo
+
 1d8 Frio + Reduz Movimento.
 
 10. Toque Chocante
+
 1d8 Elétrico + Anula Reação.
 
 11. Chama Sagrada
+
 1d8 Radiante. Ignora Cobertura.
 
 12. Rajada Mística
+
 1d10 Energia. Empurra 3m.
 
 13. Spray de Veneno
+
 1d12 Veneno (Físico+Resist metade).
 
 14. Chicote de Espinhos
+
 1d6 Perfurante + Puxa 3m.
 
 15. Lâmina Verde
@@ -530,7 +537,7 @@ Potencializar (+1 Círculo)
 
 Armadura Etérica
 
-CA = 13 + \[Nível\] + \[Eixo\] (8h).
+CA = 13 + [Nível] + [Eixo] (8h).
 
 Mísseis Mágicos
 
@@ -1006,7 +1013,7 @@ Este Códex trata de
 
 Códex de Sinergia: A Forja Tática
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26\_Codex\_Sinergia\_Forja\_Tatica.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26_Codex_Sinergia_Forja_Tatica.md
 
 ⚙️ REGRAS GERAIS DE APLICAÇÃO (A LEI DA RESSONÂNCIA)
 
@@ -1048,7 +1055,7 @@ Multiplica o resultado final e total dos dados rolados para curar. (Ex: rola 1d8
 
 #### Traços Exigidos:
 
-\[Regeneração\]
+[Regeneração]
 
 #### Magias Compatíveis:
 
@@ -1068,7 +1075,7 @@ HP Temporário
 
 #### Traços Exigidos:
 
-\[Abjuração\]
+[Abjuração]
 
 #### Magias Compatíveis:
 
@@ -1084,7 +1091,7 @@ Remove imediatamente 1 Condição negativa não-permanente à escolha do alvo (c
 
 #### Traços Exigidos:
 
-\[Suporte Divino\]
+[Suporte Divino]
 
 #### Magias Compatíveis:
 
@@ -1104,7 +1111,7 @@ a um alvo primário atingido pela magia.
 
 #### Traços Exigidos:
 
-\[Necromancia\]
+[Necromancia]
 
 #### Magias Compatíveis:
 
@@ -1124,9 +1131,9 @@ Se o ataque acertar, a magia salta para um novo alvo num raio de 4,5m usando o m
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
-\[Elétrico/Ácido\]
+[Elétrico/Ácido]
 
 #### Magias Compatíveis:
 
@@ -1142,7 +1149,7 @@ Ignora completamente a Redução de Dano (RD) passiva do inimigo e trata Imunida
 
 #### Traços Exigidos:
 
-\[Dano Direto\]
+[Dano Direto]
 
 #### Magias Compatíveis:
 
@@ -1162,7 +1169,7 @@ desse dado.
 
 #### Traços Exigidos:
 
-\[Dano Direto Massivo\]
+[Dano Direto Massivo]
 
 #### Magias Compatíveis:
 
@@ -1178,7 +1185,7 @@ Altera o tipo elementar original da magia (ex: de Fogo para Gelo) no momento da 
 
 #### Traços Exigidos:
 
-\[Elemental\]
+[Elemental]
 
 #### Magias Compatíveis:
 
@@ -1232,7 +1239,7 @@ Imobilizado
 
 #### Traços Exigidos:
 
-\[Gravidade\]
+[Gravidade]
 
 #### Magias Compatíveis:
 
@@ -1254,7 +1261,7 @@ Aplica uma condição à escolha entre
 
 #### Traços Exigidos:
 
-\[Radiação/Veneno\]
+[Radiação/Veneno]
 
 #### Magias Compatíveis:
 
@@ -1270,7 +1277,7 @@ Magias "Instantâneas" deixam uma Zona Letal (1 Ronda) que causa 50% do dano a q
 
 #### Traços Exigidos:
 
-\[Elemental\]
+[Elemental]
 
 #### Magias Compatíveis:
 
@@ -1288,7 +1295,7 @@ início do seu próximo turno
 
 #### Traços Exigidos:
 
-\[Luz/Trevas\]
+[Luz/Trevas]
 
 #### Magias Compatíveis:
 
@@ -1326,7 +1333,7 @@ O feitiço divide-se. Pode seleccionar um segundo alvo diferente dentro do alcan
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
 #### Magias Compatíveis:
 
@@ -1348,7 +1355,7 @@ não quebra Furtividade
 
 #### Traços Exigidos:
 
-\[Encantamento\]
+[Encantamento]
 
 #### Magias Compatíveis:
 
@@ -1364,7 +1371,7 @@ Duplica o alcance de conjuração. Magias de "Toque" passam a ter alcance Curto 
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
 #### Magias Compatíveis:
 
@@ -1398,9 +1405,9 @@ por Contra-Mágicas. Se sofrer dano enquanto a canaliza, não precisa rolar Conc
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
-\[Ressurreição\]
+[Ressurreição]
 
 #### Magias Compatíveis:
 
@@ -1422,7 +1429,7 @@ no momento em que é conjurada.
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
 #### Magias Compatíveis:
 
@@ -1442,7 +1449,7 @@ e todos os ataques físicos causam +1 Dado de Dano.
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
 #### Magias Compatíveis:
 
@@ -1460,7 +1467,7 @@ como se estivesse no espaço físico ocupado pela sua criatura invocada.
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
 #### Magias Compatíveis:
 
@@ -1480,7 +1487,7 @@ num raio de 3m.
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
 #### Magias Compatíveis:
 
@@ -1502,7 +1509,7 @@ sem provocar Ataques de Oportunidade.
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
 #### Magias Compatíveis:
 
@@ -1522,7 +1529,7 @@ na direcção oposta ao conjurador.
 
 #### Traços Exigidos:
 
-\[Dano Direto\]
+[Dano Direto]
 
 #### Magias Compatíveis:
 
@@ -1560,9 +1567,9 @@ com a criatura atingida, teleportando-se.
 
 #### Traços Exigidos:
 
-\[Teletransporte\]
+[Teletransporte]
 
-\[Alvo Único\]
+[Alvo Único]
 
 #### Magias Compatíveis:
 
@@ -1580,7 +1587,7 @@ A magia é lançada invisível sobre um quadrado vazio. Fica "dormente" por 1 ho
 
 #### Traços Exigidos:
 
-\[Dano Direto\]
+[Dano Direto]
 
 #### Magias Compatíveis:
 
@@ -1592,7 +1599,7 @@ Bola de Fogo, Onda de Choque, Crescimento de Espinhos.
 
 #### Efeito Mecânico:
 
-Pode conjurar a magia como uma \*\*Reação \*\*\[R\]\*\*\*\* no exato momento em que sofre dano físico de um inimigo.
+Pode conjurar a magia como uma \*\*Reação \*\*[R]\*\*\*\* no exato momento em que sofre dano físico de um inimigo.
 
 #### Traços Exigidos:
 
@@ -1610,7 +1617,7 @@ A magia é armazenada no alvo com um gatilho ditado (ex: "Quando o alvo chegar a
 
 #### Traços Exigidos:
 
-\[Abjuração\]
+[Abjuração]
 
 #### Magias Compatíveis:
 
@@ -1650,7 +1657,7 @@ exatas 24 horas
 
 #### Traços Exigidos:
 
-\[Utilitária\]
+[Utilitária]
 
 #### Magias Compatíveis:
 
@@ -1670,7 +1677,7 @@ perde a invisibilidade
 
 #### Traços Exigidos:
 
-\[Adivinhação\]
+[Adivinhação]
 
 #### Magias Compatíveis:
 
@@ -1702,9 +1709,9 @@ e pode atravessar até 1 metro de barreiras sólidas para atingir alvos do outro
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
-\[Adivinhação\]
+[Adivinhação]
 
 #### Magias Compatíveis:
 
@@ -1744,7 +1751,7 @@ o valor ao total.
 
 #### Traços Exigidos:
 
-\[Dano Direto\]
+[Dano Direto]
 
 #### Magias Compatíveis:
 
@@ -1780,7 +1787,7 @@ Explosão Solar, Despedaçar, Relâmpago, Pilar de Chamas.
 
 #### Traços Exigidos:
 
-\[Necromancia\]
+[Necromancia]
 
 #### Magias Compatíveis:
 
@@ -1907,4 +1914,5 @@ Durante a transição de um
 --------------------------------------------------------------------------------
 
 Este documento contém todas as regras completas de magia em Pandorha, conforme aparecem no sistema.
-
+</ai_context>
+</ai_context>

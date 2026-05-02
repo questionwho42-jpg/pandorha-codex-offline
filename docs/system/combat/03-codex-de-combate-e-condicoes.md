@@ -3,16 +3,16 @@ sourceFile: "03_Codex_de_Combate_e_Condicoes.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.149Z"
 ---
-
+<ai_context>
 # 03_Codex_de_Combate_e_Condicoes.md
 
-994279e2-4a25-4b16-8fe7-d1996293ba1a
 
-03\_Codex\_de\_Combate\_e\_Condicoes.md
 
-2a2f4dce-044b-4ebd-99b6-a0205ec6017c
+03_Codex_de_Combate_e_Condicoes.md
 
-Arquivo: M03\_ACAO\03\_Codex\_de\_Combate\_e\_Condicoes.md
+
+
+Arquivo: M03_ACAO\03_Codex_de_Combate_e_Condicoes.md
 
 Pandorha: Capítulo 03 - Codex de Combate e Condições (Edição Brutalista)
 
@@ -21,13 +21,14 @@ Este manual define as regras de engajamento tático. Toda regra aqui é absoluta
 --------------------------------------------------------------------------------
 
 1. O Fluxo de Batalha (3 Ações)
+
 1.0 Iniciativa (Mental + Interação + Nível)
 
 Antes do primeiro turno, todos rolam
 
 para decidir a ordem de agir.
 
-\[d20\] + \[Nível\] + \[Eixo Mental\] + \[Aplicação Interação\]
+[d20] + [Nível] + [Eixo Mental] + [Aplicação Interação]
 
 Quem tiver maior Eixo Mental vence.
 
@@ -35,7 +36,7 @@ Quem tiver maior Eixo Mental vence.
 
 #### Cada personagem recebe:
 
-\*\*1 Reação \*\*\[R\]\*\*\*\*: Você possui apenas
+\*\*1 Reação \*\*[R]\*\*\*\*: Você possui apenas
 
 por rodada (salvo exceções por Itens/Talentos com a tag Reflexo Dedicado). Disponível uma única vez entre seus turnos.
 
@@ -57,7 +58,7 @@ Mental + Resistência (DC 10 ou Metade do Dano, o que for maior)
 
 1.2 Penalidade de Ataque Múltiplo (MAP)
 
-#### Toda ação com a tag \[Ataque\] aplica penalidade cumulativa no mesmo turno:
+#### Toda ação com a tag [Ataque] aplica penalidade cumulativa no mesmo turno:
 
 -5 (-4 Ágil).
 
@@ -75,19 +76,17 @@ Remove a condição
 
 1.4 Manobras de Combate (Substituem 1 Ataque)
 
-\[Físico + Conflito\]
+[Físico + Conflito]
 
 DC Passiva de CA
 
-CA = 10 + \[Nível\] + \[Armadura\] + \[Eixo Limitado\] + \[Escudo\]
+CA = 10 + [Nível] + [Armadura] + [Eixo Limitado] + [Escudo]
 
 Sucesso deixa o alvo
 
 (Velocidade 0). Só funciona em criaturas até 1 tamanho maior.
 
 Sucesso empurra o alvo 1,5m ou deixa
-
---------------------------------------------------------------------------------
 
 1.5 Reações Comuns
 
@@ -131,7 +130,7 @@ obrigatoriamente
 
 somado ao dano total.
 
-\[Dados da Arma\] + \[Matriz Utilizada\] + \[Bônus Extras\]
+[Dados da Arma] + [Matriz Utilizada] + [Bônus Extras]
 
 #### Armas Ágeis:
 
@@ -149,19 +148,17 @@ O grupo compartilha pontos para ativar aberturas táticas (PC máx = Tier + Joga
 
 #### Ciclo de Elo:
 
-Abertura \[1A\]
+Abertura [1A]
 
-Cadeia (Tier 2+) \[1A\]
+Cadeia (Tier 2+) [1A]
 
-Detonação \[1A\]
+Detonação [1A]
 
 Para o compêndio completo de 45 táticas e regras de evolução de grupo, consulte o
 
 Códex de Sinergia: A Forja Tática
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26\_Codex\_Sinergia\_Forja\_Tatica.md
-
---------------------------------------------------------------------------------
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26_Codex_Sinergia_Forja_Tatica.md
 
 🛡️ Regras de Sobreposição Avançadas
 
@@ -172,8 +169,6 @@ Uma vez que um alvo tenha sofrido ou resistido a uma tática de Manobra Social/M
 #### Renovação Mágica (Mesmo Nome):
 
 Magias ou condições com o mesmo nome conjuradas repetidas vezes no mesmo alvo não se acumulam em potência. A nova aplicação apenas substitui a antiga se for matematicamente superior (maior bônus/DC) ou para reiniciar o contador de duração.
-
---------------------------------------------------------------------------------
 
 🎭 4. Enciclopédia de Condições (34 Status)
 
@@ -201,7 +196,7 @@ Aterrorizado
 
 Foge com todas as ações. -2 em testes.
 
-Teste Global de \[Mental + Resistência + Nível DC da Fonte\] (Fim do Turno).
+Teste Global de [Mental + Resistência + Nível DC da Fonte] (Fim do Turno).
 
 Perde 3 Ações
 
@@ -237,11 +232,11 @@ Enfeitiçado
 
 Não ataca o criador. Criador ganha +2 Sociais contra você.
 
-Dano de aliados ou \[Mental + Resistência + Nível DC Fonte\].
+Dano de aliados ou [Mental + Resistência + Nível DC Fonte].
 
 1d8 dano físico/turno.
 
-Teste Global de \[Físico + Resistência + Nível DC da Fonte\] (Fim do Turno).
+Teste Global de [Físico + Resistência + Nível DC da Fonte] (Fim do Turno).
 
 Não pode usar
 
@@ -281,7 +276,7 @@ Acordar com dano ou se receber cura.
 
 50% chance de erro para atacantes. Indetectável por visão normal.
 
-Encontrar: \[Mental + Interação\] vs \[DC Passiva de Furtividade (Mental + Conflito)\]. Atacar ou fazer barulho revela.
+Encontrar: [Mental + Interação] vs [DC Passiva de Furtividade (Mental + Conflito)]. Atacar ou fazer barulho revela.
 
 Velocidade -3m. Dura conforme a causa.
 
@@ -297,19 +292,19 @@ Fim da cena de combate.
 
 Inconsciente c/ 0 HP. No início do turno, role Estabilização: d20 + Físico + Resistência + Nível vs sua própria DC Passiva de Resistência.
 
-3 Sucessos estabilizam. 3 Falhas = Morte. Ajuda: \[Mental + Interação\] vs DC Moribundo.
+3 Sucessos estabilizam. 3 Falhas = Morte. Ajuda: [Mental + Interação] vs DC Moribundo.
 
 Não pode usar
 
-Teste Global de \[Físico + Resistência + Nível DC da Fonte\] (Fim do Turno).
+Teste Global de [Físico + Resistência + Nível DC da Fonte] (Fim do Turno).
 
 Indetectável. Não pode ser alvo direto. Se atacar, alvo fica Surpreendido (sem reação).
 
-Revelado se atacar, fizer barulho ou for encontrado por \[Mental + Interação\].
+Revelado se atacar, fizer barulho ou for encontrado por [Mental + Interação].
 
 Incapacitado + Exposto. Ataques físicos adjacentes são Críticos Automáticos.
 
-Teste Global de \[Físico + Resistência + Nível DC da Fonte\] (Fim do Turno).
+Teste Global de [Físico + Resistência + Nível DC da Fonte] (Fim do Turno).
 
 Petrificado
 
@@ -319,11 +314,11 @@ Magias de Cura de Alto Nível (Círculo 3+).
 
 1d4 dano/turno. Não recupera HP naturalmente.
 
-Teste Global de \[Físico + Resistência + Nível DC da Fonte\] (Fim do Turno), Mover ou usar
+Teste Global de [Físico + Resistência + Nível DC da Fonte] (Fim do Turno), Mover ou usar
 
 para estancar (Gasta 1 uso de Kit de Cura).
 
-Sufocando. Dura \[Físico\] + 1 Rodadas. Após isso, cai a 0 HP (Moribundo). Magias com componente Verbal falham.
+Sufocando. Dura [Físico] + 1 Rodadas. Após isso, cai a 0 HP (Moribundo). Magias com componente Verbal falham.
 
 Respirar novamente.
 
@@ -339,7 +334,7 @@ no 1º turno.
 
 Automática após o seu 1º turno.
 
-Sofre +1d6 dano de \[TIPO\].
+Sofre +1d6 dano de [TIPO].
 
 Fim da cena ou fim da habilidade.
 
@@ -352,4 +347,4 @@ Fim da cena ou fim da habilidade.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

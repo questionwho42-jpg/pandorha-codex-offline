@@ -3,16 +3,17 @@ sourceFile: "19_Codex_de_Enfermidades.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.161Z"
 ---
-
+<ai_context>
+<ai_context>
 # 19_Codex_de_Enfermidades.md
 
-89e1b433-ec42-435b-9755-0542bcb04177
 
-19\_Codex\_de\_Enfermidades.md
 
-1b7ad4fb-92b7-4cd2-b2e8-81c2bea1db23
+19_Codex_de_Enfermidades.md
 
-Arquivo: M02\_MESTRE\19\_Codex\_de\_Enfermidades.md
+
+
+Arquivo: M02_MESTRE\19_Codex_de_Enfermidades.md
 
 Pandorha: Capítulo 19 - Codex de Enfermidades (Patologias e Pragas)
 
@@ -34,7 +35,7 @@ Físico (Corpo), Mental (Mente) ou Mágico (Éter).
 
 A fórmula do Teste Global necessário para evitar contágio ou curar.
 
-\[d20\] + \[Nível\] + \[Eixo\] + \[Aplicação\]
+[d20] + [Nível] + [Eixo] + [Aplicação]
 
 contra a DC da Doença.
 
@@ -855,4 +856,5 @@ O Mestre decide (literalmente).
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

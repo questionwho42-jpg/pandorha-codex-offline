@@ -3,14 +3,15 @@ sourceFile: "REGRAS_PESQUISA_LORE_CRIPTOGRAFIA_LINGUAS_ANTIGAS.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.193Z"
 ---
-
+<ai_context>
+<ai_context>
 # REGRAS_PESQUISA_LORE_CRIPTOGRAFIA_LINGUAS_ANTIGAS.md
 
-78de96ff-7511-4dde-afe4-ec90ea8ae90d
 
-REGRAS\_PESQUISA\_LORE\_CRIPTOGRAFIA\_LINGUAS\_ANTIGAS.md
 
-c93ba79e-8cb8-49e5-96a3-eef98ea2878d
+REGRAS_PESQUISA_LORE_CRIPTOGRAFIA_LINGUAS_ANTIGAS.md
+
+
 
 Pandorha: Regras de Pesquisa, Lore, Criptografia e Linguas Antigas
 
@@ -66,7 +67,7 @@ em alguns cenarios especificos de pesquisa prolongada.
 
 Pesquisa estruturada
 
-REGRAS\_COMPLETAS\_INTERACOES\_SOCIAIS.md
+REGRAS_COMPLETAS_INTERACOES_SOCIAIS.md
 
 , a investigacao usa um sistema de
 
@@ -143,6 +144,7 @@ Matriz Mental
 , varias manobras ajudam a transformar observacao em informacao util.
 
 502. Reconstrucao de Cena
+
 1 minuto de observacao silenciosa
 
 Mental + Interacao + Nivel vs DC (12 + Nivel)
@@ -261,7 +263,7 @@ Apoios indiretos a Lore
 
 #### Algumas habilidades e talentos ampliam o alcance da pesquisa:
 
-Analista Tatico \[A\]
+Analista Tatico [A]
 
 : observa o alvo para descobrir imunidades e fraquezas mecanicas;
 
@@ -357,7 +359,7 @@ Biblioteca de Rumores
 
 : concede vantagem em
 
-\[Tag C\] Investigacao Arcana
+[Tag C] Investigacao Arcana
 
 Altar de Vinculacao
 
@@ -405,11 +407,11 @@ cobre investigacoes longas ou problemas que pedem varios sucessos acumulados.
 
 7. Pesquisa arcana extrema
 
-sistema/22\_Codex\_de\_Exploracao\_e\_Downtime.md
+sistema/22_Codex_de_Exploracao_e_Downtime.md
 
 , existe uma regra mais pesada para pesquisa especializada:
 
-\[Tag C\] Investigacao Arcana/Urbana Extrema
+[Tag C] Investigacao Arcana/Urbana Extrema
 
 25 Ouro por dia
 
@@ -417,7 +419,7 @@ em suborno/capital;
 
 de foco restrito;
 
-\[Mental + Interacao ou Furtividade\] vs DC 20/25
+[Mental + Interacao ou Furtividade] vs DC 20/25
 
 sucesso: puxa informacoes sobre
 
@@ -507,7 +509,7 @@ Puxar Conhecimento (Lore)
 
 Grimorios e estudo formal
 
-REGRAS\_MAGIA.md
+REGRAS_MAGIA.md
 
 , o estudo magico reforca a importancia de pesquisa escrita:
 
@@ -577,7 +579,7 @@ operacao de pesquisa longa, cara e arriscada
 
 : use os relogios de investigacao e a
 
-\[Tag C\] Investigacao Arcana/Urbana Extrema
+[Tag C] Investigacao Arcana/Urbana Extrema
 
 ler linguas mortas de forma estavel
 
@@ -587,23 +589,24 @@ ler linguas mortas de forma estavel
 
 11. Fontes consultadas
 
-docs/pandorha\_sistema/sistema/02b\_Matriz\_Mental.md
+docs/pandorha_sistema/sistema/02b_Matriz_Mental.md
 
-docs/pandorha\_sistema/sistema/Glossario\_Definitivo\_de\_Testes.md
+docs/pandorha_sistema/sistema/Glossario_Definitivo_de_Testes.md
 
-docs/pandorha\_sistema/REGRAS\_COMPLETAS\_INTERACOES\_SOCIAIS.md
+docs/pandorha_sistema/REGRAS_COMPLETAS_INTERACOES_SOCIAIS.md
 
-docs/pandorha\_sistema/DESCANSO\_E\_ACAMPAMENTO\_COMPLETO.md
+docs/pandorha_sistema/DESCANSO_E_ACAMPAMENTO_COMPLETO.md
 
-docs/pandorha\_sistema/sistema/22\_Codex\_de\_Exploracao\_e\_Downtime.md
+docs/pandorha_sistema/sistema/22_Codex_de_Exploracao_e_Downtime.md
 
-docs/pandorha\_sistema/REGRAS\_BASTIAO.md
+docs/pandorha_sistema/REGRAS_BASTIAO.md
 
-docs/pandorha\_sistema/REGRAS\_MAGIA.md
+docs/pandorha_sistema/REGRAS_MAGIA.md
 
-docs/pandorha\_sistema/Compendio\_de\_Talentos.md
+docs/pandorha_sistema/Compendio_de_Talentos.md
 
-docs/pandorha\_sistema/sistema/10\_Antecedentes\_e\_Origens.md
+docs/pandorha_sistema/sistema/10_Antecedentes_e_Origens.md
 
-docs/pandorha\_sistema/Códice de Espionagem.md
-
+docs/pandorha_sistema/Códice de Espionagem.md
+</ai_context>
+</ai_context>

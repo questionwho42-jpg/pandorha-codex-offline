@@ -3,16 +3,17 @@ sourceFile: "Glossario_Definitivo_de_Testes.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.170Z"
 ---
-
+<ai_context>
+<ai_context>
 # Glossario_Definitivo_de_Testes.md
 
-098226b1-7b87-4117-bf4a-f3af9bb06f02
 
-Glossario\_Definitivo\_de\_Testes.md
 
-92ba3891-ba1b-439a-88f6-f0342d8ebe58
+Glossario_Definitivo_de_Testes.md
 
-Arquivo: M03\_ACAO\Glossario\_Definitivo\_de\_Testes.md
+
+
+Arquivo: M03_ACAO\Glossario_Definitivo_de_Testes.md
 
 Pandorha: Compêndio Maestro de Testes e Mecânicas (Edição Definitiva e Extensa)
 
@@ -26,7 +27,7 @@ Este documento é o repositório central de todas as regras de resolução de a�
 
 Toda e qualquer ação que envolva incerteza em Pandorha é resolvida por um Teste Global.
 
-Resultado = \[d20\] + \[Nível Global\] + \[Eixo\] + \[Aplicação\] + \[Bônus de Item/Treinamento\]
+Resultado = [d20] + [Nível Global] + [Eixo] + [Aplicação] + [Bônus de Item/Treinamento]
 
 #### Nível Global:
 
@@ -86,7 +87,7 @@ Feedback Arcano
 
 Cada turno de combate concede
 
-e \*\*1 Reação \*\*\[R\]\*\*\*\*.
+e \*\*1 Reação \*\*[R]\*\*\*\*.
 
 Se o personagem utilizar múltiplas ações de ataque no mesmo turno, aplica-se a
 
@@ -106,7 +107,7 @@ se a arma/manobra for
 
 Para calcular a dificuldade de um inimigo resistir a você (ou você a ele), usa-se a DC Passiva:
 
-DC Passiva = 10 + \[Nível\] + \[Eixo\] + \[Aplicação\]
+DC Passiva = 10 + [Nível] + [Eixo] + [Aplicação]
 
 #### CA (Armadura):
 
@@ -124,7 +125,7 @@ DC Passiva = 10 + \[Nível\] + \[Eixo\] + \[Aplicação\]
 
 #### Para efeitos que exigem que o alvo role um teste de resistência:
 
-DC da Fonte = 10 + \[Nível\] + \[Eixo\] + \[Aplicação\]
+DC da Fonte = 10 + [Nível] + [Eixo] + [Aplicação]
 
 #### Exemplo (Magia de Ataque):
 
@@ -154,7 +155,7 @@ Para encerrar Coações, Insultos ou Pressão Social.
 
 Quando os HPs chegam a 0, o personagem cai Inconsciente e Moribundo. No início de cada turno, ele deve realizar o teste:
 
-Check: \[Físico\] + \[Resistência\] + \[Nível\] vs Própria DC Passiva de Resistência.
+Check: [Físico] + [Resistência] + [Nível] vs Própria DC Passiva de Resistência.
 
 Acumula 1 Sucesso. Com 3 Sucessos, o personagem estabiliza em 0 HP.
 
@@ -260,7 +261,7 @@ Resistir ao Óbito
 
 Gatilho: 0 HP. Fica com 1 HP. Crítico: Fica com 1 HP + 1 PV.
 
-#### Pele de Ferro \[Passiva\]:
+#### Pele de Ferro [Passiva]:
 
 RD 1 permanente contra dano físico. Crítico (Evolução): RD 2.
 
@@ -272,7 +273,7 @@ Ignorar Dor
 
 Gatilho: Receber dano. Reduz dano em 1d10+Físico. Crítico: Dano zero.
 
-#### Pulmões de Aço \[Passiva\]:
+#### Pulmões de Aço [Passiva]:
 
 Respiração x3. Imune a gases por 5 min.
 
@@ -280,7 +281,7 @@ Purificação Biológica
 
 Encerra Envenenado/Sangrando. Crítico: Cura 5 HP.
 
-#### Estreito de Couraça \[Passiva\]:
+#### Estreito de Couraça [Passiva]:
 
 Ignora 50% da penalidade de movimento de armaduras.
 
@@ -288,7 +289,7 @@ Grito de Vigor
 
 Aliados ganham 5 HP temporários. Crítico: 10 HP Temporários.
 
-#### Metabolismo Hiper-Acelerado \[Passiva\]:
+#### Metabolismo Hiper-Acelerado [Passiva]:
 
 Cura x2 em descansos. Estanca Sangrando em 1R.
 
@@ -406,11 +407,11 @@ vs Social+Conflito. Silêncio absoluto. Crítico: Planta mentira.
 
 Consumo biológico 10x menor. Crítico: Estanca Veneno/Sangrando.
 
-#### Filtro Arcano \[F/R\]:
+#### Filtro Arcano [F/R]:
 
 Anula Feedback Arcano. Crítico: Feedback vira +1 EA.
 
-#### Detecção Lógica Passiva \[Passiva\]:
+#### Detecção Lógica Passiva [Passiva]:
 
 Nota contradições. +2 contra mentira. Crítico: Ganha Reação extra.
 
@@ -518,7 +519,7 @@ Vácuo de Insulto
 
 vs Intimidação. Anula Medo. Crítico: Atacante fica Exposto.
 
-#### Estoicismo Corporal \[Passiva\]:
+#### Estoicismo Corporal [Passiva]:
 
 +2 vs Tortura/Dor. Crítico: Cura 1 PV ao resistir.
 
@@ -617,4 +618,5 @@ Em situações sem pressão e com tempo, o Mestre pode considerar que o jogador 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

@@ -3,16 +3,16 @@ sourceFile: "07_04a_Tier4_Deuses_e_Titans.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.154Z"
 ---
-
+<ai_context>
 # 07_04a_Tier4_Deuses_e_Titans.md
 
-3b5cb42b-156f-453b-89bf-25b800753eb2
 
-07\_04a\_Tier4\_Deuses\_e\_Titans.md
 
-b740707f-0464-4d1a-bcc5-5d35e93c40d0
+07_04a_Tier4_Deuses_e_Titans.md
 
-Arquivo: M04\_DESAFIOS\07\_04a\_Tier4\_Deuses\_e\_Titans.md
+
+
+Arquivo: M04_DESAFIOS\07_04a_Tier4_Deuses_e_Titans.md
 
 Pandorha: Bestiário Narrativo Vol. 4 - Deuses e Titãs (Níveis 16-25)
 
@@ -30,11 +30,11 @@ Este tomo apresenta as maiores ameaças do multiverso. Criaturas capazes de desa
 
 A. Dragão Vermelho Ancião (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma catástrofe viva que viveu por milênios. Já viu impérios nascerem e queimarem. Não deseja apenas ouro, mas adoração como um deus da destruição. Seus covis são vulcões ativos onde ele dorme sobre um mar de moedas derretidas, sonhando com o fim do mundo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Colossal, com mais de 30 metros de envergadura. Suas escamas são tão duras quanto adamante e irradiam um calor que incendeia árvores próximas apenas com sua presença. Seus olhos são sóis em miniatura, e fumaça negra escapa constantemente de suas narinas.
 
@@ -112,11 +112,11 @@ se pisar ou começar o turno).
 
 B. Dragão de Ouro Ancião (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O ápice da bondade e da lei, mas não menos perigoso. Eles agem como juízes do mundo, punindo tiranos e protegendo profecias antigas. Sua sabedoria é infinita, e eles frequentemente assumem formas humanas para testar a moralidade dos mortais incautos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Escamas de ouro puro que refletem a luz do sol com perfeição. Bigodes longos e sinuosos como rios de luz flutuam ao redor de seu rosto sábio. Seus olhos são opalas giratórias que veem a verdade.
 
@@ -138,11 +138,11 @@ Pode usar uma ação para se transformar em qualquer humanoide ou besta, mantend
 
 C. Dragão Prismático (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um dragão de pura luz e magia, transcendendo as cores cromáticas ou metálicas. Guardião do tecido da magia, ele vive no Plano Astral ou no Limbo. Sua existência é um paradoxo vivo de todas as cores e poderes.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Suas escamas são espelhos cristalinos que refratam a luz em arco-íris constantes. Ele não parece sólido, mas feito de energia vibrante. Sua voz soa como um coro harmônico.
 
@@ -216,11 +216,11 @@ Role duas vezes. Ambos os raios atingem a área.
 
 A. Tarrasque (O Devorador) (Nível 25)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A arma definitiva dos primordiais para destruir a criação caso ela falhasse. Ele dorme no núcleo do planeta e acorda apenas para comer civilizações inteiras. Não tem mente, política ou malícia; apenas fome infinita.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma montanha de escamas, chifres e espinhos de 20 metros de altura. Sua carapaça é tão densa que reflete magia. Sua boca é um abismo capaz de engolir castelos inteiros. O chão treme quilômetros antes de ele chegar.
 
@@ -294,11 +294,11 @@ ou vomitar todas as criaturas engolidas.
 
 B. Titã da Tempestade (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um nobre gigante que ascendeu à divindade menor através de rituais esquecidos. Vive em castelos flutuantes acima das nuvens mais altas e controla o clima do mundo com seus humores.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Gigante de 10 metros com pele roxa escura e olhos brancos brilhantes sem pupilas. Raios orbitam sua cabeça como uma coroa, e sua barba é feita de nuvens de chuva.
 
@@ -328,11 +328,11 @@ Teste Global de Físico + Resistência + Nível (DC 43)
 
 C. Titã do Magma (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Nascido do coração de um vulcão primordial que nunca dorme. Ele odeia o mar e o céu, buscando transformar todo o planeta em um oceano de lava onde possa nadar eternamente.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um colosso de obsidiana rachada, vazando lava brilhante. Não tem pernas, apenas um tronco massivo que surge da terra derretida.
 
@@ -360,11 +360,11 @@ Transforma 30m de raio em lava difícil (10d10 Fogo/turno para quem pisar).
 
 A. Arcanjo da Justiça (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O general supremo dos exércitos do Paraíso. Ele desce ao mundo material apenas quando um mal absoluto ameaça o equilíbrio cósmico. Não conhece misericórdia para com demônios ou mortos-vivos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Seis asas de luz pura, armadura de platina incandescente e uma espada que parece feita de um pedaço do sol. Seu rosto é belo, mas terrível de se olhar diretamente.
 
@@ -388,11 +388,11 @@ Aura de Proteção (+5 em todas as resistências para aliados).
 
 B. Arcanjo da Cura (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A encarnação da misericórdia divina. Diferente de seus irmãos guerreiros, ele desce para salvar cidades de pragas ou curar heróis caídos. Sua presença acalma instantaneamente qualquer dor.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Andrógino, vestido com mantos que fluem como água. Tem quatro asas de cisne e carrega um cajado com uma serpente de bronze.
 
@@ -418,11 +418,11 @@ Revive todos os aliados mortos a 100m com metade do HP.
 
 C. Anjo da Morte (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O ceifeiro final. Não é maligno, apenas inevitável. Serve ao Deus da Passagem para garantir que almas poderosas (como Liches) sigam o fluxo natural da morte.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um esqueleto vestido em mantos negros rasgados, com asas de corvo gigantescas. Empunha uma foice que não reflete luz.
 
@@ -446,11 +446,11 @@ Conflito +12, Resistência +10, Interação 0.
 
 A. Kraken (Nível 18)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O terror dos mares profundos. Uma lenda que marinheiros rezam para ser mentira. Ele afunda frotas inteiras, devora baleias e cria tempestades com sua simples vontade de destruição.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma lula titânica com olhos do tamanho de carruagens. Seus tentáculos são espinhosos e capazes de esmagar o casco de galeões de guerra como se fossem brinquedos.
 
@@ -484,11 +484,11 @@ Realiza três ataques com +23 (Nv 18 + Fis 9). Alcance 15m. Dano
 
 B. Kraken Abissal (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um Kraken corrompido por magia demoníaca após devorar um portal submarino para o Abismo. Agora ele não quer apenas comer, quer corromper os oceanos com sangue negro.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Tentáculos mutantes com bocas na ponta. Sua pele pulsa com veias vermelhas brilhantes e ele expele uma tinta ácida que ferve a água.
 
@@ -526,11 +526,11 @@ por tentáculo (máximo 4 tentáculos em alvos Enormes, 1 em Médios).
 
 C. Leviatã (Nível 23)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A serpente do mundo que circunda os oceanos nas lendas antigas. Tão grande que é confundido com uma ilha ou cordilheira submarina. Se ele acordar, o mundo inunda.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma serpente marinha sem fim visível. Suas escamas são placas tectônicas vivas.
 
@@ -560,11 +560,11 @@ e serem empurradas 60m. Estruturas sofrem dano dobrado. Limpa qualquer efeito de
 
 A. General Abissal (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O general supremo dos exércitos demoníacos. Quando um Balor morre, sua alma colapsa em uma explosão cataclísmica, garantindo que ele leve seus assassinos junto.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Gigante alado de fogo e sombras, empunhando um chicote de chamas multicaudas e uma espada longa feita de relâmpagos sólidos.
 
@@ -610,11 +610,11 @@ O General faz dois ataques.
 
 B. Lorde das Pragas (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um avatar da podridão, doença e decadência. Governa uma camada do Abismo feita de carne podre. Seu zumbido enlouquece mortais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um humanoide inchado coberto de feridas abertas, cercado por uma nuvem eterna de moscas negras que bloqueiam a luz.
 
@@ -660,11 +660,11 @@ ou magia celestial de nível 7+.
 
 C. Príncipe das Bestas (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O demônio patrono da selvageria, dos licantropos e da caça sangrenta. Ele odeia civilização e busca reduzir o mundo a uma floresta primordial onde apenas o forte come o fraco.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um ser de duas cabeças (babuíno e javali) com corpo peludo e tentáculos no lugar das mãos.
 
@@ -694,11 +694,11 @@ Mental reduzido a 1
 
 A. Arquiduque Infernal (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um dos nove governantes do Inferno. Mestre da lei pervertida e do fogo. Ele luta com palavras tanto quanto com magia, capaz de prender um herói em um contrato eterno com uma frase.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Humanoide carismático com chifres curvos, vestindo roupas de nobreza feitas de pele de anjo e seda infernal. Carrega um cetro de rubi.
 
@@ -750,11 +750,11 @@ Teste Global de Físico + Resistência + Nível (DC 38)
 
 B. Duque da Gula (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Senhor das moscas e da fome eterna. Ele devora almas, esperanças e exércitos. Sua fome nunca é saciada, e ele é uma montanha de carne e gordura em constante expansão.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma lesma gigante com braços e uma boca vertical que ocupa todo o tronco, cheia de dentes e saliva ácida.
 
@@ -808,11 +808,11 @@ Terreno Difícil
 
 C. Arquiduque das Mentiras (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O enganador supremo. Nunca luta justo. Ele governou por eras sem nunca ter sacado uma arma, apenas fazendo seus inimigos matarem uns aos outros por paranoia.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Ninguém sabe sua forma real. Para cada observador, ele parece o que eles mais amam ou temem. Seu rosto é um espelho.
 
@@ -862,7 +862,7 @@ Teste Global de Social + Resistência + Nível (DC 44)
 
 (10 + Nv 22 + 12 Soc) ou verem seus aliados como monstros horripilantes por 1 rodada. Elas devem usar sua Reação imediatamente para fazer um ataque básico contra o aliado mais próximo.
 
-\[Reação\] Troca de Lugar:
+[Reação] Troca de Lugar:
 
 Quando o Arquiduque é alvo de um ataque, ele pode trocar de lugar instantaneamente com uma de suas duplicatas ou com uma criatura voluntária (ou dominada) a 18m. O novo alvo recebe o ataque no lugar dele.
 
@@ -872,11 +872,11 @@ Quando o Arquiduque é alvo de um ataque, ele pode trocar de lugar instantaneame
 
 A. Empyrean (Filho de Deus) (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Filhos diretos de divindades maiores com mortais ou essência pura. Seus humores afetam o ambiente ao redor; se choram, inundações acontecem. Podem ser bondosos ou tiranos infantis que brincam com reinos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Humanoide perfeito de 8 metros que brilha com luz interna. Veste togas e sandálias. Sua beleza é dolorosa.
 
@@ -950,11 +950,11 @@ até o próximo turno do Empyrean.
 
 B. Titã da Guerra (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A encarnação do conflito eterno. Ele surge em campos de batalha onde o sangue derramado saturou a terra. Não tem lado político, apenas luta para manter a guerra viva.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante de ferro coberto de armas cravadas em seu corpo (espadas, lanças, flechas de eras passadas). Ele usa essas armas (arrancando-as da própria carne) para lutar.
 
@@ -968,7 +968,7 @@ Conflito +14, Resistência +12, Interação +6.
 
 #### Passiva - Arsenal Infinito:
 
-O Titã pode materializar qualquer arma mundana ou mágica como uma 1 Ação \[L\]. Seus ataques são mágicos e ignoram resistências a dano físico.
+O Titã pode materializar qualquer arma mundana ou mágica como uma 1 Ação [L]. Seus ataques são mágicos e ignoram resistências a dano físico.
 
 #### Tempestade de Armas:
 
@@ -1008,17 +1008,17 @@ Teste Global de Físico + Resistência + Nível (DC 44)
 
 10d10 Cortante
 
-\[Reação\] Aparar e Matar:
+[Reação] Aparar e Matar:
 
 Quando o Titã sofre um ataque corpo-a-corpo e o atacante erra, o Titã pode realizar um ataque imediato com a Espada Larga contra ele.
 
 C. Titã da Morte (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um titã que caiu no Plano das Sombras e foi distorcido pela entropia. Ele busca o silêncio final do universo, devorando luz e som.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um esqueleto gigante vestindo armadura negra, com fogo fátuo nos olhos. As sombras se alongam ao seu redor como tentáculos.
 
@@ -1084,11 +1084,11 @@ Eles permanecem até serem destruídos ou o Titã dispensá-los.
 
 A. Nightwalker (Caminhante Noturno) (Nível 18)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma sombra gigante do Plano Negativo que invade o mundo material. Ele consome a vida por onde passa, deixando apenas cinzas frias. Não fala, não negocia.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante humanoide de sombra absoluta de 6 metros, sem rosto, pernas ou detalhes. Apenas um torso e braços longos flutuando.
 
@@ -1142,11 +1142,11 @@ Sofre metade do dano e não fica paralisado.
 
 B. Avatar da Morte (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A morte personificada enviada para buscar especificamente aqueles que enganaram o destino (como magos que usam clones ou ressurreições excessivas).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Varia para cada observador, geralmente um reflexo distorcido de si mesmo morto ou apodrecido.
 
@@ -1166,11 +1166,11 @@ Inevitável (Sempre acerta).
 
 C. Lich Celestial (Arquilich) (Nível 25)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um lich que ascendeu e absorveu o poder de deuses menores e artefatos. Ele governa um reino subterrâneo de mortos-vivos e planeja substituir a deusa da magia, reescrevendo as leis do Etérico.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um crânio flutuando sobre um trono de ossos de dragão, cercado por dezenas de Ioun Stones (pedras mágicas) zumbindo.
 
@@ -1216,7 +1216,7 @@ O Lich para o fluxo temporal. Ele ganha
 
 imediatamente. Nesses turnos, ele não pode causar dano direto a outras criaturas, mas pode se mover, criar barreiras ou preparar o campo.
 
-\[Reação\] Anular Magia:
+[Reação] Anular Magia:
 
 Quando vê alguém conjurando uma magia, o Lich pode fazer um teste de
 
@@ -1244,7 +1244,7 @@ Teste Global de Mental + Resistência + Nível (DC 50)
 
 (10 + Nv 25 + 15 Men) ou ficar paralisado enquanto sua alma é sugada (3 turnos para morte).
 
-\[Reação\] Absorver Magia:
+[Reação] Absorver Magia:
 
 Se o Lich for alvo de uma magia de dano, ele pode absorvê-la. Ele não sofre dano e
 
@@ -1258,11 +1258,11 @@ igual ao dano que sofreria.
 
 A. Protoplasma Estelar (Nível 17)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A matéria original criada pelos Antigos para ser escrava. Rebelou-se e agora vaga pelas estrelas. Uma massa de olhos e bocas que grita sons sem sentido eternamente, imitando seus antigos mestres.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma ameba de 5 metros de diâmetro feita de lodo iridescente, olhos que surgem e somem e bocas balbuciantes. Cheira a alcatrão e ozônio.
 
@@ -1312,11 +1312,11 @@ Teste Global de Mental + Resistência + Nível (DC 35)
 
 B. Cria Cósmica (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um fragmento do Grande Sonhador das Profundezas. Sua geometria é errada, causando dor física em quem tenta compreendê-la. Veio das estrelas para preparar o despertar da Cidade Submersa.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um humanoide obeso e alado com cabeça de polvo e garras de dragão. Tamanho Gigante. A realidade ao seu redor parece derreter.
 
@@ -1356,17 +1356,17 @@ e o alvo fica
 
 por 1 minuto (Mental DC 41 (10 + Nv 19 + 12 Resistência) anula o atordoamento e metade do dano).
 
-\[Reação\] Geometria Não-Euclidiana:
+[Reação] Geometria Não-Euclidiana:
 
 Quando recebe um ataque, a Cria pode se teleportar instantaneamente 9m para um espaço vazio, fazendo o ataque errar (a menos que seja um Crítico).
 
 C. Entidade do Vazio (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um buraco negro consciente que ganhou sencência. Ele deseja retornar o universo ao estado de nada absoluto, apagando estrelas uma por uma.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma esfera de escuridão perfeita que distorce a luz ao redor (lente gravitacional). Frio absoluto emana dela, congelando o ar.
 
@@ -1390,11 +1390,11 @@ Puxa todos num raio de 100m para o centro. Quem tocar a entidade é desintegrado
 
 A. Fênix Primordial (Nível 16)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O pássaro de fogo original. Representa o ciclo de vida e morte. Bondosa, mas sua presença queima florestas inteiras se ela pousar. Suas lágrimas curam qualquer doença.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um pássaro gigante de 10 metros de envergadura feito inteiramente de fogo vivo e penas de ouro derretido. O chão vira vidro sob seus pés.
 
@@ -1442,7 +1442,7 @@ Cone de 18m.
 
 e são curados de Cegueira, Surdez e Doenças.
 
-\[Reação\] Clarão:
+[Reação] Clarão:
 
 Quando atacada, a Fênix emite um flash de luz. O atacante deve passar em
 
@@ -1456,11 +1456,11 @@ de penalidade se a cegueira ocorrer antes do golpe).
 
 B. Fênix Sombria (Nível 18)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma Fênix que foi morta com necromancia no momento de seu renascimento. Agora ela queima com fogo frio e espalha cinzas de luto, incapaz de morrer verdadeiramente, sofrendo eternamente.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Fogo violeta e negro. Suas penas caem como cinzas vulcânicas. Seus olhos choram sangue negro.
 
@@ -1514,11 +1514,11 @@ Apenas chora (apenas penalidade de -2 em ataques).
 
 C. Fênix de Cristal (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma evolução rara, feita de luz pura e cristal. Ela habita o Plano da Energia Positiva, sendo uma bateria viva de poder Etérico. Magos tentam capturá-las para energizar cidades voadoras.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Translúcida como diamante, refratando luz em arco-íris mortais. Soa como sinos de vidro.
 
@@ -1584,11 +1584,11 @@ Teste Global de Mental + Resistência + Nível (DC 40)
 
 A. Verme Psíquico Ancião (Nível 16)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um verme psíquico gigante criado quando um girino de Algoz Mental é abandonado e cresce sem controle, devorando sua própria colônia. É um predador alfa do Subterrâneo profundo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um verme roxo de 20 metros com quatro tentáculos gigantes na boca sensoriais. Exala muco ácido que derrete pedra.
 
@@ -1650,11 +1650,11 @@ e perderem a próxima ação (Atordoamento Mental).
 
 B. Verme do Apocalipse (Nidhogg) (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O verme lendário que rói as raízes da árvore do mundo (Yggdrasil). Seu veneno é destinado a matar deuses. Ele espera o Ragnarok para voar (mesmo sem asas) sobre os campos de mortos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um dragão sem asas, serpentino, coberto de raízes e terra de túmulos. Seus dentes gotejam veneno verde neon.
 
@@ -1732,11 +1732,11 @@ para o Nidhogg).
 
 C. Verme da Galáxia (Nível 25)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Viaja pelo vácuo do espaço devorando asteroides e pequenas luas. Às vezes cai em planetas como um meteoro vivo, causando extinções em massa com o impacto e sua fome subsequente.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele de rocha espacial, brilha com radiação cósmica azul. Seu tamanho é continental.
 
@@ -1800,11 +1800,11 @@ Teste Global de Físico + Resistência + Nível (DC 51)
 
 A. Avatar da Guerra (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A manifestação física do Deus da Guerra. Desce para liderar cruzadas sagradas quando seus fiéis estão prestes a ser aniquilados. Ele é a técnica perfeita e a força bruta combinadas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante de 4 braços segurando Espada, Machado, Lança e Escudo. Sua pele é bronze vivo, e seus olhos são fendas vermelhas em um elmo fechado.
 
@@ -1874,17 +1874,17 @@ Aterrorizados
 
 (não podem se aproximar, ataques com -5).
 
-\[Reação\] Aparar e Ripostar:
+[Reação] Aparar e Ripostar:
 
 Se um inimigo errar um ataque corpo a corpo contra o Avatar, ele pode usar sua reação para fazer um ataque imediato com a Espada contra esse inimigo.
 
 B. Avatar da Magia (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um ser de pura Energia Etérica, enviado pela Deusa da Magia para proteger os Fios da Trama quando alguém tenta rasgar a realidade (como Karsus tentou).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma silhueta feminina feita de estrelas e runas brilhantes azuis e prateadas. Não tem rosto, apenas luz intensa. Flutua sem tocar o chão.
 
@@ -1950,7 +1950,7 @@ Dissipa automaticamente todas as magias ativas no alvo. O alvo sofre
 
 puro pela ruptura violenta da magia.
 
-\[Reação\] Absorção Etérica:
+[Reação] Absorção Etérica:
 
 Quando é alvo de uma magia inimiga, o Avatar pode fazer um teste de
 
@@ -1962,11 +1962,11 @@ A magia é absorvida e anulada. O Avatar cura HP igual a 10x o nível da magia a
 
 C. Avatar da Natureza (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A fúria da terra contra a civilização. Uma floresta que anda na forma de um colosso, despertada quando a natureza sofre danos irreparáveis.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Feito de carvalho antigo, pedra de montanha e rios correndo por seus membros. Pássaros fazem ninho em seus ombros e lobos correm aos seus pés.
 
@@ -2060,11 +2060,11 @@ Físico + Conflito DC 20
 
 A. Colosso de Adamante (Nível 23)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma estátua do tamanho de um arranha-céu, animada para defender os portões do Olimpo ou cidades divinas. Nenhuma arma mortal pode arranhá-lo, e ele não para até ser desativado por seus criadores.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Metal negro indestrutível, liso e perfeito. Seus passos esmagam quarteirões inteiros. Um único olho vermelho varre o horizonte.
 
@@ -2122,11 +2122,11 @@ permanentemente (precisa de magia de cura nível 7+ para restaurar).
 
 B. Sentinela Estelar (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Robô Etérico deixado por alienígenas antigos para vigiar planetas primitivos e impedir que usem tecnologia proibida. Eles despertam se magia nuclear ou temporal for usada.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Geometria flutuante de metal branco e anéis de luz azul giratórios. Fala em matemática pura.
 
@@ -2182,7 +2182,7 @@ por rodada e
 
 para ataques contra ele). Dura 1 minuto (Teste encerra).
 
-\[Reação\] Negação de Anomalia:
+[Reação] Negação de Anomalia:
 
 Se uma criatura tentar usar Teleporte ou Manipulação Temporal a 30m, a Sentinela cancela o efeito automaticamente e o conjurador sofre
 
@@ -2192,11 +2192,11 @@ Se uma criatura tentar usar Teleporte ou Manipulação Temporal a 30m, a Sentine
 
 C. Motor do Caos (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma máquina gnomica do tamanho de uma montanha que ganhou consciência divina e enlouqueceu. Distorce a realidade ao redor, transformando pedra em pão e ar em chumbo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa de engrenagens, pistões e tubos de vidro brilhantes, mudando de forma constantemente. O monstro é um "Glitch" vivo na realidade.
 
@@ -2270,7 +2270,7 @@ Ataque corpo a corpo com tentáculo mecânico. +20.
 
 O alvo esquece como usar uma de suas habilidades ou magias até o fim do combate (escolha aleatória do Mestre).
 
-\[Reação\] Glitch na Realidade:
+[Reação] Glitch na Realidade:
 
 Quando sofre dano, o Motor pode teleportar 15m para uma posição aleatória, anulando o dano sofrido (como se ele nunca estivesse lá quando o golpe acertou).
 
@@ -2282,11 +2282,11 @@ Recarga: 4-6 no d6
 
 A. Árvore do Mundo (Avatar) (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma raiz senciente de Yggdrasil que brotou no plano material. Conecta todos os planos e serve como portal. Se atacada, defende-se com a força de todos os mundos que sustenta.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma árvore de 1km de altura. Suas folhas brilham com luz estelar. Luta usando raízes que surgem do chão em qualquer lugar do campo de batalha.
 
@@ -2354,11 +2354,11 @@ reduz à metade).
 
 B. Fungo Deus (Zuggtmoy) (Nível 18)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um cogumelo do tamanho de uma cidade que controla mentes via esporos globais. Deseja assimilar toda a vida em uma consciência fúngica coletiva, eliminando dor e individualidade.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa de fungos roxos e amarelos em forma vagamente feminina, sentada em um trono de micélio. Esporos formam halos ao seu redor.
 
@@ -2418,11 +2418,11 @@ com HP cheio.
 
 C. Lótus Negra (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A flor lendária que induz o sono eterno até em deuses. Protegida por pesadelos vivos que ela manifesta para se defender. Quem cheira seu pólen dorme feliz para sempre enquanto é digerido.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 15 (Pétalas de Aço).
 
@@ -2482,11 +2482,11 @@ A Lótus toca um alvo adormecido.
 
 A. Enxame de Meteoros (Vivo) (Nível 18)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Pedras voadoras elementais que atacam como um enxame de abelhas, mas cada "abelha" é um meteoro em chamas do tamanho de uma carroça. Nascidos no Plano do Fogo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 O céu fica vermelho. Milhares de rochas flamejantes voam em padrão coordenado, formando mãos ou rostos no céu antes de cair.
 
@@ -2540,11 +2540,11 @@ Cratera de Lava
 
 B. Praga dos Deuses (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Gafanhotos de ferro criados para punir faraós e deuses arrogantes. Eles comem colheitas, madeira, carne e até itens mágicos, deixando o mundo estéril.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma nuvem negra que bloqueia o sol. O som de milhões de mandíbulas de metal triturando é ensurdecedor.
 
@@ -2632,11 +2632,11 @@ A magia é lançada, mas com penalidade de
 
 C. Nanorobôs Etéricos (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Poeira cinza (Gray Goo) criada por um artífice louco que tentou criar vida artificial microscópica. Desintegra tudo para replicar a si mesma.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma onda cinza fluida que avança como água, mas dissolve pedra e metal ao toque.
 
@@ -2704,11 +2704,11 @@ Cópias Menores
 
 A. Hidra de Cem Cabeças (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O monstro final da regeneração. Cortar uma cabeça faz nascer duas instantaneamente. A regeneração é tão rápida que é visível a olho nu. Foi selada sob uma montanha porque não podia ser morta.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa contorcida de pescoços e cabeças sibilantes. O corpo principal mal é visível sob o emaranhado de serpentes.
 
@@ -2772,7 +2772,7 @@ Teste Global de Físico + Resistência + Nível (DC 22)
 
 até o final do próximo turno.
 
-\[Reação\] Defesa de Serpentes:
+[Reação] Defesa de Serpentes:
 
 Se a Hidra for atacada corpo a corpo, as cabeças reagem mordendo o atacante (+24 acerto,
 
@@ -2780,11 +2780,11 @@ Se a Hidra for atacada corpo a corpo, as cabeças reagem mordendo o atacante (+2
 
 B. Hidra do Vazio (Nível 23)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Cabeças que não são serpentes, mas vórtices de escuridão que sugam luz e matéria. Vive no espaço entre os planos, comendo viajantes astrais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Corpo escuro e translúcido. As cabeças são buracos negros na forma de dragões sem olhos.
 
@@ -2880,11 +2880,11 @@ Físico + Força DC 26
 
 C. Imperatriz dos Elementos (Avatar) (Nível 25)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A Deusa Primordial que teceu a matéria do mundo. Ela não é apenas mãe dos dragões, mas a própria encarnação da Tabela Periódica mágica.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um leviatã de escamas de platina translúcida. Ela não possui múltiplas cabeças; em vez disso,
 
@@ -2956,7 +2956,7 @@ Contido e Incapacitado
 
 dentro do cristal. O cristal tem 100 HP e Defesa 20. Enquanto estiver preso, o alvo não pode agir, mas também não sofre dano de fora (exceto psíquico).
 
-\[Reação\] Absorção Cromática:
+[Reação] Absorção Cromática:
 
 Quando a Imperatriz sofre dano elemental (Fogo, Frio, Raio, Ácido, Veneno, Radiante ou Necrótico), ela pode usar sua reação para
 
@@ -2968,11 +2968,11 @@ o dano totalmente e curar HP igual à quantidade que sofreria. Ela então dispar
 
 A. Rei Fantasma (Nível 18)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um rei que se recusou a morrer e arrastou sua corte inteira para a não-vida através de um pacto amaldiçoado. Ele comanda exércitos de fantasmas e ainda acredita que governa seu reino vivo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Usa uma coroa etérEE e armadura espectral. Seus olhos são chamas verdes. Cavalga um cavalo fantasma.
 
@@ -2990,11 +2990,11 @@ Cria 1d4 Espectros por turno que lutam por ele.
 
 B. Ceifador (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A morte pessoal e inevitável de um herói. Uma manifestação psíquica que só pode ser vista e tocada pela sua vítima escolhida. Para os outros, o herói luta contra o ar e morre sozinho.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um vulto encapuzado com o rosto da própria vítima em decomposição.
 
@@ -3020,11 +3020,11 @@ ou morrer (sem teste de dano).
 
 C. Vulto do Tempo (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um fantasma de uma era futura que volta para se alimentar do tempo de vida das vítimas para sustentar sua própria existência paradoxal. Se ele te tocar, você envelhece décadas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Sua forma "falha" e treme, como uma imagem ruim. Ele se move em saltos temporais, estando em vários lugares ao mesmo tempo.
 
@@ -3046,11 +3046,11 @@ Envelhece a vítima em 1d100 anos. Se morrer de velhice, vira pó e o Vulto cura
 
 A. Monarca do Fogo (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O próprio sol em forma humanoide. Sua coroa é uma supernova contida. Ele desce ao mundo para punir o frio e trazer o verão eterno (seca e fogo).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um ser de plasma branco brilhante. Não se pode olhar diretamente para ele sem cegar.
 
@@ -3066,11 +3066,11 @@ Aura de Dano de Fogo (10d10 a 6m). Metal derrete perto dele.
 
 B. Leviatã de Gelo (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um iceberg vivo com olhos antigos. Congela oceanos ao passar e deseja transformar o mundo em uma esfera de gelo estática e perfeita.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma baleia ou serpente feita de gelo azul glacial, coberta de neve eterna.
 
@@ -3082,11 +3082,11 @@ Cone 100m. Transforma tudo em estátua de gelo (Petrificação de Gelo).
 
 C. Tempestade Eterna (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um furacão senciente que nunca acaba, nascido da fúria de um deus do ar. Destrói cidades costeiras por capricho e carrega casas e gado em seu vórtice.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um rosto gigante formado por nuvens de tempestade e relâmpagos.
 
@@ -3110,11 +3110,11 @@ Dano em área massivo. Pode levantar inimigos e jogá-los a quilômetros de dist
 
 A. Devorador de Planetas (Nível 25)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma entidade do tamanho de uma lua que se alimenta de energia geotérmica. Viaja pelo universo procurando mundos ricos em magma. Para ele, civilizações são apenas bactérias na casca de uma fruta.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma máquina ou organismo biomecânico colossal que ancora no planeta e começa a drenar. O céu fica Roxo.
 
@@ -3132,11 +3132,11 @@ Drenar Núcleo (Destroi o planeta em 1d4 dias). Invoca drones de defesa.
 
 B. Devorador de Almas (Nível 23)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Caça deuses para comer sua essência divina e tomar seu lugar no panteão. Já matou dezenas de divindades esquecidas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante magro, com uma boca no peito cheia de dentes espirituais. Veste as peles douradas de anjos mortos.
 
@@ -3154,11 +3154,11 @@ Mata seres imortais permanentemente, impedindo ressurreição.
 
 C. Devorador de Esperança (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Monstro psíquico que se alimenta do desespero coletivo. Ele induz suicídio em massa em exércitos antes da batalha começar, alimentando-se da tristeza.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma nuvem de fumaça cinza com olhos chorosos.
 
@@ -3180,11 +3180,11 @@ Teste Global de Mental + Resistência + Nível (DC 25)
 
 A. Olho Tirano (Mãe) (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O Olho Tirano original, do tamanho de uma pequena lua. Gera milhares de olhos menores através de seus sonhos. Vive no Reino Distante, observando tudo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma esfera de carne de 50m de diâmetro com um olho central leitoso que vê o futuro. Milhares de pedúnculos a cobrem como uma floresta.
 
@@ -3206,11 +3206,11 @@ Ataca exércitos inteiros com feixes múltiplos.
 
 B. Olho de Deus (Ophanim) (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um anjo biblicamente preciso que enlouqueceu ao ver a face de Deus. Rodas dentro de rodas cobertas de olhos e chamas sagradas. Não entende a mortalidade, apenas a "purificação" através do fogo sagrado.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Geometria impossível de anéis dourados e olhos de fogo girando no ar. Voz soa como trovão.
 
@@ -3222,11 +3222,11 @@ Queima pecadores (Dano Radiante infinito para quem tem alinhamento Maligno).
 
 C. Vigilante do Fim (Nível 24)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um olho que existe no fim do tempo. Ele vê todas as linhas temporais e apaga aquelas que não gosta, removendo criaturas da existência retroativamente para "limpar" a cronologia.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um olho gigante flutuando no vácuo, cercado por ampulhetas quebradas.
 
@@ -3241,4 +3241,4 @@ Teste Global de Social + Resistência + Nível (DC 24)
 ou nunca ter existido (ninguém lembra dele, seus feitos são desfeitos).
 
 --------------------------------------------------------------------------------
-
+</ai_context>

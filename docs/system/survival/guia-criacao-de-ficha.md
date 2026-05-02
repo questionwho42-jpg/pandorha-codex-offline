@@ -3,16 +3,17 @@ sourceFile: "Guia_Criacao_de_Ficha.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.170Z"
 ---
-
+<ai_context>
+<ai_context>
 # Guia_Criacao_de_Ficha.md
 
-c3e7b9a0-c995-4a83-92f1-7b71df8bb9eb
 
-Guia\_Criacao\_de\_Ficha.md
 
-f800ffed-ccea-4a5e-a9f3-05dd6bbd6aed
+Guia_Criacao_de_Ficha.md
 
-Arquivo: M01\_JOGADOR\Guia\_Criacao\_de\_Ficha.md
+
+
+Arquivo: M01_JOGADOR\Guia_Criacao_de_Ficha.md
 
 Pandorha: Guia Completo de Criação de Ficha
 
@@ -24,63 +25,63 @@ Este guia consolida as regras que realmente afetam a criação do personagem, o 
 
 #### Este documento usa como base principal:
 
-00\_Mecanicas\_Fundamentais.md
+00_Mecanicas_Fundamentais.md
 
 para estrutura do sistema;
 
-03\_Codex\_de\_Combate\_e\_Condicoes.md
+03_Codex_de_Combate_e_Condicoes.md
 
 para combate, iniciativa, reações e estados;
 
-04\_Arsenal\_e\_Economia.md
+04_Arsenal_e_Economia.md
 
 para armas, armaduras, carga e ouro inicial;
 
-05\_00\_Regras\_de\_Classe.md
+05_00_Regras_de_Classe.md
 
 e os quatro dossiês de classe para progressão;
 
-10\_Antecedentes\_e\_Origens.md
+10_Antecedentes_e_Origens.md
 
 para origens;
 
-12\_00\_Codex\_de\_Magia.md
+12_00_Codex_de_Magia.md
 
-12\_13\_Codex\_Expandido\_Magia\_Hibrida.md
+12_13_Codex_Expandido_Magia_Hibrida.md
 
 para conjuração;
 
-18\_Tratado\_de\_Dano.md
+18_Tratado_de_Dano.md
 
-24\_Codex\_Companheiros\_Animais.md
+24_Codex_Companheiros_Animais.md
 
-25\_Codex\_Familiar\_Mistico.md
+25_Codex_Familiar_Mistico.md
 
 para companheiros e familiares;
 
-26\_Codex\_Sinergia\_Forja\_Tatica.md
+26_Codex_Sinergia_Forja_Tatica.md
 
 para táticas de sinergia;
 
-28\_Codex\_Acampamento\_Descanso\_Ativo.md
+28_Codex_Acampamento_Descanso_Ativo.md
 
-DESCANSO\_E\_ACAMPAMENTO\_COMPLETO.md
+DESCANSO_E_ACAMPAMENTO_COMPLETO.md
 
 para descanso;
 
-REGRAS\_0\_HP\_E\_INCONSCIENCIA.md
+REGRAS_0_HP_E_INCONSCIENCIA.md
 
 para o fluxo de queda, estabilização e retorno;
 
-REGRAS\_HABILIDADES\_HEROICAS\_ULTIMATES\_LIMIT\_BREAK.md
+REGRAS_HABILIDADES_HEROICAS_ULTIMATES_LIMIT_BREAK.md
 
 para o subsistema heroico;
 
-REGRAS\_NEGOCIACAO.md
+REGRAS_NEGOCIACAO.md
 
 para barganha, combate social e reputação;
 
-REGRAS\_PESQUISA\_LORE\_CRIPTOGRAFIA\_LINGUAS\_ANTIGAS.md
+REGRAS_PESQUISA_LORE_CRIPTOGRAFIA_LINGUAS_ANTIGAS.md
 
 para investigação, Lore, códigos e idiomas mortos.
 
@@ -96,7 +97,7 @@ Divergências editoriais já resolvidas aqui
 
 este guia adota
 
-(\[HP Base da Classe\] + \[Físico\] + \[Resistência\]) × Nível Atual
+([HP Base da Classe] + [Físico] + [Resistência]) × Nível Atual
 
 , porque essa fórmula aparece nos capítulos-base de mecânicas e evolução. A fórmula antiga do guia,
 
@@ -108,7 +109,7 @@ HP Base + (Físico + Resistência) × 5
 
 este guia adota a tabela de
 
-05\_00\_Regras\_de\_Classe.md
+05_00_Regras_de_Classe.md
 
 , por ser o capítulo específico de evolução.
 
@@ -116,7 +117,7 @@ este guia adota a tabela de
 
 a base do sistema é
 
-3 Ações \[A\] + 1 Reação \[R\]
+3 Ações [A] + 1 Reação [R]
 
 . Se uma habilidade mencionar
 
@@ -286,7 +287,7 @@ imunidade a empurrões até certos limites
 
 Excelente para tanque e controle de posição
 
-#### Sopro Elemental \[AA\]:
+#### Sopro Elemental [AA]:
 
 cone de 4,5m, 1x por cena
 
@@ -442,11 +443,11 @@ igual ao seu
 
 Onde escolher
 
-02a\_Matriz\_Fisica.md
+02a_Matriz_Fisica.md
 
-02b\_Matriz\_Mental.md
+02b_Matriz_Mental.md
 
-02c\_Matriz\_Social.md
+02c_Matriz_Social.md
 
 Observação prática
 
@@ -466,7 +467,7 @@ igual ao valor daquele Eixo
 
 Essas táticas são escolhidas no
 
-26\_Codex\_Sinergia\_Forja\_Tatica.md
+26_Codex_Sinergia_Forja_Tatica.md
 
 = 3 táticas físicas;
 
@@ -830,7 +831,7 @@ Se estiver destreinado, sofre
 
 #### Limite de Carga:
 
-\[Físico + Resistência\] + 6 Slots
+[Físico + Resistência] + 6 Slots
 
 Se passar do limite: ganha
 
@@ -920,7 +921,7 @@ pode copiar magias de pergaminhos e outros grimórios;
 
 pode preparar um número de magias igual a:
 
-\[Eixo Mental\] + \[Nível\]
+[Eixo Mental] + [Nível]
 
 Custos de cópia para grimório
 
@@ -978,7 +979,7 @@ não preparam magias
 
 EE máxima =
 
-\[Nível de Personagem\] + \[Eixo Mágico\]
+[Nível de Personagem] + [Eixo Mágico]
 
 o Eixo Mágico é
 
@@ -1072,11 +1073,11 @@ Mental + Resistência
 
 Fórmula adotada neste guia
 
-(\[HP Base da Classe\] + \[Físico\] + \[Resistência\]) × Nível Atual
+([HP Base da Classe] + [Físico] + [Resistência]) × Nível Atual
 
-(\[Físico\] + \[Interação\]) + Nível + Bônus de Classe
+([Físico] + [Interação]) + Nível + Bônus de Classe
 
-(\[Mental\] + \[Resistência\]) + Nível + Bônus de Classe
+([Mental] + [Resistência]) + Nível + Bônus de Classe
 
 10 + Nível + Bônus de Armadura + Eixo Limitado + Escudo
 
@@ -1144,11 +1145,11 @@ Economia de turno
 
 #### Todo personagem tem:
 
-3 Ações \[A\]
+3 Ações [A]
 
 no seu turno;
 
-1 Reação \[R\]
+1 Reação [R]
 
 por rodada.
 
@@ -1164,11 +1165,11 @@ Movimentos básicos
 
 : deslocamento total, gera ataque de oportunidade;
 
-Passo Seguro \[A\]
+Passo Seguro [A]
 
 : move 1,5m, não gera ataque de oportunidade;
 
-Levantar \[A\]
+Levantar [A]
 
 Ataque de Oportunidade
 
@@ -1180,7 +1181,7 @@ conjurar magia complexa adjacente a inimigo;
 
 usar arma à distância corpo a corpo.
 
-1 Reação \[R\]
+1 Reação [R]
 
 Manobras de combate
 
@@ -1190,13 +1191,14 @@ CA passiva do alvo
 
 #### As manobras base citadas diretamente no capítulo de combate são:
 
-Agarrar \[A\]
+Agarrar [A]
 
-Empurrar \[A\]
+Empurrar [A]
 
 --------------------------------------------------------------------------------
 
 15. Estados vitais, tensão e itens sintonizados
+
 15.1 Quando o personagem cai a 0 HP
 
 #### Ao cair a 0 HP, o personagem normalmente fica:
@@ -1310,6 +1312,7 @@ a lista de itens sintonizados só muda em
 --------------------------------------------------------------------------------
 
 16. Negociação, combate social e reputação
+
 16.1 Teste-base e atitude
 
 negociação curta usa, por padrão,
@@ -1344,7 +1347,7 @@ acordo quase impossível sem pressão ou magia
 
 16.2 Ferramentas principais de negociação
 
-Senso de Grupo \[AA\]
+Senso de Grupo [AA]
 
 Social + Interação + Nível
 
@@ -1352,7 +1355,7 @@ Social + Interação + Nível
 
 em crítico;
 
-Negociação de Margem \[AA\]
+Negociação de Margem [AA]
 
 : em sucesso, compra com
 
@@ -1360,11 +1363,11 @@ ou vende com
 
 ; em crítico,
 
-Etiqueta da Corte \[A\]
+Etiqueta da Corte [A]
 
 : abre portas em ambientes nobres e sociais restritos;
 
-Contrato de Éter \[AAA\]
+Contrato de Éter [AAA]
 
 : sela pacto mágico; quebrar o acordo aplica
 
@@ -1407,6 +1410,7 @@ piora negociações formais, pode bloquear lojas normais e empurra o grupo para 
 --------------------------------------------------------------------------------
 
 17. Pesquisa, Lore, Criptografia e Línguas Antigas
+
 17.1 Teste-base e manobras-chave
 
 o eixo padrão dessas cenas é
@@ -1463,7 +1467,7 @@ Contra-Ataque
 
 Julgamento Regional
 
-\[Tag C\] Investigação Arcana/Urbana Extrema
+[Tag C] Investigação Arcana/Urbana Extrema
 
 25 Ouro por dia
 
@@ -1525,7 +1529,7 @@ Potencial de Recuperação
 
 , com a forma:
 
-(\[HP Inicial da Classe\] + \[Eixo Físico\]) × Nível
+([HP Inicial da Classe] + [Eixo Físico]) × Nível
 
 Na prática, trate isso como a expressão usada para justificar a recuperação plena do descanso prolongado.
 
@@ -1535,7 +1539,7 @@ Na prática, trate isso como a expressão usada para justificar a recuperação 
 
 Este guia adota a progressão de
 
-05\_00\_Regras\_de\_Classe.md
+05_00_Regras_de_Classe.md
 
 Ganho principal
 
@@ -1603,55 +1607,55 @@ retreino e recondicionamento.md
 
 20. Checklist de ficha pronta
 
-\[ \] Nome, conceito e jogador
+[ ] Nome, conceito e jogador
 
-\[ \] Classe escolhida
+[ ] Classe escolhida
 
-\[ \] Ancestralidade, bônus inicial, capacidade primordial e 3 traços
+[ ] Ancestralidade, bônus inicial, capacidade primordial e 3 traços
 
-\[ \] Eixos fechando 6 pontos base
+[ ] Eixos fechando 6 pontos base
 
-\[ \] Aplicações fechando 6 pontos base
+[ ] Aplicações fechando 6 pontos base
 
-\[ \] Caps do Tier respeitados
+[ ] Caps do Tier respeitados
 
-\[ \] Manobras anotadas por Eixo
+[ ] Manobras anotadas por Eixo
 
-\[ \] Táticas de sinergia anotadas por Eixo
+[ ] Táticas de sinergia anotadas por Eixo
 
-\[ \] Passiva de classe anotada
+[ ] Passiva de classe anotada
 
-\[ \] 2 talentos iniciais de classe anotados
+[ ] 2 talentos iniciais de classe anotados
 
-\[ \] Antecedente, Habilidade de Origem e 1 talento de origem anotados
+[ ] Antecedente, Habilidade de Origem e 1 talento de origem anotados
 
-\[ \] Equipamento inicial comprado ou assumido
+[ ] Equipamento inicial comprado ou assumido
 
-\[ \] Carga em slots calculada
+[ ] Carga em slots calculada
 
-\[ \] HP máximo calculado
+[ ] HP máximo calculado
 
-\[ \] PV máximo calculado
+[ ] PV máximo calculado
 
-\[ \] EE máxima calculada
+[ ] EE máxima calculada
 
-\[ \] CA calculada
+[ ] CA calculada
 
-\[ \] Iniciativa calculada
+[ ] Iniciativa calculada
 
-\[ \] Deslocamento anotado com penalidade de armadura
+[ ] Deslocamento anotado com penalidade de armadura
 
-\[ \] Armas com dado, alcance, tags e Matriz usada no dano
+[ ] Armas com dado, alcance, tags e Matriz usada no dano
 
-\[ \] Magias, truques, grimório e foco anotados, se aplicável
+[ ] Magias, truques, grimório e foco anotados, se aplicável
 
-\[ \] Companheiro ou familiar anotado, se aplicável
+[ ] Companheiro ou familiar anotado, se aplicável
 
-\[ \] Recursos de negociação anotados, se relevantes (Fama, Infâmia, Favores, Dívidas, talentos sociais)
+[ ] Recursos de negociação anotados, se relevantes (Fama, Infâmia, Favores, Dívidas, talentos sociais)
 
-\[ \] Recursos de pesquisa anotados, se relevantes (Lore, Criptografia, idiomas, investigação)
+[ ] Recursos de pesquisa anotados, se relevantes (Lore, Criptografia, idiomas, investigação)
 
-\[ \] Observações sobre Ultimate, tensão, reação e sintonia de itens
+[ ] Observações sobre Ultimate, tensão, reação e sintonia de itens
 
 --------------------------------------------------------------------------------
 
@@ -1659,89 +1663,90 @@ retreino e recondicionamento.md
 
 Eixos, testes, recursos, tensão
 
-00\_Mecanicas\_Fundamentais.md
+00_Mecanicas_Fundamentais.md
 
 Ancestralidades
 
-01\_00\_Regras\_Gerais.md
+01_00_Regras_Gerais.md
 
-02a\_Matriz\_Fisica.md
+02a_Matriz_Fisica.md
 
-02b\_Matriz\_Mental.md
+02b_Matriz_Mental.md
 
-02c\_Matriz\_Social.md
+02c_Matriz_Social.md
 
 Combate e condições
 
-03\_Codex\_de\_Combate\_e\_Condicoes.md
+03_Codex_de_Combate_e_Condicoes.md
 
 Arsenal e carga
 
-04\_Arsenal\_e\_Economia.md
+04_Arsenal_e_Economia.md
 
 Evolução e classes
 
-05\_00\_Regras\_de\_Classe.md
+05_00_Regras_de_Classe.md
 
 + dossiês de classe
 
 Antecedentes
 
-10\_Antecedentes\_e\_Origens.md
+10_Antecedentes_e_Origens.md
 
-12\_00\_Codex\_de\_Magia.md
+12_00_Codex_de_Magia.md
 
 Magia híbrida
 
-12\_13\_Codex\_Expandido\_Magia\_Hibrida.md
+12_13_Codex_Expandido_Magia_Hibrida.md
 
 Dano e resistências
 
-18\_Tratado\_de\_Dano.md
+18_Tratado_de_Dano.md
 
 Companheiros animais
 
-24\_Codex\_Companheiros\_Animais.md
+24_Codex_Companheiros_Animais.md
 
 Familiar místico
 
-25\_Codex\_Familiar\_Mistico.md
+25_Codex_Familiar_Mistico.md
 
-26\_Codex\_Sinergia\_Forja\_Tatica.md
+26_Codex_Sinergia_Forja_Tatica.md
 
 0 HP e inconsciência
 
-REGRAS\_0\_HP\_E\_INCONSCIENCIA.md
+REGRAS_0_HP_E_INCONSCIENCIA.md
 
-03\_Codex\_de\_Combate\_e\_Condicoes.md
+03_Codex_de_Combate_e_Condicoes.md
 
 Heroicas e Limit Break
 
-REGRAS\_HABILIDADES\_HEROICAS\_ULTIMATES\_LIMIT\_BREAK.md
+REGRAS_HABILIDADES_HEROICAS_ULTIMATES_LIMIT_BREAK.md
 
 + dossiês de classe
 
 Negociação e combate social
 
-REGRAS\_NEGOCIACAO.md
+REGRAS_NEGOCIACAO.md
 
-REGRAS\_COMPLETAS\_INTERACOES\_SOCIAIS.md
+REGRAS_COMPLETAS_INTERACOES_SOCIAIS.md
 
-02c\_Matriz\_Social.md
+02c_Matriz_Social.md
 
 Pesquisa, Lore e criptografia
 
-REGRAS\_PESQUISA\_LORE\_CRIPTOGRAFIA\_LINGUAS\_ANTIGAS.md
+REGRAS_PESQUISA_LORE_CRIPTOGRAFIA_LINGUAS_ANTIGAS.md
 
-02b\_Matriz\_Mental.md
+02b_Matriz_Mental.md
 
-28\_Codex\_Acampamento\_Descanso\_Ativo.md
+28_Codex_Acampamento_Descanso_Ativo.md
 
-DESCANSO\_E\_ACAMPAMENTO\_COMPLETO.md
+DESCANSO_E_ACAMPAMENTO_COMPLETO.md
 
 --------------------------------------------------------------------------------
 
 Se a sua mesa quiser usar este guia como “fonte única” durante a criação, basta manter os capítulos citados abertos apenas para consultar textos integrais de traços, talentos, manobras e magias específicas.
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

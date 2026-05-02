@@ -4,75 +4,33 @@ exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.147Z"
 ---
 
-# 01_06_Feras.md
+# 06 - Feras (Os Predadores do Éter)
 
-c1ebf069-ee4c-4be9-a9cd-e0f2c99ec247
+<ai_ignore>
+As Feras são a fusão da natureza selvagem com o Poder Etérico. Protetoras das "Selvas Primal", veem o Éter como a "Grande Matilha" que incorporam em seus corpos. Possuem traços animais proeminentes (caudas, garras, orelhas sensíveis) e corpos atléticos desenhados para a predação e sobrevivência em ambientes extremos.
+</ai_ignore>
 
-01\_06\_Feras.md
+## ⚙️ Especificações: Feras
 
-21378087-8eef-4308-bfd4-632eb76f8c33
+<ai_context>
+### Bônus Inicial
+Escolha **+1 no Eixo Físico** OU **+1 na Aplicação Conflito**.
 
-Arquivo: M01\_JOGADOR\01\_06\_Feras.md
+### Capacidade Primordial: Faro Aguçado
+Detecta odores em um raio de 18 metros. O rastreio de inimigos feridos recebe bônus de +5 em Testes de Mental + Interação.
+</ai_context>
 
-6. Feras (Os Predadores do Éter)
+## ⭐ Traços Selecionáveis (Escolha 3)
 
-As Feras são o resultado da fusão entre a natureza selvagem e o
-
-Poder Etérico
-
-. Elas são diversas, variando de felinos humanoides a seres lupinos, todos unidos por um instinto aguçado e uma conexão visceral com o ciclo da vida e morte.
-
-Protetoras das "Selvas Primal", as Feras veem o Éter como a "Grande Matilha". Elas não usam a magia; elas a caçam e a incorporam em seus próprios corpos físicos.
-
---------------------------------------------------------------------------------
-
---------------------------------------------------------------------------------
-
-Possuem traços animais proeminentes (caudas, garras, orelhas sensíveis) e corpos atléticos desenhados para a predação e sobrevivência em ambientes extremos.
-
-⚙️ Especificações: Feras
-
-#### Bônus Inicial:
-
-OU +1 na Aplicação
-
-. Reflete sua biologia predatória e ágil.
-
-#### Capacidade Primordial (Faro Aguçado):
-
-Você pode detectar odores em um raio de 18 metros. O rastreio de inimigos feridos recebe um bônus de +5 em
-
-Testes Globais de Mental + Interação + Nível
-
-⭐ Traços Selecionáveis: Feras (Escolha 3)
-
-Tática de Matilha: Você luta melhor em grupo. Ganha +2 de bônus no dano sempre que houver um aliado adjacente ao mesmo inimigo que você.
-
-Impulso Selvagem: Sua velocidade base de movimento aumenta em 3 metros (total de 12m).
-
-Resiliência Primal: Seu corpo é adaptado ao consumo selvagem. Você é imune a doenças causadas por carne podre ou águas contaminadas.
-
-Predador Vertical: Você pode realizar testes de Salto
-
-como parte integrante da sua ação de Movimento, sem custo extra.
-
-Sangue de Fera: Seus ataques com garras ou dentes aplicam a condição 'Sangrando' (1d4 de dano por turno) em caso de Sucesso Crítico.
-
-Couraça de Pelagem: Sua pele e pelos grossos fornecem um bônus permanente de +1 na sua Defesa (CA).
-
-Instinto de Sobrevivência: Você é impossível de ser pego desprevenido. Ganha imunidade à condição 'Surpreendido' no primeiro turno de combate.
-
-Mestre do Terreno: Você ignora qualquer penalidade de movimento causada por vegetação densa, pântanos ou pedregulhos naturais.
-
-Rugido de Comando: Usando um
-
-Teste Global de Social + Interação + Nível
-
-, você pode se comunicar e dar ordens simples a animais selvagens (Sucesso Automático para animais de Nível 1).
-
-Ira de Pandorha: Quando seu HP está abaixo de 50%, você ganha um bônus de +2 em todos os seus
-
-Testes Globais de Físico + Conflito + Nível
-
---------------------------------------------------------------------------------
-
+<ai_context>
+*   **Tática de Matilha:** +2 de bônus no dano sempre que houver um aliado adjacente ao mesmo inimigo.
+*   **Impulso Selvagem:** Velocidade base de movimento aumenta em 3 metros (Total 12m).
+*   **Resiliência Primal:** Imune a doenças causadas por carne podre ou águas contaminadas.
+*   **Predador Vertical:** Realiza testes de Salto como parte do movimento, sem custo extra.
+*   **Sangue de Fera:** Ataques com garras ou dentes aplicam 'Sangrando' (1d4/turno) em caso de Sucesso Crítico.
+*   **Couraça de Pelagem:** Pelagem grossa fornece bônus permanente de +1 na Defesa (CA).
+*   **Instinto de Sobrevivência:** Imunidade à condição 'Surpreendido' no primeiro turno de combate.
+*   **Mestre do Terreno:** Ignora penalidade de movimento em vegetação densa ou pântanos.
+*   **Rugido de Comando:** Pode se comunicar e dar ordens a animais selvagens (Sucesso Automático Nv 1).
+*   **Ira de Pandorha:** Com HP abaixo de 50%, ganha bônus de +2 em testes de Físico + Conflito.
+</ai_context>

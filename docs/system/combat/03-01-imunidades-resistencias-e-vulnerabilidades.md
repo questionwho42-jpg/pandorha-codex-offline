@@ -3,14 +3,14 @@ sourceFile: "03_01_Imunidades_Resistencias_e_Vulnerabilidades.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.149Z"
 ---
-
+<ai_context>
 # 03_01_Imunidades_Resistencias_e_Vulnerabilidades.md
 
-65c3b51c-c569-464a-9863-005d6a7ff5c2
 
-03\_01\_Imunidades\_Resistencias\_e\_Vulnerabilidades.md
 
-0e19e4ad-2253-43c0-aeeb-930204b8f98a
+03_01_Imunidades_Resistencias_e_Vulnerabilidades.md
+
+
 
 Imunidades, Resistências e Vulnerabilidades
 
@@ -225,15 +225,15 @@ Empurrão de criaturas e magias até Nível = Físico
 Vulnerável a dano de fogo (+1d6)
 
 9. Referências Úteis
-03\_Codex\_de\_Combate\_e\_Condicoes.md
+03_Codex_de_Combate_e_Condicoes.md
 
-03\_Codex\_de\_Combate\_e\_Condicoes.md
+03_Codex_de_Combate_e_Condicoes.md
 
-26\_Codex\_Sinergia\_Forja\_Tatica.md
+26_Codex_Sinergia_Forja_Tatica.md
 
-26\_Codex\_Sinergia\_Forja\_Tatica.md
+26_Codex_Sinergia_Forja_Tatica.md
 
-27\_Regras\_Doencas\_Venenos.md
+27_Regras_Doencas_Venenos.md
 
-27\_Regras\_Doencas\_Venenos.md
-
+27_Regras_Doencas_Venenos.md
+</ai_context>

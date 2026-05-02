@@ -3,14 +3,15 @@ sourceFile: "27_Regras_Doencas_Venenos.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.165Z"
 ---
-
+<ai_context>
+<ai_context>
 # 27_Regras_Doencas_Venenos.md
 
-32b584d3-5d7c-4875-ba2f-9663e2ae8662
 
-27\_Regras\_Doencas\_Venenos.md
 
-ee1fa46f-b7b3-490c-9f60-a3c60ce3d65b
+27_Regras_Doencas_Venenos.md
+
+
 
 Pandorha: Regras de Doenças e Venenos
 
@@ -47,7 +48,7 @@ definido pelo Mestre com base na gravidade, na origem e no Tier do autor do efei
 
 no fim do turno, faça um
 
-Teste Global de \[Físico + Resistência + Nível\] vs DC da Fonte
+Teste Global de [Físico + Resistência + Nível] vs DC da Fonte
 
 o efeito termina imediatamente.
 
@@ -93,7 +94,7 @@ em local civilizado, por magias de cura específicas ou por rituais de purifica�
 
 incapaz de usar ações
 
-Teste Global de \[Físico + Resistência + Nível\]
+Teste Global de [Físico + Resistência + Nível]
 
 no fim do turno.
 
@@ -186,6 +187,7 @@ magias de cura de alto nível, rituais específicos ou intervenção de um sacer
 --------------------------------------------------------------------------------
 
 5. Exposição e Contágio
+
 5.1 Poções e Consumíveis
 
 Comer ou beber substâncias contaminadas exige teste de
@@ -237,6 +239,7 @@ definido pelo Mestre de acordo com a gravidade do veneno/doença.
 --------------------------------------------------------------------------------
 
 7. Cura e Neutralização
+
 7.1 Purificação Biológica
 
 Físico + Resistência + Nível vs DC da Toxina.
@@ -362,4 +365,5 @@ Permita que o grupo descubra antídotos e tratamentos como parte da aventura, n�
 --------------------------------------------------------------------------------
 
 Nota: este documento foi criado para oferecer regras claras e prática para o Mestre em Pandorha. Ele deve ser usado em conjunto com o conjunto de condições e magias do sistema principal.
-
+</ai_context>
+</ai_context>

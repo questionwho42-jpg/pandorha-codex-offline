@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pandorha Maintenance"
+  short_description: "Automate Pandorha project records and documentation promotion."
+  default_prompt: "Use the Pandorha maintenance workflow to record, checkpoint, promote, and review project changes."

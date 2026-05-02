@@ -3,16 +3,17 @@ sourceFile: "31_Codex_Teia_Infamia_Patrocinio.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.166Z"
 ---
-
+<ai_context>
+<ai_context>
 # 31_Codex_Teia_Infamia_Patrocinio.md
 
-839fe3d4-e3ed-4c7e-9f5f-913679f8f3d3
 
-31\_Codex\_Teia\_Infamia\_Patrocinio.md
 
-a9a69a75-7cfe-46b9-b908-4253446f031e
+31_Codex_Teia_Infamia_Patrocinio.md
 
-Arquivo: M02\_MESTRE\31\_Codex\_Teia\_Infamia\_Patrocinio.md
+
+
+Arquivo: M02_MESTRE\31_Codex_Teia_Infamia_Patrocinio.md
 
 A Teia de Infâmia e Patrocínio (O Sistema de Dívidas)
 
@@ -58,7 +59,7 @@ Cada facção na Teia Genuína é rastreada individualmente. O grupo pode ter m�
 
 É calculado estritamente pela fórmula:
 
-\[Nível de Fama com a Facção × 3\]
+[Nível de Fama com a Facção × 3]
 
 Fama Nível 1 = Limite 3. Fama Nível 5 = Limite 15.
 
@@ -637,4 +638,5 @@ Pontos de Intriga induzem o Apocalipse Bélico. Todos os inimigos no campo de ba
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

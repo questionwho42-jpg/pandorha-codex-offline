@@ -3,16 +3,17 @@ sourceFile: "01_00_Regras_Gerais.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.146Z"
 ---
-
+<ai_context>
+<ai_context>
 # 01_00_Regras_Gerais.md
 
-7777d1bb-d185-42c9-98f6-fd8289289282
 
-01\_00\_Regras\_Gerais.md
 
-829e9cb6-db34-4b4b-bde1-c065496569c2
+01_00_Regras_Gerais.md
 
-Arquivo: M01\_JOGADOR\01\_00\_Regras\_Gerais.md
+
+
+Arquivo: M01_JOGADOR\01_00_Regras_Gerais.md
 
 Ancestralidades: Regras Gerais
 
@@ -49,4 +50,5 @@ Consulte os arquivos individuais para detalhes sobre cada linhagem.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

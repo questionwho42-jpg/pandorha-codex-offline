@@ -3,16 +3,17 @@ sourceFile: "sistema_de_dividas_antes_depois.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.193Z"
 ---
-
+<ai_context>
+<ai_context>
 # sistema_de_dividas_antes_depois.md
 
-9b19994d-2b34-4abd-9d01-d979ba726563
 
-sistema\_de\_dividas\_antes\_depois.md
 
-7b02058f-3a34-4f6e-94a4-6bb74fbc2b9b
+sistema_de_dividas_antes_depois.md
 
-Arquivo: M02\_MESTRE\sistema\_de\_dividas\_antes\_depois.md
+
+
+Arquivo: M02_MESTRE\sistema_de_dividas_antes_depois.md
 
 Auditoria de Integração: Sistema de Dívidas (Teia de Infâmia)
 
@@ -32,7 +33,7 @@ Capítulo 31
 
 Inexistente.
 
-\[31\_Codex\_Teia\_Infamia\_Patrocinio.md\]
+[31_Codex_Teia_Infamia_Patrocinio.md]
 
 criado com 21KB de conteúdo, 40 facções e mecânicas de intriga.
 
@@ -42,7 +43,7 @@ Níveis de fama eram puramente narrativos ou bônus simples.
 
 #### Implementada trava mecânica rigorosa:
 
-Limite Máximo de Dívida = \[Nível de Fama x 3\]
+Limite Máximo de Dívida = [Nível de Fama x 3]
 
 Downtime (Cap. 22)
 
@@ -50,7 +51,7 @@ Focado em treino, trabalho e gestão de domínio.
 
 Adicionada a
 
-\[Tag H\] - O Juramento de Sangue
+[Tag H] - O Juramento de Sangue
 
 , integrando a busca por patrocínio ao ciclo de descanso.
 
@@ -125,4 +126,5 @@ Tarefa Finalizada com Sucesso.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

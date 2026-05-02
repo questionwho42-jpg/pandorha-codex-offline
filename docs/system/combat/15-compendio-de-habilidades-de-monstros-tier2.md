@@ -3,16 +3,16 @@ sourceFile: "15_Compendio_de_Habilidades_de_Monstros_Tier2.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.160Z"
 ---
-
+<ai_context>
 # 15_Compendio_de_Habilidades_de_Monstros_Tier2.md
 
-dd021038-1a32-4656-856a-309640452ecf
 
-15\_Compendio\_de\_Habilidades\_de\_Monstros\_Tier2.md
 
-09d7df03-1f25-41f7-887c-b014a8e5f3e8
+15_Compendio_de_Habilidades_de_Monstros_Tier2.md
 
-Arquivo: M02\_MESTRE\15\_Compendio\_de\_Habilidades\_de\_Monstros\_Tier2.md
+
+
+Arquivo: M02_MESTRE\15_Compendio_de_Habilidades_de_Monstros_Tier2.md
 
 Pandorha: Capítulo 15 - Compêndio de Habilidades de Monstros (Tier 2)
 
@@ -116,7 +116,7 @@ Defesa passiva contra ataques à distância.
 
 Ativas (Nível 6)
 
-\[2 Ações\] Whirlwind (Giro)
+[2 Ações] Whirlwind (Giro)
 
 Todos a 1,5m. +11 Ataque. 3d8+5 Corte.
 
@@ -124,7 +124,7 @@ Gira com armas estendidas como um tornado.
 
 Punição severa se o grupo cercar o monstro.
 
-\[1 Ação\] Arremesso de Rocha
+[1 Ação] Arremesso de Rocha
 
 18m. +11 Ataque. 3d10 Impacto +
 
@@ -136,7 +136,7 @@ Catapulta viva.
 
 Derruba o mago ou arqueiro longe da luta.
 
-\[1 Ação\] Grito de Guerra
+[1 Ação] Grito de Guerra
 
 Aliados a 9m ganham +2 Ataque e +5 HP Temp.
 
@@ -144,7 +144,7 @@ Urro inspirador.
 
 Buff de grupo. Use no início do combate.
 
-\[1 Ação\] Enredar
+[1 Ação] Enredar
 
 Raio 6m. ÁrEE vira Terreno Difícil e
 
@@ -156,7 +156,7 @@ Raízes explodem do chão.
 
 Separa o grupo e impede cargas.
 
-\[Reação\] Aparar
+[Reação] Aparar
 
 +4 CA contra um ataque corpo-a-corpo.
 
@@ -164,7 +164,7 @@ Desvia a lâmina no último segundo.
 
 Nega o ataque mais forte do turno (ex: Especial do Guerreiro).
 
-\[2 Ações\] Hálito Venenoso
+[2 Ações] Hálito Venenoso
 
 Cone 6m. 4d6 Veneno +
 
@@ -176,7 +176,7 @@ Gás verde corrosivo.
 
 Envenenado dá desvantagem em tudo. Debuff massivo.
 
-\[1 Ação\] Investida Blindada
+[1 Ação] Investida Blindada
 
 Move 12m em linha reta (não gera ataque de oportunidade). +11 Ataque. 2d10+8 Impacto.
 
@@ -184,7 +184,7 @@ Como um trem de carga.
 
 Atropela a linha de frente para bater no fundo.
 
-\[1 Ação\] Olhar Hipnótico
+[1 Ação] Olhar Hipnótico
 
 Teste Global de Mental + Resistência + Nível (CD 15)
 
@@ -192,7 +192,7 @@ Olhos de caleidoscópio.
 
 Remove o maior DPS da rodada.
 
-\[1 Ação\] Devorar Magia
+[1 Ação] Devorar Magia
 
 Toque. Remove 1 Buff do alvo e cura 10 HP.
 
@@ -200,7 +200,7 @@ Arranca a magia da pele.
 
 Remove "Escudo da Fé" ou "Haste" dos jogadores.
 
-\[2 Ações\] Chuva de Espinhos
+[2 Ações] Chuva de Espinhos
 
 Cone 9m. 3d8 Perfurante. (
 
@@ -302,7 +302,7 @@ Transformam o ataque do mago em cura.
 
 Ativas (Nível 7)
 
-\[2 Ações\] Multi-Ataque (3x)
+[2 Ações] Multi-Ataque (3x)
 
 3 ataques: +12/+7/+2. Dano 1d10+6 cada.
 
@@ -310,7 +310,7 @@ Flurry de golpes marciais.
 
 Dano focado em um alvo para derrubar rápido.
 
-\[1 Ação\] Comando Imperioso
+[1 Ação] Comando Imperioso
 
 Escolhe um jogador.
 
@@ -324,7 +324,7 @@ e solta a arma.
 
 Desarma o guerreiro, forçando-o a gastar ações para recuperar a arma.
 
-\[1 Ação\] Teleporte Ofensivo
+[1 Ação] Teleporte Ofensivo
 
 Teleporta para adjacente e faz 1 Ataque com Vantagem.
 
@@ -332,7 +332,7 @@ Blink strike.
 
 Assassina o mago na retaguarda sem aviso.
 
-\[Reação\] Escudo de Força
+[Reação] Escudo de Força
 
 Ganha +5 CA contra um ataque (inclusive Magia de Raio).
 
@@ -340,7 +340,7 @@ Campo de força tecnológico ou etérico.
 
 Nega o crítico ou o golpe final.
 
-\[2 Ações\] Nuvem Ácida
+[2 Ações] Nuvem Ácida
 
 Raio 6m. 4d8 Ácido. Armaduras sofrem corrosão (-1 CA temp).
 
@@ -348,7 +348,7 @@ Chuva corrosiva.
 
 Enfraquece a defesa do grupo progressivamente.
 
-\[1 Ação\] Agarrar Gigante
+[1 Ação] Agarrar Gigante
 
 +12 Ataque. Alvo Agarrado e Contido (Ataques têm desvantagem). Monstro pode usar o alvo como arma.
 
@@ -356,7 +356,7 @@ Pega o halfling e bate no elfo com ele.
 
 Humilhação e controle duplo.
 
-\[3 Ações\] Terremoto Localizado
+[3 Ações] Terremoto Localizado
 
 Cone 12m. Chão racha. 5d8 Impacto +
 
@@ -366,7 +366,7 @@ Fenda terrestre.
 
 Divide o campo de batalha fisicamente.
 
-\[1 Ação\] Dreno de Nível
+[1 Ação] Dreno de Nível
 
 Toque +12. 3d6 Necrótico. Alvo perde 1 Slot de Magia ou 1 Uso de Habilidade.
 
@@ -374,7 +374,7 @@ Toque espectral.
 
 Drena recursos, deixando o grupo "seco" para o final.
 
-\[2 Ações\] Invisibilidade Maior
+[2 Ações] Invisibilidade Maior
 
 Fica invisível. Atacar NÃO quebra a invisibilidade. Dura 3 turnos.
 
@@ -382,7 +382,7 @@ Predador perfeito.
 
 Vantagem em todos os ataques, defesa alta (desvantagem para ser acertado).
 
-\[1 Ação\] Invocar Bestas
+[1 Ação] Invocar Bestas
 
 Traz 2 Lobos (Nível 1) ou 1 Urso (Nível 3).
 
@@ -486,7 +486,7 @@ Boss Fight clássica.
 
 Ativas (Nível 8)
 
-\[3 Ações\] Sopro de Cone (Frio/Fogo)
+[3 Ações] Sopro de Cone (Frio/Fogo)
 
 18m Cone. 8d6 Dano.
 
@@ -496,7 +496,7 @@ Tempestade elemental.
 
 Wipe de grupo se estiverem juntos.
 
-\[1 Ação\] Olhar da Medusa (Menor)
+[1 Ação] Olhar da Medusa (Menor)
 
 Teste Global de Físico + Resistência + Nível (CD 16)
 
@@ -508,7 +508,7 @@ Pele vira pedra temporária.
 
 Tira um jogador da luta completamente.
 
-\[1 Ação\] Engolir Inteiro
+[1 Ação] Engolir Inteiro
 
 Alvo Grande ou menor. 4d6 Ácido/turno. Cego e Contido.
 
@@ -516,7 +516,7 @@ Estômago dimensional.
 
 Jogador precisa causar X dano de dentro para sair.
 
-\[2 Ações\] Terremoto de Guerra
+[2 Ações] Terremoto de Guerra
 
 Raio 6m. Todos caem
 
@@ -528,7 +528,7 @@ Impacto meteórico.
 
 Setup perfeito para aliados atacarem alvos caídos.
 
-\[1 Ação\] Dreno de Alma
+[1 Ação] Dreno de Alma
 
 +14 Ataque. 4d8 Necrótico. Monstro ganha HP igual ao dano.
 
@@ -536,7 +536,7 @@ Raio violeta.
 
 Recuperação massiva de vida.
 
-\[Reação\] Contra-Mágica
+[Reação] Contra-Mágica
 
 Anula magia de até Círculo 3 se passar em teste de Atributo.
 
@@ -544,7 +544,7 @@ Corte de mana.
 
 O mago precisa declarar a magia, e o monstro diz "não".
 
-\[1 Ação\] Arremesso de Aliado
+[1 Ação] Arremesso de Aliado
 
 Pega um goblin/lacaio e joga 18m. Dano em área 3d6 onde cai.
 
@@ -552,7 +552,7 @@ Artilharia goblin.
 
 Usa lacaios mortos ou vivos como munição.
 
-\[1 Ação\] Charme Vampírico
+[1 Ação] Charme Vampírico
 
 Teste Global de Mental + Resistência + Nível (CD 16)
 
@@ -562,7 +562,7 @@ Sedução sobrenatural.
 
 Cria um escudo humano feito de um jogador.
 
-\[2 Ações\] Parede de Fogo
+[2 Ações] Parede de Fogo
 
 Cria parede de 18m. Quem atravessa sofre 5d8 Fogo.
 
@@ -570,7 +570,7 @@ Cortina de chamas.
 
 Divide o grupo ou protege a fuga.
 
-\[1 Ação\] Teleporte em Massa
+[1 Ação] Teleporte em Massa
 
 Teleporta a si e 3 aliados para 30m.
 
@@ -666,7 +666,7 @@ Obriga submissão ou morte.
 
 Ativas (Tier 2 Máximo)
 
-\[3 Ações\] Meteoro
+[3 Ações] Meteoro
 
 4 raios. 10d6 cada. (Total 40d6 se focar).
 
@@ -676,13 +676,13 @@ Chuva do apocalipse.
 
 Fim de jogo. Use como ultimato.
 
-\[1 Ação\] Palavra da Morte
+[1 Ação] Palavra da Morte
 
 Alvo com <50 HP morre sem teste.
 
 Elimina heróis feridos instantaneamente.
 
-\[2 Ações\] Tsunami
+[2 Ações] Tsunami
 
 Parede de água. Empurra 30m. 6d10 Esmagamento + Afogamento.
 
@@ -690,7 +690,7 @@ Onda gigante.
 
 Limpa o tabuleiro inteiro.
 
-\[1 Ação\] Desintegrar
+[1 Ação] Desintegrar
 
 +16 Ataque. 10d6+40 Força. 0 HP = Pó.
 
@@ -698,7 +698,7 @@ Raio verde.
 
 Maior dano de alvo único do jogo.
 
-\[Reação\] Parar o Tempo (Maior)
+[Reação] Parar o Tempo (Maior)
 
 Ganha 1 Turno extra imediatamente após ser atacado.
 
@@ -706,7 +706,7 @@ Quebra a cronologia.
 
 Vingança imediata.
 
-\[1 Ação\] Prisão de Força
+[1 Ação] Prisão de Força
 
 Prende alvo em cubo indestrutível. Sem teste.
 
@@ -714,7 +714,7 @@ Caixa mágica.
 
 Remove o tanque da luta por 1 hora.
 
-\[2 Ações\] Invocação de Dragão
+[2 Ações] Invocação de Dragão
 
 Traz um Dragão Jovem (Nível 6) para a luta.
 
@@ -722,7 +722,7 @@ O pet do boss.
 
 Agora são dois bosses.
 
-\[1 Ação\] Controle da Gravidade
+[1 Ação] Controle da Gravidade
 
 Inverte gravidade em 18m raio. Todos caem "pra cima" (10d6 dano queda).
 
@@ -730,7 +730,7 @@ O mundo vira.
 
 Caos total e dano de queda.
 
-\[1 Ação\] Toque da Loucura
+[1 Ação] Toque da Loucura
 
 Teste Global de Mental + Resistência + Nível (CD 17)
 
@@ -740,7 +740,7 @@ Quebra a mente.
 
 Transforma PJs em NPCs insanos.
 
-\[3 Ações\] Fim dos Tempos
+[3 Ações] Fim dos Tempos
 
 Começa contagem de 3 turnos. Se não morrer, mata TODOS na sala.
 
@@ -753,4 +753,4 @@ DPS Check. Matem ou morram.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

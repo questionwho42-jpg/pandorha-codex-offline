@@ -3,14 +3,15 @@ sourceFile: "Ficha_de_Monstro.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.170Z"
 ---
-
+<ai_context>
+<ai_context>
 # Ficha_de_Monstro.md
 
-888f39a0-1445-4b05-a9fd-4c2e8b7de385
 
-Ficha\_de\_Monstro.md
 
-fcd10eb3-8854-4d66-a7a1-b4428fcbf74a
+Ficha_de_Monstro.md
+
+
 
 Ficha de Monstro — Pandorha
 
@@ -66,13 +67,13 @@ Valor principal do monstro
 
 #### Ações por Turno:
 
-3 Ações \[A\]
+3 Ações [A]
 
-#### Ações Rápidas \[L\]:
+#### Ações Rápidas [L]:
 
-#### Reações \[R\]:
+#### Reações [R]:
 
-#### Ações Livres \[F\]:
+#### Ações Livres [F]:
 
 #### Recarga / Uso Limitado (Ex: 1x por cena):
 
@@ -121,6 +122,7 @@ Eixo + Resistência
 --------------------------------------------------------------------------------
 
 5. Condições e Defesas
+
 5.1 Resistências e Imunidades
 
 #### Resistência a:
@@ -141,15 +143,15 @@ Eixo + Resistência
 
 #### Pode causar:
 
-\[ \] Atordoado
+[ ] Atordoado
 
-\[ \] Exposto
+[ ] Exposto
 
-\[ \] Imobilizado
+[ ] Imobilizado
 
-\[ \] Aterrorizado
+[ ] Aterrorizado
 
-\[ \] Vulnerável
+[ ] Vulnerável
 
 --------------------------------------------------------------------------------
 
@@ -188,13 +190,15 @@ Eixo + Resistência
 --------------------------------------------------------------------------------
 
 8. Referências de Criação
-13\_Guia\_de\_Criacao\_de\_Monstros.md
 
-13\_Guia\_de\_Criacao\_de\_Monstros.md
+13_Guia_de_Criacao_de_Monstros.md
+
+13_Guia_de_Criacao_de_Monstros.md
 
 para balancear valores e focos.
 
 Frequência ideal: monstros devem durar 3–5 rodadas em combate.
 
 Monstros devem sempre declarar testes de resistência claros para habilidades especiais.
-
+</ai_context>
+</ai_context>

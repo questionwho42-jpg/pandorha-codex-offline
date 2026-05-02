@@ -3,16 +3,17 @@ sourceFile: "23a_Codex_Armadilhas_Tier1.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.163Z"
 ---
-
+<ai_context>
+<ai_context>
 # 23a_Codex_Armadilhas_Tier1.md
 
-1cd7582c-02c6-486a-b865-ce7172626b4d
 
-23a\_Codex\_Armadilhas\_Tier1.md
 
-c0c904ab-fd96-46a4-87ba-fe3ea37e4153
+23a_Codex_Armadilhas_Tier1.md
 
-Arquivo: M04\_DESAFIOS\23a\_Codex\_Armadilhas\_Tier1.md
+
+
+Arquivo: M04_DESAFIOS\23a_Codex_Armadilhas_Tier1.md
 
 Pandorha: Capítulo 23.1 - Tomo de Armadilhas (Tier I)
 
@@ -202,7 +203,7 @@ Nível 3 ao 5
 
 (Continua na escalada matemática referendada pelo Grau Simples: 10 + Nivel + 1 / Escondida 10 + Nivel + 3 / Mortal 10 + Nivel + 5 do Codex)
 
-with open(os.path.join(base\_dir, "23a\_Codex\_Armadilhas\_Tier1.md"), "w", encoding="utf-8") as file:
+with open(os.path.join(base_dir, "23a_Codex_Armadilhas_Tier1.md"), "w", encoding="utf-8") as file:
 
 file.write(tier1)
 
@@ -211,4 +212,5 @@ file.write(tier1)
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

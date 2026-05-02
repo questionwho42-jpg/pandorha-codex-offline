@@ -3,14 +3,15 @@ sourceFile: "Ficha_Expandida.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.169Z"
 ---
-
+<ai_context>
+<ai_context>
 # Ficha_Expandida.md
 
-fde1eb03-ab29-477d-b893-74177ee14292
 
-Ficha\_Expandida.md
 
-f3f4230e-1155-4f4c-8036-192f40921bdc
+Ficha_Expandida.md
+
+
 
 Ficha de Personagem Expandida — Pandorha
 
@@ -122,19 +123,19 @@ Itens e Consumíveis
 
 8. Economia de Turno
 
-#### Ações Padrão \[A\]:
+#### Ações Padrão [A]:
 
 Ataques, magias, manobras e habilidades principais.
 
-#### Ações Rápidas \[L\]:
+#### Ações Rápidas [L]:
 
 Itens rápidos, ativações menores, sacos de ação.
 
-#### Reações \[R\]:
+#### Reações [R]:
 
 Defesas, bloqueios, respostas instantâneas.
 
-#### Ações Livres \[F\]:
+#### Ações Livres [F]:
 
 Mensagens curtas, soltar item, troca leve de posição.
 
@@ -162,7 +163,7 @@ Descanso Longo: recupera tudo
 
 Ciclo de Sinergia
 
-#### Abertura \[A\]:
+#### Abertura [A]:
 
 #### Tática aplicada:
 
@@ -170,13 +171,13 @@ Custo: 1 ponto de Coesão
 
 #### Efeito imediato:
 
-Reforço \[A\]
+Reforço [A]
 
 #### Tática aplicada:
 
 #### Aliado responsável:
 
-#### Detonação \[A\]:
+#### Detonação [A]:
 
 #### Ataque / magia / manobra:
 
@@ -200,7 +201,7 @@ Táticas de Sinergia anotadas
 
 10. Técnicas de Assinatura
 
-Benefício selecionado: \[ \] Precisão do Elo (+2 ataque) / \[ \] Inescapável (+2 DC)
+Benefício selecionado: [ ] Precisão do Elo (+2 ataque) / [ ] Inescapável (+2 DC)
 
 #### Observações:
 
@@ -210,13 +211,13 @@ Benefício selecionado: \[ \] Precisão do Elo (+2 ataque) / \[ \] Inescapável 
 
 Condições atuais / rastreadas
 
-\[ \] Atordoado
+[ ] Atordoado
 
-\[ \] Exposto
+[ ] Exposto
 
-\[ \] Imobilizado
+[ ] Imobilizado
 
-\[ \] Aterrorizado
+[ ] Aterrorizado
 
 Resistências e imunidades
 
@@ -258,25 +259,26 @@ Marcações importantes para o Mestre
 
 13. Revisão Final da Ficha
 
-\[ \] Nome completo preenchido
+[ ] Nome completo preenchido
 
-\[ \] Ancestralidade e traços anotados
+[ ] Ancestralidade e traços anotados
 
-\[ \] Eixos e Aplicações com soma correta
+[ ] Eixos e Aplicações com soma correta
 
-\[ \] Manobras e táticas conhecidas listadas
+[ ] Manobras e táticas conhecidas listadas
 
-\[ \] Habilidades, reações e ações rápidas anotadas
+[ ] Habilidades, reações e ações rápidas anotadas
 
-\[ \] Estatísticas derivadas calculadas
+[ ] Estatísticas derivadas calculadas
 
-\[ \] Equipamento e carga registrados
+[ ] Equipamento e carga registrados
 
-\[ \] Recursos atuais e máximos definidos
+[ ] Recursos atuais e máximos definidos
 
-\[ \] Sinergia e técnicas de assinatura documentadas
+[ ] Sinergia e técnicas de assinatura documentadas
 
-\[ \] Condições e resistências revisadas
+[ ] Condições e resistências revisadas
 
-\[ \] Notas de história e objetivos preenchidas
-
+[ ] Notas de história e objetivos preenchidas
+</ai_context>
+</ai_context>

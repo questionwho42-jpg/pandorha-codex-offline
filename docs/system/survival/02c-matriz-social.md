@@ -3,16 +3,17 @@ sourceFile: "02c_Matriz_Social.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.149Z"
 ---
-
+<ai_context>
+<ai_context>
 # 02c_Matriz_Social.md
 
-de861838-5603-4818-831c-5ef7b8f85fb1
 
-02c\_Matriz\_Social.md
 
-297f65a6-914e-4321-b86e-196da9df2871
+02c_Matriz_Social.md
 
-Arquivo: M01\_JOGADOR\02c\_Matriz\_Social.md
+
+
+Arquivo: M01_JOGADOR\02c_Matriz_Social.md
 
 Pandorha: Capítulo 02C - Matriz Social (Guia de Uso Dinâmico)
 
@@ -348,7 +349,7 @@ Anula o efeito, mas você fica com o Status: Abalado por decepcionar-se com a si
 
 903. Estoicismo Corporal
 
-\[Passiva\] |
+[Passiva] |
 
 Social + Resistência + Nível DC (15 + Nível).
 
@@ -448,4 +449,5 @@ O aliado recupera HP igual a (Físico + Resistência x 5) - sua cura base total.
 Sucesso, mas o usuário sofre 10 de dano fixo espiritual pela troca de energia.
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

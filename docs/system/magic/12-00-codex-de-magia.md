@@ -3,16 +3,16 @@ sourceFile: "12_00_Codex_de_Magia.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.156Z"
 ---
-
+<ai_context>
 # 12_00_Codex_de_Magia.md
 
-97bde411-bba4-4fd7-8270-7a7798c46369
 
-12\_00\_Codex\_de\_Magia.md
 
-7ef818fe-f0b4-4f9b-8c5a-57d242f4c0cd
+12_00_Codex_de_Magia.md
 
-Arquivo: M01\_JOGADOR\12\_00\_Codex\_de\_Magia.md
+
+
+Arquivo: M01_JOGADOR\12_00_Codex_de_Magia.md
 
 Pandorha: Capítulo 12 - Codex de Magia
 
@@ -22,7 +22,7 @@ Pandorha: Capítulo 12 - Codex de Magia
 
 Grimório Etérico
 
-12\_01\_Grimorio\_Etérico.md
+12_01_Grimorio_Etérico.md
 
 Este documento contém as regras fundamentais para conjuração, rituais e manipulação do Éter em Pandorha.
 
@@ -116,17 +116,17 @@ B. O Teste de Magia
 
 Usada quando você mira um raio, uma flecha ou um toque.
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\]
+[d20] + [Nível] + [Mental] + [Conflito]
 
 2. Difficulty Class (CD) - Dificuldade para Resistir
 
 Usada quando a magia afeta uma área ou a mente do alvo. O alvo deve rolar um Teste de Resistência.
 
-10 + \[Nível\] + \[Mental\]
+10 + [Nível] + [Mental]
 
 #### Teste do Alvo:
 
-\[d20\] + \[Nível\] + \[Eixo do Alvo\] + \[Resistência\]
+[d20] + [Nível] + [Eixo do Alvo] + [Resistência]
 
 #### Sucesso do Alvo:
 
@@ -140,19 +140,19 @@ C. Componentes da Magia
 
 Para conjurar, você precisa cumprir os requisitos da magia (indicados na descrição).
 
-#### Verbal \[V\]:
+#### Verbal [V]:
 
 Exige a capacidade de falar palavras de poder em voz alta.
 
 Você não pode conjurar se estiver Amordaçado ou em uma área de Silêncio.
 
-#### Somático \[S\]:
+#### Somático [S]:
 
 Exige gestos precisos com pelo menos uma mão livre.
 
 Você não pode conjurar se estiver com as duas mãos ocupadas (ex: Espada e Escudo) ou Amarrado.
 
-#### Material \[M\]:
+#### Material [M]:
 
 Foco de Éter
 
@@ -172,7 +172,7 @@ a mais para conjurar.
 
 Identificação, alarmes, criar abrigo. Não serve para combate.
 
-Concentração \[C\]
+Concentração [C]
 
 Algumas magias duram enquanto você foca nelas (ex: Voo, Invisibilidade).
 
@@ -193,8 +193,6 @@ Se cair a 0 HP ou ficar atordoado, perde a concentração.
 --------------------------------------------------------------------------------
 
 4. Formas e Áreas de Efeito
-
-Entenda geometry básica para não queimar seus amigos.
 
 Começa em você e se expande. Largura final = Comprimento. (Ex: Sopro de Dragão).
 
@@ -276,7 +274,7 @@ Usar Pergaminho de Círculo 3 (Nível 5) exige CD 20. Círculo 9 (Nível 17) exi
 
 O pergaminho é consumido e a magia falha. Se falhar por 5 ou mais, ocorre uma falha mágica (Role na Tabela de Caos do Mestre).
 
-Beber é uma \*\*Ação \*\*\[A\]
+Beber é uma \*\*Ação \*\*[A]
 
 --------------------------------------------------------------------------------
 
@@ -436,7 +434,7 @@ A alma do conjurador pode ser projetada para fora de seu corpo, ganhando vida pr
 
 Códex de Magia: O Familiar Místico
 
-25\_Codex\_Familiar\_Mistico.md
+25_Codex_Familiar_Mistico.md
 
 12. Magia Híbrida (Meio-Conjuradores)
 
@@ -452,7 +450,7 @@ utilizam um sistema de conjuração simplificado e instintivo. Eles progridem at
 
 Códex Expandido - Magia Híbrida
 
-12\_13\_Codex\_Expandido\_Magia\_Hibrida.md
+12_13_Codex_Expandido_Magia_Hibrida.md
 
 --------------------------------------------------------------------------------
-
+</ai_context>

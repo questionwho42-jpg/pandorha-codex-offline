@@ -3,14 +3,15 @@ sourceFile: "Compendio_de_Talentos.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.167Z"
 ---
-
+<ai_context>
+<ai_context>
 # Compendio_de_Talentos.md
 
-9a66370c-c2d9-4892-bc4e-d2f64ec7c325
 
-Compendio\_de\_Talentos.md
 
-de33b946-b704-48b8-9e90-e93c59f39697
+Compendio_de_Talentos.md
+
+
 
 Pandorha: Compêndio de Talentos
 
@@ -22,43 +23,43 @@ Este documento reúne todos os talentos disponíveis no sistema Pandorha, separa
 
 Estes talentos são escolhidos no Nível 1, de acordo com o Playbook (Classe) selecionado.
 
-#### Golpe Esmagador \[AA\]:
+#### Golpe Esmagador [AA]:
 
 Faça um Ataque Corpo a Corpo com +1d8 de Dano. Se acertar, o alvo fica Exposto (-2 na CA) até o início do seu próximo turno.
 
-#### Muralha Humana \[A\]:
+#### Muralha Humana [A]:
 
 Você entra em Postura Defensiva. Concede Cobertura Total para aliados diretamente atrás de você. Se um inimigo adjacente atacar um aliado seu, você pode usar sua Reação para receber o dano no lugar dele.
 
-#### Grito de Desafio \[A\]:
+#### Grito de Desafio [A]:
 
 Inimigos em um raio de 9m devem fazer Teste Global de Mental + Resistência vs sua DC de Coação. Se falharem, ficam obrigados a atacar você em seu próximo turno (ou perdem a ação).
 
-#### Segundo Fôlego \[A\]:
+#### Segundo Fôlego [A]:
 
 Você cura 1d10 + Seu Nível de HP. Pode ser usado apenas 1 vez por combate.
 
-#### Investida de Escudo \[A\]:
+#### Investida de Escudo [A]:
 
 Faça um ataque com escudo (Dano 1d4). Sucesso: alvo empurrado 3m (se colidir, fica Exposto). Crítico: empurrado 3m e fica Caído.
 
 #### Quebra-Hordas (Passivo):
 
-Sempre que você reduzir um inimigo a 0 HP, pode fazer um ataque básico imediato (1 Ação \[L\]) contra outro inimigo adjacente.
+Sempre que você reduzir um inimigo a 0 HP, pode fazer um ataque básico imediato (1 Ação [L]) contra outro inimigo adjacente.
 
-#### Seta Etérica \[A\]:
+#### Seta Etérica [A]:
 
 Dardo de energia infalível (dano 1d4+1). O talento aumenta o dano para 1d6+1 no Nível 1.
 
-#### Passo de Bruma \[A\]:
+#### Passo de Bruma [A]:
 
 Você se dissolve em névoa e teletransporta 9 metros para um local visível. Custa 1 EE.
 
-#### Armadura Mágica \[A\]:
+#### Armadura Mágica [A]:
 
 Por 1 hora, sua CA se torna 13 + Eixo Mental.
 
-#### Bola de Fogo Menor \[AA\]:
+#### Bola de Fogo Menor [AA]:
 
 Explosão em 3m de raio. Causa 2d6 de Fogo (Teste de Físico+Resistência reduz a metade). Custa 2 EE.
 
@@ -76,15 +77,15 @@ Ganha o talento "Vínculo Familiar", atrelando sua alma a uma entidade suporte (
 
 Uma vez por turno, se atacar alvo distraído/flanqueado ou surpreso, causa +1d6 de Dano extra.
 
-#### Inspirar Coragem \[A\]:
+#### Inspirar Coragem [A]:
 
 Escolha um aliado que possa te ouvir. Ele ganha +1d6 para adicionar em seu próximo Teste.
 
-#### Voz de Comando \[A\]:
+#### Voz de Comando [A]:
 
 Inimigo faz Teste Mental+Resistência vs sua DC de Comando. Se falhar, obedece a uma ação simples (largar arma, fugir 3m, prostrar-se).
 
-#### Truque Sujo \[A\]:
+#### Truque Sujo [A]:
 
 Teste Social+Conflito vs Físico+Resistência do alvo. Sucesso: Cego ou Sem Ar por 1 rodada. Crítico: Atordoado. Falha parcial: Abalado.
 
@@ -92,7 +93,7 @@ Teste Social+Conflito vs Físico+Resistência do alvo. Sucesso: Cego ou Sem Ar p
 
 Cria disfarces perfeitos em 1 minuto usando materiais simples. Dificulta muito o reconhecimento ativo.
 
-#### Golpe Fantasma \[AA\]:
+#### Golpe Fantasma [AA]:
 
 Ataque corpo a corpo seguido de movimento total sem provocar ataques de oportunidade, ficando Invisível até o fim do turno.
 
@@ -104,19 +105,19 @@ Adquire uma fera como parceiro tático ligado à sua própria Iniciativa (Códex
 
 Permite realizar ataques à distância estando adjacente (engajado corpo a corpo) sem sofrer penalidades de acerto.
 
-#### Armadilha de Urso \[A\]:
+#### Armadilha de Urso [A]:
 
 Prepara trampa adjacente. Pisar nela causa 2d6 de Dano e Imobiliza o alvo (Teste Fís+Resist para sair).
 
-#### Marca do Caçador \[A\]:
+#### Marca do Caçador [A]:
 
 Amaldiçoa alvo visível para causar +1d4 de dano extra contínuo. Dura até o alvo ou você morrer.
 
-#### Saraivada \[AA\]:
+#### Saraivada [AA]:
 
 Dispara flechas num Cone de 9m. Você rola apenas um ataque (Conflito) contra a defesa de múltiplos alvos na área.
 
-#### Cura Natural \[A\]:
+#### Cura Natural [A]:
 
 Toca uma criatura viva aplicando ervas/emplastros para curar 1d8 + Eixo Mental de HP.
 
@@ -132,7 +133,7 @@ Gaste 10 min. para remover uma Condição Mental (Medo, Confusão).
 
 #### Teólogo de Combate:
 
-Rola Iniciativa usando o Eixo \[Mental\] ao invés do \[Físico\].
+Rola Iniciativa usando o Eixo [Mental] ao invés do [Físico].
 
 #### Voto de Pobreza:
 
@@ -166,7 +167,7 @@ No descanso curto, repara 1 item quebrado ou fabrica flechas (1d6).
 
 Compra itens com 20% de desconto e vende por 20% a mais.
 
-#### Distração Fascinante \[A\]:
+#### Distração Fascinante [A]:
 
 Prende a atenção. Inimigos num raio de 9m sofrem -2 em Percepção e Iniciativa.
 
@@ -174,13 +175,13 @@ Prende a atenção. Inimigos num raio de 9m sofrem -2 em Percepção e Iniciativ
 
 Decora mapas ou textos complexos perfeitamente com 1 leitura.
 
-#### Insulto Cortante \[A\]:
+#### Insulto Cortante [A]:
 
 Força um inimigo a atacá-lo ou sofrer -2 em todos os dados até o fim do turno.
 
 #### Caçador de Recompensas:
 
-#### Algemas Rápidas \[A\]:
+#### Algemas Rápidas [A]:
 
 Se agarrar o alvo, tenta algemá-lo no mesmo momento.
 
@@ -188,7 +189,7 @@ Se agarrar o alvo, tenta algemá-lo no mesmo momento.
 
 +2 em extração de informações no submundo/tavernas.
 
-#### Olhar da Morte \[L\]:
+#### Olhar da Morte [L]:
 
 Descobre instantaneamente o HP exato atual do inimigo.
 
@@ -230,7 +231,7 @@ Nunca é surpreendido no primeiro turno de combate.
 
 Sistema de criação de Varinhas, Orbes e Cajados.
 
-#### Analista Tático \[A\]:
+#### Analista Tático [A]:
 
 Observa o alvo para descobrir imunidades e fraquezas mecânicas.
 
@@ -252,7 +253,7 @@ Ignora a penalidade normal por usar garrafas/cadeiras como arma.
 
 A ação de disparar permite um movimento dobrado de 18m.
 
-#### Exibicionista \[L\]:
+#### Exibicionista [L]:
 
 Sempre que fizer um Crítico, recupera 1d6 PV de pura adrenalina.
 
@@ -260,7 +261,7 @@ Sempre que fizer um Crítico, recupera 1d6 PV de pura adrenalina.
 
 Utiliza Redes, Tridentes e Chicotes sem penalidade.
 
-#### Golpe Baixo \[L\]:
+#### Golpe Baixo [L]:
 
 1x por combate, após bater, engatilha uma derrubada imediata.
 
@@ -290,7 +291,7 @@ Socos nus sobem para 1d4 e garantem bônus para Agarrar.
 
 #### Médico de Campo:
 
-#### Cirurgião de Combate \[A\]:
+#### Cirurgião de Combate [A]:
 
 Com 1 carga de kit médico, restaura 1d8 HP de um parceiro no fragor da guerra.
 
@@ -334,7 +335,7 @@ Balançando-se em correntes/fios navega a 12m com fluidez.
 
 Anula o efeito orgânico e tóxico do álcool e venenos orais comuns.
 
-#### Pólvora e Chumbo \[A\]:
+#### Pólvora e Chumbo [A]:
 
 Adquire a licença para usar bacamartes e pistolas (d10 de Dano).
 
@@ -348,7 +349,7 @@ Comida vencida e água podre de poças não causam dano biológico.
 
 Sem uso de visão arcana, guardas não te enxergam em becos ou caixas.
 
-#### Faca na Bota \[L\]:
+#### Faca na Bota [L]:
 
 Sua primeira faca é sacada instantaneamente, ignorando punição de surpresa.
 
@@ -425,4 +426,5 @@ Permite ignorar as duras regras magnéticas de armaduras; libera a conjuração 
 Sela uma parte de sua própria alma a uma besta ou espírito elemental (como Gárgula, Construto Arcano ou Sombra) servindo no campo com Truques Exclusivos como reações táticas durante o combate
 
 (Fonte: Capítulo 25 - Códex Familiar Místico)
-
+</ai_context>
+</ai_context>

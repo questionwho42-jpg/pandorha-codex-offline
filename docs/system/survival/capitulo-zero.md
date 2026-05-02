@@ -3,14 +3,15 @@ sourceFile: "CAPITULO_ZERO.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.167Z"
 ---
-
+<ai_context>
+<ai_context>
 # CAPITULO_ZERO.md
 
-72b9ca49-28a3-4bca-9366-835ada4237a6
 
-CAPITULO\_ZERO.md
 
-a633298a-2ced-42b7-92f2-6d7c9c467b93
+CAPITULO_ZERO.md
+
+
 
 Pandorha: Capítulo 00 - Como Jogar (Regras Claras e Diretas)
 
@@ -112,7 +113,7 @@ daquela Matriz para aprender (consulte o
 
 Códex de Sinergia: A Forja Tática
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26\_Codex\_Sinergia\_Forja\_Tatica.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26_Codex_Sinergia_Forja_Tatica.md
 
 3 Táticas de Sinergia Físicas
 
@@ -150,7 +151,7 @@ dado de 20 faces (d20)
 
 #### A. Fórmula Universal (Teste Global):
 
-Resultado = \[d20\] + \[Nível\] + \[Eixo\] + \[Aplicação\] + \[Item\]
+Resultado = [d20] + [Nível] + [Eixo] + [Aplicação] + [Item]
 
 #### O Maior Prevalece (Bônus Fixos):
 
@@ -180,7 +181,7 @@ Eixo + Aplicação
 
 Ex: Rolar Furtividade (Mental + Conflito).
 
-Resultado = \[d20\] + \[Nível\] + \[Eixo\] + \[Aplicação\]
+Resultado = [d20] + [Nível] + [Eixo] + [Aplicação]
 
 #### Treinamento:
 
@@ -198,7 +199,7 @@ possui treinamento, sofre
 
 #### Para magias e efeitos que exigem teste de resistência do alvo:
 
-DC = 10 + \[Nível\] + \[Eixo Base\] + \[Aplicação Base\]
+DC = 10 + [Nível] + [Eixo Base] + [Aplicação Base]
 
 (Isso garante que o desafio escale junto com o poder dos heróis e monstros)
 
@@ -244,7 +245,7 @@ Você não conseguiu realizar a ação.
 
 Para sobreviver a monstros de níveis altos, a defesa do personagem escala automaticamente com sua experiência.
 
-CA = 10 + \[Nível\] + \[Bônus de Armadura\] + \[Eixo Limitado\] + \[Escudo\]
+CA = 10 + [Nível] + [Bônus de Armadura] + [Eixo Limitado] + [Escudo]
 
 Seu nível atual de personagem.
 
@@ -300,7 +301,7 @@ O HP em Pandorha escala com a experiência e resistência física, sendo recalcu
 
 #### Fórmula de HP Máximo:
 
-\[HP Base da Classe + Físico + Resistência\] × Nível Atual
+[HP Base da Classe + Físico + Resistência] × Nível Atual
 
 Vanguarda (10) + Físico (3) + Resistência (2) no Nível 10 = 150 HP.
 
@@ -432,7 +433,7 @@ Dívida de Sangue
 
 Custo acumulado por Favores de Facções.
 
-\[Nível de Fama × 3\]
+[Nível de Fama × 3]
 
 Pontos de Intriga
 
@@ -444,7 +445,7 @@ Para o sistema completo de alianças e segredos, consulte o
 
 Capítulo 31 - Códex de Teia de Infâmia
 
-file:///c:/Users/Pichau/Desktop/o/mundo/de/pandorha/livro/Sistemas/Pandorha/sistema/consolidado/docs/regras/31\_Codex\_Teia\_Infamia\_Patrocinio.md
+file:///c:/Users/Pichau/Desktop/o/mundo/de/pandorha/livro/Sistemas/Pandorha/sistema/consolidado/docs/regras/31_Codex_Teia_Infamia_Patrocinio.md
 
 --------------------------------------------------------------------------------
 
@@ -588,7 +589,7 @@ Mestrias de Classe
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\01\_00\_Regras\_Gerais.md
+Arquivo: M01_JOGADOR\01_00_Regras_Gerais.md
 
 Ancestralidades: Regras Gerais
 
@@ -619,4 +620,5 @@ Esta é uma habilidade passiva ou ativa que define o núcleo da existência daqu
 --------------------------------------------------------------------------------
 
 Consulte os arquivos individuais para detalhes sobre cada linhagem.
-
+</ai_context>
+</ai_context>

@@ -3,16 +3,16 @@ sourceFile: "12_06_Grimorio_Circulo_4.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.157Z"
 ---
-
+<ai_context>
 # 12_06_Grimorio_Circulo_4.md
 
-e39897b7-1f4a-4f45-b1ff-6955dd6a4994
 
-12\_06\_Grimorio\_Circulo\_4.md
 
-ece15e52-97a4-457f-ba3f-3d3d8513992c
+12_06_Grimorio_Circulo_4.md
 
-Arquivo: M01\_JOGADOR\12\_06\_Grimorio\_Circulo\_4.md
+
+
+Arquivo: M01_JOGADOR\12_06_Grimorio_Circulo_4.md
 
 Grimório: Círculo 4 - O Especialista
 
@@ -30,7 +30,7 @@ Concentração, até 1 hora
 
 Esta magia transforma uma criatura que você possa ver dentro do alcance em uma nova forma. O alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 para resistir. Se falhar (ou se for voluntário), é transformado.
 
@@ -68,7 +68,7 @@ Concentração, até 1 minuto
 
 Você tenta enviar uma criatura para outro plano de existência. O alvo deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Social\] + \[Interação\] + \[Item\]
+[d20] + [Nível] + [Social] + [Interação] + [Item]
 
 (usando CD mental).
 
@@ -98,7 +98,7 @@ Ao conjurar, escolha um lado da muralha. Criaturas a até 3m desse lado ou que e
 
 . Um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 reduz o dano à metade. Criaturas que terminem o turno a até 3m do lado quente sofrem 5d8.
 
@@ -120,7 +120,7 @@ Tentáculos negros e viscosos brotam do chão em um quadrado de 6m dentro do alc
 
 Quando uma criatura entra na área ou começa o turno nela, deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 3d6 de dano de Esmagamento
 
@@ -162,7 +162,7 @@ Você penetra nos pesadelos de uma criatura que você possa ver e cria uma manif
 
 Mental + Resistência
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ). Se falhar, fica
 
@@ -214,7 +214,7 @@ Instantânea
 
 Granizo duro como pedra cai num cilindro de 6m de raio e 12m de altura. Cada criatura na área deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . Se falhar, sofre
 
@@ -238,7 +238,7 @@ Um guardião espectral Grande aparece e paira em um espaço desocupado de sua es
 
 Qualquer criatura hostil que se mova para um espaço a até 3m do guardião pela primeira vez num turno deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . A criatura sofre
 
@@ -255,4 +255,4 @@ O dano total que o guardião pode causar aumenta em +20 por Círculo acima do 4�
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

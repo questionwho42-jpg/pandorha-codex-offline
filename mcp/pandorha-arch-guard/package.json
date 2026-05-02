@@ -1,0 +1,21 @@
+{
+  "name": "pandorha-arch-guard",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "pandorha-arch-guard": "src/server.js"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test --experimental-test-coverage test/*.test.js",
+    "validate:stdio": "node scripts/validate-stdio.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.25.0"
+  },
+  "engines": {
+    "node": ">=20.10"
+  }
+}

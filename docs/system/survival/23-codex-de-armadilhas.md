@@ -3,16 +3,17 @@ sourceFile: "23_Codex_de_Armadilhas.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.162Z"
 ---
-
+<ai_context>
+<ai_context>
 # 23_Codex_de_Armadilhas.md
 
-2f1e4956-eac4-4996-a204-fb02746b82d6
 
-23\_Codex\_de\_Armadilhas.md
 
-4098ca95-9bda-4ed9-bb98-42f0c8b5dee0
+23_Codex_de_Armadilhas.md
 
-Arquivo: M04\_DESAFIOS\23\_Codex\_de\_Armadilhas.md
+
+
+Arquivo: M04_DESAFIOS\23_Codex_de_Armadilhas.md
 
 Pandorha: Capítulo 23 - Codex de Armadilhas e Perigos
 
@@ -136,7 +137,7 @@ Mental + Interação
 
 #### Fórmula de Percepção:
 
-Resultado = \[d20\] + \[Nível do Personagem\] + \[Mental\] + \[Interação\] + \[Bônus de Percepção do Equipamento\]
+Resultado = [d20] + [Nível do Personagem] + [Mental] + [Interação] + [Bônus de Percepção do Equipamento]
 
 #### Sucesso (Supera DC):
 
@@ -158,7 +159,7 @@ Físico + Interação
 
 #### Fórmula Mecânica:
 
-Resultado = \[d20\] + \[Nível\] + \[Físico\] + \[Interação\] + \[Ferramentas de Desarme\]
+Resultado = [d20] + [Nível] + [Físico] + [Interação] + [Ferramentas de Desarme]
 
 #### Treinamento de Ladrão:
 
@@ -176,7 +177,7 @@ Mental + Interação
 
 #### Fórmula Mágica:
 
-Resultado = \[d20\] + \[Nível\] + \[Mental\] + \[Interação\] + \[Foco Mágico Arcano/Divino\]
+Resultado = [d20] + [Nível] + [Mental] + [Interação] + [Foco Mágico Arcano/Divino]
 
 C. Evitando o Efeito Final (Evasão e Resistência)
 
@@ -184,7 +185,7 @@ Se a armadilha for ativada (seja por falha cômica no desarme, falha do passarin
 
 #### Sobreviver a Fogo / Quedas / Lâminas / Impacto contundente (Teste de Evasão):
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito (Esquiva)\]
+[d20] + [Nível] + [Físico] + [Conflito (Esquiva)]
 
 DC da Armadilha
 
@@ -192,7 +193,7 @@ Obs: Classes focadas em Agilidade e Caçadores normalmente usam esta fórmula pa
 
 Sobreviver a Venenos Injetados / Mágica Fantasma de Morte Instantânea (Teste de Resistência):
 
-\[d20\] + \[Nível\] + \[Físico ou Mental\] + \[Resistência\]
+[d20] + [Nível] + [Físico ou Mental] + [Resistência]
 
 DC da Armadilha
 
@@ -242,17 +243,18 @@ Nunca assassine seu grupo com buracos na parede invisíveis. Todo labirinto geni
 
 Localize nas suas referências estruturais os quatro volumes com o D100 de todas as armadilhas de Pandorha tabeladas pelo escalonamento heroico e esmiuçadas passo-a-passo.
 
-\[Capítulo 23.1\] - Tomo (Tier I) : Níveis 1 ao 5.
+[Capítulo 23.1] - Tomo (Tier I) : Níveis 1 ao 5.
 
-\[Capítulo 23.2\] - Tomo (Tier II) : Níveis 6 ao 10.
+[Capítulo 23.2] - Tomo (Tier II) : Níveis 6 ao 10.
 
-\[Capítulo 23.3\] - Tomo (Tier III) : Níveis 11 ao 15.
+[Capítulo 23.3] - Tomo (Tier III) : Níveis 11 ao 15.
 
-\[Capítulo 23.4\] - Tomo (Tier IV) : Níveis 16 ao 20.
-
---------------------------------------------------------------------------------
+[Capítulo 23.4] - Tomo (Tier IV) : Níveis 16 ao 20.
 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 
+--------------------------------------------------------------------------------
+</ai_context>
+</ai_context>

@@ -3,16 +3,16 @@ sourceFile: "12_02_Grimorio_Circulo_0.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.156Z"
 ---
-
+<ai_context>
 # 12_02_Grimorio_Circulo_0.md
 
-42de1e3f-c42a-46b3-a665-af14b2a1258e
 
-12\_02\_Grimorio\_Circulo\_0.md
 
-52c5c3f9-6cef-4889-b289-e36aa5e989d2
+12_02_Grimorio_Circulo_0.md
 
-Arquivo: M01\_JOGADOR\12\_02\_Grimorio\_Circulo\_0.md
+
+
+Arquivo: M01_JOGADOR\12_02_Grimorio_Circulo_0.md
 
 Grimório: Círculo 0 - Truques (Cantrips)
 
@@ -140,7 +140,7 @@ Instantânea
 
 Um raio de luz branco-azulada parte em direção a uma criatura ao alcance. Faça um Ataque Mágico à distância (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ). Se acertar, causa
 
@@ -158,7 +158,7 @@ Instantânea
 
 Eletricidade surge da sua mão para dar um choque em uma criatura que você tentar tocar. Faça um Ataque Mágico corpo-a-corpo (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ). Você tem vantagem se o alvo estiver vestindo armadura de metal. Se acertar, causa
 
@@ -176,7 +176,7 @@ Instantânea
 
 Chamas radiantes descem sobre uma criatura que você possa ver dentro do alcance. O alvo deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 contra sua CD de Magia ou sofrer
 
@@ -194,7 +194,7 @@ Instantânea
 
 Um feixe de energia crepitante risca o ar. Faça um Ataque Mágico à distância (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ). Se acertar, causa
 
@@ -212,7 +212,7 @@ Instantânea
 
 Você estende a mão e projeta um sopro de gás nocivo. Uma criatura ao alcance deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 contra sua CD de Magia ou sofre
 
@@ -232,7 +232,7 @@ Instantânea
 
 Você cria um chicote de vinhas longo e espinhoso que chicoteia ao seu comando. Faça um Ataque Mágico corpo-a-corpo contra um alvo ao alcance (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ). Se acertar, causa
 
@@ -269,4 +269,4 @@ Você sussurra aos ventos para que guiem seu próximo disparo. Até o final do s
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

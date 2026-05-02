@@ -3,16 +3,17 @@ sourceFile: "27_Codex_Influencia_Dominio_Regional.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.164Z"
 ---
-
+<ai_context>
+<ai_context>
 # 27_Codex_Influencia_Dominio_Regional.md
 
-de79d4d0-3165-46aa-9cff-9ece09eb7971
 
-27\_Codex\_Influencia\_Dominio\_Regional.md
 
-79c57d1a-fff2-48cb-ae78-de43416cb2ad
+27_Codex_Influencia_Dominio_Regional.md
 
-Arquivo: M02\_MESTRE\27\_Codex\_Influencia\_Dominio\_Regional.md
+
+
+Arquivo: M02_MESTRE\27_Codex_Influencia_Dominio_Regional.md
 
 CÓDEX DE INFLUÊNCIA: MATRIZ DE DOMÍNIO REGIONAL
 
@@ -345,4 +346,5 @@ perde imediatamente 1 Nível
 Se uma Matriz chegar ao
 
 , os benefícios cessam e o território entra em colapso local: a região é dominada por invasores/facções inimigas, e os custos de tudo (estalagens, itens) sobem em 50% até que uma missão completa seja realizada pelo grupo para retomar o Nível 1.
-
+</ai_context>
+</ai_context>

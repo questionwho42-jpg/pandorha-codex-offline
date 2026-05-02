@@ -3,16 +3,17 @@ sourceFile: "retreino e recondicionamento.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.193Z"
 ---
-
+<ai_context>
+<ai_context>
 # retreino e recondicionamento.md
 
-5f42f138-250f-4eb2-bcc2-8bf986f771eb
+
 
 retreino e recondicionamento.md
 
-b934912c-be14-445d-9105-9a71b8626a10
 
-Arquivo: M01\_JOGADOR\retreino e recondicionamento.md
+
+Arquivo: M01_JOGADOR\retreino e recondicionamento.md
 
 APÊNDICE: RETREINO E RECONDICIONAMENTO
 
@@ -88,7 +89,7 @@ Usar a habilidade em situações triviais (ex: treinar golpes no ar, conjurar fe
 
 Assim que o personagem realizar o seu 3º teste tenso sob essa penalidade, o reflexo se consolida de forma perfeita na sua Matriz, e a Desvantagem desaparece permanentemente.
 
-(Dica: Anote na sua ficha de personagem: "Em Adaptação: \[Nome da Manobra\]")
+(Dica: Anote na sua ficha de personagem: "Em Adaptação: [Nome da Manobra]")
 
 --------------------------------------------------------------------------------
 
@@ -170,7 +171,7 @@ Devido à natureza fluida da alma e à conexão psíquica com o mestre, o retrei
 
 Códex de Magia: O Familiar Místico
 
-25\_Codex\_Familiar\_Mistico.md#31-mecanicas-de-retreino-e-recondicionamento
+25_Codex_Familiar_Mistico.md#31-mecanicas-de-retreino-e-recondicionamento
 
 --------------------------------------------------------------------------------
 
@@ -207,4 +208,5 @@ Desvantagem
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

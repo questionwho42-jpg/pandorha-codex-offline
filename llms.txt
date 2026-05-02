@@ -10,6 +10,11 @@ maintenance_protocol: "Hybrid (Agent suggests LLMS_DIFF, Human approves)"
 
 > **PRIME DIRECTIVE:** Use English for technical implementation and Portuguese for Business/RPG Logic. Follow Svelte 5 Runes strictly. Communication between Main and Worker must use the RPC bridge.
 
+## 🧠 PROTOCOLO DE RACIOCÍNIO (Thinking Mode)
+**[CRÍTICO]** Para qualquer tarefa que envolva alteração no motor de regras, atributos globais ou banco de dados:
+O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança proposta cruzando os dados com o `blueprint.md` e as `core-conventions.md` **antes** de gerar qualquer código.
+**Ação mandatória:** O agente é expressamente instruído a **REJEITAR** pedidos ou implementações que violem a integridade dos Eixos 3x3 do sistema Pandorha, bem como sua lógica matemática fundamental. Sem exceções.
+
 ## 🛠️ QUICK COMMANDS & TOOLING
 | Action | Command | Purpose |
 | :--- | :--- | :--- |
@@ -17,6 +22,7 @@ maintenance_protocol: "Hybrid (Agent suggests LLMS_DIFF, Human approves)"
 | **Lint** | `npm run lint` | Verify architectural constraints |
 | **DB** | `npm run db:generate` | Generate Drizzle migrations |
 | **MCP** | `use mcp-sqlite-inspector` | Inspect real-time SQLite state |
+| **Maintenance** | `python scripts/pandorha_process_automation.py snapshot --reason manual` | Record zero-token project state and maintenance checkpoints |
 
 ## 📜 TIER 1: ARCHITECTURE & CONSTITUTION [REF:TIER1]
 - [sdd.md](./docs/architecture/sdd.md): System Architecture & Worker RPC patterns.
@@ -25,9 +31,13 @@ maintenance_protocol: "Hybrid (Agent suggests LLMS_DIFF, Human approves)"
 - [build-test-verify.md](./.agents/skills/build-test-verify.md): Execution laws and QA gates.
 - [gdd.md](./docs/architecture/gdd.md): Game Design Document.
 - [feature_state_machines.md](./docs/architecture/feature_state_machines.md): Feature state machines.
+- [automation-spec.md](./docs/process/automation-spec.md): Zero-token maintenance, task ledger, inbox, and promotion protocol.
+- [task-ledger.md](./docs/process/task-ledger.md): Active, completed, unfinished, and snapshot records.
+- [change-inbox.md](./docs/process/change-inbox.md): Unplanned requests awaiting documentation promotion.
 
 ## 🧱 TIER 2: SKILLS & AGENTS [REF:TIER2]
 - [.agents/skills/](./.agents/skills/): Directory containing all skill definitions for AI agents.
+- [pandorha-maintenance](./.agents/skills/pandorha-maintenance/SKILL.md): Automation-first maintenance workflow for checkpoints and documentation promotion.
 
 ## 🏰 TIER 3: REFERENCE DEEP DIVE [REF:TIER3]
 ### System Rules

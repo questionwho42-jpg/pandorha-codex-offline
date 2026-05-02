@@ -3,14 +3,15 @@ sourceFile: "REGRAS_NEGOCIACAO.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.192Z"
 ---
-
+<ai_context>
+<ai_context>
 # REGRAS_NEGOCIACAO.md
 
-73b059d2-3961-4d53-99db-a51ea7111d06
 
-REGRAS\_NEGOCIACAO.md
 
-568c7c1e-69ff-4cf4-9580-3f6e96d3db37
+REGRAS_NEGOCIACAO.md
+
+
 
 Pandorha: Regras de Negociação
 
@@ -52,7 +53,7 @@ Intimidação = Social + Conflito
 
 #### Observação importante:
 
-REGRAS\_COMPLETAS\_INTERACOES\_SOCIAIS.md
+REGRAS_COMPLETAS_INTERACOES_SOCIAIS.md
 
 , um exemplo de debate usa
 
@@ -624,39 +625,40 @@ alteram diretamente o poder de barganha.
 
 13. Fontes consolidadas
 
-REGRAS\_COMPLETAS\_INTERACOES\_SOCIAIS.md
+REGRAS_COMPLETAS_INTERACOES_SOCIAIS.md
 
-REGRAS\_COMPLETAS\_INTERACOES\_SOCIAIS.md
+REGRAS_COMPLETAS_INTERACOES_SOCIAIS.md
 
-sistema/02c\_Matriz\_Social.md
+sistema/02c_Matriz_Social.md
 
-sistema/02c\_Matriz\_Social.md
+sistema/02c_Matriz_Social.md
 
-sistema/Glossario\_Definitivo\_de\_Testes.md
+sistema/Glossario_Definitivo_de_Testes.md
 
-sistema/Glossario\_Definitivo\_de\_Testes.md
+sistema/Glossario_Definitivo_de_Testes.md
 
-sistema/Guia\_Criacao\_de\_Ficha.md
+sistema/Guia_Criacao_de_Ficha.md
 
-sistema/Guia\_Criacao\_de\_Ficha.md
+sistema/Guia_Criacao_de_Ficha.md
 
-Compendio\_de\_Talentos.md
+Compendio_de_Talentos.md
 
-Compendio\_de\_Talentos.md
+Compendio_de_Talentos.md
 
-sistema/10\_Antecedentes\_e\_Origens.md
+sistema/10_Antecedentes_e_Origens.md
 
-sistema/10\_Antecedentes\_e\_Origens.md
+sistema/10_Antecedentes_e_Origens.md
 
-sistema/01\_03\_Anoes.md
+sistema/01_03_Anoes.md
 
-sistema/01\_03\_Anoes.md
+sistema/01_03_Anoes.md
 
-sistema/22\_Codex\_de\_Exploracao\_e\_Downtime.md
+sistema/22_Codex_de_Exploracao_e_Downtime.md
 
-sistema/22\_Codex\_de\_Exploracao\_e\_Downtime.md
+sistema/22_Codex_de_Exploracao_e_Downtime.md
 
-REGRAS\_FAMA\_INFAMIA\_FAVOR\_FACCOES.md
+REGRAS_FAMA_INFAMIA_FAVOR_FACCOES.md
 
-REGRAS\_FAMA\_INFAMIA\_FAVOR\_FACCOES.md
-
+REGRAS_FAMA_INFAMIA_FAVOR_FACCOES.md
+</ai_context>
+</ai_context>

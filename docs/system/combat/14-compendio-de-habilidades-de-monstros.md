@@ -3,16 +3,16 @@ sourceFile: "14_Compendio_de_Habilidades_de_Monstros.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.159Z"
 ---
-
+<ai_context>
 # 14_Compendio_de_Habilidades_de_Monstros.md
 
-a7a0d22c-3589-4693-9f80-eb095572cef1
 
-14\_Compendio\_de\_Habilidades\_de\_Monstros.md
 
-00f59a66-a99d-4166-a90a-fa35c38ade64
+14_Compendio_de_Habilidades_de_Monstros.md
 
-Arquivo: M02\_MESTRE\14\_Compendio\_de\_Habilidades\_de\_Monstros.md
+
+
+Arquivo: M02_MESTRE\14_Compendio_de_Habilidades_de_Monstros.md
 
 Pandorha: Capítulo 14 - Compêndio de Habilidades de Monstros (Edição Corrigida)
 
@@ -114,7 +114,7 @@ Apague as tochas para cegar os humanos.
 
 Ativas (Nível 1)
 
-\[1 Ação\] Mordida Travada
+[1 Ação] Mordida Travada
 
 +3 Ataque. 1d6+2 Dano. Sucesso:
 
@@ -126,7 +126,7 @@ Tranca a mandíbula e não solta.
 
 Prenda heróis móveis para não fugirem.
 
-\[1 Ação\] Cuspe Ácido
+[1 Ação] Cuspe Ácido
 
 6m. +3 Ataque. 1d4 Ácido. Efeito Secundário:
 
@@ -136,7 +136,7 @@ Jato de bile nos olhos.
 
 Cegueira "desliga" o guerreiro mais forte.
 
-\[2 Ações\] Carga Temerária
+[2 Ações] Carga Temerária
 
 Move 18m e ataca. +1d6 Dano. Erro: Cai
 
@@ -144,7 +144,7 @@ Corrida suicida usando o peso do corpo.
 
 Abertura explosiva de combate.
 
-\[1 Ação\] Grito de Alerta
+[1 Ação] Grito de Alerta
 
 Alerta aliados a 18m.
 
@@ -152,7 +152,7 @@ Guincho agudo que avisa a colmeia.
 
 O alvo prioritário se o grupo tentar furtividade.
 
-\[1 Ação\] Arremesso de Pedra
+[1 Ação] Arremesso de Pedra
 
 +3 Ataque. 9m. 1d4+2 Impacto.
 
@@ -160,7 +160,7 @@ Arremessa detritos com força bruta.
 
 Opção à distância para monstros "melee".
 
-\[1 Ação\] Rede de Caça
+[1 Ação] Rede de Caça
 
 3m. Alvo fica
 
@@ -174,7 +174,7 @@ Lança uma rede ou boleadeira.
 
 Prenda o tanque longe da luta.
 
-\[1 Ação\] Roubar Bolso
+[1 Ação] Roubar Bolso
 
 Físico + Conflito (Esquiva)
 
@@ -184,7 +184,7 @@ Mãos rápidas vasculham o cinto.
 
 Roube a poção de cura antes de usarem.
 
-\[1 Ação\] Cabeçada
+[1 Ação] Cabeçada
 
 +3 Ataque. 1d4+2. Se alvo concentra magia,
 
@@ -196,7 +196,7 @@ Golpe sujo para atordoar.
 
 Habilidade específica "Mata-Mago".
 
-\[1 Ação\] Esporos de Sono
+[1 Ação] Esporos de Sono
 
 Teste Global de Físico + Resistência + Nível (CD 12)
 
@@ -208,7 +208,7 @@ Nuvem de pólen sonífero.
 
 Tira jogadores de combate temporariamente.
 
-\[Reação\] Esquiva Desajeitada
+[Reação] Esquiva Desajeitada
 
 Ganha +2 em Teste de
 
@@ -312,7 +312,7 @@ Exige armas de impacto ou magia.
 
 Ativas (Nível 2)
 
-\[1 Ação\] Bafo de Fogo
+[1 Ação] Bafo de Fogo
 
 Cone 3m. 2d6 Fogo.
 
@@ -324,7 +324,7 @@ Erupção de chamas.
 
 Puna jogadores agrupados.
 
-\[2 Ações\] Ataque Duplo
+[2 Ações] Ataque Duplo
 
 2x Garras (+5). Se ambos acertam, alvo cai
 
@@ -332,7 +332,7 @@ Combo rápido esquerda-direita.
 
 Dano + Controle de grupo.
 
-\[1 Ação\] Empurrão de Escudo
+[1 Ação] Empurrão de Escudo
 
 +5 Ataque. 1d4 Dano. Empurra 3m (
 
@@ -344,7 +344,7 @@ Golpe bruto de ombro.
 
 Jogue-os em buracos.
 
-\[Reação\] Bloqueio
+[Reação] Bloqueio
 
 Reduz 1d6 de dano de um ataque físico recebido.
 
@@ -352,7 +352,7 @@ Endurece a pele no impacto.
 
 TanquEE ataques fracos.
 
-\[1 Ação\] Grito Aterrorizante
+[1 Ação] Grito Aterrorizante
 
 Teste Global de Mental + Resistência + Nível (CD 13)
 
@@ -364,7 +364,7 @@ Som gutural de medo puro.
 
 Afaste o tanque para bater nos outros.
 
-\[1 Ação\] Língua de Sapo
+[1 Ação] Língua de Sapo
 
 6m. Puxa para adjacente.
 
@@ -374,7 +374,7 @@ Língua pegajosa chicoteia.
 
 Puxe o mago para o meio dos monstros.
 
-\[1 Ação\] Chuva de Flechas
+[1 Ação] Chuva de Flechas
 
 Ataca 2 alvos distantes (+5, 1d6+2 cada).
 
@@ -382,7 +382,7 @@ Disparos rápidos.
 
 Pressiona a retaguarda.
 
-\[2 Ações\] Cavar Túnel
+[2 Ações] Cavar Túnel
 
 Move-se por baixo da terra (invulnerável) e surge a 9m.
 
@@ -390,7 +390,7 @@ Tática de toupeira.
 
 Reposicionamento seguro.
 
-\[1 Ação\] Toque Gélido
+[1 Ação] Toque Gélido
 
 +5 Ataque. 1d8 Frio. Alvo perde Reações (Sem teste).
 
@@ -398,7 +398,7 @@ Drena o calor muscular.
 
 Permite fugir sem levar ataque de oportunidade.
 
-\[1 Ação\] Provocação
+[1 Ação] Provocação
 
 Teste Global de Mental + Interação + Nível (CD 13)
 
@@ -506,7 +506,7 @@ Ataques surpresa constantes.
 
 Ativas (Nível 3)
 
-\[2 Ações\] Bola de Fogo (Recarga 5-6)
+[2 Ações] Bola de Fogo (Recarga 5-6)
 
 Raio 3m. 4d6 Fogo.
 
@@ -516,7 +516,7 @@ Explosão clássica.
 
 Limpa grupos de jogadores.
 
-\[1 Ação\] Engolir
+[1 Ação] Engolir
 
 Alvo (já Agarrado) é engolido. Sofre 2d6 Ácido/Turno e fica
 
@@ -526,7 +526,7 @@ Come a vítima viva.
 
 Elimina um jogador da luta.
 
-\[1 Ação\] Dreno de Vida
+[1 Ação] Dreno de Vida
 
 +7 Ataque. 2d6 Necrótico. Cura metade do dano.
 
@@ -534,7 +534,7 @@ Toque vampírico.
 
 Sustentabilidade em combate longo.
 
-\[Reação\] Contra-Ataque
+[Reação] Contra-Ataque
 
 Se inimigo errar ataque melee, faz 1 ataque nele.
 
@@ -542,7 +542,7 @@ Pune guarda aberta.
 
 Torna arriscado atacar sem certeza.
 
-\[2 Ações\] Terremoto
+[2 Ações] Terremoto
 
 Teste Global de Físico + Interação + Nível (CD 13)
 
@@ -550,7 +550,7 @@ Pisão que abala o chão.
 
 Derruba todos para dar vantagem aos aliados.
 
-\[1 Ação\] Olhar Petrificante
+[1 Ação] Olhar Petrificante
 
 Teste Global de Físico + Resistência + Nível (CD 13)
 
@@ -562,7 +562,7 @@ Olhos de Medusa.
 
 Relógio da morte. Mata se não for parado.
 
-\[1 Ação\] Invocar Lacaios
+[1 Ação] Invocar Lacaios
 
 Cria 1d4 Esqueletos (Nível 1).
 
@@ -570,7 +570,7 @@ Necromancia de combate.
 
 Renova a carne de canhão.
 
-\[1 Ação\] Teleporte
+[1 Ação] Teleporte
 
 18m para local visível.
 
@@ -578,7 +578,7 @@ Passo pelas sombras.
 
 Fuga ou perseguição instantânea.
 
-\[2 Ações\] Rajada de Vento
+[2 Ações] Rajada de Vento
 
 Linha 12m. Empurra 6m.
 
@@ -588,7 +588,7 @@ Tufão localizado.
 
 Joga jogadores em perigos ambientais.
 
-\[1 Ação\] Marca do Caçador
+[1 Ação] Marca do Caçador
 
 Escolhe alvo. +1d6 Dano contra ele até o fim da cena.
 
@@ -688,7 +688,7 @@ Bomba relógio. Morra no meio dos jogadores.
 
 Ativas (Nível 4)
 
-\[3 Ações\] Sopro de Dragão
+[3 Ações] Sopro de Dragão
 
 Cone 9m. 6d6 Dano.
 
@@ -698,7 +698,7 @@ Bafo elemental devastador.
 
 Use contra 3+ inimigos.
 
-\[1 Ação\] Controle Mental
+[1 Ação] Controle Mental
 
 Teste Global de Mental + Resistência + Nível (CD 14)
 
@@ -708,7 +708,7 @@ Marionete psíquica.
 
 Vire a força do guerreiro contra o mago.
 
-\[2 Ações\] Enxame de Morcegos
+[2 Ações] Enxame de Morcegos
 
 Voa 18m invulnerável a oportunidade. Atravessa inimigos.
 
@@ -716,7 +716,7 @@ Vira nuvem de bichos.
 
 Reposicionamento defensivo perfeito.
 
-\[1 Ação\] Despedaçar Armadura
+[1 Ação] Despedaçar Armadura
 
 +9 Ataque. 1d8+4. Alvo perde 2 CA (Permanente até reparo).
 
@@ -724,7 +724,7 @@ Golpe ácido/esmagador.
 
 Quebra o tanque para o resto da aventura.
 
-\[Reação\] Escudo de Mana
+[Reação] Escudo de Mana
 
 Gasta X HP para prevenir X de dano mágico.
 
@@ -732,7 +732,7 @@ Sacrifício de sangue por defesa.
 
 Sobrevive a "nuke" de magos.
 
-\[2 Ações\] Pisão de Titã
+[2 Ações] Pisão de Titã
 
 +9 Ataque. 2d10+5.
 
@@ -744,7 +744,7 @@ Golpe de gigante.
 
 Controla o campo e afasta defensores.
 
-\[1 Ação\] Nuvem de Veneno
+[1 Ação] Nuvem de Veneno
 
 Aura 6m por 1 min. 2d6 Veneno/turno em quem entrar.
 
@@ -752,7 +752,7 @@ Gás mostarda mágico.
 
 Negação de área (ArEE Denial).
 
-\[1 Ação\] Grito Sônico
+[1 Ação] Grito Sônico
 
 Cone 4m. 3d6 Trovão.
 
@@ -760,7 +760,7 @@ Teste Global de Físico + Resistência + Nível (CD 14)
 
 Tira ações dos jogadores (Atordoado é fatal).
 
-\[Reação\] Troca de Lugar
+[Reação] Troca de Lugar
 
 Ao ser atacado, troca com lacaio adjacente. Lacaio recebe o ataque.
 
@@ -768,7 +768,7 @@ Magia de transposição.
 
 O líder nunca sangra primeiro.
 
-\[1 Ação\] Raio Desintegrador
+[1 Ação] Raio Desintegrador
 
 +9 Ataque. 4d6 Força. Se cair a 0 HP = Pó (Sem salvamento).
 
@@ -868,7 +868,7 @@ Age 4 vezes por rodada.
 
 Ativas (Nível 5)
 
-\[1 Ação\] Palavra de Poder: Dor
+[1 Ação] Palavra de Poder: Dor
 
 Alvo a 18m. -5 em todos os testes.
 
@@ -878,7 +878,7 @@ Tortura mental instantânea.
 
 Inutiliza o herói principal.
 
-\[2 Ações\] Chuva de Meteoros
+[2 Ações] Chuva de Meteoros
 
 3 alvos. 4d6 Fogo + 4d6 Impacto.
 
@@ -888,7 +888,7 @@ Bombardeio orbital.
 
 Dano massivo em múltiplos alvos.
 
-\[1 Ação\] Possessão
+[1 Ação] Possessão
 
 Entra no corpo.
 
@@ -900,7 +900,7 @@ Fantasma dominante.
 
 Vire o bárbaro contra o grupo.
 
-\[Reação\] Absorver Magia
+[Reação] Absorver Magia
 
 Cancela magia alvo único e cura 2d10 HP.
 
@@ -908,13 +908,13 @@ Devorador de mana.
 
 Nega o trunfo do mago.
 
-\[2 Ações\] Devorar Alma
+[2 Ações] Devorar Alma
 
 Toque. Se alvo com 0 HP = Morte InstantânEE + 20 HP Temp.
 
 Finalizador (Fatality).
 
-\[1 Ação\] Labirinto
+[1 Ação] Labirinto
 
 Teste Global de Mental + Interação + Nível (CD 15)
 
@@ -924,7 +924,7 @@ Prisão dimensional.
 
 Remove o curandeiro da luta por turnos.
 
-\[3 Ações\] Terremoto Maior
+[3 Ações] Terremoto Maior
 
 30m. Chão difícil + Caído + 50 Dano Estrutura.
 
@@ -932,7 +932,7 @@ Cataclisma.
 
 Destrói o cenário tático.
 
-\[1 Ação\] Olhar da Medusa
+[1 Ação] Olhar da Medusa
 
 Teste Global de Físico + Resistência + Nível (CD 15)
 
@@ -942,7 +942,7 @@ Transmutação em pedra.
 
 Morte súbita (Save or Die).
 
-\[Reação\] Parar o Tempo
+[Reação] Parar o Tempo
 
 Interrompe turno inimigo para se Mover e Esconder.
 
@@ -950,9 +950,10 @@ Cronocinese.
 
 Esquiva perfeita.
 
-\[1 Ação\] Invocação Maior
+[1 Ação] Invocação Maior
 
 - \*\*Mecânica:\*\* Invoca Elemental Nível 5 (HP 70, Atq +10).
+
 - \*\*Descrição:\*\* Reforço pesado.
 - \*\*Tática:\*\* Dobra a dificuldade da luta.
 
@@ -961,4 +962,4 @@ Esquiva perfeita.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

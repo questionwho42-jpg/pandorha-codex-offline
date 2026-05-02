@@ -3,14 +3,15 @@ sourceFile: "REGRAS_ECONOMIA_QUEBRA_CRIACAO_ITENS.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.189Z"
 ---
-
+<ai_context>
+<ai_context>
 # REGRAS_ECONOMIA_QUEBRA_CRIACAO_ITENS.md
 
-1ef36bd8-0868-40d3-b392-9dfbbe504bd3
 
-REGRAS\_ECONOMIA\_QUEBRA\_CRIACAO\_ITENS.md
 
-373d31b2-10bb-4ba1-bdd3-3f56a246c1dc
+REGRAS_ECONOMIA_QUEBRA_CRIACAO_ITENS.md
+
+
 
 Pandorha: Capítulo 07 - Economia e Tesouros
 
@@ -112,7 +113,7 @@ Sucesso Crítico
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\05\_00\_Regras\_de\_Classe.md
+Arquivo: M01_JOGADOR\05_00_Regras_de_Classe.md
 
 Pandorha: Capítulo 05 - Regras de Classe e Evolução
 
@@ -130,7 +131,7 @@ Itens em Pandorha sofrem desgaste através de combates intensos, falhas crítica
 
 Para devolver as propriedades totais de um item danificado ou quebrado, o personagem deve realizar um trabalho de manutenção técnica.
 
-\[Global\] Mental + Interação + Nível
+[Global] Mental + Interação + Nível
 
 DC de Criação do Item
 
@@ -188,7 +189,7 @@ Falha Crítica
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\13\_Guia\_de\_Criacao\_de\_Monstros.md
+Arquivo: M02_MESTRE\13_Guia_de_Criacao_de_Monstros.md
 
 Pandorha: Capítulo 13 - Guia de Criação de Monstros (A Engenharia do Caos)
 
@@ -266,7 +267,7 @@ Tipos de Poções (Criação DC 15 + Nível do Item)
 
 O alvo deve passar em
 
-Teste Global de \[Físico\] + \[Resistência\] + \[Nível\]
+Teste Global de [Físico] + [Resistência] + [Nível]
 
 DC Desafiadora de seu Tier
 
@@ -288,7 +289,7 @@ DC Desafiadora
 
 O alvo deve passar em
 
-Teste Global de \[Físico\] + \[Resistência\] + \[Nível\]
+Teste Global de [Físico] + [Resistência] + [Nível]
 
 DC Lendária de seu Tier
 
@@ -436,7 +437,7 @@ Restrição Imposta
 
 Lenta (Recarga)
 
-Exige uma \*\*Ação \*\*\[A\]\*\*\*\* para recarregar após cada disparo.
+Exige uma \*\*Ação \*\*[A]\*\*\*\* para recarregar após cada disparo.
 
 , a arma trava (Ação
 
@@ -596,7 +597,7 @@ Veneno Paralisante
 
 Aplica na arma. Alvo deve passar em
 
-Teste Global de \[Físico\] + \[Resistência\] + \[Nível\]
+Teste Global de [Físico] + [Resistência] + [Nível]
 
 DC Desafiadora
 
@@ -624,7 +625,7 @@ Elixir da Verdade
 
 Alvo não consegue mentir deliberadamente por 10 minutos (
 
-Teste Global de \[Mental\] + \[Resistência\] + \[Nível\]
+Teste Global de [Mental] + [Resistência] + [Nível]
 
 DC Lendária
 
@@ -660,7 +661,7 @@ Incendiária
 
 Status Em Chamas (1d6/turno)
 
-Teste \[Fis+Res\] ou sofre
+Teste [Fis+Res] ou sofre
 
 1d4 Veneno/turno
 
@@ -678,7 +679,7 @@ Raio 1,5m. Causa
 
 Paralisante
 
-Teste \[Fis+Res\] ou fica
+Teste [Fis+Res] ou fica
 
 Imobilizado
 
@@ -950,7 +951,7 @@ Itens em Pandorha sofrem desgaste através de combates intensos, falhas crítica
 
 Para devolver as propriedades totais de um item danificado ou quebrado, o personagem deve realizar um trabalho de manutenção técnica.
 
-\[Global\] Mental + Interação + Nível
+[Global] Mental + Interação + Nível
 
 DC de Criação do Item
 
@@ -1008,7 +1009,7 @@ Falha Crítica
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\13\_Guia\_de\_Criacao\_de\_Monstros.md
+Arquivo: M02_MESTRE\13_Guia_de_Criacao_de_Monstros.md
 
 Pandorha: Capítulo 13 - Guia de Criação de Monstros (A Engenharia do Caos)
 
@@ -1042,5 +1043,6 @@ Dano Médio / Turno
 
 <parameter name="filePath">
 
-c:\Users\Pichau\Desktop\mestre de rog openclaw\REGRAS\_ECONOMIA\_QUEBRA\_CRIACAO\_ITENS.md
-
+c:\Users\Pichau\Desktop\mestre de rog openclaw\REGRAS_ECONOMIA_QUEBRA_CRIACAO_ITENS.md
+</ai_context>
+</ai_context>

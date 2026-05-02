@@ -3,16 +3,17 @@ sourceFile: "06_NPCs_e_Aliados.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.151Z"
 ---
-
+<ai_context>
+<ai_context>
 # 06_NPCs_e_Aliados.md
 
-43fe24a4-5dd5-4dd5-8321-dec463c4d6ab
 
-06\_NPCs\_e\_Aliados.md
 
-31a49fa7-90f3-4eec-ba41-11f7bd5cd287
+06_NPCs_e_Aliados.md
 
-Arquivo: M02\_MESTRE\06\_NPCs\_e\_Aliados.md
+
+
+Arquivo: M02_MESTRE\06_NPCs_e_Aliados.md
 
 Pandorha: Capítulo 06 - NPCs e Aliados (Liderança e Lealdade)
 
@@ -22,7 +23,7 @@ Este capítulo define como os jogadores interagem, recrutam e lideram NPCs.
 
 Você só pode comandar aquilo que sua alma suporta.
 
-Limite de Aliados Ativos = 1 + \[Eixo Social\]
+Limite de Aliados Ativos = 1 + [Eixo Social]
 
 --------------------------------------------------------------------------------
 
@@ -105,4 +106,5 @@ Quando um aliado for atacado, você avisa. O ataque contra ele tem Desvantagem (
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

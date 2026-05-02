@@ -3,16 +3,17 @@ sourceFile: "23c_Codex_Armadilhas_Tier3.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.163Z"
 ---
-
+<ai_context>
+<ai_context>
 # 23c_Codex_Armadilhas_Tier3.md
 
-38dfa453-4bf1-42ce-b126-742202ba2c4b
 
-23c\_Codex\_Armadilhas\_Tier3.md
 
-21969270-5703-43b1-863e-940e77e8ee13
+23c_Codex_Armadilhas_Tier3.md
 
-Arquivo: M04\_DESAFIOS\23c\_Codex\_Armadilhas\_Tier3.md
+
+
+Arquivo: M04_DESAFIOS\23c_Codex_Armadilhas_Tier3.md
 
 Pandorha: Capítulo 23.3 - Tomo de Armadilhas (Tier III)
 
@@ -196,7 +197,7 @@ Nível 13 ao 15 (Em Breve)
 
 (A estrutura se repete escalando as fórmulas e status contínuos - consulte tabela geral)
 
-with open(os.path.join(base\_dir, "23c\_Codex\_Armadilhas\_Tier3.md"), "w", encoding="utf-8") as file:
+with open(os.path.join(base_dir, "23c_Codex_Armadilhas_Tier3.md"), "w", encoding="utf-8") as file:
 
 file.write(tier3)
 
@@ -205,4 +206,5 @@ file.write(tier3)
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

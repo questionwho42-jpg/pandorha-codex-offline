@@ -3,14 +3,15 @@ sourceFile: "CÓDEX DE HEXCRAWL E EXPLORAÇÃO.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.168Z"
 ---
-
+<ai_context>
+<ai_context>
 # CÓDEX DE HEXCRAWL E EXPLORAÇÃO.md
 
-2e17198b-65d7-4beb-abd2-577faeefeb25
+
 
 CÓDEX DE HEXCRAWL E EXPLORAÇÃO.md
 
-a67fce1a-6ada-476b-824f-7b5fe7a16e43
+
 
 CÓDEX DE HEXCRAWL E EXPLORAÇÃO DE PANDORHA: MANUAL TÉCNICO COMPLETO
 
@@ -235,6 +236,7 @@ Multiplica o custo de Turnos por 2. (Ex: No Ritmo Normal, cruzar 1 Hexágono de 
 #### Estradas e Rios Navegáveis:
 
 1. Anulam o custo extra de Terrenos Difíceis (Volta a custar 1 Turno). 2. O teste de Navegação do Guia é dispensado (Sucesso Automático). 3. Batedor ainda deve rolar contra perigos da estrada (bandidos, predadores atraídos).
+
 --------------------------------------------------------------------------------
 
 6. O CLIMA E A MECÂNICA DE ABRIGO
@@ -803,4 +805,5 @@ Trono do Rei Demônio Supremo
 Campo de Aniquilação (Magia morrendo em loop)
 
 Olho da Tempestade Cósmica (Início do fim do mundo)
-
+</ai_context>
+</ai_context>

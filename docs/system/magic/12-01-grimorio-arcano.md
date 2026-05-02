@@ -3,16 +3,16 @@ sourceFile: "12_01_Grimorio_Arcano.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.156Z"
 ---
-
+<ai_context>
 # 12_01_Grimorio_Arcano.md
 
-68fd4765-bfbc-485f-ad5a-246e64bc9378
 
-12\_01\_Grimorio\_Arcano.md
 
-e4ff236e-4842-4cd4-9b61-5093f74e817c
+12_01_Grimorio_Arcano.md
 
-Arquivo: M01\_JOGADOR\12\_01\_Grimorio\_Arcano.md
+
+
+Arquivo: M01_JOGADOR\12_01_Grimorio_Arcano.md
 
 Pandorha: Capítulo 12 - Grimório Etérico
 
@@ -20,7 +20,7 @@ Pandorha: Capítulo 12 - Grimório Etérico
 
 Codex de Magia
 
-12\_00\_Codex\_de\_Magia.md
+12_00_Codex_de_Magia.md
 
 V (Verbal), S (Somático), M (Material).
 
@@ -75,21 +75,27 @@ Sussurro à distância (30m).
 Infalível. 1d4+1 Energia.
 
 9. Raio de Gelo
+
 1d8 Frio + Reduz Movimento.
 
 10. Toque Chocante
+
 1d8 Elétrico + Anula Reação.
 
 11. Chama Sagrada
+
 1d8 Radiante. Ignora Cobertura.
 
 12. Rajada Mística
+
 1d10 Energia. Empurra 3m.
 
 13. Spray de Veneno
+
 1d12 Veneno (Físico+Resist metade).
 
 14. Chicote de Espinhos
+
 1d6 Perfurante + Puxa 3m.
 
 15. Lâmina Verde
@@ -104,7 +110,7 @@ Potencializar (+1 Círculo)
 
 Armadura Etérica
 
-CA = 13 + \[Nível\] + \[Eixo\] (8h).
+CA = 13 + [Nível] + [Eixo] (8h).
 
 Mísseis Mágicos
 
@@ -573,4 +579,4 @@ Levanta uma montanha e a faz voar (cria cidade voadora).
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

@@ -3,16 +3,17 @@ sourceFile: "10_Antecedentes_e_Origens.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.155Z"
 ---
-
+<ai_context>
+<ai_context>
 # 10_Antecedentes_e_Origens.md
 
-f540e961-306b-4cf8-b555-6f500e87cc58
 
-10\_Antecedentes\_e\_Origens.md
 
-901cf798-0f29-4b7e-a1cf-30defff3898c
+10_Antecedentes_e_Origens.md
 
-Arquivo: M01\_JOGADOR\10\_Antecedentes\_e\_Origens.md
+
+
+Arquivo: M01_JOGADOR\10_Antecedentes_e_Origens.md
 
 Pandorha: Capítulo 10 - Livro das Origens (Antecedentes)
 
@@ -56,7 +57,7 @@ Você pode realizar rituais de purificação. Gaste 10 minutos para remover uma 
 
 #### Teólogo de Combate:
 
-Você usa seu Eixo \[Mental\] em vez de \[Físico\] para rolar Iniciativa.
+Você usa seu Eixo [Mental] em vez de [Físico] para rolar Iniciativa.
 
 #### Voto de Pobreza:
 
@@ -168,7 +169,7 @@ Algemas Rápidas
 
 Se você agarrar (Grapple) um alvo, pode tentar algemá-lo (
 
-Teste Global de \[Mental\] + \[Interação\] + \[Nível\]
+Teste Global de [Mental] + [Interação] + [Nível]
 
 DC Desafiadora de seu Tier
 
@@ -410,7 +411,7 @@ Pode tentar subornar inimigos inteligentes para não atacarem (o Mestre define o
 
 #### Mochileiro:
 
-Você carrega o dobro do peso \[Físico\] sem ficar sobrecarregado.
+Você carrega o dobro do peso [Físico] sem ficar sobrecarregado.
 
 16. Nômade (O Viajante)
 
@@ -533,4 +534,5 @@ Você sente a presença de mortos-vivos ou demônios em 30m.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

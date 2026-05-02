@@ -3,20 +3,20 @@ sourceFile: "12_Metamagias_As_40_Quebras.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.159Z"
 ---
-
+<ai_context>
 # 12_Metamagias_As_40_Quebras.md
 
-c29a2e94-c72d-4a3c-ae59-a105e5710899
 
-12\_Metamagias\_As\_40\_Quebras.md
 
-ce685037-d00c-45d5-9e7f-d712da0b036b
+12_Metamagias_As_40_Quebras.md
 
-Arquivo: M03\_ACAO\12\_Metamagias\_As\_40\_Quebras.md
+
+
+Arquivo: M03_ACAO\12_Metamagias_As_40_Quebras.md
 
 Pandorha: Códex de Metamagias (As 40 Quebras)
 
-\[!IMPORTANT\]
+[!IMPORTANT]
 
 #### Diferenciação Tática:
 
@@ -26,7 +26,7 @@ Este Códex trata de
 
 Códex de Sinergia: A Forja Tática
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26\_Codex\_Sinergia\_Forja\_Tatica.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26_Codex_Sinergia_Forja_Tatica.md
 
 Bem-vindo ao núcleo táctico do sistema de Magia e Artefatos de Pandorha. Este códex dita a "progressão horizontal" do jogo, permitindo que magias de baixo nível se mantenham letais e úteis nos Tiers mais altos através do sistema de
 
@@ -70,7 +70,7 @@ Multiplica o resultado final e total dos dados rolados para curar. (Ex: rola 1d8
 
 #### Traços Exigidos:
 
-\[Regeneração\]
+[Regeneração]
 
 #### Magias Compatíveis:
 
@@ -90,7 +90,7 @@ HP Temporário
 
 #### Traços Exigidos:
 
-\[Abjuração\]
+[Abjuração]
 
 #### Magias Compatíveis:
 
@@ -106,7 +106,7 @@ Remove imediatamente 1 Condição negativa não-permanente à escolha do alvo (c
 
 #### Traços Exigidos:
 
-\[Suporte Divino\]
+[Suporte Divino]
 
 #### Magias Compatíveis:
 
@@ -126,7 +126,7 @@ a um alvo primário atingido pela magia.
 
 #### Traços Exigidos:
 
-\[Necromancia\]
+[Necromancia]
 
 #### Magias Compatíveis:
 
@@ -146,9 +146,9 @@ Se o ataque acertar, a magia salta para um novo alvo num raio de 4,5m usando o m
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
-\[Elétrico/Ácido\]
+[Elétrico/Ácido]
 
 #### Magias Compatíveis:
 
@@ -164,7 +164,7 @@ Ignora completamente a Redução de Dano (RD) passiva do inimigo e trata Imunida
 
 #### Traços Exigidos:
 
-\[Dano Direto\]
+[Dano Direto]
 
 #### Magias Compatíveis:
 
@@ -184,7 +184,7 @@ desse dado.
 
 #### Traços Exigidos:
 
-\[Dano Direto Massivo\]
+[Dano Direto Massivo]
 
 #### Magias Compatíveis:
 
@@ -200,7 +200,7 @@ Altera o tipo elementar original da magia (ex: de Fogo para Gelo) no momento da 
 
 #### Traços Exigidos:
 
-\[Elemental\]
+[Elemental]
 
 #### Magias Compatíveis:
 
@@ -254,7 +254,7 @@ Imobilizado
 
 #### Traços Exigidos:
 
-\[Gravidade\]
+[Gravidade]
 
 #### Magias Compatíveis:
 
@@ -276,7 +276,7 @@ Aplica uma condição à escolha entre
 
 #### Traços Exigidos:
 
-\[Radiação/Veneno\]
+[Radiação/Veneno]
 
 #### Magias Compatíveis:
 
@@ -292,7 +292,7 @@ Magias "Instantâneas" deixam uma Zona Letal (1 Ronda) que causa 50% do dano a q
 
 #### Traços Exigidos:
 
-\[Elemental\]
+[Elemental]
 
 #### Magias Compatíveis:
 
@@ -310,7 +310,7 @@ início do seu próximo turno
 
 #### Traços Exigidos:
 
-\[Luz/Trevas\]
+[Luz/Trevas]
 
 #### Magias Compatíveis:
 
@@ -348,7 +348,7 @@ O feitiço divide-se. Pode seleccionar um segundo alvo diferente dentro do alcan
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
 #### Magias Compatíveis:
 
@@ -370,7 +370,7 @@ não quebra Furtividade
 
 #### Traços Exigidos:
 
-\[Encantamento\]
+[Encantamento]
 
 #### Magias Compatíveis:
 
@@ -386,7 +386,7 @@ Duplica o alcance de conjuração. Magias de "Toque" passam a ter alcance Curto 
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
 #### Magias Compatíveis:
 
@@ -420,9 +420,9 @@ por Contra-Mágicas. Se sofrer dano enquanto a canaliza, não precisa rolar Conc
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
-\[Ressurreição\]
+[Ressurreição]
 
 #### Magias Compatíveis:
 
@@ -444,7 +444,7 @@ no momento em que é conjurada.
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
 #### Magias Compatíveis:
 
@@ -464,7 +464,7 @@ e todos os ataques físicos causam +1 Dado de Dano.
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
 #### Magias Compatíveis:
 
@@ -482,7 +482,7 @@ como se estivesse no espaço físico ocupado pela sua criatura invocada.
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
 #### Magias Compatíveis:
 
@@ -502,7 +502,7 @@ num raio de 3m.
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
 #### Magias Compatíveis:
 
@@ -524,7 +524,7 @@ sem provocar Ataques de Oportunidade.
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
 #### Magias Compatíveis:
 
@@ -544,7 +544,7 @@ na direcção oposta ao conjurador.
 
 #### Traços Exigidos:
 
-\[Dano Direto\]
+[Dano Direto]
 
 #### Magias Compatíveis:
 
@@ -582,9 +582,9 @@ com a criatura atingida, teleportando-se.
 
 #### Traços Exigidos:
 
-\[Teletransporte\]
+[Teletransporte]
 
-\[Alvo Único\]
+[Alvo Único]
 
 #### Magias Compatíveis:
 
@@ -602,7 +602,7 @@ A magia é lançada invisível sobre um quadrado vazio. Fica "dormente" por 1 ho
 
 #### Traços Exigidos:
 
-\[Dano Direto\]
+[Dano Direto]
 
 #### Magias Compatíveis:
 
@@ -634,7 +634,7 @@ A magia é armazenada no alvo com um gatilho ditado (ex: "Quando o alvo chegar a
 
 #### Traços Exigidos:
 
-\[Abjuração\]
+[Abjuração]
 
 #### Magias Compatíveis:
 
@@ -674,7 +674,7 @@ exatas 24 horas
 
 #### Traços Exigidos:
 
-\[Utilitária\]
+[Utilitária]
 
 #### Magias Compatíveis:
 
@@ -694,7 +694,7 @@ perde a invisibilidade
 
 #### Traços Exigidos:
 
-\[Adivinhação\]
+[Adivinhação]
 
 #### Magias Compatíveis:
 
@@ -726,9 +726,9 @@ e pode atravessar até 1 metro de barreiras sólidas para atingir alvos do outro
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
-\[Adivinhação\]
+[Adivinhação]
 
 #### Magias Compatíveis:
 
@@ -768,7 +768,7 @@ o valor ao total.
 
 #### Traços Exigidos:
 
-\[Dano Direto\]
+[Dano Direto]
 
 #### Magias Compatíveis:
 
@@ -804,7 +804,7 @@ Explosão Solar, Despedaçar, Relâmpago, Pilar de Chamas.
 
 #### Traços Exigidos:
 
-\[Necromancia\]
+[Necromancia]
 
 #### Magias Compatíveis:
 
@@ -815,4 +815,4 @@ Raio Enfraquecedor, Toque Pútrido, Drenar Vida, Praga.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

@@ -3,16 +3,16 @@ sourceFile: "12_03_Grimorio_Circulo_1.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.156Z"
 ---
-
+<ai_context>
 # 12_03_Grimorio_Circulo_1.md
 
-0ce25e27-19bd-426a-8b55-399dd166b80f
 
-12\_03\_Grimorio\_Circulo\_1.md
 
-a2cee01a-933e-46d2-89dc-d6800529b638
+12_03_Grimorio_Circulo_1.md
 
-Arquivo: M01\_JOGADOR\12\_03\_Grimorio\_Circulo\_1.md
+
+
+Arquivo: M01_JOGADOR\12_03_Grimorio_Circulo_1.md
 
 Grimório: Círculo 1 - O Aprendiz
 
@@ -26,7 +26,7 @@ V, S, M (um pedaço de couro curado)
 
 Você toca uma criatura voluntária que não esteja vestindo armadura. Uma força mágica protetora a envolve até a magia acabar. A Classe de Armadura (CA) base do alvo se torna
 
-13 + \[Nível\] + Eixo Físico ou Mental
+13 + [Nível] + Eixo Físico ou Mental
 
 (o que for maior). A magia acaba se o alvo vestir uma armadura ou se você dissipá-la.
 
@@ -64,7 +64,7 @@ Instantânea
 
 Ao manter suas mãos com os polegares tocando e os dedos abertos, uma fina camada de chamas sai das pontas de seus dedos estendidos. Cada criatura num cone de 5m deve realizar um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . Se falhar, sofre
 
@@ -108,7 +108,7 @@ Você sopra uma areia invisível que induz letargia mágica. Criaturas em uma á
 
 Resistência Mental
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ) contra sua CD de Magia.
 
@@ -144,7 +144,7 @@ Instantânea
 
 Uma onda de força trovejante varre tudo a partir de você. Cada criatura num cubo de 5m a partir de você deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 . Se falhar, sofre
 
@@ -159,6 +159,7 @@ e é empurrada 3m para longe. Se passar, sofre metade do dano e não é empurrad
 --------------------------------------------------------------------------------
 
 7. Escudo de Éter
+
 1 Reação (quando for atingido por um ataque ou alvo de Mísseis Mágicos)
 
 #### Componentes:
@@ -203,7 +204,7 @@ Encantamento
 
 Você tenta encantar um humanóide que você possa ver dentro do alcance. Ele deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 , e o faz com vantagem se você ou seus companheiros estiverem lutando com ele. Se falhar, ele fica
 
@@ -258,4 +259,4 @@ do tipo escolhido.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

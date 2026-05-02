@@ -3,16 +3,16 @@ sourceFile: "12_09_Grimorio_Circulo_7.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.158Z"
 ---
-
+<ai_context>
 # 12_09_Grimorio_Circulo_7.md
 
-a242a651-c85f-4d06-9667-52ec1b205871
 
-12\_09\_Grimorio\_Circulo\_7.md
 
-1eb00e54-b0c6-41c5-a4e0-8be43ec6dca1
+12_09_Grimorio_Circulo_7.md
 
-Arquivo: M01\_JOGADOR\12\_09\_Grimorio\_Circulo\_7.md
+
+
+Arquivo: M01_JOGADOR\12_09_Grimorio_Circulo_7.md
 
 Grimório: Círculo 7 - O Lendário
 
@@ -64,7 +64,7 @@ Concentração, até 1 minuto
 
 Uma esfera de fogo de 1,5m de diâmetro aparece em um espaço desocupado de sua escolha dentro do alcance e dura pela duração. Qualquer criatura que termine seu turno a até 1,5m da esfera deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 ). Se falhar, sofre
 
@@ -88,7 +88,7 @@ Instantânea
 
 Você envia energia negativa para matar uma criatura que possa ver dentro do alcance. O alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 7d8 + 30 de dano Necrótico
 
@@ -126,7 +126,7 @@ Concentração, até 1 minuto
 
 Esta magia reverte a gravidade num cilindro de 15m de raio e 30m de altura. Criaturas e objetos que não estejam presos ao chão caem para cima até o topo da área. Uma criatura pode fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 ) para agarrar-se a algo fixo e evitar a queda. Se não conseguir, "cai" para cima, sofrendo dano de impacto se atingir o teto/topo.
 
@@ -221,4 +221,4 @@ Você cria uma habitação extradimensional que dura pela duração. Você escol
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

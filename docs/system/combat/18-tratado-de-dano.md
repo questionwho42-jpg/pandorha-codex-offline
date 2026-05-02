@@ -3,16 +3,16 @@ sourceFile: "18_Tratado_de_Dano.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.161Z"
 ---
-
+<ai_context>
 # 18_Tratado_de_Dano.md
 
-1a497076-f08b-48ea-8d0d-82247a770918
 
-18\_Tratado\_de\_Dano.md
 
-39d534ac-407a-438e-b75e-0f974355476a
+18_Tratado_de_Dano.md
 
-Arquivo: M03\_ACAO\18\_Tratado\_de\_Dano.md
+
+
+Arquivo: M03_ACAO\18_Tratado_de_Dano.md
 
 Pandorha: Capítulo 18 - Tratado de Dano e Resistências
 
@@ -28,7 +28,7 @@ O seu atributo (Matriz) SEMPRE entra no cálculo de dano físico/marcial.
 
 #### A fórmula universal para o dano de ataques com armas é:
 
-Dano Total = \[Dado(s) da Arma\] + \[Valor da Matriz Utilizada no Ataque\] + \[Modificadores Extras (Talentos, Magias, etc.)\]
+Dano Total = [Dado(s) da Arma] + [Valor da Matriz Utilizada no Ataque] + [Modificadores Extras (Talentos, Magias, etc.)]
 
 📊 2. Como as Matrizes se Aplicam
 
@@ -227,4 +227,4 @@ Sempre descreva o dano conforme o tipo. Um "sucesso crítico" de dano Psíquico 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

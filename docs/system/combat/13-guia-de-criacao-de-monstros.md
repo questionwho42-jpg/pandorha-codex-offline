@@ -3,16 +3,16 @@ sourceFile: "13_Guia_de_Criacao_de_Monstros.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.159Z"
 ---
-
+<ai_context>
 # 13_Guia_de_Criacao_de_Monstros.md
 
-d53dc137-6d98-47ab-951b-a9c8ee4efdc8
 
-13\_Guia\_de\_Criacao\_de\_Monstros.md
 
-71665c56-8379-4372-85bb-6b5ad3fa20cd
+13_Guia_de_Criacao_de_Monstros.md
 
-Arquivo: M02\_MESTRE\13\_Guia\_de\_Criacao\_de\_Monstros.md
+
+
+Arquivo: M02_MESTRE\13_Guia_de_Criacao_de_Monstros.md
 
 Pandorha: Capítulo 13 - Guia de Criação de Monstros (A Engenharia do Caos)
 
@@ -48,7 +48,7 @@ Para manter a clareza durante o jogo,
 
 as habilidades de monstros devem especificar exatamente qual teste o jogador deve fazer para resistir.
 
-Teste de \[Eixo\] + \[Aplicação\] CD \[Valor\]
+Teste de [Eixo] + [Aplicação] CD [Valor]
 
 #### Exemplos de Padrão:
 
@@ -261,4 +261,4 @@ Dados Sugeridos (Mágico)
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

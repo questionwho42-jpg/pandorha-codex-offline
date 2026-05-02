@@ -3,16 +3,16 @@ sourceFile: "07_03a_Tier3_Lendas_Vivas.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.153Z"
 ---
-
+<ai_context>
 # 07_03a_Tier3_Lendas_Vivas.md
 
-b4f6b908-83d0-478d-9af7-97e3edd438d5
 
-07\_03a\_Tier3\_Lendas\_Vivas.md
 
-8d5e29e5-8921-4d45-8cdc-035758ef0d3f
+07_03a_Tier3_Lendas_Vivas.md
 
-Arquivo: M04\_DESAFIOS\07\_03a\_Tier3\_Lendas\_Vivas.md
+
+
+Arquivo: M04_DESAFIOS\07_03a_Tier3_Lendas_Vivas.md
 
 Pandorha: Bestiário Narrativo Vol. 3A - Lendas Vivas (Níveis 11-15)
 
@@ -26,11 +26,11 @@ Este tomo apresenta ameaças de nível lendário com fichas completas e descriç
 
 A. Dragão Branco Adulto (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O caçador feral do norte. Diferente de seus primos, ele não valoriza ouro ou conversa; ele valoriza a caça. Seus troféus são aventureiros congelados em blocos de gelo eterno em sua caverna, preservados no momento de seu terror final.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Escamas brancas como a neve que se camuflam perfeitamente na nevasca. Seus olhos são azuis glaciais e parecem cristais sem vida. Uma crista óssEE protege seu crânio como um capacete natural.
 
@@ -76,11 +76,11 @@ Teste Global de Físico + Conflito + Nível (DC 29)
 
 B. Dragão Verde Adulto (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O mestre da intriga e da manipulação. Um dragão verde prefere corromper um reino a queimá-lo. Eles vivem em florestas antigas, controlando redes de espiões e sussurrando mentiras venenosas nos ouvidos de reis fracos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Escamas verde-esmeralda que parecem folhas sobrepostas. Uma barbatana corre por suas costas desde a cabeça até a cauda. Exala um cheiro constante de cloro e vegetação podre.
 
@@ -118,11 +118,11 @@ Teste Global de Físico + Resistência + Nível (DC 30)
 
 C. Dragão Vermelho Adulto (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A arrogância suprema encarnada. O dragão vermelho acredita ser o ápice da criação, um deus vivo de fogo e destruição. Ele exige tributos de reinos inteiros, virgens e montanhas de ouro, queimando qualquer um que se recuse a ajoelhar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma montanha de escamas carmesim, com chifres enormes curvos para trás e olhos de magma líquido. Fumaça sai constantemente de suas narinas, criando uma nuvem escura onde quer que vá.
 
@@ -170,11 +170,11 @@ Garra 2: +24. Alcance 3m. Dano
 
 A. Gigante da Colina (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Gordos, estúpidos e famintos. Eles são a vergonha da raça gigante, mas ainda assim perigosos. Descendem das montanhas como uma avalanche de carne para comer vilas inteiras, gado, casas e camponeses.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 5 metros de altura, barriga enorme e caída, pele bronzeada cheia de verrugas. Veste peles de urso costuradas e carrega um tronco de árvore como clava.
 
@@ -204,11 +204,11 @@ RD 5 (Físico)
 
 B. Gigante do Gelo (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Saqueadores vikings de proporções épicas. Vivem para a batalha, a caça e a conquista. Seus jarls (reis) buscam trazer o inverno eterno para o mundo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele azul-clara como gelo, barba e cabelos brancos trançados com ossos de dragão. Usa cota de malha pesada e capacete de chifres.
 
@@ -238,11 +238,11 @@ Imune a Frio
 
 C. Gigante do Fogo (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Mestres ferreiros militaristas. Vivem em vulcões ativos forjando armas de guerra para exércitos das trevas. São disciplinados, estratégicos e odeiam os anões (seus rivais na forja).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele negra como carvão, com cabelo e barba feitos de fogo vivo. Usa uma armadura de placas negra que brilha com calor interno.
 
@@ -280,11 +280,11 @@ Vulnerável a Frio (+1d6)
 
 A. Vigia Ocular (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um oculus menor invocado por rituais para guardar tesouros por tempo limitado. É paranoico e obsessivo com sua tarefa, atacando qualquer coisa que se aproxime.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma esfera de carne de 1,5m, com um olho central grande e quatro pedúnculos oculares menores no topo.
 
@@ -332,11 +332,11 @@ Teste Global de Físico + Resistência + Nível (DC 29)
 
 B. Devorador de Magia (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um primo do oculus que se alimenta de magia. Ele drena a energia de itens mágicos para sobreviver, deixando apenas metal inútil para trás.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Esfera enrugada com 6 olhos e uma boca central com bico afiado.
 
@@ -372,11 +372,11 @@ cada. O monstro cura metade do dano causado (Arredondado para baixo).
 
 C. Lorde Ocular (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O verdadeiro Mestre dos Olhos. Um gênio xenofóbico que acredita ser o ser perfeito do universo. Seu olho central anula toda a magia, enquanto seus dez olhos menores desintegram a realidade.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma esfera de carne imensa, com um olho central que emite um cone de luz azulada e uma boca cheia de dentes afiados. Dez tentáculos com olhos se contorcem acima dele.
 
@@ -430,11 +430,11 @@ ou obedece ao Lorde Ocular por
 
 A. Hidra do Pântano (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um monstro lendário nascido do sangue de deuses ctônicos. Habita pântanos profundos e é famosa por ser quase impossível de matar devido à sua regeneração alucinante.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um corpo reptiliano volumoso de cinco metros de comprimento, de onde brotam cinco pescoços serpentinos terminados em cabeças de dragão sem chifres. Quando uma cabeça é cortada, o coto borbulha e crescem duas.
 
@@ -470,11 +470,11 @@ Realiza um ataque para cada cabeça que tiver. +18 (Nv 11 + Fis 7). Alcance 3m. 
 
 B. Piro-Hidra (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma variante infernal que habita lagos de lava ou fissuras vulcânicas. Seu sangue é magma líquido, o que torna impossível cauterizá-la com fogo comum; apenas o frio extremo pode impedir sua regeneração.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Escamas vermelhas escuras que brilham com calor interno. Suas bocas exalam fumaça negra e chamas lamberam seus dentes.
 
@@ -510,11 +510,11 @@ Teste Global de Físico + Resistência + Nível (DC 30)
 
 C. Hidra de Lerna (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A matriarca imortal de todas as hidras, dita ser invencível. Seu sangue é o veneno mais potente do mundo, capaz de matar até deuses menores. Possui uma cabeça "imortal" dourada que deve ser enterrada sob uma montanha para que ela morra de vez.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Gigantesca, com escamas roxas e nove cabeças originais (uma delas com escamas douradas). O chão ao seu redor morre e murcha instantaneamente.
 
@@ -552,11 +552,11 @@ Começa com 9 ataques por turno.
 
 A. Quimera Comum (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma aberração criada por magia corrompida, misturando as piores partes de três predadores. Elas são territoriais, gananciosas e sádicas, atacando caravanas não só por comida, mas pelo prazer de queimar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 O corpo robusto de um leão gigante, com asas de couro de dragão. Possui três cabeças: uma de leão feroz, uma de bode (com olhos retangulares malignos) e uma de dragão cromático.
 
@@ -600,11 +600,11 @@ Cone de 9m.
 
 B. Gorgimera (Nível 14)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma fusão ainda mais profana, envolvendo magias de petrificação. Substitui a cabeça de bode por uma cabeça de górgona ou basilisco, tornando-a capaz de transformar exércitos em estatuário com um olhar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Corpo de leão com escamas de pedra. A cabeça central é humana com serpentes no lugar de cabelo, ladeada por um leão e um dragão.
 
@@ -642,11 +642,11 @@ Petrificado
 
 C. Quimera do Caos (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma entidade que muda constantemente de forma, um amálgama instável de dezenas de bestas. Dizem que quem a criou não conseguiu parar de adicionar partes. É uma máquina de destruição imprevisível.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um horror indescritível. Tem cabeças de serpente, águia, urso e demônio surgindo e sendo reabsorvidas em sua carne borbulhante. Tem múltiplos membros e caudas de escorpião.
 
@@ -677,4 +677,4 @@ cada (Tipo de dano muda a cada ataque: Corte/Furo/Esmaga).
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

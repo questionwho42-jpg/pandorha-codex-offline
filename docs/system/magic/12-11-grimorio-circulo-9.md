@@ -3,16 +3,16 @@ sourceFile: "12_11_Grimorio_Circulo_9.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.158Z"
 ---
-
+<ai_context>
 # 12_11_Grimorio_Circulo_9.md
 
-2f8f7934-9fb1-4f41-8cf6-b840249cbf73
 
-12\_11\_Grimorio\_Circulo\_9.md
 
-e2dda5a7-d7de-4bb6-b4f8-c2f5c7bc0287
+12_11_Grimorio_Circulo_9.md
 
-Arquivo: M01\_JOGADOR\12\_11\_Grimorio\_Circulo\_9.md
+
+
+Arquivo: M01_JOGADOR\12_11_Grimorio_Circulo_9.md
 
 Grimório: Círculo 9 - O Celestial
 
@@ -46,7 +46,7 @@ Instantânea
 
 Esferas de fogo despencam do céu em quatro pontos que você possa ver. Cada criatura numa esfera de 12m de raio centrada em cada ponto deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 ). A esfera causa
 
@@ -160,7 +160,7 @@ Você cria uma restrição mágica para prender uma criatura que possa ver. O al
 
 Mental + Resistência
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ). Se falhar, fica preso.
 
@@ -219,4 +219,4 @@ Ventos e Chuva forte. Visão nula e terreno difícil.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

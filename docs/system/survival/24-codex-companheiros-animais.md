@@ -3,16 +3,17 @@ sourceFile: "24_Codex_Companheiros_Animais.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.163Z"
 ---
-
+<ai_context>
+<ai_context>
 # 24_Codex_Companheiros_Animais.md
 
-34b0bb97-557b-4f35-a823-ebaf231ce57e
 
-24\_Codex\_Companheiros\_Animais.md
 
-0d4725d9-9447-480e-9d18-efccdfd31925
+24_Codex_Companheiros_Animais.md
 
-Arquivo: M01\_JOGADOR\24\_Codex\_Companheiros\_Animais.md
+
+
+Arquivo: M01_JOGADOR\24_Codex_Companheiros_Animais.md
 
 CÓDEX: COMPANHEIROS ANIMAIS
 
@@ -297,4 +298,5 @@ O animal ganha um bônus permanente de Pontos de Vida igual a (4 x Nível do Mes
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

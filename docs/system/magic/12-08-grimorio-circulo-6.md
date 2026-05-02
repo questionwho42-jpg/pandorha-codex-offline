@@ -3,16 +3,16 @@ sourceFile: "12_08_Grimorio_Circulo_6.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.157Z"
 ---
-
+<ai_context>
 # 12_08_Grimorio_Circulo_6.md
 
-f87dca02-0fa8-44af-93af-5351fe5043d0
 
-12\_08\_Grimorio\_Circulo\_6.md
 
-a9de5dc5-1574-4896-87dd-8610542d0e11
+12_08_Grimorio_Circulo_6.md
 
-Arquivo: M01\_JOGADOR\12\_08\_Grimorio\_Circulo\_6.md
+
+
+Arquivo: M01_JOGADOR\12_08_Grimorio_Circulo_6.md
 
 Grimório: Círculo 6 - O Grão-Mestre
 
@@ -32,7 +32,7 @@ Um raio verde fino parte de seu dedo para um alvo que você possa ver dentro do 
 
 Uma criatura alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . Se falhar, sofre
 
@@ -114,7 +114,7 @@ Você sugere um curso de atividade para até 12 criaturas à sua escolha que voc
 
 Cada alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 . Se falhar, segue a sugestão. A sugestão pode continuar pela duração. Se a atividade for completada em tempo menor, a magia acaba quando o sujeito termina o que foi pedido.
 
@@ -136,7 +136,7 @@ Você cria um raio de eletricidade que salta em direção a um alvo de sua escol
 
 Cada alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 ). O alvo sofre
 
@@ -162,7 +162,7 @@ Escolha uma criatura que você possa ver dentro do alcance. O alvo começa a dan
 
 Uma criatura que esteja dançando deve usar todo o seu movimento para dançar sem sair do lugar e tem desvantagem em testes de Esquiva e jogadas de ataque. Outras criaturas têm vantagem ao atacar o alvo. Como uma ação, a criatura pode fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 para retomar o controle e encerrar a magia.
 
@@ -214,7 +214,7 @@ Uma criatura que participe do banquete ganha vários benefícios por 24 horas: �
 
 Mental + Resistência
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ) com vantagem. Seus pontos de vida máximos também aumentam em
 
@@ -229,4 +229,4 @@ Mental + Resistência
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

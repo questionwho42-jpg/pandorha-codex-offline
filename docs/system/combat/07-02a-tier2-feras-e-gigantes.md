@@ -3,16 +3,16 @@ sourceFile: "07_02a_Tier2_Feras_e_Gigantes.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.152Z"
 ---
-
+<ai_context>
 # 07_02a_Tier2_Feras_e_Gigantes.md
 
-ce8be21e-c657-4681-a412-dd96735425e4
 
-07\_02a\_Tier2\_Feras\_e\_Gigantes.md
 
-2ef10cd8-a8e2-4e7e-8b35-73622c29a4e6
+07_02a_Tier2_Feras_e_Gigantes.md
 
-Arquivo: M04\_DESAFIOS\07\_02a\_Tier2\_Feras\_e\_Gigantes.md
+
+
+Arquivo: M04_DESAFIOS\07_02a_Tier2_Feras_e_Gigantes.md
 
 Pandorha: Bestiário Narrativo Vol. 2A - Feras e Gigantes (Níveis 6-10)
 
@@ -30,11 +30,11 @@ Este tomo apresenta feras de nível médio com fichas táticas detalhadas e desc
 
 A. Ogro Guerreiro (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Brutos nômades que comem qualquer coisa, incluindo pedras, ursos e aventureiros. Não têm cultura escrita, apenas histórias orais de quem comeu mais. Trabalham frequentemente como mercenários, aceitando pagamento em carne humanoide e ouro brilhante (que usam como decoração, não moeda).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 3 metros de altura, com uma barriga proeminente e pele amarelada coberta de verrugas duras como seixos. O cheiro de gordura rançosa é nauseante a metros de distância. Veste peles mal curtidas e carrega troféus pendurados no cinto.
 
@@ -72,11 +72,11 @@ Teste Global de Físico + Resistência + Nível (DC 21)
 
 B. Ogro Magi (Oni) (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A elite inteligente da raça. Nascem com chifres, pele colorida e aptidão mágica natural. Eles escravizam tribos de ogros comuns e se infiltram em cidades humanas usando ilusões para sequestrar crianças ou manipular lordes locais. São cruéis, refinados e canibais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele azul ou vermelha profunda, com dois chifres de marfim na testa. Veste armaduras de lamelas orientais ou roupas de seda fina. Seus olhos brilham com um intelecto afiado e maligno.
 
@@ -120,11 +120,11 @@ Teste Global de Físico + Conflito + Nível (DC 21)
 
 C. Lorde Ogro (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um "Rei da Montanha". Geralmente um ogro que cresceu tanto e comeu tanto que se tornou uma força da natureza. Governa uma fortaleza feita de ossos e pedra bruta. Sua fome é lendária; dizem que pode comer um cavalo inteiro em uma refeição.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma montanha de carne de 4 metros e meio. Usa uma armadura improvisada feita de escudos de cavaleiros amassados e costurados com correntes de âncora.
 
@@ -180,11 +180,11 @@ se o dano causador for
 
 A. Troll da Caverna (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um pesadelo que não morre. Sua biologia mutante fecha feridas em tempo real. Eles atacam sem medo da morte, pois sabem que seus membros amputados irão crescer novamente. Temem apenas o fogo e o ácido, que cauterizam sua carne.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Alto, magro e desengonçado, com braços longos que arrastam no chão enquanto anda curvado. Sua pele é verde, borrachuda e coberta de fungos.
 
@@ -218,11 +218,11 @@ Vulnerável a Fogo (+1d6 Dano)
 
 B. Troll do Rio (Nível 7)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma subespécie adaptada à água doce. Eles espreitam sob pontes ou em águas turvas, puxando viajantes para o fundo para afogá-los e armazená-los em tocas submersas (comida estragada é sua favorita).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele azul-esverdeada escamosa, guelras no pescoço e membranas entre os dedos. Cheira a peixe podre e lodo.
 
@@ -258,11 +258,11 @@ e será puxado para baixo (Submerso). O alvo deve prender a respiração (1 + Mo
 
 C. Troll de Pedra (Nível 9)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Trolls que evoluíram nas profundezas da terra ingerindo minerais raros. Sua pele tornou-se rocha viva. São menos ágeis, mas quase indestrutíveis por armas comuns.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele cinza rachada que parece granito vivo. Seus dentes e garras parecem feitos de cristal bruto. Quando se move, range como pedras moendo.
 
@@ -296,11 +296,11 @@ Arremesso 30m. +16. Dano
 
 A. Hipogrifo (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O cruzamento mágico entre um cavalo e uma águia. Apesar de serem predadores carnívoros, podem ser domesticados se criados desde o ovo. São montarias leais, porém temperamentais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 A parte traseira é de um cavalo castanho ou cinza, enquanto a dianteira (cabeça, asas, patas da frente) é de uma águia gigante com plumagem real.
 
@@ -326,11 +326,11 @@ Conflito +4, Resistência +2, Interação +1.
 
 B. Grifo Real (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A verdadeira realeza dos céus. O Grifo tem o corpo de um leão (o rei das feras) e a cabeça de uma águia (o rei dos céus). Eles caçam cavalos e hipogrifos por esporte e defendem seus ninhos com fúria suicida.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Musculoso e majestoso. Penas douradas na cabeça e peito, transicionando para pelo de leão fulvo na traseira.
 
@@ -360,11 +360,11 @@ Conflito +5, Resistência +4, Interação +2.
 
 C. Grifo da Tempestade (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Grifos tocados pela magia elemental do ar e do raio. Eles fazem seus ninhos nos picos mais altos onde os raios caem constantemente. Voam dentro de furacões sem se ferir.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Penas azul-escuras ou negras, com estática correndo por suas pontas. Seus olhos são brancos e brilhantes.
 
@@ -406,11 +406,11 @@ Teste Global de Físico + Resistência + Nível (DC 27)
 
 A. Wyvern Verde (Nível 7)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Primos distantes e degenerados dos dragões. Eles não têm o sopro nem a inteligência dos dragões, mas compensam com um instinto predatório puro e um ferrão venenoso na cauda. São os tubarões do céu.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Bípede (usa as asas como patas dianteiras ao andar), com um pescoço longo e serpentino. Sua cauda termina em um aguilhão grosso como o de um escorpião.
 
@@ -442,11 +442,11 @@ veneno à metade).
 
 B. Wyvern de Sangue (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma mutação agressiva encontrada em desertos e planícies vulcânicas. Entram em frenesi ao cheiro de sangue, atacando até mesmo coisas muito maiores que eles.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Escamas vermelhas escuras, com espinhos negros ao longo da espinha. Seus olhos são amarelos e dilatados.
 
@@ -472,11 +472,11 @@ contra alvos que não estejam com HP cheio (feridos).
 
 C. Wyvern Alpha (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O patriarca ou matriarca de um grande ninho. Cresceu o suficiente para ser confundido com um dragão jovem. Sua inteligência é rudimentar, mas ele sabe coordenar o bando.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Enorme, com escamas negras cheias de cicatrizes de batalhas antigas. Suas asas criam ventanias quando batem.
 
@@ -524,11 +524,11 @@ veneno à metade).
 
 A. Minotauro (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Criaturas amaldiçoadas nascidas da união profana entre humanoides e demônios bovinos. São obcecados por labirintos e confusão. Caçam intrusos não por fome, mas para oferecê-los em sacrifício.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um humanoide musculoso gigantesco com cabeça e cauda de touro. Pêlo cobre seu corpo.
 
@@ -554,11 +554,11 @@ Nunca se perde em labirintos ou subterrâneos.
 
 B. Guardião de Aço (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Minotauros veteranos que foram equipados com armaduras pesadas por senhores das trevas ou que saquearam arsenal de gigantes. São tanques de guerra vivos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Veste armadura de placas negra completa feita sob medida. Seus chifres são revestidos de metal afiado.
 
@@ -586,11 +586,11 @@ Conflito +6, Resistência +5, Interação 0.
 
 C. Profeta da Besta (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um xamã minotauro que canaliza o poder do Labirinto Infinito. Ele pode distorcer a pedra e confundir a mente dos inimigos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Veste mantos rituais sobre o pelo, com runas gravadas em seus chifres que brilham com luz roxa.
 
@@ -622,11 +622,11 @@ Parede de Pedra
 
 A. Basilisco Comum (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma aberração alquímica que escapou para a natureza. Seu metabolismo converte matéria orgânica em pedra para digestão lenta. Apenas o suco do seu estômago pode reverter a petrificação (se a vítima ainda estiver inteira).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um lagarto corpulento de oito patas, com escamas da cor de pedra e olhos verdes brilhantes que parecem lanternas.
 
@@ -660,11 +660,11 @@ Petrificado
 
 B. Basilisco Maior (Nível 9)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma variante maior cujo veneno se tornou ácido corrosivo capaz de derreter a pedra que ele cria.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Possui espinhas dorsais vermelhas e saliva fumegante.
 
@@ -696,11 +696,11 @@ Teste Global de Físico + Conflito + Nível (DC 26)
 
 C. Basilisco Real (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O rei das serpentes. Dizem que nasceu de um ovo de galinha chocado por uma rã. Seu olhar não apenas petrifica, mas pode matar instantaneamente.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Possui uma crista dourada na cabeça que lembra uma coroa. É menor, mas muito mais letal que os outros.
 
@@ -734,11 +734,11 @@ Teste Global de Físico + Resistência + Nível (DC 25)
 
 A. Yeti (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O predador alfa das montanhas nevadas. Viajantes ouvem seus uivos ecoando nos vales antes de serem emboscados. Sua pelagem é valorizada por proteger contra qualquer frio.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Bípede peludo branco, com garras negras e dentes feitos de gelo mágico. Seus olhos queimam como fogo azul.
 
@@ -776,11 +776,11 @@ por 1 turno (frio congela os músculos).
 
 B. Yeti Abominável (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um gigante solitário que ficou louco pelo isolamento e começou a caçar e comer outros yetis. Cresceu desproporcionalmente devido ao canibalismo mágico.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Tamanho Enorme. Sua pelagem tem crostas de sangue congelado e ele veste "armadura" feita de gelo glacial impenetrável.
 
@@ -816,11 +816,11 @@ Teste Global de Físico + Resistência + Nível (DC 25)
 
 C. Wendigo (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um espírito da fome insaciável que possuiu um humanoide que comeu carne humana no inverno. Não é mais uma besta, é uma maldição morta-viva.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Esquelético, pele cinza esticada, cabeça de cervo ou alce com chifres de osso. Flutua acima da neve sem deixar pegadas.
 
@@ -862,11 +862,11 @@ Restauração
 
 A. Elemental Menor (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Espíritos da terra primitivos invocados por magos novatos ou despertados por tremores sísmicos. Eles não possuem mente individual, funcionando como anticorpos do planeta para esmagar quem perturba o solo sagrado.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um amontoado de pedras, seixos, raízes e lama que se ergue magicamente em uma forma humanoide tosca de 2,5 metros. Não tem rosto, apenas fendas escuras que imitam olhos. Quando anda, o chão treme levemente.
 
@@ -900,11 +900,11 @@ Pode caminhar através de terra e pedra não-mágica como se fosse terreno difí
 
 B. Gargoula de Terra (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma arma de guerra criada por anões das profundezas ou magos de batalha. Eles descobriram como infundir elementais da terra com runas de levitação, criando bombardeiros vivos que caem do céu sobre exércitos inimigos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pedra lisa e aerodinâmica, esculpida para cortar o vento. Possui "asas" de pedra maciça que não batem, mas estabilizam seu voo mágico. Runas azuis brilham em seu peito.
 
@@ -936,11 +936,11 @@ Teste Global de Físico + Resistência + Nível (DC 25)
 
 C. Monolito Vivo (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Guardiões eternos de templos esquecidos. Podem ficar imóveis por milênios disfarçados de pilares ou estátuas até que uma palavra de comando seja violada ou um tesouro tocado. São a paciência da pedra encarnada.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma torre flutuante de placas geométricas de pedra que orbitam um núcleo de energia mágica. Quando ataca, as placas se alinham para formar punhos ou barreiras.
 
@@ -972,11 +972,11 @@ Teste Global de Físico + Resistência + Nível (DC 28)
 
 A. Elemental de Fogo (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Manifestações de pura destruição. Invocados do Plano do Fogo, eles odeiam a existência no mundo material porque sentem um frio constante. Eles queimam tudo o que tocam na tentativa desesperada de se aquecer.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma coluna de chamas vivas que assume vagamente a forma de um tronco humano com braços de chicote. Um rosto de puro ódio aparece e desaparece no meio das brasas.
 
@@ -1008,11 +1008,11 @@ Imune a Fogo
 
 B. Serpente de Magma (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Predadores nativos de vulcões ativos. Nadam na lava derretida como peixes na água e emergem para puxar vítimas para as profundezas incandescentes. São cultuadas por salamandras e cultistas do fogo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma cobra gigante feita de rocha derretida e crosta vulcânica negra que racha conforme ela se move. Sua boca goteja lava líquida que incendeia o chão.
 
@@ -1044,11 +1044,11 @@ Teste Global de Físico + Resistência + Nível (DC 24)
 
 C. Inferno Ambulante (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um nobre menor do Plano do Fogo. Ele não apenas queima; ele planeja, lidera táticas e comanda exércitos de chamas. Vê o mundo material como combustível para seu império de cinzas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante de 4 metros feito de fogo branco (o mais quente) cercado por uma "armadura" de fumaça negra sólida e metal derretido. Carrega uma espada feita de puro calor.
 
@@ -1084,11 +1084,11 @@ em área (Reação final).
 
 A. Elemental de Água (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Espíritos de rios revoltos e tempestades marinhas. São caóticos, inconstantes e implacáveis. Afogam marinheiros e inundam vilas costeiras por mero capricho, sem malícia real, apenas natureza.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma onda permanente mantida em forma humanoide por magia. É translúcido; pode-se ver peixes, algas e detritos de naufrágios flutuando dentro de seu corpo.
 
@@ -1120,11 +1120,11 @@ Vulnerável a Frio (+1d6)
 
 B. Espírito do Gelo (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Elementais nascidos em geleiras antigas onde o frio é absoluto. Eles preservam os corpos de aventureiros dentro de si como troféus perfeitos, congelados no momento da morte. São lógicos e sem emoção.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Feito de gelo azul afiado e cristalino. O ar ao seu redor congela instantaneamente, formando flocos de neve e geada nas armas dos inimigos.
 
@@ -1154,11 +1154,11 @@ Arremesso. +14 (Nv 8 + Fis 6). Dano
 
 C. Maelstrom (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A fúria do oceano profundo. Um vórtice consciente capaz de afundar frotas inteiras. Marinheiros rezam para os deuses do mar para nunca encontrar um desses.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um tornado de água salgada, espuma e destroços que gira violentamente, desafiando a gravidade para ficar em pé sobre a superfície do mar ou terra.
 
@@ -1196,11 +1196,11 @@ por turno e começa a sufocar.
 
 A. Elemental do Ar (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O vento livre e invisível. São os espiões e assassinos perfeitos, capazes de entrar em qualquer lugar através de uma fresta de fechadura. Difíceis de ver e quase impossíveis de prender.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma nuvem rodopiante de poeira e vento. Quase invisível a olho nu, exceto pelos detritos que carrega. Sua passagem é marcada por uma queda súbita de pressão e um assobio agudo.
 
@@ -1232,11 +1232,11 @@ com projéteis contra ele (o vento desvia flechas).
 
 B. Zephyr (Espírito da Brisa) (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um espírito do vento mais sutil e perigoso. Eles não derrubam casas; eles roubam o ar dos pulmões de quem dorme. Agem como assassinos e batedores de elite para lordes elementais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Quase completamente invisível, apenas uma distorção no ar como calor saindo do asfalto. Seus olhos são centelhas azuis minúsculas. Moves-se em silêncio absoluto.
 
@@ -1274,11 +1274,11 @@ contra ele se não tiverem visão verdadeira.
 
 C. Tempestade Viva (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um furacão senciente condensado em uma forma quase humanoide. É barulhento, caótico e destrutivo. Onde ele passa, raios caem do céu e telhados são arrancados.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma nuvem negra de tempestade com forma vagamente humana, com relâmpagos estalando dentro de seu peito e olhos que brilham com luz elétrica branca ofuscante.
 
@@ -1315,4 +1315,4 @@ Teste Global de Físico + Conflito + Nível (DC 26)
 (10 + Nv 10 + 6 Fis) reduz o
 
 --------------------------------------------------------------------------------
-
+</ai_context>

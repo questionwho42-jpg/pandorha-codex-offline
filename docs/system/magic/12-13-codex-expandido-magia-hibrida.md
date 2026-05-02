@@ -3,16 +3,16 @@ sourceFile: "12_13_Codex_Expandido_Magia_Hibrida.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.159Z"
 ---
-
+<ai_context>
 # 12_13_Codex_Expandido_Magia_Hibrida.md
 
-d32a1a36-ad24-410f-a4ab-1a2bff40f4d0
 
-12\_13\_Codex\_Expandido\_Magia\_Hibrida.md
 
-eb8992bc-0147-4402-ba1a-6381a4f37b65
+12_13_Codex_Expandido_Magia_Hibrida.md
 
-Arquivo: M01\_JOGADOR\12\_13\_Codex\_Expandido\_Magia\_Hibrida.md
+
+
+Arquivo: M01_JOGADOR\12_13_Codex_Expandido_Magia_Hibrida.md
 
 Pandorha: Códex Expandido - Magia Híbrida (Meio-Conjuradores)
 
@@ -48,7 +48,7 @@ Energia Etérica (A Reserva Mágica)
 
 O combustível mágico de um híbrido é calculado de forma a aumentar organicamente com seu poder:
 
-EE Máxima = \[Seu Nível de Personagem\] + \[Seu Eixo Mágico\]
+EE Máxima = [Seu Nível de Personagem] + [Seu Eixo Mágico]
 
 #### Eixo Mágico (Atributo de Conjuração):
 
@@ -190,7 +190,7 @@ com Cajados (baterias de EE) ou Orbes (suspensores de concentração).
 
 5. Habilidade Nível 7: Golpe Híbrido Integrado (Spellstrike)
 
-No Nível 7, gastando \*\*2 Ações \*\*\[AA\]\*\*\*\*, o personagem realiza um ataque com sua arma (corpo a corpo ou à distância). Se o ataque acertar, a arma causa seu dano físico normal e descarrega imediatamente o efeito de uma magia preparada sobre o alvo (o custo de EE deve ser pago).
+No Nível 7, gastando \*\*2 Ações \*\*[AA]\*\*\*\*, o personagem realiza um ataque com sua arma (corpo a corpo ou à distância). Se o ataque acertar, a arma causa seu dano físico normal e descarrega imediatamente o efeito de uma magia preparada sobre o alvo (o custo de EE deve ser pago).
 
 #### Magias de Ataque:
 
@@ -205,4 +205,4 @@ penalidade de -2
 (devido à desorientação do impacto).
 
 --------------------------------------------------------------------------------
-
+</ai_context>

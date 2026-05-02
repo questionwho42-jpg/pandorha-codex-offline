@@ -3,16 +3,17 @@ sourceFile: "08_Guia_do_Mestre.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.155Z"
 ---
-
+<ai_context>
+<ai_context>
 # 08_Guia_do_Mestre.md
 
-f5c568ba-4f70-4db5-8a05-b7f19cec06e4
 
-08\_Guia\_do\_Mestre.md
 
-dfde4d91-239d-482b-a457-13d943f216bd
+08_Guia_do_Mestre.md
 
-Arquivo: M02\_MESTRE\08\_Guia\_do\_Mestre.md
+
+
+Arquivo: M02_MESTRE\08_Guia_do_Mestre.md
 
 Pandorha: Capítulo 08 - Guia do Mestre (A Filosofia da Condução)
 
@@ -140,7 +141,7 @@ Isso substitui a "rolagem de encontro aleatório" por uma mecânica de tensão c
 
 Capítulo 28
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/28\_Codex\_Acampamento\_Descanso\_Ativo.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/28_Codex_Acampamento_Descanso_Ativo.md
 
 para a implementação completa no acampamento.
 
@@ -248,11 +249,12 @@ O Guia completo de criação de Facções e o compêndio de entidades no
 
 Capítulo 31
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/31\_Codex\_Teia\_Infamia\_Patrocinio.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/31_Codex_Teia_Infamia_Patrocinio.md
 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

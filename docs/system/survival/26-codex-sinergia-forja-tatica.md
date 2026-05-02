@@ -3,16 +3,17 @@ sourceFile: "26_Codex_Sinergia_Forja_Tatica.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.164Z"
 ---
-
+<ai_context>
+<ai_context>
 # 26_Codex_Sinergia_Forja_Tatica.md
 
-b67db6c8-bbb8-4476-88a9-75bef559ed0e
 
-26\_Codex\_Sinergia\_Forja\_Tatica.md
 
-df729c7b-84d6-42f1-bc4a-b9f1e7d4839b
+26_Codex_Sinergia_Forja_Tatica.md
 
-Arquivo: M03\_ACAO\26\_Codex\_Sinergia\_Forja\_Tatica.md
+
+
+Arquivo: M03_ACAO\26_Codex_Sinergia_Forja_Tatica.md
 
 Pandorha: Códex de Sinergia - A Forja Tática
 
@@ -48,7 +49,7 @@ O grupo compartilha uma reserva de pontos estrita para ativar as sinergias.
 
 O limite de pontos que o grupo pode acumular é exatamente a soma do
 
-\[Tier de Coesão do Grupo\] + \[Número de Jogadores na mesa\]
+[Tier de Coesão do Grupo] + [Número de Jogadores na mesa]
 
 #### Recuperação:
 
@@ -84,7 +85,7 @@ A Sinergia consome recursos e ações conforme as regras universais e a economia
 
 de Pandorha. O ciclo ocorre em até três etapas:
 
-#### Abertura de Elo \[1A\]:
+#### Abertura de Elo [1A]:
 
 Um jogador gasta
 
@@ -104,7 +105,7 @@ início do próximo turno do alvo marcado
 
 . Se não for detonada até lá, o Ponto de Coesão e a oportunidade são perdidos.
 
-#### Sinergia em Cadeia \[1A\] (Opcional):
+#### Sinergia em Cadeia [1A] (Opcional):
 
 Esta etapa torna-se disponível a partir do
 
@@ -118,7 +119,7 @@ Tática de Reforço
 
 à marca. O efeito dessa tática é somado à fusão final.
 
-#### Detonação \[1A\]:
+#### Detonação [1A]:
 
 Um aliado (o Detonador) gasta
 
@@ -555,4 +556,5 @@ age com apenas 2 Ações
 por turno, mantém-se com -2 de CA permanentemente, e sofre o dano base do ataque do Jogador C no início de todos os seus turnos
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

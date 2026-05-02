@@ -3,16 +3,17 @@ sourceFile: "20_Codex_de_Toxinas.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.162Z"
 ---
-
+<ai_context>
+<ai_context>
 # 20_Codex_de_Toxinas.md
 
-8e641fd5-6091-4b02-b52e-57f0820b51de
 
-20\_Codex\_de\_Toxinas.md
 
-af83fad5-3163-48c3-b582-a4e2fd5af65e
+20_Codex_de_Toxinas.md
 
-Arquivo: M04\_DESAFIOS\20\_Codex\_de\_Toxinas.md
+
+
+Arquivo: M04_DESAFIOS\20_Codex_de_Toxinas.md
 
 Pandorha: Capítulo 20 - Codex de Toxinas (Venenos e Ácidos Mágicos)
 
@@ -34,7 +35,7 @@ Veneno (Orgânico), Ácido (Corrosivo), Mágico (Energia) ou Divino (Conceitual)
 
 A fórmula do Teste Global necessário para negar ou reduzir o efeito.
 
-\[d20\] + \[Nível\] + \[Eixo\] + \[Aplicação\]
+[d20] + [Nível] + [Eixo] + [Aplicação]
 
 contra a DC da Toxina.
 
@@ -487,4 +488,5 @@ eterno), pois sua realidade é uma mentira.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

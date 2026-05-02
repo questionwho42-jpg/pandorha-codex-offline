@@ -3,14 +3,15 @@ sourceFile: "REGRAS_HABILIDADES_HEROICAS_ULTIMATES_LIMIT_BREAK.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.190Z"
 ---
-
+<ai_context>
+<ai_context>
 # REGRAS_HABILIDADES_HEROICAS_ULTIMATES_LIMIT_BREAK.md
 
-a66edab4-e3e2-48a8-911a-ab328173a229
 
-REGRAS\_HABILIDADES\_HEROICAS\_ULTIMATES\_LIMIT\_BREAK.md
 
-ba4f1d86-a923-4544-b444-abfcd610e836
+REGRAS_HABILIDADES_HEROICAS_ULTIMATES_LIMIT_BREAK.md
+
+
 
 Pandorha: Regras de Habilidades Heroicas, Medidor de Tensão, Ultimates e Limit Break
 
@@ -144,7 +145,7 @@ Progressão geral
 
 Habilidade Heroica (Ultimate 1)
 
-05\_00\_Regras\_de\_Classe.md
+05_00_Regras_de_Classe.md
 
 , esse marco aparece como
 
@@ -206,7 +207,7 @@ Ultimate de Nível 5: Surto de Tempo
 
 uma vez por dia
 
-+1 Ação \[A\]
++1 Ação [A]
 
 adicional em todos os turnos;
 
@@ -396,31 +397,32 @@ Para definir custo, frequência e forma exata da habilidade, vale o texto espec�
 
 10. Fontes consolidadas
 
-CAPITULO\_ZERO.md
+CAPITULO_ZERO.md
 
-CAPITULO\_ZERO.md
+CAPITULO_ZERO.md
 
-sistema/00\_Mecanicas\_Fundamentais.md
+sistema/00_Mecanicas_Fundamentais.md
 
-sistema/00\_Mecanicas\_Fundamentais.md
+sistema/00_Mecanicas_Fundamentais.md
 
-sistema/05\_00\_Regras\_de\_Classe.md
+sistema/05_00_Regras_de_Classe.md
 
-sistema/05\_00\_Regras\_de\_Classe.md
+sistema/05_00_Regras_de_Classe.md
 
-sistema/05\_01\_Vanguarda.md
+sistema/05_01_Vanguarda.md
 
-sistema/05\_01\_Vanguarda.md
+sistema/05_01_Vanguarda.md
 
-sistema/05\_02\_Tecelao.md
+sistema/05_02_Tecelao.md
 
-sistema/05\_02\_Tecelao.md
+sistema/05_02_Tecelao.md
 
-sistema/05\_03\_Emissario.md
+sistema/05_03_Emissario.md
 
-sistema/05\_03\_Emissario.md
+sistema/05_03_Emissario.md
 
-sistema/05\_04\_Cacador.md
+sistema/05_04_Cacador.md
 
-sistema/05\_04\_Cacador.md
-
+sistema/05_04_Cacador.md
+</ai_context>
+</ai_context>

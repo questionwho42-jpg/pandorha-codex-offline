@@ -3,14 +3,15 @@ sourceFile: "DESCANSO_E_ACAMPAMENTO_COMPLETO.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.169Z"
 ---
-
+<ai_context>
+<ai_context>
 # DESCANSO_E_ACAMPAMENTO_COMPLETO.md
 
-1307f84c-976f-4605-aef7-2de6bc0f0e0d
 
-DESCANSO\_E\_ACAMPAMENTO\_COMPLETO.md
 
-7db8d553-5f18-4694-9884-3bdfabc81fe2
+DESCANSO_E_ACAMPAMENTO_COMPLETO.md
+
+
 
 DESCANSO E ACAMPAMENTO EM PANDORHA
 
@@ -90,7 +91,7 @@ Recupera 100% do HP Máximo.
 
 #### Fórmula alternativa de recuperação por Descanso Longo:
 
-\[HP Inicial da Classe + Eixo Físico\] × Nível
+[HP Inicial da Classe + Eixo Físico] × Nível
 
 #### Pontos de Vigor (PV):
 
@@ -152,7 +153,7 @@ Descanso Longo
 
 #### O número de Ações de Acampamento (1 hora cada) disponíveis é igual a:
 
-\[Tempo Total de Acampamento\] - 8 horas
+[Tempo Total de Acampamento] - 8 horas
 
 #### Ancestralidades e Sono:
 
@@ -527,4 +528,5 @@ Um acampamento bem planejado usa a patrulha para manter o Contador de Perigo bai
 #### Impacto Narrativo:
 
 Eventos de acampamento são oportunidades para desenvolver personagens, revelar tramas secundárias e criar tensão emocional além do combate.
-
+</ai_context>
+</ai_context>

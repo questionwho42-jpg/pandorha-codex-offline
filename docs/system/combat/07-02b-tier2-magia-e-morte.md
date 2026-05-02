@@ -3,16 +3,16 @@ sourceFile: "07_02b_Tier2_Magia_e_Morte.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.152Z"
 ---
-
+<ai_context>
 # 07_02b_Tier2_Magia_e_Morte.md
 
-f07311c6-8907-42c6-a63c-8ade7e813d09
 
-07\_02b\_Tier2\_Magia\_e\_Morte.md
 
-c51e0534-7864-4665-b780-f7d53284f5cc
+07_02b_Tier2_Magia_e_Morte.md
 
-Arquivo: M04\_DESAFIOS\07\_02b\_Tier2\_Magia\_e\_Morte.md
+
+
+Arquivo: M04_DESAFIOS\07_02b_Tier2_Magia_e_Morte.md
 
 Pandorha: Bestiário Narrativo Vol. 2B - Magia e Morte (Níveis 6-10)
 
@@ -26,11 +26,11 @@ Este tomo apresenta ameaças mágicas e mortas-vivas com fichas completas e desc
 
 A. Gárgula de Pedra (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Originalmente esculturas arquitetônicas para afastar o mal, algumas ganharam vida devido à magia residual das cidades ou possessão demoníaca. Elas ficam décadas imóveis em beirais de telhados, esperando a presa perfeita.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um demônio alado agachado, feito inteiramente de pedra cinza coberta de liquens e fuligem urbana. Seus olhos não piscam e parecem buracos vazios até brilharem com luz vermelha no ataque.
 
@@ -62,11 +62,11 @@ RD 5 (Dano não-mágico)
 
 B. Gárgula de Mármore (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Esculpidas por artistas de elite para templos sagrados, essas gárgulas são mais nobres, rápidas e perigosas. Muitas vezes guardam bibliotecas proibidas ou criptas de santos, atacando infiéis com uma precisão fria.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Feita de mármore branco impecável, com veios cinzas que parecem músculos sob a pele de pedra. Suas asas são finas como papel, mas duras como aço. Seu rosto é uma máscara de beleza estoica e cruel.
 
@@ -98,11 +98,11 @@ extra. Dano base
 
 C. Gárgula de Obsidiana (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Nascidas de vulcões ou criadas por magos de guerra das trevas. Seus corpos são feitos de vidro vulcânico negro, incrivelmente afiado. Elas servem como assassinas de elite, descendo à noite para fatiar generais inimigos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Negra como a noite, com arestas cortantes em cada articulação. Reflete a luz da lua em seus facões naturais. Quando ferida, não sangra, mas solta lascas de vidro afiado.
 
@@ -140,11 +140,11 @@ cada. Crítico com 19-20.
 
 A. Cria de Vampiro (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Vítimas recentes de um vampiro verdadeiro. Ainda estão ligadas à vontade de seu mestre e lutam contra a perda de sua humanidade. A fome de sangue é nova e incontrolável, tornando-os bestas selvagens em combate.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pálidos como a morte, com olhos vermelhos injetados e caninos proeminentes. Vestem as roupas rasgadas e sujas de terra de quando foram enterrados.
 
@@ -172,11 +172,11 @@ Vulnerável a Radiante (+1d6)
 
 B. Vampiro Neófito (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma cria que sobreviveu tempo suficiente para ganhar independência ou cujo mestre foi destruído. Começa a recuperar sua inteligência e charme, aprendendo a usar sua maldição como uma arma social.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Aparenta ser um humano atraente e pálido, vestido com elegância. Sabe esconder suas presas e se misturar na sociedade noturna.
 
@@ -210,11 +210,11 @@ Enfeitiçado
 
 C. Daywalker (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma aberração entre os mortos-vivos. Um vampiro que, através de pactos infernais, anéis mágicos ou alquimia de sangue, superou sua fraqueza fatal à luz do sol. Eles caçam de dia, quando ninguém espera um predador noturno.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Usa armadura completa pesada e elmo fechado para esconder sua natureza pálida, mas se move com uma velocidade que nenhuma armadura deveria permitir.
 
@@ -254,11 +254,11 @@ Resiste à Luz Solar (Não toma dano, mas perde a Regeneração sob o sol).
 
 A. Baú Mímico (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A evolução suprema da emboscada. Criaturas metamorfas que aprenderam a assumir a forma daquilo que os aventureiros mais cobiçam: tesouro. Muitos heróis perderam a mão (ou a cabeça) tentando abrir uma fechadura que na verdade era um olho.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um baú de madeira robusta com reforços de ferro. Quando ataca, a tampa se abre revelando fileiras de dentes serrilhados e uma língua roxa e grossa.
 
@@ -290,11 +290,11 @@ Teste Global de Físico + Resistência + Nível (DC 22)
 
 B. Porta Mímica (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma variante maior e mais paciente. Substitui portas inteiras em masmorras, esperando que o grupo tente passar por ela. Uma vez que a vítima gira a maçaneta, ela é engolida.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Parece uma porta de carvalho reforçada normal. A "maçaneta" é um olho que pisca rapidamente antes do ataque. A madeira se dobra como borracha para formar uma boca vertical gigante.
 
@@ -326,11 +326,11 @@ Teste Global de Físico + Resistência + Nível (DC 25)
 
 C. Casa Mímica (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O pesadelo dos viajantes. Um mímico colossal que assume a forma de uma cabana de caça, um pequeno santuário ou uma estalagem isolada. O grupo entra para descansar, e as paredes começam a digerir a carne deles enquanto dormem.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Por fora, um chalé convidativo com chaminé fumegante (a fumaça é vapor ácido). Por dentro, o tapete é uma língua áspera, e as janelas são olhos leitosos que vigiam os hóspedes.
 
@@ -362,11 +362,11 @@ Alcance: Interior. O chão e as paredes secretam ácido gástrico. Todos dentro 
 
 A. Golem de Carne (Nível 7)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma abominação profana costurada com partes de vários cadáveres e animada por magia proibida e parafusos de condução. Não sente dor, medo ou dúvida. É a guarda-costas perfeita para necromantes que não confiam em zumbis burros.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante disforme de 2,5 metros. Sua pele é um mosaico de tons diferentes, costurada com arame grosso. Cheira a formol e almíscar. Solta grunhidos baixos e sem sentido.
 
@@ -402,11 +402,11 @@ cura o Golem.
 
 B. Golem de Barro (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Criado por sacerdotes para proteger templos. Feito de argila sagrada e animado por um espírito elemental da terra obediente. Se ficar fora de controle, destruirá tudo em seu caminho.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma estátua de barro mal cozido, grande e pesada. Seus movimentos são lentos e fluidos, mas seus punhos batem como martelos. Runas sagradas brilham em sua testa.
 
@@ -444,11 +444,11 @@ ou Descanso Longo).
 
 C. Golem de Âmbar (Nível 9)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma criação rara de arquimagos druídicos. Feito de resina fossilizada antiga, contém insetos pré-históricos visíveis em seu interior. É imune a quase toda magia.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Translúcido e dourado, brilhando sob a luz. É belo, mas implacável. Quando quebrado, libera seiva pegajosa que prende as armas dos inimigos.
 
@@ -484,11 +484,11 @@ Teste Global de Físico + Resistência + Nível (DC 26)
 
 A. Espião (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Doppelgangers que se infiltram na alta sociedade, guildas e governos. Eles matam o original, leem seus pensamentos finais e assumem sua vida com perfeição assustadora. Um espião pode viver anos com a família da vítima sem ser notado.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Em sua forma natural (que raramente mostram), é um humanoide cinza, liso, sem nariz ou orelhas e com olhos brancos grandes. Parece um boneco de argila não terminado.
 
@@ -520,11 +520,11 @@ Crítico Automático
 
 B. Assassino Sem Rosto (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Metamorfos criados por alquimia para serem armas vivas. Eles podem esticar seus membros e passar por debaixo de portas. Não possuem órgãos vitais tradicionais, o que os torna difíceis de matar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa de carne pálida e elástica. Pode formar lâminas de osso a partir de seus braços e mudar a textura de sua pele para escalar paredes ou se camuflar.
 
@@ -554,11 +554,11 @@ Seu alcance corpo a corpo é 3m. Reduz dano de impacto em 5.
 
 C. Mestre das Máscaras (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um lorde doppelganger que esqueceu sua forma original há séculos. Ele controla uma rede criminosa inteira assumindo múltiplas identidades ao mesmo tempo. Em combate, ele muda de rosto a cada segundo para confundir os inimigos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Veste roupas finas que parecem mudar de estilo e cor conforme ele se move. Seu rosto é um borrão constante de feições diferentes.
 
@@ -598,11 +598,11 @@ Teste Global de Mental + Resistência + Nível (DC 26)
 
 A. Gnoll Caçador (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Criaturas selvagens criadas por um lorde demônio da fome eterna. Eles nunca estão satisfeitos e vagam em bandos caóticos, devorando tudo em seu caminho.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um híbrido aterrorizante de homem e hiena. Pelo malhado sujo de sangue cobre seu corpo musculoso e magro. Seus olhos amarelos brilham com loucura.
 
@@ -624,7 +624,7 @@ Conflito +4, Resistência +3, Interação -2.
 
 #### Passiva - Fúria:
 
-Quando reduz um inimigo a 0 HP, faz um ataque extra como 1 Ação \[L\].
+Quando reduz um inimigo a 0 HP, faz um ataque extra como 1 Ação [L].
 
 +11 (Nv 6 + Fis 5). Alcance 3m. Dano
 
@@ -632,11 +632,11 @@ Quando reduz um inimigo a 0 HP, faz um ataque extra como 1 Ação \[L\].
 
 B. Gnoll Xamã de Sangue (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O líder espiritual do bando, abençoado com a magia vil de seu patrono. Ele lê o futuro nas entranhas quentes de suas vítimas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Coberto de talismãs feitos de orelhas secas. Seu pelo é tingido de vermelho e ele carrega um cajado com um crânio humano.
 
@@ -666,11 +666,11 @@ Conflito +3, Resistência +4, Interação +3.
 
 C. Senhor da Guerra Gnoll (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O alfa supremo, nascido com a benção direta do Abismo. Ele empunha um mangual de três cabeças que causa dor, paralisia e loucura.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Muito maior que os outros gnolls, com músculos densos como ferro. Seus olhos não mostram loucura, mas malícia calculada.
 
@@ -708,11 +708,11 @@ até o próximo turno.
 
 A. Esporo Sentinela (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Habitantes silenciosos do Subterrâneo. Homens-cogumelo que vivem em comunhão telepática. Geralmente pacíficos, mas defendem suas colônias com ferocidade química.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um cogumelo bípede de 2 metros, com cabeça larga e esponjosa roxa. Libera nuvens de poeira colorida de suas brânquias.
 
@@ -738,11 +738,11 @@ Nuvem de Veneno ao ser atingido (Quem bate sofre
 
 B. Bruto Fúngico (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um miconídeo guerreiro, criado com esteroides alquímicos naturais. Ele protege a entrada do bosque de fungos. É lento, mas bate como um aríete.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Enorme e inchado, coberto de placas de quitina de fungo dura. Seus braços são troncos grossos de micélio denso.
 
@@ -772,11 +772,11 @@ Alcance 9m (Cone). Teste Global de Mental + Resistência + Nível (DC 20)\*\* (1
 
 C. Soberano de Esporos (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O rei da colônia. Ele pode reanimar cadáveres com esporos para servirem como escravos sem mente. Sua conexão com a rede micelial o torna quase onisciente em seu domínio.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Alto e majestoso, com esporos dourados caindo de sua capa natural. Veste "roupas" feitas de musgo vivo.
 
@@ -796,7 +796,7 @@ Conflito +4, Resistência +5, Interação +5.
 
 #### Reanimar Servo:
 
-(1 Ação \[L\] - 1/turno) Alcance 9m. Levanta um cadáver próximo com 1 HP para lutar.
+(1 Ação [L] - 1/turno) Alcance 9m. Levanta um cadáver próximo com 1 HP para lutar.
 
 #### Toque Podre:
 
@@ -812,11 +812,11 @@ Conflito +4, Resistência +5, Interação +5.
 
 A. Planta Assassina (Nível 7)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma vinha carnívora evoluída que caça. Cresce em ruínas antigas e florestas densas, disfarçando-se como vegetação inofensiva até atacar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Parece um arbusto denso até se mover, revelando gavinhas grossas e mandíbulas de folhas serrilhadas. O chão ao redor é coberto de ossos.
 
@@ -850,11 +850,11 @@ Teste Global de Físico + Resistência + Nível (DC 23)
 
 B. Ente Corrompido (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma árvore antiga que bebeu água contaminada por necromancia ou sangue. Odeia a vida animal. Usa suas raízes para prender e seus galhos para empalar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um carvalho retorcido com casca negra e folhas vermelhas secas. Um "rosto" de angústia parece esculpido em seu tronco.
 
@@ -884,11 +884,11 @@ RD 5 (Contundente)
 
 C. Vinha Vampírica (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma planta móvel que drena sangue rapidamente através de espinhos ocos. Pode dizimar um acampamento inteiro em uma noite sem fazer barulho.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa de cipós verdes com flores vermelhas brilhantes que cheiram a carne doce. Os espinhos são longos e translúcidos.
 
@@ -928,11 +928,11 @@ Teste Global de Físico + Resistência + Nível (DC 26)
 
 A. Guardião de Lâminas (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um construto de guerra criado por nações que valorizam a eficiência. É uma máquina de matar feita inteiramente de armas descartadas, animadas por magia.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um turbilhão humanoide de metal afiado. Não tem "pele", apenas centenas de espadas e facas girando. O som que produz é um tinir ensurdecedor.
 
@@ -964,11 +964,11 @@ Atacante corpo a corpo sofre
 
 B. Dervixe de Aço (Nível 9)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um construto mais ágil e focado em duelos. Possui quatro braços, cada um empunhando uma cimitarra perfeita. Move-se dançando pelo campo de batalha, desviando de golpes com graça inumana.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um manequim metálico esguio, polido como espelho. Seus movimentos são fluidos demais para uma máquina.
 
@@ -1000,11 +1000,11 @@ Quatro ataques. +15 (Nv 9 + Fis 6). Alcance 1,5m. Dano
 
 C. Juggernaut de Guerra (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um tanque de guerra autônomo. Uma caixa de metal maciço sobre rodas ou pernas curtas, coberta de espigões e serras circulares. Feito para quebrar portões e linhas de infantaria.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um bloco de ferro negro de 3 metros de altura, soltando fumaça preta e faíscas. O chão treme quando ele avança.
 
@@ -1039,4 +1039,4 @@ Teste Global de Físico + Conflito + Nível (DC 29)
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

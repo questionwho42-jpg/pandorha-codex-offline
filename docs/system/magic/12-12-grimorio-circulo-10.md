@@ -3,16 +3,16 @@ sourceFile: "12_12_Grimorio_Circulo_10.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.158Z"
 ---
-
+<ai_context>
 # 12_12_Grimorio_Circulo_10.md
 
-38d34f77-13ef-4a6e-abaa-79033c160d5c
 
-12\_12\_Grimorio\_Circulo\_10.md
 
-c84b282d-4d4d-435f-94de-9df309fc4cc5
+12_12_Grimorio_Circulo_10.md
 
-Arquivo: M01\_JOGADOR\12\_12\_Grimorio\_Circulo\_10.md
+
+
+Arquivo: M01_JOGADOR\12_12_Grimorio_Circulo_10.md
 
 Grimório: Círculo 10 - Magias Proibidas
 
@@ -62,7 +62,7 @@ No final da duração, seu corpo mortal deve fazer um teste de
 
 Resistência
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 ) (CD 40). Se falhar, você explode e deixa de existir (alma destruída). Se passar, você perde todos os níveis de classe e volta a ser um mortal Nível 1.
 
@@ -109,4 +109,4 @@ Transmutação
 Você toca o pico de uma montanha e comanda que ela obedeça à gravidade ditada por você. Você pode arrancar o topo de uma montanha (ou uma ilha inteira) e fazê-la flutuar. Isso geralmente é usado para criar Cidadelas Voadoras. A montanha voa a uma velocidade lenta (15km/h) sob seu comando mental.
 
 --------------------------------------------------------------------------------
-
+</ai_context>

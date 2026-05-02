@@ -3,16 +3,17 @@ sourceFile: "30_Codex_do_Bastiao.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.166Z"
 ---
-
+<ai_context>
+<ai_context>
 # 30_Codex_do_Bastiao.md
 
-f7372b89-c89a-4d44-9d23-eb67d8398bdc
 
-30\_Codex\_do\_Bastiao.md
 
-e3ef257f-f6c5-4095-b352-1f95851757d4
+30_Codex_do_Bastiao.md
 
-Arquivo: M02\_MESTRE\30\_Codex\_do\_Bastiao.md
+
+
+Arquivo: M02_MESTRE\30_Codex_do_Bastiao.md
 
 PANDORHA: CÓDEX DO BASTIÃO (Base de Operações Evolutiva)
 
@@ -34,7 +35,7 @@ Os Módulos que o grupo constrói servem direta e matematicamente para aprimorar
 
 6 Operações de Metrópole (Tags de A a F)
 
-. Se um jogador deseja realizar a Busca de Ouro \[Tag A\], Especulação no Submundo \[Tag D\], ou o caríssimo Re-Treinamento Biológico \[Tag F\], as instalações do Bastião transformarão dificuldades punitivas em sucessos garantidos, permitindo que o grupo domine a economia e a política de Pandorha de dentro de seus próprios muros.
+. Se um jogador deseja realizar a Busca de Ouro [Tag A], Especulação no Submundo [Tag D], ou o caríssimo Re-Treinamento Biológico [Tag F], as instalações do Bastião transformarão dificuldades punitivas em sucessos garantidos, permitindo que o grupo domine a economia e a política de Pandorha de dentro de seus próprios muros.
 
 --------------------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ Define os Pontos de Vida da base.
 
 O Bastião rola
 
-\[1d20 + Estrutura\]
+[1d20 + Estrutura]
 
 contra a Dificuldade do Ataque inimigo quando a base sofre agressões físicas frontais (fogo de catapultas, monstros gigantes). Sucessos evitam a perda de Integridade.
 
@@ -70,7 +71,7 @@ Define o teto de ouro seguro que a base pode guardar.
 
 O Bastião rola
 
-\[1d20 + Vigilância\]
+[1d20 + Vigilância]
 
 para detectar espiões, assassinos ou impedir roubos do cofre. Dita a velocidade com que o grupo percebe ameaças.
 
@@ -84,12 +85,15 @@ na manutenção e salários dos NPCs.
 
 Rolada ativamente
 
-\[1d20 + Logística\]
+[1d20 + Logística]
 
 para resolver crises burocráticas, acalmar greves, subornar fiscais ou contornar falta de recursos.
+</ai_context>
+</ai_context>
 
 ## Catálogo de Chassis (A Fundação Nível 0)
-
+<ai_context>
+<ai_context>
 Ao adquirir a base, o grupo escolhe o seu "Chassi". Ele dita a natureza do local e concede bônus mecânicos imediatos. O Bastião suporta um número de Módulos ativos igual a
 
 Capacidade Base do Chassi (geralmente 3) + (Tier x 3)
@@ -180,7 +184,7 @@ Recesso (2 a 4 semanas de jogo)
 
 , que pode ser gasta rolando
 
-\[Mental + Matriz Relevante\]
+[Mental + Matriz Relevante]
 
 para encher a
 
@@ -191,9 +195,12 @@ de um Módulo.
 #### Sucesso Crítico:
 
 +3 Pontos. (Vários heróis podem focar no mesmo módulo).
+</ai_context>
+</ai_context>
 
 ## Escalonamento Duplo e Economia Híbrida
-
+<ai_context>
+<ai_context>
 #### Módulos de Tier 1:
 
 Custo: 500 PO. | Barra: 10 Pontos. | Teste vs
@@ -307,9 +314,12 @@ O grupo acorda (Condição: Desprevenido) direto em combate tático no dormitór
 #### Convergência de Éter:
 
 Fenda dimensional abre no cofre. Combate Tático Boss contra demônios saqueando por dentro.
+</ai_context>
+</ai_context>
 
 ## Resolução Híbrida e Dano
-
+<ai_context>
+<ai_context>
 #### Eventos de Cerco possuem duas fases:
 
 (rolagens da base atirando nos invasores) e
@@ -332,7 +342,7 @@ A cada perda de 25% da Integridade, 1 Módulo aleatório/focado quebra. Conserta
 
 #### Favores Tangíveis:
 
-Bases conservadas geram "Tokens de Favor", usados para ignorar testes da Matriz Social ou anular multas da \[Tag E\].
+Bases conservadas geram "Tokens de Favor", usados para ignorar testes da Matriz Social ou anular multas da [Tag E].
 
 #### Draft de Missões:
 
@@ -398,7 +408,7 @@ Reduz custo de materiais para conserto em 50%.
 
 Vantagem na Ação
 
-\[Tag A\] Busca Legal de Ouro
+[Tag A] Busca Legal de Ouro
 
 #### Cozinha de Expedição:
 
@@ -410,7 +420,7 @@ grátis para o grupo.
 
 Desconto de 20% na Ação
 
-\[Tag B\] Recuperação Prolongada
+[Tag B] Recuperação Prolongada
 
 Viagem em estrada 25% mais rápida (Projeção).
 
@@ -422,35 +432,35 @@ Viagem em estrada 25% mais rápida (Projeção).
 
 +2 em Testes de Alquimia.
 
-\[Trf: Coração de Salamandra\]
+[Trf: Coração de Salamandra]
 
 #### Oficina de Armaria:
 
 Libera forja com Aço Frio/Prata.
 
-\[Trf: Mandíbula de Wyvern\]
+[Trf: Mandíbula de Wyvern]
 
 #### Biblioteca de Rumores:
 
 Vantagem em
 
-\[Tag C\] Investigação Arcana
+[Tag C] Investigação Arcana
 
-\[Trf: Cérebro de Devorador Menor\]
+[Trf: Cérebro de Devorador Menor]
 
 #### Rede de Informantes:
 
 Gaste 1 Favor Menor para achar recursos no mapa.
 
-\[Trf: Olho de Basilisco\]
+[Trf: Olho de Basilisco]
 
 #### Câmara de Treinamento:
 
 -25% do custo brutal da
 
-\[Tag F\] Re-treinamento
+[Tag F] Re-treinamento
 
-\[Trf: Essência de Elementalista\]
+[Trf: Essência de Elementalista]
 
 #### Mercado Interno:
 
@@ -458,31 +468,31 @@ Venda segura da
 
 dentro da base.
 
-\[Trf: Balança de Gárgula\]
+[Trf: Balança de Gárgula]
 
 #### Muralha de Pedra:
 
 +4 Estrutura.
 
-\[Trf: Núcleo de Elemental da Terra T2\]
+[Trf: Núcleo de Elemental da Terra T2]
 
 #### Altar de Vinculação:
 
 Necessário para prender Runas.
 
-\[Trf: Sangue de Espectro\]
+[Trf: Sangue de Espectro]
 
 #### Salão de Banquetes:
 
 +10 XP de Fama extra ao completar missões Notáveis.
 
-\[Trf: Presa de Javali Atroz\]
+[Trf: Presa de Javali Atroz]
 
 #### Pombal Mágico:
 
 Troca de favores e mensagens remotas.
 
-\[Trf: Penas de Grifo\]
+[Trf: Penas de Grifo]
 
 🟡 Módulos de Tier 3 (Custo: 5.000 PO + 1 Troféu Raro | DC 25 | 30 Pontos)
 
@@ -492,25 +502,25 @@ Troca de favores e mensagens remotas.
 
 Cria itens de Adamante. Corta tempo de obras T1/T2 pela metade.
 
-\[Trf: Martelo Fendido de Gigante de Fogo\]
+[Trf: Martelo Fendido de Gigante de Fogo]
 
 #### Cofre Dimensional (Menor):
 
 Riqueza não gera Ameaça até 10.000 PO.
 
-\[Trf: Saco Gástrico de Behir\]
+[Trf: Saco Gástrico de Behir]
 
 #### Observatório Etérico:
 
 Revela o mapa inteiro ao redor.
 
-\[Trf: Olho Cristalizado de Observador\]
+[Trf: Olho Cristalizado de Observador]
 
 #### Auditório de Diplomacia:
 
 Gera 1 Favor Maior por mês.
 
-\[Trf: Coroa Quebrada de Lich Menor\]
+[Trf: Coroa Quebrada de Lich Menor]
 
 #### Sanatório Arcano:
 
@@ -518,37 +528,37 @@ Cura necrose brutal da
 
 em apenas 3 dias.
 
-\[Trf: Pó de Asas de Anjo Caído\]
+[Trf: Pó de Asas de Anjo Caído]
 
 #### Engenharia de Éter:
 
 Cria cajados/orbes de alto nível.
 
-\[Trf: Reator de Constructo T3\]
+[Trf: Reator de Constructo T3]
 
 #### Torre de Bombardeio:
 
 Dano massivo automático na Fase Macro de Cercos.
 
-\[Trf: Coração de Pólvora de Demônio\]
+[Trf: Coração de Pólvora de Demônio]
 
 #### Sindicato de Comércio:
 
 sobe para +40%.
 
-\[Trf: Moeda de Alma de Diabo Contratante\]
+[Trf: Moeda de Alma de Diabo Contratante]
 
 #### Cripta de Blueprints:
 
 Salva Módulos em caso de Game Over.
 
-\[Trf: Fragmento de Monolito Ancião\]
+[Trf: Fragmento de Monolito Ancião]
 
 #### Alojamento de Elite:
 
 +2 Especialistas, -30% nos salários deles.
 
-\[Trf: Estandarte de um Warlord T3\]
+[Trf: Estandarte de um Warlord T3]
 
 🔴 Módulos de Tier 4 (Custo: 20.000 PO + 1 Troféu Épico | DC 30 | 40 Pontos)
 
@@ -558,65 +568,66 @@ Salva Módulos em caso de Game Over.
 
 Cria Itens Lendários. Custo de insumos mágicos reduzido em 50%.
 
-\[Trf: Núcleo do Sol de um Titã\]
+[Trf: Núcleo do Sol de um Titã]
 
 #### Farol da Fama Mundial:
 
 Fama fixada em Mito Continental, ignorando distâncias.
 
-\[Trf: Trombeta de um Arcanjo\]
+[Trf: Trombeta de um Arcanjo]
 
 #### Portal de Conjunção:
 
 Teleporte instantâneo pelo mapa.
 
-\[Trf: Fenda Espacial de um Horror Cósmico\]
+[Trf: Fenda Espacial de um Horror Cósmico]
 
 #### Corte dos Reis:
 
 O único Módulo que suporta o "Projeto de Legado".
 
-\[Trf: Coroa de um Avatar Divino\]
+[Trf: Coroa de um Avatar Divino]
 
 #### Bateria de Éter Infinita:
 
 Restaura 1 Ponto de EE extra para toda a equipe.
 
-\[Trf: Coração de Dragão Ancião Azul\]
+[Trf: Coração de Dragão Ancião Azul]
 
 #### Muralha Rúnica Absoluta:
 
 +10 Estrutura. Imune a cerco Mágico < C5.
 
-\[Trf: Escamas do Wyrm da Terra\]
+[Trf: Escamas do Wyrm da Terra]
 
 #### Inteligência Senciente:
 
 Rola defesas passivas automaticamente com Vantagem.
 
-\[Trf: Alma de Esfinge Primordial\]
+[Trf: Alma de Esfinge Primordial]
 
 #### Cofre do Fim do Mundo:
 
 Ouro infinito (não gera Ameaça).
 
-\[Trf: Mandíbulas de um Kraken Ancestral\]
+[Trf: Mandíbulas de um Kraken Ancestral]
 
 #### Câmara de Ressurreição:
 
 Traz mortos sem custo material 1x/mês.
 
-\[Trf: Foice de um Avatar da Morte\]
+[Trf: Foice de um Avatar da Morte]
 
 #### Nexus Regional:
 
 Altera clima/bioma e bane monstros de 5 hexágonos ao redor.
 
-\[Trf: Semente da Yggdrasil Profunda\]
+[Trf: Semente da Yggdrasil Profunda]
 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

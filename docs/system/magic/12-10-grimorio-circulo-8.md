@@ -3,16 +3,16 @@ sourceFile: "12_10_Grimorio_Circulo_8.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.158Z"
 ---
-
+<ai_context>
 # 12_10_Grimorio_Circulo_8.md
 
-2943f095-bfe7-4dc9-816d-d066e2363a51
 
-12\_10\_Grimorio\_Circulo\_8.md
 
-35aa9034-f2f5-4172-bb29-c927f0ec036c
+12_10_Grimorio_Circulo_8.md
 
-Arquivo: M01\_JOGADOR\12\_10\_Grimorio\_Circulo\_8.md
+
+
+Arquivo: M01_JOGADOR\12_10_Grimorio_Circulo_8.md
 
 Grimório: Círculo 8 - O Semideus
 
@@ -30,7 +30,7 @@ Você cria um tremor sísmico num ponto no solo. Um tremor intenso rasga o chão
 
 Fenda se abre. Teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 ) (CD 15) para não cair.
 
@@ -56,7 +56,7 @@ Concentração, até 1 hora
 
 Você tenta controlar uma criatura que você possa ver dentro do alcance. Ela deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 com vantagem se estiver em combate com você. Se falhar, fica
 
@@ -80,7 +80,7 @@ Instantânea
 
 Um flash de luz solar brilhante explode e preenche uma esfera de 18m de raio. Cada criatura deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 . Se falhar, sofre
 
@@ -104,7 +104,7 @@ Até a magia encerrar, uma criatura voluntária que você toca é imune a dano p
 
 Enfeitiçado
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ). A magia frustra até magias de
 
@@ -144,7 +144,7 @@ O alvo repele as criaturas. Elas devem passar num teste de
 
 Mental + Resistência
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ) para se aproximar.
 
@@ -168,7 +168,7 @@ O alvo pode usar sua ação para tentar escapar. Ele faz um teste de
 
 Inteligência
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Interação\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Interação] + [Item]
 
 ) (CD 20). Se passar, escapa e reaparece no espaço que deixou ou no espaço livre mais próximo. Se falhar, permanece.
 
@@ -188,7 +188,7 @@ Você profere uma palavra de poder. Se o alvo tiver 150 pontos de vida ou menos,
 
 Resistência
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 ) no final de cada um de seus turnos. Numa falha, continua atordoado. Num sucesso, o efeito termina.
 
@@ -210,7 +210,7 @@ Uma nuvem rodopiante de fumaça, brasas e cinzas incandescentes 6m de raio apare
 
 num teste falho de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 ), ou metade num sucesso.
 
@@ -247,4 +247,4 @@ A velocidade de mudança cai para 1d4 minutos.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

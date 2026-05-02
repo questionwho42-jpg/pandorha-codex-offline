@@ -3,14 +3,15 @@ sourceFile: "REGRAS_FAMA_INFAMIA_FAVOR_FACCOES.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.190Z"
 ---
-
+<ai_context>
+<ai_context>
 # REGRAS_FAMA_INFAMIA_FAVOR_FACCOES.md
 
-4e88ed15-1924-40c2-9b14-c7d736ab7907
 
-REGRAS\_FAMA\_INFAMIA\_FAVOR\_FACCOES.md
 
-17cfd452-93f2-497a-aae3-4b30a6c5d02e
+REGRAS_FAMA_INFAMIA_FAVOR_FACCOES.md
+
+
 
 REGRAS COMPLETAS DE FAMA, INFÂMIA, FAVOR E FACÇÕES - SISTEMA PANDORHA
 
@@ -226,7 +227,7 @@ Cada facção na Teia Genuína é rastreada individualmente. O grupo pode ter m�
 
 É calculado estritamente pela fórmula:
 
-\[Nível de Fama com a Facção × 3\]
+[Nível de Fama com a Facção × 3]
 
 Fama Nível 1 = Limite 3. Fama Nível 5 = Limite 15.
 
@@ -799,4 +800,5 @@ Fio Negro Irrompível.
 #### Kit Temático:
 
 Pontos de Intriga induzem o Apocalipse Bélico. Todos os inimigos no campo de batalha são infligidos com fúria cega, atacando e se dilacerando antes mesmo de notarem o grupo de heróis.
-
+</ai_context>
+</ai_context>

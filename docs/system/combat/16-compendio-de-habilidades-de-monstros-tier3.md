@@ -3,16 +3,16 @@ sourceFile: "16_Compendio_de_Habilidades_de_Monstros_Tier3.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.160Z"
 ---
-
+<ai_context>
 # 16_Compendio_de_Habilidades_de_Monstros_Tier3.md
 
-0513d548-e968-42db-8fc8-509dfe4776ff
 
-16\_Compendio\_de\_Habilidades\_de\_Monstros\_Tier3.md
 
-3175b16a-693a-4177-a355-e4f5c4e3aab4
+16_Compendio_de_Habilidades_de_Monstros_Tier3.md
 
-Arquivo: M02\_MESTRE\16\_Compendio\_de\_Habilidades\_de\_Monstros\_Tier3.md
+
+
+Arquivo: M02_MESTRE\16_Compendio_de_Habilidades_de_Monstros_Tier3.md
 
 Pandorha: Capítulo 16 - Compêndio de Habilidades de Monstros (Tier 3)
 
@@ -118,7 +118,7 @@ O alvo prioritário; buffa o exército inteiro.
 
 Ativas (Nível 11)
 
-\[2 Ações\] Tempestade de Aço
+[2 Ações] Tempestade de Aço
 
 Ataca TODOS os inimigos em alcance 3m. +17 Ataque. 2d10+10 cada.
 
@@ -126,7 +126,7 @@ Um giro letal.
 
 Punição para o "Deathball" (grupo junto).
 
-\[1 Ação\] Grito Desmoralizante
+[1 Ação] Grito Desmoralizante
 
 Teste Global de Mental + Resistência + Nível (CD 17)
 
@@ -138,7 +138,7 @@ Som que quebra o espírito.
 
 Desarma o grupo, forçando gasto de ações.
 
-\[1 Ação\] Arremesso Titanic
+[1 Ação] Arremesso Titanic
 
 Agarra alvo (Médio/Pequeno) e arremessa 18m. 6d6 Impacto ao pousar.
 
@@ -146,7 +146,7 @@ Transforma o herói em projétil.
 
 Joga o Paladino em cima do Mago.
 
-\[Reação\] Bloqueio Perfeito
+[Reação] Bloqueio Perfeito
 
 Reduz o dano de um ataque a 0.
 
@@ -154,7 +154,7 @@ Para a lâmina com a mão nua.
 
 Humilha o atacante e nega o golpe mais forte.
 
-\[1 Ação\] Investida do Touro
+[1 Ação] Investida do Touro
 
 Move 18m em linha reta. Ataca +17. 4d10+10. Alvo empurrado 9m e
 
@@ -162,7 +162,7 @@ Locomotiva de carne.
 
 Separa a formação e isola um alvo.
 
-\[1 Ação\] Marca da Morte
+[1 Ação] Marca da Morte
 
 Escolhe um alvo. O próximo ataque contra ele tem Crítico automático.
 
@@ -170,7 +170,7 @@ Aponta o dedo condenatório.
 
 Prepara um "Hit Kill" para a próxima rodada.
 
-\[3 Ações\] Terremoto de Sangue
+[3 Ações] Terremoto de Sangue
 
 Raio 12m. Chão racha.
 
@@ -182,7 +182,7 @@ Golpeia o chão com poder profano.
 
 Controle de multidão massivo.
 
-\[1 Ação\] Nuvem de Adagas
+[1 Ação] Nuvem de Adagas
 
 Cria zona de 6m raio. Quem entra/sai sofre 4d6 Cortante (Sem teste). Dura 1 min.
 
@@ -190,7 +190,7 @@ Lâminas voadoras aninamadas.
 
 ArEE Denial. Protege o flanco.
 
-\[2 Ações\] Ejecção de Espinhos
+[2 Ações] Ejecção de Espinhos
 
 Explosão de 6m raio. 5d8 Perfurante.
 
@@ -200,7 +200,7 @@ Detona a própria armadura externa.
 
 Dano em área defensivo quando cercado.
 
-\[1 Ação\] Comando: Traição
+[1 Ação] Comando: Traição
 
 Teste Global de Mental + Interação + Nível (CD 17)
 
@@ -306,7 +306,7 @@ Mata os NPCs/Minions primeiro para buffar.
 
 Ativas (Nível 12)
 
-\[2 Ações\] Relâmpago em Cadeia
+[2 Ações] Relâmpago em Cadeia
 
 Alvo primário 6d8 Elétrico. Salta para 3 outros (4d8, 2d8, 1d8).
 
@@ -316,7 +316,7 @@ Arco voltaico.
 
 Punição para grupos espalhados mas conectados.
 
-\[1 Ação\] Petrificação Imediata
+[1 Ação] Petrificação Imediata
 
 Teste Global de Físico + Resistência + Nível (CD 18)
 
@@ -326,7 +326,7 @@ Górgona Anciã.
 
 Save or Die. Tensão máxima.
 
-\[1 Ação\] Teleporte de Grupo
+[1 Ação] Teleporte de Grupo
 
 Teleporta a si e todos adjacentes (amigos ou inimigos) para 30m no ar.
 
@@ -334,7 +334,7 @@ Teleporta a si e todos adjacentes (amigos ou inimigos) para 30m no ar.
 
 Solta os jogadores para 10d6 dano de queda.
 
-\[Reação\] Contra-Mágica Instantânea
+[Reação] Contra-Mágica Instantânea
 
 Anula magia de até Círculo 5 sem teste.
 
@@ -342,7 +342,7 @@ Palavra de negação.
 
 Cancela o Ultimate do grupo.
 
-\[2 Ações\] Sopro de Desintegração
+[2 Ações] Sopro de Desintegração
 
 Linha 18m. 8d8 Força. Se 0 HP = Pó.
 
@@ -352,7 +352,7 @@ Feixe de antimatéria.
 
 Apaga múltiplos alvos da existência.
 
-\[1 Ação\] Invocação de Sombras
+[1 Ação] Invocação de Sombras
 
 Cria 1d4 Sombras (Dreno de Força) que agem imediatamente.
 
@@ -360,7 +360,7 @@ A escuridão ganha vida.
 
 Debuff de atributos nos jogadores.
 
-\[3 Ações\] Nova Glacial
+[3 Ações] Nova Glacial
 
 Raio 18m. 10d6 Frio.
 
@@ -372,7 +372,7 @@ Entropia zero absoluta.
 
 Prepara o grupo para ser quebrado no próximo turno.
 
-\[1 Ação\] Dominação Total
+[1 Ação] Dominação Total
 
 Teste Global de Mental + Resistência + Nível (CD 18)
 
@@ -382,7 +382,7 @@ Mestre das marionetes.
 
 Transforma a luta em PvP.
 
-\[1 Ação\] Roubo de Habilidade
+[1 Ação] Roubo de Habilidade
 
 Toque. Rouba 1 Habilidade/Passiva do alvo por 1 minuto.
 
@@ -390,7 +390,7 @@ Mímico do Éter.
 
 Rouba a "Fúria" do Bárbaro ou "Evasão" do Ladino.
 
-\[1 Ação\] Grito Sônico Maior
+[1 Ação] Grito Sônico Maior
 
 Cone 9m. 6d8 Trovão +
 
@@ -496,7 +496,7 @@ Obriga a matá-lo rápido, antes que fique invencível.
 
 Ativas (Nível 13)
 
-\[3 Ações\] Chuva de Meteoros (Maior)
+[3 Ações] Chuva de Meteoros (Maior)
 
 4 esferas. 40d6 total (10d6 cada). 4 alvos diferentes ou focado.
 
@@ -506,7 +506,7 @@ Apocalipse.
 
 Pode apagar o grupo inteiro se focar dano.
 
-\[1 Ação\] Banimento
+[1 Ação] Banimento
 
 Teste Global de Mental + Resistência + Nível (CD 19)
 
@@ -516,7 +516,7 @@ Teste Global de Mental + Resistência + Nível (CD 19)
 
 Remove o tanque da luta. 4vs1 vira 3vs1.
 
-\[Reação\] Troca de Realidade
+[Reação] Troca de Realidade
 
 Ao sofrer dano, troca de HP com um lacaio.
 
@@ -524,7 +524,7 @@ Reescreve quem foi atingido.
 
 O lacaio morre, o boss continua cheio.
 
-\[1 Ação\] Palavra do Poder: Atordoar
+[1 Ação] Palavra do Poder: Atordoar
 
 Alvo com <100 HP fica Atordoado sem teste.
 
@@ -532,7 +532,7 @@ Comando Celestial.
 
 Remove o personagem mais perigoso sem chance de defesa.
 
-\[2 Ações\] Sopro de Pesadelo
+[2 Ações] Sopro de Pesadelo
 
 Cone 12m. 8d8 Psíquico.
 
@@ -544,7 +544,7 @@ Gás alucinógeno.
 
 Espalha o grupo em pânico.
 
-\[1 Ação\] Invocar Aberração
+[1 Ação] Invocar Aberração
 
 Invoca um monstro Nível 7 (Elite) para lutar.
 
@@ -552,7 +552,7 @@ Rasga o véu da realidade.
 
 Piora a economia de ações dos jogadores drasticamente.
 
-\[1 Ação\] Toque Putrefato
+[1 Ação] Toque Putrefato
 
 +19 Ataque. 6d10 Necrótico. Alvo apodrece (1d10/turno até curado magicamente).
 
@@ -560,7 +560,7 @@ Acelera a entropia.
 
 Dano massivo + DoT (Damage over Time).
 
-\[1 Ação\] Engenharia Reversa
+[1 Ação] Engenharia Reversa
 
 Desfaz uma construção, muralha ou item mágico (torna-se mundano).
 
@@ -568,7 +568,7 @@ Toque da desconstrução.
 
 Destroi a espada mágica do guerreiro ou a barreira do mago.
 
-\[2 Ações\] Zona Nula
+[2 Ações] Zona Nula
 
 Cria cúpula de 9m. Nenhuma magia funciona dentro (Antimagia).
 
@@ -576,7 +576,7 @@ Onde a magia morre.
 
 Obriga os magos a entrarem no combate corpo-a-corpo ou fugirem.
 
-\[1 Ação\] Olhar da Loucura
+[1 Ação] Olhar da Loucura
 
 Olhar. Teste
 
@@ -680,7 +680,7 @@ Torna os jogadores vulneráveis a seus próprios elementos.
 
 Ativas (Nível 14)
 
-\[1 Ação\] Desintegrar Maior
+[1 Ação] Desintegrar Maior
 
 Raio. +20 Ataque. 15d6+40 Força. Pó se 0 HP.
 
@@ -688,7 +688,7 @@ Apaga da história.
 
 One-shot em classes frágeis.
 
-\[2 Ações\] Terremoto Planar
+[2 Ações] Terremoto Planar
 
 30m raio. Terreno difícil + 8d8 Impacto. Fendas traga-muncos (Dex Save ou morte).
 
@@ -696,7 +696,7 @@ Quebra o mundo.
 
 Destruição de cenário e risco de morte ambiental.
 
-\[1 Ação\] Palavra do Poder: Matar
+[1 Ação] Palavra do Poder: Matar
 
 Alvo com <100 HP morre instantaneamente. Sem teste.
 
@@ -704,7 +704,7 @@ A ordem final.
 
 Execução garantida de heróis feridos.
 
-\[Reação\] Absorção Mágica Suprema
+[Reação] Absorção Mágica Suprema
 
 Absorve magia de qualquer nível. Cura HP igual ao dano que causaria.
 
@@ -712,7 +712,7 @@ Boca de mana.
 
 Magos curam o boss em vez de ferir.
 
-\[1 Ação\] Aprisionamento na Alma
+[1 Ação] Aprisionamento na Alma
 
 Teste Global de Mental + Resistência + Nível (CD 19)
 
@@ -722,7 +722,7 @@ Colecionador de almas.
 
 Remove jogador indefinidamente.
 
-\[3 Ações\] Invocação do Exército
+[3 Ações] Invocação do Exército
 
 Traz 1d6 Demônios Nível 8.
 
@@ -730,7 +730,7 @@ Abre os portões do inferno.
 
 De repente, a luta é um massacre.
 
-\[1 Ação\] Lâmina da Ruína
+[1 Ação] Lâmina da Ruína
 
 +20 Ataque. 4d12+10. Crítico em 18-20. Dano ignora RD.
 
@@ -738,7 +738,7 @@ Espada do fim dos tempos.
 
 DPS puro e brutal.
 
-\[1 Ação\] Insanidade em Massa
+[1 Ação] Insanidade em Massa
 
 Teste Global de Mental + Resistência + Nível (CD 19)
 
@@ -748,7 +748,7 @@ Sussurros enlouquecedores.
 
 O grupo se mata sozinho.
 
-\[2 Ações\] Explosão Solar
+[2 Ações] Explosão Solar
 
 18m raio. 12d6 Radiante +
 
@@ -760,7 +760,7 @@ Supernova em miniatura.
 
 Cega o grupo inteiro para sempre (precisa de cura mágica).
 
-\[1 Ação\] Time Stop (Parar o Tempo)
+[1 Ação] Time Stop (Parar o Tempo)
 
 O monstro ganha 1d4+1 turnos seguidos. Ninguém mais age.
 
@@ -788,7 +788,7 @@ Não pode ser vencido, apenas banido.
 
 Onipotência Local
 
-Pode alterar o terreno/cenário como 1 Ação \[L\] (Paredes, lava, abismos).
+Pode alterar o terreno/cenário como 1 Ação [L] (Paredes, lava, abismos).
 
 A realidade obedece.
 
@@ -860,7 +860,7 @@ O Boss joga mais que os jogadores juntos.
 
 Ativas (Nível 15)
 
-\[1 Ação\] Apagar da Existência
+[1 Ação] Apagar da Existência
 
 Alvo deve passar em
 
@@ -870,7 +870,7 @@ Teste Global de Mental + Resistência + Nível (CD 20)
 
 O fim definitivo de um herói.
 
-\[3 Ações\] Resetar Realidade
+[3 Ações] Resetar Realidade
 
 A luta volta para o Turno 1. HP do Boss volta a 100%. Jogadores mantêm gastos/dano. (1x/Batalha).
 
@@ -878,7 +878,7 @@ Viagem no tempo tática.
 
 Desespero total dos jogadores. "Tudo de novo?".
 
-\[1 Ação\] Invocação de Avatar
+[1 Ação] Invocação de Avatar
 
 Traz um Dragão Ancião ou Balor (Nível 12).
 
@@ -886,7 +886,7 @@ O "pet" é um boss final de outra campanha.
 
 Ameaça dupla de fim de mundo.
 
-\[2 Ações\] Supernova
+[2 Ações] Supernova
 
 60m raio. 20d6 Fogo + 20d6 Radiante.
 
@@ -894,7 +894,7 @@ O sol nasce na sala.
 
 Mata exércitos e cidades. Jogadores sobrevivem por pouco.
 
-\[Reação\] Negação Divina
+[Reação] Negação Divina
 
 Diz "Não". Uma ação de um jogador falha automaticamente. Sem teste.
 
@@ -902,7 +902,7 @@ Autoridade absoluta.
 
 Cancela o momento de glória dos heróis.
 
-\[1 Ação\] Roubar Alma
+[1 Ação] Roubar Alma
 
 Arranca a alma. Corpo cai inerte. Alma fica presa numa pedra.
 
@@ -910,7 +910,7 @@ Morte sem dano.
 
 Captura, não mata. Gancho para resgate.
 
-\[1 Ação\] Chuva de Meteoros Verdadeira
+[1 Ação] Chuva de Meteoros Verdadeira
 
 Destroi o mapa. Combate muda para "Ruínas Flutuantes" ou "Magma". 100 Dano em todos.
 
@@ -918,7 +918,7 @@ O mundo acaba.
 
 Muda a arena para algo hostil.
 
-\[1 Ação\] Dominação em Massa
+[1 Ação] Dominação em Massa
 
 Todos em 30m.
 
@@ -930,7 +930,7 @@ Teste Global de Mental + Resistência + Nível (CD 20)
 
 Controle total.
 
-\[1 Ação\] Toque da Entropia
+[1 Ação] Toque da Entropia
 
 +21 Ataque. O alvo envelhece 100 anos instantaneamente.
 
@@ -938,9 +938,10 @@ Tempo acelerado.
 
 Mata humanos de velhice. Elfos sofrem debuffs.
 
-\[3 Ações\] O Fim
+[3 Ações] O Fim
 
 - \*\*Mecânica:\*\* O monstro começa um ritual. Em 3 turnos, o Plano explode. Game Over.
+
 - \*\*Descrição:\*\* Contagem regressiva final.
 - \*\*Tática:\*\* A luta vira uma corrida contra o relógio.
 
@@ -949,4 +950,4 @@ Mata humanos de velhice. Elfos sofrem debuffs.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

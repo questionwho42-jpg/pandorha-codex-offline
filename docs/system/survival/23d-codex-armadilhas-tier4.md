@@ -3,16 +3,17 @@ sourceFile: "23d_Codex_Armadilhas_Tier4.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.163Z"
 ---
-
+<ai_context>
+<ai_context>
 # 23d_Codex_Armadilhas_Tier4.md
 
-2b554b58-ea51-4391-bcbf-7e6af219d28a
 
-23d\_Codex\_Armadilhas\_Tier4.md
 
-a6956473-5c85-4d6e-b3cc-38159e34baa9
+23d_Codex_Armadilhas_Tier4.md
 
-Arquivo: M04\_DESAFIOS\23d\_Codex\_Armadilhas\_Tier4.md
+
+
+Arquivo: M04_DESAFIOS\23d_Codex_Armadilhas_Tier4.md
 
 Pandorha: Capítulo 23.4 - Tomo de Armadilhas (Tier IV)
 
@@ -116,11 +117,12 @@ Nível 17 ao 20 (Em Breve)
 
 (As divindades não brincam em serviço com Danos de Força em esferas colossais. Vide mecânica no volume Codex)
 
-with open(os.path.join(base\_dir, "23d\_Codex\_Armadilhas\_Tier4.md"), "w", encoding="utf-8") as file:
+with open(os.path.join(base_dir, "23d_Codex_Armadilhas_Tier4.md"), "w", encoding="utf-8") as file:
 
 file.write(tier4)
 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

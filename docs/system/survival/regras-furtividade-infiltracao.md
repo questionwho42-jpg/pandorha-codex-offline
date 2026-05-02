@@ -3,14 +3,15 @@ sourceFile: "REGRAS_FURTIVIDADE_INFILTRACAO.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.190Z"
 ---
-
+<ai_context>
+<ai_context>
 # REGRAS_FURTIVIDADE_INFILTRACAO.md
 
-81e75ee0-332e-4d6b-b603-9247f276731c
 
-REGRAS\_FURTIVIDADE\_INFILTRACAO.md
 
-bbc495a9-f462-4012-b4e5-72e3fe32b533
+REGRAS_FURTIVIDADE_INFILTRACAO.md
+
+
 
 REGRAS DE FURTIVIDADE E INFILTRAÇÃO EM PANDORHA
 
@@ -56,13 +57,13 @@ Se atacar, alvo fica Surpreendido (sem reação)
 
 Atacar, fazer barulho ou ser encontrado por
 
-\[Mental + Interação\]
+[Mental + Interação]
 
 Estado "Invisível"
 
 50% chance de erro para atacantes. Indetectável por visão normal
 
-\[Mental + Interação\]
+[Mental + Interação]
 
 vs DC Passiva de Furtividade
 
@@ -122,23 +123,23 @@ Cenários de Infiltração
 
 #### Infiltrar Gangue:
 
-\[Infiltração, Disfarce\]
+[Infiltração, Disfarce]
 
 #### Resgate de Refém:
 
-\[Vanguarda, Infiltração\]
+[Vanguarda, Infiltração]
 
 #### Fuga de Prisão:
 
-\[Infiltração, Sabotagem\]
+[Infiltração, Sabotagem]
 
 #### Infiltrar Quartel:
 
-\[Infiltração, Disfarce\]
+[Infiltração, Disfarce]
 
 #### Assassinato Furtivo:
 
-\[Infiltração, Alquimia\]
+[Infiltração, Alquimia]
 
 --------------------------------------------------------------------------------
 
@@ -214,7 +215,7 @@ Testes de percepção regulares
 
 Detectáveis por
 
-\[Mental + Interação\]
+[Mental + Interação]
 
 --------------------------------------------------------------------------------
 
@@ -278,27 +279,27 @@ Infiltrar um castelo para roubar um artefato
 
 #### Reconhecimento:
 
-\[Mental + Interação\]
+[Mental + Interação]
 
 para mapear guardas
 
-\[Mental + Conflito\]
+[Mental + Conflito]
 
 para escalar muro silenciosamente
 
-\[Mental + Conflito\]
+[Mental + Conflito]
 
 para mover-se pelos corredores
 
-\[Social + Interação\]
+[Social + Interação]
 
 se encontrar patrulhas
 
-\[Mental + Conflito\]
+[Mental + Conflito]
 
 para pegar o item sem alertar
 
-\[Físico + Conflito\]
+[Físico + Conflito]
 
 para escapar rapidamente
 
@@ -329,4 +330,5 @@ Invisibilidade e ilusões são ferramentas poderosas
 #### Consequências:
 
 Falha pode levar a combate ou captura
-
+</ai_context>
+</ai_context>

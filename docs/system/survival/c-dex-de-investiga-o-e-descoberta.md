@@ -3,14 +3,15 @@ sourceFile: "Códex de Investigação e Descoberta.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.169Z"
 ---
-
+<ai_context>
+<ai_context>
 # Códex de Investigação e Descoberta.md
 
-54a1c174-35ac-448a-95ba-95e6aacbb654
+
 
 Códex de Investigação e Descoberta.md
 
-118119d5-bdd5-46cd-bd45-1b6640e37a23
+
 
 Códex de Investigação e Descoberta (Revisão Sistêmica Pandorha)
 
@@ -28,7 +29,7 @@ Toda etapa de pesquisa exige um
 
 Teste Global
 
-\[d20\] + \[Nível Global\] + \[Mental\] + \[Interação ou Conflito\]
+[d20] + [Nível Global] + [Mental] + [Interação ou Conflito]
 
 A. Dificuldade da Pesquisa (DC)
 
@@ -138,7 +139,7 @@ Informação base +
 
 Os tokens vão para uma "Reserva do Grupo". Qualquer jogador pode gastar 1 Token usando uma
 
-Ação Grátis \[F\]
+Ação Grátis [F]
 
 para ativar uma Manobra de Insight contra o alvo pesquisado.
 
@@ -156,7 +157,7 @@ da Reserva Partilhada do Grupo. No momento do gasto, ele deve escolher se vai ap
 
 Efeito de Combate
 
-(usando a Ação Grátis \[F\] ou Reação \[R\] indicada)
+(usando a Ação Grátis [F] ou Reação [R] indicada)
 
 Efeito Narrativo
 
@@ -166,21 +167,21 @@ Efeito Narrativo
 
 Pesquisas de DC 15. Custos de 25 Ouro/Semana.
 
-\[Físico + Conflito\] - Brecha Muscular \[F\]
+[Físico + Conflito] - Brecha Muscular [F]
 
 Declare antes de atacar. O seu ataque ignora o Bônus de Armadura da CA do alvo (a CA dele será apenas 10 + Nível + Eixo).
 
 Você identifica o ponto de ruptura de uma estrutura mundana (uma porta de madeira, uma fechadura enferrujada) e destrói-a com um único golpe limpo, sem precisar de rolagem de Atletismo.
 
-\[Físico + Interação\] - Predição de Movimento \[F\]
+[Físico + Interação] - Predição de Movimento [F]
 
-Passo Seguro \[A\]
+Passo Seguro [A]
 
 adicional gratuito (move 1,5m sem gerar Ataque de Oportunidade) ao redor do alvo.
 
 Consegue rastrear os rastros físicos do alvo (pegadas, marcas) na natureza ou na cidade por 1 hora com Sucesso Automático, sem rolar Sobrevivência.
 
-\[Físico + Resistência\] - Postura Prevenida \[R\]
+[Físico + Resistência] - Postura Prevenida [R]
 
 Receber um ataque físico do alvo.
 
@@ -188,7 +189,7 @@ Reduz o dano sofrido num valor igual ao seu (Nível + Eixo Físico).
 
 O seu corpo adapta-se instantaneamente ao habitat natural da fera pesquisada (ex: calor de um deserto, frio de uma montanha), imunizando-o a penalidades de ambiente por 1 dia.
 
-\[Mental + Conflito\] - Ponto Fraco Exposto \[F\]
+[Mental + Conflito] - Ponto Fraco Exposto [F]
 
 Revela uma falha na guarda. O alvo ganha a Condição
 
@@ -196,7 +197,7 @@ Revela uma falha na guarda. O alvo ganha a Condição
 
 Encontra um defeito crítico na carroça, ponte ou equipamento do alvo, permitindo sabotá-lo para que se quebre assim que for usado.
 
-\[Mental + Interação\] - Leitura de Intenção \[R\]
+[Mental + Interação] - Leitura de Intenção [R]
 
 O alvo ataca um aliado.
 
@@ -204,7 +205,7 @@ Grita a direção do golpe, concedendo ao aliado +2 de CA contra este ataque.
 
 Deduz com precisão cirúrgica o que o alvo (ou o lacaio dele) está à procura ou o que está a tentar esconder numa sala de exploração.
 
-\[Mental + Resistência\] - Mente Blindada \[R\]
+[Mental + Resistência] - Mente Blindada [R]
 
 Alvo força um Teste de Resistência.
 
@@ -214,7 +215,7 @@ no teste (sem gastar Vigor).
 
 Recorda perfeitamente a planta de um covil, uma senha de patrulha ou um símbolo de guilda após apenas uma breve olhadela nos documentos.
 
-\[Social + Conflito\] - Ameaça Cirúrgica \[F\]
+[Social + Conflito] - Ameaça Cirúrgica [F]
 
 Intimidar Muscular
 
@@ -224,9 +225,9 @@ Intimidar Muscular
 
 Você usa os segredos descobertos para aterrorizar um lacaio fora de combate, forçando-o a abandonar o seu posto de guarda e fugir sem emitir alarmes.
 
-\[Social + Interação\] - Gatilho Emocional \[F\]
+[Social + Interação] - Gatilho Emocional [F]
 
-Você insulta ou distrai o alvo com um trauma, fazendo-o hesitar e perder a sua Reação \[R\] até ao fim da rodada.
+Você insulta ou distrai o alvo com um trauma, fazendo-o hesitar e perder a sua Reação [R] até ao fim da rodada.
 
 Conhecendo o vício ou orgulho do alvo, obtém
 
@@ -234,7 +235,7 @@ Sucesso Automático
 
 no seu próximo teste de Persuasão/Enganação na Metrópole contra ele.
 
-\[Social + Resistência\] - Ignorar Ofensa \[R\]
+[Social + Resistência] - Ignorar Ofensa [R]
 
 O alvo tenta aplicar
 
@@ -246,7 +247,7 @@ A tentativa falha automaticamente.
 
 Mantém uma "poker face" imaculada. Fica mecanicamente imune a qualquer tentativa do alvo de detetar as suas mentiras ou intenções durante uma conversa.
 
-\[Mental + Interação\] - Foco Investigativo \[F\]
+[Mental + Interação] - Foco Investigativo [F]
 
 O seu próximo ataque físico ou mágico ignora penalidades de Cobertura que o alvo possua.
 
@@ -258,13 +259,13 @@ Na masmorra/base do alvo, você deduz a localização exata de 1 porta secreta, 
 
 Pesquisas de DC 20. Custos de 100 Ouro/Semana.
 
-\[Físico + Conflito\] - Foco Letal \[F\]
+[Físico + Conflito] - Foco Letal [F]
 
 Declare antes de rolar o dano. O dado de dano da sua arma causa o valor máximo (ex: um d12 vira 12).
 
 Desativa ou sabota perfeitamente um dispositivo/mecanismo de Tier 2 do inimigo de forma irreparável.
 
-\[Físico + Interação\] - Desarme Preditivo \[F\]
+[Físico + Interação] - Desarme Preditivo [F]
 
 +4 no teste de
 
@@ -274,7 +275,7 @@ Desarmar Técnico
 
 Força uma fechadura arcana ou mecanismo de segurança de Tier 2 da fação pesquisada com Sucesso Automático.
 
-\[Físico + Resistência\] - Ignorar Toxinas \[R\]
+[Físico + Resistência] - Ignorar Toxinas [R]
 
 Alvo inflige
 
@@ -282,7 +283,7 @@ Anula a Condição de imediato, sofrendo apenas o dano de impacto.
 
 Pode manusear, inalar ou ingerir o veneno/tóxico específico da criatura sem sofrer danos, permitindo extraí-lo com segurança para criar antídotos.
 
-\[Mental + Conflito\] - Sobrecarga Lógica \[F\]
+[Mental + Conflito] - Sobrecarga Lógica [F]
 
 Obriga o alvo conjurador a gastar
 
@@ -292,7 +293,7 @@ extra na próxima magia. Sem EE, a magia falha.
 
 Desativa temporariamente (por 1 minuto) uma Ala mágica, Alarme ou Barreira de Tier 2 do alvo sem disparar os seus gatilhos.
 
-\[Mental + Interação\] - Aviso Tático \[R\]
+[Mental + Interação] - Aviso Tático [R]
 
 O alvo ativa uma (Recarga X-Y).
 
@@ -300,13 +301,13 @@ Aliados a até 9m movem-se 3m (passo livre) fora de turno para fugir da área.
 
 Sabe antecipadamente as rotas exatas, tempo de patrulha ou mudanças de turno dos guardas, permitindo infiltrar o grupo na base inimiga perfeitamente.
 
-\[Mental + Resistência\] - Anular Feedback \[F\]
+[Mental + Resistência] - Anular Feedback [F]
 
 Se falhar (errou por 5+) ao conjurar magia contra este alvo, não sofre o dano mental do Feedback Arcano.
 
 Consegue ler um tomo amaldiçoado ou lidar com uma relíquia mental da criatura sem acionar os gatilhos de loucura ou dano psíquico enraizados.
 
-\[Social + Conflito\] - Caça Sistemática \[F\]
+[Social + Conflito] - Caça Sistemática [F]
 
 Aplica a Condição
 
@@ -314,7 +315,7 @@ Aplica a Condição
 
 Manipula a burocracia ou o clamor público para que a Milícia de Metrópole feche um esconderijo ou confisque mercadorias da fação inimiga.
 
-\[Social + Interação\] - Quebra de Hierarquia \[R\]
+[Social + Interação] - Quebra de Hierarquia [R]
 
 O alvo chefe dá uma ordem a um lacaio.
 
@@ -324,7 +325,7 @@ por 1 Rodada.
 
 Falsifica selos, documentos ou maneirismos para se passar por um superior imediato dos guardas da fação estudada, garantindo acesso livre.
 
-\[Social + Resistência\] - Sangue Frio \[F\]
+[Social + Resistência] - Sangue Frio [F]
 
 Ganha imunidade à Condição
 
@@ -334,7 +335,7 @@ originada por este alvo durante toda a Cena.
 
 Suporta um interrogatório ou tortura da fação alvo sem ceder informações, e ainda deduz quem são os verdadeiros líderes com base nas perguntas que fazem.
 
-\[Social + Interação\] - Barganha Absoluta \[F\]
+[Social + Interação] - Barganha Absoluta [F]
 
 Permite rolar um teste global de Diplomacia a meio da iniciativa para tentar forçar uma trégua e pausar os ataques do NPC (se fizer sentido narrativo).
 
@@ -352,13 +353,13 @@ devido ao seu conhecimento do submundo local.
 
 Pesquisas de DC 25. Custos de 500 Ouro/Semana.
 
-\[Físico + Conflito\] - Ruptura Cinética \[F\]
+[Físico + Conflito] - Ruptura Cinética [F]
 
 O seu próximo ataque ignora completamente a Resistência a Dano Físico (RD) da Lenda Viva.
 
 Consegue destruir com pura força ou arma uma barreira física massiva do ambiente do inimigo (portões de aço, pilares desmoronando o teto).
 
-\[Físico + Interação\] - Fintar a Lenda \[F\]
+[Físico + Interação] - Fintar a Lenda [F]
 
 Você ignora a Penalidade de Ataque Múltiplo (MAP) de
 
@@ -366,17 +367,17 @@ no seu 2º Ataque contra o alvo neste turno.
 
 Realiza uma proeza atlética ou furtiva através do campo minado/covil letal do Tier 3 sem acionar as armadilhas de terreno.
 
-\[Físico + Resistência\] - Pulmões Implacáveis \[F\]
+[Físico + Resistência] - Pulmões Implacáveis [F]
 
 Remove instantaneamente a Condição
 
-(sem \[AA\] ou \[AAA\]) ou
+(sem [AA] ou [AAA]) ou
 
 (-50% vel.) impostas pelo alvo.
 
 Sobrevive no ambiente biologicamente hostil do covil (vácuo parcial, poças de ácido, calor vulcânico) durante 1 hora sem sofrer danos sistêmicos.
 
-\[Mental + Conflito\] - Vulnerabilidade Induzida \[F\]
+[Mental + Conflito] - Vulnerabilidade Induzida [F]
 
 As suas magias/ataques aplicam a Condição
 
@@ -386,15 +387,15 @@ do tipo elemental usado por si (ex: Fogo) durante 1 rodada.
 
 Descobre as frequências etéricas do ritual do inimigo, conseguindo corrompê-lo de longe para que o efeito seja retardado ou modificado.
 
-\[Mental + Interação\] - Despedaçar Ilusões \[F\]
+[Mental + Interação] - Despedaçar Ilusões [F]
 
 Remove instantaneamente as Condições
 
 Decifra automaticamente Cifras Arcanas Mágicas de Tier 3 ou ilusões de esconderijo que camuflam a base/castelo da fação.
 
-\[Mental + Resistência\] - Evasão Perfeita \[R\]
+[Mental + Resistência] - Evasão Perfeita [R]
 
-Passar num teste de \[Mental + Resistência\] contra Magia em Área do alvo.
+Passar num teste de [Mental + Resistência] contra Magia em Área do alvo.
 
 O dano cai a
 
@@ -402,15 +403,15 @@ O dano cai a
 
 Blinda a sua mente perfeitamente, impedindo que o inimigo Tier 3 consiga rastreá-lo por clarividência, scrying ou feitiços de adivinhação.
 
-\[Social + Conflito\] - Bloqueio Sináptico \[R\]
+[Social + Conflito] - Bloqueio Sináptico [R]
 
-O alvo declara uma Ação \[AAA\].
+O alvo declara uma Ação [AAA].
 
 Profere a Palavra de Quebra. O alvo perde as ações e não realiza o efeito.
 
 Você usa o Nome Verdadeiro, segredo de sangue ou escândalo supremo para destituir socialmente o líder alvo, cortando os seus recursos e apoio na capital.
 
-\[Social + Interação\] - Redirecionar Agressão \[R\]
+[Social + Interação] - Redirecionar Agressão [R]
 
 Um lacaio aliado do alvo ataca-o a si.
 
@@ -418,7 +419,7 @@ O ataque é redirecionado mecanicamente para o Chefe (que tem de defendê-lo).
 
 Apresenta uma prova forjada (ou real) inegável para virar um dos tenentes principais do inimigo contra ele mesmo antes do combate final.
 
-\[Social + Resistência\] - Ignorar Condenação \[F\]
+[Social + Resistência] - Ignorar Condenação [F]
 
 Se o alvo aplicar a Condição letal
 
@@ -426,7 +427,7 @@ Se o alvo aplicar a Condição letal
 
 Quebra uma Maldição ou Estigma Regional imposto pelo alvo sobre uma vila ou NPC importante, reconquistando o apoio dessa área.
 
-\[Metrópole\] - Limpeza de Infâmia \[F\]
+[Metrópole] - Limpeza de Infâmia [F]
 
 Como ação rápida de liderança, aplica
 
@@ -444,7 +445,7 @@ caso ocorra uma Falha Crítica com a facção, ou limpa um mandado de morte inju
 
 Pesquisas de DC 30. Custos de 2000 Ouro/Semana.
 
-\[Físico + Conflito\] - Dano Ontológico \[F\]
+[Físico + Conflito] - Dano Ontológico [F]
 
 O dano causado ao Titã neste turno
 
@@ -454,13 +455,13 @@ por efeitos do monstro até ao final da Cena.
 
 Fere um conceito físico da realidade do Titã (ex: destrói a "invulnerabilidade" de uma porta divina ou quebra um Artefato Matriz).
 
-\[Físico + Interação\] - Salto do Éter \[F\]
+[Físico + Interação] - Salto do Éter [F]
 
 Movimenta-se até 9m de imediato (teletransporte instantâneo), ignorando armadilhas físicas e paredes.
 
 Consegue atravessar a barreira física que separa o plano mortal do Semi-Plano / Domínio Divino particular do Titã sem rituais.
 
-\[Físico + Resistência\] - Negar a Foice \[R\]
+[Físico + Resistência] - Negar a Foice [R]
 
 O seu HP cairia a 0 por um golpe do Titã.
 
@@ -470,7 +471,7 @@ e ganha de imediato a Condição
 
 O seu corpo resiste a um evento de Colapso Ambiental apocalíptico causado pelo Titã (gravidade esmagadora, tsunamis mágicos), emergindo ileso.
 
-\[Mental + Conflito\] - Colapso de Imunidade \[F\]
+[Mental + Conflito] - Colapso de Imunidade [F]
 
 O Titã perde uma
 
@@ -478,7 +479,7 @@ a Dano específica. O dano causado torna-se Dano Normal durante 1 rodada.
 
 Corta permanentemente uma "Âncora de Éter" do Deus no plano terreno, enfraquecendo a estabilidade divina do seu domínio local.
 
-\[Mental + Interação\] - Ponto Cego Divino \[F\]
+[Mental + Interação] - Ponto Cego Divino [F]
 
 Ganha a Condição
 
@@ -490,7 +491,7 @@ Visão Verdadeira
 
 Apaga temporalmente a existência do grupo da Omnisciência ou Previsão de Futuro da entidade, permitindo-lhes agir fora do Destino traçado.
 
-\[Mental + Resistência\] - Anular Lenda \[R\]
+[Mental + Resistência] - Anular Lenda [R]
 
 O Titã declara uma Ação Lendária ou Reação.
 
@@ -498,7 +499,7 @@ Cancela mecanicamente essa habilidade de imediato.
 
 Reescreve uma lei da física (ex: fluxo de tempo ou gravidade) numa área de 30 metros ao redor da base do Titã, protegendo a sua equipa de perigos absurdos.
 
-\[Social + Conflito\] - Blasfêmia Real \[F\]
+[Social + Conflito] - Blasfêmia Real [F]
 
 O Titã perde as suas Imunidades Mentais até ao fim do seu turno. Pode aplicar
 
@@ -506,7 +507,7 @@ com magias se a DC passar.
 
 Destrói ativamente a fé e o medo de uma Nação inteira, cortando o abastecimento de almas que alimentam a entidade.
 
-\[Social + Interação\] - Usurpar o Culto \[F\]
+[Social + Interação] - Usurpar o Culto [F]
 
 Se o Titã tenta curar-se/ganhar EE extraindo poder da sala/lacaios, você desvia mecanicamente
 
@@ -514,7 +515,7 @@ Se o Titã tenta curar-se/ganhar EE extraindo poder da sala/lacaios, você desvi
 
 Convence o Éter e as runas do domínio do vilão de que VOCÊ é o verdadeiro Avatar/Sucessor, assumindo o controle das suas instalações arcanas.
 
-\[Social + Resistência\] - Purificação Cósmica \[F\]
+[Social + Resistência] - Purificação Cósmica [F]
 
 Remove do seu corpo a Condição letal
 
@@ -522,11 +523,12 @@ Remove do seu corpo a Condição letal
 
 Obriga uma Entidade Cósmica a sentar-se e cumprir as regras do "Tratado de Trégua" ancestral, impedindo combates e forçando-a a negociar informações.
 
-\[Físico/Exploração\] - Engenharia Reversa \[F\]
+[Físico/Exploração] - Engenharia Reversa [F]
 
 Rouba uma Característica Passiva (ex: Voo, Aura de Fogo) do alvo e aplica-a a si durante toda a Cena.
 
 Durante a Tag B de Reparo Absoluto de Downtime, usa o conhecimento biológico do Titã para forjar um equipamento lendário a um Custo de Ouro de absolutamente
 
 , garantindo a vitória económica máxima.
-
+</ai_context>
+</ai_context>

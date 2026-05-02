@@ -3,16 +3,16 @@ sourceFile: "12_05_Grimorio_Circulo_3.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.157Z"
 ---
-
+<ai_context>
 # 12_05_Grimorio_Circulo_3.md
 
-e52ccd05-e22f-45bc-ba6f-f14bf16fc3cd
 
-12\_05\_Grimorio\_Circulo\_3.md
 
-ff6343bc-385b-4fae-a32f-410805113258
+12_05_Grimorio_Circulo_3.md
 
-Arquivo: M01\_JOGADOR\12\_05\_Grimorio\_Circulo\_3.md
+
+
+Arquivo: M01_JOGADOR\12_05_Grimorio_Circulo_3.md
 
 Grimório: Círculo 3 - O Mestre
 
@@ -28,7 +28,7 @@ Instantânea
 
 Uma luz brilhante parte do seu dedo indicador para um ponto que você escolher dentro do alcance e então explode num rugido baixo. Cada criatura numa esfera de 6m de raio centrada no ponto deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . Se falhar, sofre
 
@@ -56,7 +56,7 @@ Instantânea
 
 Um relâmpago de 30m de comprimento e 1,5m de largura é disparado de você numa direção à sua escolha. Cada criatura na linha deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . Se falhar, sofre
 
@@ -89,6 +89,7 @@ Você toca uma criatura voluntária. O alvo ganha deslocamento de voo de 18m pel
 --------------------------------------------------------------------------------
 
 4. Contra-Mágica
+
 1 Reação (quando você vê uma criatura a até 18m conjurando uma magia)
 
 #### Componentes:
@@ -97,7 +98,7 @@ Instantânea
 
 Você tenta interromper uma criatura no processo de conjuração. Se a criatura estiver conjurando uma magia de 3º círculo ou inferior, a magia dela falha e não tem efeito. Se a magia for de 4º círculo ou superior, faça um teste de Habilidade de Conjuração (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ). A CD é 10 + o círculo da magia. Se passar, a magia falha e não tem efeito.
 
@@ -115,7 +116,7 @@ Instantânea
 
 Escolha uma criatura, objeto ou efeito mágico dentro do alcance. Qualquer magia de 3º círculo ou inferior no alvo termina. Para cada magia de 4º círculo ou superior no alvo, faça um teste de Habilidade de Conjuração (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ). A CD é 10 + o círculo da magia. Se passar, a magia termina.
 
@@ -155,7 +156,7 @@ Concentração, até 10 minutos
 
 Você invoca espíritos que flutuam ao seu redor até 4,5m de distância. Quando você conjura essa magia, pode designar qualquer número de criaturas que você possa ver para não serem afetadas por ela. A velocidade de uma criatura afetada é reduzida à metade na área e, quando a criatura entrar na área pela primeira vez num turno ou começar seu turno lá, ela deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 . Se falhar, sofre
 
@@ -179,7 +180,7 @@ Concentração, até 1 minuto
 
 Você projeta uma imagem fantasmagórica dos piores medos das criaturas. Cada criatura num cone de 9m deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ou largará tudo o que estiver segurando e ficará
 
@@ -203,7 +204,7 @@ Concentração, até 1 minuto
 
 Você cria um padrão distorcido de cores que cega e fascina a mente num cubo de 9m dentro do alcance. Cada criatura na área que veja o padrão deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 . Se falhar, a criatura fica
 
@@ -242,4 +243,4 @@ Quando a magia acaba, o alvo não pode se mover ou realizar ações até depois 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>

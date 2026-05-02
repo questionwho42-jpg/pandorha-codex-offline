@@ -3,16 +3,17 @@ sourceFile: "25_Codex_Familiar_Mistico.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.163Z"
 ---
-
+<ai_context>
+<ai_context>
 # 25_Codex_Familiar_Mistico.md
 
-ca180d6f-7c8e-4fcd-a3af-a2b0f6243df0
 
-25\_Codex\_Familiar\_Mistico.md
 
-e9cab4e4-cb3a-4c9c-9254-5501c9e93737
+25_Codex_Familiar_Mistico.md
 
-Arquivo: M01\_JOGADOR\25\_Codex\_Familiar\_Mistico.md
+
+
+Arquivo: M01_JOGADOR\25_Codex_Familiar_Mistico.md
 
 CÓDEX DE MAGIA: O FAMILIAR MÍSTICO
 
@@ -671,4 +672,5 @@ O mestre conecta sua alma à do alvo. Todo dano que o mestre sofrer neste turno,
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

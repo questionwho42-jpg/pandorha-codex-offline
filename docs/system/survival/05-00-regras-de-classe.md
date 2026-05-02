@@ -3,16 +3,17 @@ sourceFile: "05_00_Regras_de_Classe.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.149Z"
 ---
-
+<ai_context>
+<ai_context>
 # 05_00_Regras_de_Classe.md
 
-b3282705-afa7-4cf1-8b15-94180884f1ac
 
-05\_00\_Regras\_de\_Classe.md
 
-240fb2dd-cf32-474a-bf40-7d11865623fc
+05_00_Regras_de_Classe.md
 
-Arquivo: M01\_JOGADOR\05\_00\_Regras\_de\_Classe.md
+
+
+Arquivo: M01_JOGADOR\05_00_Regras_de_Classe.md
 
 Pandorha: Capítulo 05 - Regras de Classe e Evolução
 
@@ -92,7 +93,7 @@ Heróis se tornam lendas difíceis de matar.
 
 #### O HP é calculado retroativamente:
 
-\[HP Base da Classe + Físico + Resistência\] × Nível Atual
+[HP Base da Classe + Físico + Resistência] × Nível Atual
 
 #### Recuperação de Descanso:
 
@@ -190,7 +191,7 @@ Para círculos superiores, consulte o
 
 Codex de Magia
 
-12\_00\_Codex\_de\_Magia.md
+12_00_Codex_de_Magia.md
 
 5. Potencializar (Upcasting)
 
@@ -215,4 +216,5 @@ Para cada Círculo acima do original, a magia causa
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

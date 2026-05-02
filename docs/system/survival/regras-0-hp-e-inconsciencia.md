@@ -3,14 +3,15 @@ sourceFile: "REGRAS_0_HP_E_INCONSCIENCIA.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.187Z"
 ---
-
+<ai_context>
+<ai_context>
 # REGRAS_0_HP_E_INCONSCIENCIA.md
 
-993f490b-3900-4c22-981a-c9b180c89ea7
 
-REGRAS\_0\_HP\_E\_INCONSCIENCIA.md
 
-c5d9ef28-129d-4f5b-acd3-b21954706341
+REGRAS_0_HP_E_INCONSCIENCIA.md
+
+
 
 Pandorha: Regras de 0 HP, Inconsciência e Estado Moribundo
 
@@ -118,7 +119,7 @@ e só acorda se sofrer dano ou receber uma restauração mágica.
 
 Reações e técnicas pessoais
 
-Resistir ao Óbito \[R\]
+Resistir ao Óbito [R]
 
 : quando o gatilho é
 
@@ -132,7 +133,7 @@ Falha Parcial
 
 automaticamente, sem precisar rolar Testes de Morte.
 
-Grito de Resgate \[R\]
+Grito de Resgate [R]
 
 : quando um aliado cai a
 
@@ -158,7 +159,7 @@ antes de desmaiar.
 
 , esse aliado ainda pode realizar
 
-1 Ataque Básico \[A\]
+1 Ataque Básico [A]
 
 imediatamente antes de cair
 
@@ -368,67 +369,68 @@ Reviver os Mortos
 
 10. Fontes consolidadas
 
-sistema/00\_Mecanicas\_Fundamentais.md
+sistema/00_Mecanicas_Fundamentais.md
 
-sistema/00\_Mecanicas\_Fundamentais.md
+sistema/00_Mecanicas_Fundamentais.md
 
-sistema/03\_Codex\_de\_Combate\_e\_Condicoes.md
+sistema/03_Codex_de_Combate_e_Condicoes.md
 
-sistema/03\_Codex\_de\_Combate\_e\_Condicoes.md
+sistema/03_Codex_de_Combate_e_Condicoes.md
 
-sistema/04\_Arsenal\_e\_Economia.md
+sistema/04_Arsenal_e_Economia.md
 
-sistema/04\_Arsenal\_e\_Economia.md
+sistema/04_Arsenal_e_Economia.md
 
-sistema/02a\_Matriz\_Fisica.md
+sistema/02a_Matriz_Fisica.md
 
-sistema/02a\_Matriz\_Fisica.md
+sistema/02a_Matriz_Fisica.md
 
-sistema/Glossario\_Definitivo\_de\_Testes.md
+sistema/Glossario_Definitivo_de_Testes.md
 
-sistema/Glossario\_Definitivo\_de\_Testes.md
+sistema/Glossario_Definitivo_de_Testes.md
 
-sistema/05\_01\_Vanguarda.md
+sistema/05_01_Vanguarda.md
 
-sistema/05\_01\_Vanguarda.md
+sistema/05_01_Vanguarda.md
 
-sistema/05\_04\_Cacador.md
+sistema/05_04_Cacador.md
 
-sistema/05\_04\_Cacador.md
+sistema/05_04_Cacador.md
 
-sistema/10\_Antecedentes\_e\_Origens.md
+sistema/10_Antecedentes_e_Origens.md
 
-sistema/10\_Antecedentes\_e\_Origens.md
+sistema/10_Antecedentes_e_Origens.md
 
-sistema/12\_03\_Grimorio\_Circulo\_1.md
+sistema/12_03_Grimorio_Circulo_1.md
 
-sistema/12\_03\_Grimorio\_Circulo\_1.md
+sistema/12_03_Grimorio_Circulo_1.md
 
-sistema/12\_05\_Grimorio\_Circulo\_3.md
+sistema/12_05_Grimorio_Circulo_3.md
 
-sistema/12\_05\_Grimorio\_Circulo\_3.md
+sistema/12_05_Grimorio_Circulo_3.md
 
-sistema/12\_07\_Grimorio\_Circulo\_5.md
+sistema/12_07_Grimorio_Circulo_5.md
 
-sistema/12\_07\_Grimorio\_Circulo\_5.md
+sistema/12_07_Grimorio_Circulo_5.md
 
-sistema/12\_09\_Grimorio\_Circulo\_7.md
+sistema/12_09_Grimorio_Circulo_7.md
 
-sistema/12\_09\_Grimorio\_Circulo\_7.md
+sistema/12_09_Grimorio_Circulo_7.md
 
-sistema/12\_11\_Grimorio\_Circulo\_9.md
+sistema/12_11_Grimorio_Circulo_9.md
 
-sistema/12\_11\_Grimorio\_Circulo\_9.md
+sistema/12_11_Grimorio_Circulo_9.md
 
-REGRAS\_MAGIA.md
+REGRAS_MAGIA.md
 
-REGRAS\_MAGIA.md
+REGRAS_MAGIA.md
 
-sistema/25\_Codex\_Familiar\_Mistico.md
+sistema/25_Codex_Familiar_Mistico.md
 
-sistema/25\_Codex\_Familiar\_Mistico.md
+sistema/25_Codex_Familiar_Mistico.md
 
-sistema/26\_Codex\_Sinergia\_Forja\_Tatica.md
+sistema/26_Codex_Sinergia_Forja_Tatica.md
 
-sistema/26\_Codex\_Sinergia\_Forja\_Tatica.md
-
+sistema/26_Codex_Sinergia_Forja_Tatica.md
+</ai_context>
+</ai_context>

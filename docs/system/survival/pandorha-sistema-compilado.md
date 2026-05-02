@@ -3,14 +3,15 @@ sourceFile: "Pandorha_Sistema_Compilado.md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.171Z"
 ---
-
+<ai_context>
+<ai_context>
 # Pandorha_Sistema_Compilado.md
 
-e7d635ba-8602-4a06-a0bb-4428d6d54360
 
-Pandorha\_Sistema\_Compilado.md
 
-8069d236-060c-4384-a39e-162b0caae3de
+Pandorha_Sistema_Compilado.md
+
+
 
 Pandorha - Sistema Consolidado
 
@@ -18,7 +19,7 @@ Compilação de todos os arquivos do sistema em um único documento.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\00\_Mecanicas\_Fundamentais.md
+Arquivo: M01_JOGADOR\00_Mecanicas_Fundamentais.md
 
 Pandorha: Capítulo 00 - Como Jogar (Regras Claras e Diretas)
 
@@ -120,7 +121,7 @@ daquela Matriz para aprender (consulte o
 
 Códex de Sinergia: A Forja Tática
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26\_Codex\_Sinergia\_Forja\_Tatica.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26_Codex_Sinergia_Forja_Tatica.md
 
 3 Táticas de Sinergia Físicas
 
@@ -158,7 +159,7 @@ dado de 20 faces (d20)
 
 #### A. Fórmula Universal (Teste Global):
 
-Resultado = \[d20\] + \[Nível\] + \[Eixo\] + \[Aplicação\] + \[Item\]
+Resultado = [d20] + [Nível] + [Eixo] + [Aplicação] + [Item]
 
 #### O Maior Prevalece (Bônus Fixos):
 
@@ -188,7 +189,7 @@ Eixo + Aplicação
 
 Ex: Rolar Furtividade (Mental + Conflito).
 
-Resultado = \[d20\] + \[Nível\] + \[Eixo\] + \[Aplicação\]
+Resultado = [d20] + [Nível] + [Eixo] + [Aplicação]
 
 #### Treinamento:
 
@@ -206,7 +207,7 @@ possui treinamento, sofre
 
 #### Para magias e efeitos que exigem teste de resistência do alvo:
 
-DC = 10 + \[Nível\] + \[Eixo Base\] + \[Aplicação Base\]
+DC = 10 + [Nível] + [Eixo Base] + [Aplicação Base]
 
 (Isso garante que o desafio escale junto com o poder dos heróis e monstros)
 
@@ -252,7 +253,7 @@ Você não conseguiu realizar a ação.
 
 Para sobreviver a monstros de níveis altos, a defesa do personagem escala automaticamente com sua experiência.
 
-CA = 10 + \[Nível\] + \[Bônus de Armadura\] + \[Eixo Limitado\] + \[Escudo\]
+CA = 10 + [Nível] + [Bônus de Armadura] + [Eixo Limitado] + [Escudo]
 
 Seu nível atual de personagem.
 
@@ -308,7 +309,7 @@ O HP em Pandorha escala com a experiência e resistência física, sendo recalcu
 
 #### Fórmula de HP Máximo:
 
-\[HP Base da Classe + Físico + Resistência\] × Nível Atual
+[HP Base da Classe + Físico + Resistência] × Nível Atual
 
 Vanguarda (10) + Físico (3) + Resistência (2) no Nível 10 = 150 HP.
 
@@ -440,7 +441,7 @@ Dívida de Sangue
 
 Custo acumulado por Favores de Facções.
 
-\[Nível de Fama × 3\]
+[Nível de Fama × 3]
 
 Pontos de Intriga
 
@@ -452,7 +453,7 @@ Para o sistema completo de alianças e segredos, consulte o
 
 Capítulo 31 - Códex de Teia de Infâmia
 
-file:///c:/Users/Pichau/Desktop/o/mundo/de/pandorha/livro/Sistemas/Pandorha/sistema/consolidado/docs/regras/31\_Codex\_Teia\_Infamia\_Patrocinio.md
+file:///c:/Users/Pichau/Desktop/o/mundo/de/pandorha/livro/Sistemas/Pandorha/sistema/consolidado/docs/regras/31_Codex_Teia_Infamia_Patrocinio.md
 
 --------------------------------------------------------------------------------
 
@@ -594,7 +595,7 @@ Mestrias de Classe
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\01\_00\_Regras\_Gerais.md
+Arquivo: M01_JOGADOR\01_00_Regras_Gerais.md
 
 Ancestralidades: Regras Gerais
 
@@ -632,7 +633,7 @@ Consulte os arquivos individuais para detalhes sobre cada linhagem.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\01\_01\_Humanos.md
+Arquivo: M01_JOGADOR\01_01_Humanos.md
 
 1. Humanos (Os Sobreviventes de Morden)
 
@@ -738,7 +739,7 @@ para observar um inimigo. Seu próximo ataque contra ele ganha +2 de bônus no d
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\01\_02\_Elfos.md
+Arquivo: M01_JOGADOR\01_02_Elfos.md
 
 2. Elfos (Os Tecelões das Eras)
 
@@ -804,7 +805,7 @@ Ressonância Elemental: Escolha um elemento (Fogo, Gelo ou Raio). Você ganha RD
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\01\_03\_Anoes.md
+Arquivo: M01_JOGADOR\01_03_Anoes.md
 
 3. Anões (Os Guardiões da Raiz)
 
@@ -866,7 +867,7 @@ Vontade de Rocha: Sua mente é sólida. Ganha +4 de bônus em testes contra qual
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\01\_04\_Drakari.md
+Arquivo: M01_JOGADOR\01_04_Drakari.md
 
 4. Drakari (Os Senhores do Metal Vivo)
 
@@ -992,7 +993,7 @@ Golpe de Cauda
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\01\_05\_Umbrais.md
+Arquivo: M01_JOGADOR\01_05_Umbrais.md
 
 5. Umbrais (Os Andarilhos do Vazio)
 
@@ -1050,7 +1051,7 @@ Memória Genética: Uma vez por descanso longo, você pode usar uma habilidade e
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\01\_06\_Feras.md
+Arquivo: M01_JOGADOR\01_06_Feras.md
 
 6. Feras (Os Predadores do Éter)
 
@@ -1114,7 +1115,7 @@ Testes Globais de Físico + Conflito + Nível
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\01\_Ancestralidades.md
+Arquivo: M01_JOGADOR\01_Ancestralidades.md
 
 Pandorha: Capítulo 01 - Ancestralidades
 
@@ -1124,31 +1125,31 @@ Neste capítulo, detalhamos as seis linhagens primordiais que habitam o mundo de
 
 Regras Gerais
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01\_00\_Regras\_Gerais.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01_00_Regras_Gerais.md
 
 : Introdução e conceitos fundamentais.
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01\_01\_Humanos.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01_01_Humanos.md
 
 : A Chama da Adaptabilidade.
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01\_02\_Elfos.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01_02_Elfos.md
 
 : Os Tecelões das Eras.
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01\_03\_Anoes.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01_03_Anoes.md
 
 : Os Guardiões da Raiz.
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01\_04\_Drakari.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01_04_Drakari.md
 
 : Os Herdeiros do Fogo.
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01\_05\_Umbrais.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01_05_Umbrais.md
 
 : Os Andarilhos do Vazio.
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01\_06\_Feras.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/01_06_Feras.md
 
 : Os Predadores do Éter.
 
@@ -1162,7 +1163,7 @@ file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/P
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\02a\_Matriz\_Fisica.md
+Arquivo: M01_JOGADOR\02a_Matriz_Fisica.md
 
 Pandorha: Capítulo 02A - Matriz Física (Guia de Uso Dinâmico)
 
@@ -1502,7 +1503,7 @@ Estabiliza em 0 HP automático (não precisa rolar
 
 302. Pele de Ferro
 
-\[Passiva\] |
+[Passiva] |
 
 Permanente.
 
@@ -1540,7 +1541,7 @@ Reduz o dano em 1d4.
 
 305. Pulmões de Aço
 
-\[Passiva\] |
+[Passiva] |
 
 Você pode prender a respiração por (Resistência x 2) minutos adicionais.
 
@@ -1560,7 +1561,7 @@ Encerra + Sofre 2 de dano fixo (fadiga).
 
 307. Estreito de Couraça
 
-\[Passiva\] |
+[Passiva] |
 
 Você ignora metade da penalidade de movimento de armaduras pesadas.
 
@@ -1582,13 +1583,14 @@ Somente você ganha o bônus.
 
 309. Metabolismo Hiper-Acelerado
 
-\[Passiva\] |
+[Passiva] |
 
 Você recupera o dobro de HP e PV durante descansos curtos e longos.
 
 Seus ferimentos fecham visivelmente rápido (estanca Sangrando em 1R auto).
 
 310. Sacrifício do Vanguarda
+
 1,5m (Adjacente) |
 
 Aliado adjacente ser atacado.
@@ -1605,7 +1607,7 @@ Ambos recebem 50% do dano.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\02b\_Matriz\_Mental.md
+Arquivo: M01_JOGADOR\02b_Matriz_Mental.md
 
 Pandorha: Capítulo 02B - Matriz Mental (Guia de Uso Dinâmico)
 
@@ -1642,6 +1644,7 @@ Mental + Conflito + Nível (Magia).
 0,5x dano + Self Feedback: 1d4 de dano mental.
 
 402. Explosão de Éter
+
 24m (Raio 3m) |
 
 Mental + Conflito + Nível (Magia).
@@ -1658,7 +1661,7 @@ Mental + Conflito + Nível (Magia).
 
 Mental + Conflito + Nível vs Mental + Resistência.
 
-Alvo proibido de realizar qualquer ação de \[Conflito\] por 1R.
+Alvo proibido de realizar qualquer ação de [Conflito] por 1R.
 
 Status Alvo: Incapacitado (1R).
 
@@ -1988,7 +1991,7 @@ Dano de feedback reduzido em 50%.
 
 608. Detecção Lógica Passiva
 
-\[Passiva\] |
+[Passiva] |
 
 Mental + Resistência + Nível DC (10 + Nível).
 
@@ -2034,7 +2037,7 @@ Ganha 1 ação extra, mas ganha o Status: Exausto (Duração: Cena).
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\02c\_Matriz\_Social.md
+Arquivo: M01_JOGADOR\02c_Matriz_Social.md
 
 Pandorha: Capítulo 02C - Matriz Social (Guia de Uso Dinâmico)
 
@@ -2370,7 +2373,7 @@ Anula o efeito, mas você fica com o Status: Abalado por decepcionar-se com a si
 
 903. Estoicismo Corporal
 
-\[Passiva\] |
+[Passiva] |
 
 Social + Resistência + Nível DC (15 + Nível).
 
@@ -2471,7 +2474,7 @@ Sucesso, mas o usuário sofre 10 de dano fixo espiritual pela troca de energia.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\04\_Arsenal\_e\_Economia.md
+Arquivo: M01_JOGADOR\04_Arsenal_e_Economia.md
 
 Pandorha: Capítulo 04 - Arsenal e Economia (Edição Definitiva v3.2)
 
@@ -2483,7 +2486,7 @@ Este capítulo contém a lista completa de equipamentos de guerra, com suas desc
 
 #### Limite de Carga:
 
-\[Físico + Resistência\] + 6 Slots.
+[Físico + Resistência] + 6 Slots.
 
 #### Peso Excedente:
 
@@ -2699,7 +2702,7 @@ Cargas (Magia)
 
 Dispara uma magia específica sem gastar seu EE.
 
-Capacitor \[C\]
+Capacitor [C]
 
 Esfera de cristal. Sustenta concentração.
 
@@ -3189,7 +3192,7 @@ Sucesso Crítico
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\05\_00\_Regras\_de\_Classe.md
+Arquivo: M01_JOGADOR\05_00_Regras_de_Classe.md
 
 Pandorha: Capítulo 05 - Regras de Classe e Evolução
 
@@ -3269,7 +3272,7 @@ Heróis se tornam lendas difíceis de matar.
 
 #### O HP é calculado retroativamente:
 
-\[HP Base da Classe + Físico + Resistência\] × Nível Atual
+[HP Base da Classe + Físico + Resistência] × Nível Atual
 
 #### Recuperação de Descanso:
 
@@ -3367,7 +3370,7 @@ Para círculos superiores, consulte o
 
 Codex de Magia
 
-12\_00\_Codex\_de\_Magia.md
+12_00_Codex_de_Magia.md
 
 5. Potencializar (Upcasting)
 
@@ -3393,7 +3396,7 @@ Para cada Círculo acima do original, a magia causa
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\05\_01\_Vanguarda.md
+Arquivo: M01_JOGADOR\05_01_Vanguarda.md
 
 Pandorha: Dossiê do Vanguarda
 
@@ -3515,7 +3518,7 @@ Para você, um inimigo caindo é apenas o momento para girar a lâmina em direç
 
 #### Efeito Mecânico:
 
-Sempre que você reduzir um inimigo a 0 HP, você pode fazer um ataque básico imediato (1 Ação \[L\]) contra outro inimigo adjacente.
+Sempre que você reduzir um inimigo a 0 HP, você pode fazer um ataque básico imediato (1 Ação [L]) contra outro inimigo adjacente.
 
 --------------------------------------------------------------------------------
 
@@ -3529,7 +3532,7 @@ Companheiro Animal
 
 Códex: Companheiros Animais
 
-24\_Codex\_Companheiros\_Animais.md
+24_Codex_Companheiros_Animais.md
 
 No Nível 3, o Vanguarda define sua doutrina de guerra.
 
@@ -3567,7 +3570,7 @@ Avatar da Guerra
 
 Por um breve momento, você canaliza o espírito dos antigos deuses da batalha. Sua silhueta brilha com uma aura vermelha e você cresce em tamanho e poder.
 
-#### Uma vez por dia (1 Ação \[L\]). Por 1 minuto:
+#### Uma vez por dia (1 Ação [L]). Por 1 minuto:
 
 Seu tamanho aumenta (Médio -> Grande).
 
@@ -3657,7 +3660,7 @@ Você se torna uma entidade do cenário. Exércitos param ao seu comando. Você 
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\05\_02\_Tecelao.md
+Arquivo: M01_JOGADOR\05_02_Tecelao.md
 
 Pandorha: Dossiê do Tecelão de Sombras
 
@@ -3793,7 +3796,7 @@ gratuitamente. Escolha um modelo e truques conforme o
 
 Códex de Magia: O Familiar Místico
 
-25\_Codex\_Familiar\_Mistico.md
+25_Codex_Familiar_Mistico.md
 
 --------------------------------------------------------------------------------
 
@@ -3805,7 +3808,7 @@ Tecelões especializados em conjuração de feras ou familiares etéreos podem u
 
 Códex: Companheiros Animais
 
-24\_Codex\_Companheiros\_Animais.md
+24_Codex_Companheiros_Animais.md
 
 para seus servos principais.
 
@@ -3945,7 +3948,7 @@ Você se dissolve na trama mágica do mundo. Você pode estar em múltiplos luga
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\05\_03\_Emissario.md
+Arquivo: M01_JOGADOR\05_03_Emissario.md
 
 Pandorha: Dossiê do Emissário
 
@@ -4119,7 +4122,7 @@ Encantamento
 
 Sua Energia Etérica (EE) é calculada como
 
-\[Nível\] + \[Eixo Social\]
+[Nível] + [Eixo Social]
 
 . Você é um
 
@@ -4225,7 +4228,7 @@ Você controla organizações inteiras das sombras. Reis pedem sua permissão pa
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\05\_04\_Cacador.md
+Arquivo: M01_JOGADOR\05_04_Cacador.md
 
 Pandorha: Dossiê do Caçador
 
@@ -4285,7 +4288,7 @@ Você recebe um Companheiro Animal. Siga as regras de criação, escalonamento e
 
 Códex: Companheiros Animais
 
-24\_Codex\_Companheiros\_Animais.md
+24_Codex_Companheiros_Animais.md
 
 2. Tiro Preciso (Passivo)
 
@@ -4337,7 +4340,7 @@ Faça um ataque em área. Você dispara contra todos os inimigos em um
 
 . Faça um único
 
-Teste Global de \[Eixo\] + Conflito + Nível
+Teste Global de [Eixo] + Conflito + Nível
 
 e compare com a defesa de cada um.
 
@@ -4401,7 +4404,7 @@ Evocação Elemental
 
 Sua Energia Etérica (EE) é calculada como
 
-\[Nível\] + \[Eixo Mental\]
+[Nível] + [Eixo Mental]
 
 . Você é um
 
@@ -4497,7 +4500,7 @@ Nível 17: Avatar da Natureza (Ascensão)
 
 A forma humana é muito pequena para conter seu espírito.
 
-\*\*1 Ação \*\*\[A\]\*\*\*\*. Você pode se transformar magicamente em uma
+\*\*1 Ação \*\*[A]\*\*\*\*. Você pode se transformar magicamente em uma
 
 Besta Gigante
 
@@ -4519,7 +4522,7 @@ Você se torna imortal. Você pode fazer florestas crescerem em desertos ou acal
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\10\_Antecedentes\_e\_Origens.md
+Arquivo: M01_JOGADOR\10_Antecedentes_e_Origens.md
 
 Pandorha: Capítulo 10 - Livro das Origens (Antecedentes)
 
@@ -4563,7 +4566,7 @@ Você pode realizar rituais de purificação. Gaste 10 minutos para remover uma 
 
 #### Teólogo de Combate:
 
-Você usa seu Eixo \[Mental\] em vez de \[Físico\] para rolar Iniciativa.
+Você usa seu Eixo [Mental] em vez de [Físico] para rolar Iniciativa.
 
 #### Voto de Pobreza:
 
@@ -4675,7 +4678,7 @@ Algemas Rápidas
 
 Se você agarrar (Grapple) um alvo, pode tentar algemá-lo (
 
-Teste Global de \[Mental\] + \[Interação\] + \[Nível\]
+Teste Global de [Mental] + [Interação] + [Nível]
 
 DC Desafiadora de seu Tier
 
@@ -4917,7 +4920,7 @@ Pode tentar subornar inimigos inteligentes para não atacarem (o Mestre define o
 
 #### Mochileiro:
 
-Você carrega o dobro do peso \[Físico\] sem ficar sobrecarregado.
+Você carrega o dobro do peso [Físico] sem ficar sobrecarregado.
 
 16. Nômade (O Viajante)
 
@@ -5041,7 +5044,7 @@ Você sente a presença de mortos-vivos ou demônios em 30m.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_00\_Codex\_de\_Magia.md
+Arquivo: M01_JOGADOR\12_00_Codex_de_Magia.md
 
 Pandorha: Capítulo 12 - Codex de Magia
 
@@ -5051,7 +5054,7 @@ Pandorha: Capítulo 12 - Codex de Magia
 
 Grimório Etérico
 
-12\_01\_Grimorio\_Etérico.md
+12_01_Grimorio_Etérico.md
 
 Este documento contém as regras fundamentais para conjuração, rituais e manipulação do Éter em Pandorha.
 
@@ -5145,17 +5148,17 @@ B. O Teste de Magia
 
 Usada quando você mira um raio, uma flecha ou um toque.
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\]
+[d20] + [Nível] + [Mental] + [Conflito]
 
 2. Difficulty Class (CD) - Dificuldade para Resistir
 
 Usada quando a magia afeta uma área ou a mente do alvo. O alvo deve rolar um Teste de Resistência.
 
-10 + \[Nível\] + \[Mental\]
+10 + [Nível] + [Mental]
 
 #### Teste do Alvo:
 
-\[d20\] + \[Nível\] + \[Eixo do Alvo\] + \[Resistência\]
+[d20] + [Nível] + [Eixo do Alvo] + [Resistência]
 
 #### Sucesso do Alvo:
 
@@ -5169,19 +5172,19 @@ C. Componentes da Magia
 
 Para conjurar, você precisa cumprir os requisitos da magia (indicados na descrição).
 
-#### Verbal \[V\]:
+#### Verbal [V]:
 
 Exige a capacidade de falar palavras de poder em voz alta.
 
 Você não pode conjurar se estiver Amordaçado ou em uma área de Silêncio.
 
-#### Somático \[S\]:
+#### Somático [S]:
 
 Exige gestos precisos com pelo menos uma mão livre.
 
 Você não pode conjurar se estiver com as duas mãos ocupadas (ex: Espada e Escudo) ou Amarrado.
 
-#### Material \[M\]:
+#### Material [M]:
 
 Foco de Éter
 
@@ -5201,7 +5204,7 @@ a mais para conjurar.
 
 Identificação, alarmes, criar abrigo. Não serve para combate.
 
-Concentração \[C\]
+Concentração [C]
 
 Algumas magias duram enquanto você foca nelas (ex: Voo, Invisibilidade).
 
@@ -5305,7 +5308,7 @@ Usar Pergaminho de Círculo 3 (Nível 5) exige CD 20. Círculo 9 (Nível 17) exi
 
 O pergaminho é consumido e a magia falha. Se falhar por 5 ou mais, ocorre uma falha mágica (Role na Tabela de Caos do Mestre).
 
-Beber é uma \*\*Ação \*\*\[A\]
+Beber é uma \*\*Ação \*\*[A]
 
 --------------------------------------------------------------------------------
 
@@ -5465,7 +5468,7 @@ A alma do conjurador pode ser projetada para fora de seu corpo, ganhando vida pr
 
 Códex de Magia: O Familiar Místico
 
-25\_Codex\_Familiar\_Mistico.md
+25_Codex_Familiar_Mistico.md
 
 12. Magia Híbrida (Meio-Conjuradores)
 
@@ -5481,11 +5484,11 @@ utilizam um sistema de conjuração simplificado e instintivo. Eles progridem at
 
 Códex Expandido - Magia Híbrida
 
-12\_13\_Codex\_Expandido\_Magia\_Hibrida.md
+12_13_Codex_Expandido_Magia_Hibrida.md
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_01\_Grimorio\_Arcano.md
+Arquivo: M01_JOGADOR\12_01_Grimorio_Arcano.md
 
 Pandorha: Capítulo 12 - Grimório Etérico
 
@@ -5493,7 +5496,7 @@ Pandorha: Capítulo 12 - Grimório Etérico
 
 Codex de Magia
 
-12\_00\_Codex\_de\_Magia.md
+12_00_Codex_de_Magia.md
 
 V (Verbal), S (Somático), M (Material).
 
@@ -5548,21 +5551,27 @@ Sussurro à distância (30m).
 Infalível. 1d4+1 Energia.
 
 9. Raio de Gelo
+
 1d8 Frio + Reduz Movimento.
 
 10. Toque Chocante
+
 1d8 Elétrico + Anula Reação.
 
 11. Chama Sagrada
+
 1d8 Radiante. Ignora Cobertura.
 
 12. Rajada Mística
+
 1d10 Energia. Empurra 3m.
 
 13. Spray de Veneno
+
 1d12 Veneno (Físico+Resist metade).
 
 14. Chicote de Espinhos
+
 1d6 Perfurante + Puxa 3m.
 
 15. Lâmina Verde
@@ -5577,7 +5586,7 @@ Potencializar (+1 Círculo)
 
 Armadura Etérica
 
-CA = 13 + \[Nível\] + \[Eixo\] (8h).
+CA = 13 + [Nível] + [Eixo] (8h).
 
 Mísseis Mágicos
 
@@ -6047,7 +6056,7 @@ Levanta uma montanha e a faz voar (cria cidade voadora).
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_02\_Grimorio\_Circulo\_0.md
+Arquivo: M01_JOGADOR\12_02_Grimorio_Circulo_0.md
 
 Grimório: Círculo 0 - Truques (Cantrips)
 
@@ -6175,7 +6184,7 @@ Instantânea
 
 Um raio de luz branco-azulada parte em direção a uma criatura ao alcance. Faça um Ataque Mágico à distância (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ). Se acertar, causa
 
@@ -6193,7 +6202,7 @@ Instantânea
 
 Eletricidade surge da sua mão para dar um choque em uma criatura que você tentar tocar. Faça um Ataque Mágico corpo-a-corpo (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ). Você tem vantagem se o alvo estiver vestindo armadura de metal. Se acertar, causa
 
@@ -6211,7 +6220,7 @@ Instantânea
 
 Chamas radiantes descem sobre uma criatura que você possa ver dentro do alcance. O alvo deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 contra sua CD de Magia ou sofrer
 
@@ -6229,7 +6238,7 @@ Instantânea
 
 Um feixe de energia crepitante risca o ar. Faça um Ataque Mágico à distância (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ). Se acertar, causa
 
@@ -6247,7 +6256,7 @@ Instantânea
 
 Você estende a mão e projeta um sopro de gás nocivo. Uma criatura ao alcance deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 contra sua CD de Magia ou sofre
 
@@ -6267,7 +6276,7 @@ Instantânea
 
 Você cria um chicote de vinhas longo e espinhoso que chicoteia ao seu comando. Faça um Ataque Mágico corpo-a-corpo contra um alvo ao alcance (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ). Se acertar, causa
 
@@ -6305,7 +6314,7 @@ Você sussurra aos ventos para que guiem seu próximo disparo. Até o final do s
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_03\_Grimorio\_Circulo\_1.md
+Arquivo: M01_JOGADOR\12_03_Grimorio_Circulo_1.md
 
 Grimório: Círculo 1 - O Aprendiz
 
@@ -6319,7 +6328,7 @@ V, S, M (um pedaço de couro curado)
 
 Você toca uma criatura voluntária que não esteja vestindo armadura. Uma força mágica protetora a envolve até a magia acabar. A Classe de Armadura (CA) base do alvo se torna
 
-13 + \[Nível\] + Eixo Físico ou Mental
+13 + [Nível] + Eixo Físico ou Mental
 
 (o que for maior). A magia acaba se o alvo vestir uma armadura ou se você dissipá-la.
 
@@ -6357,7 +6366,7 @@ Instantânea
 
 Ao manter suas mãos com os polegares tocando e os dedos abertos, uma fina camada de chamas sai das pontas de seus dedos estendidos. Cada criatura num cone de 5m deve realizar um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . Se falhar, sofre
 
@@ -6401,7 +6410,7 @@ Você sopra uma areia invisível que induz letargia mágica. Criaturas em uma á
 
 Resistência Mental
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ) contra sua CD de Magia.
 
@@ -6437,7 +6446,7 @@ Instantânea
 
 Uma onda de força trovejante varre tudo a partir de você. Cada criatura num cubo de 5m a partir de você deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 . Se falhar, sofre
 
@@ -6452,6 +6461,7 @@ e é empurrada 3m para longe. Se passar, sofre metade do dano e não é empurrad
 --------------------------------------------------------------------------------
 
 7. Escudo de Éter
+
 1 Reação (quando for atingido por um ataque ou alvo de Mísseis Mágicos)
 
 #### Componentes:
@@ -6496,7 +6506,7 @@ Encantamento
 
 Você tenta encantar um humanóide que você possa ver dentro do alcance. Ele deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 , e o faz com vantagem se você ou seus companheiros estiverem lutando com ele. Se falhar, ele fica
 
@@ -6552,7 +6562,7 @@ do tipo escolhido.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_04\_Grimorio\_Circulo\_2.md
+Arquivo: M01_JOGADOR\12_04_Grimorio_Circulo_2.md
 
 Grimório: Círculo 2 - O Adepto
 
@@ -6598,7 +6608,7 @@ Você conjura uma massa de teias grossas e grudentas num ponto à sua escolha de
 
 Cada criatura que começar seu turno nas teias ou que entrar nelas durante seu turno deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . Se falhar, fica
 
@@ -6622,7 +6632,7 @@ Instantânea
 
 Você cria três raios de fogo e os arremessa em alvos dentro do alcance. Você pode arremessá-los em um alvo ou em vários. Faça um Ataque Mágico à distância (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ) para cada raio. Se acertar, o alvo sofre
 
@@ -6646,7 +6656,7 @@ Concentração, até 1 minuto
 
 Escolha um humanoide que você possa ver dentro do alcance. O alvo deve ser bem sucedido num teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 pela duração. No final de cada turno dele, o alvo pode fazer outro teste. Se passar, a magia encerra.
 
@@ -6718,7 +6728,7 @@ Instantânea
 
 Um som alto e doloroso range em um ponto a sua escolha dentro do alcance. Cada criatura numa esfera de 3m de raio deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 . Uma criatura sofre
 
@@ -6746,7 +6756,7 @@ Você sugere um curso de atividade (limitado a uma ou duas sentenças) e influen
 
 O alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 . Se falhar, ele segue a sugestão. A ação sugerida pode continuar pela duração inteira. Se a atividade for completada em tempo menor, a magia acaba quando o sujeito termina o que foi pedido.
 
@@ -6760,7 +6770,7 @@ Duração aumenta em +24h se usar slot de 7º.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_05\_Grimorio\_Circulo\_3.md
+Arquivo: M01_JOGADOR\12_05_Grimorio_Circulo_3.md
 
 Grimório: Círculo 3 - O Mestre
 
@@ -6776,7 +6786,7 @@ Instantânea
 
 Uma luz brilhante parte do seu dedo indicador para um ponto que você escolher dentro do alcance e então explode num rugido baixo. Cada criatura numa esfera de 6m de raio centrada no ponto deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . Se falhar, sofre
 
@@ -6804,7 +6814,7 @@ Instantânea
 
 Um relâmpago de 30m de comprimento e 1,5m de largura é disparado de você numa direção à sua escolha. Cada criatura na linha deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . Se falhar, sofre
 
@@ -6837,6 +6847,7 @@ Você toca uma criatura voluntária. O alvo ganha deslocamento de voo de 18m pel
 --------------------------------------------------------------------------------
 
 4. Contra-Mágica
+
 1 Reação (quando você vê uma criatura a até 18m conjurando uma magia)
 
 #### Componentes:
@@ -6845,7 +6856,7 @@ Instantânea
 
 Você tenta interromper uma criatura no processo de conjuração. Se a criatura estiver conjurando uma magia de 3º círculo ou inferior, a magia dela falha e não tem efeito. Se a magia for de 4º círculo ou superior, faça um teste de Habilidade de Conjuração (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ). A CD é 10 + o círculo da magia. Se passar, a magia falha e não tem efeito.
 
@@ -6863,7 +6874,7 @@ Instantânea
 
 Escolha uma criatura, objeto ou efeito mágico dentro do alcance. Qualquer magia de 3º círculo ou inferior no alvo termina. Para cada magia de 4º círculo ou superior no alvo, faça um teste de Habilidade de Conjuração (
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Conflito] + [Item]
 
 ). A CD é 10 + o círculo da magia. Se passar, a magia termina.
 
@@ -6903,7 +6914,7 @@ Concentração, até 10 minutos
 
 Você invoca espíritos que flutuam ao seu redor até 4,5m de distância. Quando você conjura essa magia, pode designar qualquer número de criaturas que você possa ver para não serem afetadas por ela. A velocidade de uma criatura afetada é reduzida à metade na área e, quando a criatura entrar na área pela primeira vez num turno ou começar seu turno lá, ela deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 . Se falhar, sofre
 
@@ -6927,7 +6938,7 @@ Concentração, até 1 minuto
 
 Você projeta uma imagem fantasmagórica dos piores medos das criaturas. Cada criatura num cone de 9m deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ou largará tudo o que estiver segurando e ficará
 
@@ -6951,7 +6962,7 @@ Concentração, até 1 minuto
 
 Você cria um padrão distorcido de cores que cega e fascina a mente num cubo de 9m dentro do alcance. Cada criatura na área que veja o padrão deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 . Se falhar, a criatura fica
 
@@ -6991,7 +7002,7 @@ Quando a magia acaba, o alvo não pode se mover ou realizar ações até depois 
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_06\_Grimorio\_Circulo\_4.md
+Arquivo: M01_JOGADOR\12_06_Grimorio_Circulo_4.md
 
 Grimório: Círculo 4 - O Especialista
 
@@ -7009,7 +7020,7 @@ Concentração, até 1 hora
 
 Esta magia transforma uma criatura que você possa ver dentro do alcance em uma nova forma. O alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 para resistir. Se falhar (ou se for voluntário), é transformado.
 
@@ -7047,7 +7058,7 @@ Concentração, até 1 minuto
 
 Você tenta enviar uma criatura para outro plano de existência. O alvo deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Social\] + \[Interação\] + \[Item\]
+[d20] + [Nível] + [Social] + [Interação] + [Item]
 
 (usando CD mental).
 
@@ -7077,7 +7088,7 @@ Ao conjurar, escolha um lado da muralha. Criaturas a até 3m desse lado ou que e
 
 . Um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 reduz o dano à metade. Criaturas que terminem o turno a até 3m do lado quente sofrem 5d8.
 
@@ -7099,7 +7110,7 @@ Tentáculos negros e viscosos brotam do chão em um quadrado de 6m dentro do alc
 
 Quando uma criatura entra na área ou começa o turno nela, deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 3d6 de dano de Esmagamento
 
@@ -7141,7 +7152,7 @@ Você penetra nos pesadelos de uma criatura que você possa ver e cria uma manif
 
 Mental + Resistência
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ). Se falhar, fica
 
@@ -7193,7 +7204,7 @@ Instantânea
 
 Granizo duro como pedra cai num cilindro de 6m de raio e 12m de altura. Cada criatura na área deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . Se falhar, sofre
 
@@ -7217,7 +7228,7 @@ Um guardião espectral Grande aparece e paira em um espaço desocupado de sua es
 
 Qualquer criatura hostil que se mova para um espaço a até 3m do guardião pela primeira vez num turno deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . A criatura sofre
 
@@ -7235,7 +7246,7 @@ O dano total que o guardião pode causar aumenta em +20 por Círculo acima do 4�
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_07\_Grimorio\_Circulo\_5.md
+Arquivo: M01_JOGADOR\12_07_Grimorio_Circulo_5.md
 
 Grimório: Círculo 5 - O Arquimago
 
@@ -7275,7 +7286,7 @@ Instantânea
 
 Uma rajada de ar congelante irrompe das suas mãos. Cada criatura num cone de 18m deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 . Se falhar, sofre
 
@@ -7301,7 +7312,7 @@ Concentração, até 1 minuto
 
 Você tenta seduzir um humanoide que possa ver. O alvo deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ou ficará enfeitiçado. Enquanto enfeitiçado, você tem um elo telepático com ele. Você pode usar sua ação para tomar controle total e preciso do corpo dele. Durante esse tempo, a criatura apenas age conforme você decide (incluindo atacar aliados).
 
@@ -7363,7 +7374,7 @@ Concentração, até 10 minutos
 
 Uma nuvem de gafanhotos vorazes preenche uma esfera de 6m de raio dentro do alcance. A área é de visibilidade nula e terreno difícil. Quando uma criatura entra na área ou começa o turno nela, deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 . Se falhar, sofre
 
@@ -7413,7 +7424,7 @@ V, S, M (uma joia de 1000po, consumida)
 
 Você prende uma criatura extraplanar (celestial, elemental, fada ou corruptor) no plano atual. O alvo deve falhar num teste de
 
-\[d20\] + \[Nível\] + \[Social\] + \[Interação\] + \[Item\]
+[d20] + [Nível] + [Social] + [Interação] + [Item]
 
 contra sua CD. Se falhar, ele é obrigado a seguir suas instruções por 24h. Se a criatura for hostil, ela terá vantagem no teste.
 
@@ -7451,7 +7462,7 @@ Você aparece e conversa pacificamente.
 
 Você assume uma forma monstruosa. O alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 . Se falhar, sofre
 
@@ -7469,7 +7480,7 @@ e não ganha os benefícios do descanso.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_08\_Grimorio\_Circulo\_6.md
+Arquivo: M01_JOGADOR\12_08_Grimorio_Circulo_6.md
 
 Grimório: Círculo 6 - O Grão-Mestre
 
@@ -7489,7 +7500,7 @@ Um raio verde fino parte de seu dedo para um alvo que você possa ver dentro do 
 
 Uma criatura alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 . Se falhar, sofre
 
@@ -7571,7 +7582,7 @@ Você sugere um curso de atividade para até 12 criaturas à sua escolha que voc
 
 Cada alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 . Se falhar, segue a sugestão. A sugestão pode continuar pela duração. Se a atividade for completada em tempo menor, a magia acaba quando o sujeito termina o que foi pedido.
 
@@ -7593,7 +7604,7 @@ Você cria um raio de eletricidade que salta em direção a um alvo de sua escol
 
 Cada alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 ). O alvo sofre
 
@@ -7619,7 +7630,7 @@ Escolha uma criatura que você possa ver dentro do alcance. O alvo começa a dan
 
 Uma criatura que esteja dançando deve usar todo o seu movimento para dançar sem sair do lugar e tem desvantagem em testes de Esquiva e jogadas de ataque. Outras criaturas têm vantagem ao atacar o alvo. Como uma ação, a criatura pode fazer um teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 para retomar o controle e encerrar a magia.
 
@@ -7671,7 +7682,7 @@ Uma criatura que participe do banquete ganha vários benefícios por 24 horas: �
 
 Mental + Resistência
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ) com vantagem. Seus pontos de vida máximos também aumentam em
 
@@ -7687,7 +7698,7 @@ Mental + Resistência
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_09\_Grimorio\_Circulo\_7.md
+Arquivo: M01_JOGADOR\12_09_Grimorio_Circulo_7.md
 
 Grimório: Círculo 7 - O Lendário
 
@@ -7739,7 +7750,7 @@ Concentração, até 1 minuto
 
 Uma esfera de fogo de 1,5m de diâmetro aparece em um espaço desocupado de sua escolha dentro do alcance e dura pela duração. Qualquer criatura que termine seu turno a até 1,5m da esfera deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 ). Se falhar, sofre
 
@@ -7763,7 +7774,7 @@ Instantânea
 
 Você envia energia negativa para matar uma criatura que possa ver dentro do alcance. O alvo deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 7d8 + 30 de dano Necrótico
 
@@ -7801,7 +7812,7 @@ Concentração, até 1 minuto
 
 Esta magia reverte a gravidade num cilindro de 15m de raio e 30m de altura. Criaturas e objetos que não estejam presos ao chão caem para cima até o topo da área. Uma criatura pode fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 ) para agarrar-se a algo fixo e evitar a queda. Se não conseguir, "cai" para cima, sofrendo dano de impacto se atingir o teto/topo.
 
@@ -7897,7 +7908,7 @@ Você cria uma habitação extradimensional que dura pela duração. Você escol
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_10\_Grimorio\_Circulo\_8.md
+Arquivo: M01_JOGADOR\12_10_Grimorio_Circulo_8.md
 
 Grimório: Círculo 8 - O Semideus
 
@@ -7915,7 +7926,7 @@ Você cria um tremor sísmico num ponto no solo. Um tremor intenso rasga o chão
 
 Fenda se abre. Teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 ) (CD 15) para não cair.
 
@@ -7941,7 +7952,7 @@ Concentração, até 1 hora
 
 Você tenta controlar uma criatura que você possa ver dentro do alcance. Ela deve passar num teste de
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 com vantagem se estiver em combate com você. Se falhar, fica
 
@@ -7965,7 +7976,7 @@ Instantânea
 
 Um flash de luz solar brilhante explode e preenche uma esfera de 18m de raio. Cada criatura deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 . Se falhar, sofre
 
@@ -7989,7 +8000,7 @@ Até a magia encerrar, uma criatura voluntária que você toca é imune a dano p
 
 Enfeitiçado
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ). A magia frustra até magias de
 
@@ -8029,7 +8040,7 @@ O alvo repele as criaturas. Elas devem passar num teste de
 
 Mental + Resistência
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ) para se aproximar.
 
@@ -8053,7 +8064,7 @@ O alvo pode usar sua ação para tentar escapar. Ele faz um teste de
 
 Inteligência
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Interação\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Interação] + [Item]
 
 ) (CD 20). Se passar, escapa e reaparece no espaço que deixou ou no espaço livre mais próximo. Se falhar, permanece.
 
@@ -8073,7 +8084,7 @@ Você profere uma palavra de poder. Se o alvo tiver 150 pontos de vida ou menos,
 
 Resistência
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 ) no final de cada um de seus turnos. Numa falha, continua atordoado. Num sucesso, o efeito termina.
 
@@ -8095,7 +8106,7 @@ Uma nuvem rodopiante de fumaça, brasas e cinzas incandescentes 6m de raio apare
 
 num teste falho de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 ), ou metade num sucesso.
 
@@ -8133,7 +8144,7 @@ A velocidade de mudança cai para 1d4 minutos.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_11\_Grimorio\_Circulo\_9.md
+Arquivo: M01_JOGADOR\12_11_Grimorio_Circulo_9.md
 
 Grimório: Círculo 9 - O Celestial
 
@@ -8167,7 +8178,7 @@ Instantânea
 
 Esferas de fogo despencam do céu em quatro pontos que você possa ver. Cada criatura numa esfera de 12m de raio centrada em cada ponto deve fazer um teste de
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Conflito] + [Item]
 
 ). A esfera causa
 
@@ -8281,7 +8292,7 @@ Você cria uma restrição mágica para prender uma criatura que possa ver. O al
 
 Mental + Resistência
 
-\[d20\] + \[Nível\] + \[Mental\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Mental] + [Resistência] + [Item]
 
 ). Se falhar, fica preso.
 
@@ -8341,7 +8352,7 @@ Ventos e Chuva forte. Visão nula e terreno difícil.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_12\_Grimorio\_Circulo\_10.md
+Arquivo: M01_JOGADOR\12_12_Grimorio_Circulo_10.md
 
 Grimório: Círculo 10 - Magias Proibidas
 
@@ -8391,7 +8402,7 @@ No final da duração, seu corpo mortal deve fazer um teste de
 
 Resistência
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Resistência\] + \[Item\]
+[d20] + [Nível] + [Físico] + [Resistência] + [Item]
 
 ) (CD 40). Se falhar, você explode e deixa de existir (alma destruída). Se passar, você perde todos os níveis de classe e volta a ser um mortal Nível 1.
 
@@ -8439,7 +8450,7 @@ Você toca o pico de uma montanha e comanda que ela obedeça à gravidade ditada
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\12\_13\_Codex\_Expandido\_Magia\_Hibrida.md
+Arquivo: M01_JOGADOR\12_13_Codex_Expandido_Magia_Hibrida.md
 
 Pandorha: Códex Expandido - Magia Híbrida (Meio-Conjuradores)
 
@@ -8475,7 +8486,7 @@ Energia Etérica (A Reserva Mágica)
 
 O combustível mágico de um híbrido é calculado de forma a aumentar organicamente com seu poder:
 
-EE Máxima = \[Seu Nível de Personagem\] + \[Seu Eixo Mágico\]
+EE Máxima = [Seu Nível de Personagem] + [Seu Eixo Mágico]
 
 #### Eixo Mágico (Atributo de Conjuração):
 
@@ -8617,7 +8628,7 @@ com Cajados (baterias de EE) ou Orbes (suspensores de concentração).
 
 5. Habilidade Nível 7: Golpe Híbrido Integrado (Spellstrike)
 
-No Nível 7, gastando \*\*2 Ações \*\*\[AA\]\*\*\*\*, o personagem realiza um ataque com sua arma (corpo a corpo ou à distância). Se o ataque acertar, a arma causa seu dano físico normal e descarrega imediatamente o efeito de uma magia preparada sobre o alvo (o custo de EE deve ser pago).
+No Nível 7, gastando \*\*2 Ações \*\*[AA]\*\*\*\*, o personagem realiza um ataque com sua arma (corpo a corpo ou à distância). Se o ataque acertar, a arma causa seu dano físico normal e descarrega imediatamente o efeito de uma magia preparada sobre o alvo (o custo de EE deve ser pago).
 
 #### Magias de Ataque:
 
@@ -8633,7 +8644,7 @@ penalidade de -2
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\24\_Codex\_Companheiros\_Animais.md
+Arquivo: M01_JOGADOR\24_Codex_Companheiros_Animais.md
 
 CÓDEX: COMPANHEIROS ANIMAIS
 
@@ -8919,7 +8930,7 @@ O animal ganha um bônus permanente de Pontos de Vida igual a (4 x Nível do Mes
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\25\_Codex\_Familiar\_Mistico.md
+Arquivo: M01_JOGADOR\25_Codex_Familiar_Mistico.md
 
 CÓDEX DE MAGIA: O FAMILIAR MÍSTICO
 
@@ -9579,7 +9590,7 @@ O mestre conecta sua alma à do alvo. Todo dano que o mestre sofrer neste turno,
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\Guia\_Criacao\_de\_Ficha.md
+Arquivo: M01_JOGADOR\Guia_Criacao_de_Ficha.md
 
 Pandorha: Guia Passo a Passo de Criação de Ficha
 
@@ -10017,7 +10028,7 @@ Poção de Cura
 
 Seu limite de carga é
 
-\[Físico + Resistência\] + 6 Slots
+[Físico + Resistência] + 6 Slots
 
 . Se ultrapassar, você recebe a condição
 
@@ -10177,7 +10188,7 @@ Pronto! Sua ficha está completa. Boa aventura em Pandorha!
 
 --------------------------------------------------------------------------------
 
-Arquivo: M01\_JOGADOR\retreino e recondicionamento.md
+Arquivo: M01_JOGADOR\retreino e recondicionamento.md
 
 APÊNDICE: RETREINO E RECONDICIONAMENTO
 
@@ -10253,7 +10264,7 @@ Usar a habilidade em situações triviais (ex: treinar golpes no ar, conjurar fe
 
 Assim que o personagem realizar o seu 3º teste tenso sob essa penalidade, o reflexo se consolida de forma perfeita na sua Matriz, e a Desvantagem desaparece permanentemente.
 
-(Dica: Anote na sua ficha de personagem: "Em Adaptação: \[Nome da Manobra\]")
+(Dica: Anote na sua ficha de personagem: "Em Adaptação: [Nome da Manobra]")
 
 --------------------------------------------------------------------------------
 
@@ -10335,7 +10346,7 @@ Devido à natureza fluida da alma e à conexão psíquica com o mestre, o retrei
 
 Códex de Magia: O Familiar Místico
 
-25\_Codex\_Familiar\_Mistico.md#31-mecanicas-de-retreino-e-recondicionamento
+25_Codex_Familiar_Mistico.md#31-mecanicas-de-retreino-e-recondicionamento
 
 --------------------------------------------------------------------------------
 
@@ -10373,7 +10384,7 @@ Desvantagem
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\06\_NPCs\_e\_Aliados.md
+Arquivo: M02_MESTRE\06_NPCs_e_Aliados.md
 
 Pandorha: Capítulo 06 - NPCs e Aliados (Liderança e Lealdade)
 
@@ -10383,7 +10394,7 @@ Este capítulo define como os jogadores interagem, recrutam e lideram NPCs.
 
 Você só pode comandar aquilo que sua alma suporta.
 
-Limite de Aliados Ativos = 1 + \[Eixo Social\]
+Limite de Aliados Ativos = 1 + [Eixo Social]
 
 --------------------------------------------------------------------------------
 
@@ -10467,7 +10478,7 @@ Quando um aliado for atacado, você avisa. O ataque contra ele tem Desvantagem (
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\08\_Guia\_do\_Mestre.md
+Arquivo: M02_MESTRE\08_Guia_do_Mestre.md
 
 Pandorha: Capítulo 08 - Guia do Mestre (A Filosofia da Condução)
 
@@ -10595,7 +10606,7 @@ Isso substitui a "rolagem de encontro aleatório" por uma mecânica de tensão c
 
 Capítulo 28
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/28\_Codex\_Acampamento\_Descanso\_Ativo.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/28_Codex_Acampamento_Descanso_Ativo.md
 
 para a implementação completa no acampamento.
 
@@ -10703,7 +10714,7 @@ O Guia completo de criação de Facções e o compêndio de entidades no
 
 Capítulo 31
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/31\_Codex\_Teia\_Infamia\_Patrocinio.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/31_Codex_Teia_Infamia_Patrocinio.md
 
 --------------------------------------------------------------------------------
 
@@ -10711,7 +10722,7 @@ file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/P
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\09\_Guia\_do\_Artifice\_e\_Criacao.md
+Arquivo: M02_MESTRE\09_Guia_do_Artifice_e_Criacao.md
 
 Pandorha: Capítulo 09 - O Guia do Artífice (Sistema de Criação)
 
@@ -10759,7 +10770,7 @@ Tipos de Poções (Criação DC 15 + Nível do Item)
 
 O alvo deve passar em
 
-Teste Global de \[Físico\] + \[Resistência\] + \[Nível\]
+Teste Global de [Físico] + [Resistência] + [Nível]
 
 DC Desafiadora de seu Tier
 
@@ -10781,7 +10792,7 @@ DC Desafiadora
 
 O alvo deve passar em
 
-Teste Global de \[Físico\] + \[Resistência\] + \[Nível\]
+Teste Global de [Físico] + [Resistência] + [Nível]
 
 DC Lendária de seu Tier
 
@@ -11089,7 +11100,7 @@ Veneno Paralisante
 
 Aplica na arma. Alvo deve passar em
 
-Teste Global de \[Físico\] + \[Resistência\] + \[Nível\]
+Teste Global de [Físico] + [Resistência] + [Nível]
 
 DC Desafiadora
 
@@ -11117,7 +11128,7 @@ Elixir da Verdade
 
 Alvo não consegue mentir deliberadamente por 10 minutos (
 
-Teste Global de \[Mental\] + \[Resistência\] + \[Nível\]
+Teste Global de [Mental] + [Resistência] + [Nível]
 
 DC Lendária
 
@@ -11153,7 +11164,7 @@ Incendiária
 
 Status Em Chamas (1d6/turno)
 
-Teste \[Fis+Res\] ou sofre
+Teste [Fis+Res] ou sofre
 
 1d4 Veneno/turno
 
@@ -11171,7 +11182,7 @@ Raio 1,5m. Causa
 
 Paralisante
 
-Teste \[Fis+Res\] ou fica
+Teste [Fis+Res] ou fica
 
 Imobilizado
 
@@ -11443,7 +11454,7 @@ Itens em Pandorha sofrem desgaste através de combates intensos, falhas crítica
 
 Para devolver as propriedades totais de um item danificado ou quebrado, o personagem deve realizar um trabalho de manutenção técnica.
 
-\[Global\] Mental + Interação + Nível
+[Global] Mental + Interação + Nível
 
 DC de Criação do Item
 
@@ -11501,7 +11512,7 @@ Falha Crítica
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\13\_Guia\_de\_Criacao\_de\_Monstros.md
+Arquivo: M02_MESTRE\13_Guia_de_Criacao_de_Monstros.md
 
 Pandorha: Capítulo 13 - Guia de Criação de Monstros (A Engenharia do Caos)
 
@@ -11537,7 +11548,7 @@ Para manter a clareza durante o jogo,
 
 as habilidades de monstros devem especificar exatamente qual teste o jogador deve fazer para resistir.
 
-Teste de \[Eixo\] + \[Aplicação\] CD \[Valor\]
+Teste de [Eixo] + [Aplicação] CD [Valor]
 
 #### Exemplos de Padrão:
 
@@ -11751,7 +11762,7 @@ Dados Sugeridos (Mágico)
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\14\_Compendio\_de\_Habilidades\_de\_Monstros.md
+Arquivo: M02_MESTRE\14_Compendio_de_Habilidades_de_Monstros.md
 
 Pandorha: Capítulo 14 - Compêndio de Habilidades de Monstros (Edição Corrigida)
 
@@ -11853,7 +11864,7 @@ Apague as tochas para cegar os humanos.
 
 Ativas (Nível 1)
 
-\[1 Ação\] Mordida Travada
+[1 Ação] Mordida Travada
 
 +3 Ataque. 1d6+2 Dano. Sucesso:
 
@@ -11865,7 +11876,7 @@ Tranca a mandíbula e não solta.
 
 Prenda heróis móveis para não fugirem.
 
-\[1 Ação\] Cuspe Ácido
+[1 Ação] Cuspe Ácido
 
 6m. +3 Ataque. 1d4 Ácido. Efeito Secundário:
 
@@ -11875,7 +11886,7 @@ Jato de bile nos olhos.
 
 Cegueira "desliga" o guerreiro mais forte.
 
-\[2 Ações\] Carga Temerária
+[2 Ações] Carga Temerária
 
 Move 18m e ataca. +1d6 Dano. Erro: Cai
 
@@ -11883,7 +11894,7 @@ Corrida suicida usando o peso do corpo.
 
 Abertura explosiva de combate.
 
-\[1 Ação\] Grito de Alerta
+[1 Ação] Grito de Alerta
 
 Alerta aliados a 18m.
 
@@ -11891,7 +11902,7 @@ Guincho agudo que avisa a colmeia.
 
 O alvo prioritário se o grupo tentar furtividade.
 
-\[1 Ação\] Arremesso de Pedra
+[1 Ação] Arremesso de Pedra
 
 +3 Ataque. 9m. 1d4+2 Impacto.
 
@@ -11899,7 +11910,7 @@ Arremessa detritos com força bruta.
 
 Opção à distância para monstros "melee".
 
-\[1 Ação\] Rede de Caça
+[1 Ação] Rede de Caça
 
 3m. Alvo fica
 
@@ -11913,7 +11924,7 @@ Lança uma rede ou boleadeira.
 
 Prenda o tanque longe da luta.
 
-\[1 Ação\] Roubar Bolso
+[1 Ação] Roubar Bolso
 
 Físico + Conflito (Esquiva)
 
@@ -11923,7 +11934,7 @@ Mãos rápidas vasculham o cinto.
 
 Roube a poção de cura antes de usarem.
 
-\[1 Ação\] Cabeçada
+[1 Ação] Cabeçada
 
 +3 Ataque. 1d4+2. Se alvo concentra magia,
 
@@ -11935,7 +11946,7 @@ Golpe sujo para atordoar.
 
 Habilidade específica "Mata-Mago".
 
-\[1 Ação\] Esporos de Sono
+[1 Ação] Esporos de Sono
 
 Teste Global de Físico + Resistência + Nível (CD 12)
 
@@ -11947,7 +11958,7 @@ Nuvem de pólen sonífero.
 
 Tira jogadores de combate temporariamente.
 
-\[Reação\] Esquiva Desajeitada
+[Reação] Esquiva Desajeitada
 
 Ganha +2 em Teste de
 
@@ -12051,7 +12062,7 @@ Exige armas de impacto ou magia.
 
 Ativas (Nível 2)
 
-\[1 Ação\] Bafo de Fogo
+[1 Ação] Bafo de Fogo
 
 Cone 3m. 2d6 Fogo.
 
@@ -12063,7 +12074,7 @@ Erupção de chamas.
 
 Puna jogadores agrupados.
 
-\[2 Ações\] Ataque Duplo
+[2 Ações] Ataque Duplo
 
 2x Garras (+5). Se ambos acertam, alvo cai
 
@@ -12071,7 +12082,7 @@ Combo rápido esquerda-direita.
 
 Dano + Controle de grupo.
 
-\[1 Ação\] Empurrão de Escudo
+[1 Ação] Empurrão de Escudo
 
 +5 Ataque. 1d4 Dano. Empurra 3m (
 
@@ -12083,7 +12094,7 @@ Golpe bruto de ombro.
 
 Jogue-os em buracos.
 
-\[Reação\] Bloqueio
+[Reação] Bloqueio
 
 Reduz 1d6 de dano de um ataque físico recebido.
 
@@ -12091,7 +12102,7 @@ Endurece a pele no impacto.
 
 TanquEE ataques fracos.
 
-\[1 Ação\] Grito Aterrorizante
+[1 Ação] Grito Aterrorizante
 
 Teste Global de Mental + Resistência + Nível (CD 13)
 
@@ -12103,7 +12114,7 @@ Som gutural de medo puro.
 
 Afaste o tanque para bater nos outros.
 
-\[1 Ação\] Língua de Sapo
+[1 Ação] Língua de Sapo
 
 6m. Puxa para adjacente.
 
@@ -12113,7 +12124,7 @@ Língua pegajosa chicoteia.
 
 Puxe o mago para o meio dos monstros.
 
-\[1 Ação\] Chuva de Flechas
+[1 Ação] Chuva de Flechas
 
 Ataca 2 alvos distantes (+5, 1d6+2 cada).
 
@@ -12121,7 +12132,7 @@ Disparos rápidos.
 
 Pressiona a retaguarda.
 
-\[2 Ações\] Cavar Túnel
+[2 Ações] Cavar Túnel
 
 Move-se por baixo da terra (invulnerável) e surge a 9m.
 
@@ -12129,7 +12140,7 @@ Tática de toupeira.
 
 Reposicionamento seguro.
 
-\[1 Ação\] Toque Gélido
+[1 Ação] Toque Gélido
 
 +5 Ataque. 1d8 Frio. Alvo perde Reações (Sem teste).
 
@@ -12137,7 +12148,7 @@ Drena o calor muscular.
 
 Permite fugir sem levar ataque de oportunidade.
 
-\[1 Ação\] Provocação
+[1 Ação] Provocação
 
 Teste Global de Mental + Interação + Nível (CD 13)
 
@@ -12245,7 +12256,7 @@ Ataques surpresa constantes.
 
 Ativas (Nível 3)
 
-\[2 Ações\] Bola de Fogo (Recarga 5-6)
+[2 Ações] Bola de Fogo (Recarga 5-6)
 
 Raio 3m. 4d6 Fogo.
 
@@ -12255,7 +12266,7 @@ Explosão clássica.
 
 Limpa grupos de jogadores.
 
-\[1 Ação\] Engolir
+[1 Ação] Engolir
 
 Alvo (já Agarrado) é engolido. Sofre 2d6 Ácido/Turno e fica
 
@@ -12265,7 +12276,7 @@ Come a vítima viva.
 
 Elimina um jogador da luta.
 
-\[1 Ação\] Dreno de Vida
+[1 Ação] Dreno de Vida
 
 +7 Ataque. 2d6 Necrótico. Cura metade do dano.
 
@@ -12273,7 +12284,7 @@ Toque vampírico.
 
 Sustentabilidade em combate longo.
 
-\[Reação\] Contra-Ataque
+[Reação] Contra-Ataque
 
 Se inimigo errar ataque melee, faz 1 ataque nele.
 
@@ -12281,7 +12292,7 @@ Pune guarda aberta.
 
 Torna arriscado atacar sem certeza.
 
-\[2 Ações\] Terremoto
+[2 Ações] Terremoto
 
 Teste Global de Físico + Interação + Nível (CD 13)
 
@@ -12289,7 +12300,7 @@ Pisão que abala o chão.
 
 Derruba todos para dar vantagem aos aliados.
 
-\[1 Ação\] Olhar Petrificante
+[1 Ação] Olhar Petrificante
 
 Teste Global de Físico + Resistência + Nível (CD 13)
 
@@ -12301,7 +12312,7 @@ Olhos de Medusa.
 
 Relógio da morte. Mata se não for parado.
 
-\[1 Ação\] Invocar Lacaios
+[1 Ação] Invocar Lacaios
 
 Cria 1d4 Esqueletos (Nível 1).
 
@@ -12309,7 +12320,7 @@ Necromancia de combate.
 
 Renova a carne de canhão.
 
-\[1 Ação\] Teleporte
+[1 Ação] Teleporte
 
 18m para local visível.
 
@@ -12317,7 +12328,7 @@ Passo pelas sombras.
 
 Fuga ou perseguição instantânea.
 
-\[2 Ações\] Rajada de Vento
+[2 Ações] Rajada de Vento
 
 Linha 12m. Empurra 6m.
 
@@ -12327,7 +12338,7 @@ Tufão localizado.
 
 Joga jogadores em perigos ambientais.
 
-\[1 Ação\] Marca do Caçador
+[1 Ação] Marca do Caçador
 
 Escolhe alvo. +1d6 Dano contra ele até o fim da cena.
 
@@ -12427,7 +12438,7 @@ Bomba relógio. Morra no meio dos jogadores.
 
 Ativas (Nível 4)
 
-\[3 Ações\] Sopro de Dragão
+[3 Ações] Sopro de Dragão
 
 Cone 9m. 6d6 Dano.
 
@@ -12437,7 +12448,7 @@ Bafo elemental devastador.
 
 Use contra 3+ inimigos.
 
-\[1 Ação\] Controle Mental
+[1 Ação] Controle Mental
 
 Teste Global de Mental + Resistência + Nível (CD 14)
 
@@ -12447,7 +12458,7 @@ Marionete psíquica.
 
 Vire a força do guerreiro contra o mago.
 
-\[2 Ações\] Enxame de Morcegos
+[2 Ações] Enxame de Morcegos
 
 Voa 18m invulnerável a oportunidade. Atravessa inimigos.
 
@@ -12455,7 +12466,7 @@ Vira nuvem de bichos.
 
 Reposicionamento defensivo perfeito.
 
-\[1 Ação\] Despedaçar Armadura
+[1 Ação] Despedaçar Armadura
 
 +9 Ataque. 1d8+4. Alvo perde 2 CA (Permanente até reparo).
 
@@ -12463,7 +12474,7 @@ Golpe ácido/esmagador.
 
 Quebra o tanque para o resto da aventura.
 
-\[Reação\] Escudo de Mana
+[Reação] Escudo de Mana
 
 Gasta X HP para prevenir X de dano mágico.
 
@@ -12471,7 +12482,7 @@ Sacrifício de sangue por defesa.
 
 Sobrevive a "nuke" de magos.
 
-\[2 Ações\] Pisão de Titã
+[2 Ações] Pisão de Titã
 
 +9 Ataque. 2d10+5.
 
@@ -12483,7 +12494,7 @@ Golpe de gigante.
 
 Controla o campo e afasta defensores.
 
-\[1 Ação\] Nuvem de Veneno
+[1 Ação] Nuvem de Veneno
 
 Aura 6m por 1 min. 2d6 Veneno/turno em quem entrar.
 
@@ -12491,7 +12502,7 @@ Gás mostarda mágico.
 
 Negação de área (ArEE Denial).
 
-\[1 Ação\] Grito Sônico
+[1 Ação] Grito Sônico
 
 Cone 4m. 3d6 Trovão.
 
@@ -12499,7 +12510,7 @@ Teste Global de Físico + Resistência + Nível (CD 14)
 
 Tira ações dos jogadores (Atordoado é fatal).
 
-\[Reação\] Troca de Lugar
+[Reação] Troca de Lugar
 
 Ao ser atacado, troca com lacaio adjacente. Lacaio recebe o ataque.
 
@@ -12507,7 +12518,7 @@ Magia de transposição.
 
 O líder nunca sangra primeiro.
 
-\[1 Ação\] Raio Desintegrador
+[1 Ação] Raio Desintegrador
 
 +9 Ataque. 4d6 Força. Se cair a 0 HP = Pó (Sem salvamento).
 
@@ -12607,7 +12618,7 @@ Age 4 vezes por rodada.
 
 Ativas (Nível 5)
 
-\[1 Ação\] Palavra de Poder: Dor
+[1 Ação] Palavra de Poder: Dor
 
 Alvo a 18m. -5 em todos os testes.
 
@@ -12617,7 +12628,7 @@ Tortura mental instantânea.
 
 Inutiliza o herói principal.
 
-\[2 Ações\] Chuva de Meteoros
+[2 Ações] Chuva de Meteoros
 
 3 alvos. 4d6 Fogo + 4d6 Impacto.
 
@@ -12627,7 +12638,7 @@ Bombardeio orbital.
 
 Dano massivo em múltiplos alvos.
 
-\[1 Ação\] Possessão
+[1 Ação] Possessão
 
 Entra no corpo.
 
@@ -12639,7 +12650,7 @@ Fantasma dominante.
 
 Vire o bárbaro contra o grupo.
 
-\[Reação\] Absorver Magia
+[Reação] Absorver Magia
 
 Cancela magia alvo único e cura 2d10 HP.
 
@@ -12647,13 +12658,13 @@ Devorador de mana.
 
 Nega o trunfo do mago.
 
-\[2 Ações\] Devorar Alma
+[2 Ações] Devorar Alma
 
 Toque. Se alvo com 0 HP = Morte InstantânEE + 20 HP Temp.
 
 Finalizador (Fatality).
 
-\[1 Ação\] Labirinto
+[1 Ação] Labirinto
 
 Teste Global de Mental + Interação + Nível (CD 15)
 
@@ -12663,7 +12674,7 @@ Prisão dimensional.
 
 Remove o curandeiro da luta por turnos.
 
-\[3 Ações\] Terremoto Maior
+[3 Ações] Terremoto Maior
 
 30m. Chão difícil + Caído + 50 Dano Estrutura.
 
@@ -12671,7 +12682,7 @@ Cataclisma.
 
 Destrói o cenário tático.
 
-\[1 Ação\] Olhar da Medusa
+[1 Ação] Olhar da Medusa
 
 Teste Global de Físico + Resistência + Nível (CD 15)
 
@@ -12681,7 +12692,7 @@ Transmutação em pedra.
 
 Morte súbita (Save or Die).
 
-\[Reação\] Parar o Tempo
+[Reação] Parar o Tempo
 
 Interrompe turno inimigo para se Mover e Esconder.
 
@@ -12689,9 +12700,10 @@ Cronocinese.
 
 Esquiva perfeita.
 
-\[1 Ação\] Invocação Maior
+[1 Ação] Invocação Maior
 
 - \*\*Mecânica:\*\* Invoca Elemental Nível 5 (HP 70, Atq +10).
+
 - \*\*Descrição:\*\* Reforço pesado.
 - \*\*Tática:\*\* Dobra a dificuldade da luta.
 
@@ -12701,7 +12713,7 @@ Esquiva perfeita.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\15\_Compendio\_de\_Habilidades\_de\_Monstros\_Tier2.md
+Arquivo: M02_MESTRE\15_Compendio_de_Habilidades_de_Monstros_Tier2.md
 
 Pandorha: Capítulo 15 - Compêndio de Habilidades de Monstros (Tier 2)
 
@@ -12805,7 +12817,7 @@ Defesa passiva contra ataques à distância.
 
 Ativas (Nível 6)
 
-\[2 Ações\] Whirlwind (Giro)
+[2 Ações] Whirlwind (Giro)
 
 Todos a 1,5m. +11 Ataque. 3d8+5 Corte.
 
@@ -12813,7 +12825,7 @@ Gira com armas estendidas como um tornado.
 
 Punição severa se o grupo cercar o monstro.
 
-\[1 Ação\] Arremesso de Rocha
+[1 Ação] Arremesso de Rocha
 
 18m. +11 Ataque. 3d10 Impacto +
 
@@ -12825,7 +12837,7 @@ Catapulta viva.
 
 Derruba o mago ou arqueiro longe da luta.
 
-\[1 Ação\] Grito de Guerra
+[1 Ação] Grito de Guerra
 
 Aliados a 9m ganham +2 Ataque e +5 HP Temp.
 
@@ -12833,7 +12845,7 @@ Urro inspirador.
 
 Buff de grupo. Use no início do combate.
 
-\[1 Ação\] Enredar
+[1 Ação] Enredar
 
 Raio 6m. ÁrEE vira Terreno Difícil e
 
@@ -12845,7 +12857,7 @@ Raízes explodem do chão.
 
 Separa o grupo e impede cargas.
 
-\[Reação\] Aparar
+[Reação] Aparar
 
 +4 CA contra um ataque corpo-a-corpo.
 
@@ -12853,7 +12865,7 @@ Desvia a lâmina no último segundo.
 
 Nega o ataque mais forte do turno (ex: Especial do Guerreiro).
 
-\[2 Ações\] Hálito Venenoso
+[2 Ações] Hálito Venenoso
 
 Cone 6m. 4d6 Veneno +
 
@@ -12865,7 +12877,7 @@ Gás verde corrosivo.
 
 Envenenado dá desvantagem em tudo. Debuff massivo.
 
-\[1 Ação\] Investida Blindada
+[1 Ação] Investida Blindada
 
 Move 12m em linha reta (não gera ataque de oportunidade). +11 Ataque. 2d10+8 Impacto.
 
@@ -12873,7 +12885,7 @@ Como um trem de carga.
 
 Atropela a linha de frente para bater no fundo.
 
-\[1 Ação\] Olhar Hipnótico
+[1 Ação] Olhar Hipnótico
 
 Teste Global de Mental + Resistência + Nível (CD 15)
 
@@ -12881,7 +12893,7 @@ Olhos de caleidoscópio.
 
 Remove o maior DPS da rodada.
 
-\[1 Ação\] Devorar Magia
+[1 Ação] Devorar Magia
 
 Toque. Remove 1 Buff do alvo e cura 10 HP.
 
@@ -12889,7 +12901,7 @@ Arranca a magia da pele.
 
 Remove "Escudo da Fé" ou "Haste" dos jogadores.
 
-\[2 Ações\] Chuva de Espinhos
+[2 Ações] Chuva de Espinhos
 
 Cone 9m. 3d8 Perfurante. (
 
@@ -12991,7 +13003,7 @@ Transformam o ataque do mago em cura.
 
 Ativas (Nível 7)
 
-\[2 Ações\] Multi-Ataque (3x)
+[2 Ações] Multi-Ataque (3x)
 
 3 ataques: +12/+7/+2. Dano 1d10+6 cada.
 
@@ -12999,7 +13011,7 @@ Flurry de golpes marciais.
 
 Dano focado em um alvo para derrubar rápido.
 
-\[1 Ação\] Comando Imperioso
+[1 Ação] Comando Imperioso
 
 Escolhe um jogador.
 
@@ -13013,7 +13025,7 @@ e solta a arma.
 
 Desarma o guerreiro, forçando-o a gastar ações para recuperar a arma.
 
-\[1 Ação\] Teleporte Ofensivo
+[1 Ação] Teleporte Ofensivo
 
 Teleporta para adjacente e faz 1 Ataque com Vantagem.
 
@@ -13021,7 +13033,7 @@ Blink strike.
 
 Assassina o mago na retaguarda sem aviso.
 
-\[Reação\] Escudo de Força
+[Reação] Escudo de Força
 
 Ganha +5 CA contra um ataque (inclusive Magia de Raio).
 
@@ -13029,7 +13041,7 @@ Campo de força tecnológico ou etérico.
 
 Nega o crítico ou o golpe final.
 
-\[2 Ações\] Nuvem Ácida
+[2 Ações] Nuvem Ácida
 
 Raio 6m. 4d8 Ácido. Armaduras sofrem corrosão (-1 CA temp).
 
@@ -13037,7 +13049,7 @@ Chuva corrosiva.
 
 Enfraquece a defesa do grupo progressivamente.
 
-\[1 Ação\] Agarrar Gigante
+[1 Ação] Agarrar Gigante
 
 +12 Ataque. Alvo Agarrado e Contido (Ataques têm desvantagem). Monstro pode usar o alvo como arma.
 
@@ -13045,7 +13057,7 @@ Pega o halfling e bate no elfo com ele.
 
 Humilhação e controle duplo.
 
-\[3 Ações\] Terremoto Localizado
+[3 Ações] Terremoto Localizado
 
 Cone 12m. Chão racha. 5d8 Impacto +
 
@@ -13055,7 +13067,7 @@ Fenda terrestre.
 
 Divide o campo de batalha fisicamente.
 
-\[1 Ação\] Dreno de Nível
+[1 Ação] Dreno de Nível
 
 Toque +12. 3d6 Necrótico. Alvo perde 1 Slot de Magia ou 1 Uso de Habilidade.
 
@@ -13063,7 +13075,7 @@ Toque espectral.
 
 Drena recursos, deixando o grupo "seco" para o final.
 
-\[2 Ações\] Invisibilidade Maior
+[2 Ações] Invisibilidade Maior
 
 Fica invisível. Atacar NÃO quebra a invisibilidade. Dura 3 turnos.
 
@@ -13071,7 +13083,7 @@ Predador perfeito.
 
 Vantagem em todos os ataques, defesa alta (desvantagem para ser acertado).
 
-\[1 Ação\] Invocar Bestas
+[1 Ação] Invocar Bestas
 
 Traz 2 Lobos (Nível 1) ou 1 Urso (Nível 3).
 
@@ -13175,7 +13187,7 @@ Boss Fight clássica.
 
 Ativas (Nível 8)
 
-\[3 Ações\] Sopro de Cone (Frio/Fogo)
+[3 Ações] Sopro de Cone (Frio/Fogo)
 
 18m Cone. 8d6 Dano.
 
@@ -13185,7 +13197,7 @@ Tempestade elemental.
 
 Wipe de grupo se estiverem juntos.
 
-\[1 Ação\] Olhar da Medusa (Menor)
+[1 Ação] Olhar da Medusa (Menor)
 
 Teste Global de Físico + Resistência + Nível (CD 16)
 
@@ -13197,7 +13209,7 @@ Pele vira pedra temporária.
 
 Tira um jogador da luta completamente.
 
-\[1 Ação\] Engolir Inteiro
+[1 Ação] Engolir Inteiro
 
 Alvo Grande ou menor. 4d6 Ácido/turno. Cego e Contido.
 
@@ -13205,7 +13217,7 @@ Estômago dimensional.
 
 Jogador precisa causar X dano de dentro para sair.
 
-\[2 Ações\] Terremoto de Guerra
+[2 Ações] Terremoto de Guerra
 
 Raio 6m. Todos caem
 
@@ -13217,7 +13229,7 @@ Impacto meteórico.
 
 Setup perfeito para aliados atacarem alvos caídos.
 
-\[1 Ação\] Dreno de Alma
+[1 Ação] Dreno de Alma
 
 +14 Ataque. 4d8 Necrótico. Monstro ganha HP igual ao dano.
 
@@ -13225,7 +13237,7 @@ Raio violeta.
 
 Recuperação massiva de vida.
 
-\[Reação\] Contra-Mágica
+[Reação] Contra-Mágica
 
 Anula magia de até Círculo 3 se passar em teste de Atributo.
 
@@ -13233,7 +13245,7 @@ Corte de mana.
 
 O mago precisa declarar a magia, e o monstro diz "não".
 
-\[1 Ação\] Arremesso de Aliado
+[1 Ação] Arremesso de Aliado
 
 Pega um goblin/lacaio e joga 18m. Dano em área 3d6 onde cai.
 
@@ -13241,7 +13253,7 @@ Artilharia goblin.
 
 Usa lacaios mortos ou vivos como munição.
 
-\[1 Ação\] Charme Vampírico
+[1 Ação] Charme Vampírico
 
 Teste Global de Mental + Resistência + Nível (CD 16)
 
@@ -13251,7 +13263,7 @@ Sedução sobrenatural.
 
 Cria um escudo humano feito de um jogador.
 
-\[2 Ações\] Parede de Fogo
+[2 Ações] Parede de Fogo
 
 Cria parede de 18m. Quem atravessa sofre 5d8 Fogo.
 
@@ -13259,7 +13271,7 @@ Cortina de chamas.
 
 Divide o grupo ou protege a fuga.
 
-\[1 Ação\] Teleporte em Massa
+[1 Ação] Teleporte em Massa
 
 Teleporta a si e 3 aliados para 30m.
 
@@ -13355,7 +13367,7 @@ Obriga submissão ou morte.
 
 Ativas (Tier 2 Máximo)
 
-\[3 Ações\] Meteoro
+[3 Ações] Meteoro
 
 4 raios. 10d6 cada. (Total 40d6 se focar).
 
@@ -13365,13 +13377,13 @@ Chuva do apocalipse.
 
 Fim de jogo. Use como ultimato.
 
-\[1 Ação\] Palavra da Morte
+[1 Ação] Palavra da Morte
 
 Alvo com <50 HP morre sem teste.
 
 Elimina heróis feridos instantaneamente.
 
-\[2 Ações\] Tsunami
+[2 Ações] Tsunami
 
 Parede de água. Empurra 30m. 6d10 Esmagamento + Afogamento.
 
@@ -13379,7 +13391,7 @@ Onda gigante.
 
 Limpa o tabuleiro inteiro.
 
-\[1 Ação\] Desintegrar
+[1 Ação] Desintegrar
 
 +16 Ataque. 10d6+40 Força. 0 HP = Pó.
 
@@ -13387,7 +13399,7 @@ Raio verde.
 
 Maior dano de alvo único do jogo.
 
-\[Reação\] Parar o Tempo (Maior)
+[Reação] Parar o Tempo (Maior)
 
 Ganha 1 Turno extra imediatamente após ser atacado.
 
@@ -13395,7 +13407,7 @@ Quebra a cronologia.
 
 Vingança imediata.
 
-\[1 Ação\] Prisão de Força
+[1 Ação] Prisão de Força
 
 Prende alvo em cubo indestrutível. Sem teste.
 
@@ -13403,7 +13415,7 @@ Caixa mágica.
 
 Remove o tanque da luta por 1 hora.
 
-\[2 Ações\] Invocação de Dragão
+[2 Ações] Invocação de Dragão
 
 Traz um Dragão Jovem (Nível 6) para a luta.
 
@@ -13411,7 +13423,7 @@ O pet do boss.
 
 Agora são dois bosses.
 
-\[1 Ação\] Controle da Gravidade
+[1 Ação] Controle da Gravidade
 
 Inverte gravidade em 18m raio. Todos caem "pra cima" (10d6 dano queda).
 
@@ -13419,7 +13431,7 @@ O mundo vira.
 
 Caos total e dano de queda.
 
-\[1 Ação\] Toque da Loucura
+[1 Ação] Toque da Loucura
 
 Teste Global de Mental + Resistência + Nível (CD 17)
 
@@ -13429,7 +13441,7 @@ Quebra a mente.
 
 Transforma PJs em NPCs insanos.
 
-\[3 Ações\] Fim dos Tempos
+[3 Ações] Fim dos Tempos
 
 Começa contagem de 3 turnos. Se não morrer, mata TODOS na sala.
 
@@ -13443,7 +13455,7 @@ DPS Check. Matem ou morram.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\16\_Compendio\_de\_Habilidades\_de\_Monstros\_Tier3.md
+Arquivo: M02_MESTRE\16_Compendio_de_Habilidades_de_Monstros_Tier3.md
 
 Pandorha: Capítulo 16 - Compêndio de Habilidades de Monstros (Tier 3)
 
@@ -13549,7 +13561,7 @@ O alvo prioritário; buffa o exército inteiro.
 
 Ativas (Nível 11)
 
-\[2 Ações\] Tempestade de Aço
+[2 Ações] Tempestade de Aço
 
 Ataca TODOS os inimigos em alcance 3m. +17 Ataque. 2d10+10 cada.
 
@@ -13557,7 +13569,7 @@ Um giro letal.
 
 Punição para o "Deathball" (grupo junto).
 
-\[1 Ação\] Grito Desmoralizante
+[1 Ação] Grito Desmoralizante
 
 Teste Global de Mental + Resistência + Nível (CD 17)
 
@@ -13569,7 +13581,7 @@ Som que quebra o espírito.
 
 Desarma o grupo, forçando gasto de ações.
 
-\[1 Ação\] Arremesso Titanic
+[1 Ação] Arremesso Titanic
 
 Agarra alvo (Médio/Pequeno) e arremessa 18m. 6d6 Impacto ao pousar.
 
@@ -13577,7 +13589,7 @@ Transforma o herói em projétil.
 
 Joga o Paladino em cima do Mago.
 
-\[Reação\] Bloqueio Perfeito
+[Reação] Bloqueio Perfeito
 
 Reduz o dano de um ataque a 0.
 
@@ -13585,7 +13597,7 @@ Para a lâmina com a mão nua.
 
 Humilha o atacante e nega o golpe mais forte.
 
-\[1 Ação\] Investida do Touro
+[1 Ação] Investida do Touro
 
 Move 18m em linha reta. Ataca +17. 4d10+10. Alvo empurrado 9m e
 
@@ -13593,7 +13605,7 @@ Locomotiva de carne.
 
 Separa a formação e isola um alvo.
 
-\[1 Ação\] Marca da Morte
+[1 Ação] Marca da Morte
 
 Escolhe um alvo. O próximo ataque contra ele tem Crítico automático.
 
@@ -13601,7 +13613,7 @@ Aponta o dedo condenatório.
 
 Prepara um "Hit Kill" para a próxima rodada.
 
-\[3 Ações\] Terremoto de Sangue
+[3 Ações] Terremoto de Sangue
 
 Raio 12m. Chão racha.
 
@@ -13613,7 +13625,7 @@ Golpeia o chão com poder profano.
 
 Controle de multidão massivo.
 
-\[1 Ação\] Nuvem de Adagas
+[1 Ação] Nuvem de Adagas
 
 Cria zona de 6m raio. Quem entra/sai sofre 4d6 Cortante (Sem teste). Dura 1 min.
 
@@ -13621,7 +13633,7 @@ Lâminas voadoras aninamadas.
 
 ArEE Denial. Protege o flanco.
 
-\[2 Ações\] Ejecção de Espinhos
+[2 Ações] Ejecção de Espinhos
 
 Explosão de 6m raio. 5d8 Perfurante.
 
@@ -13631,7 +13643,7 @@ Detona a própria armadura externa.
 
 Dano em área defensivo quando cercado.
 
-\[1 Ação\] Comando: Traição
+[1 Ação] Comando: Traição
 
 Teste Global de Mental + Interação + Nível (CD 17)
 
@@ -13737,7 +13749,7 @@ Mata os NPCs/Minions primeiro para buffar.
 
 Ativas (Nível 12)
 
-\[2 Ações\] Relâmpago em Cadeia
+[2 Ações] Relâmpago em Cadeia
 
 Alvo primário 6d8 Elétrico. Salta para 3 outros (4d8, 2d8, 1d8).
 
@@ -13747,7 +13759,7 @@ Arco voltaico.
 
 Punição para grupos espalhados mas conectados.
 
-\[1 Ação\] Petrificação Imediata
+[1 Ação] Petrificação Imediata
 
 Teste Global de Físico + Resistência + Nível (CD 18)
 
@@ -13757,7 +13769,7 @@ Górgona Anciã.
 
 Save or Die. Tensão máxima.
 
-\[1 Ação\] Teleporte de Grupo
+[1 Ação] Teleporte de Grupo
 
 Teleporta a si e todos adjacentes (amigos ou inimigos) para 30m no ar.
 
@@ -13765,7 +13777,7 @@ Teleporta a si e todos adjacentes (amigos ou inimigos) para 30m no ar.
 
 Solta os jogadores para 10d6 dano de queda.
 
-\[Reação\] Contra-Mágica Instantânea
+[Reação] Contra-Mágica Instantânea
 
 Anula magia de até Círculo 5 sem teste.
 
@@ -13773,7 +13785,7 @@ Palavra de negação.
 
 Cancela o Ultimate do grupo.
 
-\[2 Ações\] Sopro de Desintegração
+[2 Ações] Sopro de Desintegração
 
 Linha 18m. 8d8 Força. Se 0 HP = Pó.
 
@@ -13783,7 +13795,7 @@ Feixe de antimatéria.
 
 Apaga múltiplos alvos da existência.
 
-\[1 Ação\] Invocação de Sombras
+[1 Ação] Invocação de Sombras
 
 Cria 1d4 Sombras (Dreno de Força) que agem imediatamente.
 
@@ -13791,7 +13803,7 @@ A escuridão ganha vida.
 
 Debuff de atributos nos jogadores.
 
-\[3 Ações\] Nova Glacial
+[3 Ações] Nova Glacial
 
 Raio 18m. 10d6 Frio.
 
@@ -13803,7 +13815,7 @@ Entropia zero absoluta.
 
 Prepara o grupo para ser quebrado no próximo turno.
 
-\[1 Ação\] Dominação Total
+[1 Ação] Dominação Total
 
 Teste Global de Mental + Resistência + Nível (CD 18)
 
@@ -13813,7 +13825,7 @@ Mestre das marionetes.
 
 Transforma a luta em PvP.
 
-\[1 Ação\] Roubo de Habilidade
+[1 Ação] Roubo de Habilidade
 
 Toque. Rouba 1 Habilidade/Passiva do alvo por 1 minuto.
 
@@ -13821,7 +13833,7 @@ Mímico do Éter.
 
 Rouba a "Fúria" do Bárbaro ou "Evasão" do Ladino.
 
-\[1 Ação\] Grito Sônico Maior
+[1 Ação] Grito Sônico Maior
 
 Cone 9m. 6d8 Trovão +
 
@@ -13927,7 +13939,7 @@ Obriga a matá-lo rápido, antes que fique invencível.
 
 Ativas (Nível 13)
 
-\[3 Ações\] Chuva de Meteoros (Maior)
+[3 Ações] Chuva de Meteoros (Maior)
 
 4 esferas. 40d6 total (10d6 cada). 4 alvos diferentes ou focado.
 
@@ -13937,7 +13949,7 @@ Apocalipse.
 
 Pode apagar o grupo inteiro se focar dano.
 
-\[1 Ação\] Banimento
+[1 Ação] Banimento
 
 Teste Global de Mental + Resistência + Nível (CD 19)
 
@@ -13947,7 +13959,7 @@ Teste Global de Mental + Resistência + Nível (CD 19)
 
 Remove o tanque da luta. 4vs1 vira 3vs1.
 
-\[Reação\] Troca de Realidade
+[Reação] Troca de Realidade
 
 Ao sofrer dano, troca de HP com um lacaio.
 
@@ -13955,7 +13967,7 @@ Reescreve quem foi atingido.
 
 O lacaio morre, o boss continua cheio.
 
-\[1 Ação\] Palavra do Poder: Atordoar
+[1 Ação] Palavra do Poder: Atordoar
 
 Alvo com <100 HP fica Atordoado sem teste.
 
@@ -13963,7 +13975,7 @@ Comando Celestial.
 
 Remove o personagem mais perigoso sem chance de defesa.
 
-\[2 Ações\] Sopro de Pesadelo
+[2 Ações] Sopro de Pesadelo
 
 Cone 12m. 8d8 Psíquico.
 
@@ -13975,7 +13987,7 @@ Gás alucinógeno.
 
 Espalha o grupo em pânico.
 
-\[1 Ação\] Invocar Aberração
+[1 Ação] Invocar Aberração
 
 Invoca um monstro Nível 7 (Elite) para lutar.
 
@@ -13983,7 +13995,7 @@ Rasga o véu da realidade.
 
 Piora a economia de ações dos jogadores drasticamente.
 
-\[1 Ação\] Toque Putrefato
+[1 Ação] Toque Putrefato
 
 +19 Ataque. 6d10 Necrótico. Alvo apodrece (1d10/turno até curado magicamente).
 
@@ -13991,7 +14003,7 @@ Acelera a entropia.
 
 Dano massivo + DoT (Damage over Time).
 
-\[1 Ação\] Engenharia Reversa
+[1 Ação] Engenharia Reversa
 
 Desfaz uma construção, muralha ou item mágico (torna-se mundano).
 
@@ -13999,7 +14011,7 @@ Toque da desconstrução.
 
 Destroi a espada mágica do guerreiro ou a barreira do mago.
 
-\[2 Ações\] Zona Nula
+[2 Ações] Zona Nula
 
 Cria cúpula de 9m. Nenhuma magia funciona dentro (Antimagia).
 
@@ -14007,7 +14019,7 @@ Onde a magia morre.
 
 Obriga os magos a entrarem no combate corpo-a-corpo ou fugirem.
 
-\[1 Ação\] Olhar da Loucura
+[1 Ação] Olhar da Loucura
 
 Olhar. Teste
 
@@ -14111,7 +14123,7 @@ Torna os jogadores vulneráveis a seus próprios elementos.
 
 Ativas (Nível 14)
 
-\[1 Ação\] Desintegrar Maior
+[1 Ação] Desintegrar Maior
 
 Raio. +20 Ataque. 15d6+40 Força. Pó se 0 HP.
 
@@ -14119,7 +14131,7 @@ Apaga da história.
 
 One-shot em classes frágeis.
 
-\[2 Ações\] Terremoto Planar
+[2 Ações] Terremoto Planar
 
 30m raio. Terreno difícil + 8d8 Impacto. Fendas traga-muncos (Dex Save ou morte).
 
@@ -14127,7 +14139,7 @@ Quebra o mundo.
 
 Destruição de cenário e risco de morte ambiental.
 
-\[1 Ação\] Palavra do Poder: Matar
+[1 Ação] Palavra do Poder: Matar
 
 Alvo com <100 HP morre instantaneamente. Sem teste.
 
@@ -14135,7 +14147,7 @@ A ordem final.
 
 Execução garantida de heróis feridos.
 
-\[Reação\] Absorção Mágica Suprema
+[Reação] Absorção Mágica Suprema
 
 Absorve magia de qualquer nível. Cura HP igual ao dano que causaria.
 
@@ -14143,7 +14155,7 @@ Boca de mana.
 
 Magos curam o boss em vez de ferir.
 
-\[1 Ação\] Aprisionamento na Alma
+[1 Ação] Aprisionamento na Alma
 
 Teste Global de Mental + Resistência + Nível (CD 19)
 
@@ -14153,7 +14165,7 @@ Colecionador de almas.
 
 Remove jogador indefinidamente.
 
-\[3 Ações\] Invocação do Exército
+[3 Ações] Invocação do Exército
 
 Traz 1d6 Demônios Nível 8.
 
@@ -14161,7 +14173,7 @@ Abre os portões do inferno.
 
 De repente, a luta é um massacre.
 
-\[1 Ação\] Lâmina da Ruína
+[1 Ação] Lâmina da Ruína
 
 +20 Ataque. 4d12+10. Crítico em 18-20. Dano ignora RD.
 
@@ -14169,7 +14181,7 @@ Espada do fim dos tempos.
 
 DPS puro e brutal.
 
-\[1 Ação\] Insanidade em Massa
+[1 Ação] Insanidade em Massa
 
 Teste Global de Mental + Resistência + Nível (CD 19)
 
@@ -14179,7 +14191,7 @@ Sussurros enlouquecedores.
 
 O grupo se mata sozinho.
 
-\[2 Ações\] Explosão Solar
+[2 Ações] Explosão Solar
 
 18m raio. 12d6 Radiante +
 
@@ -14191,7 +14203,7 @@ Supernova em miniatura.
 
 Cega o grupo inteiro para sempre (precisa de cura mágica).
 
-\[1 Ação\] Time Stop (Parar o Tempo)
+[1 Ação] Time Stop (Parar o Tempo)
 
 O monstro ganha 1d4+1 turnos seguidos. Ninguém mais age.
 
@@ -14219,7 +14231,7 @@ Não pode ser vencido, apenas banido.
 
 Onipotência Local
 
-Pode alterar o terreno/cenário como 1 Ação \[L\] (Paredes, lava, abismos).
+Pode alterar o terreno/cenário como 1 Ação [L] (Paredes, lava, abismos).
 
 A realidade obedece.
 
@@ -14291,7 +14303,7 @@ O Boss joga mais que os jogadores juntos.
 
 Ativas (Nível 15)
 
-\[1 Ação\] Apagar da Existência
+[1 Ação] Apagar da Existência
 
 Alvo deve passar em
 
@@ -14301,7 +14313,7 @@ Teste Global de Mental + Resistência + Nível (CD 20)
 
 O fim definitivo de um herói.
 
-\[3 Ações\] Resetar Realidade
+[3 Ações] Resetar Realidade
 
 A luta volta para o Turno 1. HP do Boss volta a 100%. Jogadores mantêm gastos/dano. (1x/Batalha).
 
@@ -14309,7 +14321,7 @@ Viagem no tempo tática.
 
 Desespero total dos jogadores. "Tudo de novo?".
 
-\[1 Ação\] Invocação de Avatar
+[1 Ação] Invocação de Avatar
 
 Traz um Dragão Ancião ou Balor (Nível 12).
 
@@ -14317,7 +14329,7 @@ O "pet" é um boss final de outra campanha.
 
 Ameaça dupla de fim de mundo.
 
-\[2 Ações\] Supernova
+[2 Ações] Supernova
 
 60m raio. 20d6 Fogo + 20d6 Radiante.
 
@@ -14325,7 +14337,7 @@ O sol nasce na sala.
 
 Mata exércitos e cidades. Jogadores sobrevivem por pouco.
 
-\[Reação\] Negação Divina
+[Reação] Negação Divina
 
 Diz "Não". Uma ação de um jogador falha automaticamente. Sem teste.
 
@@ -14333,7 +14345,7 @@ Autoridade absoluta.
 
 Cancela o momento de glória dos heróis.
 
-\[1 Ação\] Roubar Alma
+[1 Ação] Roubar Alma
 
 Arranca a alma. Corpo cai inerte. Alma fica presa numa pedra.
 
@@ -14341,7 +14353,7 @@ Morte sem dano.
 
 Captura, não mata. Gancho para resgate.
 
-\[1 Ação\] Chuva de Meteoros Verdadeira
+[1 Ação] Chuva de Meteoros Verdadeira
 
 Destroi o mapa. Combate muda para "Ruínas Flutuantes" ou "Magma". 100 Dano em todos.
 
@@ -14349,7 +14361,7 @@ O mundo acaba.
 
 Muda a arena para algo hostil.
 
-\[1 Ação\] Dominação em Massa
+[1 Ação] Dominação em Massa
 
 Todos em 30m.
 
@@ -14361,7 +14373,7 @@ Teste Global de Mental + Resistência + Nível (CD 20)
 
 Controle total.
 
-\[1 Ação\] Toque da Entropia
+[1 Ação] Toque da Entropia
 
 +21 Ataque. O alvo envelhece 100 anos instantaneamente.
 
@@ -14369,9 +14381,10 @@ Tempo acelerado.
 
 Mata humanos de velhice. Elfos sofrem debuffs.
 
-\[3 Ações\] O Fim
+[3 Ações] O Fim
 
 - \*\*Mecânica:\*\* O monstro começa um ritual. Em 3 turnos, o Plano explode. Game Over.
+
 - \*\*Descrição:\*\* Contagem regressiva final.
 - \*\*Tática:\*\* A luta vira uma corrida contra o relógio.
 
@@ -14381,7 +14394,7 @@ Mata humanos de velhice. Elfos sofrem debuffs.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\17\_Compendio\_de\_Habilidades\_de\_Monstros\_Tier4.md
+Arquivo: M02_MESTRE\17_Compendio_de_Habilidades_de_Monstros_Tier4.md
 
 Pandorha: Capítulo 17 - Compêndio de Habilidades de Monstros (Tier 4 - O Fim dos Tempos)
 
@@ -14491,7 +14504,7 @@ Pressão psicológica extrema. O jogador marcado sabe que "vai morrer" e deve us
 
 Ativas (Nível 16)
 
-\[1 Ação\] Soco Quebra-Mundos
+[1 Ação] Soco Quebra-Mundos
 
 +22 Ataque. 8d12+15 Impacto. Este ataque destrói automaticamente muralhas de força, escudos mágicos e itens mundanos.
 
@@ -14499,7 +14512,7 @@ Um golpe carregado com vibração sísmica que racha a própria realidade no pon
 
 Use para desarmar o tanque (quebrando seu escudo lendário) ou abrir caminho através de paredes indestrutíveis.
 
-\[2 Ações\] Grito da Extinção
+[2 Ações] Grito da Extinção
 
 Cone de 60m. 10d10 Trovão.
 
@@ -14511,7 +14524,7 @@ Um som tão grave e potente que liquifaz órgãos internos e desorienta o sistem
 
 "Desliga" o grupo inteiro. Se falharem no teste, o combate está essencialmente acabado, pois perderão múltiplos turnos.
 
-\[Reação\] Negação da Morte
+[Reação] Negação da Morte
 
 Se o HP for reduzido a 0, o monstro cura instantaneamente 200 HP, remove todos os debuffs e perde esta habilidade. (1x/Batalha).
 
@@ -14519,7 +14532,7 @@ Quando parece derrotado, o titã ruge e uma segunda onda de energia vital explod
 
 A luta recomeça exatamente quando os jogadores gastaram seus últimos recursos, gerando desespero.
 
-\[1 Ação\] Prisão de Cristal
+[1 Ação] Prisão de Cristal
 
 Alvo é envolto em cristal indestrutível. Não há teste inicial. Para sair, o cristal deve sofrer 100 de dano sônico ou contundente de fora.
 
@@ -14527,7 +14540,7 @@ O monstro aponta e o ar se solidifica em diamante ao redor da vítima, selando-a
 
 Remove o personagem mais problemático (geralmente o curandeiro) da luta permanentemente até ser resgatado.
 
-\[3 Ações\] Invocação de Tempestade
+[3 Ações] Invocação de Tempestade
 
 O clima muda para Furacão Global. Ventos de 200km/h (Voo impossível). Raios aleatórios caem a cada turno (10d10 Elétrico).
 
@@ -14535,7 +14548,7 @@ A criatura assume o controle da biosfera, forçando a natureza a atacar seus ini
 
 Nega a vantagem de voo dos jogadores e impõe um caos ambiental que drena recursos de cura constantemente.
 
-\[1 Ação\] Arremesso de Montanha
+[1 Ação] Arremesso de Montanha
 
 Alcance 1km. ÁrEE de impacto 9m. 20d6 Impacto.
 
@@ -14547,7 +14560,7 @@ O titã arranca o pico de uma montanha próxima e o arremessa como se fosse uma 
 
 Artilharia de longo alcance. Permite ao monstro atacar antes mesmo de os jogadores entrarem no mapa de batalha.
 
-\[1 Ação\] Pisotear
+[1 Ação] Pisotear
 
 Atinge todas as criaturas em uma área de 6m ao redor dele. +22 Ataque. 6d12+10 Impacto. Alvos ficam
 
@@ -14557,7 +14570,7 @@ Um pisão que gera uma onda de choque localizada, derrubando tudo ao redor.
 
 Limpa lacaios e pune o agrupamento de jogadores (Deathball) que tentam cercar o monstro.
 
-\[1 Ação\] Rugido de Comando
+[1 Ação] Rugido de Comando
 
 Convoca 2 Gigantes (Monstros de Nível 8 completos) que surgem nas bordas do mapa e agem imediatamente.
 
@@ -14565,7 +14578,7 @@ O General Titã emite uma ordem que ecoa por quilômetros, chamando seus tenente
 
 Aumenta a dificuldade do encontro exponencialmente, mudando a economia de ações a favor dos monstros.
 
-\[2 Ações\] Sopro de Plasma
+[2 Ações] Sopro de Plasma
 
 Linha de 30m de comprimento e 3m de largura. 15d8 Fogo e Elétrico. Ignora Resistências a Fogo.
 
@@ -14577,7 +14590,7 @@ Um jato de energia estelar pura, mais quente que o sol, que derrete matéria e v
 
 Dano massivo em linha que não pode ser mitigado por "Resistência a Fogo" comum, exigindo imunidade total ou esquiva.
 
-\[Reação\] Contra-Ataque Titânico
+[Reação] Contra-Ataque Titânico
 
 Se receber um Acerto Crítico, revida imediatamente com um ataque automático que causa o triplo do dano normal.
 
@@ -14685,7 +14698,7 @@ Cria um minigame: os jogadores precisam trazer luz forte para o combate ou não 
 
 Ativas (Nível 17)
 
-\[1 Ação\] Possessão em Massa
+[1 Ação] Possessão em Massa
 
 Alvo em 3 jogadores.
 
@@ -14697,7 +14710,7 @@ Uma dança das cadeiras espiritual e caótica. O espírito é arrancado e jogado
 
 Gera confusão meta-jogo massiva. O jogador do Mago (agora no corpo do Bárbaro) não sabe usar as habilidades de Fúria eficientemente.
 
-\[1 Ação\] Dedo da Morte (Maior)
+[1 Ação] Dedo da Morte (Maior)
 
 Alcance 18m. +23 Ataque. Causa 100 de Dano Necrótico Fixo (sem rolar dados). Se isso reduzir o alvo a 0 HP, ele morre e vira um Zumbi sob controle do monstro.
 
@@ -14705,7 +14718,7 @@ Um raio verde crepitante que desliga a vida instantaneamente.
 
 Execução confiável para finalizar alvos feridos. Transforma um aliado caído em um inimigo imediato.
 
-\[2 Ações\] Inferno na Terra
+[2 Ações] Inferno na Terra
 
 O chão em um raio de 1km se torna lava. Quem tocar o solo sofre 20d6 de Fogo por turno.
 
@@ -14713,7 +14726,7 @@ O monstro traspassa a realidade, fundindo o plano material com as camadas mais p
 
 Obriga o grupo inteiro a usar magia de Voo imediatamente ou morrer queimado em poucos turnos.
 
-\[Reação\] Roubo de Magia
+[Reação] Roubo de Magia
 
 Quando um jogador lança uma magia de alvo único ou área, o monstro faz um Teste de
 
@@ -14725,7 +14738,7 @@ Mental (Arcanismo)
 
 O mago lança seu feitiço mais forte, e o monstro o usa para destruir o próprio grupo.
 
-\[1 Ação\] Banimento Planar
+[1 Ação] Banimento Planar
 
 Envia um alvo para o Plano Elemental do Fogo. Sem teste de resistência. O alvo retorna em 1d4 rodadas, sofrendo 10d10 de Fogo por rodada que ficou lá.
 
@@ -14733,7 +14746,7 @@ Abre um portal sob os pés da vítima, que cai num lago de magma dimensional.
 
 Remove o tanque da luta temporariamente e causa dano ambiental massivo "fora de tela".
 
-\[1 Ação\] Lâmina Vorpal Negra
+[1 Ação] Lâmina Vorpal Negra
 
 +23 Ataque. 6d10+10 Cortante. Crítico em 19-20. Em caso de Crítico, decepa a cabeça do alvo (Morte Instantânea, sem save).
 
@@ -14741,7 +14754,7 @@ Uma espada feita de noite sólida e vácuo, afiada o suficiente para cortar conc
 
 Ameaça de morte súbita a cada ataque. Obriga os jogadores a jogarem defensivamente e evitarem o combate corpo-a-corpo.
 
-\[3 Ações\] Chuva de Sangue Ácido
+[3 Ações] Chuva de Sangue Ácido
 
 Raio de 60m. 10d8 Ácido. Todas as armaduras e escudos na área sofrem corrosão permanente (-2 na CA).
 
@@ -14749,7 +14762,7 @@ Nuvens carmesim se formam e choram um líquido que derrete metal e pedra.
 
 Além do dano alto em área, destrói permanentemente o equipamento defensivo do grupo, tornando-os vulneráveis pelo resto da campanha.
 
-\[1 Ação\] Pacto Forçado
+[1 Ação] Pacto Forçado
 
 Teste Global de Social + Resistência + Nível (DC 37)
 
@@ -14759,7 +14772,7 @@ Teste Global de Social + Resistência + Nível (DC 37)
 
 Coerção mortal. Coloca o jogador em um dilema terrível: trair o grupo ou ficar à beira da morte.
 
-\[1 Ação\] Sifão de Vida em Área
+[1 Ação] Sifão de Vida em Área
 
 Todas as criaturas vivas em 18m sofrem 5d10 Necrótico. O monstro cura um valor igual à soma de todo o dano causado.
 
@@ -14767,7 +14780,7 @@ A entidade respira fundo, sugando a vitalidade de todos ao redor como uma névoa
 
 Recuperação massiva de HP contra grupos grandes ou com muitos lacaios/summons.
 
-\[Reação\] Escudo de Almas
+[Reação] Escudo de Almas
 
 O monstro consome uma alma capturada (munição) para reduzir o dano de qualquer ataque recebido a 0.
 
@@ -14875,7 +14888,7 @@ Dano ambiental inevitável e constante que desgasta os recursos de cura do grupo
 
 Ativas (Nível 18)
 
-\[3 Ações\] Sopro do Cataclismo
+[3 Ações] Sopro do Cataclismo
 
 Cone de 100 metros. 30d10 Dano (Tipo Misto: Fogo/Raio/Gelo).
 
@@ -14887,7 +14900,7 @@ Um exalar de poder que nivela cidades e derrete montanhas. A destruição total.
 
 Wipe de grupo garantido se não tiverem cobertura total ou imunidades específicas. Use como abertura.
 
-\[1 Ação\] Devorar
+[1 Ação] Devorar
 
 O dragão engole uma criatura Grande ou menor que esteja Agarrada. Morte automática em 2 turnos (Digestão Ácida 50d6).
 
@@ -14895,7 +14908,7 @@ A presa some garganta abaixo.
 
 Remove um jogador do tabuleiro e coloca uma pressão de tempo extrema ("Salvem ele em 12 segundos ou ele morre").
 
-\[1 Ação\] Comando Dracônico
+[1 Ação] Comando Dracônico
 
 Todos os répteis, dragonatos e kobolds em 1km ficam sob controle mental absoluto do dragão (sem teste).
 
@@ -14903,7 +14916,7 @@ O Rei Dragão fala, e o sangue dracônico obedece.
 
 O Paladino Dragonato do grupo vira instantaneamente um NPC inimigo, forçando PvP.
 
-\[2 Ações\] Chuva de Cometas
+[2 Ações] Chuva de Cometas
 
 O dragão invoca 3 meteoros. 15d10 de Impacto cada. Alcance de quilômetros.
 
@@ -14911,7 +14924,7 @@ Um bombardeio orbital mágico.
 
 O dragão pode atacar a cidade que os heróis protegem enquanto luta contra eles, forçando-os a dividir o foco ou falhar na missão.
 
-\[Reação\] Asas Protetoras
+[Reação] Asas Protetoras
 
 O dragão fecha as asas ao redor do corpo. Ganha +10 na CA e Imunidade a Magia até o início do seu próximo turno.
 
@@ -14919,7 +14932,7 @@ Torna-se um casulo de escamas impenetráveis.
 
 Usado quando os jogadores preparam seus ataques mais fortes ("Alpha Strike"), negando todo o dano da rodada.
 
-\[1 Ação\] Rugido Ensurdecedor
+[1 Ação] Rugido Ensurdecedor
 
 Raio de 60m. 12d8 de Dano Trovão.
 
@@ -14931,7 +14944,7 @@ Um rugido que estilhaça pedras e estoura tímpanos.
 
 Controle de multidão em área gigante. A surdez permanente impede conjuração de magias verbais e comunicação tática.
 
-\[1 Ação\] Garras Rasga-Planos
+[1 Ação] Garras Rasga-Planos
 
 +24 Ataque. 8d10+15. Se acertar, abre uma fenda dimensional que suga o inimigo para o Plano Astral (Banimento).
 
@@ -14939,7 +14952,7 @@ As garras são tão afiadas que cortam o tecido da realidade, jogando a vítima 
 
 Remove o tanque da frente de batalha enviando-o para outra dimensão.
 
-\[1 Ação\] Metamorfose Divina
+[1 Ação] Metamorfose Divina
 
 O dragão assume forma humanoide. Mantém todos os atributos físicos e HP, mas perde vulnerabilidades de tamanho e ganha acesso a equipamentos.
 
@@ -14947,7 +14960,7 @@ Transforma-se em um nobre elfo ou humano para enganar, infiltrar ou lutar em esp
 
 O Boss vira um alvo Médio, difícil de acertar e capaz de entrar no castelo dos jogadores.
 
-\[2 Ações\] Invocação de Wyverns
+[2 Ações] Invocação de Wyverns
 
 O dragão ruge e 1d4 Wyverns (Nível 10) descem dos céus para lutar ao seu lado.
 
@@ -14955,7 +14968,7 @@ A prole protege o pai.
 
 Adiciona lacaios de nível alto à luta, servindo como distração e flanqueadores.
 
-\[1 Ação\] Sopro Paralisante
+[1 Ação] Sopro Paralisante
 
 Cone de 30m. Sem dano.
 
@@ -15061,7 +15074,7 @@ Fase final ambiental onde paredes atacam e o chão morde.
 
 Ativas (Nível 19)
 
-\[1 Ação\] Palavra: Desfazer
+[1 Ação] Palavra: Desfazer
 
 Alcance 18m.
 
@@ -15075,7 +15088,7 @@ Um comando de "Delete" no banco de dados do universo.
 
 Terror existencial. A ameaça suprema de não apenas morrer, mas nunca ter existido.
 
-\[2 Ações\] Big Bang Menor
+[2 Ações] Big Bang Menor
 
 Cria um ponto de luz que explode. 50d10 de Dano de Energia em 30m de raio.
 
@@ -15083,7 +15096,7 @@ O monstro comprime um universo novo na palma da mão e o deixa detonar.
 
 Dano em área massivo e inevitável. Limpa o tabuleiro de qualquer coisa que não seja divindade.
 
-\[1 Ação\] Reescrever Ficha
+[1 Ação] Reescrever Ficha
 
 O monstro aponta para um jogador e troca dois de seus Atributos (ex: A Força 5 vira 1, a Inteligência 1 vira 5). Permanente até curado.
 
@@ -15091,7 +15104,7 @@ Edição de personagem em tempo real.
 
 Quebra completamente a build do personagem. O Bárbaro vira um gênio fraco e inútil em combate.
 
-\[Reação\] Parar o Tempo (Eterno)
+[Reação] Parar o Tempo (Eterno)
 
 O monstro para o tempo e sai do combate. Ele pode descansar, curar tudo e preparar emboscadas. Quando volta, o tempo recomeça no mesmo segundo.
 
@@ -15099,7 +15112,7 @@ O dono do relógio universal.
 
 O boss volta renovado (HP cheio) instantaneamente para os jogadores, tornando a luta impossível por atrito convencional.
 
-\[3 Ações\] Invocação do Tarrasque
+[3 Ações] Invocação do Tarrasque
 
 Abre um portal e invoca O Tarrasque (Monstro Nível 20 Clássico) sob seu controle.
 
@@ -15107,7 +15120,7 @@ Traz o fim do mundo físico como seu "pet".
 
 Agora os jogadores têm dois problemas de nível impossível para lidar simultaneamente.
 
-\[1 Ação\] Chuva de Anti-Matéria
+[1 Ação] Chuva de Anti-Matéria
 
 Dispara 4 esferas negras. 20d10 de Dano cada. O que for atingido é aniquilado (itens desaparecem).
 
@@ -15115,7 +15128,7 @@ Matéria que cancela a existência. O oposto da criação.
 
 Bombardeio preciso para desintegrar alvos específicos e seus equipamentos lendários.
 
-\[1 Ação\] Prisão no Passado
+[1 Ação] Prisão no Passado
 
 Envia o alvo para 1000 anos no passado.
 
@@ -15127,7 +15140,7 @@ Viagem no tempo ofensiva.
 
 Remove o jogador da era atual. Se ele voltar, terá envelhecido ou mudado a linha do tempo.
 
-\[2 Ações\] Resetar Cooldowns
+[2 Ações] Resetar Cooldowns
 
 O monstro recupera instantaneamente o uso de todas as suas habilidades recarregáveis ou diárias.
 
@@ -15135,7 +15148,7 @@ Manipulação temporal local para o estado "pronto".
 
 Permite usar o "Big Bang Menor" dois turnos seguidos, o que geralmente é Game Over.
 
-\[Reação\] Espelho da Dor
+[Reação] Espelho da Dor
 
 Todo dano que o monstro recebe neste turno é replicado 100% no atacante (sem teste).
 
@@ -15143,7 +15156,7 @@ Vínculo cármico instantâneo. "Se eu sangro, você sangra".
 
 Punição para o "Alpha Strike". O Paladino que causar 200 de dano vai sofrer 200 de dano e morrer.
 
-\[1 Ação\] Comando da Morte
+[1 Ação] Comando da Morte
 
 Aponta para um alvo e ordena que seu coração pare.
 
@@ -15253,7 +15266,7 @@ Dilema social extremo. Quem se sacrifica pelo bem maior?
 
 Ativas (Nível 20)
 
-\[1 Ação\] Game Over
+[1 Ação] Game Over
 
 Escolhe um jogador. Ele morre. Sem teste de resistência. Sem ressurreição possível. A ficha é rasgada.
 
@@ -15261,7 +15274,7 @@ Escolhe um jogador. Ele morre. Sem teste de resistência. Sem ressurreição pos
 
 Usado apenas dramaticamente em momentos finais ou contra insolência extrema. É o fim da linha.
 
-\[1 Ação\] D20 do Destino
+[1 Ação] D20 do Destino
 
 Rola 1d20. 1-10: Todos os Jogadores sofrem um efeito catastrófico aleatório. 11-20: O Monstro sofre uma vulnerabilidade temporária.
 
@@ -15269,7 +15282,7 @@ A sorte pura e caótica decidindo o destino do universo.
 
 Introduz o caos absoluto e uma chance de vitória para os jogadores desesperados.
 
-\[3 Ações\] Apagar Campanha
+[3 Ações] Apagar Campanha
 
 O mundo começa a ser deletado pelas bordas. O mapa de batalha diminui 30m por turno. Quem cair no vazio (fora do mapa) deixa de existir.
 
@@ -15277,7 +15290,7 @@ O nada avança, consumindo a criação. O Langolier.
 
 Transforma a luta final em um "Battle Royale" onde o espaço seguro encolhe a cada rodada.
 
-\[Reação\] "Eu disse que não"
+[Reação] "Eu disse que não"
 
 Cancela automaticamente um Acerto Crítico, Sucesso ou Magia de um jogador.
 
@@ -15285,7 +15298,7 @@ A Negação do Mestre. A realidade se dobra para impedir o sucesso do herói.
 
 Frustração divina. Garante que o Boss não seja derrotado por sorte ou combos simples.
 
-\[Livro Ação\] O Fim
+[Livro Ação] O Fim
 
 Fecha o livro da realidade. Todos os personagens devem fazer um Teste de
 
@@ -15297,7 +15310,7 @@ A história acabou. As luzes se apagam.
 
 Encerramento narrativo de campanha. Quem passa se torna uma lenda; quem falha é esquecido.
 
-\[1 Ação\] Troca de Papéis
+[1 Ação] Troca de Papéis
 
 O Mestre entrega a ficha do Monstro para um jogador e pega a ficha desse jogador. Eles lutam com os papéis trocados por 1 rodada.
 
@@ -15305,7 +15318,7 @@ Metagaming máximo. O jogador sente o peso de ser Deus, e o Mestre mostra como u
 
 Uma experiência única de roleplay e poder.
 
-\[1 Ação\] Invocação de Personagens Antigos
+[1 Ação] Invocação de Personagens Antigos
 
 Traz de volta os PJs mortos de campanhas anteriores (ou desta) como inimigos corrompidos (fichas completas).
 
@@ -15313,7 +15326,7 @@ Fantasmas do passado voltando para assombrar.
 
 Ataque emocional e letal. Obriga os jogadores a lutarem contra seus velhos amigos.
 
-\[1 Ação\] Bloqueio de Regra
+[1 Ação] Bloqueio de Regra
 
 Declara uma proibição: "Neste turno, a Ação de Ataque não existe" ou "Magia é proibida".
 
@@ -15321,7 +15334,7 @@ Altera as leis da física e do jogo temporariamente.
 
 Obriga soluções criativas. Se não pode atacar, o que você faz? Conversa? Foge?
 
-\[2 Ações\] Destruir Esperança
+[2 Ações] Destruir Esperança
 
 Todos os itens mágicos do grupo perdem seus poderes permanentemente. Espadas viram ferro velho.
 
@@ -15329,9 +15342,10 @@ Desencantamento global. A magia abandona o mundo.
 
 O grupo volta a ser mortal e vulnerável, aumentando a tensão dramática para o final.
 
-\[Ação Final\] O Novo Começo
+[Ação Final] O Novo Começo
 
 - \*\*Mecânica:\*\* O Boss explode em luz. O grupo acorda no Nível 1, na taverna onde se conheceram, sem memórias, mas com um sentimento de déjà vu. (Loop Temporal).
+
 - \*\*Descrição:\*\* New Game+. O ciclo se repete.
 - \*\*Tática:\*\* Um final cíclico para a campanha, sugerindo que a luta é eterna.
 
@@ -15341,7 +15355,7 @@ O grupo volta a ser mortal e vulnerável, aumentando a tensão dramática para o
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\19\_Codex\_de\_Enfermidades.md
+Arquivo: M02_MESTRE\19_Codex_de_Enfermidades.md
 
 Pandorha: Capítulo 19 - Codex de Enfermidades (Patologias e Pragas)
 
@@ -15363,7 +15377,7 @@ Físico (Corpo), Mental (Mente) ou Mágico (Éter).
 
 A fórmula do Teste Global necessário para evitar contágio ou curar.
 
-\[d20\] + \[Nível\] + \[Eixo\] + \[Aplicação\]
+[d20] + [Nível] + [Eixo] + [Aplicação]
 
 contra a DC da Doença.
 
@@ -16185,7 +16199,7 @@ O Mestre decide (literalmente).
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\21\_Mecanicas\_de\_Fama\_e\_Influencia.md
+Arquivo: M02_MESTRE\21_Mecanicas_de_Fama_e_Influencia.md
 
 Pandorha: Capítulo 21 - Fama e Influência (O Poder do Nome)
 
@@ -16249,7 +16263,7 @@ Não há disfarce.
 
 A Fama é uma faca de dois gumes. Ser um "Mito do Éter" facilita entrar em castelos, mas torna impossível caminhar em uma taverna sem ser cercado por admiradores ou assassinos.
 
-\[!IMPORTANT\]
+[!IMPORTANT]
 
 #### A Teia de Infâmia:
 
@@ -16259,13 +16273,13 @@ Limite Máximo de Dívida
 
 com qualquer Facção Patrocinadora é igual ao seu
 
-\[Nível de Fama atual × 3\]
+[Nível de Fama atual × 3]
 
 . Para mais detalhes sobre Favores e Dívida de Sangue, consulte o
 
 Capítulo 31 - Códex de Teia de Infâmia e Patrocínio
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/31\_Codex\_Teia\_Infamia\_Patrocinio.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/31_Codex_Teia_Infamia_Patrocinio.md
 
 --------------------------------------------------------------------------------
 
@@ -16307,7 +16321,7 @@ Sempre que quiser usar sua Fama ou Influência para dobrar a vontade de alguém 
 
 Teste de Prestígio
 
-Check = \[d20\] + \[Nível\] + \[Eixo Social\] + \[Nível de Fama\]
+Check = [d20] + [Nível] + [Eixo Social] + [Nível de Fama]
 
 O NPC cede por respeito ou medo da sua reputação.
 
@@ -16375,7 +16389,7 @@ instantaneamente.
 
 🏛️ 6. Domínio Regional: O Ápice da Influência
 
-\[!IMPORTANT\]
+[!IMPORTANT]
 
 #### A Sede do Poder:
 
@@ -16383,7 +16397,7 @@ O Domínio Regional exige uma base física para operar. O
 
 Capítulo 30
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/30\_Codex\_do\_Bastiao.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/30_Codex_do_Bastiao.md
 
 ) é a manifestação tática deste domínio, permitindo que o grupo converta sua Fama e Influência em melhorias estruturais e segurança para suas terras.
 
@@ -16399,9 +16413,9 @@ Ao atingir o
 
 Para regras completas sobre gestão de territórios, renda de impostos e bônus de exército, consulte o
 
-27\_Codex\_Influencia\_Dominio\_Regional.md
+27_Codex_Influencia_Dominio_Regional.md
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/27\_Codex\_Influencia\_Dominio\_Regional.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/27_Codex_Influencia_Dominio_Regional.md
 
 #### Dica do Mestre:
 
@@ -16413,7 +16427,7 @@ A Fama é orgânica. Se o jogador atingir 500 XP mas os seus feitos foram apenas
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\22\_Codex\_de\_Exploracao\_e\_Downtime.md
+Arquivo: M02_MESTRE\22_Codex_de_Exploracao_e_Downtime.md
 
 Pandorha: Capítulo 22 - Codex de Exploração e Downtime
 
@@ -16451,7 +16465,7 @@ absoluto. Tesouros roubados pesam e forçam o grupo a abandonar mantimentos na v
 
 1.2 Viagem e Navegação
 
-Em viagens que duram dias rumo ao destino, o Mestre pede rolagens de Navegação (geralmente \[Mental + Rastreio/Sobrevivência\] no começo de cada dia de "Cena de Viagem").
+Em viagens que duram dias rumo ao destino, o Mestre pede rolagens de Navegação (geralmente [Mental + Rastreio/Sobrevivência] no começo de cada dia de "Cena de Viagem").
 
 #### Errar a Rota (Sucesso com Custo):
 
@@ -16491,7 +16505,7 @@ O funcionamento completo da Economia de Tempo, Atividades e Eventos de Acampamen
 
 Capítulo 28 - Códex de Acampamento e Descanso Ativo
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/28\_Codex\_Acampamento\_Descanso\_Ativo.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/28_Codex_Acampamento_Descanso_Ativo.md
 
 --------------------------------------------------------------------------------
 
@@ -16551,7 +16565,7 @@ Veja como gerenciar o tempo extra e as ações disponíveis no
 
 Capítulo 28
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/28\_Codex\_Acampamento\_Descanso\_Ativo.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/28_Codex_Acampamento_Descanso_Ativo.md
 
 --------------------------------------------------------------------------------
 
@@ -16575,7 +16589,7 @@ e gasta 2 a 3 Dias parado na ferragem reestruturando as peças pra sobreviver.
 
 O Paladino não quer lutar. Ele saca o nome Heroico Oficial contra a Guilda. "Testes de Prestígio Tático"
 
-\[d20+Social+NívelDeFama\]
+[d20+Social+NívelDeFama]
 
 , convencem os guardas a enviarem divisões bélicas extras em missões.
 
@@ -16591,7 +16605,7 @@ construídos (veja o
 
 Capítulo 30
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/30\_Codex\_do\_Bastiao.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/30_Codex_do_Bastiao.md
 
 ) podem conceder Vantagens permanentes, descontos em ouro ou bônus diretos nestas 6 Operações de Metrópole. O Bastião é o motor que transforma o Downtime em domínio regional.
 
@@ -16603,7 +16617,7 @@ Ao invés do mestre narrar cena a cena de compras e falatório chato, cada jogad
 
 por Semana na cidade e os resolve de Trama:
 
-\[Tag A\] - A Busca Legal de Ouro Semanal (Sustento Global)
+[Tag A] - A Busca Legal de Ouro Semanal (Sustento Global)
 
 O Aventureiro vai simplesmente trabalhar pra bater as hospedagens Caras, sem tocar no Pote Loot da Caverna.
 
@@ -16639,7 +16653,7 @@ na semana final.
 
 . Falha Crítica: Escorregão de Etiqueta Absurdo. O Personagem Perde -10 XP Fama direto.
 
-\[Tag B\] - Recuperação Prolongada Intensiva
+[Tag B] - Recuperação Prolongada Intensiva
 
 Um braço foi carbonizado pelo dragão, infligindo Enfermidade de Estágio 3 ou Condição Permanente Combalido letal (-20 HpMAX) (-2 Constituição Fixo Geral Ficha). Apenas magias no Turno Tático de Círculo Alto não limpam Maldições do corpo físico final.
 
@@ -16655,7 +16669,7 @@ Semana Inativa
 
 . Elimina as Enfermidades Urbanas Táticas Restritas Permanentes, recupera todos Níveis Brutos Cortados em vida passados por Dano Necrótico Absolutos Boss T3. Ele não participa em Rolagens Globais nesta Semana em outras Opções (Tag A/C!). Fica Isolado na Sala branca Curativa.
 
-\[Tag C\] - Investigação Arcana/Urbana Extrema
+[Tag C] - Investigação Arcana/Urbana Extrema
 
 Deseja não ser esmagado pelo Encontro do Final do Calendário Missão Bruta de Mês de Frio?
 
@@ -16667,7 +16681,7 @@ Personagem afunila dias no clero antigo / ou espionagem Furtiva Pura na Base. Ga
 
 Gira Fio de
 
-\[Mental+Interação ou Furtividade Dura\] vs CD Específica Elevada Alta Específica (20/25)
+[Mental+Interação ou Furtividade Dura] vs CD Específica Elevada Alta Específica (20/25)
 
 #### Sucesso Vivo:
 
@@ -16675,7 +16689,7 @@ Puxa Informações sobre as IMUNIDADES e EIXOS de FRAQUEZAS EXTREMAS DANO (Fogo,
 
 Caçam na trilha falsa, e no Combate Incial Futuro Mestre esconde a informação como Certa e era mentira de Papiro Escrivão (Imunidade Certa Dano). Perigo Elevado na emboscada Boss.
 
-\[Tag D\] - Compra e Venda Especulativa no Submundo
+[Tag D] - Compra e Venda Especulativa no Submundo
 
 Sabe Avaliar Itens e Ouro Roubado Sem Rastreio Real. Você vende tesouros ou compra Obras Primas Mágicas raras a base de suor Mercantil Frio nas folgas?
 
@@ -16683,7 +16697,7 @@ Sabe Avaliar Itens e Ouro Roubado Sem Rastreio Real. Você vende tesouros ou com
 
 Rolar o Preço do Tempo Fechado. Investe na semana com o Ouro total
 
-\[Social+Afinidade Bradesca Avaliação\] vs Barreira Alta Resistência DC(20) Bizarra Exótica de Compra Venda (Sábado de Feira)
+[Social+Afinidade Bradesca Avaliação] vs Barreira Alta Resistência DC(20) Bizarra Exótica de Compra Venda (Sábado de Feira)
 
 #### Especula Positiva Acertada:
 
@@ -16701,7 +16715,7 @@ Meliantes percebem a inexperiência de Novatos nas ruas do Ouro Frio. Cai Em con
 
 com um Item Cópia Falso vendido ou Runa podre Morta (Básica Falsa que o Mestre esconde na Ficha) Destruída No Choque Frio.
 
-\[Tag E\] - Boemia e Lavagem de Infâmia Político
+[Tag E] - Boemia e Lavagem de Infâmia Político
 
 Você sujou o Sangue Feio por assassinato Público para Vencer o Combate Passado? A Fama Virou Infâmia. Tavernas de cura tem Taxas absurdas Extras Punitivas (+100%).
 
@@ -16711,7 +16725,7 @@ Se jogar Bêbado no meio Das Guildas para apagar o Rastro Frio de Nome Mau Gasto
 
 Gira Custo e Festas de
 
-\[15 A 50 Ouro Livre Dependendo da Multidão Bebida (Tier)\]
+[15 A 50 Ouro Livre Dependendo da Multidão Bebida (Tier)]
 
 Para jogar o suborno Caridoso no Meio Social. E limpa a Fama
 
@@ -16719,11 +16733,11 @@ Teste Crítico Social Bruto Carisma / vs DC do Ódio dos Guardas Elevadas
 
 Reduzindo aos Poucos Pontos de XP - Infâmia Bruta que o caça na Morte Exata Certa nos Tabelas Oficiais Fama. Retornando do Vermelho Cru e Brutal.
 
-\[Tag F\] - Re-Treinamento (O 'Respec' Biológico Profundo)
+[Tag F] - Re-Treinamento (O 'Respec' Biológico Profundo)
 
 Você percebeu no Lv3 que Seu Ataque Furioso Brutal não está Combando Táticamente com a Alquimia de Destino do Artífice Amigo. Deseja Reciclar Ficha.
 
-\[Tag G\] - Gestão de Domínio (Estratégia Regional)
+[Tag G] - Gestão de Domínio (Estratégia Regional)
 
 A partir do Tier 2, quando o grupo possui um território, os heróis podem dedicar suas semanas à administração direta de suas terras.
 
@@ -16745,11 +16759,11 @@ Se uma Crise estiver ativa e o grupo escolher "Ação Direta", esta semana é ga
 
 Regras detalhadas em
 
-27\_Codex\_Influencia\_Dominio\_Regional.md
+27_Codex_Influencia_Dominio_Regional.md
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/27\_Codex\_Influencia\_Dominio\_Regional.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/27_Codex_Influencia_Dominio_Regional.md
 
-\[Tag H\] - O Juramento de Sangue (Busca por Patrocínio)
+[Tag H] - O Juramento de Sangue (Busca por Patrocínio)
 
 Deseja forjar uma aliança com uma das grandes Facções de Pandorha para obter segredos e favores?
 
@@ -16767,7 +16781,7 @@ Deve realizar um sacrifício material de
 
 #### Teste de Pacto:
 
-\[Social + Influência\] vs DC da Facção (mínimo 15)
+[Social + Influência] vs DC da Facção (mínimo 15)
 
 O pacto é selado. O grupo ganha
 
@@ -16783,7 +16797,7 @@ Regras completas no
 
 Capítulo 31 - Códex de Teia de Infâmia
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/31\_Codex\_Teia\_Infamia\_Patrocinio.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/31_Codex_Teia_Infamia_Patrocinio.md
 
 --------------------------------------------------------------------------------
 
@@ -16791,7 +16805,7 @@ file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/P
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\27\_Codex\_Influencia\_Dominio\_Regional.md
+Arquivo: M02_MESTRE\27_Codex_Influencia_Dominio_Regional.md
 
 CÓDEX DE INFLUÊNCIA: MATRIZ DE DOMÍNIO REGIONAL
 
@@ -17125,7 +17139,7 @@ Se uma Matriz chegar ao
 
 , os benefícios cessam e o território entra em colapso local: a região é dominada por invasores/facções inimigas, e os custos de tudo (estalagens, itens) sobem em 50% até que uma missão completa seja realizada pelo grupo para retomar o Nível 1.
 
-Arquivo: M02\_MESTRE\28\_Codex\_Acampamento\_Descanso\_Ativo.md
+Arquivo: M02_MESTRE\28_Codex_Acampamento_Descanso_Ativo.md
 
 Pandorha: Capítulo 28 - Códex de Acampamento e Descanso Ativo
 
@@ -17147,7 +17161,7 @@ Descanso Longo
 
 #### O número de Ações de Acampamento (1 hora cada) disponíveis é igual a:
 
-\[Tempo Total de Acampamento\] - 8 horas
+[Tempo Total de Acampamento] - 8 horas
 
 #### Ancestralidades e Sono:
 
@@ -17433,7 +17447,7 @@ de todo o grupo.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\29\_Codex\_Companhia\_Mercenaria.md
+Arquivo: M02_MESTRE\29_Codex_Companhia_Mercenaria.md
 
 ⚔️ Códex: A Companhia Mercenária (Gestão de Peões)
 
@@ -17567,7 +17581,7 @@ Tier da Sede
 
 A Rolagem Padrão
 
-Resultado = 1d20 + Matriz + (Tags\_{Match} \times 2) - (Tags\_{Missing} \times 2) + Modificador de Tática
+Resultado = 1d20 + Matriz + (Tags_{Match} \times 2) - (Tags_{Missing} \times 2) + Modificador de Tática
 
 --------------------------------------------------------------------------------
 
@@ -17761,163 +17775,163 @@ Missões (Tags Requeridas)
 
 1. Limpar Esgotos
 
-\[Supressão, Resistência\]
+[Supressão, Resistência]
 
 , 2. Entrega Expressa
 
-\[Cartografia, Marcha Forçada\]
+[Cartografia, Marcha Forçada]
 
 , 3. Coleta de Ervas
 
-\[Alquimia, Rastreio\]
+[Alquimia, Rastreio]
 
 , 4. Guarda de Celeiro
 
-\[Vanguarda, Supressão\]
+[Vanguarda, Supressão]
 
 , 5. Acalmar Multidão
 
-\[Inspirar, Diplomacia\]
+[Inspirar, Diplomacia]
 
 , 6. Vigilância de Muro
 
-\[Vanguarda, Resistência\]
+[Vanguarda, Resistência]
 
 , 7. Organizar Inventário
 
-\[Logística, Engenharia\]
+[Logística, Engenharia]
 
 , 8. Intermediar Disputa
 
-\[Etiqueta, Diplomacia\]
+[Etiqueta, Diplomacia]
 
 , 9. Mapear Trilhas
 
-\[Cartografia, Escalada\]
+[Cartografia, Escalada]
 
 , 10. Avisar Guarnições
 
-\[Marcha Forçada, Cartografia\]
+[Marcha Forçada, Cartografia]
 
 1. Abater Predador
 
-\[Rastreio, Guerrilha\]
+[Rastreio, Guerrilha]
 
 , 2. Reparar Portão
 
-\[Engenharia, Logística\]
+[Engenharia, Logística]
 
 , 3. Cobrar Inadimplentes
 
-\[Intimidação, Submundo\]
+[Intimidação, Submundo]
 
 , 4. Mapear Minas
 
-\[Cartografia, Escalada\]
+[Cartografia, Escalada]
 
 , 5. Escolta de Comitiva
 
-\[Vanguarda, Marcha Forçada\]
+[Vanguarda, Marcha Forçada]
 
 , 6. Identificar Veneno
 
-\[Alquimia, Ocultismo\]
+[Alquimia, Ocultismo]
 
 , 7. Espalhar Boatos
 
-\[Rumores, Disfarce\]
+[Rumores, Disfarce]
 
 , 8. Sabotagem de Rival
 
-\[Sabotagem, Infiltração\]
+[Sabotagem, Infiltração]
 
 , 9. Desalojar Bandidos
 
-\[Supressão, Cerco\]
+[Supressão, Cerco]
 
 , 10. Comércio em Feira
 
-\[Comércio, Etiqueta\]
+[Comércio, Etiqueta]
 
 1. Cativeiro de Feras
 
-\[Guerrilha, Resistência\]
+[Guerrilha, Resistência]
 
 , 2. Infiltrar Gangue
 
-\[Infiltração, Disfarce\]
+[Infiltração, Disfarce]
 
 , 3. Resgate de Refém
 
-\[Vanguarda, Infiltração\]
+[Vanguarda, Infiltração]
 
 , 4. Anular Selo Menor
 
-\[Ocultismo, Sabotagem\]
+[Ocultismo, Sabotagem]
 
 , 5. Chantagem Política
 
-\[Rumores, Suborno\]
+[Rumores, Suborno]
 
 , 6. Bloqueio de Estrada
 
-\[Cerco, Logística\]
+[Cerco, Logística]
 
 , 7. Fuga de Prisão
 
-\[Infiltração, Sabotagem\]
+[Infiltração, Sabotagem]
 
 , 8. Diplomacia de Vila
 
-\[Diplomacia, Inspirar\]
+[Diplomacia, Inspirar]
 
 , 9. Rastrear Assassino
 
-\[Rastreio, Infiltração\]
+[Rastreio, Infiltração]
 
 , 10. Recuperar Carga Marinha
 
-\[Aquático, Logística\]
+[Aquático, Logística]
 
 1. Caçar Wyvern Jovem
 
-\[Vanguarda, Escalada, Resistência\]
+[Vanguarda, Escalada, Resistência]
 
 , 2. Necromante Iniciante
 
-\[Ocultismo, Sabotagem, Alquimia\]
+[Ocultismo, Sabotagem, Alquimia]
 
 , 3. Depor Prefeito
 
-\[Disfarce, Suborno, Rumores\]
+[Disfarce, Suborno, Rumores]
 
 , 4. Destruir Posto Avançado
 
-\[Sabotagem, Infiltração, Demolição\]
+[Sabotagem, Infiltração, Demolição]
 
 , 5. Conter Invasão Goblin
 
-\[Guerrilha, Marcha Forçada, Supressão\]
+[Guerrilha, Marcha Forçada, Supressão]
 
 , 6. Roubar Joia de Nobre
 
-\[Infiltração, Sabotagem, Suborno\]
+[Infiltração, Sabotagem, Suborno]
 
 , 7. Instigar Rebelião
 
-\[Inspirar, Intimidação, Combate em Massa\]
+[Inspirar, Intimidação, Combate em Massa]
 
 , 8. Defesa sob Cerco
 
-\[Vanguarda, Resistência, Cerco\]
+[Vanguarda, Resistência, Cerco]
 
 , 9. Selar Fenda Menor
 
-\[Ocultismo, Criptografia, Demolição\]
+[Ocultismo, Criptografia, Demolição]
 
 , 10. Controlar Epidemia
 
-\[Alquimia, Ocultismo, Logística\]
+[Alquimia, Ocultismo, Logística]
 
 TIER 2: REGIONAL (CDs: 17 / 19 / 22 / 25)
 
@@ -17925,163 +17939,163 @@ Missões (Tags Requeridas)
 
 1. Patrulha Fronteira
 
-\[Guerrilha, Cartografia\]
+[Guerrilha, Cartografia]
 
 , 2. Mapear Deserto
 
-\[Cartografia, Resistência\]
+[Cartografia, Resistência]
 
 , 3. Auditar Impostos
 
-\[Criptografia, Logística\]
+[Criptografia, Logística]
 
 , 4. Treinar Milícia
 
-\[Inspirar, Vanguarda\]
+[Inspirar, Vanguarda]
 
 , 5. Comércio Fluvial
 
-\[Aquático, Comércio\]
+[Aquático, Comércio]
 
 , 6. Entrega Diplomática
 
-\[Etiqueta, Marcha Forçada\]
+[Etiqueta, Marcha Forçada]
 
 , 7. Rastrear Manada
 
-\[Rastreio, Marcha Forçada\]
+[Rastreio, Marcha Forçada]
 
 , 8. Escolta Intendente
 
-\[Vanguarda, Etiqueta\]
+[Vanguarda, Etiqueta]
 
 , 9. Consertar Diques
 
-\[Engenharia, Aquático\]
+[Engenharia, Aquático]
 
 , 10. Caça Salteadores
 
-\[Rastreio, Supressão\]
+[Rastreio, Supressão]
 
 1. Quebrar Barricadas
 
-\[Cerco, Demolição\]
+[Cerco, Demolição]
 
 , 2. Sabotagem Alquímica
 
-\[Sabotagem, Alquimia\]
+[Sabotagem, Alquimia]
 
 , 3. Subornar Magistrado
 
-\[Suborno, Etiqueta\]
+[Suborno, Etiqueta]
 
 , 4. Mercado Negro
 
-\[Comércio, Submundo\]
+[Comércio, Submundo]
 
 , 5. Expedição Ruínas
 
-\[Ocultismo, Escalada\]
+[Ocultismo, Escalada]
 
 , 6. Bloqueio Porto
 
-\[Aquático, Cerco\]
+[Aquático, Cerco]
 
 , 7. Interrogar Espião
 
-\[Interrogatório, Contra-Inteligência\]
+[Interrogatório, Contra-Inteligência]
 
 , 8. Infiltrar Quartel
 
-\[Infiltração, Disfarce\]
+[Infiltração, Disfarce]
 
 , 9. Eliminar Capitão
 
-\[Guerrilha, Vanguarda\]
+[Guerrilha, Vanguarda]
 
 , 10. Coletar Informação
 
-\[Rumores, Infiltração\]
+[Rumores, Infiltração]
 
 1. Retomar Forte
 
-\[Cerco, Combate em Massa\]
+[Cerco, Combate em Massa]
 
 , 2. Destruir Pontes
 
-\[Demolição, Sabotagem\]
+[Demolição, Sabotagem]
 
 , 3. Negociar Trégua
 
-\[Diplomacia, Etiqueta\]
+[Diplomacia, Etiqueta]
 
 , 4. Caçar Ogro
 
-\[Vanguarda, Resistência\]
+[Vanguarda, Resistência]
 
 , 5. Decifrar Plano
 
-\[Criptografia, Contra-Inteligência\]
+[Criptografia, Contra-Inteligência]
 
 , 6. Assassinato Furtivo
 
-\[Infiltração, Alquimia\]
+[Infiltração, Alquimia]
 
 , 7. Convencer Conselho
 
-\[Diplomacia, Inspirar\]
+[Diplomacia, Inspirar]
 
 , 8. Rastrear Culto
 
-\[Rastreio, Ocultismo\]
+[Rastreio, Ocultismo]
 
 , 9. Caravana Real
 
-\[Vanguarda, Logística\]
+[Vanguarda, Logística]
 
 , 10. Operação Subaquática
 
-\[Aquático, Infiltração\]
+[Aquático, Infiltração]
 
 1. Matar Dragão Jovem
 
-\[Vanguarda, Resistência, Escalada\]
+[Vanguarda, Resistência, Escalada]
 
 , 2. Destruir Forja Mágica
 
-\[Demolição, Sabotagem, Engenharia\]
+[Demolição, Sabotagem, Engenharia]
 
 , 3. Golpe de Estado
 
-\[Rumores, Suborno, Intimidação\]
+[Rumores, Suborno, Intimidação]
 
 , 4. Soberania Estrada
 
-\[Combate em Massa, Logística, Cerco\]
+[Combate em Massa, Logística, Cerco]
 
 , 5. Selar Portal Menor
 
-\[Ocultismo, Criptografia, Sabotagem\]
+[Ocultismo, Criptografia, Sabotagem]
 
 , 6. Extração Inimiga
 
-\[Disfarce, Infiltração, Marcha Forçada\]
+[Disfarce, Infiltração, Marcha Forçada]
 
 , 7. Linha de Frente
 
-\[Combate em Massa, Supressão, Resistência\]
+[Combate em Massa, Supressão, Resistência]
 
 , 8. Enganar Inquisição
 
-\[Disfarce, Contra-Inteligência, Submundo\]
+[Disfarce, Contra-Inteligência, Submundo]
 
 , 9. Epidemia Mágica
 
-\[Alquimia, Ocultismo, Logística\]
+[Alquimia, Ocultismo, Logística]
 
 , 10. Infiltração Castelo
 
-\[Infiltração, Sabotagem, Escalada\]
+[Infiltração, Sabotagem, Escalada]
 
 TIER 3: CONTINENTAL (CDs: 22 / 24 / 27 / 30)
 
@@ -18089,163 +18103,163 @@ Missões (Tags Requeridas)
 
 1. Patrulha Aérea
 
-\[Escalada, Cartografia\]
+[Escalada, Cartografia]
 
 , 2. Logística Exército
 
-\[Logística, Comércio\]
+[Logística, Comércio]
 
 , 3. Espionagem Corte
 
-\[Etiqueta, Infiltração\]
+[Etiqueta, Infiltração]
 
 , 4. Rastrear Generais
 
-\[Rastreio, Contra-Inteligência\]
+[Rastreio, Contra-Inteligência]
 
 , 5. Diplomacia Fronteira
 
-\[Diplomacia, Marcha Forçada\]
+[Diplomacia, Marcha Forçada]
 
 , 6. Sabotar Linhas
 
-\[Sabotagem, Guerrilha\]
+[Sabotagem, Guerrilha]
 
 , 7. Vanguarda Legião
 
-\[Vanguarda, Combate em Massa\]
+[Vanguarda, Combate em Massa]
 
 , 8. Inspirar Tropas
 
-\[Inspirar, Resistência\]
+[Inspirar, Resistência]
 
 , 9. Criptografar Ordens
 
-\[Criptografia, Logística\]
+[Criptografia, Logística]
 
 , 10. Segurança Porto
 
-\[Aquático, Supressão\]
+[Aquático, Supressão]
 
 1. Destruir Muralhas
 
-\[Cerco, Demolição\]
+[Cerco, Demolição]
 
 , 2. Desativar Selo
 
-\[Ocultismo, Sabotagem\]
+[Ocultismo, Sabotagem]
 
 , 3. Guerra Civil
 
-\[Rumores, Intimidação\]
+[Rumores, Intimidação]
 
 , 4. Rastrear Artefato
 
-\[Rastreio, Cartografia\]
+[Rastreio, Cartografia]
 
 , 5. Bloqueio Naval
 
-\[Aquático, Logística\]
+[Aquático, Logística]
 
 , 6. Subornar Grão-Mestre
 
-\[Suborno, Etiqueta\]
+[Suborno, Etiqueta]
 
 , 7. Sabotagem Alquimia
 
-\[Alquimia, Engenharia\]
+[Alquimia, Engenharia]
 
 , 8. Defesa Fortaleza
 
-\[Cerco, Vanguarda\]
+[Cerco, Vanguarda]
 
 , 9. Infiltrar Conselho
 
-\[Disfarce, Diplomacia\]
+[Disfarce, Diplomacia]
 
 , 10. Marcha Vulcão
 
-\[Resistência, Escalada\]
+[Resistência, Escalada]
 
 1. Hidra Lendária
 
-\[Guerrilha, Vanguarda, Resistência\]
+[Guerrilha, Vanguarda, Resistência]
 
 , 2. Sabotagem Golem
 
-\[Sabotagem, Engenharia, Ocultismo\]
+[Sabotagem, Engenharia, Ocultismo]
 
 , 3. Consolidar Federação
 
-\[Inspirar, Diplomacia, Comércio\]
+[Inspirar, Diplomacia, Comércio]
 
 , 4. Cerco Mágico
 
-\[Criptografia, Ocultismo, Logística\]
+[Criptografia, Ocultismo, Logística]
 
 , 5. Assalto Anfíbio
 
-\[Aquático, Infiltração, Combate em Massa\]
+[Aquático, Infiltração, Combate em Massa]
 
 , 6. Interrogar Traidor
 
-\[Interrogatório, Disfarce, Submundo\]
+[Interrogatório, Disfarce, Submundo]
 
 , 7. Rota de Fuga
 
-\[Marcha Forçada, Cartografia, Guerrilha\]
+[Marcha Forçada, Cartografia, Guerrilha]
 
 , 8. Infiltrar Seita
 
-\[Infiltração, Ocultismo, Disfarce\]
+[Infiltração, Ocultismo, Disfarce]
 
 , 9. Armazém Cerco
 
-\[Demolição, Infiltração, Resistência\]
+[Demolição, Infiltração, Resistência]
 
 , 10. Rebelião Continental
 
-\[Supressão, Inspirar, Intimidação\]
+[Supressão, Inspirar, Intimidação]
 
 1. Dragão Ancião
 
-\[Vanguarda, Resistência, Escalada\]
+[Vanguarda, Resistência, Escalada]
 
 , 2. Selar Fenda Planar
 
-\[Ocultismo, Criptografia, Sabotagem\]
+[Ocultismo, Criptografia, Sabotagem]
 
 , 3. Destronar Imperador
 
-\[Disfarce, Rumores, Diplomacia\]
+[Disfarce, Rumores, Diplomacia]
 
 , 4. Destruir Cidade
 
-\[Demolição, Cerco, Combate em Massa\]
+[Demolição, Cerco, Combate em Massa]
 
 , 5. Mapa do Destino
 
-\[Infiltração, Sabotagem, Cartografia\]
+[Infiltração, Sabotagem, Cartografia]
 
 , 6. Mercado Global
 
-\[Comércio, Logística, Suborno\]
+[Comércio, Logística, Suborno]
 
 , 7. Defesa Capital
 
-\[Vanguarda, Resistência, Combate em Massa\]
+[Vanguarda, Resistência, Combate em Massa]
 
 , 8. Líder de Culto
 
-\[Rastreio, Alquimia, Infiltração\]
+[Rastreio, Alquimia, Infiltração]
 
 , 9. Convencer Deuses
 
-\[Inspirar, Etiqueta, Diplomacia\]
+[Inspirar, Etiqueta, Diplomacia]
 
 , 10. Sabotar Máquina
 
-\[Engenharia, Sabotagem, Demolição\]
+[Engenharia, Sabotagem, Demolição]
 
 TIER 4: GLOBAL (CDs: 27 / 29 / 32 / 35)
 
@@ -18253,161 +18267,161 @@ Missões (Tags Requeridas)
 
 1. Vigilância Estrelas
 
-\[Cartografia, Ocultismo\]
+[Cartografia, Ocultismo]
 
 , 2. Escolta Semideus
 
-\[Vanguarda, Resistência\]
+[Vanguarda, Resistência]
 
 , 3. Diplomacia Planar
 
-\[Etiqueta, Diplomacia\]
+[Etiqueta, Diplomacia]
 
 , 4. Marcha Vazio
 
-\[Marcha Forçada, Resistência\]
+[Marcha Forçada, Resistência]
 
 , 5. Criptografia Divina
 
-\[Criptografia, Criptografia\]
+[Criptografia, Criptografia]
 
 , 6. Contenção Eter
 
-\[Ocultismo, Engenharia\]
+[Ocultismo, Engenharia]
 
 , 7. Inspirar Reinos
 
-\[Inspirar, Rumores\]
+[Inspirar, Rumores]
 
 , 8. Navegação Astral
 
-\[Cartografia, Aquático\]
+[Cartografia, Aquático]
 
 , 9. Manobras Vanguarda
 
-\[Vanguarda, Combate em Massa\]
+[Vanguarda, Combate em Massa]
 
 , 10. Comércio Planar
 
-\[Comércio, Logística\]
+[Comércio, Logística]
 
 1. Motor Planar
 
-\[Demolição, Engenharia\]
+[Demolição, Engenharia]
 
 , 2. Plano dos Mortos
 
-\[Infiltração, Disfarce\]
+[Infiltração, Disfarce]
 
 , 3. Subornar Entidade
 
-\[Suborno, Submundo\]
+[Suborno, Submundo]
 
 , 4. Portal Abismo
 
-\[Ocultismo, Sabotagem\]
+[Ocultismo, Sabotagem]
 
-\[Combate em Massa, Vanguarda\]
+[Combate em Massa, Vanguarda]
 
 , 6. Intimidar Destino
 
-\[Intimidação, Inspirar\]
+[Intimidação, Inspirar]
 
 , 7. Sabotagem Realidade
 
-\[Sabotagem, Criptografia\]
+[Sabotagem, Criptografia]
 
 , 8. Mar Abissal
 
-\[Aquático, Cerco\]
+[Aquático, Cerco]
 
 , 9. Espionagem Divina
 
-\[Infiltração, Contra-Inteligência\]
+[Infiltração, Contra-Inteligência]
 
 , 10. Defesa Panteão
 
-\[Resistência, Vanguarda\]
+[Resistência, Vanguarda]
 
 1. Avatar do Caos
 
-\[Supressão, Vanguarda, Resistência\]
+[Supressão, Vanguarda, Resistência]
 
 , 2. Sabotar Destino
 
-\[Criptografia, Sabotagem, Ocultismo\]
+[Criptografia, Sabotagem, Ocultismo]
 
 , 3. Unificar Planos
 
-\[Inspirar, Diplomacia, Logística\]
+[Inspirar, Diplomacia, Logística]
 
 , 4. Marcha Noite
 
-\[Marcha Forçada, Resistência, Guerrilha\]
+[Marcha Forçada, Resistência, Guerrilha]
 
 , 5. Infinito
 
-\[Cartografia, Engenharia, Escalada\]
+[Cartografia, Engenharia, Escalada]
 
 , 6. Disfarce Deuses
 
-\[Disfarce, Etiqueta, Infiltração\]
+[Disfarce, Etiqueta, Infiltração]
 
 , 7. Forja Estelar
 
-\[Cerco, Demolição, Combate em Massa\]
+[Cerco, Demolição, Combate em Massa]
 
 , 8. Alquimia Suprema
 
-\[Alquimia, Logística, Ocultismo\]
+[Alquimia, Logística, Ocultismo]
 
 , 9. Negociar Vazio
 
-\[Diplomacia, Interrogatório, Submundo\]
+[Diplomacia, Interrogatório, Submundo]
 
 , 10. Guerrilha Planar
 
-\[Guerrilha, Infiltração, Resistência\]
+[Guerrilha, Infiltração, Resistência]
 
 1. Titã Primordial
 
-\[Vanguarda, Resistência, Combate em Massa\]
+[Vanguarda, Resistência, Combate em Massa]
 
 , 2. Recalibrar Criação
 
-\[Ocultismo, Criptografia, Engenharia\]
+[Ocultismo, Criptografia, Engenharia]
 
 , 3. Impedir Apocalipse
 
-\[Inspirar, Diplomacia, Marcha Forçada\]
+[Inspirar, Diplomacia, Marcha Forçada]
 
 , 4. Trono Eterno
 
-\[Demolição, Cerco, Supressão\]
+[Demolição, Cerco, Supressão]
 
 , 5. Mente Coletiva
 
-\[Infiltração, Sabotagem, Contra-Inteligência\]
+[Infiltração, Sabotagem, Contra-Inteligência]
 
 , 6. Compra Existência
 
-\[Comércio, Logística, Suborno\]
+[Comércio, Logística, Suborno]
 
 , 7. Guerra Planar
 
-\[Combate em Massa, Logística, Marcha Forçada\]
+[Combate em Massa, Logística, Marcha Forçada]
 
 , 8. Selar Morte
 
-\[Ocultismo, Criptografia, Alquimia\]
+[Ocultismo, Criptografia, Alquimia]
 
 , 9. Soberano Astral
 
-\[Intimidação, Rumores, Diplomacia\]
+[Intimidação, Rumores, Diplomacia]
 
 , 10. Mar de Almas
 
-\[Aquático, Resistência, Infiltração\]
+[Aquático, Resistência, Infiltração]
 
 --------------------------------------------------------------------------------
 
@@ -18431,7 +18445,7 @@ Mantém o suporte logístico e impede que o Boss final receba reforços ou recur
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\30\_Codex\_do\_Bastiao.md
+Arquivo: M02_MESTRE\30_Codex_do_Bastiao.md
 
 PANDORHA: CÓDEX DO BASTIÃO (Base de Operações Evolutiva)
 
@@ -18453,7 +18467,7 @@ Os Módulos que o grupo constrói servem direta e matematicamente para aprimorar
 
 6 Operações de Metrópole (Tags de A a F)
 
-. Se um jogador deseja realizar a Busca de Ouro \[Tag A\], Especulação no Submundo \[Tag D\], ou o caríssimo Re-Treinamento Biológico \[Tag F\], as instalações do Bastião transformarão dificuldades punitivas em sucessos garantidos, permitindo que o grupo domine a economia e a política de Pandorha de dentro de seus próprios muros.
+. Se um jogador deseja realizar a Busca de Ouro [Tag A], Especulação no Submundo [Tag D], ou o caríssimo Re-Treinamento Biológico [Tag F], as instalações do Bastião transformarão dificuldades punitivas em sucessos garantidos, permitindo que o grupo domine a economia e a política de Pandorha de dentro de seus próprios muros.
 
 --------------------------------------------------------------------------------
 
@@ -18479,7 +18493,7 @@ Define os Pontos de Vida da base.
 
 O Bastião rola
 
-\[1d20 + Estrutura\]
+[1d20 + Estrutura]
 
 contra a Dificuldade do Ataque inimigo quando a base sofre agressões físicas frontais (fogo de catapultas, monstros gigantes). Sucessos evitam a perda de Integridade.
 
@@ -18489,7 +18503,7 @@ Define o teto de ouro seguro que a base pode guardar.
 
 O Bastião rola
 
-\[1d20 + Vigilância\]
+[1d20 + Vigilância]
 
 para detectar espiões, assassinos ou impedir roubos do cofre. Dita a velocidade com que o grupo percebe ameaças.
 
@@ -18503,12 +18517,15 @@ na manutenção e salários dos NPCs.
 
 Rolada ativamente
 
-\[1d20 + Logística\]
+[1d20 + Logística]
 
 para resolver crises burocráticas, acalmar greves, subornar fiscais ou contornar falta de recursos.
+</ai_context>
+</ai_context>
 
 ## Catálogo de Chassis (A Fundação Nível 0)
-
+<ai_context>
+<ai_context>
 Ao adquirir a base, o grupo escolhe o seu "Chassi". Ele dita a natureza do local e concede bônus mecânicos imediatos. O Bastião suporta um número de Módulos ativos igual a
 
 Capacidade Base do Chassi (geralmente 3) + (Tier x 3)
@@ -18599,7 +18616,7 @@ Recesso (2 a 4 semanas de jogo)
 
 , que pode ser gasta rolando
 
-\[Mental + Matriz Relevante\]
+[Mental + Matriz Relevante]
 
 para encher a
 
@@ -18610,9 +18627,12 @@ de um Módulo.
 #### Sucesso Crítico:
 
 +3 Pontos. (Vários heróis podem focar no mesmo módulo).
+</ai_context>
+</ai_context>
 
 ## Escalonamento Duplo e Economia Híbrida
-
+<ai_context>
+<ai_context>
 #### Módulos de Tier 1:
 
 Custo: 500 PO. | Barra: 10 Pontos. | Teste vs
@@ -18726,9 +18746,12 @@ O grupo acorda (Condição: Desprevenido) direto em combate tático no dormitór
 #### Convergência de Éter:
 
 Fenda dimensional abre no cofre. Combate Tático Boss contra demônios saqueando por dentro.
+</ai_context>
+</ai_context>
 
 ## Resolução Híbrida e Dano
-
+<ai_context>
+<ai_context>
 #### Eventos de Cerco possuem duas fases:
 
 (rolagens da base atirando nos invasores) e
@@ -18751,7 +18774,7 @@ A cada perda de 25% da Integridade, 1 Módulo aleatório/focado quebra. Conserta
 
 #### Favores Tangíveis:
 
-Bases conservadas geram "Tokens de Favor", usados para ignorar testes da Matriz Social ou anular multas da \[Tag E\].
+Bases conservadas geram "Tokens de Favor", usados para ignorar testes da Matriz Social ou anular multas da [Tag E].
 
 #### Draft de Missões:
 
@@ -18817,7 +18840,7 @@ Reduz custo de materiais para conserto em 50%.
 
 Vantagem na Ação
 
-\[Tag A\] Busca Legal de Ouro
+[Tag A] Busca Legal de Ouro
 
 #### Cozinha de Expedição:
 
@@ -18829,7 +18852,7 @@ grátis para o grupo.
 
 Desconto de 20% na Ação
 
-\[Tag B\] Recuperação Prolongada
+[Tag B] Recuperação Prolongada
 
 Viagem em estrada 25% mais rápida (Projeção).
 
@@ -18841,35 +18864,35 @@ Viagem em estrada 25% mais rápida (Projeção).
 
 +2 em Testes de Alquimia.
 
-\[Trf: Coração de Salamandra\]
+[Trf: Coração de Salamandra]
 
 #### Oficina de Armaria:
 
 Libera forja com Aço Frio/Prata.
 
-\[Trf: Mandíbula de Wyvern\]
+[Trf: Mandíbula de Wyvern]
 
 #### Biblioteca de Rumores:
 
 Vantagem em
 
-\[Tag C\] Investigação Arcana
+[Tag C] Investigação Arcana
 
-\[Trf: Cérebro de Devorador Menor\]
+[Trf: Cérebro de Devorador Menor]
 
 #### Rede de Informantes:
 
 Gaste 1 Favor Menor para achar recursos no mapa.
 
-\[Trf: Olho de Basilisco\]
+[Trf: Olho de Basilisco]
 
 #### Câmara de Treinamento:
 
 -25% do custo brutal da
 
-\[Tag F\] Re-treinamento
+[Tag F] Re-treinamento
 
-\[Trf: Essência de Elementalista\]
+[Trf: Essência de Elementalista]
 
 #### Mercado Interno:
 
@@ -18877,31 +18900,31 @@ Venda segura da
 
 dentro da base.
 
-\[Trf: Balança de Gárgula\]
+[Trf: Balança de Gárgula]
 
 #### Muralha de Pedra:
 
 +4 Estrutura.
 
-\[Trf: Núcleo de Elemental da Terra T2\]
+[Trf: Núcleo de Elemental da Terra T2]
 
 #### Altar de Vinculação:
 
 Necessário para prender Runas.
 
-\[Trf: Sangue de Espectro\]
+[Trf: Sangue de Espectro]
 
 #### Salão de Banquetes:
 
 +10 XP de Fama extra ao completar missões Notáveis.
 
-\[Trf: Presa de Javali Atroz\]
+[Trf: Presa de Javali Atroz]
 
 #### Pombal Mágico:
 
 Troca de favores e mensagens remotas.
 
-\[Trf: Penas de Grifo\]
+[Trf: Penas de Grifo]
 
 🟡 Módulos de Tier 3 (Custo: 5.000 PO + 1 Troféu Raro | DC 25 | 30 Pontos)
 
@@ -18911,25 +18934,25 @@ Troca de favores e mensagens remotas.
 
 Cria itens de Adamante. Corta tempo de obras T1/T2 pela metade.
 
-\[Trf: Martelo Fendido de Gigante de Fogo\]
+[Trf: Martelo Fendido de Gigante de Fogo]
 
 #### Cofre Dimensional (Menor):
 
 Riqueza não gera Ameaça até 10.000 PO.
 
-\[Trf: Saco Gástrico de Behir\]
+[Trf: Saco Gástrico de Behir]
 
 #### Observatório Etérico:
 
 Revela o mapa inteiro ao redor.
 
-\[Trf: Olho Cristalizado de Observador\]
+[Trf: Olho Cristalizado de Observador]
 
 #### Auditório de Diplomacia:
 
 Gera 1 Favor Maior por mês.
 
-\[Trf: Coroa Quebrada de Lich Menor\]
+[Trf: Coroa Quebrada de Lich Menor]
 
 #### Sanatório Arcano:
 
@@ -18937,37 +18960,37 @@ Cura necrose brutal da
 
 em apenas 3 dias.
 
-\[Trf: Pó de Asas de Anjo Caído\]
+[Trf: Pó de Asas de Anjo Caído]
 
 #### Engenharia de Éter:
 
 Cria cajados/orbes de alto nível.
 
-\[Trf: Reator de Constructo T3\]
+[Trf: Reator de Constructo T3]
 
 #### Torre de Bombardeio:
 
 Dano massivo automático na Fase Macro de Cercos.
 
-\[Trf: Coração de Pólvora de Demônio\]
+[Trf: Coração de Pólvora de Demônio]
 
 #### Sindicato de Comércio:
 
 sobe para +40%.
 
-\[Trf: Moeda de Alma de Diabo Contratante\]
+[Trf: Moeda de Alma de Diabo Contratante]
 
 #### Cripta de Blueprints:
 
 Salva Módulos em caso de Game Over.
 
-\[Trf: Fragmento de Monolito Ancião\]
+[Trf: Fragmento de Monolito Ancião]
 
 #### Alojamento de Elite:
 
 +2 Especialistas, -30% nos salários deles.
 
-\[Trf: Estandarte de um Warlord T3\]
+[Trf: Estandarte de um Warlord T3]
 
 🔴 Módulos de Tier 4 (Custo: 20.000 PO + 1 Troféu Épico | DC 30 | 40 Pontos)
 
@@ -18977,61 +19000,61 @@ Salva Módulos em caso de Game Over.
 
 Cria Itens Lendários. Custo de insumos mágicos reduzido em 50%.
 
-\[Trf: Núcleo do Sol de um Titã\]
+[Trf: Núcleo do Sol de um Titã]
 
 #### Farol da Fama Mundial:
 
 Fama fixada em Mito Continental, ignorando distâncias.
 
-\[Trf: Trombeta de um Arcanjo\]
+[Trf: Trombeta de um Arcanjo]
 
 #### Portal de Conjunção:
 
 Teleporte instantâneo pelo mapa.
 
-\[Trf: Fenda Espacial de um Horror Cósmico\]
+[Trf: Fenda Espacial de um Horror Cósmico]
 
 #### Corte dos Reis:
 
 O único Módulo que suporta o "Projeto de Legado".
 
-\[Trf: Coroa de um Avatar Divino\]
+[Trf: Coroa de um Avatar Divino]
 
 #### Bateria de Éter Infinita:
 
 Restaura 1 Ponto de EE extra para toda a equipe.
 
-\[Trf: Coração de Dragão Ancião Azul\]
+[Trf: Coração de Dragão Ancião Azul]
 
 #### Muralha Rúnica Absoluta:
 
 +10 Estrutura. Imune a cerco Mágico < C5.
 
-\[Trf: Escamas do Wyrm da Terra\]
+[Trf: Escamas do Wyrm da Terra]
 
 #### Inteligência Senciente:
 
 Rola defesas passivas automaticamente com Vantagem.
 
-\[Trf: Alma de Esfinge Primordial\]
+[Trf: Alma de Esfinge Primordial]
 
 #### Cofre do Fim do Mundo:
 
 Ouro infinito (não gera Ameaça).
 
-\[Trf: Mandíbulas de um Kraken Ancestral\]
+[Trf: Mandíbulas de um Kraken Ancestral]
 
 #### Câmara de Ressurreição:
 
 Traz mortos sem custo material 1x/mês.
 
-\[Trf: Foice de um Avatar da Morte\]
+[Trf: Foice de um Avatar da Morte]
 
 #### Nexus Regional:
 
 Altera clima/bioma e bane monstros de 5 hexágonos ao redor.
 
-\[Trf: Semente da Yggdrasil Profunda\]
+[Trf: Semente da Yggdrasil Profunda]
 
 --------------------------------------------------------------------------------
 
@@ -19039,7 +19062,7 @@ Altera clima/bioma e bane monstros de 5 hexágonos ao redor.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\31\_Codex\_Teia\_Infamia\_Patrocinio.md
+Arquivo: M02_MESTRE\31_Codex_Teia_Infamia_Patrocinio.md
 
 A Teia de Infâmia e Patrocínio (O Sistema de Dívidas)
 
@@ -19085,7 +19108,7 @@ Cada facção na Teia Genuína é rastreada individualmente. O grupo pode ter m�
 
 É calculado estritamente pela fórmula:
 
-\[Nível de Fama com a Facção × 3\]
+[Nível de Fama com a Facção × 3]
 
 Fama Nível 1 = Limite 3. Fama Nível 5 = Limite 15.
 
@@ -19665,7 +19688,7 @@ Pontos de Intriga induzem o Apocalipse Bélico. Todos os inimigos no campo de ba
 
 --------------------------------------------------------------------------------
 
-Arquivo: M02\_MESTRE\sistema\_de\_dividas\_antes\_depois.md
+Arquivo: M02_MESTRE\sistema_de_dividas_antes_depois.md
 
 Auditoria de Integração: Sistema de Dívidas (Teia de Infâmia)
 
@@ -19685,7 +19708,7 @@ Capítulo 31
 
 Inexistente.
 
-\[31\_Codex\_Teia\_Infamia\_Patrocinio.md\]
+[31_Codex_Teia_Infamia_Patrocinio.md]
 
 criado com 21KB de conteúdo, 40 facções e mecânicas de intriga.
 
@@ -19695,7 +19718,7 @@ Níveis de fama eram puramente narrativos ou bônus simples.
 
 #### Implementada trava mecânica rigorosa:
 
-Limite Máximo de Dívida = \[Nível de Fama x 3\]
+Limite Máximo de Dívida = [Nível de Fama x 3]
 
 Downtime (Cap. 22)
 
@@ -19703,7 +19726,7 @@ Focado em treino, trabalho e gestão de domínio.
 
 Adicionada a
 
-\[Tag H\] - O Juramento de Sangue
+[Tag H] - O Juramento de Sangue
 
 , integrando a busca por patrocínio ao ciclo de descanso.
 
@@ -19779,7 +19802,7 @@ Tarefa Finalizada com Sucesso.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M03\_ACAO\03\_Codex\_de\_Combate\_e\_Condicoes.md
+Arquivo: M03_ACAO\03_Codex_de_Combate_e_Condicoes.md
 
 Pandorha: Capítulo 03 - Codex de Combate e Condições (Edição Brutalista)
 
@@ -19788,13 +19811,14 @@ Este manual define as regras de engajamento tático. Toda regra aqui é absoluta
 --------------------------------------------------------------------------------
 
 1. O Fluxo de Batalha (3 Ações)
+
 1.0 Iniciativa (Mental + Interação + Nível)
 
 Antes do primeiro turno, todos rolam
 
 para decidir a ordem de agir.
 
-\[d20\] + \[Nível\] + \[Eixo Mental\] + \[Aplicação Interação\]
+[d20] + [Nível] + [Eixo Mental] + [Aplicação Interação]
 
 Quem tiver maior Eixo Mental vence.
 
@@ -19802,7 +19826,7 @@ Quem tiver maior Eixo Mental vence.
 
 #### Cada personagem recebe:
 
-\*\*1 Reação \*\*\[R\]\*\*\*\*: Você possui apenas
+\*\*1 Reação \*\*[R]\*\*\*\*: Você possui apenas
 
 por rodada (salvo exceções por Itens/Talentos com a tag Reflexo Dedicado). Disponível uma única vez entre seus turnos.
 
@@ -19824,7 +19848,7 @@ Mental + Resistência (DC 10 ou Metade do Dano, o que for maior)
 
 1.2 Penalidade de Ataque Múltiplo (MAP)
 
-#### Toda ação com a tag \[Ataque\] aplica penalidade cumulativa no mesmo turno:
+#### Toda ação com a tag [Ataque] aplica penalidade cumulativa no mesmo turno:
 
 -5 (-4 Ágil).
 
@@ -19842,11 +19866,11 @@ Remove a condição
 
 1.4 Manobras de Combate (Substituem 1 Ataque)
 
-\[Físico + Conflito\]
+[Físico + Conflito]
 
 DC Passiva de CA
 
-CA = 10 + \[Nível\] + \[Armadura\] + \[Eixo Limitado\] + \[Escudo\]
+CA = 10 + [Nível] + [Armadura] + [Eixo Limitado] + [Escudo]
 
 Sucesso deixa o alvo
 
@@ -19898,7 +19922,7 @@ obrigatoriamente
 
 somado ao dano total.
 
-\[Dados da Arma\] + \[Matriz Utilizada\] + \[Bônus Extras\]
+[Dados da Arma] + [Matriz Utilizada] + [Bônus Extras]
 
 #### Armas Ágeis:
 
@@ -19916,17 +19940,17 @@ O grupo compartilha pontos para ativar aberturas táticas (PC máx = Tier + Joga
 
 #### Ciclo de Elo:
 
-Abertura \[1A\]
+Abertura [1A]
 
-Cadeia (Tier 2+) \[1A\]
+Cadeia (Tier 2+) [1A]
 
-Detonação \[1A\]
+Detonação [1A]
 
 Para o compêndio completo de 45 táticas e regras de evolução de grupo, consulte o
 
 Códex de Sinergia: A Forja Tática
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26\_Codex\_Sinergia\_Forja\_Tatica.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26_Codex_Sinergia_Forja_Tatica.md
 
 --------------------------------------------------------------------------------
 
@@ -19968,7 +19992,7 @@ Aterrorizado
 
 Foge com todas as ações. -2 em testes.
 
-Teste Global de \[Mental + Resistência + Nível DC da Fonte\] (Fim do Turno).
+Teste Global de [Mental + Resistência + Nível DC da Fonte] (Fim do Turno).
 
 Perde 3 Ações
 
@@ -20004,11 +20028,11 @@ Enfeitiçado
 
 Não ataca o criador. Criador ganha +2 Sociais contra você.
 
-Dano de aliados ou \[Mental + Resistência + Nível DC Fonte\].
+Dano de aliados ou [Mental + Resistência + Nível DC Fonte].
 
 1d8 dano físico/turno.
 
-Teste Global de \[Físico + Resistência + Nível DC da Fonte\] (Fim do Turno).
+Teste Global de [Físico + Resistência + Nível DC da Fonte] (Fim do Turno).
 
 Não pode usar
 
@@ -20048,7 +20072,7 @@ Acordar com dano ou se receber cura.
 
 50% chance de erro para atacantes. Indetectável por visão normal.
 
-Encontrar: \[Mental + Interação\] vs \[DC Passiva de Furtividade (Mental + Conflito)\]. Atacar ou fazer barulho revela.
+Encontrar: [Mental + Interação] vs [DC Passiva de Furtividade (Mental + Conflito)]. Atacar ou fazer barulho revela.
 
 Velocidade -3m. Dura conforme a causa.
 
@@ -20064,19 +20088,19 @@ Fim da cena de combate.
 
 Inconsciente c/ 0 HP. No início do turno, role Estabilização: d20 + Físico + Resistência + Nível vs sua própria DC Passiva de Resistência.
 
-3 Sucessos estabilizam. 3 Falhas = Morte. Ajuda: \[Mental + Interação\] vs DC Moribundo.
+3 Sucessos estabilizam. 3 Falhas = Morte. Ajuda: [Mental + Interação] vs DC Moribundo.
 
 Não pode usar
 
-Teste Global de \[Físico + Resistência + Nível DC da Fonte\] (Fim do Turno).
+Teste Global de [Físico + Resistência + Nível DC da Fonte] (Fim do Turno).
 
 Indetectável. Não pode ser alvo direto. Se atacar, alvo fica Surpreendido (sem reação).
 
-Revelado se atacar, fizer barulho ou for encontrado por \[Mental + Interação\].
+Revelado se atacar, fizer barulho ou for encontrado por [Mental + Interação].
 
 Incapacitado + Exposto. Ataques físicos adjacentes são Críticos Automáticos.
 
-Teste Global de \[Físico + Resistência + Nível DC da Fonte\] (Fim do Turno).
+Teste Global de [Físico + Resistência + Nível DC da Fonte] (Fim do Turno).
 
 Petrificado
 
@@ -20086,11 +20110,11 @@ Magias de Cura de Alto Nível (Círculo 3+).
 
 1d4 dano/turno. Não recupera HP naturalmente.
 
-Teste Global de \[Físico + Resistência + Nível DC da Fonte\] (Fim do Turno), Mover ou usar
+Teste Global de [Físico + Resistência + Nível DC da Fonte] (Fim do Turno), Mover ou usar
 
 para estancar (Gasta 1 uso de Kit de Cura).
 
-Sufocando. Dura \[Físico\] + 1 Rodadas. Após isso, cai a 0 HP (Moribundo). Magias com componente Verbal falham.
+Sufocando. Dura [Físico] + 1 Rodadas. Após isso, cai a 0 HP (Moribundo). Magias com componente Verbal falham.
 
 Respirar novamente.
 
@@ -20106,7 +20130,7 @@ no 1º turno.
 
 Automática após o seu 1º turno.
 
-Sofre +1d6 dano de \[TIPO\].
+Sofre +1d6 dano de [TIPO].
 
 Fim da cena ou fim da habilidade.
 
@@ -20120,11 +20144,11 @@ Fim da cena ou fim da habilidade.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M03\_ACAO\12\_Metamagias\_As\_40\_Quebras.md
+Arquivo: M03_ACAO\12_Metamagias_As_40_Quebras.md
 
 Pandorha: Códex de Metamagias (As 40 Quebras)
 
-\[!IMPORTANT\]
+[!IMPORTANT]
 
 #### Diferenciação Tática:
 
@@ -20134,7 +20158,7 @@ Este Códex trata de
 
 Códex de Sinergia: A Forja Tática
 
-file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26\_Codex\_Sinergia\_Forja\_Tatica.md
+file:///c:/Users/Pichau/Desktop/o%20mundo%20de%20pandorha%20-%20livro/Sistemas/Pandorha/sistema%20consolidado/docs/regras/26_Codex_Sinergia_Forja_Tatica.md
 
 Bem-vindo ao núcleo táctico do sistema de Magia e Artefatos de Pandorha. Este códex dita a "progressão horizontal" do jogo, permitindo que magias de baixo nível se mantenham letais e úteis nos Tiers mais altos através do sistema de
 
@@ -20178,7 +20202,7 @@ Multiplica o resultado final e total dos dados rolados para curar. (Ex: rola 1d8
 
 #### Traços Exigidos:
 
-\[Regeneração\]
+[Regeneração]
 
 #### Magias Compatíveis:
 
@@ -20198,7 +20222,7 @@ HP Temporário
 
 #### Traços Exigidos:
 
-\[Abjuração\]
+[Abjuração]
 
 #### Magias Compatíveis:
 
@@ -20214,7 +20238,7 @@ Remove imediatamente 1 Condição negativa não-permanente à escolha do alvo (c
 
 #### Traços Exigidos:
 
-\[Suporte Divino\]
+[Suporte Divino]
 
 #### Magias Compatíveis:
 
@@ -20234,7 +20258,7 @@ a um alvo primário atingido pela magia.
 
 #### Traços Exigidos:
 
-\[Necromancia\]
+[Necromancia]
 
 #### Magias Compatíveis:
 
@@ -20254,9 +20278,9 @@ Se o ataque acertar, a magia salta para um novo alvo num raio de 4,5m usando o m
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
-\[Elétrico/Ácido\]
+[Elétrico/Ácido]
 
 #### Magias Compatíveis:
 
@@ -20272,7 +20296,7 @@ Ignora completamente a Redução de Dano (RD) passiva do inimigo e trata Imunida
 
 #### Traços Exigidos:
 
-\[Dano Direto\]
+[Dano Direto]
 
 #### Magias Compatíveis:
 
@@ -20292,7 +20316,7 @@ desse dado.
 
 #### Traços Exigidos:
 
-\[Dano Direto Massivo\]
+[Dano Direto Massivo]
 
 #### Magias Compatíveis:
 
@@ -20308,7 +20332,7 @@ Altera o tipo elementar original da magia (ex: de Fogo para Gelo) no momento da 
 
 #### Traços Exigidos:
 
-\[Elemental\]
+[Elemental]
 
 #### Magias Compatíveis:
 
@@ -20362,7 +20386,7 @@ Imobilizado
 
 #### Traços Exigidos:
 
-\[Gravidade\]
+[Gravidade]
 
 #### Magias Compatíveis:
 
@@ -20384,7 +20408,7 @@ Aplica uma condição à escolha entre
 
 #### Traços Exigidos:
 
-\[Radiação/Veneno\]
+[Radiação/Veneno]
 
 #### Magias Compatíveis:
 
@@ -20400,7 +20424,7 @@ Magias "Instantâneas" deixam uma Zona Letal (1 Ronda) que causa 50% do dano a q
 
 #### Traços Exigidos:
 
-\[Elemental\]
+[Elemental]
 
 #### Magias Compatíveis:
 
@@ -20418,7 +20442,7 @@ início do seu próximo turno
 
 #### Traços Exigidos:
 
-\[Luz/Trevas\]
+[Luz/Trevas]
 
 #### Magias Compatíveis:
 
@@ -20456,7 +20480,7 @@ O feitiço divide-se. Pode seleccionar um segundo alvo diferente dentro do alcan
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
 #### Magias Compatíveis:
 
@@ -20478,7 +20502,7 @@ não quebra Furtividade
 
 #### Traços Exigidos:
 
-\[Encantamento\]
+[Encantamento]
 
 #### Magias Compatíveis:
 
@@ -20494,7 +20518,7 @@ Duplica o alcance de conjuração. Magias de "Toque" passam a ter alcance Curto 
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
 #### Magias Compatíveis:
 
@@ -20528,9 +20552,9 @@ por Contra-Mágicas. Se sofrer dano enquanto a canaliza, não precisa rolar Conc
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
-\[Ressurreição\]
+[Ressurreição]
 
 #### Magias Compatíveis:
 
@@ -20552,7 +20576,7 @@ no momento em que é conjurada.
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
 #### Magias Compatíveis:
 
@@ -20572,7 +20596,7 @@ e todos os ataques físicos causam +1 Dado de Dano.
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
 #### Magias Compatíveis:
 
@@ -20590,7 +20614,7 @@ como se estivesse no espaço físico ocupado pela sua criatura invocada.
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
 #### Magias Compatíveis:
 
@@ -20610,7 +20634,7 @@ num raio de 3m.
 
 #### Traços Exigidos:
 
-\[Invocação\]
+[Invocação]
 
 #### Magias Compatíveis:
 
@@ -20632,7 +20656,7 @@ sem provocar Ataques de Oportunidade.
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
 #### Magias Compatíveis:
 
@@ -20652,7 +20676,7 @@ na direcção oposta ao conjurador.
 
 #### Traços Exigidos:
 
-\[Dano Direto\]
+[Dano Direto]
 
 #### Magias Compatíveis:
 
@@ -20690,9 +20714,9 @@ com a criatura atingida, teleportando-se.
 
 #### Traços Exigidos:
 
-\[Teletransporte\]
+[Teletransporte]
 
-\[Alvo Único\]
+[Alvo Único]
 
 #### Magias Compatíveis:
 
@@ -20710,7 +20734,7 @@ A magia é lançada invisível sobre um quadrado vazio. Fica "dormente" por 1 ho
 
 #### Traços Exigidos:
 
-\[Dano Direto\]
+[Dano Direto]
 
 #### Magias Compatíveis:
 
@@ -20742,7 +20766,7 @@ A magia é armazenada no alvo com um gatilho ditado (ex: "Quando o alvo chegar a
 
 #### Traços Exigidos:
 
-\[Abjuração\]
+[Abjuração]
 
 #### Magias Compatíveis:
 
@@ -20782,7 +20806,7 @@ exatas 24 horas
 
 #### Traços Exigidos:
 
-\[Utilitária\]
+[Utilitária]
 
 #### Magias Compatíveis:
 
@@ -20802,7 +20826,7 @@ perde a invisibilidade
 
 #### Traços Exigidos:
 
-\[Adivinhação\]
+[Adivinhação]
 
 #### Magias Compatíveis:
 
@@ -20834,9 +20858,9 @@ e pode atravessar até 1 metro de barreiras sólidas para atingir alvos do outro
 
 #### Traços Exigidos:
 
-\[Alvo Único\]
+[Alvo Único]
 
-\[Adivinhação\]
+[Adivinhação]
 
 #### Magias Compatíveis:
 
@@ -20876,7 +20900,7 @@ o valor ao total.
 
 #### Traços Exigidos:
 
-\[Dano Direto\]
+[Dano Direto]
 
 #### Magias Compatíveis:
 
@@ -20912,7 +20936,7 @@ Explosão Solar, Despedaçar, Relâmpago, Pilar de Chamas.
 
 #### Traços Exigidos:
 
-\[Necromancia\]
+[Necromancia]
 
 #### Magias Compatíveis:
 
@@ -20924,7 +20948,7 @@ Raio Enfraquecedor, Toque Pútrido, Drenar Vida, Praga.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M03\_ACAO\18\_Tratado\_de\_Dano.md
+Arquivo: M03_ACAO\18_Tratado_de_Dano.md
 
 Pandorha: Capítulo 18 - Tratado de Dano e Resistências
 
@@ -20940,7 +20964,7 @@ O seu atributo (Matriz) SEMPRE entra no cálculo de dano físico/marcial.
 
 #### A fórmula universal para o dano de ataques com armas é:
 
-Dano Total = \[Dado(s) da Arma\] + \[Valor da Matriz Utilizada no Ataque\] + \[Modificadores Extras (Talentos, Magias, etc.)\]
+Dano Total = [Dado(s) da Arma] + [Valor da Matriz Utilizada no Ataque] + [Modificadores Extras (Talentos, Magias, etc.)]
 
 📊 2. Como as Matrizes se Aplicam
 
@@ -21140,7 +21164,7 @@ Sempre descreva o dano conforme o tipo. Um "sucesso crítico" de dano Psíquico 
 
 --------------------------------------------------------------------------------
 
-Arquivo: M03\_ACAO\26\_Codex\_Sinergia\_Forja\_Tatica.md
+Arquivo: M03_ACAO\26_Codex_Sinergia_Forja_Tatica.md
 
 Pandorha: Códex de Sinergia - A Forja Tática
 
@@ -21176,7 +21200,7 @@ O grupo compartilha uma reserva de pontos estrita para ativar as sinergias.
 
 O limite de pontos que o grupo pode acumular é exatamente a soma do
 
-\[Tier de Coesão do Grupo\] + \[Número de Jogadores na mesa\]
+[Tier de Coesão do Grupo] + [Número de Jogadores na mesa]
 
 #### Recuperação:
 
@@ -21212,7 +21236,7 @@ A Sinergia consome recursos e ações conforme as regras universais e a economia
 
 de Pandorha. O ciclo ocorre em até três etapas:
 
-#### Abertura de Elo \[1A\]:
+#### Abertura de Elo [1A]:
 
 Um jogador gasta
 
@@ -21232,7 +21256,7 @@ início do próximo turno do alvo marcado
 
 . Se não for detonada até lá, o Ponto de Coesão e a oportunidade são perdidos.
 
-#### Sinergia em Cadeia \[1A\] (Opcional):
+#### Sinergia em Cadeia [1A] (Opcional):
 
 Esta etapa torna-se disponível a partir do
 
@@ -21246,7 +21270,7 @@ Tática de Reforço
 
 à marca. O efeito dessa tática é somado à fusão final.
 
-#### Detonação \[1A\]:
+#### Detonação [1A]:
 
 Um aliado (o Detonador) gasta
 
@@ -21684,7 +21708,7 @@ por turno, mantém-se com -2 de CA permanentemente, e sofre o dano base do ataqu
 
 --------------------------------------------------------------------------------
 
-Arquivo: M03\_ACAO\A Arte da Tecelagem (Aquisição de Metamagias).md
+Arquivo: M03_ACAO\A Arte da Tecelagem (Aquisição de Metamagias).md
 
 Pandorha: A Arte da Tecelagem (Aquisição de Metamagias)
 
@@ -21808,7 +21832,7 @@ Durante a transição de um
 
 --------------------------------------------------------------------------------
 
-Arquivo: M03\_ACAO\Glossario\_Definitivo\_de\_Testes.md
+Arquivo: M03_ACAO\Glossario_Definitivo_de_Testes.md
 
 Pandorha: Compêndio Maestro de Testes e Mecânicas (Edição Definitiva e Extensa)
 
@@ -21822,7 +21846,7 @@ Este documento é o repositório central de todas as regras de resolução de a�
 
 Toda e qualquer ação que envolva incerteza em Pandorha é resolvida por um Teste Global.
 
-Resultado = \[d20\] + \[Nível Global\] + \[Eixo\] + \[Aplicação\] + \[Bônus de Item/Treinamento\]
+Resultado = [d20] + [Nível Global] + [Eixo] + [Aplicação] + [Bônus de Item/Treinamento]
 
 #### Nível Global:
 
@@ -21882,7 +21906,7 @@ Feedback Arcano
 
 Cada turno de combate concede
 
-e \*\*1 Reação \*\*\[R\]\*\*\*\*.
+e \*\*1 Reação \*\*[R]\*\*\*\*.
 
 Se o personagem utilizar múltiplas ações de ataque no mesmo turno, aplica-se a
 
@@ -21902,7 +21926,7 @@ se a arma/manobra for
 
 Para calcular a dificuldade de um inimigo resistir a você (ou você a ele), usa-se a DC Passiva:
 
-DC Passiva = 10 + \[Nível\] + \[Eixo\] + \[Aplicação\]
+DC Passiva = 10 + [Nível] + [Eixo] + [Aplicação]
 
 #### CA (Armadura):
 
@@ -21920,7 +21944,7 @@ DC Passiva = 10 + \[Nível\] + \[Eixo\] + \[Aplicação\]
 
 #### Para efeitos que exigem que o alvo role um teste de resistência:
 
-DC da Fonte = 10 + \[Nível\] + \[Eixo\] + \[Aplicação\]
+DC da Fonte = 10 + [Nível] + [Eixo] + [Aplicação]
 
 #### Exemplo (Magia de Ataque):
 
@@ -21950,7 +21974,7 @@ Para encerrar Coações, Insultos ou Pressão Social.
 
 Quando os HPs chegam a 0, o personagem cai Inconsciente e Moribundo. No início de cada turno, ele deve realizar o teste:
 
-Check: \[Físico\] + \[Resistência\] + \[Nível\] vs Própria DC Passiva de Resistência.
+Check: [Físico] + [Resistência] + [Nível] vs Própria DC Passiva de Resistência.
 
 Acumula 1 Sucesso. Com 3 Sucessos, o personagem estabiliza em 0 HP.
 
@@ -22056,7 +22080,7 @@ Resistir ao Óbito
 
 Gatilho: 0 HP. Fica com 1 HP. Crítico: Fica com 1 HP + 1 PV.
 
-#### Pele de Ferro \[Passiva\]:
+#### Pele de Ferro [Passiva]:
 
 RD 1 permanente contra dano físico. Crítico (Evolução): RD 2.
 
@@ -22068,7 +22092,7 @@ Ignorar Dor
 
 Gatilho: Receber dano. Reduz dano em 1d10+Físico. Crítico: Dano zero.
 
-#### Pulmões de Aço \[Passiva\]:
+#### Pulmões de Aço [Passiva]:
 
 Respiração x3. Imune a gases por 5 min.
 
@@ -22076,7 +22100,7 @@ Purificação Biológica
 
 Encerra Envenenado/Sangrando. Crítico: Cura 5 HP.
 
-#### Estreito de Couraça \[Passiva\]:
+#### Estreito de Couraça [Passiva]:
 
 Ignora 50% da penalidade de movimento de armaduras.
 
@@ -22084,7 +22108,7 @@ Grito de Vigor
 
 Aliados ganham 5 HP temporários. Crítico: 10 HP Temporários.
 
-#### Metabolismo Hiper-Acelerado \[Passiva\]:
+#### Metabolismo Hiper-Acelerado [Passiva]:
 
 Cura x2 em descansos. Estanca Sangrando em 1R.
 
@@ -22202,11 +22226,11 @@ vs Social+Conflito. Silêncio absoluto. Crítico: Planta mentira.
 
 Consumo biológico 10x menor. Crítico: Estanca Veneno/Sangrando.
 
-#### Filtro Arcano \[F/R\]:
+#### Filtro Arcano [F/R]:
 
 Anula Feedback Arcano. Crítico: Feedback vira +1 EA.
 
-#### Detecção Lógica Passiva \[Passiva\]:
+#### Detecção Lógica Passiva [Passiva]:
 
 Nota contradições. +2 contra mentira. Crítico: Ganha Reação extra.
 
@@ -22314,7 +22338,7 @@ Vácuo de Insulto
 
 vs Intimidação. Anula Medo. Crítico: Atacante fica Exposto.
 
-#### Estoicismo Corporal \[Passiva\]:
+#### Estoicismo Corporal [Passiva]:
 
 +2 vs Tortura/Dor. Crítico: Cura 1 PV ao resistir.
 
@@ -22414,7 +22438,7 @@ Em situações sem pressão e com tempo, o Mestre pode considerar que o jogador 
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\07\_01a\_Tier1\_Mundo\_Natural.md
+Arquivo: M04_DESAFIOS\07_01a_Tier1_Mundo_Natural.md
 
 Pandorha: Bestiário Narrativo Vol. 1A - Mundo Natural (Níveis 1-5)
 
@@ -22438,11 +22462,11 @@ Economia de 3 Ações
 
 A. Lobo Cinzento (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Dizem os mitos que os primeiros lobos nasceram da sombra de uma lua cheia que caiu na terra. Em Pandorha, eles não são meros animais, mas sociedades organizadas. Eles testam as defesas das vilas não por fome, mas para medir a força dos 'homens de pedra'. Se sentirem fraqueza, a matilha inteira desce das colinas na noite seguinte.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um predador de ombros largos, coberto por uma pelagem espessa e oleosa em tons de cinza-ferro e marrom-lama. Seus olhos amarelos brilham com uma inteligência fria e calculista, fixos em seus pontos vitais. Ele se move com um silêncio perturbador, com a barriga quase tocando o chão, exalando um odor forte de almíscar e carne crua.
 
@@ -22482,11 +22506,11 @@ Teste Global de Físico + Resistência + Nível (DC 13)
 
 B. Warg (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Wargs não nascem; são criados. Goblins e Orcs alimentam filhotes de lobo com carne de demônio e alquimia vil até que cresçam distorcidos. Eles odeiam seus mestres, mas odeiam todo o resto ainda mais. Dizem que um Warg nunca esquece o rosto de quem o feriu, perseguindo-o por anos se necessário.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma monstruosidade lupina do tamanho de um pônei de guerra, com músculos inchados sob uma pele negra e sarnenta. Sua mandíbula é desproporcional, salivando um icor ácido que queima a grama onde cai. Seus olhos vermelhos queimam com pura malícia consciente, e ele ocasionalmente rosna palavras guturais na língua dos orcs.
 
@@ -22528,11 +22552,11 @@ O Warg recebe
 
 C. Lobo do Éter (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Criaturas que caçam nas fronteiras da realidade. Eles se alimentam não apenas de carne, mas da energia potencial de suas vítimas. Magos cobiçam seus couros para fazer capas de invisibilidade, mas caçá-los é perigoso: eles podem desaparecer e surgir dentro da sua própria casa enquanto você dorme.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 De longe, parece um lobo albino, mas de perto, sua forma é instável. Seu corpo é feito de neblina azulada e luz estelar, tremeluzindo como uma miragem. Ele não deixa pegadas na neve e não faz som algum ao correr. Quando morde, seus dentes atravessam armaduras como se fossem feitos de fumaça sólida.
 
@@ -22578,11 +22602,11 @@ Vantagem no Ataque
 
 A. Goblin Batedor (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Como baratas, onde você vê um goblin, há cem nas paredes. Eles formam tribos nômades que vivem de saquear o lixo de civilizações maiores. Sua cultura é baseada na covardia como virtude: quem foge hoje vive para roubar amanhã.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um humanoide franzino de um metro de altura, com pele verde-icterícia coberta de verrugas e cicatrizes. Orelhas pontudas e rasgadas se movem independentemente. Veste trapos de couro roubados de crianças humanas e carrega uma cimitarra enferrujada lambuzada de fezes para infectar feridas.
 
@@ -22608,7 +22632,7 @@ O Goblin pode realizar a ação de
 
 Esconder-se
 
-como uma 1 Ação \[L\] no final de seu turno.
+como uma 1 Ação [L] no final de seu turno.
 
 #### Cimitarra Enferrujada:
 
@@ -22628,11 +22652,11 @@ por 1 hora, impedindo uso de Ações Múltiplas).
 
 B. Goblin Xamã (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Nascidos com uma conexão distorcida com os espíritos da terra, esses goblins são temidos até por seus chefes. Eles conversam com cogumelos venenosos e ratos mortos, aprendendo segredos sombrios e magias de fogo instável.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Curvado sob o peso de colares feitos de dedos de inimigos e crânios de corvos. Seus olhos são brancos de catarata ou virados em um transe perpétuo. Fumaça verde sai de suas narinas, e o ar ao seu redor cheira a enxofre e ozônio.
 
@@ -22666,11 +22690,11 @@ Toca um goblin e cura
 
 C. Goblin Chefe (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um goblin que sobreviveu o suficiente para ficar gordo. Ele chegou ao topo matando seus rivais enquanto dormiam. Governa pelo medo e pela promessa de saque, mantendo uma guarda de elite de hobgoblins ou wargs.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Obeso e grotesco, sentado em um trono de lixo. Usa uma armadura de placas amassada que claramente pertencia a um anão morto. Sua voz é um guincho autoritário que faz seus subordinados tremerem e lutarem com desespero suicida.
 
@@ -22710,11 +22734,11 @@ Enquanto o Chefe estiver vivo e consciente, todos os Goblins a 9m ganham
 
 A. Urso Pardo (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O monarca das florestas temperadas. Aldeões o chamam de "O Velho da Montanha" e deixam oferendas de mel e peixe para evitar sua ira. Um urso não é mau, mas é territorial e possui força suficiente para arrancar a cabeça de um cavalo com um tapa.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma torre de 3 metros de altura quando se levanta nas patas traseiras. Sua pelagem é uma manta espessa de marrom-escuro, marcada por cicatrizes de batalhas contra outros machos. Seu rugido é um som físico que vibra no esterno de quem ouve.
 
@@ -22746,11 +22770,11 @@ Conflito +3, Resistência +3, Interação 0.
 
 B. Urso-Coruja (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O resultado trágico de experimentos etéricos antigos que escaparam para a natureza. Combinando a visão noturna e o bico predador de uma coruja com a massa muscular e agressividade de um urso, eles dizimaram ecossistemas inteiros e agora reinam como superpredadores.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma quimera confusa aos olhos: o corpo robusto de um urso coberto de penas grossas e oleosas. Sua cabeça é a de uma coruja titânica, girando 180 graus com olhos negros e sem alma. O bico estala como uma armadilha de aço.
 
@@ -22788,11 +22812,11 @@ Teste Global de Físico + Resistência + Nível (DC 19)
 
 C. Urso das Cavernas (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um sobrevivente de uma era primordial mais violenta. Estes ursos habitam o Subterrâneo profundo, competindo com monstros muito mais mágicos. Eles desenvolveram carapaças ósseas e uma agressividade sem fim.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Muito maior que um urso comum, com placas de osso calcificado protegendo seus ombros e cabeça. Seus olhos são brancos e cegos, adaptados para sentir vibração e calor.
 
@@ -22830,11 +22854,11 @@ automaticamente (ver Condições).
 
 A. Salteador (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Nem todo monstro tem garras. A fome, a guerra e a ganância transformam camponeses e soldados em lobos de estrada. Eles não lutam por honra, mas pela próxima refeição ou pela próxima bebedeira.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Homens e mulheres com rostos sujos de fuligem para se esconder na noite. Vestem armaduras de couro remendadas e capas cinzentas. Seus olhos dardejam nervosamente, avaliando o valor do seu equipamento.
 
@@ -22860,11 +22884,11 @@ Conflito +1, Resistência +1, Interação +1.
 
 B. Besteiro Mercenário (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Desertores de exércitos reais que levaram suas armas consigo. Profissionais frios que preferem matar à distância e nunca ver o rosto da vítima. Geralmente trabalham como cobertura para os salteadores.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Vestido com cores camufladas e capuz. Carrega uma besta pesada com a familiaridade de um amante. Mantém-se sempre nas sombras ou em terreno elevado, mastigando fumo para acalmar os nervos.
 
@@ -22890,11 +22914,11 @@ Conflito +1, Resistência +1, Interação +1.
 
 C. Capitão Bandido (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um nobre caído, um cavaleiro desgraçado ou um gênio do crime. O Capitão tem carisma para liderar assassinos e habilidade para duelar com heróis. Ele criou um "reino" próprio nas estradas, cobrando pedágio de sangue.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Usa roupas finas, porém gastas, sob uma cota de malha polida. Uma capa de veludo vermelho e um chapéu com pluma o distinguem da ralé. Seu sorriso é encantador e cruel na mesma medida.
 
@@ -22932,11 +22956,11 @@ contra um ataque corpo a corpo que o atingiria.
 
 A. Orc Grunt (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Guerreiros nascidos para a conquista. Para um orc, a paz é uma doença e a batalha é a única cura. Eles marcham em hordas disciplinadas, buscando terras férteis e inimigos dignos para matar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um humanoide de pele verde-musgo, com presas inferiores proeminentes que rasgam seus lábios. Coberto de cicatrizes rituais e vestindo peles de lobo. Sua arma é bruta, pesada e enferrujada, feita para esmagar ossos.
 
@@ -22968,11 +22992,11 @@ para se mover até sua velocidade em direção a um inimigo hostil (1x por turno
 
 B. Orc Berserker (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Orcs que beberam sangue de demônio ou entraram em um transe de batalha sem volta. Eles são mantidos acorrentados até a hora da luta, pois atacam qualquer coisa que se mova.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Nu da cintura para cima, exibindo pinturas de guerra vermelhas e brancas. Seus olhos estão virados, mostrando apenas o branco, e espuma escorre de sua boca. Ele não sente dor, apenas fúria.
 
@@ -23006,11 +23030,11 @@ Se for reduzido a 0 HP, ele
 
 C. Olho de Gruumsh (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Os líderes religiosos da horda. Eles arrancam o próprio olho em homenagem ao deus caolho, ganhando em troca visões proféticas de carnificina e o poder de conjurar a ira divina.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Veste mantos de couro humano e carrega uma lança votiva decorada com olhos secos. Uma órbita vazia sangra perpetuamente. Sua voz soa como pedras sendo moídas.
 
@@ -23052,11 +23076,11 @@ Teste Global de Mental + Resistência + Nível (DC 18)
 
 A. Kobold Lacaio (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Adoradores fanáticos de dragões antigas. Eles acreditam que, se acumularem ouro suficiente para seu mestre, renascerão como dragões na próxima vida. Trabalham incansavelmente em minas e túneis.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pequeno, reptiliano, com escamas cor de cobre e focinho de cachorro. Move-se com uma energia nervosa e constante, sempre olhando para trás.
 
@@ -23084,11 +23108,11 @@ se tiver aliado adjacente ao alvo.
 
 B. Kobold Escudeiro (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Os defensores da colônia. Eles formam paredes de escudos para proteger os caminhos estreitos de seus lares subterrâneos, segurando invasores enquanto armadilhas são ativadas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Usa um casco de tartaruga gigante ou carapaça de besouro como escudo. É ligeiramente maior que os outros e tem cicatrizes de mordidas no focinho.
 
@@ -23116,11 +23140,11 @@ Pode usar Reação para receber o dano no lugar de um aliado adjacente.
 
 C. Kobold Inventore (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Os "gênios" da tribo. Sem magia ou força, eles usam alquimia instável e insetos perigosos como armas. Metade deles morre em suas próprias explosões antes de chegar à idade adulta.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Carrega uma mochila enorme cheia de potes vibrantes, gaiolas com escorpiões e molas soltas. Ri histericamente enquanto acende pavios.
 
@@ -23146,11 +23170,11 @@ Conflito -1, Resistência +1, Interação +4.
 
 A. Rato Gigante (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Esgotos de grandes cidades escondem horrores alimentados por lixo alquímico. Estes ratos cresceram até o tamanho de mastins, perdendo o medo dos homens e ganhando um apetite por carne fresca.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pelagem suja e oleosa, com falhas mostrando pele escamosa. Dentes incisivos amarelos do tamanho de adagas.
 
@@ -23172,11 +23196,11 @@ por 1 hora se Teste Global de Físico + Resistência + Nível (DC 12) (10 + Nv 1
 
 B. Enxame de Ratos (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma massa de centenas de ratos comuns que se movem e pensam como um só organismo faminto. Eles cobrem o chão, subindo pelas pernas e mordendo em mil pontos simultâneos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um tapete vivo de pelos cinzentos e caudas rosadas que chia e se contorce. O som de milhares de patas arranhando a pedra é enlouquecedor.
 
@@ -23208,11 +23232,11 @@ Consegue afastar os ratos ou saltar para fora do caminho, não sofrendo dano.
 
 C. Rato-Lâmina (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um experimento falho de necromantes ou engenheiros. Metal e lâminas enferrujadas foram fundidos cirurgicamente à carne do rato gigante, tornando-o uma arma viva de dor.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Cicatrizares grosseiras onde placas de ferro foram rebitadas na pele. Sua cauda foi substituída por uma lâmina serrilhada.
 
@@ -23242,11 +23266,11 @@ Sangramento
 
 A. Águia Gigante (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Sentinelas das montanhas altas. Elas entendem a língua comum e muitas vezes se aliam a elfos ou druidas, servindo como montarias e guardiãs em troca de proteção para seus ninhos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Envergadura de 6 metros, penas douradas que brilham ao sol. Olhos inteligentes que julgam a alma de quem olham.
 
@@ -23266,11 +23290,11 @@ Conflito +2, Resistência +1, Interação +2.
 
 B. Falcão de Sangue (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Pássaros carnívoros vermelhos que aprenderam que humanoides são saborosos. Eles caçam em bandos, focando nos olhos e gargantas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pequenos, ágeis e da cor de sangue coagulado. Seus bicos são pretos e afiados como agulhas.
 
@@ -23294,11 +23318,11 @@ Se verem sangue, recebem
 
 C. Grifo Jovem (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma besta que ainda não atingiu o tamanho colossal dos adultos, mas já é perigosa o suficiente para matar cavalos. Eles são impulsivos e temerários.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 A parte de leão ainda tem manchas de filhote, e as penas são mal formadas, mas o tamanho já é de um tigre.
 
@@ -23322,11 +23346,11 @@ Conflito +4, Resistência +3, Interação +1.
 
 A. Javali Selvagem (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A fúria da natureza em quatro patas. Territoriais ao extremo, atacam qualquer coisa que entre em seu domínio, desde lobos até carroças blindadas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa compacta de músculos e cerdas duras. Presas curvas saem da boca, afiadas o suficiente para rasgar cota de malha.
 
@@ -23346,11 +23370,11 @@ Conflito +2, Resistência +3, Interação -1.
 
 B. Javali do Trovão (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Javalis que sobreviveram a raios ou comeram frutas mágicas carregadas de estática. Eles correm tão rápido que deixam um rastro de ozônio.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 O pelo é arrepiado e crepita com faíscas azuis. Seus olhos piscam como relâmpagos.
 
@@ -23370,11 +23394,11 @@ Conflito +3, Resistência +2, Interação 0.
 
 C. Besta de Carga (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma espécie gigante de javalis criados pelos orcs para derrubar portões de castelos. Eles são literalmente aríetes vivos de carne e osso.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Do tamanho de um rinoceronte, coberto por couro grosso como armadura.
 
@@ -23400,11 +23424,11 @@ Teste Global de Físico + Resistência + Nível (DC 19)
 
 A. Cobra Constritora (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Mora em pântanos e florestas tropicais. Caça caindo das árvores sobre suas presas, esmagando o ar de seus pulmões antes que possam gritar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Cinco metros de escamas verdes e marrons perfeitamente camufladas. Grossa como o tronco de uma árvore jovem.
 
@@ -23422,11 +23446,11 @@ Conflito +3, Resistência +2, Interação 0.
 
 B. Naja Real (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Guardiã de tumbas antigas no deserto. Seu veneno é sagrado para cultos da morte. Ela cospe nos olhos para cegar antes de morder.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Escamas douradas e negras. Seu capelo se expande revelando um desenho que parece um olho.
 
@@ -23448,11 +23472,11 @@ Teste Global de Físico + Resistência + Nível (DC 16)
 
 C. Basilisco Jovem (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma cobra com pernas de lagarto cujo olhar começa a petrificar a carne. Ainda não dominou o poder total, mas já é letal.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Oito pernas curtas, escamas cinzentas. Seus olhos brilham verde.
 
@@ -23476,7 +23500,7 @@ Teste Global de Físico + Resistência + Nível (DC 19)
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\07\_01b\_Tier1\_Sobrenatural.md
+Arquivo: M04_DESAFIOS\07_01b_Tier1_Sobrenatural.md
 
 Pandorha: Bestiário Narrativo Vol. 1B - O Sobrenatural (Níveis 1-5)
 
@@ -23490,11 +23514,11 @@ Este tomo apresenta as criaturas sobrenaturais com estatísticas completas para 
 
 A. Esqueleto Guerreiro (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Eles não são cadáveres quaisquer; são soldados que morreram em batalha e cujas almas ficaram presas à disciplina militar. Eles não sentem medo, dor ou dúvida. Mantêm a formação de escudo perfeitamente alinhada mesmo enquanto seus corpos são quebrados, e executam ordens complexas deixadas por generais mortos há séculos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Ossos amarelados limpos de qualquer vestígio de carne, unidos por magia negra invisível. Vestem restos de armaduras enferrujadas e tabardos desbotados de reinos esquecidos. As órbitas vazias ardem com pontinhos de luz vermelha que seguem os vivos com ódio frio. Movem-se com tiques mecânicos, produzindo um som de "clac-clac" enervante.
 
@@ -23530,11 +23554,11 @@ de armas de Esmagamento (Vulnerável).
 
 B. Esqueleto Arqueiro (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Em vida, eram batedores e caçadores de elite. Na morte, tornaram-se sentinelas incansáveis que vigiam as muralhas de fortalezas negras. Eles não enxergam com olhos, mas sentem a pulsação da vida à distância, disparando flechas de osso com precisão sobrenatural.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Mais leves e ágeis que os guerreiros, com ossos porosos manchados de terra e musgo. Carregam arcos feitos de madeira podre ou costelas curvas. Preferem locais elevados, ficando imóveis como gárgulas até o momento do disparo.
 
@@ -23560,11 +23584,11 @@ Conflito +1, Resistência +1, Interação -2.
 
 C. Guarda de Elite (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Os restos mortais de paladinos caídos ou guardas reais juramentados. Sua lealdade era tão forte que nem a morte a quebrou. Guardam tumbas de reis antigos e tesouros malditos, recusando-se a deixar seus postos mesmo quando o teto desaba sobre eles.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Imponente e assustador, com quase 2 metros de altura. Usa uma armadura de placas completa, polida magicamente para brilhar nas trevas, e empunha um escudo torre pesado. Sua voz, quando fala, é metálica e oca, ecoando como se viesse de dentro de um barril de ferro.
 
@@ -23604,11 +23628,11 @@ Cobertura Total
 
 A. Zumbi Pútrido (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O degrau mais baixo da necromancia. Corpos recém-enterrados reanimados sem alma, movidos apenas por uma fome mágica insaciável. Eles são lentos e estúpidos, mas implacáveis; se você cortar um ao meio, a parte de cima continuará rastejando para morder seu tornozelo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele cinza-esverdeada rasgada em vários pontos, com vermes brancos expostos na carne. Um gemido molhado e constante escapa de suas gargantas. O cheiro é adocicado e insuportável, uma mistura de flores de funeral e carne estragada.
 
@@ -23646,11 +23670,11 @@ Vulnerável a Radiante (+1d6 Dano)
 
 B. Zumbi Inchado (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Crias de pântanos ou esgotos, cheios de gases da decomposição e alquimia vil. Necromantes os usam como "bombas biológicas" para quebrar linhas de defesa inimigas, pois matá-los é tão perigoso quanto deixá-los viver.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Grotescamente obeso, com a pele translúcida e esticada ao limite. Um brilho verde doentio pulsa em sua barriga. Líquido necrótico vaza constantemente de seus orifícios.
 
@@ -23682,11 +23706,11 @@ Teste Global de Físico + Resistência + Nível (DC 14)
 
 C. Corredor (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Cadáveres muito frescos reanimados com rituais de adrenalina e ódio concentrado. Eles não sofrem o rigor mortis; pelo contrário, seus músculos estão em espasmo perpétuo. Caçam em bandos como lobos mortos-vivos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Olhos injetados de sangue negro, veias saltadas por todo o corpo. Corre de quatro apoios como um animal, com movimentos bruscos e erráticos que dificultam a mira.
 
@@ -23720,11 +23744,11 @@ que deve ser usada exclusivamente para Mover (Totalizando 4 Ações no turno).
 
 A. Aranha Gigante (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Predadores perfeitos crescidos por magia selvagem nas profundezas das florestas antigas. Elas não distinguem um cervo de um elfo; ambos são apenas pacotes de comida quente para serem estocados em suas teias pegajosas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Quitina negra e brilhante coberta de pelos sensoriais rígidos. Possui 8 olhos sem alma que refletem a luz e mandíbulas que gotejam veneno verde. Move-se pelas paredes com um som de arranhar seco.
 
@@ -23760,11 +23784,11 @@ veneno à metade).
 
 B. Tecelã de Fase (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Aranhas raras que aprenderam a caçar entre os planos Material e Etéreo. Elas surgem do nada para dar o golpe fatal e desaparecem antes que a espada do inimigo possa tocá-las. Magos pagam fortunas por sua seda.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Cores iridescentes mudam conforme o ângulo de visão. Seu corpo parece tremeluzir como uma imagem falha ou uma miragem.
 
@@ -23786,7 +23810,7 @@ Conflito +3, Resistência +2, Interação 0.
 
 #### Passiva - Salto Etéreo:
 
-Pode usar 1 Ação \[L\] para ficar invisível e intangível até o início do seu próximo turno.
+Pode usar 1 Ação [L] para ficar invisível e intangível até o início do seu próximo turno.
 
 #### Picada Dimensional:
 
@@ -23800,11 +23824,11 @@ na sua CA contra este ataque (Toque).
 
 C. Rainha do Ninho (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma aranha antiga que viveu séculos consumindo aventureiros e monstros. Comanda o enxame como uma general, usando telepatia primitiva. Seu covil é um labirinto tridimensional de seda branca.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Enorme (Tamanho Grande), com o abdômen inchado e pulsante cheio de ovos. Suas patas são blindadas com quitina grossa como aço.
 
@@ -23844,11 +23868,11 @@ Teste Global de Físico + Resistência + Nível (DC 20)
 
 A. Carniçal Faminto (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Humanos que cometeram o tabu do canibalismo e foram amaldiçoados por deuses da morte. Mantêm uma inteligência astuta e memórias de sua vida, mas são escravos biológicos de uma fome que nunca passa.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Emaciado, com membros alongados e dedos que terminam em garras de osso. A língua é preta e comprida, lambendo dentes que foram lixados até virarem agulhas.
 
@@ -23890,11 +23914,11 @@ Imobilizado
 
 B. Carniçal Rastejante (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma variante adaptada para viver em criptas apertadas e tubulações. Seus membros foram quebrados e curados de forma errada para permitir movimentos impossíveis. Eles caem do teto sobre suas vítimas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Seus joelhos e cotovelos dobram para ambos os lados. Tem ventosas de carne nas palmas das mãos e pés.
 
@@ -23920,11 +23944,11 @@ e o Carniçal tem uma ação de Ataque extra gratuita.
 
 C. Ghast (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um lorde entre os carniceiros. Quando um ghoul consome carne suficiente de heróis ou nobres, ele evolui. Exala um cheiro de morte tão potente que faz os vivos vomitarem e ficarem indefesos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Maior e mais musculoso que seus primos, com a pele úmida e pálida que emite um vapor visível de podridão.
 
@@ -23962,11 +23986,11 @@ em todos os testes e ataques (Envenenado).
 
 A. Geleia Ocre (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma colônia ácida com mente coletiva primitiva. Elas limpam masmorras de toda matéria orgânica, deixando apenas pedra e metal limpos. Não podem ser mortas por cortes simples.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma poça de lodo amarelo-mostarda que escorre pelas paredes e pelo teto, desafiando a gravidade.
 
@@ -23998,11 +24022,11 @@ Imune a Corte
 
 B. Cubo Gelatinoso (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O predador perfeito de corredores de masmorra. Sua transparência é sua maior arma; aventureiros distraídos costumam andar diretamente para dentro dele, onde são digeridos vivos enquanto flutuam paralisados.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um cubo perfeito de 3x3 metros de gelatina transparente. Olhando de perto, pode-se ver ossos, moedas e armas de vítimas anteriores flutuando em seu interior.
 
@@ -24036,11 +24060,11 @@ Teste Global de Físico + Resistência + Nível (DC 18)
 
 C. Pudim Negro (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O limo supremo. Ao contrário dos outros, possui uma inteligência maligna e odeia a vida. Seu ácido é tão potente que dissolve metal e magia em segundos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa de piche negro borbulhante que parece absorver a luz ao seu redor.
 
@@ -24072,11 +24096,11 @@ Armas não-mágicas de metal toque tocam nele derretem (recebem penalidade de -1
 
 A. Sombra (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A sombra de alguém que morreu de medo extremo, ganhando vida própria. Elas se alimentam da força vital dos vivos, transformando campeões em fracos trêmulos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma silhueta bidimensional negra que desliza pelas superfícies, mas que pode se erguer no ar como um rasgo na realidade.
 
@@ -24108,11 +24132,11 @@ temporariamente (recupera no descanso). Se Força chegar a 0, morre.
 
 B. Espectro (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A alma de alguém que morreu com ódio violento e inacabado. Odeiam a luz do sol e qualquer lembrança de vida. Sua mera presença suga a vontade de viver.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um fantasma translúcido cinza, flutuando sem pés. Seu rosto é uma máscara de fúria contorcida.
 
@@ -24146,11 +24170,11 @@ pelo mesmo valor do dano.
 
 C. Banshee (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O espírito de uma mulher nobre corrompida pela vaidade e egoísmo. Ela foi amaldiçoada a lamentar eternamente sua própria beleza perdida. Ouvir seu grito é a morte certa.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma figura feminina flutuante, bela mas terrível, com cabelos flutuando em água invisível e rosto distorcido em um grito eterno.
 
@@ -24188,11 +24212,11 @@ Sofre metade do dano e não fica Abalado.
 
 A. Iniciado (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Aldeões comuns seduzidos pela promessa de poder fácil ou proteção. Eles são descartáveis para seus mestres e sabem disso, lutando com o desespero de quem não tem volta.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Vestem túnicas simples com capuz para esconder o rosto. Carregam adagas rituais tortas e têm símbolos profanos marcados na pele.
 
@@ -24212,11 +24236,11 @@ Conflito +1, Resistência 0, Interação +1.
 
 B. Fanático (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Membros do culto que passaram pelos ritos de iniciação sangrentos. Sua mente foi quebrada e reconstruída para lealdade absoluta. Eles lutam com uma fúria suicida, ignorando ferimentos mortais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Cobertos de cicatrizes rituais e escarificações. Seus olhos são vidrados de loucura. Murmuram orações constantes para entidades sombrias.
 
@@ -24242,11 +24266,11 @@ Infligir Ferimentos
 
 C. Mestre do Pacto (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um líder que fez contato direto com demônios ou deuses antigos. Ele vendeu sua alma por poder etérico real e comanda a célula do culto com mão de ferro e magia negra.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Veste mantos de seda negra e carrega um cajado feito de ossos humanos. Uma aura de frio o cerca.
 
@@ -24284,11 +24308,11 @@ Conflito +3, Resistência +3, Interação +5.
 
 A. Harpia (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Seres amaldiçoados pela vaidade ou criados por deuses do vento furiosos. Elas vivem em penhascos costeiros e usam seu canto mágico para atrair viajantes para a morte nas pedras.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Corpo de abutre sujo com o rosto de uma velha enrugada e perversa. Suas garras estão sempre incrustadas de sangue seco.
 
@@ -24322,11 +24346,11 @@ Teste Global de Mental + Resistência + Nível (DC 16)
 
 B. Sirena (Nível 4)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Primas aquáticas das harpias que caçam marinheiros. Elas não querem apenas carne; elas querem afogar a esperança. Constroem seus ninhos em naufrágios.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Belas de longe, monstruosas de perto. Têm penas azuis oleosas e guelras no pescoço.
 
@@ -24358,11 +24382,11 @@ ficam Atordoados.
 
 C. Matriarca dos Ventos (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A rainha do ninho, abençoada com o controle sobre o clima. Ela pode convocar tempestades localizadas para derrubar navios ou caravanas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Usa uma coroa feita de ossos de dedos e suas asas são negras como nuvens de tempestade.
 
@@ -24392,11 +24416,11 @@ Conflito +4, Resistência +3, Interação +4.
 
 A. Pixie (Nível 1)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Espíritos da natureza minúsculos e travessos. Eles não entendem o conceito de propriedade ou mortalidade, pregando peças que podem ser fatais para humanos sem querer.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Apenas 30cm de altura, com asas de inseto brilhantes (borboleta ou libélula). Deixam rastro de pó dourado por onde passam e sua pele brilha suavemente à noite.
 
@@ -24416,7 +24440,7 @@ Físico -2, Mental +3, Social +3.
 
 Conflito 0, Resistência 0, Interação +3.
 
-Pode ficar Invisível à vontade (1 Ação \[L\]).
+Pode ficar Invisível à vontade (1 Ação [L]).
 
 Pó Mágico: Alcance 3m. Alvo faz
 
@@ -24438,11 +24462,11 @@ Sono Profundo (Exige 1 Ação de aliado para acordar, além de dano).
 
 B. Sprite de Guerra (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Os guardiões militantes das florestas feéricas. Eles levam a proteção da natureza a sério e atacam lenhadores ou invasores com venenos de sono.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Vestem armaduras feitas de carapaças de besouro e carregam espadas finas como agulhas. Seus rostos são belos, mas duros e sem piedade.
 
@@ -24474,11 +24498,11 @@ por 1 hora ou até sofrer dano).
 
 C. Dríade (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um espírito ligado à alma de uma árvore antiga (geralmente um carvalho). Se a árvore morre, ela morre. Ela pode encantar intrusos para servirem como adubo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Sua pele parece casca de árvore polida, e seus cabelos mudam de cor com as estações (verde, dourado, branco). Seus olhos são lagos profundos de verde antigo.
 
@@ -24500,7 +24524,7 @@ Físico +2, Mental +4, Social +4.
 
 Conflito +2, Resistência +4, Interação +5.
 
-Teleporte entre árvores (1 Ação \[L\]).
+Teleporte entre árvores (1 Ação [L]).
 
 Teste Global de Mental + Interação + Nível (DC 19)
 
@@ -24518,11 +24542,11 @@ Teste Global de Mental + Interação + Nível (DC 19)
 
 A. Espantalho (Nível 2)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Bonecos de palha animados por espíritos malignos ou bruxas para vigiar campos. Eles não sentem dor e não param até que sejam queimados ou desmembrados. Seu olhar pode paralisar corvos e homens de medo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um boneco tosco cheio de palha seca, vestindo roupas de fazendeiro podres. Sua cabeça é um saco de estopa costurado ou uma abóbora murcha esculpida com um sorriso cruel. Move-se de forma espasmódica e antinatural.
 
@@ -24560,11 +24584,11 @@ por 1 minuto (Teste novo no fim de cada turno).
 
 B. Armadura Animada (Nível 3)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma armadura vazia movida por magia. Frequentemente guardam corredores de castelos e tesouros de magos, fingindo ser decoração até atacarem. Elas seguem ordens literalmente e lutam até serem destruídas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma armadura de placas completa antiga, mas sem ninguém dentro. Ouve-se o rangido de metal contra metal e o som oco quando ela se move. Elmos vazios que parecem olhar para você.
 
@@ -24590,11 +24614,11 @@ RD 5 (Corte)
 
 C. Gárgula de Bronze (Nível 5)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma construção mais cara e letal que a gárgula de pedra, feita de metal puro. Usada por magos ricos e artífices paranóicos. Diferente da pedra, o metal é mais ágil e resistente.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma estátua alada feita de bronze polido ou oxidado (verde-azulado). Engrenagens e pistões mágicos podem ser ouvidos zumbindo em seu interior. Seus olhos brilham como fornalhas vermelhas.
 
@@ -24626,7 +24650,7 @@ RD 8 (Dano Físico não-mágico)
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\07\_02a\_Tier2\_Feras\_e\_Gigantes.md
+Arquivo: M04_DESAFIOS\07_02a_Tier2_Feras_e_Gigantes.md
 
 Pandorha: Bestiário Narrativo Vol. 2A - Feras e Gigantes (Níveis 6-10)
 
@@ -24644,11 +24668,11 @@ Este tomo apresenta feras de nível médio com fichas táticas detalhadas e desc
 
 A. Ogro Guerreiro (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Brutos nômades que comem qualquer coisa, incluindo pedras, ursos e aventureiros. Não têm cultura escrita, apenas histórias orais de quem comeu mais. Trabalham frequentemente como mercenários, aceitando pagamento em carne humanoide e ouro brilhante (que usam como decoração, não moeda).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 3 metros de altura, com uma barriga proeminente e pele amarelada coberta de verrugas duras como seixos. O cheiro de gordura rançosa é nauseante a metros de distância. Veste peles mal curtidas e carrega troféus pendurados no cinto.
 
@@ -24686,11 +24710,11 @@ Teste Global de Físico + Resistência + Nível (DC 21)
 
 B. Ogro Magi (Oni) (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A elite inteligente da raça. Nascem com chifres, pele colorida e aptidão mágica natural. Eles escravizam tribos de ogros comuns e se infiltram em cidades humanas usando ilusões para sequestrar crianças ou manipular lordes locais. São cruéis, refinados e canibais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele azul ou vermelha profunda, com dois chifres de marfim na testa. Veste armaduras de lamelas orientais ou roupas de seda fina. Seus olhos brilham com um intelecto afiado e maligno.
 
@@ -24734,11 +24758,11 @@ Teste Global de Físico + Conflito + Nível (DC 21)
 
 C. Lorde Ogro (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um "Rei da Montanha". Geralmente um ogro que cresceu tanto e comeu tanto que se tornou uma força da natureza. Governa uma fortaleza feita de ossos e pedra bruta. Sua fome é lendária; dizem que pode comer um cavalo inteiro em uma refeição.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma montanha de carne de 4 metros e meio. Usa uma armadura improvisada feita de escudos de cavaleiros amassados e costurados com correntes de âncora.
 
@@ -24794,11 +24818,11 @@ se o dano causador for
 
 A. Troll da Caverna (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um pesadelo que não morre. Sua biologia mutante fecha feridas em tempo real. Eles atacam sem medo da morte, pois sabem que seus membros amputados irão crescer novamente. Temem apenas o fogo e o ácido, que cauterizam sua carne.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Alto, magro e desengonçado, com braços longos que arrastam no chão enquanto anda curvado. Sua pele é verde, borrachuda e coberta de fungos.
 
@@ -24832,11 +24856,11 @@ Vulnerável a Fogo (+1d6 Dano)
 
 B. Troll do Rio (Nível 7)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma subespécie adaptada à água doce. Eles espreitam sob pontes ou em águas turvas, puxando viajantes para o fundo para afogá-los e armazená-los em tocas submersas (comida estragada é sua favorita).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele azul-esverdeada escamosa, guelras no pescoço e membranas entre os dedos. Cheira a peixe podre e lodo.
 
@@ -24872,11 +24896,11 @@ e será puxado para baixo (Submerso). O alvo deve prender a respiração (1 + Mo
 
 C. Troll de Pedra (Nível 9)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Trolls que evoluíram nas profundezas da terra ingerindo minerais raros. Sua pele tornou-se rocha viva. São menos ágeis, mas quase indestrutíveis por armas comuns.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele cinza rachada que parece granito vivo. Seus dentes e garras parecem feitos de cristal bruto. Quando se move, range como pedras moendo.
 
@@ -24910,11 +24934,11 @@ Arremesso 30m. +16. Dano
 
 A. Hipogrifo (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O cruzamento mágico entre um cavalo e uma águia. Apesar de serem predadores carnívoros, podem ser domesticados se criados desde o ovo. São montarias leais, porém temperamentais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 A parte traseira é de um cavalo castanho ou cinza, enquanto a dianteira (cabeça, asas, patas da frente) é de uma águia gigante com plumagem real.
 
@@ -24940,11 +24964,11 @@ Conflito +4, Resistência +2, Interação +1.
 
 B. Grifo Real (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A verdadeira realeza dos céus. O Grifo tem o corpo de um leão (o rei das feras) e a cabeça de uma águia (o rei dos céus). Eles caçam cavalos e hipogrifos por esporte e defendem seus ninhos com fúria suicida.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Musculoso e majestoso. Penas douradas na cabeça e peito, transicionando para pelo de leão fulvo na traseira.
 
@@ -24974,11 +24998,11 @@ Conflito +5, Resistência +4, Interação +2.
 
 C. Grifo da Tempestade (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Grifos tocados pela magia elemental do ar e do raio. Eles fazem seus ninhos nos picos mais altos onde os raios caem constantemente. Voam dentro de furacões sem se ferir.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Penas azul-escuras ou negras, com estática correndo por suas pontas. Seus olhos são brancos e brilhantes.
 
@@ -25020,11 +25044,11 @@ Teste Global de Físico + Resistência + Nível (DC 27)
 
 A. Wyvern Verde (Nível 7)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Primos distantes e degenerados dos dragões. Eles não têm o sopro nem a inteligência dos dragões, mas compensam com um instinto predatório puro e um ferrão venenoso na cauda. São os tubarões do céu.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Bípede (usa as asas como patas dianteiras ao andar), com um pescoço longo e serpentino. Sua cauda termina em um aguilhão grosso como o de um escorpião.
 
@@ -25056,11 +25080,11 @@ veneno à metade).
 
 B. Wyvern de Sangue (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma mutação agressiva encontrada em desertos e planícies vulcânicas. Entram em frenesi ao cheiro de sangue, atacando até mesmo coisas muito maiores que eles.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Escamas vermelhas escuras, com espinhos negros ao longo da espinha. Seus olhos são amarelos e dilatados.
 
@@ -25086,11 +25110,11 @@ contra alvos que não estejam com HP cheio (feridos).
 
 C. Wyvern Alpha (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O patriarca ou matriarca de um grande ninho. Cresceu o suficiente para ser confundido com um dragão jovem. Sua inteligência é rudimentar, mas ele sabe coordenar o bando.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Enorme, com escamas negras cheias de cicatrizes de batalhas antigas. Suas asas criam ventanias quando batem.
 
@@ -25138,11 +25162,11 @@ veneno à metade).
 
 A. Minotauro (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Criaturas amaldiçoadas nascidas da união profana entre humanoides e demônios bovinos. São obcecados por labirintos e confusão. Caçam intrusos não por fome, mas para oferecê-los em sacrifício.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um humanoide musculoso gigantesco com cabeça e cauda de touro. Pêlo cobre seu corpo.
 
@@ -25168,11 +25192,11 @@ Nunca se perde em labirintos ou subterrâneos.
 
 B. Guardião de Aço (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Minotauros veteranos que foram equipados com armaduras pesadas por senhores das trevas ou que saquearam arsenal de gigantes. São tanques de guerra vivos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Veste armadura de placas negra completa feita sob medida. Seus chifres são revestidos de metal afiado.
 
@@ -25200,11 +25224,11 @@ Conflito +6, Resistência +5, Interação 0.
 
 C. Profeta da Besta (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um xamã minotauro que canaliza o poder do Labirinto Infinito. Ele pode distorcer a pedra e confundir a mente dos inimigos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Veste mantos rituais sobre o pelo, com runas gravadas em seus chifres que brilham com luz roxa.
 
@@ -25236,11 +25260,11 @@ Parede de Pedra
 
 A. Basilisco Comum (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma aberração alquímica que escapou para a natureza. Seu metabolismo converte matéria orgânica em pedra para digestão lenta. Apenas o suco do seu estômago pode reverter a petrificação (se a vítima ainda estiver inteira).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um lagarto corpulento de oito patas, com escamas da cor de pedra e olhos verdes brilhantes que parecem lanternas.
 
@@ -25274,11 +25298,11 @@ Petrificado
 
 B. Basilisco Maior (Nível 9)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma variante maior cujo veneno se tornou ácido corrosivo capaz de derreter a pedra que ele cria.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Possui espinhas dorsais vermelhas e saliva fumegante.
 
@@ -25310,11 +25334,11 @@ Teste Global de Físico + Conflito + Nível (DC 26)
 
 C. Basilisco Real (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O rei das serpentes. Dizem que nasceu de um ovo de galinha chocado por uma rã. Seu olhar não apenas petrifica, mas pode matar instantaneamente.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Possui uma crista dourada na cabeça que lembra uma coroa. É menor, mas muito mais letal que os outros.
 
@@ -25348,11 +25372,11 @@ Teste Global de Físico + Resistência + Nível (DC 25)
 
 A. Yeti (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O predador alfa das montanhas nevadas. Viajantes ouvem seus uivos ecoando nos vales antes de serem emboscados. Sua pelagem é valorizada por proteger contra qualquer frio.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Bípede peludo branco, com garras negras e dentes feitos de gelo mágico. Seus olhos queimam como fogo azul.
 
@@ -25390,11 +25414,11 @@ por 1 turno (frio congela os músculos).
 
 B. Yeti Abominável (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um gigante solitário que ficou louco pelo isolamento e começou a caçar e comer outros yetis. Cresceu desproporcionalmente devido ao canibalismo mágico.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Tamanho Enorme. Sua pelagem tem crostas de sangue congelado e ele veste "armadura" feita de gelo glacial impenetrável.
 
@@ -25430,11 +25454,11 @@ Teste Global de Físico + Resistência + Nível (DC 25)
 
 C. Wendigo (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um espírito da fome insaciável que possuiu um humanoide que comeu carne humana no inverno. Não é mais uma besta, é uma maldição morta-viva.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Esquelético, pele cinza esticada, cabeça de cervo ou alce com chifres de osso. Flutua acima da neve sem deixar pegadas.
 
@@ -25476,11 +25500,11 @@ Restauração
 
 A. Elemental Menor (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Espíritos da terra primitivos invocados por magos novatos ou despertados por tremores sísmicos. Eles não possuem mente individual, funcionando como anticorpos do planeta para esmagar quem perturba o solo sagrado.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um amontoado de pedras, seixos, raízes e lama que se ergue magicamente em uma forma humanoide tosca de 2,5 metros. Não tem rosto, apenas fendas escuras que imitam olhos. Quando anda, o chão treme levemente.
 
@@ -25514,11 +25538,11 @@ Pode caminhar através de terra e pedra não-mágica como se fosse terreno difí
 
 B. Gargoula de Terra (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma arma de guerra criada por anões das profundezas ou magos de batalha. Eles descobriram como infundir elementais da terra com runas de levitação, criando bombardeiros vivos que caem do céu sobre exércitos inimigos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pedra lisa e aerodinâmica, esculpida para cortar o vento. Possui "asas" de pedra maciça que não batem, mas estabilizam seu voo mágico. Runas azuis brilham em seu peito.
 
@@ -25550,11 +25574,11 @@ Teste Global de Físico + Resistência + Nível (DC 25)
 
 C. Monolito Vivo (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Guardiões eternos de templos esquecidos. Podem ficar imóveis por milênios disfarçados de pilares ou estátuas até que uma palavra de comando seja violada ou um tesouro tocado. São a paciência da pedra encarnada.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma torre flutuante de placas geométricas de pedra que orbitam um núcleo de energia mágica. Quando ataca, as placas se alinham para formar punhos ou barreiras.
 
@@ -25586,11 +25610,11 @@ Teste Global de Físico + Resistência + Nível (DC 28)
 
 A. Elemental de Fogo (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Manifestações de pura destruição. Invocados do Plano do Fogo, eles odeiam a existência no mundo material porque sentem um frio constante. Eles queimam tudo o que tocam na tentativa desesperada de se aquecer.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma coluna de chamas vivas que assume vagamente a forma de um tronco humano com braços de chicote. Um rosto de puro ódio aparece e desaparece no meio das brasas.
 
@@ -25622,11 +25646,11 @@ Imune a Fogo
 
 B. Serpente de Magma (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Predadores nativos de vulcões ativos. Nadam na lava derretida como peixes na água e emergem para puxar vítimas para as profundezas incandescentes. São cultuadas por salamandras e cultistas do fogo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma cobra gigante feita de rocha derretida e crosta vulcânica negra que racha conforme ela se move. Sua boca goteja lava líquida que incendeia o chão.
 
@@ -25658,11 +25682,11 @@ Teste Global de Físico + Resistência + Nível (DC 24)
 
 C. Inferno Ambulante (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um nobre menor do Plano do Fogo. Ele não apenas queima; ele planeja, lidera táticas e comanda exércitos de chamas. Vê o mundo material como combustível para seu império de cinzas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante de 4 metros feito de fogo branco (o mais quente) cercado por uma "armadura" de fumaça negra sólida e metal derretido. Carrega uma espada feita de puro calor.
 
@@ -25698,11 +25722,11 @@ em área (Reação final).
 
 A. Elemental de Água (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Espíritos de rios revoltos e tempestades marinhas. São caóticos, inconstantes e implacáveis. Afogam marinheiros e inundam vilas costeiras por mero capricho, sem malícia real, apenas natureza.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma onda permanente mantida em forma humanoide por magia. É translúcido; pode-se ver peixes, algas e detritos de naufrágios flutuando dentro de seu corpo.
 
@@ -25734,11 +25758,11 @@ Vulnerável a Frio (+1d6)
 
 B. Espírito do Gelo (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Elementais nascidos em geleiras antigas onde o frio é absoluto. Eles preservam os corpos de aventureiros dentro de si como troféus perfeitos, congelados no momento da morte. São lógicos e sem emoção.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Feito de gelo azul afiado e cristalino. O ar ao seu redor congela instantaneamente, formando flocos de neve e geada nas armas dos inimigos.
 
@@ -25768,11 +25792,11 @@ Arremesso. +14 (Nv 8 + Fis 6). Dano
 
 C. Maelstrom (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A fúria do oceano profundo. Um vórtice consciente capaz de afundar frotas inteiras. Marinheiros rezam para os deuses do mar para nunca encontrar um desses.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um tornado de água salgada, espuma e destroços que gira violentamente, desafiando a gravidade para ficar em pé sobre a superfície do mar ou terra.
 
@@ -25810,11 +25834,11 @@ por turno e começa a sufocar.
 
 A. Elemental do Ar (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O vento livre e invisível. São os espiões e assassinos perfeitos, capazes de entrar em qualquer lugar através de uma fresta de fechadura. Difíceis de ver e quase impossíveis de prender.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma nuvem rodopiante de poeira e vento. Quase invisível a olho nu, exceto pelos detritos que carrega. Sua passagem é marcada por uma queda súbita de pressão e um assobio agudo.
 
@@ -25846,11 +25870,11 @@ com projéteis contra ele (o vento desvia flechas).
 
 B. Zephyr (Espírito da Brisa) (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um espírito do vento mais sutil e perigoso. Eles não derrubam casas; eles roubam o ar dos pulmões de quem dorme. Agem como assassinos e batedores de elite para lordes elementais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Quase completamente invisível, apenas uma distorção no ar como calor saindo do asfalto. Seus olhos são centelhas azuis minúsculas. Moves-se em silêncio absoluto.
 
@@ -25888,11 +25912,11 @@ contra ele se não tiverem visão verdadeira.
 
 C. Tempestade Viva (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um furacão senciente condensado em uma forma quase humanoide. É barulhento, caótico e destrutivo. Onde ele passa, raios caem do céu e telhados são arrancados.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma nuvem negra de tempestade com forma vagamente humana, com relâmpagos estalando dentro de seu peito e olhos que brilham com luz elétrica branca ofuscante.
 
@@ -25930,7 +25954,7 @@ Teste Global de Físico + Conflito + Nível (DC 26)
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\07\_02b\_Tier2\_Magia\_e\_Morte.md
+Arquivo: M04_DESAFIOS\07_02b_Tier2_Magia_e_Morte.md
 
 Pandorha: Bestiário Narrativo Vol. 2B - Magia e Morte (Níveis 6-10)
 
@@ -25944,11 +25968,11 @@ Este tomo apresenta ameaças mágicas e mortas-vivas com fichas completas e desc
 
 A. Gárgula de Pedra (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Originalmente esculturas arquitetônicas para afastar o mal, algumas ganharam vida devido à magia residual das cidades ou possessão demoníaca. Elas ficam décadas imóveis em beirais de telhados, esperando a presa perfeita.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um demônio alado agachado, feito inteiramente de pedra cinza coberta de liquens e fuligem urbana. Seus olhos não piscam e parecem buracos vazios até brilharem com luz vermelha no ataque.
 
@@ -25980,11 +26004,11 @@ RD 5 (Dano não-mágico)
 
 B. Gárgula de Mármore (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Esculpidas por artistas de elite para templos sagrados, essas gárgulas são mais nobres, rápidas e perigosas. Muitas vezes guardam bibliotecas proibidas ou criptas de santos, atacando infiéis com uma precisão fria.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Feita de mármore branco impecável, com veios cinzas que parecem músculos sob a pele de pedra. Suas asas são finas como papel, mas duras como aço. Seu rosto é uma máscara de beleza estoica e cruel.
 
@@ -26016,11 +26040,11 @@ extra. Dano base
 
 C. Gárgula de Obsidiana (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Nascidas de vulcões ou criadas por magos de guerra das trevas. Seus corpos são feitos de vidro vulcânico negro, incrivelmente afiado. Elas servem como assassinas de elite, descendo à noite para fatiar generais inimigos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Negra como a noite, com arestas cortantes em cada articulação. Reflete a luz da lua em seus facões naturais. Quando ferida, não sangra, mas solta lascas de vidro afiado.
 
@@ -26058,11 +26082,11 @@ cada. Crítico com 19-20.
 
 A. Cria de Vampiro (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Vítimas recentes de um vampiro verdadeiro. Ainda estão ligadas à vontade de seu mestre e lutam contra a perda de sua humanidade. A fome de sangue é nova e incontrolável, tornando-os bestas selvagens em combate.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pálidos como a morte, com olhos vermelhos injetados e caninos proeminentes. Vestem as roupas rasgadas e sujas de terra de quando foram enterrados.
 
@@ -26090,11 +26114,11 @@ Vulnerável a Radiante (+1d6)
 
 B. Vampiro Neófito (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma cria que sobreviveu tempo suficiente para ganhar independência ou cujo mestre foi destruído. Começa a recuperar sua inteligência e charme, aprendendo a usar sua maldição como uma arma social.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Aparenta ser um humano atraente e pálido, vestido com elegância. Sabe esconder suas presas e se misturar na sociedade noturna.
 
@@ -26128,11 +26152,11 @@ Enfeitiçado
 
 C. Daywalker (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma aberração entre os mortos-vivos. Um vampiro que, através de pactos infernais, anéis mágicos ou alquimia de sangue, superou sua fraqueza fatal à luz do sol. Eles caçam de dia, quando ninguém espera um predador noturno.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Usa armadura completa pesada e elmo fechado para esconder sua natureza pálida, mas se move com uma velocidade que nenhuma armadura deveria permitir.
 
@@ -26172,11 +26196,11 @@ Resiste à Luz Solar (Não toma dano, mas perde a Regeneração sob o sol).
 
 A. Baú Mímico (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A evolução suprema da emboscada. Criaturas metamorfas que aprenderam a assumir a forma daquilo que os aventureiros mais cobiçam: tesouro. Muitos heróis perderam a mão (ou a cabeça) tentando abrir uma fechadura que na verdade era um olho.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um baú de madeira robusta com reforços de ferro. Quando ataca, a tampa se abre revelando fileiras de dentes serrilhados e uma língua roxa e grossa.
 
@@ -26208,11 +26232,11 @@ Teste Global de Físico + Resistência + Nível (DC 22)
 
 B. Porta Mímica (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma variante maior e mais paciente. Substitui portas inteiras em masmorras, esperando que o grupo tente passar por ela. Uma vez que a vítima gira a maçaneta, ela é engolida.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Parece uma porta de carvalho reforçada normal. A "maçaneta" é um olho que pisca rapidamente antes do ataque. A madeira se dobra como borracha para formar uma boca vertical gigante.
 
@@ -26244,11 +26268,11 @@ Teste Global de Físico + Resistência + Nível (DC 25)
 
 C. Casa Mímica (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O pesadelo dos viajantes. Um mímico colossal que assume a forma de uma cabana de caça, um pequeno santuário ou uma estalagem isolada. O grupo entra para descansar, e as paredes começam a digerir a carne deles enquanto dormem.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Por fora, um chalé convidativo com chaminé fumegante (a fumaça é vapor ácido). Por dentro, o tapete é uma língua áspera, e as janelas são olhos leitosos que vigiam os hóspedes.
 
@@ -26280,11 +26304,11 @@ Alcance: Interior. O chão e as paredes secretam ácido gástrico. Todos dentro 
 
 A. Golem de Carne (Nível 7)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma abominação profana costurada com partes de vários cadáveres e animada por magia proibida e parafusos de condução. Não sente dor, medo ou dúvida. É a guarda-costas perfeita para necromantes que não confiam em zumbis burros.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante disforme de 2,5 metros. Sua pele é um mosaico de tons diferentes, costurada com arame grosso. Cheira a formol e almíscar. Solta grunhidos baixos e sem sentido.
 
@@ -26320,11 +26344,11 @@ cura o Golem.
 
 B. Golem de Barro (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Criado por sacerdotes para proteger templos. Feito de argila sagrada e animado por um espírito elemental da terra obediente. Se ficar fora de controle, destruirá tudo em seu caminho.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma estátua de barro mal cozido, grande e pesada. Seus movimentos são lentos e fluidos, mas seus punhos batem como martelos. Runas sagradas brilham em sua testa.
 
@@ -26362,11 +26386,11 @@ ou Descanso Longo).
 
 C. Golem de Âmbar (Nível 9)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma criação rara de arquimagos druídicos. Feito de resina fossilizada antiga, contém insetos pré-históricos visíveis em seu interior. É imune a quase toda magia.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Translúcido e dourado, brilhando sob a luz. É belo, mas implacável. Quando quebrado, libera seiva pegajosa que prende as armas dos inimigos.
 
@@ -26402,11 +26426,11 @@ Teste Global de Físico + Resistência + Nível (DC 26)
 
 A. Espião (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Doppelgangers que se infiltram na alta sociedade, guildas e governos. Eles matam o original, leem seus pensamentos finais e assumem sua vida com perfeição assustadora. Um espião pode viver anos com a família da vítima sem ser notado.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Em sua forma natural (que raramente mostram), é um humanoide cinza, liso, sem nariz ou orelhas e com olhos brancos grandes. Parece um boneco de argila não terminado.
 
@@ -26438,11 +26462,11 @@ Crítico Automático
 
 B. Assassino Sem Rosto (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Metamorfos criados por alquimia para serem armas vivas. Eles podem esticar seus membros e passar por debaixo de portas. Não possuem órgãos vitais tradicionais, o que os torna difíceis de matar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa de carne pálida e elástica. Pode formar lâminas de osso a partir de seus braços e mudar a textura de sua pele para escalar paredes ou se camuflar.
 
@@ -26472,11 +26496,11 @@ Seu alcance corpo a corpo é 3m. Reduz dano de impacto em 5.
 
 C. Mestre das Máscaras (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um lorde doppelganger que esqueceu sua forma original há séculos. Ele controla uma rede criminosa inteira assumindo múltiplas identidades ao mesmo tempo. Em combate, ele muda de rosto a cada segundo para confundir os inimigos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Veste roupas finas que parecem mudar de estilo e cor conforme ele se move. Seu rosto é um borrão constante de feições diferentes.
 
@@ -26516,11 +26540,11 @@ Teste Global de Mental + Resistência + Nível (DC 26)
 
 A. Gnoll Caçador (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Criaturas selvagens criadas por um lorde demônio da fome eterna. Eles nunca estão satisfeitos e vagam em bandos caóticos, devorando tudo em seu caminho.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um híbrido aterrorizante de homem e hiena. Pelo malhado sujo de sangue cobre seu corpo musculoso e magro. Seus olhos amarelos brilham com loucura.
 
@@ -26542,7 +26566,7 @@ Conflito +4, Resistência +3, Interação -2.
 
 #### Passiva - Fúria:
 
-Quando reduz um inimigo a 0 HP, faz um ataque extra como 1 Ação \[L\].
+Quando reduz um inimigo a 0 HP, faz um ataque extra como 1 Ação [L].
 
 +11 (Nv 6 + Fis 5). Alcance 3m. Dano
 
@@ -26550,11 +26574,11 @@ Quando reduz um inimigo a 0 HP, faz um ataque extra como 1 Ação \[L\].
 
 B. Gnoll Xamã de Sangue (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O líder espiritual do bando, abençoado com a magia vil de seu patrono. Ele lê o futuro nas entranhas quentes de suas vítimas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Coberto de talismãs feitos de orelhas secas. Seu pelo é tingido de vermelho e ele carrega um cajado com um crânio humano.
 
@@ -26584,11 +26608,11 @@ Conflito +3, Resistência +4, Interação +3.
 
 C. Senhor da Guerra Gnoll (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O alfa supremo, nascido com a benção direta do Abismo. Ele empunha um mangual de três cabeças que causa dor, paralisia e loucura.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Muito maior que os outros gnolls, com músculos densos como ferro. Seus olhos não mostram loucura, mas malícia calculada.
 
@@ -26626,11 +26650,11 @@ até o próximo turno.
 
 A. Esporo Sentinela (Nível 6)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Habitantes silenciosos do Subterrâneo. Homens-cogumelo que vivem em comunhão telepática. Geralmente pacíficos, mas defendem suas colônias com ferocidade química.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um cogumelo bípede de 2 metros, com cabeça larga e esponjosa roxa. Libera nuvens de poeira colorida de suas brânquias.
 
@@ -26656,11 +26680,11 @@ Nuvem de Veneno ao ser atingido (Quem bate sofre
 
 B. Bruto Fúngico (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um miconídeo guerreiro, criado com esteroides alquímicos naturais. Ele protege a entrada do bosque de fungos. É lento, mas bate como um aríete.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Enorme e inchado, coberto de placas de quitina de fungo dura. Seus braços são troncos grossos de micélio denso.
 
@@ -26690,11 +26714,11 @@ Alcance 9m (Cone). Teste Global de Mental + Resistência + Nível (DC 20)\*\* (1
 
 C. Soberano de Esporos (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O rei da colônia. Ele pode reanimar cadáveres com esporos para servirem como escravos sem mente. Sua conexão com a rede micelial o torna quase onisciente em seu domínio.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Alto e majestoso, com esporos dourados caindo de sua capa natural. Veste "roupas" feitas de musgo vivo.
 
@@ -26714,7 +26738,7 @@ Conflito +4, Resistência +5, Interação +5.
 
 #### Reanimar Servo:
 
-(1 Ação \[L\] - 1/turno) Alcance 9m. Levanta um cadáver próximo com 1 HP para lutar.
+(1 Ação [L] - 1/turno) Alcance 9m. Levanta um cadáver próximo com 1 HP para lutar.
 
 #### Toque Podre:
 
@@ -26730,11 +26754,11 @@ Conflito +4, Resistência +5, Interação +5.
 
 A. Planta Assassina (Nível 7)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma vinha carnívora evoluída que caça. Cresce em ruínas antigas e florestas densas, disfarçando-se como vegetação inofensiva até atacar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Parece um arbusto denso até se mover, revelando gavinhas grossas e mandíbulas de folhas serrilhadas. O chão ao redor é coberto de ossos.
 
@@ -26768,11 +26792,11 @@ Teste Global de Físico + Resistência + Nível (DC 23)
 
 B. Ente Corrompido (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma árvore antiga que bebeu água contaminada por necromancia ou sangue. Odeia a vida animal. Usa suas raízes para prender e seus galhos para empalar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um carvalho retorcido com casca negra e folhas vermelhas secas. Um "rosto" de angústia parece esculpido em seu tronco.
 
@@ -26802,11 +26826,11 @@ RD 5 (Contundente)
 
 C. Vinha Vampírica (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma planta móvel que drena sangue rapidamente através de espinhos ocos. Pode dizimar um acampamento inteiro em uma noite sem fazer barulho.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa de cipós verdes com flores vermelhas brilhantes que cheiram a carne doce. Os espinhos são longos e translúcidos.
 
@@ -26846,11 +26870,11 @@ Teste Global de Físico + Resistência + Nível (DC 26)
 
 A. Guardião de Lâminas (Nível 8)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um construto de guerra criado por nações que valorizam a eficiência. É uma máquina de matar feita inteiramente de armas descartadas, animadas por magia.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um turbilhão humanoide de metal afiado. Não tem "pele", apenas centenas de espadas e facas girando. O som que produz é um tinir ensurdecedor.
 
@@ -26882,11 +26906,11 @@ Atacante corpo a corpo sofre
 
 B. Dervixe de Aço (Nível 9)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um construto mais ágil e focado em duelos. Possui quatro braços, cada um empunhando uma cimitarra perfeita. Move-se dançando pelo campo de batalha, desviando de golpes com graça inumana.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um manequim metálico esguio, polido como espelho. Seus movimentos são fluidos demais para uma máquina.
 
@@ -26918,11 +26942,11 @@ Quatro ataques. +15 (Nv 9 + Fis 6). Alcance 1,5m. Dano
 
 C. Juggernaut de Guerra (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um tanque de guerra autônomo. Uma caixa de metal maciço sobre rodas ou pernas curtas, coberta de espigões e serras circulares. Feito para quebrar portões e linhas de infantaria.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um bloco de ferro negro de 3 metros de altura, soltando fumaça preta e faíscas. O chão treme quando ele avança.
 
@@ -26958,7 +26982,7 @@ Teste Global de Físico + Conflito + Nível (DC 29)
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\07\_03a\_Tier3\_Lendas\_Vivas.md
+Arquivo: M04_DESAFIOS\07_03a_Tier3_Lendas_Vivas.md
 
 Pandorha: Bestiário Narrativo Vol. 3A - Lendas Vivas (Níveis 11-15)
 
@@ -26972,11 +26996,11 @@ Este tomo apresenta ameaças de nível lendário com fichas completas e descriç
 
 A. Dragão Branco Adulto (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O caçador feral do norte. Diferente de seus primos, ele não valoriza ouro ou conversa; ele valoriza a caça. Seus troféus são aventureiros congelados em blocos de gelo eterno em sua caverna, preservados no momento de seu terror final.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Escamas brancas como a neve que se camuflam perfeitamente na nevasca. Seus olhos são azuis glaciais e parecem cristais sem vida. Uma crista óssEE protege seu crânio como um capacete natural.
 
@@ -27022,11 +27046,11 @@ Teste Global de Físico + Conflito + Nível (DC 29)
 
 B. Dragão Verde Adulto (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O mestre da intriga e da manipulação. Um dragão verde prefere corromper um reino a queimá-lo. Eles vivem em florestas antigas, controlando redes de espiões e sussurrando mentiras venenosas nos ouvidos de reis fracos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Escamas verde-esmeralda que parecem folhas sobrepostas. Uma barbatana corre por suas costas desde a cabeça até a cauda. Exala um cheiro constante de cloro e vegetação podre.
 
@@ -27064,11 +27088,11 @@ Teste Global de Físico + Resistência + Nível (DC 30)
 
 C. Dragão Vermelho Adulto (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A arrogância suprema encarnada. O dragão vermelho acredita ser o ápice da criação, um deus vivo de fogo e destruição. Ele exige tributos de reinos inteiros, virgens e montanhas de ouro, queimando qualquer um que se recuse a ajoelhar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma montanha de escamas carmesim, com chifres enormes curvos para trás e olhos de magma líquido. Fumaça sai constantemente de suas narinas, criando uma nuvem escura onde quer que vá.
 
@@ -27116,11 +27140,11 @@ Garra 2: +24. Alcance 3m. Dano
 
 A. Gigante da Colina (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Gordos, estúpidos e famintos. Eles são a vergonha da raça gigante, mas ainda assim perigosos. Descendem das montanhas como uma avalanche de carne para comer vilas inteiras, gado, casas e camponeses.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 5 metros de altura, barriga enorme e caída, pele bronzeada cheia de verrugas. Veste peles de urso costuradas e carrega um tronco de árvore como clava.
 
@@ -27150,11 +27174,11 @@ RD 5 (Físico)
 
 B. Gigante do Gelo (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Saqueadores vikings de proporções épicas. Vivem para a batalha, a caça e a conquista. Seus jarls (reis) buscam trazer o inverno eterno para o mundo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele azul-clara como gelo, barba e cabelos brancos trançados com ossos de dragão. Usa cota de malha pesada e capacete de chifres.
 
@@ -27184,11 +27208,11 @@ Imune a Frio
 
 C. Gigante do Fogo (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Mestres ferreiros militaristas. Vivem em vulcões ativos forjando armas de guerra para exércitos das trevas. São disciplinados, estratégicos e odeiam os anões (seus rivais na forja).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele negra como carvão, com cabelo e barba feitos de fogo vivo. Usa uma armadura de placas negra que brilha com calor interno.
 
@@ -27226,11 +27250,11 @@ Vulnerável a Frio (+1d6)
 
 A. Vigia Ocular (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um oculus menor invocado por rituais para guardar tesouros por tempo limitado. É paranoico e obsessivo com sua tarefa, atacando qualquer coisa que se aproxime.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma esfera de carne de 1,5m, com um olho central grande e quatro pedúnculos oculares menores no topo.
 
@@ -27278,11 +27302,11 @@ Teste Global de Físico + Resistência + Nível (DC 29)
 
 B. Devorador de Magia (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um primo do oculus que se alimenta de magia. Ele drena a energia de itens mágicos para sobreviver, deixando apenas metal inútil para trás.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Esfera enrugada com 6 olhos e uma boca central com bico afiado.
 
@@ -27318,11 +27342,11 @@ cada. O monstro cura metade do dano causado (Arredondado para baixo).
 
 C. Lorde Ocular (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O verdadeiro Mestre dos Olhos. Um gênio xenofóbico que acredita ser o ser perfeito do universo. Seu olho central anula toda a magia, enquanto seus dez olhos menores desintegram a realidade.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma esfera de carne imensa, com um olho central que emite um cone de luz azulada e uma boca cheia de dentes afiados. Dez tentáculos com olhos se contorcem acima dele.
 
@@ -27376,11 +27400,11 @@ ou obedece ao Lorde Ocular por
 
 A. Hidra do Pântano (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um monstro lendário nascido do sangue de deuses ctônicos. Habita pântanos profundos e é famosa por ser quase impossível de matar devido à sua regeneração alucinante.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um corpo reptiliano volumoso de cinco metros de comprimento, de onde brotam cinco pescoços serpentinos terminados em cabeças de dragão sem chifres. Quando uma cabeça é cortada, o coto borbulha e crescem duas.
 
@@ -27416,11 +27440,11 @@ Realiza um ataque para cada cabeça que tiver. +18 (Nv 11 + Fis 7). Alcance 3m. 
 
 B. Piro-Hidra (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma variante infernal que habita lagos de lava ou fissuras vulcânicas. Seu sangue é magma líquido, o que torna impossível cauterizá-la com fogo comum; apenas o frio extremo pode impedir sua regeneração.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Escamas vermelhas escuras que brilham com calor interno. Suas bocas exalam fumaça negra e chamas lamberam seus dentes.
 
@@ -27456,11 +27480,11 @@ Teste Global de Físico + Resistência + Nível (DC 30)
 
 C. Hidra de Lerna (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A matriarca imortal de todas as hidras, dita ser invencível. Seu sangue é o veneno mais potente do mundo, capaz de matar até deuses menores. Possui uma cabeça "imortal" dourada que deve ser enterrada sob uma montanha para que ela morra de vez.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Gigantesca, com escamas roxas e nove cabeças originais (uma delas com escamas douradas). O chão ao seu redor morre e murcha instantaneamente.
 
@@ -27498,11 +27522,11 @@ Começa com 9 ataques por turno.
 
 A. Quimera Comum (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma aberração criada por magia corrompida, misturando as piores partes de três predadores. Elas são territoriais, gananciosas e sádicas, atacando caravanas não só por comida, mas pelo prazer de queimar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 O corpo robusto de um leão gigante, com asas de couro de dragão. Possui três cabeças: uma de leão feroz, uma de bode (com olhos retangulares malignos) e uma de dragão cromático.
 
@@ -27546,11 +27570,11 @@ Cone de 9m.
 
 B. Gorgimera (Nível 14)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma fusão ainda mais profana, envolvendo magias de petrificação. Substitui a cabeça de bode por uma cabeça de górgona ou basilisco, tornando-a capaz de transformar exércitos em estatuário com um olhar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Corpo de leão com escamas de pedra. A cabeça central é humana com serpentes no lugar de cabelo, ladeada por um leão e um dragão.
 
@@ -27588,11 +27612,11 @@ Petrificado
 
 C. Quimera do Caos (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma entidade que muda constantemente de forma, um amálgama instável de dezenas de bestas. Dizem que quem a criou não conseguiu parar de adicionar partes. É uma máquina de destruição imprevisível.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um horror indescritível. Tem cabeças de serpente, águia, urso e demônio surgindo e sendo reabsorvidas em sua carne borbulhante. Tem múltiplos membros e caudas de escorpião.
 
@@ -27624,7 +27648,7 @@ cada (Tipo de dano muda a cada ataque: Corte/Furo/Esmaga).
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\07\_03b\_Tier3\_Horrores\_Etericos.md
+Arquivo: M04_DESAFIOS\07_03b_Tier3_Horrores_Etericos.md
 
 Pandorha: Bestiário Narrativo Vol. 3B - Horrores Etéricos (Níveis 11-15)
 
@@ -27642,11 +27666,11 @@ Este tomo apresenta ameaças extradimensionais e etéricas de nível lendário, 
 
 A. Demônio Abutre (Vrock) (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Soldados de choque do Abismo, os Vrocks são a personificação da fúria suja. Eles não lutam por honra ou estratégia, mas pelo simples êxtase de ver sangue jorrar. Frequentemente são invocados por cultistas que desejam apenas causar tumulto em uma cidade antes de um ataque maior.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um híbrido grotesco de homem e abutre gigante, com 3 metros de altura. Suas penas são sujas, grudadas com sangue seco e carniça de refeições passadas. Seu bico é serrilhado e seus olhos são pérolas leitosas de insanidade. Exala uma nuvem visível de esporos tóxicos e moscas de sob suas asas.
 
@@ -27682,11 +27706,11 @@ Teste Global de Físico + Resistência + Nível (DC 26)
 
 B. Demônio do Lodo (Hezrou) (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Os sargentos da infantaria abissal. Hezrous nascem nos pântanos infinitos de decomposição do Abismo. Sua simples presença no Plano Material começa a transformar a flora local em lodo tóxico e videiras estranguladoras. Eles obedecem ordens, mas punem qualquer falha de seus subordinados com canibalismo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um sapo bípede obeso e musculoso, coberto de verrugas pulsantes que vazam um pus ácido constante. Sua boca rasga sua cara de orelha a orelha, cheia de dentes em forma de agulha. O cheiro de enxofre e podridão é tão forte que faz o ar parecer amarelo ao seu redor.
 
@@ -27712,11 +27736,11 @@ Criaturas a 3m têm
 
 C. Demônio da Guarda (Marilith) (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 As estrategistas supremas da Guerra Sangrenta. Diferente da maioria dos demônios, as Mariliths são frias, calculistas e soberbas. Elas comandam exércitos de milhões no Abismo e veem o combate como uma dança complexa que elas já venceram antes de começar.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma mulher gigante de beleza terrível, com seis braços humanos e a parte inferior do corpo de uma serpente verde esmeralda de 10 metros. Cada mão empunha uma lâmina diferente, movendo-se em um padrão hipnótico e defensivo. Seus olhos reptilianos analisam cada fraqueza do oponente.
 
@@ -27744,11 +27768,11 @@ Seis ataques. +24 (Nv 15 + Fis 9). Alcance 3m. Dano
 
 A. Diabo de Correntes (Kyton) (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Torturadores sádicos que caçam almas foragidas. Eles não servem para a guerra aberta, mas para a "reeducação" nas masmorras dos Nove Infernos. Acreditam que a dor é a única forma de purificação e buscam compartilhar essa dádiva com todos os mortais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um humanoide pálido, andrógino e sem pelos, envolto em dezenas de correntes enferrujadas e ganchos que parecem brotar de sua própria carne ou orbitá-lo magicamente. Seu rosto é coberto por tiras de couro ou metal, deixando apenas olhos fanáticos visíveis.
 
@@ -27772,11 +27796,11 @@ cada. Se acertar, o alvo fica
 
 B. Diabo Gélido (Gelugon) (Nível 14)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Nativos das camadas congeladas do Inferno (Caina), esses diabos são os generais táticos e guardiões de portais. Eles desprezam o fogo e a paixão, lutando com uma eficiência robótica. São frequentemente enviados para negociar contratos que envolvam a destruição de reinos inteiros a longo prazo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um insetoide gigante de 3 metros de altura, feito inteiramente de gelo azulado e quitina transparente. Possui antenas sensoriais que detectam calor e medo, olhos facetados e uma cauda longa terminada em ferrão. Carrega uma lança feita de gelo eterno que nunca derrete.
 
@@ -27796,7 +27820,7 @@ por 1 turno.
 
 C. Diabo do Fosso (Pit Fiend) (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A nobreza tirânica do Inferno, abaixo apenas dos Arquiduques. Eles nascem nas fossas de fogo de Nessus. Cada
 
@@ -27804,7 +27828,7 @@ Arquidiabo das Fossas
 
 comanda legiões e possui autoridade absoluta. Sozinhos, são capazes de destruir cidades com sua magia e força bruta. Seu objetivo é sempre corromper os líderes mortais mais poderosos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um titã de 4 metros de pele vermelha escamosa, envolto em chamas e sombras. Asas de morcego enormes se abrem em suas costas. Presas venenosas gotejam icor verde, e seus cascos queimam o chão onde pisam. Sua aura de medo é palpável, fazendo o ar ficar pesado e difícil de respirar.
 
@@ -27840,11 +27864,11 @@ Quatro ataques. +25 (Nv 15 + Fis 10). Alcance 3m.
 
 A. Lich (Nível 14)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O destino final de magos que temem a morte mais do que temem a condenação. Após rituais indescritíveis, o mago prende sua alma em um filactério. Com o tempo, sua humanidade apodrece, restando apenas intelecto, paranoia e poder etérico ilimitado.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um esqueleto vestido em mantos reais que viraram trapos com o tempo. Pontos de luz vermelha brilham onde deveriam estar os olhos. Sua pele, se restar alguma, é pergaminho seco esticado sobre os ossos. Jóias mágicas brilham em seus dedos esqueléticos.
 
@@ -27898,11 +27922,11 @@ Teste Global de Físico + Resistência + Nível (DC 34)
 
 B. Demilich (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um Lich tão antigo que seu corpo físico virou pó e ele deixou de se importar com o mundo material, vagando pelos planos astrais. Restou apenas seu crânio, infundido com gemas de alma. Se perturbado, ele desperta com fome de almas pura.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um crânio humano flutuante, polido e perfeito, com gemas preciosas (rubis, safiras, diamantes) incrustadas no lugar dos dentes e nas órbitas oculares. Flutua silenciosamente, cercado por uma poeira de ossos.
 
@@ -27946,11 +27970,11 @@ Teste Global de Mental + Resistência + Nível (DC 35)
 
 C. Lich Cefaloide (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um Flagelo Mental (Cefaloide) herege que buscou a lichificação para escapar da morte da colônia ou para dominar magia etérica proibida aos psionistas. Banidos, eles formam cabalas secretas para buscar o domínio global através do controle mental e necromancia.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 O esqueleto de um lula-humanoide. Quatro tentáculos secos e mumificados pendem de onde seria a boca. Veste mantos roxos com runas de prata embutidas na pele óssea.
 
@@ -27972,11 +27996,11 @@ Físico +4, Mental +9, Social +5.
 
 A. Golem de Ferro (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A máquina de guerra definitiva, forjada com ferro estelar e alimentada por um elemental de fogo preso em seu núcleo. Criados para guardar tesouros de reis ou portões de cidades proibidas. Eles não param até que o intruso seja uma mancha no chão.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante de 4 metros feito de placas de metal negro rebitadas. Não tem rosto, apenas uma fenda de onde sai fumaça e luz laranja. O chão treme e afunda sob seus passos pesados.
 
@@ -28000,11 +28024,11 @@ Imune a Magia
 
 B. Golem de Pedra (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Guardião eterno de tumbas antigas. Diferente das gárgulas, não tem mente ou personalidade fingida. É uma força da natureza controlada. Pode ficar imóvel por milênios até ser ativado.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma estátua tosca e bruta, sem pescoço, esculpida em granito cinza ou basalto. Seus braços são longos demais, arrastando no chão como clavas naturais.
 
@@ -28028,11 +28052,11 @@ Teste Global de Físico + Resistência + Nível (DC 27)
 
 C. Golem de Mithril (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A obra-prima dos maiores ferreiros élficos ou anões. Feito do metal mais leve e duro do mundo. Ao contrário dos outros golems, ele não é desajeitado; é a perfeição marcial encarnada, programado com o conhecimento de todos os estilos de luta.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um humanoide de 2,5m, prateado e esguio, brilhando como um espelho líquido. Move-se com uma velocidade e graça que desafiam o olhar, deixando rastros de luz prateada.
 
@@ -28058,11 +28082,11 @@ Quatro ataques. +24 (Nv 15 + Fis 9). Dano
 
 A. Deva (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Mensageiros dos deuses da bondade. Eles descem ao Plano Material para entregar profecias, ajudar heróis em momentos de crise absoluta ou resgatar relíquias sagradas. São bondosos, mas distantes da mortalidade.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um humanoide de beleza estonteante, com pele prateada ou dourada e grandes asas de penas brancas. Veste túnicas simples que parecem feitas de luz tecida.
 
@@ -28082,11 +28106,11 @@ Cura 40 HP e remove doenças.
 
 B. Planetário (Nível 14)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Os Generais dos exércitos celestiais. Eles não trazem mensagens; trazem sentenças. São a personificação da justiça divina irada, comandando chuvas, terremotos e pragas contra os inimigos dos deuses.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante de pele verde-esmeralda ou azul-safira, calvo, musculoso e sem gênero definido. Suas asas são imensas e ele carrega uma espada larga que zumbe com energia sagrada.
 
@@ -28102,11 +28126,11 @@ Físico +8, Mental +7, Social +7.
 
 C. Solar (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A vontade direta de Deus encarnada. Existem poucos no multiverso (talvez apenas 24). Dizem que um Solar pode destruir uma cidade inteira sozinho se ela for considerada "irredimível". Sua presença queima a impureza.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um ser de luz pura que brilha como o sol. Seus olhos são chamas douradas. Uma espada magna flutua sozinha ao seu lado, obedecendo seus pensamentos, enquanto ele carrega um arco colossal.
 
@@ -28130,11 +28154,11 @@ Alcance 150m. Se atingir um morto-vivo com menos de 100 HP, ele é destruído in
 
 A. Djinni (Ar) (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Espíritos nobres do Plano do Ar. Criam palácios nas nuvens e vivem em uma sociedade baseada em honra, hospitalidade e caprichos caóticos. Podem conceder desejos menores ou criar comida e vinho do nada.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante musculoso de pele azul-celeste, cujas pernas se transformam em um turbilhão de vento e fumaça. Veste sedas finas e jóias de ouro.
 
@@ -28154,11 +28178,11 @@ Conflito +7, Resistência +5, Interação +6.
 
 B. Efreeti (Fogo) (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Tiranos cruéis feitos de fogo e basalto. Odeiam a liberdade e escravizam mortais para suas Cidades de Latão no Plano do Fogo. São mestres da guerra e enganadores em pactos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Gigantes de pele vermelha escura ou carmesim, chifres curtos e cascos fendidos. Chamas saem de seus ombros e cabelos. Carregam cimitarras gigantes em brasa.
 
@@ -28190,11 +28214,11 @@ Teste Global de Físico + Resistência + Nível (DC 29)
 
 C. Dao (Terra) (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Gênios gananciosos da Terra, obcecados por gemas e riqueza mineral. Vivem em labirintos subterrâneos. Vendem os segredos das montanhas por preços altos e adoram escravizar outras raças para minerar para eles.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Corpulento e largo, com pele da cor de pedra polida ou areia. Usa muitas jóias pesadas e anéis. Parece uma estátua viva adornada.
 
@@ -28222,11 +28246,11 @@ Conflito +7, Resistência +6, Interação +2.
 
 A. Ginofinge (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A guardiã dos enigmas sagrados e templos do conhecimento. Ela não mata por malícia, mas por ser a chave que só o digno pode girar. Aqueles que não respondem seus enigmas são devorados para alimentar seu poder.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Corpo de leão com cabeça de mulher majestosa e asas de águia. Seus olhos brilham com a luz de estrelas antigas. Fala com uma voz que ecoa na mente.
 
@@ -28264,11 +28288,11 @@ Porta Dimensional
 
 B. Androfinge (Nível 14)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A esfinge masculina, focada em guardar o local sagrado com poder celestial e força bruta. Enquanto a Ginofinge testa a mente, o Androfinge testa a coragem e o valor marcial. Seus rugidos são magias celestiais manifestadas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Corpo de leão colossal com cabeça de homem barbado, usando um nemes (toucado real egípcio). Não possui asas, mas corre no ar como se fosse terra sólida.
 
@@ -28310,11 +28334,11 @@ Remover Maldição
 
 C. Hieracosfinge (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma esfinge maligna e feral, sem inteligência para enigmas ou magia. Caça em bandos para matar viajantes e levar seus corpos para seus ninhos nas altas montanhas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Corpo de leão dourado, asas negras de urubu e cabeça de falcão gigante com bico afiado como navalha.
 
@@ -28336,11 +28360,11 @@ Conflito +6, Resistência +4, Interação -2.
 
 A. Naga Guardiã (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Criada por rituais antigos de culturas perdidas para proteger tumbas de reis bondosos ou selar males antigos. Se o local que protegem for destruído, elas vagam pelo mundo tentando restaurá-lo ou cumprir seu dever de outra forma.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma serpente gigante com escamas douradas e verdes, e um rosto humano sábio e belo cercado por um capelo como de uma cobra-real. O cheiro de flores a acompanha.
 
@@ -28366,11 +28390,11 @@ por 1 minuto (pode gastar uma Ação para lavar os olhos e remover o efeito).
 
 B. Naga Espiritual (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma naga maligna e sádica. Delicia-se em escravizar tribos locais de humanoides primitivos, fazendo-se passar por uma deusa cruel que exige sacrifícios de sangue.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Serpente negra com faixas vermelhas sangue. Seu rosto humano é deformado por um sorriso cruel e dentes pontiagudos excessivos.
 
@@ -28412,11 +28436,11 @@ Bola de Fogo
 
 C. Naga das Trevas (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma naga nativa das profundezas escuras do Subterrâneo. Adaptada à escuridão total, ela caça usando sonar e magia ácida. Rejeitada pelas outras nagas, ela odeia tudo que tem beleza.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele roxa escura, com espinhos nas costas. Seu rosto não é humano, mas uma máscara de dragão sem olhos, apenas fossas nasais sensoriais.
 
@@ -28454,11 +28478,11 @@ Teste Global de Físico + Resistência + Nível (DC 29)
 
 A. Lorde Múmia (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um faraó ou rei-sacerdote antigo preservado com rituais profanos de necromancia divina. Seu coração está em um vaso canópico separado, tornando-o imortal enquanto o vaso existir. Controla tempestades de areia e pragas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Envolto em bandagens funerárias de linho fino, adornado com peitorais de ouro e lápis-lazúli. Seus olhos queimam com luz profana. Uma aura de desespero o cerca.
 
@@ -28510,11 +28534,11 @@ por nenhum meio e, se a maldição não for removida (magia nível 3+) em
 
 B. Sumo-Sacerdote Mumificado (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O braço direito do Lorde Múmia. Em vida, foi o responsável pelos rituais; na morte, mantém a magia do templo ativa. Focado em invocar pragas e maldições sobre intrusos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Usa uma máscara mortuária de animal (chacal, íbis ou crocodilo). Carrega um cajado com símbolo de um deus esquecido.
 
@@ -28572,11 +28596,11 @@ Teste Global de Físico + Resistência + Nível (DC 29)
 
 C. Múmia Real (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Soldados de elite, guarda-costas e generais enterrados vivos com o faraó para servi-lo no além. Mantêm suas habilidades marciais, mas agora com a força implacável dos mortos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Bandagens cobrindo uma armadura antiga enferrujada. Empunha armas de bronze que brilham com magia negra.
 
@@ -28604,11 +28628,11 @@ Conflito +6, Resistência +5, Interação +2.
 
 A. Verme Púrpura (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O terremoto vivo. Um anelídeo colossal que escava a rocha sólida do Subterrâneo, criando túneis que depois são usados por monstros menores. Ele devora tudo em seu caminho: minério, aventureiros e até dragões jovens.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma minhoca de trinta metros de comprimento e três de diâmetro. Coberta por placas de quitina roxa. Sua boca é um anel de dentes giratórios, e sua cauda termina em um ferrão venenoso.
 
@@ -28638,11 +28662,11 @@ no início de cada turno. Se o Verme sofrer 30+ de dano em um turno vindo de den
 
 B. Remorhaz (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um predador do ártico que gera um calor interno tão intenso que derrete o gelo e a neve ao passar. Embosca presas surgindo de baixo de geleiras.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Parece uma centopeia gigante de gelo com pernas laranjas e um capelo nas costas que brilha como lava interna. O ar ao seu redor tremula com o calor.
 
@@ -28676,11 +28700,11 @@ por turno). Causa 25 de dano para escapar.
 
 C. Verme da Areia (Nível 14)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O terror dos grandes desertos. Sente vibrações na areia a quilômetros de distância. Tribos do deserto o adoram como um deus da destruição (O "Grande Pai").
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Verme bege colossal com uma boca que se abre em três pétalas cheias de dentes cristalinos.
 
@@ -28720,11 +28744,11 @@ para soltar) e é puxada para a boca (preparando para Devorar no próximo turno)
 
 A. Aboleth (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Peixe psíquico de antes dos deuses. Possui memória genética perfeita de todas as eras e planeja derrubar os deuses "novos". Domina a mente de suas vítimas e as transforma em escravos aquáticos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um peixe de 6 metros, verde limo, com três olhos verticais injetados de ódio. Tentáculos longos cercam sua boca lampreia. Exala um muco que torna a pele translúcida.
 
@@ -28766,11 +28790,11 @@ ou a morte do Aboleth quebra o efeito.
 
 B. Chuul (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Servo crustáceo criado pelos Aboleths para ser o coletor de escravos e guardião. Não possui mente complexa, apenas cumpre ordens de seus mestres antigos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um híbrido de lagosta e inseto de 3 metros. Garras enormes capazes de cortar metal e uma massa de tentáculos paralisantes onde deveria estar a boca.
 
@@ -28808,11 +28832,11 @@ por 1 minuto (pode repetir o teste no fim de cada turno).
 
 C. Devorador de Intelecto Gigante (Nível 10)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma criação dos Devoradores de Mentes para caçar magos poderosos. É um cérebro com pernas, mas do tamanho de um urso, capaz de resistir a muita punição antes de comer a mente da vítima.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um cérebro gigante pulsante sobre quatro pernas reptilianas com garras. Não tem olhos, sente psiquicamente.
 
@@ -28838,11 +28862,11 @@ Se reduzir Intelecto a 0, assume o corpo da vítima instantaneamente.
 
 A. Rakshasa (Nível 13)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Espírito maligno encarnado em carne. Vive no luxo, manipulando nobres e reis como marionetes. Se for morto, renasce no inferno para planejar vingança.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um humanoide com cabeça de tigre, vestindo as roupas mais finas possíveis. A característica mais perturbadora são suas mãos: as palmas são viradas para trás (invertidas).
 
@@ -28880,11 +28904,11 @@ para quebrar o efeito do Rakshasa).
 
 B. Zakya Rakshasa (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A casta guerreira dos Rakshasas. Enquanto os nobres usam magia e intriga, os Zakya treinam a arte da guerra para liderar exércitos. Comem a carne de seus inimigos no campo de batalha.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Cabeça de tigre ou leopardo, coberto de armadura samurai ou de placas pesadas. Empunha armas exóticas com maestria.
 
@@ -28908,11 +28932,11 @@ ao dano. Se o alvo for Celestial, o dano extra é
 
 C. Naztharune (Nível 14)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Assassinos das sombras, uma subespécie rara de Rakshasas com pele negra como o vácuo. Vendem seus serviços para matar reis, deuses menores ou dragões.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Cabeça de pantera negra, veste roupas de couro escuro. Quase invisível nas sombras. Seus olhos são fendas prateadas.
 
@@ -28940,11 +28964,11 @@ ou que tenha um aliado a 1,5m, causa
 
 A. T-Rex (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O rei dos lagartos tiranos. Um predador alfa que caça qualquer coisa que se mova. Sua visão é baseada em movimento e seu rugido paralisa presas de medo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Bípede colossal de 6 metros de altura, cabeça enorme com dentes do tamanho de adagas. Braços minúsculos, mas pernas poderosas.
 
@@ -28970,11 +28994,11 @@ Teste Global de Físico + Resistência + Nível (DC 28)
 
 B. Espinossauro (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Maior que o T-Rex e adaptado para caçar tanto em terra quanto na água. O terror dos rios da selva.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Possui uma vela dorsal enorme que usa para regular temperatura e intimidar. Focinho longo e estreito como de crocodilo.
 
@@ -28998,11 +29022,11 @@ Realiza três ataques com +19 (Nv 12 + Fis 7).
 
 C. Triceratops Titã (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um herbívoro territorial extremamente agressivo. Se provocado, investe como um trem de carga vivo capaz de derrubar muralhas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Quadrúpede do tamanho de uma casa, com três chifres longos e um escudo ósseo protegendo o pescoço.
 
@@ -29038,11 +29062,11 @@ Arremessado 6m e Derrubado
 
 A. Batráquio Rubro (Nível 11)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Brutos do Caos nascidos do Limbo. Eles vagam em bandos desorganizados procurando vítimas para implantar seus ovos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Sapo humanoide vermelho de 2,5m, musculoso e com garras longas. Uma glândula de veneno pulsa sob a pele do pescoço.
 
@@ -29074,11 +29098,11 @@ implantado na carne. O ovo gesta por 24 horas, causando mal-estar. Se a doença 
 
 B. Slaad Azul (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Enormes e fortes, com ganchos ósseos nas mãos. Eles espalham a "Praga do Caos", uma doença mágica que transforma a vítima em um Slaad Vermelho ou Azul gradualmente.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Azul brilhante, maior que o vermelho (3m). Dois ganchos de osso saem das costas das mãos.
 
@@ -29110,11 +29134,11 @@ a cada 24 horas. Se o HP Máximo chegar a 0, o alvo morre e se transforma em um 
 
 C. Batráquio da Morte (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um assassino metamorfo que serve aos lordes da Entropia. Ele parece humanoide, mas é pura malícia caótica.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Em sua forma real, é um sapo humanoide cinza escuro ou preto, magro e elegante, vestindo roupas mágicas. Carrega uma espada larga mágica.
 
@@ -29154,11 +29178,11 @@ Realiza três ataques com +23 (Nv 15 + Fis 8). Dano
 
 A. Dracolich (Nível 15)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um dragão que, através de um pacto com o Culto do Dragão, transformou-se em Lich. Eles mantêm seus poderes de dragão e ganham as imunidades dos mortos-vivos. O terror supremo dos céus.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um esqueleto de dragão animado, com pontos de luz maligna nas órbitas. Pedaços de carne mumificada ainda podem estar presos aos ossos.
 
@@ -29218,11 +29242,11 @@ por 1 minuto (pode repetir o teste no fim de cada turno).
 
 B. Dragão Zumbi (Nível 12)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um dragão reanimado sem mente por um necromante poderoso. Apenas fome e instinto guiam esta montanha de carne podre.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Carne caindo dos ossos, asas furadas que não deveriam voar (mas voam por magia), cheiro insuportável de morte. Moscas gigantes o seguem.
 
@@ -29240,11 +29264,11 @@ Físico +8, Mental -4, Social -4.
 
 C. Dragão Fantasma (Nível 14)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O espectro de um dragão que morreu guardando seu tesouro ou com um ódio inacabado. Ele assombra sua antiga caverna, incapaz de sair.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Translúcido e etéreo. Seus ossos brilham em azul pálido, e seu "corpo" é feito de neblina e sombras.
 
@@ -29264,7 +29288,7 @@ Imune Físico não-mágico. Atravessa paredes.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\07\_04a\_Tier4\_Deuses\_e\_Titans.md
+Arquivo: M04_DESAFIOS\07_04a_Tier4_Deuses_e_Titans.md
 
 Pandorha: Bestiário Narrativo Vol. 4 - Deuses e Titãs (Níveis 16-25)
 
@@ -29282,11 +29306,11 @@ Este tomo apresenta as maiores ameaças do multiverso. Criaturas capazes de desa
 
 A. Dragão Vermelho Ancião (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma catástrofe viva que viveu por milênios. Já viu impérios nascerem e queimarem. Não deseja apenas ouro, mas adoração como um deus da destruição. Seus covis são vulcões ativos onde ele dorme sobre um mar de moedas derretidas, sonhando com o fim do mundo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Colossal, com mais de 30 metros de envergadura. Suas escamas são tão duras quanto adamante e irradiam um calor que incendeia árvores próximas apenas com sua presença. Seus olhos são sóis em miniatura, e fumaça negra escapa constantemente de suas narinas.
 
@@ -29364,11 +29388,11 @@ se pisar ou começar o turno).
 
 B. Dragão de Ouro Ancião (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O ápice da bondade e da lei, mas não menos perigoso. Eles agem como juízes do mundo, punindo tiranos e protegendo profecias antigas. Sua sabedoria é infinita, e eles frequentemente assumem formas humanas para testar a moralidade dos mortais incautos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Escamas de ouro puro que refletem a luz do sol com perfeição. Bigodes longos e sinuosos como rios de luz flutuam ao redor de seu rosto sábio. Seus olhos são opalas giratórias que veem a verdade.
 
@@ -29390,11 +29414,11 @@ Pode usar uma ação para se transformar em qualquer humanoide ou besta, mantend
 
 C. Dragão Prismático (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um dragão de pura luz e magia, transcendendo as cores cromáticas ou metálicas. Guardião do tecido da magia, ele vive no Plano Astral ou no Limbo. Sua existência é um paradoxo vivo de todas as cores e poderes.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Suas escamas são espelhos cristalinos que refratam a luz em arco-íris constantes. Ele não parece sólido, mas feito de energia vibrante. Sua voz soa como um coro harmônico.
 
@@ -29468,11 +29492,11 @@ Role duas vezes. Ambos os raios atingem a área.
 
 A. Tarrasque (O Devorador) (Nível 25)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A arma definitiva dos primordiais para destruir a criação caso ela falhasse. Ele dorme no núcleo do planeta e acorda apenas para comer civilizações inteiras. Não tem mente, política ou malícia; apenas fome infinita.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma montanha de escamas, chifres e espinhos de 20 metros de altura. Sua carapaça é tão densa que reflete magia. Sua boca é um abismo capaz de engolir castelos inteiros. O chão treme quilômetros antes de ele chegar.
 
@@ -29546,11 +29570,11 @@ ou vomitar todas as criaturas engolidas.
 
 B. Titã da Tempestade (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um nobre gigante que ascendeu à divindade menor através de rituais esquecidos. Vive em castelos flutuantes acima das nuvens mais altas e controla o clima do mundo com seus humores.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Gigante de 10 metros com pele roxa escura e olhos brancos brilhantes sem pupilas. Raios orbitam sua cabeça como uma coroa, e sua barba é feita de nuvens de chuva.
 
@@ -29580,11 +29604,11 @@ Teste Global de Físico + Resistência + Nível (DC 43)
 
 C. Titã do Magma (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Nascido do coração de um vulcão primordial que nunca dorme. Ele odeia o mar e o céu, buscando transformar todo o planeta em um oceano de lava onde possa nadar eternamente.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um colosso de obsidiana rachada, vazando lava brilhante. Não tem pernas, apenas um tronco massivo que surge da terra derretida.
 
@@ -29612,11 +29636,11 @@ Transforma 30m de raio em lava difícil (10d10 Fogo/turno para quem pisar).
 
 A. Arcanjo da Justiça (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O general supremo dos exércitos do Paraíso. Ele desce ao mundo material apenas quando um mal absoluto ameaça o equilíbrio cósmico. Não conhece misericórdia para com demônios ou mortos-vivos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Seis asas de luz pura, armadura de platina incandescente e uma espada que parece feita de um pedaço do sol. Seu rosto é belo, mas terrível de se olhar diretamente.
 
@@ -29640,11 +29664,11 @@ Aura de Proteção (+5 em todas as resistências para aliados).
 
 B. Arcanjo da Cura (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A encarnação da misericórdia divina. Diferente de seus irmãos guerreiros, ele desce para salvar cidades de pragas ou curar heróis caídos. Sua presença acalma instantaneamente qualquer dor.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Andrógino, vestido com mantos que fluem como água. Tem quatro asas de cisne e carrega um cajado com uma serpente de bronze.
 
@@ -29670,11 +29694,11 @@ Revive todos os aliados mortos a 100m com metade do HP.
 
 C. Anjo da Morte (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O ceifeiro final. Não é maligno, apenas inevitável. Serve ao Deus da Passagem para garantir que almas poderosas (como Liches) sigam o fluxo natural da morte.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um esqueleto vestido em mantos negros rasgados, com asas de corvo gigantescas. Empunha uma foice que não reflete luz.
 
@@ -29698,11 +29722,11 @@ Conflito +12, Resistência +10, Interação 0.
 
 A. Kraken (Nível 18)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O terror dos mares profundos. Uma lenda que marinheiros rezam para ser mentira. Ele afunda frotas inteiras, devora baleias e cria tempestades com sua simples vontade de destruição.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma lula titânica com olhos do tamanho de carruagens. Seus tentáculos são espinhosos e capazes de esmagar o casco de galeões de guerra como se fossem brinquedos.
 
@@ -29736,11 +29760,11 @@ Realiza três ataques com +23 (Nv 18 + Fis 9). Alcance 15m. Dano
 
 B. Kraken Abissal (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um Kraken corrompido por magia demoníaca após devorar um portal submarino para o Abismo. Agora ele não quer apenas comer, quer corromper os oceanos com sangue negro.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Tentáculos mutantes com bocas na ponta. Sua pele pulsa com veias vermelhas brilhantes e ele expele uma tinta ácida que ferve a água.
 
@@ -29778,11 +29802,11 @@ por tentáculo (máximo 4 tentáculos em alvos Enormes, 1 em Médios).
 
 C. Leviatã (Nível 23)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A serpente do mundo que circunda os oceanos nas lendas antigas. Tão grande que é confundido com uma ilha ou cordilheira submarina. Se ele acordar, o mundo inunda.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma serpente marinha sem fim visível. Suas escamas são placas tectônicas vivas.
 
@@ -29812,11 +29836,11 @@ e serem empurradas 60m. Estruturas sofrem dano dobrado. Limpa qualquer efeito de
 
 A. General Abissal (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O general supremo dos exércitos demoníacos. Quando um Balor morre, sua alma colapsa em uma explosão cataclísmica, garantindo que ele leve seus assassinos junto.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Gigante alado de fogo e sombras, empunhando um chicote de chamas multicaudas e uma espada longa feita de relâmpagos sólidos.
 
@@ -29862,11 +29886,11 @@ O General faz dois ataques.
 
 B. Lorde das Pragas (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um avatar da podridão, doença e decadência. Governa uma camada do Abismo feita de carne podre. Seu zumbido enlouquece mortais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um humanoide inchado coberto de feridas abertas, cercado por uma nuvem eterna de moscas negras que bloqueiam a luz.
 
@@ -29912,11 +29936,11 @@ ou magia celestial de nível 7+.
 
 C. Príncipe das Bestas (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O demônio patrono da selvageria, dos licantropos e da caça sangrenta. Ele odeia civilização e busca reduzir o mundo a uma floresta primordial onde apenas o forte come o fraco.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um ser de duas cabeças (babuíno e javali) com corpo peludo e tentáculos no lugar das mãos.
 
@@ -29946,11 +29970,11 @@ Mental reduzido a 1
 
 A. Arquiduque Infernal (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um dos nove governantes do Inferno. Mestre da lei pervertida e do fogo. Ele luta com palavras tanto quanto com magia, capaz de prender um herói em um contrato eterno com uma frase.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Humanoide carismático com chifres curvos, vestindo roupas de nobreza feitas de pele de anjo e seda infernal. Carrega um cetro de rubi.
 
@@ -30002,11 +30026,11 @@ Teste Global de Físico + Resistência + Nível (DC 38)
 
 B. Duque da Gula (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Senhor das moscas e da fome eterna. Ele devora almas, esperanças e exércitos. Sua fome nunca é saciada, e ele é uma montanha de carne e gordura em constante expansão.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma lesma gigante com braços e uma boca vertical que ocupa todo o tronco, cheia de dentes e saliva ácida.
 
@@ -30060,11 +30084,11 @@ Terreno Difícil
 
 C. Arquiduque das Mentiras (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O enganador supremo. Nunca luta justo. Ele governou por eras sem nunca ter sacado uma arma, apenas fazendo seus inimigos matarem uns aos outros por paranoia.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Ninguém sabe sua forma real. Para cada observador, ele parece o que eles mais amam ou temem. Seu rosto é um espelho.
 
@@ -30114,7 +30138,7 @@ Teste Global de Social + Resistência + Nível (DC 44)
 
 (10 + Nv 22 + 12 Soc) ou verem seus aliados como monstros horripilantes por 1 rodada. Elas devem usar sua Reação imediatamente para fazer um ataque básico contra o aliado mais próximo.
 
-\[Reação\] Troca de Lugar:
+[Reação] Troca de Lugar:
 
 Quando o Arquiduque é alvo de um ataque, ele pode trocar de lugar instantaneamente com uma de suas duplicatas ou com uma criatura voluntária (ou dominada) a 18m. O novo alvo recebe o ataque no lugar dele.
 
@@ -30124,11 +30148,11 @@ Quando o Arquiduque é alvo de um ataque, ele pode trocar de lugar instantaneame
 
 A. Empyrean (Filho de Deus) (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Filhos diretos de divindades maiores com mortais ou essência pura. Seus humores afetam o ambiente ao redor; se choram, inundações acontecem. Podem ser bondosos ou tiranos infantis que brincam com reinos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Humanoide perfeito de 8 metros que brilha com luz interna. Veste togas e sandálias. Sua beleza é dolorosa.
 
@@ -30202,11 +30226,11 @@ até o próximo turno do Empyrean.
 
 B. Titã da Guerra (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A encarnação do conflito eterno. Ele surge em campos de batalha onde o sangue derramado saturou a terra. Não tem lado político, apenas luta para manter a guerra viva.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante de ferro coberto de armas cravadas em seu corpo (espadas, lanças, flechas de eras passadas). Ele usa essas armas (arrancando-as da própria carne) para lutar.
 
@@ -30220,7 +30244,7 @@ Conflito +14, Resistência +12, Interação +6.
 
 #### Passiva - Arsenal Infinito:
 
-O Titã pode materializar qualquer arma mundana ou mágica como uma 1 Ação \[L\]. Seus ataques são mágicos e ignoram resistências a dano físico.
+O Titã pode materializar qualquer arma mundana ou mágica como uma 1 Ação [L]. Seus ataques são mágicos e ignoram resistências a dano físico.
 
 #### Tempestade de Armas:
 
@@ -30260,17 +30284,17 @@ Teste Global de Físico + Resistência + Nível (DC 44)
 
 10d10 Cortante
 
-\[Reação\] Aparar e Matar:
+[Reação] Aparar e Matar:
 
 Quando o Titã sofre um ataque corpo-a-corpo e o atacante erra, o Titã pode realizar um ataque imediato com a Espada Larga contra ele.
 
 C. Titã da Morte (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um titã que caiu no Plano das Sombras e foi distorcido pela entropia. Ele busca o silêncio final do universo, devorando luz e som.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um esqueleto gigante vestindo armadura negra, com fogo fátuo nos olhos. As sombras se alongam ao seu redor como tentáculos.
 
@@ -30336,11 +30360,11 @@ Eles permanecem até serem destruídos ou o Titã dispensá-los.
 
 A. Nightwalker (Caminhante Noturno) (Nível 18)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma sombra gigante do Plano Negativo que invade o mundo material. Ele consome a vida por onde passa, deixando apenas cinzas frias. Não fala, não negocia.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante humanoide de sombra absoluta de 6 metros, sem rosto, pernas ou detalhes. Apenas um torso e braços longos flutuando.
 
@@ -30394,11 +30418,11 @@ Sofre metade do dano e não fica paralisado.
 
 B. Avatar da Morte (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A morte personificada enviada para buscar especificamente aqueles que enganaram o destino (como magos que usam clones ou ressurreições excessivas).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Varia para cada observador, geralmente um reflexo distorcido de si mesmo morto ou apodrecido.
 
@@ -30418,11 +30442,11 @@ Inevitável (Sempre acerta).
 
 C. Lich Celestial (Arquilich) (Nível 25)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um lich que ascendeu e absorveu o poder de deuses menores e artefatos. Ele governa um reino subterrâneo de mortos-vivos e planeja substituir a deusa da magia, reescrevendo as leis do Etérico.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um crânio flutuando sobre um trono de ossos de dragão, cercado por dezenas de Ioun Stones (pedras mágicas) zumbindo.
 
@@ -30468,7 +30492,7 @@ O Lich para o fluxo temporal. Ele ganha
 
 imediatamente. Nesses turnos, ele não pode causar dano direto a outras criaturas, mas pode se mover, criar barreiras ou preparar o campo.
 
-\[Reação\] Anular Magia:
+[Reação] Anular Magia:
 
 Quando vê alguém conjurando uma magia, o Lich pode fazer um teste de
 
@@ -30496,7 +30520,7 @@ Teste Global de Mental + Resistência + Nível (DC 50)
 
 (10 + Nv 25 + 15 Men) ou ficar paralisado enquanto sua alma é sugada (3 turnos para morte).
 
-\[Reação\] Absorver Magia:
+[Reação] Absorver Magia:
 
 Se o Lich for alvo de uma magia de dano, ele pode absorvê-la. Ele não sofre dano e
 
@@ -30510,11 +30534,11 @@ igual ao dano que sofreria.
 
 A. Protoplasma Estelar (Nível 17)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A matéria original criada pelos Antigos para ser escrava. Rebelou-se e agora vaga pelas estrelas. Uma massa de olhos e bocas que grita sons sem sentido eternamente, imitando seus antigos mestres.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma ameba de 5 metros de diâmetro feita de lodo iridescente, olhos que surgem e somem e bocas balbuciantes. Cheira a alcatrão e ozônio.
 
@@ -30564,11 +30588,11 @@ Teste Global de Mental + Resistência + Nível (DC 35)
 
 B. Cria Cósmica (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um fragmento do Grande Sonhador das Profundezas. Sua geometria é errada, causando dor física em quem tenta compreendê-la. Veio das estrelas para preparar o despertar da Cidade Submersa.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um humanoide obeso e alado com cabeça de polvo e garras de dragão. Tamanho Gigante. A realidade ao seu redor parece derreter.
 
@@ -30608,17 +30632,17 @@ e o alvo fica
 
 por 1 minuto (Mental DC 41 (10 + Nv 19 + 12 Resistência) anula o atordoamento e metade do dano).
 
-\[Reação\] Geometria Não-Euclidiana:
+[Reação] Geometria Não-Euclidiana:
 
 Quando recebe um ataque, a Cria pode se teleportar instantaneamente 9m para um espaço vazio, fazendo o ataque errar (a menos que seja um Crítico).
 
 C. Entidade do Vazio (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um buraco negro consciente que ganhou sencência. Ele deseja retornar o universo ao estado de nada absoluto, apagando estrelas uma por uma.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma esfera de escuridão perfeita que distorce a luz ao redor (lente gravitacional). Frio absoluto emana dela, congelando o ar.
 
@@ -30642,11 +30666,11 @@ Puxa todos num raio de 100m para o centro. Quem tocar a entidade é desintegrado
 
 A. Fênix Primordial (Nível 16)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O pássaro de fogo original. Representa o ciclo de vida e morte. Bondosa, mas sua presença queima florestas inteiras se ela pousar. Suas lágrimas curam qualquer doença.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um pássaro gigante de 10 metros de envergadura feito inteiramente de fogo vivo e penas de ouro derretido. O chão vira vidro sob seus pés.
 
@@ -30694,7 +30718,7 @@ Cone de 18m.
 
 e são curados de Cegueira, Surdez e Doenças.
 
-\[Reação\] Clarão:
+[Reação] Clarão:
 
 Quando atacada, a Fênix emite um flash de luz. O atacante deve passar em
 
@@ -30708,11 +30732,11 @@ de penalidade se a cegueira ocorrer antes do golpe).
 
 B. Fênix Sombria (Nível 18)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma Fênix que foi morta com necromancia no momento de seu renascimento. Agora ela queima com fogo frio e espalha cinzas de luto, incapaz de morrer verdadeiramente, sofrendo eternamente.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Fogo violeta e negro. Suas penas caem como cinzas vulcânicas. Seus olhos choram sangue negro.
 
@@ -30766,11 +30790,11 @@ Apenas chora (apenas penalidade de -2 em ataques).
 
 C. Fênix de Cristal (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma evolução rara, feita de luz pura e cristal. Ela habita o Plano da Energia Positiva, sendo uma bateria viva de poder Etérico. Magos tentam capturá-las para energizar cidades voadoras.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Translúcida como diamante, refratando luz em arco-íris mortais. Soa como sinos de vidro.
 
@@ -30836,11 +30860,11 @@ Teste Global de Mental + Resistência + Nível (DC 40)
 
 A. Verme Psíquico Ancião (Nível 16)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um verme psíquico gigante criado quando um girino de Algoz Mental é abandonado e cresce sem controle, devorando sua própria colônia. É um predador alfa do Subterrâneo profundo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um verme roxo de 20 metros com quatro tentáculos gigantes na boca sensoriais. Exala muco ácido que derrete pedra.
 
@@ -30902,11 +30926,11 @@ e perderem a próxima ação (Atordoamento Mental).
 
 B. Verme do Apocalipse (Nidhogg) (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O verme lendário que rói as raízes da árvore do mundo (Yggdrasil). Seu veneno é destinado a matar deuses. Ele espera o Ragnarok para voar (mesmo sem asas) sobre os campos de mortos.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um dragão sem asas, serpentino, coberto de raízes e terra de túmulos. Seus dentes gotejam veneno verde neon.
 
@@ -30984,11 +31008,11 @@ para o Nidhogg).
 
 C. Verme da Galáxia (Nível 25)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Viaja pelo vácuo do espaço devorando asteroides e pequenas luas. Às vezes cai em planetas como um meteoro vivo, causando extinções em massa com o impacto e sua fome subsequente.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Pele de rocha espacial, brilha com radiação cósmica azul. Seu tamanho é continental.
 
@@ -31052,11 +31076,11 @@ Teste Global de Físico + Resistência + Nível (DC 51)
 
 A. Avatar da Guerra (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A manifestação física do Deus da Guerra. Desce para liderar cruzadas sagradas quando seus fiéis estão prestes a ser aniquilados. Ele é a técnica perfeita e a força bruta combinadas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante de 4 braços segurando Espada, Machado, Lança e Escudo. Sua pele é bronze vivo, e seus olhos são fendas vermelhas em um elmo fechado.
 
@@ -31126,17 +31150,17 @@ Aterrorizados
 
 (não podem se aproximar, ataques com -5).
 
-\[Reação\] Aparar e Ripostar:
+[Reação] Aparar e Ripostar:
 
 Se um inimigo errar um ataque corpo a corpo contra o Avatar, ele pode usar sua reação para fazer um ataque imediato com a Espada contra esse inimigo.
 
 B. Avatar da Magia (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um ser de pura Energia Etérica, enviado pela Deusa da Magia para proteger os Fios da Trama quando alguém tenta rasgar a realidade (como Karsus tentou).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma silhueta feminina feita de estrelas e runas brilhantes azuis e prateadas. Não tem rosto, apenas luz intensa. Flutua sem tocar o chão.
 
@@ -31202,7 +31226,7 @@ Dissipa automaticamente todas as magias ativas no alvo. O alvo sofre
 
 puro pela ruptura violenta da magia.
 
-\[Reação\] Absorção Etérica:
+[Reação] Absorção Etérica:
 
 Quando é alvo de uma magia inimiga, o Avatar pode fazer um teste de
 
@@ -31214,11 +31238,11 @@ A magia é absorvida e anulada. O Avatar cura HP igual a 10x o nível da magia a
 
 C. Avatar da Natureza (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A fúria da terra contra a civilização. Uma floresta que anda na forma de um colosso, despertada quando a natureza sofre danos irreparáveis.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Feito de carvalho antigo, pedra de montanha e rios correndo por seus membros. Pássaros fazem ninho em seus ombros e lobos correm aos seus pés.
 
@@ -31312,11 +31336,11 @@ Físico + Conflito DC 20
 
 A. Colosso de Adamante (Nível 23)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma estátua do tamanho de um arranha-céu, animada para defender os portões do Olimpo ou cidades divinas. Nenhuma arma mortal pode arranhá-lo, e ele não para até ser desativado por seus criadores.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Metal negro indestrutível, liso e perfeito. Seus passos esmagam quarteirões inteiros. Um único olho vermelho varre o horizonte.
 
@@ -31374,11 +31398,11 @@ permanentemente (precisa de magia de cura nível 7+ para restaurar).
 
 B. Sentinela Estelar (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Robô Etérico deixado por alienígenas antigos para vigiar planetas primitivos e impedir que usem tecnologia proibida. Eles despertam se magia nuclear ou temporal for usada.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Geometria flutuante de metal branco e anéis de luz azul giratórios. Fala em matemática pura.
 
@@ -31434,7 +31458,7 @@ por rodada e
 
 para ataques contra ele). Dura 1 minuto (Teste encerra).
 
-\[Reação\] Negação de Anomalia:
+[Reação] Negação de Anomalia:
 
 Se uma criatura tentar usar Teleporte ou Manipulação Temporal a 30m, a Sentinela cancela o efeito automaticamente e o conjurador sofre
 
@@ -31444,11 +31468,11 @@ Se uma criatura tentar usar Teleporte ou Manipulação Temporal a 30m, a Sentine
 
 C. Motor do Caos (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma máquina gnomica do tamanho de uma montanha que ganhou consciência divina e enlouqueceu. Distorce a realidade ao redor, transformando pedra em pão e ar em chumbo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa de engrenagens, pistões e tubos de vidro brilhantes, mudando de forma constantemente. O monstro é um "Glitch" vivo na realidade.
 
@@ -31522,7 +31546,7 @@ Ataque corpo a corpo com tentáculo mecânico. +20.
 
 O alvo esquece como usar uma de suas habilidades ou magias até o fim do combate (escolha aleatória do Mestre).
 
-\[Reação\] Glitch na Realidade:
+[Reação] Glitch na Realidade:
 
 Quando sofre dano, o Motor pode teleportar 15m para uma posição aleatória, anulando o dano sofrido (como se ele nunca estivesse lá quando o golpe acertou).
 
@@ -31534,11 +31558,11 @@ Recarga: 4-6 no d6
 
 A. Árvore do Mundo (Avatar) (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma raiz senciente de Yggdrasil que brotou no plano material. Conecta todos os planos e serve como portal. Se atacada, defende-se com a força de todos os mundos que sustenta.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma árvore de 1km de altura. Suas folhas brilham com luz estelar. Luta usando raízes que surgem do chão em qualquer lugar do campo de batalha.
 
@@ -31606,11 +31630,11 @@ reduz à metade).
 
 B. Fungo Deus (Zuggtmoy) (Nível 18)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um cogumelo do tamanho de uma cidade que controla mentes via esporos globais. Deseja assimilar toda a vida em uma consciência fúngica coletiva, eliminando dor e individualidade.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa de fungos roxos e amarelos em forma vagamente feminina, sentada em um trono de micélio. Esporos formam halos ao seu redor.
 
@@ -31670,11 +31694,11 @@ com HP cheio.
 
 C. Lótus Negra (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A flor lendária que induz o sono eterno até em deuses. Protegida por pesadelos vivos que ela manifesta para se defender. Quem cheira seu pólen dorme feliz para sempre enquanto é digerido.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 15 (Pétalas de Aço).
 
@@ -31734,11 +31758,11 @@ A Lótus toca um alvo adormecido.
 
 A. Enxame de Meteoros (Vivo) (Nível 18)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Pedras voadoras elementais que atacam como um enxame de abelhas, mas cada "abelha" é um meteoro em chamas do tamanho de uma carroça. Nascidos no Plano do Fogo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 O céu fica vermelho. Milhares de rochas flamejantes voam em padrão coordenado, formando mãos ou rostos no céu antes de cair.
 
@@ -31792,11 +31816,11 @@ Cratera de Lava
 
 B. Praga dos Deuses (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Gafanhotos de ferro criados para punir faraós e deuses arrogantes. Eles comem colheitas, madeira, carne e até itens mágicos, deixando o mundo estéril.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma nuvem negra que bloqueia o sol. O som de milhões de mandíbulas de metal triturando é ensurdecedor.
 
@@ -31884,11 +31908,11 @@ A magia é lançada, mas com penalidade de
 
 C. Nanorobôs Etéricos (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Poeira cinza (Gray Goo) criada por um artífice louco que tentou criar vida artificial microscópica. Desintegra tudo para replicar a si mesma.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma onda cinza fluida que avança como água, mas dissolve pedra e metal ao toque.
 
@@ -31956,11 +31980,11 @@ Cópias Menores
 
 A. Hidra de Cem Cabeças (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O monstro final da regeneração. Cortar uma cabeça faz nascer duas instantaneamente. A regeneração é tão rápida que é visível a olho nu. Foi selada sob uma montanha porque não podia ser morta.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma massa contorcida de pescoços e cabeças sibilantes. O corpo principal mal é visível sob o emaranhado de serpentes.
 
@@ -32024,7 +32048,7 @@ Teste Global de Físico + Resistência + Nível (DC 22)
 
 até o final do próximo turno.
 
-\[Reação\] Defesa de Serpentes:
+[Reação] Defesa de Serpentes:
 
 Se a Hidra for atacada corpo a corpo, as cabeças reagem mordendo o atacante (+24 acerto,
 
@@ -32032,11 +32056,11 @@ Se a Hidra for atacada corpo a corpo, as cabeças reagem mordendo o atacante (+2
 
 B. Hidra do Vazio (Nível 23)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Cabeças que não são serpentes, mas vórtices de escuridão que sugam luz e matéria. Vive no espaço entre os planos, comendo viajantes astrais.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Corpo escuro e translúcido. As cabeças são buracos negros na forma de dragões sem olhos.
 
@@ -32132,11 +32156,11 @@ Físico + Força DC 26
 
 C. Imperatriz dos Elementos (Avatar) (Nível 25)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A Deusa Primordial que teceu a matéria do mundo. Ela não é apenas mãe dos dragões, mas a própria encarnação da Tabela Periódica mágica.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um leviatã de escamas de platina translúcida. Ela não possui múltiplas cabeças; em vez disso,
 
@@ -32208,7 +32232,7 @@ Contido e Incapacitado
 
 dentro do cristal. O cristal tem 100 HP e Defesa 20. Enquanto estiver preso, o alvo não pode agir, mas também não sofre dano de fora (exceto psíquico).
 
-\[Reação\] Absorção Cromática:
+[Reação] Absorção Cromática:
 
 Quando a Imperatriz sofre dano elemental (Fogo, Frio, Raio, Ácido, Veneno, Radiante ou Necrótico), ela pode usar sua reação para
 
@@ -32220,11 +32244,11 @@ o dano totalmente e curar HP igual à quantidade que sofreria. Ela então dispar
 
 A. Rei Fantasma (Nível 18)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um rei que se recusou a morrer e arrastou sua corte inteira para a não-vida através de um pacto amaldiçoado. Ele comanda exércitos de fantasmas e ainda acredita que governa seu reino vivo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Usa uma coroa etérEE e armadura espectral. Seus olhos são chamas verdes. Cavalga um cavalo fantasma.
 
@@ -32242,11 +32266,11 @@ Cria 1d4 Espectros por turno que lutam por ele.
 
 B. Ceifador (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 A morte pessoal e inevitável de um herói. Uma manifestação psíquica que só pode ser vista e tocada pela sua vítima escolhida. Para os outros, o herói luta contra o ar e morre sozinho.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um vulto encapuzado com o rosto da própria vítima em decomposição.
 
@@ -32272,11 +32296,11 @@ ou morrer (sem teste de dano).
 
 C. Vulto do Tempo (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um fantasma de uma era futura que volta para se alimentar do tempo de vida das vítimas para sustentar sua própria existência paradoxal. Se ele te tocar, você envelhece décadas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Sua forma "falha" e treme, como uma imagem ruim. Ele se move em saltos temporais, estando em vários lugares ao mesmo tempo.
 
@@ -32298,11 +32322,11 @@ Envelhece a vítima em 1d100 anos. Se morrer de velhice, vira pó e o Vulto cura
 
 A. Monarca do Fogo (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O próprio sol em forma humanoide. Sua coroa é uma supernova contida. Ele desce ao mundo para punir o frio e trazer o verão eterno (seca e fogo).
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um ser de plasma branco brilhante. Não se pode olhar diretamente para ele sem cegar.
 
@@ -32318,11 +32342,11 @@ Aura de Dano de Fogo (10d10 a 6m). Metal derrete perto dele.
 
 B. Leviatã de Gelo (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um iceberg vivo com olhos antigos. Congela oceanos ao passar e deseja transformar o mundo em uma esfera de gelo estática e perfeita.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma baleia ou serpente feita de gelo azul glacial, coberta de neve eterna.
 
@@ -32334,11 +32358,11 @@ Cone 100m. Transforma tudo em estátua de gelo (Petrificação de Gelo).
 
 C. Tempestade Eterna (Nível 19)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um furacão senciente que nunca acaba, nascido da fúria de um deus do ar. Destrói cidades costeiras por capricho e carrega casas e gado em seu vórtice.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um rosto gigante formado por nuvens de tempestade e relâmpagos.
 
@@ -32362,11 +32386,11 @@ Dano em área massivo. Pode levantar inimigos e jogá-los a quilômetros de dist
 
 A. Devorador de Planetas (Nível 25)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Uma entidade do tamanho de uma lua que se alimenta de energia geotérmica. Viaja pelo universo procurando mundos ricos em magma. Para ele, civilizações são apenas bactérias na casca de uma fruta.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma máquina ou organismo biomecânico colossal que ancora no planeta e começa a drenar. O céu fica Roxo.
 
@@ -32384,11 +32408,11 @@ Drenar Núcleo (Destroi o planeta em 1d4 dias). Invoca drones de defesa.
 
 B. Devorador de Almas (Nível 23)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Caça deuses para comer sua essência divina e tomar seu lugar no panteão. Já matou dezenas de divindades esquecidas.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um gigante magro, com uma boca no peito cheia de dentes espirituais. Veste as peles douradas de anjos mortos.
 
@@ -32406,11 +32430,11 @@ Mata seres imortais permanentemente, impedindo ressurreição.
 
 C. Devorador de Esperança (Nível 21)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Monstro psíquico que se alimenta do desespero coletivo. Ele induz suicídio em massa em exércitos antes da batalha começar, alimentando-se da tristeza.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma nuvem de fumaça cinza com olhos chorosos.
 
@@ -32432,11 +32456,11 @@ Teste Global de Mental + Resistência + Nível (DC 25)
 
 A. Olho Tirano (Mãe) (Nível 20)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 O Olho Tirano original, do tamanho de uma pequena lua. Gera milhares de olhos menores através de seus sonhos. Vive no Reino Distante, observando tudo.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Uma esfera de carne de 50m de diâmetro com um olho central leitoso que vê o futuro. Milhares de pedúnculos a cobrem como uma floresta.
 
@@ -32458,11 +32482,11 @@ Ataca exércitos inteiros com feixes múltiplos.
 
 B. Olho de Deus (Ophanim) (Nível 22)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um anjo biblicamente preciso que enlouqueceu ao ver a face de Deus. Rodas dentro de rodas cobertas de olhos e chamas sagradas. Não entende a mortalidade, apenas a "purificação" através do fogo sagrado.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Geometria impossível de anéis dourados e olhos de fogo girando no ar. Voz soa como trovão.
 
@@ -32474,11 +32498,11 @@ Queima pecadores (Dano Radiante infinito para quem tem alinhamento Maligno).
 
 C. Vigilante do Fim (Nível 24)
 
-\[!NOTE\] LORE & HISTÓRIA
+[!NOTE] LORE & HISTÓRIA
 
 Um olho que existe no fim do tempo. Ele vê todas as linhas temporais e apaga aquelas que não gosta, removendo criaturas da existência retroativamente para "limpar" a cronologia.
 
-\[!TIP\] ASPECTO VISUAL
+[!TIP] ASPECTO VISUAL
 
 Um olho gigante flutuando no vácuo, cercado por ampulhetas quebradas.
 
@@ -32494,7 +32518,7 @@ ou nunca ter existido (ninguém lembra dele, seus feitos são desfeitos).
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\20\_Codex\_de\_Toxinas.md
+Arquivo: M04_DESAFIOS\20_Codex_de_Toxinas.md
 
 Pandorha: Capítulo 20 - Codex de Toxinas (Venenos e Ácidos Mágicos)
 
@@ -32516,7 +32540,7 @@ Veneno (Orgânico), Ácido (Corrosivo), Mágico (Energia) ou Divino (Conceitual)
 
 A fórmula do Teste Global necessário para negar ou reduzir o efeito.
 
-\[d20\] + \[Nível\] + \[Eixo\] + \[Aplicação\]
+[d20] + [Nível] + [Eixo] + [Aplicação]
 
 contra a DC da Toxina.
 
@@ -32970,7 +32994,7 @@ eterno), pois sua realidade é uma mentira.
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\23\_Codex\_de\_Armadilhas.md
+Arquivo: M04_DESAFIOS\23_Codex_de_Armadilhas.md
 
 Pandorha: Capítulo 23 - Codex de Armadilhas e Perigos
 
@@ -33094,7 +33118,7 @@ Mental + Interação
 
 #### Fórmula de Percepção:
 
-Resultado = \[d20\] + \[Nível do Personagem\] + \[Mental\] + \[Interação\] + \[Bônus de Percepção do Equipamento\]
+Resultado = [d20] + [Nível do Personagem] + [Mental] + [Interação] + [Bônus de Percepção do Equipamento]
 
 #### Sucesso (Supera DC):
 
@@ -33116,7 +33140,7 @@ Físico + Interação
 
 #### Fórmula Mecânica:
 
-Resultado = \[d20\] + \[Nível\] + \[Físico\] + \[Interação\] + \[Ferramentas de Desarme\]
+Resultado = [d20] + [Nível] + [Físico] + [Interação] + [Ferramentas de Desarme]
 
 #### Treinamento de Ladrão:
 
@@ -33134,7 +33158,7 @@ Mental + Interação
 
 #### Fórmula Mágica:
 
-Resultado = \[d20\] + \[Nível\] + \[Mental\] + \[Interação\] + \[Foco Mágico Arcano/Divino\]
+Resultado = [d20] + [Nível] + [Mental] + [Interação] + [Foco Mágico Arcano/Divino]
 
 C. Evitando o Efeito Final (Evasão e Resistência)
 
@@ -33142,7 +33166,7 @@ Se a armadilha for ativada (seja por falha cômica no desarme, falha do passarin
 
 #### Sobreviver a Fogo / Quedas / Lâminas / Impacto contundente (Teste de Evasão):
 
-\[d20\] + \[Nível\] + \[Físico\] + \[Conflito (Esquiva)\]
+[d20] + [Nível] + [Físico] + [Conflito (Esquiva)]
 
 DC da Armadilha
 
@@ -33150,7 +33174,7 @@ Obs: Classes focadas em Agilidade e Caçadores normalmente usam esta fórmula pa
 
 Sobreviver a Venenos Injetados / Mágica Fantasma de Morte Instantânea (Teste de Resistência):
 
-\[d20\] + \[Nível\] + \[Físico ou Mental\] + \[Resistência\]
+[d20] + [Nível] + [Físico ou Mental] + [Resistência]
 
 DC da Armadilha
 
@@ -33200,21 +33224,21 @@ Nunca assassine seu grupo com buracos na parede invisíveis. Todo labirinto geni
 
 Localize nas suas referências estruturais os quatro volumes com o D100 de todas as armadilhas de Pandorha tabeladas pelo escalonamento heroico e esmiuçadas passo-a-passo.
 
-\[Capítulo 23.1\] - Tomo (Tier I) : Níveis 1 ao 5.
+[Capítulo 23.1] - Tomo (Tier I) : Níveis 1 ao 5.
 
-\[Capítulo 23.2\] - Tomo (Tier II) : Níveis 6 ao 10.
+[Capítulo 23.2] - Tomo (Tier II) : Níveis 6 ao 10.
 
-\[Capítulo 23.3\] - Tomo (Tier III) : Níveis 11 ao 15.
+[Capítulo 23.3] - Tomo (Tier III) : Níveis 11 ao 15.
 
-\[Capítulo 23.4\] - Tomo (Tier IV) : Níveis 16 ao 20.
-
---------------------------------------------------------------------------------
+[Capítulo 23.4] - Tomo (Tier IV) : Níveis 16 ao 20.
 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\23a\_Codex\_Armadilhas\_Tier1.md
+--------------------------------------------------------------------------------
+
+Arquivo: M04_DESAFIOS\23a_Codex_Armadilhas_Tier1.md
 
 Pandorha: Capítulo 23.1 - Tomo de Armadilhas (Tier I)
 
@@ -33404,7 +33428,7 @@ Nível 3 ao 5
 
 (Continua na escalada matemática referendada pelo Grau Simples: 10 + Nivel + 1 / Escondida 10 + Nivel + 3 / Mortal 10 + Nivel + 5 do Codex)
 
-with open(os.path.join(base\_dir, "23a\_Codex\_Armadilhas\_Tier1.md"), "w", encoding="utf-8") as file:
+with open(os.path.join(base_dir, "23a_Codex_Armadilhas_Tier1.md"), "w", encoding="utf-8") as file:
 
 file.write(tier1)
 
@@ -33414,7 +33438,7 @@ file.write(tier1)
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\23b\_Codex\_Armadilhas\_Tier2.md
+Arquivo: M04_DESAFIOS\23b_Codex_Armadilhas_Tier2.md
 
 Pandorha: Capítulo 23.2 - Tomo de Armadilhas (Tier II)
 
@@ -33692,7 +33716,7 @@ Patógeno antigo projetado por agulha morta envenenada injeta nas cutículas dos
 
 Exatos 5d6 escalados como Condição de Doença Corrosiva. Drena Vigor (PV base) a
 
-. A regeneração por Descanso Curto é nula pelas contagens do relógio da campanha. Somente poções Panaceia raras tiram o patógeno. Salvar pelo menos não abaixa max\_hp da constituição global.
+. A regeneração por Descanso Curto é nula pelas contagens do relógio da campanha. Somente poções Panaceia raras tiram o patógeno. Salvar pelo menos não abaixa max_hp da constituição global.
 
 45. Maldição dos Ossos
 
@@ -33788,7 +33812,7 @@ DC 25 para suportar rasgo fantasma no tendão interno.
 
 8d6 Dano assustador de base Necrótica Dano massivo letal. Falha leva decapitação espiritual, ou seja Mudo + Vida indo pra casa do desespero (Zero, ou um quarto de folego).
 
-with open(os.path.join(base\_dir, "23b\_Codex\_Armadilhas\_Tier2.md"), "w", encoding="utf-8") as file:
+with open(os.path.join(base_dir, "23b_Codex_Armadilhas_Tier2.md"), "w", encoding="utf-8") as file:
 
 file.write(tier2)
 
@@ -33798,7 +33822,7 @@ file.write(tier2)
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\23c\_Codex\_Armadilhas\_Tier3.md
+Arquivo: M04_DESAFIOS\23c_Codex_Armadilhas_Tier3.md
 
 Pandorha: Capítulo 23.3 - Tomo de Armadilhas (Tier III)
 
@@ -33982,7 +34006,7 @@ Nível 13 ao 15 (Em Breve)
 
 (A estrutura se repete escalando as fórmulas e status contínuos - consulte tabela geral)
 
-with open(os.path.join(base\_dir, "23c\_Codex\_Armadilhas\_Tier3.md"), "w", encoding="utf-8") as file:
+with open(os.path.join(base_dir, "23c_Codex_Armadilhas_Tier3.md"), "w", encoding="utf-8") as file:
 
 file.write(tier3)
 
@@ -33992,7 +34016,7 @@ file.write(tier3)
 
 --------------------------------------------------------------------------------
 
-Arquivo: M04\_DESAFIOS\23d\_Codex\_Armadilhas\_Tier4.md
+Arquivo: M04_DESAFIOS\23d_Codex_Armadilhas_Tier4.md
 
 Pandorha: Capítulo 23.4 - Tomo de Armadilhas (Tier IV)
 
@@ -34096,11 +34120,12 @@ Nível 17 ao 20 (Em Breve)
 
 (As divindades não brincam em serviço com Danos de Força em esferas colossais. Vide mecânica no volume Codex)
 
-with open(os.path.join(base\_dir, "23d\_Codex\_Armadilhas\_Tier4.md"), "w", encoding="utf-8") as file:
+with open(os.path.join(base_dir, "23d_Codex_Armadilhas_Tier4.md"), "w", encoding="utf-8") as file:
 
 file.write(tier4)
 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

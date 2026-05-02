@@ -3,16 +3,17 @@ sourceFile: "A Arte da Tecelagem (Aquisição de Metamagias).md"
 exportedBy: "Kortex"
 exportDate: "2026-04-28T15:06:22.167Z"
 ---
-
+<ai_context>
+<ai_context>
 # A Arte da Tecelagem (Aquisição de Metamagias).md
 
-5751669f-f755-4722-ba43-85d16a507cc8
+
 
 A Arte da Tecelagem (Aquisição de Metamagias).md
 
-e2df87e1-1be7-4345-81e9-cdc318ad36bd
 
-Arquivo: M03\_ACAO\A Arte da Tecelagem (Aquisição de Metamagias).md
+
+Arquivo: M03_ACAO\A Arte da Tecelagem (Aquisição de Metamagias).md
 
 Pandorha: A Arte da Tecelagem (Aquisição de Metamagias)
 
@@ -135,4 +136,5 @@ Durante a transição de um
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
+</ai_context>
+</ai_context>

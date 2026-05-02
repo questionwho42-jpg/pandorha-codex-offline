@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+python "$repo_root/scripts/pandorha_process_automation.py" post-merge >/dev/null 2>&1 || true
