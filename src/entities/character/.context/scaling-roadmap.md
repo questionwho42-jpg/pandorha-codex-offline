@@ -6,3 +6,4 @@
 - Move derived resources such as HP, PV, EE, CA, initiative, and load into dedicated rule services so final values are recalculated instead of persisted.
 - Extend `pandorha-arch-guard` to recognize `src/entities` and public entity APIs.
 - Generate Drizzle migrations once the app scaffold and migration target are formalized.
+- Add integration tests with the real SQLite WASM/OPFS stack only after migrations and worker boot are formalized.

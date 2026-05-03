@@ -342,6 +342,21 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-03T12:22:47-03:00 - character-repository-contract
+- branch: task-character-repository-contract
+- commit: 9dc3fdb docs(process): adiciona protocolo de ferramentas uteis
+- changed_files_count: 5
+#### Changed Files
+- src/entities/character/.context/plain-english.md
+- src/entities/character/.context/scaling-roadmap.md
+- src/entities/character/.context/tech-memory.md
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-03T11:55:32-03:00 - tooling-relevance-protocol
 - branch: task-tooling-relevance-protocol
 - commit: 1beed5b feat(app): aplica shell visual com tokens Tailwind

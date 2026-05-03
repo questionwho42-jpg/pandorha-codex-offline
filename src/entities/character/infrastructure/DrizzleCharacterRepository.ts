@@ -61,12 +61,22 @@ export class DrizzleCharacterRepository implements CharacterRepository {
 			.from(characters)
 			.where(eq(characters.id, id))
 			.limit(1);
-		const parsed = characterSelectSchema.safeParse(rows[0]);
+		const row = rows[0];
 
-		if (!parsed.success) {
+		if (!row) {
 			return fail({
 				code: "CHARACTER_NOT_FOUND",
 				message: "Character record was not found.",
+				details: { id },
+			});
+		}
+
+		const parsed = characterSelectSchema.safeParse(row);
+
+		if (!parsed.success) {
+			return fail({
+				code: "CORRUPTED_CHARACTER_RECORD",
+				message: "Drizzle returned an invalid character record after select.",
 				details: { id },
 			});
 		}
