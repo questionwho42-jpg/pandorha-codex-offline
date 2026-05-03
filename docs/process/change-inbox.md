@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260503-171537-t09-character-error-copy -->
+### T09 character error copy
+- id: 20260503-171537-t09-character-error-copy
+- status: open
+- created_at: 2026-05-03T17:15:37-03:00
+- source: task-ledger
+- summary: Refinar mensagens pt-BR do formulario de criacao de personagem sem alterar regras de dominio.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260503-171537-t09-character-error-copy -->
 <!-- pandorha-inbox:20260503-135734-t08-character-create-form -->
 ### T08 character create form
 - id: 20260503-135734-t08-character-create-form

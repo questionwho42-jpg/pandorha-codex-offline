@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260503-171537-t09-character-error-copy -->
+### T09 character error copy
+- id: 20260503-171537-t09-character-error-copy
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-03T17:15:37-03:00
+- finished_at: 2026-05-03T17:20:00-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-03T17:20:00-03:00
+- branch: task-character-error-copy
+- commit_at_start: c6ce5df feat(character): adiciona criacao em sessao
+- summary: Refinar mensagens pt-BR do formulario de criacao de personagem sem alterar regras de dominio.
+- last_change: Mensagens pt-BR do formulario de personagem refinadas e validadas no navegador.
+#### Files At Start
+- Untitled-1.md
+#### Checkpoints
+#### Checkpoint 2026-05-03T17:15:37-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-03T17:20:00-03:00
+- Done: Mensagens pt-BR do formulario de personagem refinadas e validadas no navegador.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260503-171537-t09-character-error-copy -->
 <!-- pandorha-task:20260503-135734-t08-character-create-form -->
 ### T08 character create form
 - id: 20260503-135734-t08-character-create-form
@@ -438,6 +470,42 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-03T17:20:05-03:00 - character-error-copy-complete
+- branch: task-character-error-copy
+- commit: c6ce5df feat(character): adiciona criacao em sessao
+- changed_files_count: 8
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/features/character-create/.context/plain-english.md
+- src/features/character-create/.context/scaling-roadmap.md
+- src/features/character-create/.context/tech-memory.md
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- Untitled-1.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-03T17:20:00-03:00 - character-error-copy
+- branch: task-character-error-copy
+- commit: c6ce5df feat(character): adiciona criacao em sessao
+- changed_files_count: 8
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/features/character-create/.context/plain-english.md
+- src/features/character-create/.context/scaling-roadmap.md
+- src/features/character-create/.context/tech-memory.md
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- Untitled-1.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-03T17:11:07-03:00 - character-create-form-complete
 - branch: task-character-create-form
 - commit: 3fa5f3b feat(character): adiciona listagem inicial

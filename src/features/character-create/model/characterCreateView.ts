@@ -57,16 +57,41 @@ export function toCharacterCreateInput(
 export function mapCharacterCreateFailure(failure: CharacterFailure): string {
 	switch (failure.code) {
 		case "INVALID_AXIS_DISTRIBUTION":
-			return "A soma de Físico, Mental e Social deve ser exatamente 6.";
+			return `Os Eixos somam ${formatNumberDetail(failure.details?.received)}. Ajuste Físico, Mental e Social para somarem exatamente 6.`;
 		case "INVALID_APPLICATION_DISTRIBUTION":
-			return "A soma de Conflito, Interação e Resistência deve ser exatamente 6.";
+			return `As Aplicações somam ${formatNumberDetail(failure.details?.received)}. Ajuste Conflito, Interação e Resistência para somarem exatamente 6.`;
 		case "INVALID_TIER_CAP":
-			return "Um dos valores ultrapassa o limite permitido para o nível atual.";
+			return `${formatFieldDetail(failure.details?.field)} está em ${formatNumberDetail(failure.details?.received)}, mas o limite para o nível atual é ${formatNumberDetail(failure.details?.cap)}.`;
 		case "INVALID_CHARACTER_INPUT":
-			return "Revise os campos obrigatórios antes de criar o personagem.";
+			return "Preencha nome, conceito e todos os campos numéricos antes de criar o personagem.";
 		case "INVALID_CHARACTER_RECORD":
-			return "O personagem foi montado com dados inválidos. Revise o formulário.";
+			return "O personagem foi montado com dados inválidos. Revise o formulário e tente novamente.";
 		case "REPOSITORY_WRITE_FAILED":
-			return "Não foi possível salvar o personagem nesta sessão.";
+			return "Não foi possível salvar o personagem nesta sessão. Tente criar novamente.";
 	}
+}
+
+function formatNumberDetail(value: unknown): string {
+	if (typeof value === "number") {
+		return String(value);
+	}
+
+	return "um valor inválido";
+}
+
+function formatFieldDetail(value: unknown): string {
+	if (typeof value !== "string") {
+		return "Um campo";
+	}
+
+	const labels: Readonly<Record<string, string>> = {
+		conflict: "Conflito",
+		interaction: "Interação",
+		mental: "Mental",
+		physical: "Físico",
+		resistance: "Resistência",
+		social: "Social",
+	};
+
+	return labels[value] ?? "Um campo";
 }

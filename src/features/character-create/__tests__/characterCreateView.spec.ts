@@ -51,23 +51,55 @@ describe("character create view model", () => {
 		});
 	});
 
-	it("translates rule failures to pt-BR copy", () => {
-		expect(
-			mapCharacterCreateFailure(characterFailure("INVALID_AXIS_DISTRIBUTION")),
-		).toBe("A soma de Físico, Mental e Social deve ser exatamente 6.");
+	it("translates every failure code to actionable pt-BR copy", () => {
 		expect(
 			mapCharacterCreateFailure(
-				characterFailure("INVALID_APPLICATION_DISTRIBUTION"),
+				characterFailure("INVALID_AXIS_DISTRIBUTION", { received: 8 }),
 			),
 		).toBe(
-			"A soma de Conflito, Interação e Resistência deve ser exatamente 6.",
+			"Os Eixos somam 8. Ajuste Físico, Mental e Social para somarem exatamente 6.",
+		);
+		expect(
+			mapCharacterCreateFailure(
+				characterFailure("INVALID_APPLICATION_DISTRIBUTION", { received: 5 }),
+			),
+		).toBe(
+			"As Aplicações somam 5. Ajuste Conflito, Interação e Resistência para somarem exatamente 6.",
+		);
+		expect(
+			mapCharacterCreateFailure(
+				characterFailure("INVALID_TIER_CAP", {
+					cap: 3,
+					field: "physical",
+					received: 4,
+				}),
+			),
+		).toBe("Físico está em 4, mas o limite para o nível atual é 3.");
+		expect(
+			mapCharacterCreateFailure(characterFailure("INVALID_CHARACTER_INPUT")),
+		).toBe(
+			"Preencha nome, conceito e todos os campos numéricos antes de criar o personagem.",
+		);
+		expect(
+			mapCharacterCreateFailure(characterFailure("INVALID_CHARACTER_RECORD")),
+		).toBe(
+			"O personagem foi montado com dados inválidos. Revise o formulário e tente novamente.",
+		);
+		expect(
+			mapCharacterCreateFailure(characterFailure("REPOSITORY_WRITE_FAILED")),
+		).toBe(
+			"Não foi possível salvar o personagem nesta sessão. Tente criar novamente.",
 		);
 	});
 });
 
-function characterFailure(code: CharacterFailure["code"]): CharacterFailure {
+function characterFailure(
+	code: CharacterFailure["code"],
+	details: CharacterFailure["details"] = {},
+): CharacterFailure {
 	return {
 		code,
+		details,
 		message: "technical failure",
 	};
 }
