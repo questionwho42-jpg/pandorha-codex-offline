@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260502-230859-regra-de-planejamento-obrigatorio -->
+### Regra de planejamento obrigatorio
+- id: 20260502-230859-regra-de-planejamento-obrigatorio
+- status: open
+- created_at: 2026-05-02T23:08:59-03:00
+- source: task-ledger
+- summary: Registrar regra que proibe iniciar codigo sem plano detalhado, exige aderencia as especificacoes e pede decisao do usuario para ferramentas ou padroes fora do escopo planejado.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260502-230859-regra-de-planejamento-obrigatorio -->
 <!-- pandorha-inbox:20260502-224801-scaffold-minimo-svelte-vite -->
 ### Scaffold minimo Svelte Vite
 - id: 20260502-224801-scaffold-minimo-svelte-vite

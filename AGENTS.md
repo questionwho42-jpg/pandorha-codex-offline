@@ -26,6 +26,13 @@ The execution profile MUST include:
 
 For small and safe changes, the profile may be concise. For broad, architectural, RPG-rule, or database-impacting changes, the profile must be explicit and must respect the pause/approval protocol in this file.
 
+## Mandatory Planning Before Implementation
+The agent MUST create a detailed implementation plan before starting any new feature, implementation, or meaningful modification. The plan must be specific to the current repository state and must include concrete guidance for files, architecture boundaries, tools, validation gates, and user-facing test steps when UI is involved.
+
+The agent MUST NOT start coding before the plan exists. The agent MUST NOT create code that violates the project specifications in `AGENTS.md`, `llms.txt`, `docs/architecture/`, `docs/conventions/`, or `docs/system/`.
+
+If the implementation appears to require anything not already planned or specified in the task scope, including a design pattern, architectural convention, skill, MCP, plugin, automation, tool, function, method, dependency, or workflow, the agent MUST stop before adopting it. The agent must explain why the extra element is needed, present more than one viable option with pros and cons, recommend the best option for Pandorha Engine, and ask the user how to proceed.
+
 ## 🏗 Arquitetura: Feature-Sliced Design (FSD)
 O projeto segue o padrão FSD para garantir escalabilidade e desacoplamento.
 - **Isolamento:** Nenhuma importação pode cruzar fatias (slices) ou camadas (layers) de forma ilegal.

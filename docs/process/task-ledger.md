@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260502-230859-regra-de-planejamento-obrigatorio -->
+### Regra de planejamento obrigatorio
+- id: 20260502-230859-regra-de-planejamento-obrigatorio
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-05-02T23:08:59-03:00
+- finished_at: 2026-05-02T23:10:00-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-02T23:10:00-03:00
+- branch: task-planning-protocol-rule
+- commit_at_start: 425ff71 chore(process): registra snapshot pos-commit do app shell
+- summary: Registrar regra que proibe iniciar codigo sem plano detalhado, exige aderencia as especificacoes e pede decisao do usuario para ferramentas ou padroes fora do escopo planejado.
+- last_change: Regra de planejamento obrigatorio registrada em AGENTS.md e llms.txt, exigindo plano detalhado antes de codigo e decisao do usuario para ferramentas/padroes fora do escopo planejado.
+#### Files At Start
+- Untitled-1.md
+#### Checkpoints
+#### Checkpoint 2026-05-02T23:08:59-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-02T23:10:00-03:00
+- Done: Regra de planejamento obrigatorio registrada em AGENTS.md e llms.txt, exigindo plano detalhado antes de codigo e decisao do usuario para ferramentas/padroes fora do escopo planejado.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260502-230859-regra-de-planejamento-obrigatorio -->
 <!-- pandorha-task:20260502-224801-scaffold-minimo-svelte-vite -->
 ### Scaffold minimo Svelte Vite
 - id: 20260502-224801-scaffold-minimo-svelte-vite
@@ -271,6 +303,21 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-02T23:09:55-03:00 - mandatory-planning-rule
+- branch: task-planning-protocol-rule
+- commit: 425ff71 chore(process): registra snapshot pos-commit do app shell
+- changed_files_count: 5
+#### Changed Files
+- AGENTS.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- llms.txt
+- Untitled-1.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-02T22:56:16-03:00 - post-commit
 - branch: task-svelte-app-shell
 - commit: ff4d80d feat(app): adiciona scaffold minimo svelte
