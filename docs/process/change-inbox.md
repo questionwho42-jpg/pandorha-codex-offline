@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260503-131425-t07-character-list-ui -->
+### T07 character list UI
+- id: 20260503-131425-t07-character-list-ui
+- status: open
+- created_at: 2026-05-03T13:14:25-03:00
+- source: task-ledger
+- summary: Criar tela read-only de listagem de personagens com estado vazio navegavel.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260503-131425-t07-character-list-ui -->
 <!-- pandorha-inbox:20260503-124608-t06-characters-migration -->
 ### T06 characters migration
 - id: 20260503-124608-t06-characters-migration

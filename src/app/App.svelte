@@ -1,4 +1,6 @@
 <script lang="ts">
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { CharacterList } from "$lib/features/character-list";
 import type { AppNavigationId } from "./model/navigation";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { APP_NAVIGATION_ITEMS, getAppNavigationItem } from "./model/navigation";
@@ -50,9 +52,13 @@ let activeItem = $derived(getAppNavigationItem(activeView));
 			aria-live="polite"
 			class="mt-8 rounded-lg border border-bronze bg-ruin p-6 sm:p-8"
 		>
-			<p class="max-w-3xl text-lg leading-8 text-bone">
-				{activeItem.description}
-			</p>
+			{#if activeView === "characters"}
+				<CharacterList />
+			{:else}
+				<p class="max-w-3xl text-lg leading-8 text-bone">
+					{activeItem.description}
+				</p>
+			{/if}
 		</section>
 	</div>
 </main>
