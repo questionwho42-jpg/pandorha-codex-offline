@@ -239,6 +239,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-02T22:41:04-03:00 - post-commit
+- branch: task-game-roadmap-docs
+- commit: d04dd29 docs(process): planeja implementacao completa do jogo
+- changed_files_count: 1
+#### Changed Files
+- Untitled-1.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-02T22:40:16-03:00 - game-roadmap-docs
 - branch: task-game-roadmap-docs
 - commit: dd38600 docs(governance): define protocolos de idioma e intake
