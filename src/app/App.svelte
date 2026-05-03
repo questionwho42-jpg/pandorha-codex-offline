@@ -1,13 +1,50 @@
 <script lang="ts">
+import type {
+	CharacterCreateInput,
+	CharacterRecord,
+} from "$lib/entities/character";
+import {
+	// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+	CharacterCreateForm,
+	mapCharacterCreateFailure,
+} from "$lib/features/character-create";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CharacterList } from "$lib/features/character-list";
+import { createCharacterSession } from "./model/characterSession";
 import type { AppNavigationId } from "./model/navigation";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { APP_NAVIGATION_ITEMS, getAppNavigationItem } from "./model/navigation";
 
+const characterSession = createCharacterSession();
+
 let activeView = $state<AppNavigationId>("home");
+let characterRecords = $state<CharacterRecord[]>([]);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let characterCreateError = $state<string | null>(null);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let characterCreateSuccess = $state<string | null>(null);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let isCreatingCharacter = $state(false);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let activeItem = $derived(getAppNavigationItem(activeView));
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function createCharacter(input: CharacterCreateInput): Promise<boolean> {
+	isCreatingCharacter = true;
+	const result = await characterSession.service.createCharacter(input);
+	isCreatingCharacter = false;
+
+	if (!result.success) {
+		characterCreateError = mapCharacterCreateFailure(result.error);
+		characterCreateSuccess = null;
+		return false;
+	}
+
+	characterRecords = [...characterRecords, result.data];
+	characterCreateError = null;
+	characterCreateSuccess = `${result.data.name} foi criado e adicionado à lista.`;
+	return true;
+}
 </script>
 
 <main
@@ -53,7 +90,15 @@ let activeItem = $derived(getAppNavigationItem(activeView));
 			class="mt-8 rounded-lg border border-bronze bg-ruin p-6 sm:p-8"
 		>
 			{#if activeView === "characters"}
-				<CharacterList />
+				<div class="grid gap-8 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+					<CharacterCreateForm
+						errorMessage={characterCreateError}
+						isSubmitting={isCreatingCharacter}
+						onCreate={createCharacter}
+						successMessage={characterCreateSuccess}
+					/>
+					<CharacterList records={characterRecords} />
+				</div>
 			{:else}
 				<p class="max-w-3xl text-lg leading-8 text-bone">
 					{activeItem.description}

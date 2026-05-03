@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260503-135734-t08-character-create-form -->
+### T08 character create form
+- id: 20260503-135734-t08-character-create-form
+- status: open
+- created_at: 2026-05-03T13:57:34-03:00
+- source: task-ledger
+- summary: Criar fluxo de criação de personagem 6/6 com estado de sessão e listagem atualizada.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260503-135734-t08-character-create-form -->
 <!-- pandorha-inbox:20260503-131425-t07-character-list-ui -->
 ### T07 character list UI
 - id: 20260503-131425-t07-character-list-ui

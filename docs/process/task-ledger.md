@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260503-135734-t08-character-create-form -->
+### T08 character create form
+- id: 20260503-135734-t08-character-create-form
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-03T13:57:34-03:00
+- finished_at: 2026-05-03T17:11:02-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-03T17:11:02-03:00
+- branch: task-character-create-form
+- commit_at_start: 3fa5f3b feat(character): adiciona listagem inicial
+- summary: Criar fluxo de criação de personagem 6/6 com estado de sessão e listagem atualizada.
+- last_change: Criacao de personagem 6/6 implementada com estado de sessao, lista atualizada e validacao no navegador.
+#### Files At Start
+- Untitled-1.md
+#### Checkpoints
+#### Checkpoint 2026-05-03T13:57:34-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-03T17:11:02-03:00
+- Done: Criacao de personagem 6/6 implementada com estado de sessao, lista atualizada e validacao no navegador.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260503-135734-t08-character-create-form -->
 <!-- pandorha-task:20260503-131425-t07-character-list-ui -->
 ### T07 character list UI
 - id: 20260503-131425-t07-character-list-ui
@@ -406,6 +438,56 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-03T17:11:07-03:00 - character-create-form-complete
+- branch: task-character-create-form
+- commit: 3fa5f3b feat(character): adiciona listagem inicial
+- changed_files_count: 15
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/entities/character/.context/scaling-roadmap.md
+- src/entities/character/.context/tech-memory.md
+- src/entities/character/index.ts
+- src/features/character-list/.context/plain-english.md
+- src/features/character-list/.context/tech-memory.md
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- Untitled-1.md
+- src/app/model/characterSession.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/features/character-create/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-03T17:11:02-03:00 - character-create-form
+- branch: task-character-create-form
+- commit: 3fa5f3b feat(character): adiciona listagem inicial
+- changed_files_count: 15
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/entities/character/.context/scaling-roadmap.md
+- src/entities/character/.context/tech-memory.md
+- src/entities/character/index.ts
+- src/features/character-list/.context/plain-english.md
+- src/features/character-list/.context/tech-memory.md
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- Untitled-1.md
+- src/app/model/characterSession.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/features/character-create/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-03T13:20:39-03:00 - character-list-ui-complete
 - branch: task-character-list-ui
 - commit: baf6701 feat(character): adiciona migration inicial

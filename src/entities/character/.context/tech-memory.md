@@ -11,3 +11,4 @@
 - Added the first versioned Drizzle migration for the `characters` table under `drizzle/`.
 - `drizzle.config.mjs` is intentionally migration-only: it generates SQL from the Character schema without choosing the final browser OPFS runtime driver.
 - Migration validation uses `sql.js` in Vitest as a temporary SQLite WASM database, proving that the SQL applies and exposes the expected table contract.
+- Added `SessionCharacterRepository` as a temporary browser-session adapter for T08. It implements `CharacterRepository` and exposes `all()` so the app can refresh the read-only list without adding Worker persistence yet.

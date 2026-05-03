@@ -6,3 +6,4 @@
 - `createCharacterListView` maps validated `CharacterRecord` values into pt-BR display copy and keeps formatting logic outside `App.svelte`.
 - `CharacterList.svelte` is presentational and receives records as props; it does not query SQLite, create characters, or apply RPG validation.
 - The empty state is the only runtime state wired in T07. Real repository/Worker data is deferred until the persistence bridge exists.
+- T08 keeps the list read-only but now receives session-created records from `App.svelte`; creation remains owned by the separate `character-create` feature.

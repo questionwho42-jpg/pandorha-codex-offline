@@ -37,7 +37,7 @@ export function createCharacterListView(
 			emptyState: {
 				title: "Nenhum personagem criado ainda",
 				description:
-					"A criação de personagens será liberada na próxima etapa. Esta tela já confirma onde a lista ficará.",
+					"Use o formulário de criação para adicionar o primeiro personagem desta sessão.",
 			},
 			items,
 		};
