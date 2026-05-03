@@ -9,6 +9,23 @@ Este arquivo define as diretrizes inegociáveis para qualquer agente de IA opera
 - **Validação:** Zod (Schemas Zod são a única fonte de verdade para tipos e validação de dados)
 - **Banco de Dados:** Local-First via SQLite WASM (Sincronização reativa)
 
+## 🌐 Protocolo de Idioma (pt-BR + English)
+- **Usuário:** Toda comunicação com usuário, UI copy, documentação de produto, lore, regras de RPG, critérios de aceite e relatórios legíveis por humanos devem usar Português do Brasil (`pt-BR`).
+- **Codex/IA:** Identificadores, APIs, nomes de módulos/arquivos quando idiomático, contratos técnicos, comentários técnicos, testes e instruções operacionais para agentes devem usar inglês.
+- **Regra de Interface:** Quando um artefato servir aos dois públicos, mantenha a camada visível ao usuário em `pt-BR` e a camada de implementação em inglês.
+
+## Task Intake and Execution Profile
+Before every new feature or modification, the agent MUST inspect the relevant repository context, decide the best implementation strategy, and inform the user of the execution profile before editing files.
+
+The execution profile MUST include:
+- recommended model and reasoning effort for the task;
+- whether Plan mode should be enabled;
+- whether IDE context should be enabled or consulted;
+- plugins, skills, and MCPs required for the task;
+- project commands, configuration files, validation gates, and tools that will be used.
+
+For small and safe changes, the profile may be concise. For broad, architectural, RPG-rule, or database-impacting changes, the profile must be explicit and must respect the pause/approval protocol in this file.
+
 ## 🏗 Arquitetura: Feature-Sliced Design (FSD)
 O projeto segue o padrão FSD para garantir escalabilidade e desacoplamento.
 - **Isolamento:** Nenhuma importação pode cruzar fatias (slices) ou camadas (layers) de forma ilegal.

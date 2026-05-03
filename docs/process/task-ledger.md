@@ -206,6 +206,33 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-02T21:59:26-03:00 - task-intake-execution-profile-rule
+- branch: feat/metadata-tags-codex
+- commit: bdd3707 chore(process): registra snapshot pos-commit do quality gate
+- changed_files_count: 4
+#### Changed Files
+- AGENTS.md
+- docs/process/task-ledger.md
+- llms.txt
+- Untitled-1.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-02T21:53:42-03:00 - language-contract-rule
+- branch: feat/metadata-tags-codex
+- commit: bdd3707 chore(process): registra snapshot pos-commit do quality gate
+- changed_files_count: 3
+#### Changed Files
+- AGENTS.md
+- llms.txt
+- Untitled-1.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-02T20:32:34-03:00 - post-commit
 - branch: feat/metadata-tags-codex
 - commit: 651c994 feat(quality): adiciona gate unificado de validacao

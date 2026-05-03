@@ -8,7 +8,11 @@ maintenance_protocol: "Hybrid (Agent suggests LLMS_DIFF, Human approves)"
 
 # 🗺️ PANDORHA ENGINE: AI ROOT MAP
 
-> **PRIME DIRECTIVE:** Use English for technical implementation and Portuguese for Business/RPG Logic. Follow Svelte 5 Runes strictly. Communication between Main and Worker must use the RPC bridge.
+> **PRIME DIRECTIVE:** Follow the language contract below, use Svelte 5 Runes strictly, and keep Main/Worker communication on the RPC bridge.
+>
+> **LANGUAGE CONTRACT:** Use Brazilian Portuguese (`pt-BR`) for every user-facing artifact: chat responses, UI copy, product documentation, lore, RPG/business rules, acceptance criteria, and human-readable reports. Use English for Codex/AI-facing technical artifacts: identifiers, APIs, module and file names when idiomatic, implementation contracts, technical comments, tests, and agent operating instructions. When an artifact has both audiences, keep the user-facing layer in `pt-BR` and the implementation layer in English.
+
+> **TASK INTAKE CONTRACT:** Before every new feature or modification, the agent must inspect the relevant project context, decide the best implementation strategy, and report the execution profile to the user before changing files. The report must state: recommended model and reasoning effort, whether Plan mode should be enabled, whether IDE context should be used, which plugins/skills/MCPs are required, and which project commands, configuration files, and validation tools will be used. If the task is small and safe, this report may be concise; if the task is broad, architectural, or touches RPG rules/database behavior, it must be explicit and wait for user approval when required by `AGENTS.md`.
 
 ## 🧠 PROTOCOLO DE RACIOCÍNIO (Thinking Mode)
 **[CRÍTICO]** Para qualquer tarefa que envolva alteração no motor de regras, atributos globais ou banco de dados:
