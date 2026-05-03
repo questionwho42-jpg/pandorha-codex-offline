@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260502-231441-navegacao-state-driven-inicial -->
+### Navegacao state-driven inicial
+- id: 20260502-231441-navegacao-state-driven-inicial
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-02T23:14:41-03:00
+- finished_at: 2026-05-02T23:28:26-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-02T23:28:26-03:00
+- branch: task-state-driven-navigation
+- commit_at_start: a791e73 chore(process): registra snapshot pos-commit da regra de plano
+- summary: Adicionar navegacao local por estado entre Inicio, Personagens e Compendio, sem router externo, banco ou regras de RPG.
+- last_change: T03 concluida: navegacao state-driven entre Inicio, Personagens e Compendio, contrato tipado de navegação, validacao tecnica completa e validacao em Chrome headless local apos Browser Use falhar por runtime Node antigo.
+#### Files At Start
+- Untitled-1.md
+#### Checkpoints
+#### Checkpoint 2026-05-02T23:14:41-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-02T23:18:28-03:00
+- Done: Implementacao T03 concluida e validacoes tecnicas passaram: lint, test, build, quality gate e pandorha-arch-guard.
+- Next: Decidir como proceder com a validacao de navegador apos Browser Use falhar por runtime Node antigo.
+- Risks: Browser Use nao iniciou: node_repl resolveu Node v22.20.0, mas o plugin exige >= v22.22.0. Usar fallback sem aprovacao violaria o plano aprovado.
+- Improvements: Configurar Browser Use/node_repl com Node mais novo ou aprovar fallback controlado com Chrome headless local.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-02T23:28:26-03:00
+- Done: T03 concluida: navegacao state-driven entre Inicio, Personagens e Compendio, contrato tipado de navegação, validacao tecnica completa e validacao em Chrome headless local apos Browser Use falhar por runtime Node antigo.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260502-231441-navegacao-state-driven-inicial -->
 <!-- pandorha-task:20260502-230859-regra-de-planejamento-obrigatorio -->
 ### Regra de planejamento obrigatorio
 - id: 20260502-230859-regra-de-planejamento-obrigatorio
@@ -303,6 +342,24 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-02T23:28:19-03:00 - state-driven-navigation
+- branch: task-state-driven-navigation
+- commit: a791e73 chore(process): registra snapshot pos-commit da regra de plano
+- changed_files_count: 8
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- Untitled-1.md
+- src/app/model/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-02T23:10:41-03:00 - post-commit
 - branch: task-planning-protocol-rule
 - commit: a730d52 docs(governance): exige plano detalhado antes de codigo

@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260502-231441-navegacao-state-driven-inicial -->
+### Navegacao state-driven inicial
+- id: 20260502-231441-navegacao-state-driven-inicial
+- status: open
+- created_at: 2026-05-02T23:14:41-03:00
+- source: task-ledger
+- summary: Adicionar navegacao local por estado entre Inicio, Personagens e Compendio, sem router externo, banco ou regras de RPG.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260502-231441-navegacao-state-driven-inicial -->
 <!-- pandorha-inbox:20260502-230859-regra-de-planejamento-obrigatorio -->
 ### Regra de planejamento obrigatorio
 - id: 20260502-230859-regra-de-planejamento-obrigatorio

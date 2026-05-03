@@ -5,3 +5,5 @@
 - Added the minimal Svelte 5/Vite browser scaffold as the first navigable app shell.
 - Kept T02 intentionally static: no game rules, no custom router, no persistence, and no visual system beyond semantic HTML.
 - Used `vite.config.mjs` to preserve the existing `$lib` alias used by root TypeScript and Vitest configuration.
+- Added T03 state-driven navigation with a typed `AppNavigationId` contract and local Svelte runes only.
+- Kept navigation intentionally local to `src/app`; no external router, database, domain service, or RPG rule was introduced.
