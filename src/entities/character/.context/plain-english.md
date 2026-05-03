@@ -7,3 +7,5 @@ It checks whether a new character follows the 6/6 creation rule before anything 
 The current version does not calculate final HP, armor, magic energy, or inventory. Those values depend on class, equipment, and future systems, so they should be added as separate rule services.
 
 The Drizzle repository now has its own contract tests. These tests prove that the database adapter saves, finds, and rejects bad database rows without needing a real browser database.
+
+The project now also has the first real database migration for characters. In practice, this means the app has an official SQL recipe for creating the `characters` table, and an automated test checks that this recipe works before any screen depends on it.

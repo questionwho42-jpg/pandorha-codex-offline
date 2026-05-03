@@ -8,3 +8,6 @@
 - `pandorha-arch-guard` currently validates existing `.ts`/`.svelte` files and recognizes `src/features`, but not `src/entities`; entity support should be added before relying on it as the only architecture gate.
 - Added contract tests for `DrizzleCharacterRepository` with a local fake `CharacterDrizzleDatabase`; the test covers save/findById without SQLite WASM.
 - `findById` now distinguishes an empty select result (`CHARACTER_NOT_FOUND`) from a malformed selected row (`CORRUPTED_CHARACTER_RECORD`).
+- Added the first versioned Drizzle migration for the `characters` table under `drizzle/`.
+- `drizzle.config.mjs` is intentionally migration-only: it generates SQL from the Character schema without choosing the final browser OPFS runtime driver.
+- Migration validation uses `sql.js` in Vitest as a temporary SQLite WASM database, proving that the SQL applies and exposes the expected table contract.

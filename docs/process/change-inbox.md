@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260503-124608-t06-characters-migration -->
+### T06 characters migration
+- id: 20260503-124608-t06-characters-migration
+- status: open
+- created_at: 2026-05-03T12:46:08-03:00
+- source: task-ledger
+- summary: Configurar e validar a migration inicial da entidade Character.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260503-124608-t06-characters-migration -->
 <!-- pandorha-inbox:20260502-231441-navegacao-state-driven-inicial -->
 ### Navegacao state-driven inicial
 - id: 20260502-231441-navegacao-state-driven-inicial

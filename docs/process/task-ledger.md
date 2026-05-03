@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260503-124608-t06-characters-migration -->
+### T06 characters migration
+- id: 20260503-124608-t06-characters-migration
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-03T12:46:08-03:00
+- finished_at: 2026-05-03T12:54:13-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-03T12:54:13-03:00
+- branch: task-characters-migration
+- commit_at_start: 72cc635 test(character): cobre contrato do repository drizzle
+- summary: Configurar e validar a migration inicial da entidade Character.
+- last_change: Migration inicial de Character criada e validada em SQLite WASM temporario.
+#### Files At Start
+- Untitled-1.md
+#### Checkpoints
+#### Checkpoint 2026-05-03T12:46:08-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-03T12:54:13-03:00
+- Done: Migration inicial de Character criada e validada em SQLite WASM temporario.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260503-124608-t06-characters-migration -->
 <!-- pandorha-task:20260502-231441-navegacao-state-driven-inicial -->
 ### Navegacao state-driven inicial
 - id: 20260502-231441-navegacao-state-driven-inicial
@@ -342,6 +374,48 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-03T12:54:25-03:00 - characters-migration-complete
+- branch: task-characters-migration
+- commit: 72cc635 test(character): cobre contrato do repository drizzle
+- changed_files_count: 11
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- package-lock.json
+- package.json
+- src/entities/character/.context/plain-english.md
+- src/entities/character/.context/scaling-roadmap.md
+- src/entities/character/.context/tech-memory.md
+- Untitled-1.md
+- drizzle.config.mjs
+- drizzle/
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-03T12:54:09-03:00 - characters-migration
+- branch: task-characters-migration
+- commit: 72cc635 test(character): cobre contrato do repository drizzle
+- changed_files_count: 11
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- package-lock.json
+- package.json
+- src/entities/character/.context/plain-english.md
+- src/entities/character/.context/scaling-roadmap.md
+- src/entities/character/.context/tech-memory.md
+- Untitled-1.md
+- drizzle.config.mjs
+- drizzle/
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-03T12:22:47-03:00 - character-repository-contract
 - branch: task-character-repository-contract
 - commit: 9dc3fdb docs(process): adiciona protocolo de ferramentas uteis
