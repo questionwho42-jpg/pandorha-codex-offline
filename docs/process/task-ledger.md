@@ -271,6 +271,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-02T22:56:16-03:00 - post-commit
+- branch: task-svelte-app-shell
+- commit: ff4d80d feat(app): adiciona scaffold minimo svelte
+- changed_files_count: 1
+#### Changed Files
+- Untitled-1.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-02T22:55:21-03:00 - svelte-app-shell
 - branch: task-svelte-app-shell
 - commit: 2f0fbbf chore(process): registra snapshot final do roadmap
