@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260502-223501-documentar-plano-completo-do-jogo -->
+### Documentar plano completo do jogo
+- id: 20260502-223501-documentar-plano-completo-do-jogo
+- status: open
+- created_at: 2026-05-02T22:35:01-03:00
+- source: task-ledger
+- summary: Criar guia de implementacao completa do Pandorha Engine e plano de microtarefas com branch propria, testes, browser validation e gate total por feature.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260502-223501-documentar-plano-completo-do-jogo -->
 <!-- pandorha-inbox:20260502-202511-implement-unified-quality-gate -->
 ### Implement unified quality gate
 - id: 20260502-202511-implement-unified-quality-gate

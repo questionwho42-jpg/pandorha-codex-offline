@@ -13,6 +13,39 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260502-223501-documentar-plano-completo-do-jogo -->
+### Documentar plano completo do jogo
+- id: 20260502-223501-documentar-plano-completo-do-jogo
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-05-02T22:35:01-03:00
+- finished_at: 2026-05-02T22:40:23-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-02T22:40:23-03:00
+- branch: task-game-roadmap-docs
+- commit_at_start: dd38600 docs(governance): define protocolos de idioma e intake
+- summary: Criar guia de implementacao completa do Pandorha Engine e plano de microtarefas com branch propria, testes, browser validation e gate total por feature.
+- last_change: Criados os documentos complete-game-implementation-guide.md e microtask-delivery-plan.md, com orientacao para implementacao completa do jogo, microtarefas, browser tests, branch por feature e gate total.
+#### Files At Start
+- docs/process/task-ledger.md
+- Untitled-1.md
+#### Checkpoints
+#### Checkpoint 2026-05-02T22:35:01-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-02T22:40:23-03:00
+- Done: Criados os documentos complete-game-implementation-guide.md e microtask-delivery-plan.md, com orientacao para implementacao completa do jogo, microtarefas, browser tests, branch por feature e gate total.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260502-223501-documentar-plano-completo-do-jogo -->
 <!-- pandorha-task:20260502-202511-implement-unified-quality-gate -->
 ### Implement unified quality gate
 - id: 20260502-202511-implement-unified-quality-gate
@@ -206,6 +239,32 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-02T22:40:16-03:00 - game-roadmap-docs
+- branch: task-game-roadmap-docs
+- commit: dd38600 docs(governance): define protocolos de idioma e intake
+- changed_files_count: 5
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- Untitled-1.md
+- docs/process/complete-game-implementation-guide.md
+- docs/process/microtask-delivery-plan.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-02T22:34:51-03:00 - post-commit
+- branch: task-game-roadmap-docs
+- commit: dd38600 docs(governance): define protocolos de idioma e intake
+- changed_files_count: 1
+#### Changed Files
+- Untitled-1.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-02T21:59:26-03:00 - task-intake-execution-profile-rule
 - branch: feat/metadata-tags-codex
 - commit: bdd3707 chore(process): registra snapshot pos-commit do quality gate
