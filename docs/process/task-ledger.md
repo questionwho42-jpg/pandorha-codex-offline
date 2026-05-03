@@ -342,6 +342,28 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-03T00:20:20-03:00 - visual-shell-styleguide
+- branch: task-visual-shell-styleguide
+- commit: 8d0f18e chore(process): registra snapshot pos-commit da navegacao
+- changed_files_count: 12
+#### Changed Files
+- AGENTS.md
+- llms.txt
+- package-lock.json
+- package.json
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/main.ts
+- vite.config.mjs
+- biome.json
+- src/app/styles.css
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-02T23:29:03-03:00 - post-commit
 - branch: task-state-driven-navigation
 - commit: 6f10886 feat(app): adiciona navegacao state-driven inicial

@@ -22,6 +22,8 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 **Ação mandatória:** O agente é expressamente instruído a **REJEITAR** pedidos ou implementações que violem a integridade dos Eixos 3x3 do sistema Pandorha, bem como sua lógica matemática fundamental. Sem exceções.
 
 ## 🛠️ QUICK COMMANDS & TOOLING
+> **LOCAL ENVIRONMENT CONSTRAINT:** This repository is currently operated on Windows without Ubuntu/WSL installed. Do not assume Bash, `.sh` scripts, POSIX pipes, Linux-only commands, or Unix paths are available. Prefer PowerShell, `npm.cmd`, Node.js scripts, TypeScript/JavaScript tooling, and portable Python scripts. If a skill asks for Bash, record the limitation and use the nearest project gate available through PowerShell/Node/Python.
+
 | Action | Command | Purpose |
 | :--- | :--- | :--- |
 | **Test** | `npm run test:unit` | Run Vitest suite (100% coverage required) |

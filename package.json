@@ -10,7 +10,7 @@
 		"test": "vitest run",
 		"test:unit": "vitest run",
 		"test:coverage": "vitest run --coverage.enabled true --coverage.reporter=json-summary",
-		"lint": "biome check index.html src package.json tsconfig.json vite.config.mjs vitest.config.mjs scripts/run_full_quality_gate.mjs && tsc --noEmit",
+		"lint": "biome check biome.json index.html src package.json tsconfig.json vite.config.mjs vitest.config.mjs scripts/run_full_quality_gate.mjs && tsc --noEmit",
 		"quality:gate": "node scripts/run_full_quality_gate.mjs",
 		"quality:root": "node scripts/run_full_quality_gate.mjs --only=root",
 		"quality:mcp": "node scripts/run_full_quality_gate.mjs --only=mcp",
@@ -24,9 +24,11 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.2.0",
 		"@sveltejs/vite-plugin-svelte": "^6.2.4",
+		"@tailwindcss/vite": "^4.2.4",
 		"@types/node": "^22.15.3",
 		"@vitest/coverage-v8": "^3.2.4",
 		"svelte": "^5.55.5",
+		"tailwindcss": "^4.2.4",
 		"typescript": "^5.8.3",
 		"vite": "^7.3.2",
 		"vitest": "^3.2.4"

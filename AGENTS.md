@@ -54,6 +54,12 @@ O projeto segue o padrão FSD para garantir escalabilidade e desacoplamento.
   - *Manifesto:* Prefira composição sobre herança. "Envolva" o componente base para adicionar comportamentos.
 
 ## 💻 Protocolo de Execução (Comandos Fixos)
+### Ambiente Local Windows
+- Este projeto roda neste PC sem Ubuntu/WSL instalado por limitação do ambiente local.
+- Não assuma que `bash`, scripts `.sh`, comandos Linux, pipes POSIX ou caminhos Unix funcionarão.
+- Prefira PowerShell, `npm.cmd`, `node`, scripts TypeScript/JavaScript e scripts Python portáveis.
+- Se uma skill ou documentação pedir Bash, registre a limitação e use o gate equivalente em PowerShell/Node/Python quando existir.
+
 Ao trabalhar no projeto, o agente DEVE validar seu trabalho com:
 1. **Validar Lógica:** `npm test`
 2. **Validar Estilo:** `npm run lint` (Biome/ESLint)
