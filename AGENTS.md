@@ -26,6 +26,16 @@ The execution profile MUST include:
 
 For small and safe changes, the profile may be concise. For broad, architectural, RPG-rule, or database-impacting changes, the profile must be explicit and must respect the pause/approval protocol in this file.
 
+## Tooling Relevance Protocol
+Before every new task, the agent MUST analyze available plugins, skills, MCPs, scripts, and auxiliary resources, then report which ones are useful for the requested work.
+
+The report MUST be user-facing in pt-BR and separate:
+- **Vou usar agora:** tools that materially improve the current task and should be activated immediately.
+- **Úteis, mas fora do escopo:** tools that could help adjacent work but should not be used in the current task.
+- **Não usadas e motivo:** relevant-looking tools that are intentionally skipped to avoid unnecessary scope, cost, or risk.
+
+Each listed tool MUST include a one-sentence reason. Do not list every installed tool just because it exists; report only tools with a plausible relationship to the task. The canonical selection map is `docs/conventions/tooling-relevance-map.md`.
+
 ## Mandatory Planning Before Implementation
 The agent MUST create a detailed implementation plan before starting any new feature, implementation, or meaningful modification. The plan must be specific to the current repository state and must include concrete guidance for files, architecture boundaries, tools, validation gates, and user-facing test steps when UI is involved.
 

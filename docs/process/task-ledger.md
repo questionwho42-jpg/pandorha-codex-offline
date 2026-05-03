@@ -342,6 +342,19 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-03T11:55:32-03:00 - tooling-relevance-protocol
+- branch: task-tooling-relevance-protocol
+- commit: 1beed5b feat(app): aplica shell visual com tokens Tailwind
+- changed_files_count: 3
+#### Changed Files
+- AGENTS.md
+- llms.txt
+- docs/conventions/tooling-relevance-map.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-03T00:20:20-03:00 - visual-shell-styleguide
 - branch: task-visual-shell-styleguide
 - commit: 8d0f18e chore(process): registra snapshot pos-commit da navegacao
