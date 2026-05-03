@@ -303,6 +303,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-02T23:10:41-03:00 - post-commit
+- branch: task-planning-protocol-rule
+- commit: a730d52 docs(governance): exige plano detalhado antes de codigo
+- changed_files_count: 1
+#### Changed Files
+- Untitled-1.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-02T23:09:55-03:00 - mandatory-planning-rule
 - branch: task-planning-protocol-rule
 - commit: 425ff71 chore(process): registra snapshot pos-commit do app shell
