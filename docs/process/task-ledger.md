@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260502-224801-scaffold-minimo-svelte-vite -->
+### Scaffold minimo Svelte Vite
+- id: 20260502-224801-scaffold-minimo-svelte-vite
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-02T22:48:01-03:00
+- finished_at: 2026-05-02T22:55:28-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-02T22:55:28-03:00
+- branch: task-svelte-app-shell
+- commit_at_start: 2f0fbbf chore(process): registra snapshot final do roadmap
+- summary: Adicionar app Svelte 5/Vite minimo sem regra de jogo, com tela inicial testavel no navegador do Codex.
+- last_change: T02 concluida: scaffold Svelte 5/Vite minimo, tela inicial navegavel, scripts dev/build/preview, validacao no navegador local, lint/test/coverage/build/quality gate e arch guard.
+#### Files At Start
+- Untitled-1.md
+#### Checkpoints
+#### Checkpoint 2026-05-02T22:48:01-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-02T22:55:28-03:00
+- Done: T02 concluida: scaffold Svelte 5/Vite minimo, tela inicial navegavel, scripts dev/build/preview, validacao no navegador local, lint/test/coverage/build/quality gate e arch guard.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260502-224801-scaffold-minimo-svelte-vite -->
 <!-- pandorha-task:20260502-223501-documentar-plano-completo-do-jogo -->
 ### Documentar plano completo do jogo
 - id: 20260502-223501-documentar-plano-completo-do-jogo
@@ -239,6 +271,26 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-02T22:55:21-03:00 - svelte-app-shell
+- branch: task-svelte-app-shell
+- commit: 2f0fbbf chore(process): registra snapshot final do roadmap
+- changed_files_count: 10
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- package-lock.json
+- package.json
+- Untitled-1.md
+- index.html
+- src/app/
+- src/main.ts
+- src/vite-env.d.ts
+- vite.config.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-02T22:41:34-03:00 - post-commit
 - branch: task-game-roadmap-docs
 - commit: 485fa0d chore(process): registra snapshot pos-commit do roadmap
