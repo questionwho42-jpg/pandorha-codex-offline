@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260503-172645-t10-character-user-docs -->
+### T10 character user docs
+- id: 20260503-172645-t10-character-user-docs
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-05-03T17:26:45-03:00
+- finished_at: 2026-05-03T17:31:48-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-03T17:31:48-03:00
+- branch: task-character-user-docs
+- commit_at_start: cd568f1 feat(character): melhora mensagens de erro
+- summary: Criar guia de usuario em pt-BR para testar a criacao de personagem 6/6 no navegador.
+- last_change: Guia de usuario para criacao de personagem 6/6 criado e validado contra o fluxo real no navegador.
+#### Files At Start
+- Untitled-1.md
+#### Checkpoints
+#### Checkpoint 2026-05-03T17:26:45-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-03T17:31:48-03:00
+- Done: Guia de usuario para criacao de personagem 6/6 criado e validado contra o fluxo real no navegador.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260503-172645-t10-character-user-docs -->
 <!-- pandorha-task:20260503-171537-t09-character-error-copy -->
 ### T09 character error copy
 - id: 20260503-171537-t09-character-error-copy
@@ -470,6 +502,20 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-03T17:31:29-03:00 - character-user-docs
+- branch: task-character-user-docs
+- commit: cd568f1 feat(character): melhora mensagens de erro
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- Untitled-1.md
+- docs/user/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-03T17:20:05-03:00 - character-error-copy-complete
 - branch: task-character-error-copy
 - commit: c6ce5df feat(character): adiciona criacao em sessao

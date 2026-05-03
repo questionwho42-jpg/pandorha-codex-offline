@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260503-172645-t10-character-user-docs -->
+### T10 character user docs
+- id: 20260503-172645-t10-character-user-docs
+- status: open
+- created_at: 2026-05-03T17:26:45-03:00
+- source: task-ledger
+- summary: Criar guia de usuario em pt-BR para testar a criacao de personagem 6/6 no navegador.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260503-172645-t10-character-user-docs -->
 <!-- pandorha-inbox:20260503-171537-t09-character-error-copy -->
 ### T09 character error copy
 - id: 20260503-171537-t09-character-error-copy
