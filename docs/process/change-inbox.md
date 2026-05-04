@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260503-173935-t11-ancestry-schema -->
+### T11 ancestry schema
+- id: 20260503-173935-t11-ancestry-schema
+- status: open
+- created_at: 2026-05-03T17:39:35-03:00
+- source: task-ledger
+- summary: Criar entidade Ancestry com schema Drizzle-Zod, catalogo oficial, service read-only e fake em memoria.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260503-173935-t11-ancestry-schema -->
 <!-- pandorha-inbox:20260503-172645-t10-character-user-docs -->
 ### T10 character user docs
 - id: 20260503-172645-t10-character-user-docs
