@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260503-221203-t12-ancestry-traits -->
+### T12 ancestry traits
+- id: 20260503-221203-t12-ancestry-traits
+- status: open
+- created_at: 2026-05-03T22:12:03-03:00
+- source: task-ledger
+- summary: Modelar catalogo textual de tracos de ancestralidade, relacao N:N e service de escolha de 3 tracos no nivel 1.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260503-221203-t12-ancestry-traits -->
 <!-- pandorha-inbox:20260503-173935-t11-ancestry-schema -->
 ### T11 ancestry schema
 - id: 20260503-173935-t11-ancestry-schema

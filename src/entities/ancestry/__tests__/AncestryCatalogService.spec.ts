@@ -118,6 +118,15 @@ describe("AncestryCatalogService", () => {
 
 		expect(failure.code).toBe("CORRUPTED_ANCESTRY_RECORD");
 	});
+
+	it("rejects corrupted records returned by findById", async () => {
+		const service = new AncestryCatalogService(new CorruptAncestryRepository());
+
+		const result = await service.findAncestryById("human");
+		const failure = expectAncestryFailure(result);
+
+		expect(failure.code).toBe("CORRUPTED_ANCESTRY_RECORD");
+	});
 });
 
 function createService(): AncestryCatalogService {

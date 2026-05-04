@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260503-221203-t12-ancestry-traits -->
+### T12 ancestry traits
+- id: 20260503-221203-t12-ancestry-traits
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-03T22:12:03-03:00
+- finished_at: 2026-05-03T22:24:17-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: GPT-5.5 high
+- last_modified_at: 2026-05-03T22:28:51-03:00
+- branch: task-ancestry-traits
+- commit_at_start: 7b077b8 feat(ancestry): adiciona catalogo base
+- summary: Modelar catalogo textual de tracos de ancestralidade, relacao N:N e service de escolha de 3 tracos no nivel 1.
+- last_change: Coverage config passou a incluir services de ancestry e os testes foram ampliados para manter 100 por cento em branches, linhas, funcoes e statements.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-03T22:12:03-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-03T22:24:17-03:00
+- Done: T12 adicionou catalogo textual de 60 tracos de ancestralidade, relacao N:N e service Result para escolha de exatamente 3 tracos no nivel 1.
+- Next: Planejar T13 para integrar ancestralidade e tracos ao fluxo de criacao de personagem sem persistencia real.
+- Risks: Efeitos mecanicos dos tracos ainda sao texto validado e nao aplicam modificadores.
+- Improvements: Adicionar migrations e adapters reais apenas em tarefa propria de persistencia.
+- Model/config: GPT-5.5 high
+
+#### Checkpoint 2026-05-03T22:28:51-03:00
+- Done: Coverage config passou a incluir services de ancestry e os testes foram ampliados para manter 100 por cento em branches, linhas, funcoes e statements.
+- Next: Planejar T13 com integracao incremental dos catalogos de ancestralidade ao criador de personagem.
+- Risks: Nenhuma UI mudou; efeitos dos tracos continuam textuais e sem aplicacao mecanica.
+- Improvements: Manter vitest.config.mjs atualizado sempre que novo service/domain logic entrar no projeto.
+- Model/config: GPT-5.5 high
+<!-- /pandorha-task:20260503-221203-t12-ancestry-traits -->
 <!-- pandorha-task:20260503-173935-t11-ancestry-schema -->
 ### T11 ancestry schema
 - id: 20260503-173935-t11-ancestry-schema
@@ -534,6 +573,54 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-03T22:28:55-03:00 - ancestry-traits-final
+- branch: task-ancestry-traits
+- commit: 7b077b8 feat(ancestry): adiciona catalogo base
+- changed_files_count: 15
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/entities/ancestry/.context/plain-english.md
+- src/entities/ancestry/.context/scaling-roadmap.md
+- src/entities/ancestry/.context/tech-memory.md
+- src/entities/ancestry/__tests__/AncestryCatalogService.spec.ts
+- src/entities/ancestry/index.ts
+- src/entities/ancestry/model/ancestrySchema.ts
+- src/entities/ancestry/model/ancestryTypes.ts
+- vitest.config.mjs
+- src/entities/ancestry/__tests__/AncestryTraitSelectionService.spec.ts
+- src/entities/ancestry/domain/AncestryTraitRepository.ts
+- src/entities/ancestry/domain/AncestryTraitSelectionService.ts
+- src/entities/ancestry/model/ancestryTraitCatalog.ts
+- src/entities/ancestry/testing/InMemoryAncestryTraitRepository.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-03T22:23:33-03:00 - ancestry-traits
+- branch: task-ancestry-traits
+- commit: 7b077b8 feat(ancestry): adiciona catalogo base
+- changed_files_count: 13
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/entities/ancestry/.context/plain-english.md
+- src/entities/ancestry/.context/scaling-roadmap.md
+- src/entities/ancestry/.context/tech-memory.md
+- src/entities/ancestry/index.ts
+- src/entities/ancestry/model/ancestrySchema.ts
+- src/entities/ancestry/model/ancestryTypes.ts
+- src/entities/ancestry/__tests__/AncestryTraitSelectionService.spec.ts
+- src/entities/ancestry/domain/AncestryTraitRepository.ts
+- src/entities/ancestry/domain/AncestryTraitSelectionService.ts
+- src/entities/ancestry/model/ancestryTraitCatalog.ts
+- src/entities/ancestry/testing/InMemoryAncestryTraitRepository.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-03T17:45:42-03:00 - ancestry-schema
 - branch: task-ancestry-schema
 - commit: d3ed625 docs(character): adiciona guia de criacao
