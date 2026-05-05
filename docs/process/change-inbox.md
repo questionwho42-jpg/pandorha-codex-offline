@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260505-185244-t16a-compendium-base-catalog -->
+### T16A compendium base catalog
+- id: 20260505-185244-t16a-compendium-base-catalog
+- status: open
+- created_at: 2026-05-05T18:52:44-03:00
+- source: task-ledger
+- summary: Criar catalogo base do compendio validado por Zod com service read-only, fake repository e Result Pattern.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260505-185244-t16a-compendium-base-catalog -->
 <!-- pandorha-inbox:20260505-180953-t15b-character-catalog-ui-integration -->
 ### T15B character catalog UI integration
 - id: 20260505-180953-t15b-character-catalog-ui-integration

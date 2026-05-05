@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260505-185244-t16a-compendium-base-catalog -->
+### T16A compendium base catalog
+- id: 20260505-185244-t16a-compendium-base-catalog
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-05T18:52:44-03:00
+- finished_at: 2026-05-05T19:00:03-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-05T19:00:03-03:00
+- branch: task-compendium-base-catalog
+- commit_at_start: 3dfcde6 feat(character): conecta catalogos na criacao
+- summary: Criar catalogo base do compendio validado por Zod com service read-only, fake repository e Result Pattern.
+- last_change: Catalogo base do compendio criado com 8 entradas oficiais, schemas Drizzle-Zod, repository fake, service Result e testes de contrato.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-05T18:52:44-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-05T19:00:03-03:00
+- Done: Catalogo base do compendio criado com 8 entradas oficiais, schemas Drizzle-Zod, repository fake, service Result e testes de contrato.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260505-185244-t16a-compendium-base-catalog -->
 <!-- pandorha-task:20260505-180953-t15b-character-catalog-ui-integration -->
 ### T15B character catalog UI integration
 - id: 20260505-180953-t15b-character-catalog-ui-integration
@@ -733,6 +765,19 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-05T18:59:06-03:00 - compendium-base-catalog
+- branch: task-compendium-base-catalog
+- commit: 3dfcde6 feat(character): conecta catalogos na criacao
+- changed_files_count: 3
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/entities/compendium/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-05T18:20:42-03:00 - character-catalog-ui-integration
 - branch: task-character-catalog-ui-integration
 - commit: 99977fe feat(character): calcula stats derivados base
