@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260505-131417-t15a-character-derived-stats-core -->
+### T15A character derived stats core
+- id: 20260505-131417-t15a-character-derived-stats-core
+- status: open
+- created_at: 2026-05-05T13:14:17-03:00
+- source: task-ledger
+- summary: Criar service puro para calcular HP maximo, iniciativa base e limite de carga sem persistir valores finais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260505-131417-t15a-character-derived-stats-core -->
 <!-- pandorha-inbox:20260505-085702-t14-background-schema -->
 ### T14 background schema
 - id: 20260505-085702-t14-background-schema

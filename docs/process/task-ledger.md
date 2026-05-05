@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260505-131417-t15a-character-derived-stats-core -->
+### T15A character derived stats core
+- id: 20260505-131417-t15a-character-derived-stats-core
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-05T13:14:17-03:00
+- finished_at: 2026-05-05T13:23:01-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-05T13:23:01-03:00
+- branch: task-character-derived-stats-core
+- commit_at_start: f8874a0 feat(background): adiciona catalogo base
+- summary: Criar service puro para calcular HP maximo, iniciativa base e limite de carga sem persistir valores finais.
+- last_change: CharacterDerivedStatsService calcula HP maximo, iniciativa base e limite de carga sem persistir valores finais, com TDD e cobertura 100 por cento.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-05T13:14:17-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-05T13:23:01-03:00
+- Done: CharacterDerivedStatsService calcula HP maximo, iniciativa base e limite de carga sem persistir valores finais, com TDD e cobertura 100 por cento.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260505-131417-t15a-character-derived-stats-core -->
 <!-- pandorha-task:20260505-085702-t14-background-schema -->
 ### T14 background schema
 - id: 20260505-085702-t14-background-schema
@@ -669,6 +701,26 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-05T13:22:54-03:00 - character-derived-stats-core
+- branch: task-character-derived-stats-core
+- commit: f8874a0 feat(background): adiciona catalogo base
+- changed_files_count: 10
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/entities/character/.context/plain-english.md
+- src/entities/character/.context/scaling-roadmap.md
+- src/entities/character/.context/tech-memory.md
+- src/entities/character/index.ts
+- vitest.config.mjs
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/domain/CharacterDerivedStatsService.ts
+- src/entities/character/model/characterDerivedStatsTypes.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-05T09:05:02-03:00 - background-schema
 - branch: task-background-schema
 - commit: b39362b feat(character-class): adiciona catalogo base

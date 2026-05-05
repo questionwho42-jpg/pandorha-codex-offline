@@ -12,3 +12,10 @@
 - `drizzle.config.mjs` is intentionally migration-only: it generates SQL from the Character schema without choosing the final browser OPFS runtime driver.
 - Migration validation uses `sql.js` in Vitest as a temporary SQLite WASM database, proving that the SQL applies and exposes the expected table contract.
 - Added `SessionCharacterRepository` as a temporary browser-session adapter for T08. It implements `CharacterRepository` and exposes `all()` so the app can refresh the read-only list without adding Worker persistence yet.
+
+## 2026-05-05 - T15A Derived Stats Core
+
+- Added `CharacterDerivedStatsService` to calculate non-persisted base stats from a validated `CharacterRecord` and a resolved class source.
+- The service calculates `maxHp`, `initiativeBase`, and `carrySlotLimit` only; it does not apply class passives, ancestry traits, background talents, equipment, magic resources, or status effects.
+- To preserve FSD boundaries, `character` does not import the sibling `character-class` slice. Callers must resolve the class source before asking for derived stats.
+- Derived values remain outputs, not fields stored in the `characters` table.

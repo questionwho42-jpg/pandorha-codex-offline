@@ -13,6 +13,7 @@ export default defineConfig({
 		coverage: {
 			include: [
 				"src/entities/character/domain/CharacterService.ts",
+				"src/entities/character/domain/CharacterDerivedStatsService.ts",
 				"src/entities/character/model/characterRules.ts",
 				"src/entities/character/model/characterSchema.ts",
 				"src/entities/ancestry/domain/AncestryCatalogService.ts",
