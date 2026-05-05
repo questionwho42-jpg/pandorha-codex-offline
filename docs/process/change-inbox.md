@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260505-190555-t17a-compendium-browser-ui -->
+### T17A compendium browser UI
+- id: 20260505-190555-t17a-compendium-browser-ui
+- status: open
+- created_at: 2026-05-05T19:05:55-03:00
+- source: task-ledger
+- summary: Criar busca e UI read-only do compendio usando o catalogo base validado, com Browser Use para validar pesquisa por Vanguarda.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260505-190555-t17a-compendium-browser-ui -->
 <!-- pandorha-inbox:20260505-185244-t16a-compendium-base-catalog -->
 ### T16A compendium base catalog
 - id: 20260505-185244-t16a-compendium-base-catalog

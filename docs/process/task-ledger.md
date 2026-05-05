@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260505-190555-t17a-compendium-browser-ui -->
+### T17A compendium browser UI
+- id: 20260505-190555-t17a-compendium-browser-ui
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-05T19:05:55-03:00
+- finished_at: 2026-05-05T19:17:44-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-05T19:17:44-03:00
+- branch: task-compendium-browser-ui
+- commit_at_start: 1ce69c8 feat(compendium): adiciona catalogo base
+- summary: Criar busca e UI read-only do compendio usando o catalogo base validado, com Browser Use para validar pesquisa por Vanguarda.
+- last_change: UI do compendio consultavel criada com busca read-only, detalhe de entrada, estados de erro/vazio e validacao no Browser Use.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-05T19:05:55-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-05T19:17:44-03:00
+- Done: UI do compendio consultavel criada com busca read-only, detalhe de entrada, estados de erro/vazio e validacao no Browser Use.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260505-190555-t17a-compendium-browser-ui -->
 <!-- pandorha-task:20260505-185244-t16a-compendium-base-catalog -->
 ### T16A compendium base catalog
 - id: 20260505-185244-t16a-compendium-base-catalog
@@ -765,6 +797,28 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-05T19:17:38-03:00 - compendium-browser-ui
+- branch: task-compendium-browser-ui
+- commit: 1ce69c8 feat(compendium): adiciona catalogo base
+- changed_files_count: 12
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/entities/compendium/.context/plain-english.md
+- src/entities/compendium/.context/scaling-roadmap.md
+- src/entities/compendium/.context/tech-memory.md
+- src/entities/compendium/index.ts
+- src/entities/compendium/model/compendiumTypes.ts
+- src/app/model/compendiumSession.ts
+- src/entities/compendium/__tests__/CompendiumSearchService.spec.ts
+- src/entities/compendium/domain/CompendiumSearchService.ts
+- src/features/compendium-browser/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-05T18:59:06-03:00 - compendium-base-catalog
 - branch: task-compendium-base-catalog
 - commit: 3dfcde6 feat(character): conecta catalogos na criacao

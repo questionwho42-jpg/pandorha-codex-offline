@@ -1,5 +1,10 @@
 export { CompendiumCatalogService } from "./domain/CompendiumCatalogService";
 export type { CompendiumRepository } from "./domain/CompendiumRepository";
+export type { CompendiumSearchInput } from "./domain/CompendiumSearchService";
+export {
+	CompendiumSearchService,
+	compendiumSearchInputSchema,
+} from "./domain/CompendiumSearchService";
 export {
 	OFFICIAL_COMPENDIUM_ENTRIES,
 	OFFICIAL_COMPENDIUM_ENTRY_IDS,

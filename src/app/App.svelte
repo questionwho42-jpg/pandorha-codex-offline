@@ -11,12 +11,17 @@ import {
 } from "$lib/features/character-create";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CharacterList } from "$lib/features/character-list";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { CompendiumBrowser } from "$lib/features/compendium-browser";
 import { createCharacterSession } from "./model/characterSession";
+import { createCompendiumSession } from "./model/compendiumSession";
 import type { AppNavigationId } from "./model/navigation";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { APP_NAVIGATION_ITEMS, getAppNavigationItem } from "./model/navigation";
 
 const characterSession = createCharacterSession();
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const compendiumSession = createCompendiumSession();
 
 let activeView = $state<AppNavigationId>("home");
 let characterRecords = $state<CharacterRecord[]>([]);
@@ -127,6 +132,11 @@ async function createCharacter(
 						records={characterRecords}
 					/>
 				</div>
+			{:else if activeView === "compendium"}
+				<CompendiumBrowser
+					searchEntries={(input) =>
+						compendiumSession.searchService.searchEntries(input)}
+				/>
 			{:else}
 				<p class="max-w-3xl text-lg leading-8 text-bone">
 					{activeItem.description}
