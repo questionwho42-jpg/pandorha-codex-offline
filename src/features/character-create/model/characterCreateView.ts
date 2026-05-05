@@ -1,12 +1,20 @@
+import type { AncestryTraitFailure } from "$lib/entities/ancestry";
 import type {
 	CharacterCreateInput,
 	CharacterFailure,
 } from "$lib/entities/character";
 
+const DEFAULT_HUMAN_TRAIT_IDS = [
+	"human-diligencia-erudita",
+	"human-lingua-de-prata",
+	"human-vontade-indomavel",
+] as const;
+
 export type CharacterCreateDraft = {
 	name: string;
 	concept: string;
 	ancestryId: string;
+	ancestryTraitIds: string[];
 	classId: string;
 	backgroundId: string;
 	level: number;
@@ -23,6 +31,7 @@ export function createDefaultCharacterCreateDraft(): CharacterCreateDraft {
 		name: "",
 		concept: "",
 		ancestryId: "human",
+		ancestryTraitIds: [...DEFAULT_HUMAN_TRAIT_IDS],
 		classId: "vanguarda",
 		backgroundId: "abrigo-da-fe",
 		level: 1,
@@ -32,6 +41,35 @@ export function createDefaultCharacterCreateDraft(): CharacterCreateDraft {
 		conflict: 2,
 		interaction: 2,
 		resistance: 2,
+	};
+}
+
+export function changeCharacterDraftAncestry(
+	draft: CharacterCreateDraft,
+	ancestryId: string,
+	availableTraitIds: readonly string[],
+): CharacterCreateDraft {
+	return {
+		...draft,
+		ancestryId,
+		ancestryTraitIds: availableTraitIds.slice(0, 3),
+	};
+}
+
+export function toggleCharacterDraftTrait(
+	draft: CharacterCreateDraft,
+	traitId: string,
+	checked: boolean,
+): CharacterCreateDraft {
+	const ancestryTraitIds = checked
+		? appendUnique(draft.ancestryTraitIds, traitId)
+		: draft.ancestryTraitIds.filter(
+				(selectedTraitId) => selectedTraitId !== traitId,
+			);
+
+	return {
+		...draft,
+		ancestryTraitIds,
 	};
 }
 
@@ -54,6 +92,15 @@ export function toCharacterCreateInput(
 	};
 }
 
+export function toAncestryTraitSelectionInput(
+	draft: CharacterCreateDraft,
+): Readonly<{ ancestryId: string; traitIds: readonly string[] }> {
+	return {
+		ancestryId: draft.ancestryId,
+		traitIds: draft.ancestryTraitIds,
+	};
+}
+
 export function mapCharacterCreateFailure(failure: CharacterFailure): string {
 	switch (failure.code) {
 		case "INVALID_AXIS_DISTRIBUTION":
@@ -69,6 +116,37 @@ export function mapCharacterCreateFailure(failure: CharacterFailure): string {
 		case "REPOSITORY_WRITE_FAILED":
 			return "Não foi possível salvar o personagem nesta sessão. Tente criar novamente.";
 	}
+}
+
+export function mapAncestryTraitSelectionFailure(
+	failure: AncestryTraitFailure,
+): string {
+	switch (failure.code) {
+		case "INVALID_ANCESTRY_TRAIT_SELECTION":
+			return "Escolha exatamente 3 traços da ancestralidade selecionada.";
+		case "DUPLICATE_ANCESTRY_TRAIT_SELECTION":
+			return "Remova traços repetidos e mantenha exatamente 3 escolhas.";
+		case "ANCESTRY_TRAIT_ANCESTRY_MISMATCH":
+			return "Um dos traços escolhidos não pertence à ancestralidade selecionada. Escolha novamente.";
+		case "ANCESTRY_TRAIT_NOT_FOUND":
+			return "Um dos traços escolhidos não está disponível nesta versão. Escolha outro traço.";
+		case "INVALID_ANCESTRY_ID":
+			return "Escolha uma ancestralidade válida antes de criar o personagem.";
+		case "ANCESTRY_TRAIT_REPOSITORY_READ_FAILED":
+			return "Não foi possível validar os traços nesta sessão. Tente criar novamente.";
+		case "CORRUPTED_ANCESTRY_TRAIT_RECORD":
+			return "Os dados de traços carregados estão inválidos. Recarregue a página e tente novamente.";
+		case "CORRUPTED_ANCESTRY_TRAIT_LINK":
+			return "A ligação entre ancestralidade e traços está inválida. Recarregue a página e tente novamente.";
+	}
+}
+
+function appendUnique(values: readonly string[], value: string): string[] {
+	if (values.includes(value)) {
+		return [...values];
+	}
+
+	return [...values, value];
 }
 
 function formatNumberDetail(value: unknown): string {

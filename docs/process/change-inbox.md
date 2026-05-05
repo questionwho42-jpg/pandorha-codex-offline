@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260505-081342-t13a-character-ancestry-trait-selection -->
+### T13A character ancestry trait selection
+- id: 20260505-081342-t13a-character-ancestry-trait-selection
+- status: open
+- created_at: 2026-05-05T08:13:42-03:00
+- source: task-ledger
+- summary: Integrar catalogos de ancestralidade e tracos ao formulario de criacao de personagem com escolha de exatamente 3 tracos, sem persistencia real.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260505-081342-t13a-character-ancestry-trait-selection -->
 <!-- pandorha-inbox:20260503-221203-t12-ancestry-traits -->
 ### T12 ancestry traits
 - id: 20260503-221203-t12-ancestry-traits

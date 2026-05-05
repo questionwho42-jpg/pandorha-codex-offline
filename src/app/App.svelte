@@ -6,6 +6,7 @@ import type {
 import {
 	// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 	CharacterCreateForm,
+	mapAncestryTraitSelectionFailure,
 	mapCharacterCreateFailure,
 } from "$lib/features/character-create";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
@@ -29,8 +30,26 @@ let isCreatingCharacter = $state(false);
 let activeItem = $derived(getAppNavigationItem(activeView));
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-async function createCharacter(input: CharacterCreateInput): Promise<boolean> {
+async function createCharacter(
+	input: CharacterCreateInput,
+	ancestryTraitIds: readonly string[],
+): Promise<boolean> {
 	isCreatingCharacter = true;
+	const traitSelection =
+		await characterSession.ancestryTraitSelectionService.chooseLevelOneTraits({
+			ancestryId: input.ancestryId,
+			traitIds: ancestryTraitIds,
+		});
+
+	if (!traitSelection.success) {
+		isCreatingCharacter = false;
+		characterCreateError = mapAncestryTraitSelectionFailure(
+			traitSelection.error,
+		);
+		characterCreateSuccess = null;
+		return false;
+	}
+
 	const result = await characterSession.service.createCharacter(input);
 	isCreatingCharacter = false;
 
@@ -92,10 +111,12 @@ async function createCharacter(input: CharacterCreateInput): Promise<boolean> {
 			{#if activeView === "characters"}
 				<div class="grid gap-8 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
 					<CharacterCreateForm
+						ancestries={characterSession.ancestries}
 						errorMessage={characterCreateError}
 						isSubmitting={isCreatingCharacter}
 						onCreate={createCharacter}
 						successMessage={characterCreateSuccess}
+						traitsByAncestryId={characterSession.traitsByAncestryId}
 					/>
 					<CharacterList records={characterRecords} />
 				</div>

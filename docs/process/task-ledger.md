@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260505-081342-t13a-character-ancestry-trait-selection -->
+### T13A character ancestry trait selection
+- id: 20260505-081342-t13a-character-ancestry-trait-selection
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-05T08:13:42-03:00
+- finished_at: 2026-05-05T08:24:22-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: GPT-5.5 high
+- last_modified_at: 2026-05-05T08:24:22-03:00
+- branch: task-character-ancestry-trait-selection
+- commit_at_start: b303882 feat(ancestry): adiciona tracos base
+- summary: Integrar catalogos de ancestralidade e tracos ao formulario de criacao de personagem com escolha de exatamente 3 tracos, sem persistencia real.
+- last_change: T13A integrou ancestralidades e escolha de exatamente 3 tracos ao formulario de criacao, validando via AncestryTraitSelectionService antes de criar personagem.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-05T08:13:42-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-05T08:24:22-03:00
+- Done: T13A integrou ancestralidades e escolha de exatamente 3 tracos ao formulario de criacao, validando via AncestryTraitSelectionService antes de criar personagem.
+- Next: Planejar T13 oficial de schema de classes ou uma tarefa curta para exibir escolhas de tracos na ficha/listagem.
+- Risks: Os tracos escolhidos ainda nao sao persistidos em CharacterRecord e seus efeitos mecanicos ainda nao sao aplicados.
+- Improvements: Criar persistencia propria para escolhas nao derivadas de personagem antes de exibir ficha completa.
+- Model/config: GPT-5.5 high
+<!-- /pandorha-task:20260505-081342-t13a-character-ancestry-trait-selection -->
 <!-- pandorha-task:20260503-221203-t12-ancestry-traits -->
 ### T12 ancestry traits
 - id: 20260503-221203-t12-ancestry-traits
@@ -573,6 +605,27 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-05T08:24:15-03:00 - character-ancestry-trait-selection
+- branch: task-character-ancestry-trait-selection
+- commit: b303882 feat(ancestry): adiciona tracos base
+- changed_files_count: 11
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/character-creation.md
+- src/app/App.svelte
+- src/app/model/characterSession.ts
+- src/features/character-create/.context/plain-english.md
+- src/features/character-create/.context/scaling-roadmap.md
+- src/features/character-create/.context/tech-memory.md
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-create/ui/CharacterCreateForm.svelte
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-03T22:28:55-03:00 - ancestry-traits-final
 - branch: task-ancestry-traits
 - commit: 7b077b8 feat(ancestry): adiciona catalogo base

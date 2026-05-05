@@ -8,12 +8,15 @@ Este guia mostra como testar a criação de personagem que existe hoje no Pandor
 - A tela `Personagens` permite criar um personagem básico.
 - O personagem criado aparece na `Listagem de personagens`.
 - O formulário valida a Regra dos 6/6 antes de aceitar o personagem.
+- O formulário permite escolher uma das 6 ancestralidades oficiais.
+- O formulário permite escolher exatamente 3 traços da ancestralidade selecionada.
 - Os erros aparecem em português e dizem o que precisa ser corrigido.
 
 ## Limites Desta Versão
 
 - O personagem existe apenas na sessão atual do navegador. Se você recarregar a página, ele será perdido.
-- As escolhas de Ancestralidade, Classe e Antecedente ainda são fixas: `Humano`, `Vanguarda` e `Abrigo da Fé`.
+- Classe e Antecedente ainda são fixos: `Vanguarda` e `Abrigo da Fé`.
+- Os traços escolhidos são validados na criação, mas ainda não aparecem na listagem e seus efeitos mecânicos ainda não são aplicados.
 - A ficha completa, persistência real, banco SQLite/OPFS e compêndio ainda serão implementados em tarefas futuras.
 
 ## Como Criar Um Personagem Válido
@@ -22,11 +25,13 @@ Este guia mostra como testar a criação de personagem que existe hoje no Pandor
 2. Clique em `Personagens`.
 3. Preencha `Nome`.
 4. Preencha `Conceito`.
-5. Mantenha `Nível` como `1`.
-6. Distribua os `Eixos` para somarem exatamente `6`.
-7. Distribua as `Aplicações` para somarem exatamente `6`.
-8. Clique em `Criar personagem`.
-9. Confirme que o personagem aparece na `Listagem de personagens`.
+5. Escolha uma `Ancestralidade`.
+6. Escolha exatamente `3` `Traços de ancestralidade`.
+7. Mantenha `Nível` como `1`.
+8. Distribua os `Eixos` para somarem exatamente `6`.
+9. Distribua as `Aplicações` para somarem exatamente `6`.
+10. Clique em `Criar personagem`.
+11. Confirme que o personagem aparece na `Listagem de personagens`.
 
 ## Exemplo Para Testar
 
@@ -37,6 +42,7 @@ Use estes valores para confirmar que o fluxo está funcionando:
 | Nome | Lira da Ponte |
 | Conceito | Guardiã exilada que protege caravanas |
 | Ancestralidade | Humano |
+| Traços | Diligência Erudita, Língua de Prata, Vontade Indomável |
 | Classe | Vanguarda |
 | Antecedente | Abrigo da Fé |
 | Nível | 1 |
@@ -68,8 +74,13 @@ Se aparecer uma mensagem pedindo `nome`, `conceito` ou campos numéricos, revise
 
 Se aparecer uma mensagem de limite do nível atual, deixe o campo indicado em no máximo `3` enquanto o personagem estiver no Nível 1.
 
+Se aparecer uma mensagem pedindo exatamente `3 traços`, marque ou desmarque traços até o contador mostrar `Selecionados: 3/3`.
+
+Se você trocar a ancestralidade, a lista de traços muda. Confira novamente se os 3 traços escolhidos pertencem à ancestralidade atual.
+
 ## Fontes De Regra E Implementação
 
 - `docs/system/survival/00-mecanicas-fundamentais.md`: define a Regra dos 6/6, os Eixos, as Aplicações e os caps por Tier.
 - `docs/system/survival/guia-criacao-de-ficha.md`: detalha o processo de distribuição de Eixos e Aplicações na criação.
+- `docs/system/survival/01-01-humanos.md` a `docs/system/survival/01-06-feras.md`: definem as ancestralidades e suas listas de 10 traços.
 - `src/features/character-create/ui/CharacterCreateForm.svelte`: representa o formulário atual validado no navegador.

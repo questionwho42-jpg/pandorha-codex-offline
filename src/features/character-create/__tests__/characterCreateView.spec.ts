@@ -1,19 +1,29 @@
 import { describe, expect, it } from "vitest";
+import type { AncestryTraitFailure } from "$lib/entities/ancestry";
 import type { CharacterFailure } from "$lib/entities/character";
 import {
+	changeCharacterDraftAncestry,
 	createDefaultCharacterCreateDraft,
+	mapAncestryTraitSelectionFailure,
 	mapCharacterCreateFailure,
+	toAncestryTraitSelectionInput,
 	toCharacterCreateInput,
+	toggleCharacterDraftTrait,
 } from "../model/characterCreateView";
 
 describe("character create view model", () => {
-	it("creates a default draft that respects the 6/6 distribution", () => {
+	it("creates a default draft that respects the 6/6 distribution and starts with 3 Humano traits", () => {
 		const draft = createDefaultCharacterCreateDraft();
 
 		expect(draft).toMatchObject({
 			name: "",
 			concept: "",
 			ancestryId: "human",
+			ancestryTraitIds: [
+				"human-diligencia-erudita",
+				"human-lingua-de-prata",
+				"human-vontade-indomavel",
+			],
 			classId: "vanguarda",
 			backgroundId: "abrigo-da-fe",
 			level: 1,
@@ -22,7 +32,7 @@ describe("character create view model", () => {
 		expect(draft.conflict + draft.interaction + draft.resistance).toBe(6);
 	});
 
-	it("maps a draft to the Character service input contract", () => {
+	it("maps a draft to the Character service input contract without persisting traits", () => {
 		const input = toCharacterCreateInput({
 			...createDefaultCharacterCreateDraft(),
 			name: "Kael de Almar",
@@ -51,7 +61,72 @@ describe("character create view model", () => {
 		});
 	});
 
-	it("translates every failure code to actionable pt-BR copy", () => {
+	it("maps a draft to the ancestry trait selection service input", () => {
+		const input = toAncestryTraitSelectionInput({
+			...createDefaultCharacterCreateDraft(),
+			ancestryId: "elf",
+			ancestryTraitIds: [
+				"elf-visao-estelar",
+				"elf-passo-de-folha",
+				"elf-memoria-arcaica",
+			],
+		});
+
+		expect(input).toEqual({
+			ancestryId: "elf",
+			traitIds: [
+				"elf-visao-estelar",
+				"elf-passo-de-folha",
+				"elf-memoria-arcaica",
+			],
+		});
+	});
+
+	it("resets selected traits when the draft ancestry changes", () => {
+		const draft = changeCharacterDraftAncestry(
+			createDefaultCharacterCreateDraft(),
+			"umbral",
+			[
+				"umbral-visao-do-vazio",
+				"umbral-passo-silencioso",
+				"umbral-toque-de-geada",
+				"umbral-aura-de-inquietude",
+			],
+		);
+
+		expect(draft.ancestryId).toBe("umbral");
+		expect(draft.ancestryTraitIds).toEqual([
+			"umbral-visao-do-vazio",
+			"umbral-passo-silencioso",
+			"umbral-toque-de-geada",
+		]);
+	});
+
+	it("allows the UI to produce invalid trait counts for domain validation", () => {
+		const twoTraits = toggleCharacterDraftTrait(
+			createDefaultCharacterCreateDraft(),
+			"human-vontade-indomavel",
+			false,
+		);
+		const fourTraits = toggleCharacterDraftTrait(
+			createDefaultCharacterCreateDraft(),
+			"human-maestria-improvisada",
+			true,
+		);
+
+		expect(twoTraits.ancestryTraitIds).toEqual([
+			"human-diligencia-erudita",
+			"human-lingua-de-prata",
+		]);
+		expect(fourTraits.ancestryTraitIds).toEqual([
+			"human-diligencia-erudita",
+			"human-lingua-de-prata",
+			"human-vontade-indomavel",
+			"human-maestria-improvisada",
+		]);
+	});
+
+	it("translates every character failure code to actionable pt-BR copy", () => {
 		expect(
 			mapCharacterCreateFailure(
 				characterFailure("INVALID_AXIS_DISTRIBUTION", { received: 8 }),
@@ -91,12 +166,76 @@ describe("character create view model", () => {
 			"Não foi possível salvar o personagem nesta sessão. Tente criar novamente.",
 		);
 	});
+
+	it("translates ancestry trait failures to actionable pt-BR copy", () => {
+		expect(
+			mapAncestryTraitSelectionFailure(
+				ancestryTraitFailure("INVALID_ANCESTRY_TRAIT_SELECTION"),
+			),
+		).toBe("Escolha exatamente 3 traços da ancestralidade selecionada.");
+		expect(
+			mapAncestryTraitSelectionFailure(
+				ancestryTraitFailure("DUPLICATE_ANCESTRY_TRAIT_SELECTION"),
+			),
+		).toBe("Remova traços repetidos e mantenha exatamente 3 escolhas.");
+		expect(
+			mapAncestryTraitSelectionFailure(
+				ancestryTraitFailure("ANCESTRY_TRAIT_ANCESTRY_MISMATCH"),
+			),
+		).toBe(
+			"Um dos traços escolhidos não pertence à ancestralidade selecionada. Escolha novamente.",
+		);
+		expect(
+			mapAncestryTraitSelectionFailure(
+				ancestryTraitFailure("ANCESTRY_TRAIT_NOT_FOUND"),
+			),
+		).toBe(
+			"Um dos traços escolhidos não está disponível nesta versão. Escolha outro traço.",
+		);
+		expect(
+			mapAncestryTraitSelectionFailure(
+				ancestryTraitFailure("INVALID_ANCESTRY_ID"),
+			),
+		).toBe("Escolha uma ancestralidade válida antes de criar o personagem.");
+		expect(
+			mapAncestryTraitSelectionFailure(
+				ancestryTraitFailure("ANCESTRY_TRAIT_REPOSITORY_READ_FAILED"),
+			),
+		).toBe(
+			"Não foi possível validar os traços nesta sessão. Tente criar novamente.",
+		);
+		expect(
+			mapAncestryTraitSelectionFailure(
+				ancestryTraitFailure("CORRUPTED_ANCESTRY_TRAIT_RECORD"),
+			),
+		).toBe(
+			"Os dados de traços carregados estão inválidos. Recarregue a página e tente novamente.",
+		);
+		expect(
+			mapAncestryTraitSelectionFailure(
+				ancestryTraitFailure("CORRUPTED_ANCESTRY_TRAIT_LINK"),
+			),
+		).toBe(
+			"A ligação entre ancestralidade e traços está inválida. Recarregue a página e tente novamente.",
+		);
+	});
 });
 
 function characterFailure(
 	code: CharacterFailure["code"],
 	details: CharacterFailure["details"] = {},
 ): CharacterFailure {
+	return {
+		code,
+		details,
+		message: "technical failure",
+	};
+}
+
+function ancestryTraitFailure(
+	code: AncestryTraitFailure["code"],
+	details: AncestryTraitFailure["details"] = {},
+): AncestryTraitFailure {
 	return {
 		code,
 		details,
