@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260505-084102-t13-character-class-schema -->
+### T13 character class schema
+- id: 20260505-084102-t13-character-class-schema
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-05T08:41:02-03:00
+- finished_at: 2026-05-05T08:49:26-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-05T08:49:26-03:00
+- branch: task-character-class-schema
+- commit_at_start: d3c8374 feat(character): integra tracos de ancestralidade
+- summary: Modelar catalogo read-only das quatro classes oficiais com ids tecnicos em ingles, schema Drizzle-Zod, repository fake e service Result.
+- last_change: Schema e catalogo read-only das quatro classes oficiais adicionados com ids tecnicos em ingles, repository fake, service Result e testes de contrato.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-05T08:41:02-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-05T08:49:26-03:00
+- Done: Schema e catalogo read-only das quatro classes oficiais adicionados com ids tecnicos em ingles, repository fake, service Result e testes de contrato.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260505-084102-t13-character-class-schema -->
 <!-- pandorha-task:20260505-081342-t13a-character-ancestry-trait-selection -->
 ### T13A character ancestry trait selection
 - id: 20260505-081342-t13a-character-ancestry-trait-selection
@@ -605,6 +637,20 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-05T08:48:58-03:00 - character-class-schema
+- branch: task-character-class-schema
+- commit: d3c8374 feat(character): integra tracos de ancestralidade
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/entities/character-class/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-05T08:24:15-03:00 - character-ancestry-trait-selection
 - branch: task-character-ancestry-trait-selection
 - commit: b303882 feat(ancestry): adiciona tracos base

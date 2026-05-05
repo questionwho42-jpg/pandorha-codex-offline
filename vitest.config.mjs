@@ -17,6 +17,7 @@ export default defineConfig({
 				"src/entities/character/model/characterSchema.ts",
 				"src/entities/ancestry/domain/AncestryCatalogService.ts",
 				"src/entities/ancestry/domain/AncestryTraitSelectionService.ts",
+				"src/entities/character-class/domain/CharacterClassCatalogService.ts",
 			],
 			exclude: [
 				"src/entities/character/testing/**/*.ts",
