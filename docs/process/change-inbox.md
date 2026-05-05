@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260505-180953-t15b-character-catalog-ui-integration -->
+### T15B character catalog UI integration
+- id: 20260505-180953-t15b-character-catalog-ui-integration
+- status: open
+- created_at: 2026-05-05T18:09:53-03:00
+- source: task-ledger
+- summary: Conectar catalogos oficiais de classe e antecedente ao criador/listagem de personagem, mantendo ids tecnicos em ingles e labels pt-BR.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260505-180953-t15b-character-catalog-ui-integration -->
 <!-- pandorha-inbox:20260505-131417-t15a-character-derived-stats-core -->
 ### T15A character derived stats core
 - id: 20260505-131417-t15a-character-derived-stats-core

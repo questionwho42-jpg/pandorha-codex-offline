@@ -10,3 +10,9 @@
 - Added T04 Tailwind v4 through the Vite plugin and a CSS-first `@theme` file at `src/app/styles.css`.
 - Mapped the official styleguide colors to Tailwind tokens: `void`, `ruin`, `ether`, `bone`, `bronze`, and `blood-shadow`.
 - Kept visual shell styling in Tailwind classes inside `App.svelte`; no native `<style>` block was added to the Svelte component.
+
+## 2026-05-05 - T15B Character Catalog Wiring
+
+- `characterSession` now exposes official ancestry, trait, class, and background catalogs to the app surface.
+- `App.svelte` passes class and background catalogs into character creation and list features instead of letting those features hardcode options.
+- Session persistence remains temporary; catalog wiring is still read-only and does not introduce Worker, SQLite, or OPFS.

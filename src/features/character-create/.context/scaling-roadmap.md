@@ -12,4 +12,4 @@
 - Persist selected ancestry traits only after a dedicated Character trait relation or draft persistence model exists.
 - Show selected traits in the character list or detail sheet after the sheet can represent non-derived character choices.
 - Apply trait effects through a future decorator/modifier pipeline rather than embedding mechanical effects in the form.
-- Replace fixed class/background selectors when their read-only entities and catalogs are implemented.
+- Class and background selectors now use official read-only catalogs. Next, add user-facing summaries and later validate class/background references through a dedicated orchestration service before persistence.

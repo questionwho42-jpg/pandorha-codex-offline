@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
+import type { AncestryRecord } from "$lib/entities/ancestry";
+import type { BackgroundRecord } from "$lib/entities/background";
 import type { CharacterRecord } from "$lib/entities/character";
+import type { CharacterClassRecord } from "$lib/entities/character-class";
 import { createCharacterListView } from "../model/characterListView";
 
 const character: CharacterRecord = {
@@ -7,8 +10,8 @@ const character: CharacterRecord = {
 	name: "Kael de Almar",
 	concept: "Vanguarda protetor da caravana",
 	ancestryId: "human",
-	classId: "vanguarda",
-	backgroundId: "abrigo-da-fe",
+	classId: "vanguard",
+	backgroundId: "acolyte",
 	level: 1,
 	physical: 3,
 	mental: 1,
@@ -36,7 +39,13 @@ describe("createCharacterListView", () => {
 	});
 
 	it("maps character records to readable list items", () => {
-		const view = createCharacterListView([character]);
+		const view = createCharacterListView([character], {
+			ancestries: [{ id: "human", label: "Humano" } as AncestryRecord],
+			backgrounds: [{ id: "acolyte", label: "Acólito" } as BackgroundRecord],
+			characterClasses: [
+				{ id: "vanguard", label: "Vanguarda" } as CharacterClassRecord,
+			],
+		});
 
 		expect(view.emptyState).toBeUndefined();
 		expect(view.countLabel).toBe("1 personagem");
@@ -46,7 +55,7 @@ describe("createCharacterListView", () => {
 				name: "Kael de Almar",
 				concept: "Vanguarda protetor da caravana",
 				levelLabel: "Nível 1",
-				identityLabel: "Ancestralidade human · Classe vanguarda",
+				identityLabel: "Humano · Vanguarda · Acólito",
 				axes: [
 					{ label: "Físico", value: 3 },
 					{ label: "Mental", value: 1 },
@@ -59,6 +68,12 @@ describe("createCharacterListView", () => {
 				],
 			},
 		]);
+	});
+
+	it("falls back to raw ids when catalog labels are missing", () => {
+		const view = createCharacterListView([character]);
+
+		expect(view.items[0]?.identityLabel).toBe("human · vanguard · acolyte");
 	});
 
 	it("uses plural count copy for multiple characters", () => {

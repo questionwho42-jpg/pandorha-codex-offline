@@ -14,3 +14,10 @@
 - `App.svelte` validates the selected trait ids with `AncestryTraitSelectionService` before calling `CharacterService`.
 - `CharacterCreateForm.svelte` receives ancestry and trait catalogs from app/session wiring; it does not import static catalogs directly.
 - The UI can temporarily hold invalid trait counts so the domain service remains the final validator for exactly 3 selected traits.
+
+## 2026-05-05 - T15B Official Class And Background Catalogs
+
+- `CharacterCreateForm.svelte` now receives official class and background catalogs from app/session wiring.
+- Draft defaults use English technical ids: `classId: "vanguard"` and `backgroundId: "acolyte"`.
+- The browser shows pt-BR labels from the catalogs, while `CharacterCreateInput` keeps stable English ids.
+- Class passives, background benefits, and derived stat display remain outside this feature.

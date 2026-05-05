@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260505-180953-t15b-character-catalog-ui-integration -->
+### T15B character catalog UI integration
+- id: 20260505-180953-t15b-character-catalog-ui-integration
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-05T18:09:53-03:00
+- finished_at: 2026-05-05T18:20:47-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-05T18:20:47-03:00
+- branch: task-character-catalog-ui-integration
+- commit_at_start: 99977fe feat(character): calcula stats derivados base
+- summary: Conectar catalogos oficiais de classe e antecedente ao criador/listagem de personagem, mantendo ids tecnicos em ingles e labels pt-BR.
+- last_change: Criador e listagem de personagens agora usam catalogos oficiais de classe e antecedente com ids tecnicos em ingles e labels pt-BR, validados no Browser Use.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-05T18:09:53-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-05T18:20:47-03:00
+- Done: Criador e listagem de personagens agora usam catalogos oficiais de classe e antecedente com ids tecnicos em ingles e labels pt-BR, validados no Browser Use.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260505-180953-t15b-character-catalog-ui-integration -->
 <!-- pandorha-task:20260505-131417-t15a-character-derived-stats-core -->
 ### T15A character derived stats core
 - id: 20260505-131417-t15a-character-derived-stats-core
@@ -701,6 +733,33 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-05T18:20:42-03:00 - character-catalog-ui-integration
+- branch: task-character-catalog-ui-integration
+- commit: 99977fe feat(character): calcula stats derivados base
+- changed_files_count: 17
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/characterSession.ts
+- src/features/character-create/.context/plain-english.md
+- src/features/character-create/.context/scaling-roadmap.md
+- src/features/character-create/.context/tech-memory.md
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-create/ui/CharacterCreateForm.svelte
+- src/features/character-list/.context/plain-english.md
+- src/features/character-list/.context/scaling-roadmap.md
+- src/features/character-list/.context/tech-memory.md
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-05T13:22:54-03:00 - character-derived-stats-core
 - branch: task-character-derived-stats-core
 - commit: f8874a0 feat(background): adiciona catalogo base

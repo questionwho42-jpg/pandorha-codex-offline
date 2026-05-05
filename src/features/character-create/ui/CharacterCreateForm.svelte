@@ -3,7 +3,9 @@ import type {
 	AncestryRecord,
 	AncestryTraitRecord,
 } from "$lib/entities/ancestry";
+import type { BackgroundRecord } from "$lib/entities/background";
 import type { CharacterCreateInput } from "$lib/entities/character";
+import type { CharacterClassRecord } from "$lib/entities/character-class";
 import {
 	changeCharacterDraftAncestry,
 	createDefaultCharacterCreateDraft,
@@ -17,6 +19,8 @@ type TraitsByAncestryId = Readonly<
 
 type Props = {
 	ancestries: readonly AncestryRecord[];
+	backgrounds: readonly BackgroundRecord[];
+	characterClasses: readonly CharacterClassRecord[];
 	errorMessage?: string | null;
 	isSubmitting?: boolean;
 	onCreate: (
@@ -30,6 +34,10 @@ type Props = {
 let {
 	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 	ancestries,
+	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+	backgrounds,
+	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+	characterClasses,
 	errorMessage: _errorMessage = null,
 	isSubmitting: _isSubmitting = false,
 	onCreate,
@@ -135,7 +143,9 @@ function toggleAncestryTrait(event: Event, traitId: string): void {
 					data-testid="character-class-select"
 					class="mt-2 w-full border border-bronze bg-blood-shadow px-3 py-2 text-bone outline-none focus:border-ether"
 				>
-					<option value="vanguarda">Vanguarda</option>
+					{#each characterClasses as characterClass}
+						<option value={characterClass.id}>{characterClass.label}</option>
+					{/each}
 				</select>
 			</label>
 
@@ -146,7 +156,9 @@ function toggleAncestryTrait(event: Event, traitId: string): void {
 					data-testid="character-background-select"
 					class="mt-2 w-full border border-bronze bg-blood-shadow px-3 py-2 text-bone outline-none focus:border-ether"
 				>
-					<option value="abrigo-da-fe">Abrigo da Fé</option>
+					{#each backgrounds as background}
+						<option value={background.id}>{background.label}</option>
+					{/each}
 				</select>
 			</label>
 		</div>

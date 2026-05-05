@@ -24,8 +24,8 @@ describe("character create view model", () => {
 				"human-lingua-de-prata",
 				"human-vontade-indomavel",
 			],
-			classId: "vanguarda",
-			backgroundId: "abrigo-da-fe",
+			classId: "vanguard",
+			backgroundId: "acolyte",
 			level: 1,
 		});
 		expect(draft.physical + draft.mental + draft.social).toBe(6);
@@ -49,8 +49,8 @@ describe("character create view model", () => {
 			name: "Kael de Almar",
 			concept: "Vanguarda protetor da caravana",
 			ancestryId: "human",
-			classId: "vanguarda",
-			backgroundId: "abrigo-da-fe",
+			classId: "vanguard",
+			backgroundId: "acolyte",
 			level: 1,
 			physical: 3,
 			mental: 1,

@@ -112,13 +112,20 @@ async function createCharacter(
 				<div class="grid gap-8 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
 					<CharacterCreateForm
 						ancestries={characterSession.ancestries}
+						backgrounds={characterSession.backgrounds}
+						characterClasses={characterSession.characterClasses}
 						errorMessage={characterCreateError}
 						isSubmitting={isCreatingCharacter}
 						onCreate={createCharacter}
 						successMessage={characterCreateSuccess}
 						traitsByAncestryId={characterSession.traitsByAncestryId}
 					/>
-					<CharacterList records={characterRecords} />
+					<CharacterList
+						ancestries={characterSession.ancestries}
+						backgrounds={characterSession.backgrounds}
+						characterClasses={characterSession.characterClasses}
+						records={characterRecords}
+					/>
 				</div>
 			{:else}
 				<p class="max-w-3xl text-lg leading-8 text-bone">

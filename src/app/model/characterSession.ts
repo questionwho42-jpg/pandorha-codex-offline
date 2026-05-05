@@ -8,15 +8,25 @@ import {
 	OFFICIAL_ANCESTRY_TRAITS,
 } from "$lib/entities/ancestry";
 import {
+	type BackgroundRecord,
+	OFFICIAL_BACKGROUNDS,
+} from "$lib/entities/background";
+import {
 	type CharacterClock,
 	type CharacterIdProvider,
 	CharacterService,
 	SessionCharacterRepository,
 } from "$lib/entities/character";
+import {
+	type CharacterClassRecord,
+	OFFICIAL_CHARACTER_CLASSES,
+} from "$lib/entities/character-class";
 
 export type CharacterSession = Readonly<{
 	ancestries: readonly AncestryRecord[];
 	ancestryTraitSelectionService: AncestryTraitSelectionService;
+	backgrounds: readonly BackgroundRecord[];
+	characterClasses: readonly CharacterClassRecord[];
 	repository: SessionCharacterRepository;
 	service: CharacterService;
 	traitsByAncestryId: Readonly<Record<string, readonly AncestryTraitRecord[]>>;
@@ -34,6 +44,8 @@ export function createCharacterSession(): CharacterSession {
 		ancestryTraitSelectionService: new AncestryTraitSelectionService(
 			ancestryTraitRepository,
 		),
+		backgrounds: OFFICIAL_BACKGROUNDS,
+		characterClasses: OFFICIAL_CHARACTER_CLASSES,
 		repository,
 		service: new CharacterService(
 			repository,

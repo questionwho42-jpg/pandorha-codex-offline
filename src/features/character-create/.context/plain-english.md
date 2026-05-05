@@ -8,4 +8,6 @@ When something is wrong, the form now explains what needs to be corrected in Por
 
 The form now also lets the user choose an ancestry and exactly 3 traits from that ancestry. These choices are checked before the character is created, but the trait effects are not applied yet.
 
+The form now also shows the official class and background lists. The user sees Portuguese names, while the saved technical ids stay in English.
+
 For now, the character only exists during the current browser session. Reloading the app clears it because permanent storage is planned for a later Worker/SQLite task.

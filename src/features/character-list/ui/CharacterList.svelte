@@ -1,14 +1,31 @@
 <script lang="ts">
+import type { AncestryRecord } from "$lib/entities/ancestry";
+import type { BackgroundRecord } from "$lib/entities/background";
 import type { CharacterRecord } from "$lib/entities/character";
+import type { CharacterClassRecord } from "$lib/entities/character-class";
 import { createCharacterListView } from "../model/characterListView";
 
 type Props = {
+	ancestries?: readonly AncestryRecord[];
+	backgrounds?: readonly BackgroundRecord[];
+	characterClasses?: readonly CharacterClassRecord[];
 	records?: readonly CharacterRecord[];
 };
 
-let { records = [] }: Props = $props();
+let {
+	ancestries = [],
+	backgrounds = [],
+	characterClasses = [],
+	records = [],
+}: Props = $props();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-let view = $derived(createCharacterListView(records));
+let view = $derived(
+	createCharacterListView(records, {
+		ancestries,
+		backgrounds,
+		characterClasses,
+	}),
+);
 </script>
 
 <section aria-labelledby="character-list-title" data-testid="character-list">
