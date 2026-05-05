@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260505-085702-t14-background-schema -->
+### T14 background schema
+- id: 20260505-085702-t14-background-schema
+- status: open
+- created_at: 2026-05-05T08:57:02-03:00
+- source: task-ledger
+- summary: Modelar catalogo read-only dos antecedentes oficiais com ids tecnicos em ingles, schema Drizzle-Zod, repository fake e service Result.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260505-085702-t14-background-schema -->
 <!-- pandorha-inbox:20260505-084102-t13-character-class-schema -->
 ### T13 character class schema
 - id: 20260505-084102-t13-character-class-schema
