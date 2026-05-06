@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260505-231828-t18a-dice-service-core -->
+### T18A dice service core
+- id: 20260505-231828-t18a-dice-service-core
+- status: open
+- created_at: 2026-05-05T23:18:28-03:00
+- source: task-ledger
+- summary: Criar DiceService auditavel com RNG injetavel, resultados tipados e testes determinísticos, sem UI nem persistencia real.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260505-231828-t18a-dice-service-core -->
 <!-- pandorha-inbox:20260505-190555-t17a-compendium-browser-ui -->
 ### T17A compendium browser UI
 - id: 20260505-190555-t17a-compendium-browser-ui

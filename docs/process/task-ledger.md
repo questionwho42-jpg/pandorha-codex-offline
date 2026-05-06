@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260505-231828-t18a-dice-service-core -->
+### T18A dice service core
+- id: 20260505-231828-t18a-dice-service-core
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-05T23:18:28-03:00
+- finished_at: 2026-05-05T23:27:29-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5.5 high-reasoning final review; local automation
+- last_modified_at: 2026-05-05T23:32:25-03:00
+- branch: task-dice-service
+- commit_at_start: bd7a8b1 feat(compendium): adiciona busca navegavel
+- summary: Criar DiceService auditavel com RNG injetavel, resultados tipados e testes determinísticos, sem UI nem persistencia real.
+- last_change: DiceService, testes e gate de cobertura com 100% finalizados.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-05T23:18:28-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-05-05T23:27:29-03:00
+- Done: DiceService auditavel criado em shared/dice com RNG injetavel, audit entry em memoria e testes deterministicos.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-05-05T23:32:25-03:00
+- Done: DiceService, testes e gate de cobertura com 100% finalizados.
+- Next: T19 ResolutionService
+- Risks: Auditoria ainda e apenas em memoria; persistencia fica para tarefa futura.
+- Improvements: Criar adaptador isolado de RNG real quando houver boundary aprovado de runtime.
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+<!-- /pandorha-task:20260505-231828-t18a-dice-service-core -->
 <!-- pandorha-task:20260505-190555-t17a-compendium-browser-ui -->
 ### T17A compendium browser UI
 - id: 20260505-190555-t17a-compendium-browser-ui
@@ -797,6 +836,65 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-05T23:35:56-03:00 - dice-service-final
+- branch: task-dice-service
+- commit: bd7a8b1 feat(compendium): adiciona busca navegavel
+- changed_files_count: 5
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/shared/game-rules.ts
+- vitest.config.mjs
+- src/shared/dice/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-05T23:32:32-03:00 - dice-service-final
+- branch: task-dice-service
+- commit: bd7a8b1 feat(compendium): adiciona busca navegavel
+- changed_files_count: 5
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/shared/game-rules.ts
+- vitest.config.mjs
+- src/shared/dice/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-05T23:32:13-03:00 - dice-service
+- branch: task-dice-service
+- commit: bd7a8b1 feat(compendium): adiciona busca navegavel
+- changed_files_count: 5
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/shared/game-rules.ts
+- vitest.config.mjs
+- src/shared/dice/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-05T23:27:22-03:00 - dice-service
+- branch: task-dice-service
+- commit: bd7a8b1 feat(compendium): adiciona busca navegavel
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/shared/game-rules.ts
+- src/shared/dice/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-05T19:17:38-03:00 - compendium-browser-ui
 - branch: task-compendium-browser-ui
 - commit: 1ce69c8 feat(compendium): adiciona catalogo base

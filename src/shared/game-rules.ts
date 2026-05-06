@@ -5,6 +5,32 @@
  */
 
 export const PANDORHA_RULES = {
+	DICE: {
+		/**
+		 * Official universal test die.
+		 * @source docs/system/survival/00-mecanicas-fundamentais.md - Secao 3 (Formula Universal)
+		 */
+		D20_SIDES: 20,
+		/**
+		 * Lowest possible natural roll on a die.
+		 * @source docs/system/survival/00-mecanicas-fundamentais.md - Secao 3 (Formula Universal)
+		 */
+		NATURAL_FAILURE: 1,
+		/**
+		 * Natural critical value for the official d20.
+		 * @source docs/system/survival/00-mecanicas-fundamentais.md - Secao 3 (Formula Universal)
+		 */
+		NATURAL_CRITICAL: 20,
+		/**
+		 * Smallest supported die size for generic dice rolls.
+		 */
+		MIN_DIE_SIDES: 2,
+		/**
+		 * Highest supported die size for generic dice rolls.
+		 */
+		MAX_DIE_SIDES: 1000,
+	},
+
 	CHARACTER_CREATION: {
 		/**
 		 * @source docs/system/survival/00-mecanicas-fundamentais.md - Seção 2 (Passo 1)
