@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260506-120924-t22a-combat-encounter-core -->
+### T22A Combat Encounter Core
+- id: 20260506-120924-t22a-combat-encounter-core
+- status: open
+- created_at: 2026-05-06T12:09:24-03:00
+- source: task-ledger
+- summary: Criar CombatEncounterService puro para resolver ataque simples com ActionQueue, ResolutionService e DamagePipelineService.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260506-120924-t22a-combat-encounter-core -->
 <!-- pandorha-inbox:20260506-114519-t21-damage-pipeline-minimo -->
 ### T21 Damage Pipeline minimo
 - id: 20260506-114519-t21-damage-pipeline-minimo
