@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260505-235005-t19-resolutionservice-core -->
+### T19 ResolutionService core
+- id: 20260505-235005-t19-resolutionservice-core
+- status: open
+- created_at: 2026-05-05T23:50:05-03:00
+- source: task-ledger
+- summary: Criar ResolutionService puro para calcular Teste Global com DiceService, graus de sucesso e Result tipado, sem UI nem persistencia.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260505-235005-t19-resolutionservice-core -->
 <!-- pandorha-inbox:20260505-231828-t18a-dice-service-core -->
 ### T18A dice service core
 - id: 20260505-231828-t18a-dice-service-core

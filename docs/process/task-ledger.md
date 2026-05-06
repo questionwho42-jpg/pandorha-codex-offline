@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260505-235005-t19-resolutionservice-core -->
+### T19 ResolutionService core
+- id: 20260505-235005-t19-resolutionservice-core
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-05T23:50:05-03:00
+- finished_at: 2026-05-05T23:55:30-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5.5 high-reasoning final review; local automation
+- last_modified_at: 2026-05-05T23:55:30-03:00
+- branch: task-resolution-service
+- commit_at_start: c6a0275 feat(dice): adiciona servico auditavel
+- summary: Criar ResolutionService puro para calcular Teste Global com DiceService, graus de sucesso e Result tipado, sem UI nem persistencia.
+- last_change: ResolutionService criado em shared/resolution com Teste Global, graus de sucesso, decisao de 20 natural e 100% de cobertura.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-05T23:50:05-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-05-05T23:55:30-03:00
+- Done: ResolutionService criado em shared/resolution com Teste Global, graus de sucesso, decisao de 20 natural e 100% de cobertura.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+<!-- /pandorha-task:20260505-235005-t19-resolutionservice-core -->
 <!-- pandorha-task:20260505-231828-t18a-dice-service-core -->
 ### T18A dice service core
 - id: 20260505-231828-t18a-dice-service-core
@@ -836,6 +868,34 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-05T23:55:36-03:00 - resolution-service-final
+- branch: task-resolution-service
+- commit: c6a0275 feat(dice): adiciona servico auditavel
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/shared/resolution/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-05T23:55:26-03:00 - resolution-service
+- branch: task-resolution-service
+- commit: c6a0275 feat(dice): adiciona servico auditavel
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/shared/resolution/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-05T23:35:56-03:00 - dice-service-final
 - branch: task-dice-service
 - commit: bd7a8b1 feat(compendium): adiciona busca navegavel

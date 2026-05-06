@@ -21,6 +21,7 @@ export default defineConfig({
 				"src/entities/character-class/domain/CharacterClassCatalogService.ts",
 				"src/entities/background/domain/BackgroundCatalogService.ts",
 				"src/shared/dice/domain/DiceService.ts",
+				"src/shared/resolution/domain/ResolutionService.ts",
 			],
 			exclude: [
 				"src/entities/character/testing/**/*.ts",
