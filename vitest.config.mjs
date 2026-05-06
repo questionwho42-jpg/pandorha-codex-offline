@@ -23,6 +23,7 @@ export default defineConfig({
 				"src/shared/dice/domain/DiceService.ts",
 				"src/shared/resolution/domain/ResolutionService.ts",
 				"src/shared/action-queue/domain/ActionQueueService.ts",
+				"src/shared/damage/domain/DamagePipelineService.ts",
 			],
 			exclude: [
 				"src/entities/character/testing/**/*.ts",

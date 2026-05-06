@@ -92,6 +92,29 @@ export const PANDORHA_RULES = {
 		CRITICAL_FAIL_MARGIN: 5,
 	},
 
+	DAMAGE: {
+		/**
+		 * Critical hits double all base damage before fixed damage reduction.
+		 * @source docs/system/combat/18-tratado-de-dano.md - Secao 4.1 (Acertos Criticos)
+		 */
+		CRITICAL_MULTIPLIER: 2,
+		/**
+		 * Resistance halves matching damage after RD, rounded down.
+		 * @source docs/system/combat/18-tratado-de-dano.md - Secao 4.2 (Resistencia)
+		 */
+		RESISTANCE_MULTIPLIER: 0.5,
+		/**
+		 * Immunity removes all matching damage.
+		 * @source docs/system/combat/03-01-imunidades-resistencias-e-vulnerabilidades.md - Secao 2.1
+		 */
+		IMMUNITY_MULTIPLIER: 0,
+		/**
+		 * Damage cannot be reduced below zero.
+		 * @source docs/system/combat/03-01-imunidades-resistencias-e-vulnerabilidades.md - Secao 2.4
+		 */
+		MIN_DAMAGE: 0,
+	},
+
 	COMBAT: {
 		/**
 		 * Classe de Armadura Base antes de somar nível e atributos.

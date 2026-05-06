@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260506-114519-t21-damage-pipeline-minimo -->
+### T21 Damage Pipeline minimo
+- id: 20260506-114519-t21-damage-pipeline-minimo
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-06T11:45:19-03:00
+- finished_at: 2026-05-06T11:51:35-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5.5 high-reasoning final review; local automation
+- last_modified_at: 2026-05-06T11:51:35-03:00
+- branch: task-damage-pipeline
+- commit_at_start: 983415c feat(action-queue): adiciona fila deterministica
+- summary: Criar DamagePipelineService puro em shared/damage para calcular dano em fases deterministicas.
+- last_change: T21 concluiu DamagePipelineService puro em shared/damage com testes, coverage, constantes de regra e memoria tripla.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-06T11:45:19-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-05-06T11:51:35-03:00
+- Done: T21 concluiu DamagePipelineService puro em shared/damage com testes, coverage, constantes de regra e memoria tripla.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+<!-- /pandorha-task:20260506-114519-t21-damage-pipeline-minimo -->
 <!-- pandorha-task:20260506-000211-t20-actionqueue-minima -->
 ### T20 ActionQueue minima
 - id: 20260506-000211-t20-actionqueue-minima
@@ -907,6 +939,21 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-06T11:51:31-03:00 - damage-pipeline
+- branch: task-damage-pipeline
+- commit: 983415c feat(action-queue): adiciona fila deterministica
+- changed_files_count: 5
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/shared/game-rules.ts
+- vitest.config.mjs
+- src/shared/damage/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-06T06:53:35-03:00 - action-queue-final
 - branch: task-action-queue
 - commit: e88954b feat(resolution): adiciona teste global

@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260506-114519-t21-damage-pipeline-minimo -->
+### T21 Damage Pipeline minimo
+- id: 20260506-114519-t21-damage-pipeline-minimo
+- status: open
+- created_at: 2026-05-06T11:45:19-03:00
+- source: task-ledger
+- summary: Criar DamagePipelineService puro em shared/damage para calcular dano em fases deterministicas.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260506-114519-t21-damage-pipeline-minimo -->
 <!-- pandorha-inbox:20260506-000211-t20-actionqueue-minima -->
 ### T20 ActionQueue minima
 - id: 20260506-000211-t20-actionqueue-minima
