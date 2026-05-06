@@ -4,20 +4,27 @@ import type {
 	CombatEncounterFailure,
 	CombatEncounterInput,
 	CombatEncounterState,
-	CombatEncounterTargetState,
-} from "../index";
+} from "../model/combatEncounterTypes";
 import {
 	type CombatEncounterView,
 	createCombatEncounterView,
 } from "../model/combatEncounterView";
+import {
+	type CombatTrainingTarget,
+	findTrainingTargetById,
+} from "../model/combatTrainingTargetCatalog";
 
 type Props = {
 	attacker: CombatEncounterActorRef;
-	createAttackInput: (targetHitPoints: number) => CombatEncounterInput;
-	initialTarget: CombatEncounterTargetState;
+	createAttackInput: (
+		target: CombatTrainingTarget,
+		targetHitPoints: number,
+	) => CombatEncounterInput;
+	initialTarget: CombatTrainingTarget;
 	resolveAttack: (
 		input: CombatEncounterInput,
 	) => ReturnType<CombatEncounterStateResolver>;
+	trainingTargets: readonly CombatTrainingTarget[];
 };
 
 type CombatEncounterStateResolver = (
@@ -26,19 +33,29 @@ type CombatEncounterStateResolver = (
 	| { readonly success: true; readonly data: CombatEncounterState }
 	| { readonly success: false; readonly error: CombatEncounterFailure };
 
-let { attacker, createAttackInput, initialTarget, resolveAttack }: Props =
-	$props();
+let {
+	attacker,
+	createAttackInput,
+	initialTarget,
+	resolveAttack,
+	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+	trainingTargets,
+}: Props = $props();
 
 // svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for reset.
 let targetHitPoints = $state(getInitialTargetHitPoints(initialTarget));
+// svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for the initial selected target.
+let selectedTargetId = $state(initialTarget.id);
 let lastState = $state<CombatEncounterState | null>(null);
 let errorMessage = $state<string | null>(null);
 let log = $state<readonly string[]>([]);
+let selectedTarget = $derived(getTrainingTarget(selectedTargetId));
 
 let view = $derived<CombatEncounterView>(
 	createCombatEncounterView({
 		attacker,
-		target: initialTarget,
+		target: selectedTarget,
+		targetDescription: selectedTarget.description,
 		targetHitPoints,
 		lastState,
 		log,
@@ -52,7 +69,9 @@ function attack(): void {
 		return;
 	}
 
-	const result = resolveAttack(createAttackInput(targetHitPoints));
+	const result = resolveAttack(
+		createAttackInput(selectedTarget, targetHitPoints),
+	);
 	if (!result.success) {
 		errorMessage = mapCombatEncounterFailure(result.error);
 		return;
@@ -66,7 +85,21 @@ function attack(): void {
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function resetEncounter(): void {
-	targetHitPoints = initialTarget.currentHitPoints;
+	targetHitPoints = selectedTarget.currentHitPoints;
+	lastState = null;
+	errorMessage = null;
+	log = [];
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function selectTarget(event: Event): void {
+	if (!(event.currentTarget instanceof HTMLSelectElement)) {
+		return;
+	}
+
+	selectedTargetId = event.currentTarget.value;
+	const nextTarget = getTrainingTarget(selectedTargetId);
+	targetHitPoints = nextTarget.currentHitPoints;
 	lastState = null;
 	errorMessage = null;
 	log = [];
@@ -85,8 +118,12 @@ function mapCombatEncounterFailure(failure: CombatEncounterFailure): string {
 	}
 }
 
-function getInitialTargetHitPoints(target: CombatEncounterTargetState): number {
+function getInitialTargetHitPoints(target: CombatTrainingTarget): number {
 	return target.currentHitPoints;
+}
+
+function getTrainingTarget(id: string): CombatTrainingTarget {
+	return findTrainingTargetById(id) ?? initialTarget;
 }
 </script>
 
@@ -101,13 +138,27 @@ function getInitialTargetHitPoints(target: CombatEncounterTargetState): number {
 				Encontro de treino
 			</h2>
 			<p class="mt-3 max-w-3xl leading-7 text-bone">
-				Resolva um ataque determinístico contra um guarda de treino.
+				Escolha um alvo de treino e resolva um ataque determinístico.
 			</p>
 		</div>
 		<p class="text-sm font-semibold text-ether" data-testid="combat-status">
 			{view.statusLabel}
 		</p>
 	</div>
+
+	<label class="mt-6 block max-w-xl">
+		<span class="text-sm font-semibold text-ether">Alvo de treino</span>
+		<select
+			bind:value={selectedTargetId}
+			onchange={selectTarget}
+			data-testid="combat-target-select"
+			class="mt-2 w-full border border-bronze bg-blood-shadow px-3 py-2 text-bone outline-none focus:border-ether"
+		>
+			{#each trainingTargets as target}
+				<option value={target.id}>{target.label}</option>
+			{/each}
+		</select>
+	</label>
 
 	<div class="mt-6 grid gap-4 md:grid-cols-2">
 		<div class="border border-bronze bg-blood-shadow px-5 py-4">
@@ -119,6 +170,9 @@ function getInitialTargetHitPoints(target: CombatEncounterTargetState): number {
 		<div class="border border-bronze bg-blood-shadow px-5 py-4">
 			<p class="text-sm font-semibold text-ether">Alvo</p>
 			<h3 class="mt-2 text-xl font-semibold text-bone">{view.targetLabel}</h3>
+			<p class="mt-3 leading-7 text-bone" data-testid="combat-target-description">
+				{view.targetDescription}
+			</p>
 			<div class="mt-3 flex flex-wrap gap-2 text-sm font-semibold">
 				<span class="border border-bronze px-3 py-1 text-bone">
 					{view.targetArmorClassLabel}

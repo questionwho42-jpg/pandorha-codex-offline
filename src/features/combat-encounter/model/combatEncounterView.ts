@@ -7,6 +7,7 @@ import type {
 export type CombatEncounterViewInput = Readonly<{
 	attacker: CombatEncounterActorRef;
 	target: CombatEncounterTargetState;
+	targetDescription: string;
 	targetHitPoints: number;
 	lastState: CombatEncounterState | null;
 	log: readonly string[];
@@ -22,6 +23,7 @@ export type CombatEncounterView = Readonly<{
 	resultSummary: string;
 	statusLabel: string;
 	targetArmorClassLabel: string;
+	targetDescription: string;
 	targetHitPointsLabel: string;
 	targetLabel: string;
 }>;
@@ -43,6 +45,7 @@ export function createCombatEncounterView(
 		resultSummary: createResultSummary(input),
 		statusLabel: createStatusLabel(input, isTargetDefeated),
 		targetArmorClassLabel: `CA ${input.target.armorClass}`,
+		targetDescription: input.targetDescription,
 		targetHitPointsLabel: `HP ${input.targetHitPoints}`,
 		targetLabel: input.target.label,
 	};

@@ -9,3 +9,5 @@ Agora ele tambem permite trocar entre Inicio, Personagens e Compendio sem recarr
 Na T04, a tela recebeu a primeira identidade visual oficial: fundo escuro, painel de ruina, texto claro e destaque dourado. Ela continua sem regras de jogo, sem personagens reais e sem banco de dados; a mudanca serve para o usuario reconhecer o formato visual basico do app no navegador.
 
 Na T22B, o app ganhou a aba Combate. Ela mostra um encontro fixo de treino em que Aria pode atacar um Guarda de Treino e o usuario ve HP, CA, dano e log. Esse combate ainda nao salva nada e reinicia se a pagina for recarregada.
+
+Na T22C, a aba Combate ganhou um seletor de alvo. O usuario pode trocar entre tres alvos de treino; ao trocar, o HP e o log reiniciam para testar outro alvo sem recarregar a pagina.

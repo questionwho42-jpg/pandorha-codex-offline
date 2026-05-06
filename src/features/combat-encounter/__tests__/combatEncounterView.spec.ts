@@ -4,6 +4,35 @@ import {
 	type CombatEncounterViewInput,
 	createCombatEncounterView,
 } from "../model/combatEncounterView";
+import {
+	TRAINING_TARGETS,
+	toCombatEncounterTargetState,
+} from "../model/combatTrainingTargetCatalog";
+
+describe("training target catalog", () => {
+	it("contains exactly three training targets with unique English ids", () => {
+		expect(TRAINING_TARGETS).toHaveLength(3);
+		expect(TRAINING_TARGETS.map((target) => target.id)).toEqual([
+			"training-guard",
+			"training-bulwark",
+			"training-duelist",
+		]);
+		expect(new Set(TRAINING_TARGETS.map((target) => target.id)).size).toBe(3);
+	});
+
+	it("maps training targets to the strict combat target contract", () => {
+		const target = TRAINING_TARGETS[1] as (typeof TRAINING_TARGETS)[number];
+		const combatTarget = toCombatEncounterTargetState(target);
+
+		expect(combatTarget).toEqual({
+			id: "training-bulwark",
+			label: "Baluarte de Treino",
+			currentHitPoints: 24,
+			armorClass: 20,
+		});
+		expect("description" in combatTarget).toBe(false);
+	});
+});
 
 describe("createCombatEncounterView", () => {
 	it("shows the initial encounter as ready", () => {
@@ -11,6 +40,9 @@ describe("createCombatEncounterView", () => {
 
 		expect(view.attackerLabel).toBe("Aria");
 		expect(view.targetLabel).toBe("Guarda de Treino");
+		expect(view.targetDescription).toBe(
+			"Alvo equilibrado para validar o primeiro ataque.",
+		);
 		expect(view.targetArmorClassLabel).toBe("CA 15");
 		expect(view.targetHitPointsLabel).toBe("HP 18");
 		expect(view.statusLabel).toBe("Encontro pronto");
@@ -74,6 +106,29 @@ describe("createCombatEncounterView", () => {
 
 		expect(view.errorMessage).toBe("Não foi possível resolver o ataque.");
 	});
+	it("uses the selected target in labels and status", () => {
+		const view = createCombatEncounterView(
+			createViewInput({
+				target: {
+					id: "training-bulwark",
+					label: "Baluarte de Treino",
+					currentHitPoints: 24,
+					armorClass: 20,
+				},
+				targetDescription:
+					"Alvo resistente para validar falhas contra CA alta.",
+				targetHitPoints: 24,
+			}),
+		);
+
+		expect(view.targetLabel).toBe("Baluarte de Treino");
+		expect(view.targetDescription).toBe(
+			"Alvo resistente para validar falhas contra CA alta.",
+		);
+		expect(view.targetArmorClassLabel).toBe("CA 20");
+		expect(view.targetHitPointsLabel).toBe("HP 24");
+		expect(view.statusLabel).toBe("Encontro pronto");
+	});
 });
 
 function createViewInput(
@@ -87,6 +142,7 @@ function createViewInput(
 			currentHitPoints: 18,
 			armorClass: 15,
 		},
+		targetDescription: "Alvo equilibrado para validar o primeiro ataque.",
 		targetHitPoints: 18,
 		lastState: null,
 		log: [],

@@ -29,4 +29,12 @@ export {
 	type CombatEncounterViewInput,
 	createCombatEncounterView,
 } from "./model/combatEncounterView";
+export {
+	type CombatTrainingTarget,
+	type CombatTrainingTargetId,
+	DEFAULT_TRAINING_TARGET,
+	findTrainingTargetById,
+	TRAINING_TARGETS,
+	toCombatEncounterTargetState,
+} from "./model/combatTrainingTargetCatalog";
 export { default as CombatEncounterPanel } from "./ui/CombatEncounterPanel.svelte";

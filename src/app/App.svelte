@@ -149,6 +149,7 @@ async function createCharacter(
 					initialTarget={combatEncounterSession.initialTarget}
 					resolveAttack={(input) =>
 						combatEncounterSession.service.resolveAttack(input)}
+					trainingTargets={combatEncounterSession.trainingTargets}
 				/>
 			{:else}
 				<p class="max-w-3xl text-lg leading-8 text-bone">

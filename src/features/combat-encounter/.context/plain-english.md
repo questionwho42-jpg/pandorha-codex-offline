@@ -6,6 +6,8 @@ Ele coloca o comando de ataque em uma fila, rola o teste contra a CA do alvo, ca
 
 Na T22B, esse módulo ganhou uma tela no navegador. Ela mostra Aria atacando um Guarda de Treino, o HP do alvo, o resultado do último ataque e o log do encontro. Ainda é um treino fixo, não um combate completo.
 
+Na T22C, a tela passou a ter tres alvos de treino: Guarda de Treino, Baluarte de Treino e Duelista de Treino. Trocar o alvo reinicia o HP, o ultimo resultado e o log para o usuario testar o combate de forma mais clara.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.

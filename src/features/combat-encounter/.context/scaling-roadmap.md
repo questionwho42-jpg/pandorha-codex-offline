@@ -3,7 +3,8 @@
 ## Next Steps
 
 - T22B exposed this service in the browser with a minimal fixed combat panel and log.
-- T22C should decide whether the next step is selecting a real Character from session state or adding a small enemy catalog.
+- T22C added a static training target catalog for visible combat variation without creating official monsters.
+- The next combat step should connect either a real session Character as attacker or add initiative/turn state.
 - Add initiative and turn state after the single-attack flow is visible and testable.
 - Add typed combat commands for attacks, reactions, spell casts, and conditions.
 - Persist combat ledgers later through Worker/SQLite after the in-memory model is stable.

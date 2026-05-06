@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260506-175209-t22c-combat-training-targets -->
+### T22C Combat Training Targets
+- id: 20260506-175209-t22c-combat-training-targets
+- status: open
+- created_at: 2026-05-06T17:52:09-03:00
+- source: task-ledger
+- summary: Adicionar catalogo visual de alvos de treino na aba Combate, com troca de alvo resetando HP e log.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260506-175209-t22c-combat-training-targets -->
 <!-- pandorha-inbox:20260506-123114-t22b-combat-vertical-slice-ui -->
 ### T22B Combat Vertical Slice UI
 - id: 20260506-123114-t22b-combat-vertical-slice-ui

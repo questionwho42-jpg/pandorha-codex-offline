@@ -18,6 +18,13 @@
 - The encounter is intentionally fixed: Aria attacks a Training Guard with deterministic d20 and fixed damage inputs.
 - Combat UI uses the project Tailwind theme classes only; no `<style>` block or Tailwind default colors were added.
 
+## T22C - Training Target Catalog UI
+
+- `combatTrainingTargetCatalog.ts` stores three static training targets with English technical ids and pt-BR labels.
+- `CombatEncounterPanel.svelte` lets the user select a target and resets HP, last result, error, and log when the target changes.
+- `combatEncounterSession` now builds attack input from the selected target instead of a single hardcoded target.
+- This is not a `Monster` entity and does not introduce Drizzle, SQLite, Worker, initiative, grid, or official creature rules.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

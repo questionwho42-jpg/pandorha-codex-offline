@@ -3,7 +3,10 @@ import {
 	type CombatEncounterClock,
 	type CombatEncounterInput,
 	CombatEncounterService,
-	type CombatEncounterTargetState,
+	type CombatTrainingTarget,
+	DEFAULT_TRAINING_TARGET,
+	TRAINING_TARGETS,
+	toCombatEncounterTargetState,
 } from "$lib/features/combat-encounter";
 import { DamagePipelineService } from "$lib/shared/damage";
 import {
@@ -16,21 +19,18 @@ import { ResolutionService } from "$lib/shared/resolution";
 
 export type CombatEncounterSession = Readonly<{
 	attacker: CombatEncounterActorRef;
-	createAttackInput: (targetHitPoints: number) => CombatEncounterInput;
-	initialTarget: CombatEncounterTargetState;
+	createAttackInput: (
+		target: CombatTrainingTarget,
+		targetHitPoints: number,
+	) => CombatEncounterInput;
+	initialTarget: CombatTrainingTarget;
 	service: CombatEncounterService;
+	trainingTargets: readonly CombatTrainingTarget[];
 }>;
 
 const TRAINING_ATTACKER: CombatEncounterActorRef = {
 	id: "aria",
 	label: "Aria",
-};
-
-const TRAINING_TARGET: CombatEncounterTargetState = {
-	id: "training-guard",
-	label: "Guarda de Treino",
-	currentHitPoints: 18,
-	armorClass: 15,
 };
 
 export function createCombatEncounterSession(): CombatEncounterSession {
@@ -45,13 +45,14 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 
 	return {
 		attacker: TRAINING_ATTACKER,
-		initialTarget: TRAINING_TARGET,
+		initialTarget: DEFAULT_TRAINING_TARGET,
 		service: new CombatEncounterService(
 			new ResolutionService(diceService),
 			new DamagePipelineService(),
 			encounterClock,
 		),
-		createAttackInput: (targetHitPoints) => {
+		trainingTargets: TRAINING_TARGETS,
+		createAttackInput: (target, targetHitPoints) => {
 			const commandId = `training-attack-${nextCommandId}`;
 			nextCommandId += 1;
 
@@ -63,12 +64,12 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 					createdAt: "2026-05-06T12:30:00.000Z",
 					payload: {
 						attackerId: TRAINING_ATTACKER.id,
-						targetId: TRAINING_TARGET.id,
+						targetId: target.id,
 					},
 				},
 				attacker: TRAINING_ATTACKER,
 				target: {
-					...TRAINING_TARGET,
+					...toCombatEncounterTargetState(target),
 					currentHitPoints: targetHitPoints,
 				},
 				attack: {

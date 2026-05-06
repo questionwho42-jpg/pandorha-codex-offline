@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260506-175209-t22c-combat-training-targets -->
+### T22C Combat Training Targets
+- id: 20260506-175209-t22c-combat-training-targets
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-06T17:52:09-03:00
+- finished_at: 2026-05-06T18:09:25-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-06T18:09:25-03:00
+- branch: task-combat-training-targets
+- commit_at_start: 312f86f feat(combat): adiciona tela de encontro
+- summary: Adicionar catalogo visual de alvos de treino na aba Combate, com troca de alvo resetando HP e log.
+- last_change: T22C adicionou catalogo visual de tres alvos de treino na aba Combate, com troca de alvo resetando HP/log, Browser Use e gates completos.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-06T17:52:09-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-06T18:09:25-03:00
+- Done: T22C adicionou catalogo visual de tres alvos de treino na aba Combate, com troca de alvo resetando HP/log, Browser Use e gates completos.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260506-175209-t22c-combat-training-targets -->
 <!-- pandorha-task:20260506-123114-t22b-combat-vertical-slice-ui -->
 ### T22B Combat Vertical Slice UI
 - id: 20260506-123114-t22b-combat-vertical-slice-ui
@@ -1003,6 +1035,31 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-06T18:09:17-03:00 - combat-training-targets
+- branch: task-combat-training-targets
+- commit: 312f86f feat(combat): adiciona tela de encontro
+- changed_files_count: 15
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/index.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/combat-encounter/model/combatTrainingTargetCatalog.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-06T12:41:20-03:00 - combat-vertical-slice-ui
 - branch: task-combat-vertical-slice-ui
 - commit: 5f973e9 feat(combat): adiciona nucleo de encontro

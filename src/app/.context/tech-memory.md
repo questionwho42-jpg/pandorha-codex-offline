@@ -23,3 +23,9 @@
 - `combatEncounterSession` wires deterministic combat services for the browser training encounter.
 - `App.svelte` renders `CombatEncounterPanel` only in the `Combate` tab and keeps URL-less navigation.
 - The combat session is in-memory and fixed; it does not introduce Worker, SQLite, persistence, initiative, grid, or dynamic actors.
+
+## 2026-05-06 - T22C Combat Training Targets
+
+- `combatEncounterSession` exposes the static training target catalog to the app surface.
+- `App.svelte` passes `trainingTargets` into `CombatEncounterPanel`; navigation remains state-driven and URL-less.
+- The app still avoids official monster entities, persistence, Worker, SQLite, initiative, grid, and dynamic encounter loading.
