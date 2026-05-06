@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260506-123114-t22b-combat-vertical-slice-ui -->
+### T22B Combat Vertical Slice UI
+- id: 20260506-123114-t22b-combat-vertical-slice-ui
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-06T12:31:14-03:00
+- finished_at: 2026-05-06T12:41:30-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5.5 high-reasoning final review; local automation
+- last_modified_at: 2026-05-06T12:41:30-03:00
+- branch: task-combat-vertical-slice-ui
+- commit_at_start: 5f973e9 feat(combat): adiciona nucleo de encontro
+- summary: Criar aba Combate com encontro fixo deterministico usando CombatEncounterService e validacao no navegador.
+- last_change: T22B concluiu a aba Combate com encontro fixo, painel Svelte, view model testavel, sessao deterministica, Browser Use e gates completos.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-06T12:31:14-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-05-06T12:41:30-03:00
+- Done: T22B concluiu a aba Combate com encontro fixo, painel Svelte, view model testavel, sessao deterministica, Browser Use e gates completos.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+<!-- /pandorha-task:20260506-123114-t22b-combat-vertical-slice-ui -->
 <!-- pandorha-task:20260506-120924-t22a-combat-encounter-core -->
 ### T22A Combat Encounter Core
 - id: 20260506-120924-t22a-combat-encounter-core
@@ -971,6 +1003,31 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-06T12:41:20-03:00 - combat-vertical-slice-ui
+- branch: task-combat-vertical-slice-ui
+- commit: 5f973e9 feat(combat): adiciona nucleo de encontro
+- changed_files_count: 15
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/index.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-06T12:18:35-03:00 - combat-encounter-core
 - branch: task-combat-encounter-core
 - commit: 3959923 feat(damage): adiciona pipeline minimo

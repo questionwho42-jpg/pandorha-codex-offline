@@ -20,6 +20,13 @@ export const APP_NAVIGATION_ITEMS = [
 		description:
 			"A consulta de regras e lore será implementada nas tarefas T16 e T17.",
 	},
+	{
+		id: "combat",
+		label: "Combate",
+		heading: "Combate",
+		description:
+			"O primeiro encontro de treino permite testar ataque, dano e log.",
+	},
 ] as const;
 
 export type AppNavigationId = (typeof APP_NAVIGATION_ITEMS)[number]["id"];

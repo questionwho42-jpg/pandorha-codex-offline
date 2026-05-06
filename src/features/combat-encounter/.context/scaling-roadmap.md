@@ -2,7 +2,8 @@
 
 ## Next Steps
 
-- T22B should expose this service in the browser with a minimal combat panel and log.
+- T22B exposed this service in the browser with a minimal fixed combat panel and log.
+- T22C should decide whether the next step is selecting a real Character from session state or adding a small enemy catalog.
 - Add initiative and turn state after the single-attack flow is visible and testable.
 - Add typed combat commands for attacks, reactions, spell casts, and conditions.
 - Persist combat ledgers later through Worker/SQLite after the in-memory model is stable.
@@ -11,4 +12,4 @@
 ## Boundaries
 
 - This feature should not own dice, damage, or universal-test math. Those stay in `shared`.
-- UI and Browser Use validation begin in T22B, not T22A.
+- T22B still avoids persistence, Worker, grid, dynamic monsters, inventory, magic, and initiative.

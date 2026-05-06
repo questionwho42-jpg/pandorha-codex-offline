@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260506-123114-t22b-combat-vertical-slice-ui -->
+### T22B Combat Vertical Slice UI
+- id: 20260506-123114-t22b-combat-vertical-slice-ui
+- status: open
+- created_at: 2026-05-06T12:31:14-03:00
+- source: task-ledger
+- summary: Criar aba Combate com encontro fixo deterministico usando CombatEncounterService e validacao no navegador.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260506-123114-t22b-combat-vertical-slice-ui -->
 <!-- pandorha-inbox:20260506-120924-t22a-combat-encounter-core -->
 ### T22A Combat Encounter Core
 - id: 20260506-120924-t22a-combat-encounter-core

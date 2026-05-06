@@ -16,3 +16,10 @@
 - `characterSession` now exposes official ancestry, trait, class, and background catalogs to the app surface.
 - `App.svelte` passes class and background catalogs into character creation and list features instead of letting those features hardcode options.
 - Session persistence remains temporary; catalog wiring is still read-only and does not introduce Worker, SQLite, or OPFS.
+
+## 2026-05-06 - T22B Combat Vertical Slice UI
+
+- Added `combat` to the state-driven navigation contract.
+- `combatEncounterSession` wires deterministic combat services for the browser training encounter.
+- `App.svelte` renders `CombatEncounterPanel` only in the `Combate` tab and keeps URL-less navigation.
+- The combat session is in-memory and fixed; it does not introduce Worker, SQLite, persistence, initiative, grid, or dynamic actors.

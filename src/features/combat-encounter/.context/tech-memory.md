@@ -10,6 +10,14 @@
 - Tests use deterministic dice, clocks, and explicit fake services. No `jest.mock()` is used.
 - A scaffold generator for repeated `service + tests + .context + coverage` modules may be useful after the next similar module, but T22A did not create it to avoid adding process scope.
 
+## T22B - Vertical Slice UI
+
+- `CombatEncounterPanel.svelte` is the first user-facing combat surface and stays inside the `combat-encounter` feature.
+- The panel receives service access and the deterministic input builder from `src/app/model/combatEncounterSession.ts`; the feature does not import `app`.
+- `combatEncounterView.ts` owns labels, empty log copy, HP/CA labels, defeated state, and final result summary so UI copy is testable outside Svelte.
+- The encounter is intentionally fixed: Aria attacks a Training Guard with deterministic d20 and fixed damage inputs.
+- Combat UI uses the project Tailwind theme classes only; no `<style>` block or Tailwind default colors were added.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

@@ -24,3 +24,9 @@ export type {
 	CombatEncounterTargetState,
 	CombatResolutionPort,
 } from "./model/combatEncounterTypes";
+export {
+	type CombatEncounterView,
+	type CombatEncounterViewInput,
+	createCombatEncounterView,
+} from "./model/combatEncounterView";
+export { default as CombatEncounterPanel } from "./ui/CombatEncounterPanel.svelte";
