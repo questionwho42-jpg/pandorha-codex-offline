@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260506-000211-t20-actionqueue-minima -->
+### T20 ActionQueue minima
+- id: 20260506-000211-t20-actionqueue-minima
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-06T00:02:11-03:00
+- finished_at: 2026-05-06T06:53:26-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5.5 high-reasoning final review; local automation
+- last_modified_at: 2026-05-06T06:53:26-03:00
+- branch: task-action-queue
+- commit_at_start: e88954b feat(resolution): adiciona teste global
+- summary: Criar ActionQueueService puro em shared/action-queue com FIFO, interrupcoes LIFO, processor fake em testes e Result tipado, sem UI nem persistencia.
+- last_change: ActionQueueService criado em shared/action-queue com FIFO, interrupcoes LIFO, processor fake em testes, falhas tipadas e 100% de cobertura.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-06T00:02:11-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-05-06T00:09:40-03:00
+- Done: ActionQueueService implementado com testes TDD, lint e arch-guard; execucao escalada de coverage/gates bloqueada pelo ambiente.
+- Next: Executar npm.cmd test, test:coverage, build, quality:gate e commitar quando o bloqueio de execucao escalada for liberado.
+- Risks: Testes apos os ultimos cenarios nao puderam rodar por spawn EPERM no sandbox e bloqueio externo de escalonamento.
+- Improvements: Reexecutar gates completos antes do commit.
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-05-06T06:53:26-03:00
+- Done: ActionQueueService criado em shared/action-queue com FIFO, interrupcoes LIFO, processor fake em testes, falhas tipadas e 100% de cobertura.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+<!-- /pandorha-task:20260506-000211-t20-actionqueue-minima -->
 <!-- pandorha-task:20260505-235005-t19-resolutionservice-core -->
 ### T19 ResolutionService core
 - id: 20260505-235005-t19-resolutionservice-core
@@ -868,6 +907,34 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-06T06:53:35-03:00 - action-queue-final
+- branch: task-action-queue
+- commit: e88954b feat(resolution): adiciona teste global
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/shared/action-queue/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-06T06:53:17-03:00 - action-queue-final
+- branch: task-action-queue
+- commit: e88954b feat(resolution): adiciona teste global
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/shared/action-queue/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-05T23:55:36-03:00 - resolution-service-final
 - branch: task-resolution-service
 - commit: c6a0275 feat(dice): adiciona servico auditavel

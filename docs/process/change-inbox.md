@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260506-000211-t20-actionqueue-minima -->
+### T20 ActionQueue minima
+- id: 20260506-000211-t20-actionqueue-minima
+- status: open
+- created_at: 2026-05-06T00:02:11-03:00
+- source: task-ledger
+- summary: Criar ActionQueueService puro em shared/action-queue com FIFO, interrupcoes LIFO, processor fake em testes e Result tipado, sem UI nem persistencia.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260506-000211-t20-actionqueue-minima -->
 <!-- pandorha-inbox:20260505-235005-t19-resolutionservice-core -->
 ### T19 ResolutionService core
 - id: 20260505-235005-t19-resolutionservice-core
