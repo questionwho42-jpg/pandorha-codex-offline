@@ -25,6 +25,13 @@
 - `combatEncounterSession` now builds attack input from the selected target instead of a single hardcoded target.
 - This is not a `Monster` entity and does not introduce Drizzle, SQLite, Worker, initiative, grid, or official creature rules.
 
+## T22D - Session Attacker Selection
+
+- `combatSessionAttacker.ts` adapts `CharacterRecord` into `CombatEncounterActorRef` for the UI without applying character stats.
+- `CombatEncounterPanel.svelte` always includes Aria and adds session characters as selectable attackers.
+- Changing attacker resets HP, last result, error, and log while preserving the selected target.
+- The selected attacker is passed into `combatEncounterSession.createAttackInput`, so service logs use the chosen name.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

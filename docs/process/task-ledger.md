@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260506-181931-t22d-combat-session-attacker -->
+### T22D Combat Session Attacker
+- id: 20260506-181931-t22d-combat-session-attacker
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-06T18:19:31-03:00
+- finished_at: 2026-05-06T23:08:41-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-06T23:08:41-03:00
+- branch: task-combat-session-attacker
+- commit_at_start: c8bdf49 feat(combat): adiciona alvos de treino
+- summary: Conectar a aba Combate aos personagens criados na sessao como opcoes de atacante, mantendo Aria como fallback.
+- last_change: T22D conectou personagens da sessao como atacantes no combate, mantendo Aria como fallback, com Browser Use e gates completos.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-06T18:19:31-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-06T23:08:41-03:00
+- Done: T22D conectou personagens da sessao como atacantes no combate, mantendo Aria como fallback, com Browser Use e gates completos.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260506-181931-t22d-combat-session-attacker -->
 <!-- pandorha-task:20260506-175209-t22c-combat-training-targets -->
 ### T22C Combat Training Targets
 - id: 20260506-175209-t22c-combat-training-targets
@@ -1035,6 +1067,65 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-06T23:11:41-03:00 - combat-session-attacker-final
+- branch: task-combat-session-attacker
+- commit: c8bdf49 feat(combat): adiciona alvos de treino
+- changed_files_count: 20
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/index.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- .codex-dev-server.err.log
+- .codex-dev-server.out.log
+- .codex-dev-server.pid
+- src/app/model/combatEncounterSession.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatSessionAttacker.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-06T23:08:41-03:00 - combat-session-attacker
+- branch: task-combat-session-attacker
+- commit: c8bdf49 feat(combat): adiciona alvos de treino
+- changed_files_count: 19
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/index.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- .codex-dev-server.err.log
+- .codex-dev-server.out.log
+- .codex-dev-server.pid
+- src/app/model/combatEncounterSession.spec.ts
+- src/features/combat-encounter/model/combatSessionAttacker.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-06T18:09:17-03:00 - combat-training-targets
 - branch: task-combat-training-targets
 - commit: 312f86f feat(combat): adiciona tela de encontro

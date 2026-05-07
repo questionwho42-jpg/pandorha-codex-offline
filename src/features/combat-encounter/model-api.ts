@@ -1,0 +1,47 @@
+export { CombatEncounterService } from "./domain/CombatEncounterService";
+export {
+	combatEncounterActorSchema,
+	combatEncounterAttackSchema,
+	combatEncounterDamageSchema,
+	combatEncounterInputSchema,
+	combatEncounterTargetSchema,
+	formatCombatEncounterIssues,
+} from "./model/combatEncounterSchemas";
+export type {
+	CombatDamagePort,
+	CombatEncounterActorRef,
+	CombatEncounterAttackInput,
+	CombatEncounterClock,
+	CombatEncounterDamageInput,
+	CombatEncounterEvent,
+	CombatEncounterEventType,
+	CombatEncounterFailure,
+	CombatEncounterFailureCode,
+	CombatEncounterFailureDetails,
+	CombatEncounterInput,
+	CombatEncounterResolvedCommand,
+	CombatEncounterState,
+	CombatEncounterTargetState,
+	CombatResolutionPort,
+} from "./model/combatEncounterTypes";
+export {
+	type CombatEncounterView,
+	type CombatEncounterViewInput,
+	createCombatEncounterView,
+} from "./model/combatEncounterView";
+export {
+	type CombatAttackerOption,
+	type CombatAttackerSource,
+	createCombatAttackerOptions,
+	DEFAULT_COMBAT_TRAINING_ATTACKER,
+	findCombatAttackerOptionById,
+	toCombatEncounterActorFromCharacter,
+} from "./model/combatSessionAttacker";
+export {
+	type CombatTrainingTarget,
+	type CombatTrainingTargetId,
+	DEFAULT_TRAINING_TARGET,
+	findTrainingTargetById,
+	TRAINING_TARGETS,
+	toCombatEncounterTargetState,
+} from "./model/combatTrainingTargetCatalog";

@@ -11,3 +11,5 @@ Na T04, a tela recebeu a primeira identidade visual oficial: fundo escuro, paine
 Na T22B, o app ganhou a aba Combate. Ela mostra um encontro fixo de treino em que Aria pode atacar um Guarda de Treino e o usuario ve HP, CA, dano e log. Esse combate ainda nao salva nada e reinicia se a pagina for recarregada.
 
 Na T22C, a aba Combate ganhou um seletor de alvo. O usuario pode trocar entre tres alvos de treino; ao trocar, o HP e o log reiniciam para testar outro alvo sem recarregar a pagina.
+
+Na T22D, a aba Combate tambem pode usar personagens criados na sessao como atacante. O personagem aparece no seletor e no log do ataque, mas ainda nao usa ficha completa, equipamento ou HP real.

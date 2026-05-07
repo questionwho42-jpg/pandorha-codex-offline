@@ -8,6 +8,8 @@ Na T22B, esse módulo ganhou uma tela no navegador. Ela mostra Aria atacando um 
 
 Na T22C, a tela passou a ter tres alvos de treino: Guarda de Treino, Baluarte de Treino e Duelista de Treino. Trocar o alvo reinicia o HP, o ultimo resultado e o log para o usuario testar o combate de forma mais clara.
 
+Na T22D, os personagens criados na sessao tambem podem aparecer como atacante no combate. Por enquanto isso muda o nome usado no log; ainda nao usa HP real, equipamento ou dano da ficha.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.

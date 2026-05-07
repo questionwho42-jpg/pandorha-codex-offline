@@ -29,3 +29,9 @@
 - `combatEncounterSession` exposes the static training target catalog to the app surface.
 - `App.svelte` passes `trainingTargets` into `CombatEncounterPanel`; navigation remains state-driven and URL-less.
 - The app still avoids official monster entities, persistence, Worker, SQLite, initiative, grid, and dynamic encounter loading.
+
+## 2026-05-06 - T22D Combat Session Attacker
+
+- `App.svelte` passes `characterRecords` into `CombatEncounterPanel`.
+- Combat can use session characters as attacker identity while keeping Aria as the training fallback.
+- This is a visual/session bridge only; it does not apply derived stats, equipment, class features, persistence, or real combat turns.

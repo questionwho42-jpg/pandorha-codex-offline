@@ -4,10 +4,11 @@ import {
 	type CombatEncounterInput,
 	CombatEncounterService,
 	type CombatTrainingTarget,
+	DEFAULT_COMBAT_TRAINING_ATTACKER,
 	DEFAULT_TRAINING_TARGET,
 	TRAINING_TARGETS,
 	toCombatEncounterTargetState,
-} from "$lib/features/combat-encounter";
+} from "$lib/features/combat-encounter/model-api";
 import { DamagePipelineService } from "$lib/shared/damage";
 import {
 	type DiceClock,
@@ -20,6 +21,7 @@ import { ResolutionService } from "$lib/shared/resolution";
 export type CombatEncounterSession = Readonly<{
 	attacker: CombatEncounterActorRef;
 	createAttackInput: (
+		attacker: CombatEncounterActorRef,
 		target: CombatTrainingTarget,
 		targetHitPoints: number,
 	) => CombatEncounterInput;
@@ -27,11 +29,6 @@ export type CombatEncounterSession = Readonly<{
 	service: CombatEncounterService;
 	trainingTargets: readonly CombatTrainingTarget[];
 }>;
-
-const TRAINING_ATTACKER: CombatEncounterActorRef = {
-	id: "aria",
-	label: "Aria",
-};
 
 export function createCombatEncounterSession(): CombatEncounterSession {
 	const diceClock = createDeterministicClock("2026-05-06T12:30:00.000Z");
@@ -44,7 +41,7 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 	let nextCommandId = 1;
 
 	return {
-		attacker: TRAINING_ATTACKER,
+		attacker: DEFAULT_COMBAT_TRAINING_ATTACKER,
 		initialTarget: DEFAULT_TRAINING_TARGET,
 		service: new CombatEncounterService(
 			new ResolutionService(diceService),
@@ -52,9 +49,10 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 			encounterClock,
 		),
 		trainingTargets: TRAINING_TARGETS,
-		createAttackInput: (target, targetHitPoints) => {
+		createAttackInput: (attacker, target, targetHitPoints) => {
 			const commandId = `training-attack-${nextCommandId}`;
 			nextCommandId += 1;
+			const combatAttacker = toCombatEncounterActorRef(attacker);
 
 			return {
 				command: {
@@ -63,11 +61,11 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 					source: "combat-vertical-slice-ui",
 					createdAt: "2026-05-06T12:30:00.000Z",
 					payload: {
-						attackerId: TRAINING_ATTACKER.id,
+						attackerId: combatAttacker.id,
 						targetId: target.id,
 					},
 				},
-				attacker: TRAINING_ATTACKER,
+				attacker: combatAttacker,
 				target: {
 					...toCombatEncounterTargetState(target),
 					currentHitPoints: targetHitPoints,
@@ -90,6 +88,15 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 				},
 			};
 		},
+	};
+}
+
+function toCombatEncounterActorRef(
+	attacker: CombatEncounterActorRef,
+): CombatEncounterActorRef {
+	return {
+		id: attacker.id,
+		label: attacker.label,
 	};
 }
 

@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260506-181931-t22d-combat-session-attacker -->
+### T22D Combat Session Attacker
+- id: 20260506-181931-t22d-combat-session-attacker
+- status: open
+- created_at: 2026-05-06T18:19:31-03:00
+- source: task-ledger
+- summary: Conectar a aba Combate aos personagens criados na sessao como opcoes de atacante, mantendo Aria como fallback.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260506-181931-t22d-combat-session-attacker -->
 <!-- pandorha-inbox:20260506-175209-t22c-combat-training-targets -->
 ### T22C Combat Training Targets
 - id: 20260506-175209-t22c-combat-training-targets

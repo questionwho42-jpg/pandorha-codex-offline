@@ -3,9 +3,17 @@ import type {
 	CombatEncounterState,
 	CombatEncounterTargetState,
 } from "../index";
+import type { CombatAttackerOption } from "./combatSessionAttacker";
+
+export type CombatAttackerViewOption = Readonly<{
+	id: string;
+	isSelected: boolean;
+	label: string;
+}>;
 
 export type CombatEncounterViewInput = Readonly<{
 	attacker: CombatEncounterActorRef;
+	attackerOptions: readonly CombatAttackerOption[];
 	target: CombatEncounterTargetState;
 	targetDescription: string;
 	targetHitPoints: number;
@@ -16,6 +24,7 @@ export type CombatEncounterViewInput = Readonly<{
 
 export type CombatEncounterView = Readonly<{
 	attackerLabel: string;
+	attackerOptions: readonly CombatAttackerViewOption[];
 	canAttack: boolean;
 	errorMessage: string | null;
 	isTargetDefeated: boolean;
@@ -38,6 +47,11 @@ export function createCombatEncounterView(
 
 	return {
 		attackerLabel: input.attacker.label,
+		attackerOptions: input.attackerOptions.map((option) => ({
+			id: option.id,
+			isSelected: option.id === input.attacker.id,
+			label: option.label,
+		})),
 		canAttack: !isTargetDefeated,
 		errorMessage: input.errorMessage,
 		isTargetDefeated,

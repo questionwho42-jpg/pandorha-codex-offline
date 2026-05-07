@@ -1,4 +1,5 @@
 <script lang="ts">
+import type { CharacterRecord } from "$lib/entities/character";
 import type {
 	CombatEncounterActorRef,
 	CombatEncounterFailure,
@@ -10,13 +11,19 @@ import {
 	createCombatEncounterView,
 } from "../model/combatEncounterView";
 import {
+	createCombatAttackerOptions,
+	findCombatAttackerOptionById,
+} from "../model/combatSessionAttacker";
+import {
 	type CombatTrainingTarget,
 	findTrainingTargetById,
 } from "../model/combatTrainingTargetCatalog";
 
 type Props = {
 	attacker: CombatEncounterActorRef;
+	characters: readonly CharacterRecord[];
 	createAttackInput: (
+		attacker: CombatEncounterActorRef,
 		target: CombatTrainingTarget,
 		targetHitPoints: number,
 	) => CombatEncounterInput;
@@ -35,6 +42,7 @@ type CombatEncounterStateResolver = (
 
 let {
 	attacker,
+	characters,
 	createAttackInput,
 	initialTarget,
 	resolveAttack,
@@ -46,14 +54,19 @@ let {
 let targetHitPoints = $state(getInitialTargetHitPoints(initialTarget));
 // svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for the initial selected target.
 let selectedTargetId = $state(initialTarget.id);
+// svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for the initial selected attacker.
+let selectedAttackerId = $state(attacker.id);
 let lastState = $state<CombatEncounterState | null>(null);
 let errorMessage = $state<string | null>(null);
 let log = $state<readonly string[]>([]);
+let attackerOptions = $derived(createCombatAttackerOptions(characters));
+let selectedAttacker = $derived(getCombatAttacker(selectedAttackerId));
 let selectedTarget = $derived(getTrainingTarget(selectedTargetId));
 
 let view = $derived<CombatEncounterView>(
 	createCombatEncounterView({
-		attacker,
+		attacker: selectedAttacker,
+		attackerOptions,
 		target: selectedTarget,
 		targetDescription: selectedTarget.description,
 		targetHitPoints,
@@ -70,7 +83,7 @@ function attack(): void {
 	}
 
 	const result = resolveAttack(
-		createAttackInput(selectedTarget, targetHitPoints),
+		createAttackInput(selectedAttacker, selectedTarget, targetHitPoints),
 	);
 	if (!result.success) {
 		errorMessage = mapCombatEncounterFailure(result.error);
@@ -85,6 +98,19 @@ function attack(): void {
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function resetEncounter(): void {
+	targetHitPoints = selectedTarget.currentHitPoints;
+	lastState = null;
+	errorMessage = null;
+	log = [];
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function selectAttacker(event: Event): void {
+	if (!(event.currentTarget instanceof HTMLSelectElement)) {
+		return;
+	}
+
+	selectedAttackerId = event.currentTarget.value;
 	targetHitPoints = selectedTarget.currentHitPoints;
 	lastState = null;
 	errorMessage = null;
@@ -125,6 +151,10 @@ function getInitialTargetHitPoints(target: CombatTrainingTarget): number {
 function getTrainingTarget(id: string): CombatTrainingTarget {
 	return findTrainingTargetById(id) ?? initialTarget;
 }
+
+function getCombatAttacker(id: string): CombatEncounterActorRef {
+	return findCombatAttackerOptionById(attackerOptions, id) ?? attacker;
+}
 </script>
 
 <section aria-labelledby="combat-encounter-title" data-testid="combat-encounter-panel">
@@ -146,19 +176,35 @@ function getTrainingTarget(id: string): CombatTrainingTarget {
 		</p>
 	</div>
 
-	<label class="mt-6 block max-w-xl">
-		<span class="text-sm font-semibold text-ether">Alvo de treino</span>
-		<select
-			bind:value={selectedTargetId}
-			onchange={selectTarget}
-			data-testid="combat-target-select"
-			class="mt-2 w-full border border-bronze bg-blood-shadow px-3 py-2 text-bone outline-none focus:border-ether"
-		>
-			{#each trainingTargets as target}
-				<option value={target.id}>{target.label}</option>
-			{/each}
-		</select>
-	</label>
+	<div class="mt-6 grid gap-4 md:grid-cols-2">
+		<label class="block">
+			<span class="text-sm font-semibold text-ether">Atacante</span>
+			<select
+				bind:value={selectedAttackerId}
+				onchange={selectAttacker}
+				data-testid="combat-attacker-select"
+				class="mt-2 w-full border border-bronze bg-blood-shadow px-3 py-2 text-bone outline-none focus:border-ether"
+			>
+				{#each view.attackerOptions as option}
+					<option value={option.id}>{option.label}</option>
+				{/each}
+			</select>
+		</label>
+
+		<label class="block">
+			<span class="text-sm font-semibold text-ether">Alvo de treino</span>
+			<select
+				bind:value={selectedTargetId}
+				onchange={selectTarget}
+				data-testid="combat-target-select"
+				class="mt-2 w-full border border-bronze bg-blood-shadow px-3 py-2 text-bone outline-none focus:border-ether"
+			>
+				{#each trainingTargets as target}
+					<option value={target.id}>{target.label}</option>
+				{/each}
+			</select>
+		</label>
+	</div>
 
 	<div class="mt-6 grid gap-4 md:grid-cols-2">
 		<div class="border border-bronze bg-blood-shadow px-5 py-4">

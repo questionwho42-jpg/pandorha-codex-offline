@@ -1,13 +1,44 @@
 import { describe, expect, it } from "vitest";
+import type { CharacterRecord } from "$lib/entities/character";
 import type { CombatEncounterActorRef, CombatEncounterState } from "../index";
 import {
 	type CombatEncounterViewInput,
 	createCombatEncounterView,
 } from "../model/combatEncounterView";
 import {
+	createCombatAttackerOptions,
+	DEFAULT_COMBAT_TRAINING_ATTACKER,
+	toCombatEncounterActorFromCharacter,
+} from "../model/combatSessionAttacker";
+import {
 	TRAINING_TARGETS,
 	toCombatEncounterTargetState,
 } from "../model/combatTrainingTargetCatalog";
+
+describe("combat session attacker adapter", () => {
+	it("converts a session character into a combat attacker ref", () => {
+		expect(
+			toCombatEncounterActorFromCharacter(createCharacterRecord()),
+		).toEqual({
+			id: "session-character-1",
+			label: "Lia",
+			source: "sessionCharacter",
+		});
+	});
+
+	it("always includes Aria before session characters", () => {
+		const options = createCombatAttackerOptions([createCharacterRecord()]);
+
+		expect(options).toEqual([
+			DEFAULT_COMBAT_TRAINING_ATTACKER,
+			{
+				id: "session-character-1",
+				label: "Lia",
+				source: "sessionCharacter",
+			},
+		]);
+	});
+});
 
 describe("training target catalog", () => {
 	it("contains exactly three training targets with unique English ids", () => {
@@ -39,6 +70,13 @@ describe("createCombatEncounterView", () => {
 		const view = createCombatEncounterView(createViewInput());
 
 		expect(view.attackerLabel).toBe("Aria");
+		expect(view.attackerOptions).toEqual([
+			{
+				id: "aria",
+				isSelected: true,
+				label: "Aria",
+			},
+		]);
 		expect(view.targetLabel).toBe("Guarda de Treino");
 		expect(view.targetDescription).toBe(
 			"Alvo equilibrado para validar o primeiro ataque.",
@@ -106,6 +144,29 @@ describe("createCombatEncounterView", () => {
 
 		expect(view.errorMessage).toBe("Não foi possível resolver o ataque.");
 	});
+	it("lists session characters as attacker options", () => {
+		const view = createCombatEncounterView(
+			createViewInput({
+				attacker: { id: "session-character-1", label: "Lia" },
+				attackerOptions: createCombatAttackerOptions([createCharacterRecord()]),
+			}),
+		);
+
+		expect(view.attackerLabel).toBe("Lia");
+		expect(view.attackerOptions).toEqual([
+			{
+				id: "aria",
+				isSelected: false,
+				label: "Aria",
+			},
+			{
+				id: "session-character-1",
+				isSelected: true,
+				label: "Lia",
+			},
+		]);
+	});
+
 	it("uses the selected target in labels and status", () => {
 		const view = createCombatEncounterView(
 			createViewInput({
@@ -136,6 +197,7 @@ function createViewInput(
 ): CombatEncounterViewInput {
 	return {
 		attacker: { id: "aria", label: "Aria" },
+		attackerOptions: [DEFAULT_COMBAT_TRAINING_ATTACKER],
 		target: {
 			id: "training-guard",
 			label: "Guarda de Treino",
@@ -148,6 +210,26 @@ function createViewInput(
 		log: [],
 		errorMessage: null,
 		...overrides,
+	};
+}
+
+function createCharacterRecord(): CharacterRecord {
+	return {
+		id: "session-character-1",
+		name: "Lia",
+		concept: "Sentinela de teste",
+		ancestryId: "human",
+		classId: "vanguard",
+		backgroundId: "acolyte",
+		level: 1,
+		physical: 2,
+		mental: 2,
+		social: 2,
+		conflict: 2,
+		interaction: 2,
+		resistance: 2,
+		createdAt: "2026-05-06T18:19:31.000Z",
+		updatedAt: "2026-05-06T18:19:31.000Z",
 	};
 }
 
