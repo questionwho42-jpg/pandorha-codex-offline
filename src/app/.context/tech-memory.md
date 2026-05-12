@@ -58,3 +58,9 @@
 
 - The combat tab now records a visible log entry when the selected training target turn is ended.
 - The app wiring remains unchanged; no enemy AI, enemy attack, Worker, persistence, or official monster data was introduced.
+
+## 2026-05-12 - T22I Combat Encounter Outcome
+
+- The combat tab now renders a defeated-outcome block from the combat view model when the selected target reaches 0 HP.
+- Attack and end-turn are blocked by the view model in that state, while reset remains enabled.
+- No reward, XP, loot, persistence, Worker, or official monster progression was added.

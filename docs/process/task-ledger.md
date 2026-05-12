@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260512-182337-t22i-combat-encounter-outcome -->
+### T22I Combat Encounter Outcome
+- id: 20260512-182337-t22i-combat-encounter-outcome
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-12T18:23:37-03:00
+- finished_at: 2026-05-12T18:27:39-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-12T18:27:39-03:00
+- branch: task-combat-encounter-outcome
+- commit_at_start: b6a7879 feat(combat): registra turno passivo do alvo
+- summary: Mostrar estado final claro quando o alvo chega a 0 HP, bloquear ataque e encerramento de turno, mantendo reiniciar encontro.
+- last_change: T22I concluida: encontro mostra estado de alvo derrotado, bloqueia ataque/turno e mantem reiniciar encontro disponivel.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-12T18:23:37-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-12T18:27:39-03:00
+- Done: T22I concluida: encontro mostra estado de alvo derrotado, bloqueia ataque/turno e mantem reiniciar encontro disponivel.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260512-182337-t22i-combat-encounter-outcome -->
 <!-- pandorha-task:20260512-181508-t22h-combat-training-target-turn -->
 ### T22H Combat Training Target Turn
 - id: 20260512-181508-t22h-combat-training-target-turn
@@ -1195,6 +1227,27 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-12T18:27:34-03:00 - combat-encounter-outcome
+- branch: task-combat-encounter-outcome
+- commit: b6a7879 feat(combat): registra turno passivo do alvo
+- changed_files_count: 11
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-12T18:22:30-03:00 - combat-training-target-turn
 - branch: task-combat-training-target-turn
 - commit: 639556f feat(combat): usa matriz fisica no dano de treino

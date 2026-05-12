@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260512-182337-t22i-combat-encounter-outcome -->
+### T22I Combat Encounter Outcome
+- id: 20260512-182337-t22i-combat-encounter-outcome
+- status: open
+- created_at: 2026-05-12T18:23:37-03:00
+- source: task-ledger
+- summary: Mostrar estado final claro quando o alvo chega a 0 HP, bloquear ataque e encerramento de turno, mantendo reiniciar encontro.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260512-182337-t22i-combat-encounter-outcome -->
 <!-- pandorha-inbox:20260512-181508-t22h-combat-training-target-turn -->
 ### T22H Combat Training Target Turn
 - id: 20260512-181508-t22h-combat-training-target-turn

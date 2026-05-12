@@ -61,6 +61,13 @@
 - The target turn does not call `CombatEncounterService`, roll dice, apply damage, or create AI behavior.
 - The panel appends the hold-position log before advancing back through `CombatTurnService.endTurn`.
 
+## T22I - Encounter Outcome
+
+- `combatEncounterView.ts` now exposes `isEncounterComplete`, `encounterOutcomeLabel`, `encounterOutcomeDescription`, and `canReset`.
+- A target at 0 HP blocks attack and end-turn while keeping reset available.
+- `CombatEncounterPanel.svelte` renders a visible outcome block only when the training target is defeated.
+- No XP, loot, reward, persistence, or official monster outcome was introduced.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

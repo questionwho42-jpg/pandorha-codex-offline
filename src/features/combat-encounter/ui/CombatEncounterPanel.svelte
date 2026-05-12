@@ -466,6 +466,7 @@ function createInitialTurnState(
 		<button
 			type="button"
 			onclick={resetEncounter}
+			disabled={!view.canReset}
 			data-testid="combat-reset-button"
 			class="border border-bronze bg-ruin px-4 py-2 text-sm font-semibold text-bone transition-colors hover:border-ether hover:text-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether"
 		>
@@ -481,6 +482,20 @@ function createInitialTurnState(
 			Encerrar turno
 		</button>
 	</div>
+
+	{#if view.isEncounterComplete}
+		<div
+			class="mt-5 border border-ether bg-blood-shadow px-5 py-4"
+			data-testid="combat-outcome"
+		>
+			<p class="text-sm font-semibold text-ether">
+				{view.encounterOutcomeLabel}
+			</p>
+			<p class="mt-2 leading-7 text-bone">
+				{view.encounterOutcomeDescription}
+			</p>
+		</div>
+	{/if}
 
 	{#if view.errorMessage}
 		<div

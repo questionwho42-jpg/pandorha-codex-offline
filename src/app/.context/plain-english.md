@@ -21,3 +21,5 @@ Na T22F, a aba Combate tambem mostra HP maximo, iniciativa e carga quando o atac
 Na T22G, um personagem criado na sessao com Fisico maior passa a causar mais dano no ataque de treino. Aria ainda usa valores fixos, e o sistema ainda nao usa arma ou equipamento real.
 
 Na T22H, o turno do alvo ficou mais claro: quando o usuario encerra o turno do alvo de treino, o log informa que ele manteve posicao. Ele ainda nao age sozinho.
+
+Na T22I, quando o alvo de treino chega a 0 HP, a aba Combate mostra um aviso de alvo derrotado. Depois disso, atacar e encerrar turno ficam bloqueados, mas o usuario ainda pode reiniciar o encontro.

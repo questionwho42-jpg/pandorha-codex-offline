@@ -18,6 +18,8 @@ Na T22G, o dano de treino passou a olhar para a Matriz Fisica do personagem sele
 
 Na T22H, quando chega o turno do alvo de treino, o usuario pode encerrar esse turno e o log registra que o alvo manteve posicao. O alvo ainda nao ataca, nao causa dano e nao tem inteligencia artificial.
 
+Na T22I, quando o alvo chega a 0 HP, a tela mostra que ele foi derrotado e bloqueia novos ataques ou encerramentos de turno. O botao Reiniciar encontro continua disponivel para testar de novo.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.

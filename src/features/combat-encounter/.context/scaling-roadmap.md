@@ -9,7 +9,8 @@
 - T22F shows derived character stats in combat as display-only context.
 - T22G connects the training damage matrix to the selected character's Matriz Fisica while keeping weapon and dice values fixed.
 - T22H makes the target turn explicit by logging that the target holds position, without adding enemy AI.
-- The next combat step should make the defeated encounter outcome clearer.
+- T22I adds a clear defeated outcome state and keeps reset available.
+- The next combat step should document the user flow before the final vertical-slice review.
 - Add real initiative only after the fixed turn order remains stable in browser tests.
 - Add typed combat commands for attacks, reactions, spell casts, and conditions.
 - Persist combat ledgers later through Worker/SQLite after the in-memory model is stable.

@@ -138,6 +138,12 @@ describe("createCombatEncounterView", () => {
 		);
 		expect(view.canAttack).toBe(false);
 		expect(view.canEndTurn).toBe(false);
+		expect(view.canReset).toBe(true);
+		expect(view.encounterOutcomeDescription).toBe(
+			"Guarda de Treino chegou a 0 HP. O encontro de treino terminou; reinicie para tentar outro alvo ou atacante.",
+		);
+		expect(view.encounterOutcomeLabel).toBe("Alvo derrotado");
+		expect(view.isEncounterComplete).toBe(true);
 		expect(view.isTargetDefeated).toBe(true);
 	});
 

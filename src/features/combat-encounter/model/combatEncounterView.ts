@@ -31,7 +31,11 @@ export type CombatEncounterView = Readonly<{
 	attackerOptions: readonly CombatAttackerViewOption[];
 	canAttack: boolean;
 	canEndTurn: boolean;
+	canReset: boolean;
+	encounterOutcomeDescription: string;
+	encounterOutcomeLabel: string;
 	errorMessage: string | null;
+	isEncounterComplete: boolean;
 	isTargetDefeated: boolean;
 	logItems: readonly string[];
 	resultSummary: string;
@@ -70,7 +74,16 @@ export function createCombatEncounterView(
 			isAttackerTurn &&
 			input.turn.actionPointsRemaining > 0,
 		canEndTurn: !isTargetDefeated,
+		canReset: true,
+		encounterOutcomeDescription: createEncounterOutcomeDescription(
+			input,
+			isTargetDefeated,
+		),
+		encounterOutcomeLabel: isTargetDefeated
+			? "Alvo derrotado"
+			: "Encontro em andamento",
 		errorMessage: input.errorMessage,
+		isEncounterComplete: isTargetDefeated,
 		isTargetDefeated,
 		logItems: input.log.length > 0 ? input.log : [EMPTY_LOG_INSTRUCTION],
 		resultSummary: createResultSummary(input),
@@ -86,6 +99,17 @@ export function createCombatEncounterView(
 			targetLabel: input.target.label,
 		}),
 	};
+}
+
+function createEncounterOutcomeDescription(
+	input: CombatEncounterViewInput,
+	isTargetDefeated: boolean,
+): string {
+	if (!isTargetDefeated) {
+		return "O encontro continua enquanto o alvo tiver HP.";
+	}
+
+	return `${input.target.label} chegou a 0 HP. O encontro de treino terminou; reinicie para tentar outro alvo ou atacante.`;
 }
 
 function createTurnInstruction(input: {
