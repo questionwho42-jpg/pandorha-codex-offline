@@ -41,3 +41,9 @@
 - Combat turn state remains owned inside `combat-encounter`; `App.svelte` did not gain new global state.
 - The app still passes session characters and deterministic combat services into the panel.
 - The turn UI is session-only and resets with attacker/target changes or encounter reset.
+
+## 2026-05-12 - T22F Combat Attacker Derived Stats
+
+- `App.svelte` now passes official character classes into `CombatEncounterPanel` so the feature can show derived stats for session characters.
+- Derived stats remain display-only in the combat tab; app state still owns only the session character list.
+- No persistence, Worker, equipment, rolled initiative, or real HP integration was added.

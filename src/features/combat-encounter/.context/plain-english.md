@@ -12,6 +12,8 @@ Na T22D, os personagens criados na sessao tambem podem aparecer como atacante no
 
 Na T22E, a tela ganhou uma nocao simples de turno. O jogador ve a rodada, de quem e o turno e quantas acoes restam. Atacar gasta uma acao, e encerrar o turno passa para o alvo de treino e depois volta para o atacante na rodada seguinte. O alvo ainda nao age sozinho.
 
+Na T22F, quando o usuario seleciona um personagem criado na sessao, a tela mostra HP maximo, iniciativa e carga calculados a partir da ficha. Esses valores ainda sao informativos: o ataque, o dano e o HP usado no treino continuam fixos por enquanto.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.

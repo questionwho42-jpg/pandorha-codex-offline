@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260512-122140-t22f-combat-attacker-derived-stats -->
+### T22F Combat Attacker Derived Stats
+- id: 20260512-122140-t22f-combat-attacker-derived-stats
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-12T12:21:40-03:00
+- finished_at: 2026-05-12T12:42:45-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-12T12:42:45-03:00
+- branch: task-combat-attacker-derived-stats
+- commit_at_start: 0e6060a feat(combat): adiciona estado de turno
+- summary: Exibir HP maximo, iniciativa e carga derivados do personagem selecionado no painel de combate, sem aplicar esses valores ao ataque ou dano.
+- last_change: T22F exibiu HP maximo, iniciativa e carga derivados do personagem selecionado na aba Combate, mantendo ataque, dano, HP real e iniciativa como treino deterministico.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-12T12:21:40-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-12T12:42:45-03:00
+- Done: T22F exibiu HP maximo, iniciativa e carga derivados do personagem selecionado na aba Combate, mantendo ataque, dano, HP real e iniciativa como treino deterministico.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260512-122140-t22f-combat-attacker-derived-stats -->
 <!-- pandorha-task:20260506-233712-t22e-combat-turn-state -->
 ### T22E Combat Turn State
 - id: 20260506-233712-t22e-combat-turn-state
@@ -1099,6 +1131,30 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-12T12:42:37-03:00 - combat-attacker-derived-stats
+- branch: task-combat-attacker-derived-stats
+- commit: 0e6060a feat(combat): adiciona estado de turno
+- changed_files_count: 14
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-12T12:06:19-03:00 - combat-turn-state
 - branch: task-combat-turn-state
 - commit: f4606a7 feat(combat): conecta atacante da sessao

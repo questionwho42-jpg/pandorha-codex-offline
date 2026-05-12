@@ -1,6 +1,8 @@
 <script lang="ts">
 import type { CharacterRecord } from "$lib/entities/character";
+import type { CharacterClassRecord } from "$lib/entities/character-class";
 import { CombatTurnService } from "../domain/CombatTurnService";
+import { createCombatAttackerStatsView } from "../model/combatAttackerStatsView";
 import type {
 	CombatEncounterActorRef,
 	CombatEncounterFailure,
@@ -26,6 +28,7 @@ import type {
 
 type Props = {
 	attacker: CombatEncounterActorRef;
+	characterClasses: readonly CharacterClassRecord[];
 	characters: readonly CharacterRecord[];
 	createAttackInput: (
 		attacker: CombatEncounterActorRef,
@@ -49,6 +52,7 @@ const turnService = new CombatTurnService();
 
 let {
 	attacker,
+	characterClasses,
 	characters,
 	createAttackInput,
 	initialTarget,
@@ -72,6 +76,14 @@ let turnState = $state<CombatTurnState>(
 );
 let attackerOptions = $derived(createCombatAttackerOptions(characters));
 let selectedAttacker = $derived(getCombatAttacker(selectedAttackerId));
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let attackerStatsView = $derived(
+	createCombatAttackerStatsView({
+		attacker: selectedAttacker,
+		characterClasses,
+		characters,
+	}),
+);
 let selectedTarget = $derived(getTrainingTarget(selectedTargetId));
 
 let view = $derived<CombatEncounterView>(
@@ -319,6 +331,57 @@ function createInitialTurnState(
 		<div class="border border-bronze bg-blood-shadow px-5 py-4">
 			<p class="text-sm font-semibold text-ether">Atacante</p>
 			<h3 class="mt-2 text-xl font-semibold text-bone">{view.attackerLabel}</h3>
+			<div
+				class="mt-4 border-t border-bronze pt-4"
+				data-testid="combat-attacker-stats"
+			>
+				<div class="flex flex-wrap items-center justify-between gap-2">
+					<p class="text-sm font-semibold text-ether">
+						{attackerStatsView.heading}
+					</p>
+					<p
+						class="text-sm font-semibold text-bone"
+						data-testid="combat-attacker-stats-source"
+					>
+						{attackerStatsView.sourceLabel}
+					</p>
+				</div>
+				<dl class="mt-3 grid gap-2 text-sm">
+					<div class="flex items-center justify-between gap-3">
+						<dt class="text-ether">Classe</dt>
+						<dd class="text-right text-bone" data-testid="combat-attacker-class">
+							{attackerStatsView.classLabel}
+						</dd>
+					</div>
+					<div class="flex items-center justify-between gap-3">
+						<dt class="text-ether">HP</dt>
+						<dd class="text-right text-bone" data-testid="combat-attacker-max-hp">
+							{attackerStatsView.maxHpLabel}
+						</dd>
+					</div>
+					<div class="flex items-center justify-between gap-3">
+						<dt class="text-ether">Iniciativa</dt>
+						<dd
+							class="text-right text-bone"
+							data-testid="combat-attacker-initiative"
+						>
+							{attackerStatsView.initiativeLabel}
+						</dd>
+					</div>
+					<div class="flex items-center justify-between gap-3">
+						<dt class="text-ether">Carga</dt>
+						<dd
+							class="text-right text-bone"
+							data-testid="combat-attacker-carry"
+						>
+							{attackerStatsView.carrySlotLimitLabel}
+						</dd>
+					</div>
+				</dl>
+				<p class="mt-3 text-sm leading-6 text-bone">
+					{attackerStatsView.helperText}
+				</p>
+			</div>
 			<p class="mt-3 leading-7 text-bone">Ação disponível: ataque simples.</p>
 		</div>
 

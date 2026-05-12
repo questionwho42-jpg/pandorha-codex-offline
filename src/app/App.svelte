@@ -145,6 +145,7 @@ async function createCharacter(
 			{:else if activeView === "combat"}
 				<CombatEncounterPanel
 					attacker={combatEncounterSession.attacker}
+					characterClasses={characterSession.characterClasses}
 					characters={characterRecords}
 					createAttackInput={combatEncounterSession.createAttackInput}
 					initialTarget={combatEncounterSession.initialTarget}

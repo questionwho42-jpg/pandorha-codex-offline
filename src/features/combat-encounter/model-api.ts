@@ -1,5 +1,11 @@
 export { CombatEncounterService } from "./domain/CombatEncounterService";
 export { CombatTurnService } from "./domain/CombatTurnService";
+export type {
+	CombatAttackerStatsStatus,
+	CombatAttackerStatsView,
+	CombatAttackerStatsViewInput,
+} from "./model/combatAttackerStatsView";
+export { createCombatAttackerStatsView } from "./model/combatAttackerStatsView";
 export {
 	combatEncounterActorSchema,
 	combatEncounterAttackSchema,

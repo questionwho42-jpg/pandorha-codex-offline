@@ -40,8 +40,16 @@
 - Changing attacker, changing target, or resetting the encounter creates a fresh turn state with 3/3 actions.
 - `model-api.ts` remains the public non-UI API for app/model imports, while `index.ts` may still export the Svelte panel.
 
+## T22F - Attacker Derived Stats Summary
+
+- `combatAttackerStatsView.ts` maps the selected attacker to display-only derived stats when the attacker is a session character.
+- The view model uses `CharacterDerivedStatsService` and official character classes from the app boundary; the feature still does not import `app`.
+- The combat panel shows max HP, initiative, and carry slots as information only.
+- Attack math, target HP, equipment, initiative order, and damage remain deterministic training values.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`
 - `docs/system/survival/00-mecanicas-fundamentais.md`
+- `docs/system/survival/05-00-regras-de-classe.md`
 - `docs/system/combat/18-tratado-de-dano.md`

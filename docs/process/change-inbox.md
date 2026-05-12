@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260512-122140-t22f-combat-attacker-derived-stats -->
+### T22F Combat Attacker Derived Stats
+- id: 20260512-122140-t22f-combat-attacker-derived-stats
+- status: open
+- created_at: 2026-05-12T12:21:40-03:00
+- source: task-ledger
+- summary: Exibir HP maximo, iniciativa e carga derivados do personagem selecionado no painel de combate, sem aplicar esses valores ao ataque ou dano.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260512-122140-t22f-combat-attacker-derived-stats -->
 <!-- pandorha-inbox:20260506-233712-t22e-combat-turn-state -->
 ### T22E Combat Turn State
 - id: 20260506-233712-t22e-combat-turn-state

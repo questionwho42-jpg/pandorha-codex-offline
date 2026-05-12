@@ -10,4 +10,5 @@
 - T22C added selectable static training targets.
 - T22D connected session characters as attacker identity.
 - T22E added visible deterministic turn state; the next combat UI step should add derived stats or a minimal target action intentionally.
+- T22F shows derived session-character stats in combat as display-only context.
 - Future app bootstrapping should introduce typed providers for Worker/RPC, repositories, services, and UI state.
