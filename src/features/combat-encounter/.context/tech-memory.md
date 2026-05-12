@@ -55,6 +55,12 @@
 - The app session injects the profile into `createAttackInput`; `CombatEncounterService` and `DamagePipelineService` remain unchanged.
 - Equipment, weapon dice, attack rolls, fixed bonus, HP, and persistence are still outside this step.
 
+## T22H - Training Target Turn
+
+- `combatTrainingTargetTurn.ts` records a pt-BR log item when the active actor is the selected training target and the user ends its turn.
+- The target turn does not call `CombatEncounterService`, roll dice, apply damage, or create AI behavior.
+- The panel appends the hold-position log before advancing back through `CombatTurnService.endTurn`.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

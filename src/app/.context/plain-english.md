@@ -19,3 +19,5 @@ Na T22E, a aba Combate mostra rodada, turno ativo e acoes restantes. Atacar gast
 Na T22F, a aba Combate tambem mostra HP maximo, iniciativa e carga quando o atacante selecionado e um personagem criado na sessao. Esses dados ajudam o usuario a reconhecer a ficha, mas ainda nao mudam o ataque ou o dano do treino.
 
 Na T22G, um personagem criado na sessao com Fisico maior passa a causar mais dano no ataque de treino. Aria ainda usa valores fixos, e o sistema ainda nao usa arma ou equipamento real.
+
+Na T22H, o turno do alvo ficou mais claro: quando o usuario encerra o turno do alvo de treino, o log informa que ele manteve posicao. Ele ainda nao age sozinho.

@@ -16,6 +16,8 @@ Na T22F, quando o usuario seleciona um personagem criado na sessao, a tela mostr
 
 Na T22G, o dano de treino passou a olhar para a Matriz Fisica do personagem selecionado. Isso significa que dois personagens com valores fisicos diferentes podem causar dano de treino diferente, mas a arma, o dado base e o bonus ainda continuam fixos.
 
+Na T22H, quando chega o turno do alvo de treino, o usuario pode encerrar esse turno e o log registra que o alvo manteve posicao. O alvo ainda nao ataca, nao causa dano e nao tem inteligencia artificial.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.

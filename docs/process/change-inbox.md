@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260512-181508-t22h-combat-training-target-turn -->
+### T22H Combat Training Target Turn
+- id: 20260512-181508-t22h-combat-training-target-turn
+- status: open
+- created_at: 2026-05-12T18:15:08-03:00
+- source: task-ledger
+- summary: Registrar no log que o alvo de treino mantem posicao ao encerrar o turno dele, sem IA, ataque ou dano inimigo.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260512-181508-t22h-combat-training-target-turn -->
 <!-- pandorha-inbox:20260512-130258-t22g-combat-training-damage-profile -->
 ### T22G Combat Training Damage Profile
 - id: 20260512-130258-t22g-combat-training-damage-profile

@@ -8,7 +8,8 @@
 - T22E adds deterministic turn state and action-point spending without rolling initiative.
 - T22F shows derived character stats in combat as display-only context.
 - T22G connects the training damage matrix to the selected character's Matriz Fisica while keeping weapon and dice values fixed.
-- The next combat step should make the target turn explicit without adding enemy AI.
+- T22H makes the target turn explicit by logging that the target holds position, without adding enemy AI.
+- The next combat step should make the defeated encounter outcome clearer.
 - Add real initiative only after the fixed turn order remains stable in browser tests.
 - Add typed combat commands for attacks, reactions, spell casts, and conditions.
 - Persist combat ledgers later through Worker/SQLite after the in-memory model is stable.

@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260512-181508-t22h-combat-training-target-turn -->
+### T22H Combat Training Target Turn
+- id: 20260512-181508-t22h-combat-training-target-turn
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-12T18:15:08-03:00
+- finished_at: 2026-05-12T18:22:35-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-12T18:22:35-03:00
+- branch: task-combat-training-target-turn
+- commit_at_start: 639556f feat(combat): usa matriz fisica no dano de treino
+- summary: Registrar no log que o alvo de treino mantem posicao ao encerrar o turno dele, sem IA, ataque ou dano inimigo.
+- last_change: T22H concluida: turno do alvo de treino registra log de manter posicao sem IA, ataque ou dano inimigo.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-12T18:15:08-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-12T18:22:35-03:00
+- Done: T22H concluida: turno do alvo de treino registra log de manter posicao sem IA, ataque ou dano inimigo.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260512-181508-t22h-combat-training-target-turn -->
 <!-- pandorha-task:20260512-130258-t22g-combat-training-damage-profile -->
 ### T22G Combat Training Damage Profile
 - id: 20260512-130258-t22g-combat-training-damage-profile
@@ -1163,6 +1195,29 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-12T18:22:30-03:00 - combat-training-target-turn
+- branch: task-combat-training-target-turn
+- commit: 639556f feat(combat): usa matriz fisica no dano de treino
+- changed_files_count: 13
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/combat-encounter/__tests__/combatTrainingTargetTurn.spec.ts
+- src/features/combat-encounter/model/combatTrainingTargetTurn.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-12T18:13:31-03:00 - combat-training-damage-profile
 - branch: task-combat-training-damage-profile
 - commit: 5275d54 feat(combat): exibe atributos derivados do atacante

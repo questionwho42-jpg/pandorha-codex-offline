@@ -58,6 +58,8 @@ export {
 	TRAINING_TARGETS,
 	toCombatEncounterTargetState,
 } from "./model/combatTrainingTargetCatalog";
+export type { CombatTrainingTargetTurnLogInput } from "./model/combatTrainingTargetTurn";
+export { createCombatTrainingTargetTurnLog } from "./model/combatTrainingTargetTurn";
 export type {
 	CombatTurnActionInput,
 	CombatTurnEndInput,

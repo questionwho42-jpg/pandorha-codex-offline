@@ -53,3 +53,8 @@
 - `combatEncounterSession.createAttackInput` now receives a training attack profile from the combat feature.
 - The app still owns deterministic service wiring, while the feature decides whether the selected attacker uses fixed Aria damage or a session character's Matriz Fisica.
 - No persistence, Worker, equipment, real weapon dice, or real HP integration was added.
+
+## 2026-05-12 - T22H Combat Training Target Turn
+
+- The combat tab now records a visible log entry when the selected training target turn is ended.
+- The app wiring remains unchanged; no enemy AI, enemy attack, Worker, persistence, or official monster data was introduced.

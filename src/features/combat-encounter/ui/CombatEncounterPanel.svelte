@@ -25,6 +25,7 @@ import {
 	type CombatTrainingTarget,
 	findTrainingTargetById,
 } from "../model/combatTrainingTargetCatalog";
+import { createCombatTrainingTargetTurnLog } from "../model/combatTrainingTargetTurn";
 import type {
 	CombatTurnFailure,
 	CombatTurnState,
@@ -153,6 +154,10 @@ function endTurn(): void {
 		return;
 	}
 
+	const targetTurnLog = createCombatTrainingTargetTurnLog({
+		activeActorId: turnState.activeActorId,
+		target: selectedTarget,
+	});
 	const endedTurn = turnService.endTurn({
 		state: turnState,
 		actorId: turnState.activeActorId,
@@ -163,6 +168,7 @@ function endTurn(): void {
 	}
 
 	turnState = endedTurn.data;
+	log = targetTurnLog ? [...log, targetTurnLog] : log;
 	errorMessage = null;
 }
 
