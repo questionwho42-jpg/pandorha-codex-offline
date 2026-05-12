@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import type { CharacterRecord } from "$lib/entities/character";
-import { createCombatAttackerOptions } from "$lib/features/combat-encounter/model-api";
+import {
+	createCombatAttackerOptions,
+	createCombatTrainingAttackProfile,
+} from "$lib/features/combat-encounter/model-api";
 import { createCombatEncounterSession } from "./combatEncounterSession";
 
 describe("createCombatEncounterSession", () => {
@@ -17,6 +20,10 @@ describe("createCombatEncounterSession", () => {
 				attacker,
 				session.initialTarget,
 				session.initialTarget.currentHitPoints,
+				createCombatTrainingAttackProfile({
+					attacker,
+					characters: [createCharacterRecord()],
+				}),
 			),
 		);
 
@@ -32,9 +39,37 @@ describe("createCombatEncounterSession", () => {
 			"Lia preparou um ataque contra Guarda de Treino.",
 		);
 	});
+
+	it("uses the training attack profile damage matrix in the combat input", () => {
+		const session = createCombatEncounterSession();
+		const attacker = createCombatAttackerOptions([
+			createCharacterRecord({ physical: 3 }),
+		])[1];
+
+		expect(attacker).toBeDefined();
+		if (!attacker) {
+			return;
+		}
+
+		const input = session.createAttackInput(
+			attacker,
+			session.initialTarget,
+			session.initialTarget.currentHitPoints,
+			createCombatTrainingAttackProfile({
+				attacker,
+				characters: [createCharacterRecord({ physical: 3 })],
+			}),
+		);
+
+		expect(input.damage.matrixValue).toBe(3);
+		expect(input.damage.baseDiceTotal).toBe(4);
+		expect(input.damage.extraModifierTotal).toBe(3);
+	});
 });
 
-function createCharacterRecord(): CharacterRecord {
+function createCharacterRecord(
+	patch: Partial<CharacterRecord> = {},
+): CharacterRecord {
 	return {
 		id: "session-character-1",
 		name: "Lia",
@@ -51,5 +86,6 @@ function createCharacterRecord(): CharacterRecord {
 		resistance: 2,
 		createdAt: "2026-05-06T18:19:31.000Z",
 		updatedAt: "2026-05-06T18:19:31.000Z",
+		...patch,
 	};
 }

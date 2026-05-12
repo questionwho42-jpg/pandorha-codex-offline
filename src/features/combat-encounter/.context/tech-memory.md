@@ -47,6 +47,14 @@
 - The combat panel shows max HP, initiative, and carry slots as information only.
 - Attack math, target HP, equipment, initiative order, and damage remain deterministic training values.
 
+## T22G - Training Damage Profile
+
+- `combatTrainingAttackProfile.ts` maps the selected attacker to deterministic training damage inputs.
+- Aria and unknown attackers keep the fixed training matrix value 2.
+- Session characters use their `physical` value as the damage `matrixValue`, following the rule that standard melee attacks use Matriz Fisica.
+- The app session injects the profile into `createAttackInput`; `CombatEncounterService` and `DamagePipelineService` remain unchanged.
+- Equipment, weapon dice, attack rolls, fixed bonus, HP, and persistence are still outside this step.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

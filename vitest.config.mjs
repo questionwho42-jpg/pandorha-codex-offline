@@ -27,6 +27,7 @@ export default defineConfig({
 				"src/features/combat-encounter/domain/CombatEncounterService.ts",
 				"src/features/combat-encounter/domain/CombatTurnService.ts",
 				"src/features/combat-encounter/model/combatAttackerStatsView.ts",
+				"src/features/combat-encounter/model/combatTrainingAttackProfile.ts",
 			],
 			exclude: [
 				"src/entities/character/testing/**/*.ts",

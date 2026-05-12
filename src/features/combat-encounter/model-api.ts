@@ -44,6 +44,12 @@ export {
 	findCombatAttackerOptionById,
 	toCombatEncounterActorFromCharacter,
 } from "./model/combatSessionAttacker";
+export type {
+	CombatTrainingAttackProfile,
+	CombatTrainingAttackProfileInput,
+	CombatTrainingAttackProfileSource,
+} from "./model/combatTrainingAttackProfile";
+export { createCombatTrainingAttackProfile } from "./model/combatTrainingAttackProfile";
 export {
 	type CombatTrainingTarget,
 	type CombatTrainingTargetId,

@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260512-130258-t22g-combat-training-damage-profile -->
+### T22G Combat Training Damage Profile
+- id: 20260512-130258-t22g-combat-training-damage-profile
+- status: open
+- created_at: 2026-05-12T13:02:58-03:00
+- source: task-ledger
+- summary: Fazer o dano de treino usar a Matriz Fisica do personagem selecionado, mantendo dado, bonus, ataque e equipamento deterministicos.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260512-130258-t22g-combat-training-damage-profile -->
 <!-- pandorha-inbox:20260512-122140-t22f-combat-attacker-derived-stats -->
 ### T22F Combat Attacker Derived Stats
 - id: 20260512-122140-t22f-combat-attacker-derived-stats

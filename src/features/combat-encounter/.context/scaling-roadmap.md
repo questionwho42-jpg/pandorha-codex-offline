@@ -7,7 +7,8 @@
 - T22D connects session characters as attacker identity only, without applying full sheet math.
 - T22E adds deterministic turn state and action-point spending without rolling initiative.
 - T22F shows derived character stats in combat as display-only context.
-- The next combat step should connect the training damage profile or add a simple enemy action deliberately.
+- T22G connects the training damage matrix to the selected character's Matriz Fisica while keeping weapon and dice values fixed.
+- The next combat step should make the target turn explicit without adding enemy AI.
 - Add real initiative only after the fixed turn order remains stable in browser tests.
 - Add typed combat commands for attacks, reactions, spell casts, and conditions.
 - Persist combat ledgers later through Worker/SQLite after the in-memory model is stable.
@@ -16,4 +17,4 @@
 ## Boundaries
 
 - This feature should not own dice, damage, or universal-test math. Those stay in `shared`.
-- T22F still avoids persistence, Worker, grid, dynamic monsters, inventory, magic, equipment math, and rolled initiative.
+- T22G still avoids persistence, Worker, grid, dynamic monsters, inventory, magic, equipment math, and rolled initiative.

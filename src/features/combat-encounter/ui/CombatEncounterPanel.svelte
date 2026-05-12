@@ -18,6 +18,10 @@ import {
 	findCombatAttackerOptionById,
 } from "../model/combatSessionAttacker";
 import {
+	type CombatTrainingAttackProfile,
+	createCombatTrainingAttackProfile,
+} from "../model/combatTrainingAttackProfile";
+import {
 	type CombatTrainingTarget,
 	findTrainingTargetById,
 } from "../model/combatTrainingTargetCatalog";
@@ -34,6 +38,7 @@ type Props = {
 		attacker: CombatEncounterActorRef,
 		target: CombatTrainingTarget,
 		targetHitPoints: number,
+		attackProfile: CombatTrainingAttackProfile,
 	) => CombatEncounterInput;
 	initialTarget: CombatTrainingTarget;
 	resolveAttack: (
@@ -84,6 +89,12 @@ let attackerStatsView = $derived(
 		characters,
 	}),
 );
+let trainingAttackProfile = $derived(
+	createCombatTrainingAttackProfile({
+		attacker: selectedAttacker,
+		characters,
+	}),
+);
 let selectedTarget = $derived(getTrainingTarget(selectedTargetId));
 
 let view = $derived<CombatEncounterView>(
@@ -107,7 +118,12 @@ function attack(): void {
 	}
 
 	const result = resolveAttack(
-		createAttackInput(selectedAttacker, selectedTarget, targetHitPoints),
+		createAttackInput(
+			selectedAttacker,
+			selectedTarget,
+			targetHitPoints,
+			trainingAttackProfile,
+		),
 	);
 	if (!result.success) {
 		errorMessage = mapCombatEncounterFailure(result.error);
@@ -380,6 +396,35 @@ function createInitialTurnState(
 				</dl>
 				<p class="mt-3 text-sm leading-6 text-bone">
 					{attackerStatsView.helperText}
+				</p>
+			</div>
+			<div
+				class="mt-4 border-t border-bronze pt-4"
+				data-testid="combat-training-damage-profile"
+			>
+				<p class="text-sm font-semibold text-ether">Perfil de dano</p>
+				<dl class="mt-3 grid gap-2 text-sm">
+					<div class="flex items-center justify-between gap-3">
+						<dt class="text-ether">Matriz</dt>
+						<dd
+							class="text-right text-bone"
+							data-testid="combat-training-damage-matrix"
+						>
+							{trainingAttackProfile.matrixLabel}
+						</dd>
+					</div>
+					<div class="flex items-center justify-between gap-3">
+						<dt class="text-ether">Treino</dt>
+						<dd
+							class="text-right text-bone"
+							data-testid="combat-training-damage-summary"
+						>
+							{trainingAttackProfile.summaryLabel}
+						</dd>
+					</div>
+				</dl>
+				<p class="mt-3 text-sm leading-6 text-bone">
+					{trainingAttackProfile.helperText}
 				</p>
 			</div>
 			<p class="mt-3 leading-7 text-bone">Ação disponível: ataque simples.</p>

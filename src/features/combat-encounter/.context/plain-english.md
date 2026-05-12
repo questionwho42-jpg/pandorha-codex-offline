@@ -14,6 +14,8 @@ Na T22E, a tela ganhou uma nocao simples de turno. O jogador ve a rodada, de que
 
 Na T22F, quando o usuario seleciona um personagem criado na sessao, a tela mostra HP maximo, iniciativa e carga calculados a partir da ficha. Esses valores ainda sao informativos: o ataque, o dano e o HP usado no treino continuam fixos por enquanto.
 
+Na T22G, o dano de treino passou a olhar para a Matriz Fisica do personagem selecionado. Isso significa que dois personagens com valores fisicos diferentes podem causar dano de treino diferente, mas a arma, o dado base e o bonus ainda continuam fixos.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.

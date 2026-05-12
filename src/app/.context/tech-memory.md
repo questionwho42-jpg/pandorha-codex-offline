@@ -47,3 +47,9 @@
 - `App.svelte` now passes official character classes into `CombatEncounterPanel` so the feature can show derived stats for session characters.
 - Derived stats remain display-only in the combat tab; app state still owns only the session character list.
 - No persistence, Worker, equipment, rolled initiative, or real HP integration was added.
+
+## 2026-05-12 - T22G Combat Training Damage Profile
+
+- `combatEncounterSession.createAttackInput` now receives a training attack profile from the combat feature.
+- The app still owns deterministic service wiring, while the feature decides whether the selected attacker uses fixed Aria damage or a session character's Matriz Fisica.
+- No persistence, Worker, equipment, real weapon dice, or real HP integration was added.

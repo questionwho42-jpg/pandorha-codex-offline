@@ -17,3 +17,5 @@ Na T22D, a aba Combate tambem pode usar personagens criados na sessao como ataca
 Na T22E, a aba Combate mostra rodada, turno ativo e acoes restantes. Atacar gasta uma acao, e o botao Encerrar turno alterna entre o atacante e o alvo de treino.
 
 Na T22F, a aba Combate tambem mostra HP maximo, iniciativa e carga quando o atacante selecionado e um personagem criado na sessao. Esses dados ajudam o usuario a reconhecer a ficha, mas ainda nao mudam o ataque ou o dano do treino.
+
+Na T22G, um personagem criado na sessao com Fisico maior passa a causar mais dano no ataque de treino. Aria ainda usa valores fixos, e o sistema ainda nao usa arma ou equipamento real.

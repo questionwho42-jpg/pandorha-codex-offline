@@ -3,6 +3,7 @@ import {
 	type CombatEncounterClock,
 	type CombatEncounterInput,
 	CombatEncounterService,
+	type CombatTrainingAttackProfile,
 	type CombatTrainingTarget,
 	DEFAULT_COMBAT_TRAINING_ATTACKER,
 	DEFAULT_TRAINING_TARGET,
@@ -24,6 +25,7 @@ export type CombatEncounterSession = Readonly<{
 		attacker: CombatEncounterActorRef,
 		target: CombatTrainingTarget,
 		targetHitPoints: number,
+		attackProfile: CombatTrainingAttackProfile,
 	) => CombatEncounterInput;
 	initialTarget: CombatTrainingTarget;
 	service: CombatEncounterService;
@@ -49,7 +51,7 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 			encounterClock,
 		),
 		trainingTargets: TRAINING_TARGETS,
-		createAttackInput: (attacker, target, targetHitPoints) => {
+		createAttackInput: (attacker, target, targetHitPoints, attackProfile) => {
 			const commandId = `training-attack-${nextCommandId}`;
 			nextCommandId += 1;
 			const combatAttacker = toCombatEncounterActorRef(attacker);
@@ -78,13 +80,13 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 					itemBonus: 1,
 				},
 				damage: {
-					damageType: "physical",
-					baseDiceTotal: 4,
-					matrixValue: 2,
-					extraModifierTotal: 3,
-					damageReduction: 0,
-					vulnerabilityBonusDamage: 0,
-					affinities: [],
+					damageType: attackProfile.damageType,
+					baseDiceTotal: attackProfile.baseDiceTotal,
+					matrixValue: attackProfile.matrixValue,
+					extraModifierTotal: attackProfile.extraModifierTotal,
+					damageReduction: attackProfile.damageReduction,
+					vulnerabilityBonusDamage: attackProfile.vulnerabilityBonusDamage,
+					affinities: attackProfile.affinities,
 				},
 			};
 		},

@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260512-130258-t22g-combat-training-damage-profile -->
+### T22G Combat Training Damage Profile
+- id: 20260512-130258-t22g-combat-training-damage-profile
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-12T13:02:58-03:00
+- finished_at: 2026-05-12T18:13:35-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-12T18:13:35-03:00
+- branch: task-combat-training-damage-profile
+- commit_at_start: 5275d54 feat(combat): exibe atributos derivados do atacante
+- summary: Fazer o dano de treino usar a Matriz Fisica do personagem selecionado, mantendo dado, bonus, ataque e equipamento deterministicos.
+- last_change: T22G concluida: dano de treino usa Matriz Fisica do personagem da sessao, Aria preserva perfil fixo e UI mostra o perfil aplicado.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-12T13:02:58-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-12T18:13:35-03:00
+- Done: T22G concluida: dano de treino usa Matriz Fisica do personagem da sessao, Aria preserva perfil fixo e UI mostra o perfil aplicado.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260512-130258-t22g-combat-training-damage-profile -->
 <!-- pandorha-task:20260512-122140-t22f-combat-attacker-derived-stats -->
 ### T22F Combat Attacker Derived Stats
 - id: 20260512-122140-t22f-combat-attacker-derived-stats
@@ -1131,6 +1163,31 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-12T18:13:31-03:00 - combat-training-damage-profile
+- branch: task-combat-training-damage-profile
+- commit: 5275d54 feat(combat): exibe atributos derivados do atacante
+- changed_files_count: 15
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/combat-encounter/__tests__/combatTrainingAttackProfile.spec.ts
+- src/features/combat-encounter/model/combatTrainingAttackProfile.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-12T12:42:37-03:00 - combat-attacker-derived-stats
 - branch: task-combat-attacker-derived-stats
 - commit: 0e6060a feat(combat): adiciona estado de turno
