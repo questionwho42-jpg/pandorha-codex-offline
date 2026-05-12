@@ -10,6 +10,8 @@ Na T22C, a tela passou a ter tres alvos de treino: Guarda de Treino, Baluarte de
 
 Na T22D, os personagens criados na sessao tambem podem aparecer como atacante no combate. Por enquanto isso muda o nome usado no log; ainda nao usa HP real, equipamento ou dano da ficha.
 
+Na T22E, a tela ganhou uma nocao simples de turno. O jogador ve a rodada, de quem e o turno e quantas acoes restam. Atacar gasta uma acao, e encerrar o turno passa para o alvo de treino e depois volta para o atacante na rodada seguinte. O alvo ainda nao age sozinho.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.

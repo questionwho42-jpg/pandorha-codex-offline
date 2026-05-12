@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260506-233712-t22e-combat-turn-state -->
+### T22E Combat Turn State
+- id: 20260506-233712-t22e-combat-turn-state
+- status: open
+- created_at: 2026-05-06T23:37:12-03:00
+- source: task-ledger
+- summary: Adicionar estado minimo de turno ao combate, com rodada, turno ativo, acoes 3/3, consumo de acao e encerramento de turno no painel.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260506-233712-t22e-combat-turn-state -->
 <!-- pandorha-inbox:20260506-181931-t22d-combat-session-attacker -->
 ### T22D Combat Session Attacker
 - id: 20260506-181931-t22d-combat-session-attacker

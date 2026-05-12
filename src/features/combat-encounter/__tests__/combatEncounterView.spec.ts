@@ -83,9 +83,14 @@ describe("createCombatEncounterView", () => {
 		);
 		expect(view.targetArmorClassLabel).toBe("CA 15");
 		expect(view.targetHitPointsLabel).toBe("HP 18");
+		expect(view.roundLabel).toBe("Rodada 1");
+		expect(view.activeTurnLabel).toBe("Turno de Aria");
+		expect(view.actionPointsLabel).toBe("Ações 3/3");
+		expect(view.turnInstruction).toBe("Escolha Atacar ou encerre o turno.");
 		expect(view.statusLabel).toBe("Encontro pronto");
 		expect(view.resultSummary).toBe("Nenhum ataque resolvido ainda.");
 		expect(view.canAttack).toBe(true);
+		expect(view.canEndTurn).toBe(true);
 	});
 
 	it("uses an empty log instruction before the first attack", () => {
@@ -132,7 +137,43 @@ describe("createCombatEncounterView", () => {
 			"Último ataque: sucesso. Dano final: 18. HP restante: 0.",
 		);
 		expect(view.canAttack).toBe(false);
+		expect(view.canEndTurn).toBe(false);
 		expect(view.isTargetDefeated).toBe(true);
+	});
+
+	it("disables attack during the training target turn", () => {
+		const view = createCombatEncounterView(
+			createViewInput({
+				turn: {
+					...createTurnState(),
+					activeActorId: "training-guard",
+					activeActorIndex: 1,
+				},
+			}),
+		);
+
+		expect(view.activeTurnLabel).toBe("Turno de Guarda de Treino");
+		expect(view.actionPointsLabel).toBe("Ações 3/3");
+		expect(view.turnInstruction).toBe(
+			"O alvo de treino não age nesta versão. Encerre o turno para voltar ao atacante.",
+		);
+		expect(view.canAttack).toBe(false);
+		expect(view.canEndTurn).toBe(true);
+	});
+
+	it("disables attack when no actions remain", () => {
+		const view = createCombatEncounterView(
+			createViewInput({
+				turn: {
+					...createTurnState(),
+					actionPointsRemaining: 0,
+				},
+			}),
+		);
+
+		expect(view.actionPointsLabel).toBe("Ações 0/3");
+		expect(view.canAttack).toBe(false);
+		expect(view.canEndTurn).toBe(true);
 	});
 
 	it("surfaces a pt-BR error message", () => {
@@ -209,8 +250,29 @@ function createViewInput(
 		lastState: null,
 		log: [],
 		errorMessage: null,
+		turn: createTurnState(),
 		...overrides,
 	};
+}
+
+function createTurnState() {
+	return {
+		round: 1,
+		activeActorId: "aria",
+		activeActorIndex: 0,
+		actorOrder: ["aria", "training-guard"],
+		actionPointsRemaining: 3,
+		maxActionPoints: 3,
+		events: [
+			{
+				id: "turn-event-1",
+				type: "turnStarted",
+				actorId: "aria",
+				round: 1,
+				actionCost: 0,
+			},
+		],
+	} as const;
 }
 
 function createCharacterRecord(): CharacterRecord {

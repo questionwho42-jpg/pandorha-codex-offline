@@ -5,8 +5,9 @@
 - T22B exposed this service in the browser with a minimal fixed combat panel and log.
 - T22C added a static training target catalog for visible combat variation without creating official monsters.
 - T22D connects session characters as attacker identity only, without applying full sheet math.
-- The next combat step should add initiative/turn state or connect derived character stats deliberately.
-- Add initiative and turn state after the single-attack flow is visible and testable.
+- T22E adds deterministic turn state and action-point spending without rolling initiative.
+- The next combat step should connect derived character stats or add a simple enemy action deliberately.
+- Add real initiative only after the fixed turn order remains stable in browser tests.
 - Add typed combat commands for attacks, reactions, spell casts, and conditions.
 - Persist combat ledgers later through Worker/SQLite after the in-memory model is stable.
 - Add Decorator-based modifiers for conditions, talents, weapon properties, and tactical forge effects.

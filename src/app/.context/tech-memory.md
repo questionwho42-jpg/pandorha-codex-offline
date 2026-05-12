@@ -35,3 +35,9 @@
 - `App.svelte` passes `characterRecords` into `CombatEncounterPanel`.
 - Combat can use session characters as attacker identity while keeping Aria as the training fallback.
 - This is a visual/session bridge only; it does not apply derived stats, equipment, class features, persistence, or real combat turns.
+
+## 2026-05-06 - T22E Combat Turn State
+
+- Combat turn state remains owned inside `combat-encounter`; `App.svelte` did not gain new global state.
+- The app still passes session characters and deterministic combat services into the panel.
+- The turn UI is session-only and resets with attacker/target changes or encounter reset.

@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260506-233712-t22e-combat-turn-state -->
+### T22E Combat Turn State
+- id: 20260506-233712-t22e-combat-turn-state
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-06T23:37:12-03:00
+- finished_at: 2026-05-12T12:06:26-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-12T12:06:26-03:00
+- branch: task-combat-turn-state
+- commit_at_start: f4606a7 feat(combat): conecta atacante da sessao
+- summary: Adicionar estado minimo de turno ao combate, com rodada, turno ativo, acoes 3/3, consumo de acao e encerramento de turno no painel.
+- last_change: T22E adicionou estado de turno deterministico no combate, com rodada, turno ativo, acoes 3/3, consumo de acao, encerramento de turno e validacao no navegador.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-06T23:37:12-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-12T12:06:26-03:00
+- Done: T22E adicionou estado de turno deterministico no combate, com rodada, turno ativo, acoes 3/3, consumo de acao, encerramento de turno e validacao no navegador.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260506-233712-t22e-combat-turn-state -->
 <!-- pandorha-task:20260506-181931-t22d-combat-session-attacker -->
 ### T22D Combat Session Attacker
 - id: 20260506-181931-t22d-combat-session-attacker
@@ -1067,6 +1099,33 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-12T12:06:19-03:00 - combat-turn-state
+- branch: task-combat-turn-state
+- commit: f4606a7 feat(combat): conecta atacante da sessao
+- changed_files_count: 17
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/combat-encounter/__tests__/CombatTurnService.spec.ts
+- src/features/combat-encounter/domain/CombatTurnService.ts
+- src/features/combat-encounter/model/combatTurnSchemas.ts
+- src/features/combat-encounter/model/combatTurnTypes.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-06T23:11:41-03:00 - combat-session-attacker-final
 - branch: task-combat-session-attacker
 - commit: c8bdf49 feat(combat): adiciona alvos de treino

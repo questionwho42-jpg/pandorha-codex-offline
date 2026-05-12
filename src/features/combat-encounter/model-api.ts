@@ -1,4 +1,5 @@
 export { CombatEncounterService } from "./domain/CombatEncounterService";
+export { CombatTurnService } from "./domain/CombatTurnService";
 export {
 	combatEncounterActorSchema,
 	combatEncounterAttackSchema,
@@ -45,3 +46,14 @@ export {
 	TRAINING_TARGETS,
 	toCombatEncounterTargetState,
 } from "./model/combatTrainingTargetCatalog";
+export type {
+	CombatTurnActionInput,
+	CombatTurnEndInput,
+	CombatTurnEvent,
+	CombatTurnEventType,
+	CombatTurnFailure,
+	CombatTurnFailureCode,
+	CombatTurnFailureDetails,
+	CombatTurnStartInput,
+	CombatTurnState,
+} from "./model/combatTurnTypes";

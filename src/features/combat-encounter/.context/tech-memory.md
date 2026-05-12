@@ -32,6 +32,14 @@
 - Changing attacker resets HP, last result, error, and log while preserving the selected target.
 - The selected attacker is passed into `combatEncounterSession.createAttackInput`, so service logs use the chosen name.
 
+## T22E - Minimal Turn State
+
+- `CombatTurnService` adds deterministic in-memory turn state with round, active actor, action points, and a turn event ledger.
+- The turn order is fixed as `[attacker, target]`; no initiative roll or enemy AI is introduced.
+- The browser panel spends 1 action only after `CombatEncounterService.resolveAttack` returns a technical success.
+- Changing attacker, changing target, or resetting the encounter creates a fresh turn state with 3/3 actions.
+- `model-api.ts` remains the public non-UI API for app/model imports, while `index.ts` may still export the Svelte panel.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

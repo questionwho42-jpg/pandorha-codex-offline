@@ -13,3 +13,5 @@ Na T22B, o app ganhou a aba Combate. Ela mostra um encontro fixo de treino em qu
 Na T22C, a aba Combate ganhou um seletor de alvo. O usuario pode trocar entre tres alvos de treino; ao trocar, o HP e o log reiniciam para testar outro alvo sem recarregar a pagina.
 
 Na T22D, a aba Combate tambem pode usar personagens criados na sessao como atacante. O personagem aparece no seletor e no log do ataque, mas ainda nao usa ficha completa, equipamento ou HP real.
+
+Na T22E, a aba Combate mostra rodada, turno ativo e acoes restantes. Atacar gasta uma acao, e o botao Encerrar turno alterna entre o atacante e o alvo de treino.

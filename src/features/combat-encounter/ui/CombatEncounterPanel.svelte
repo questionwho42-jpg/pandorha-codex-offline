@@ -1,5 +1,6 @@
 <script lang="ts">
 import type { CharacterRecord } from "$lib/entities/character";
+import { CombatTurnService } from "../domain/CombatTurnService";
 import type {
 	CombatEncounterActorRef,
 	CombatEncounterFailure,
@@ -18,6 +19,10 @@ import {
 	type CombatTrainingTarget,
 	findTrainingTargetById,
 } from "../model/combatTrainingTargetCatalog";
+import type {
+	CombatTurnFailure,
+	CombatTurnState,
+} from "../model/combatTurnTypes";
 
 type Props = {
 	attacker: CombatEncounterActorRef;
@@ -40,6 +45,8 @@ type CombatEncounterStateResolver = (
 	| { readonly success: true; readonly data: CombatEncounterState }
 	| { readonly success: false; readonly error: CombatEncounterFailure };
 
+const turnService = new CombatTurnService();
+
 let {
 	attacker,
 	characters,
@@ -59,6 +66,10 @@ let selectedAttackerId = $state(attacker.id);
 let lastState = $state<CombatEncounterState | null>(null);
 let errorMessage = $state<string | null>(null);
 let log = $state<readonly string[]>([]);
+// svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for the initial turn state.
+let turnState = $state<CombatTurnState>(
+	createInitialTurnState(attacker.id, initialTarget.id),
+);
 let attackerOptions = $derived(createCombatAttackerOptions(characters));
 let selectedAttacker = $derived(getCombatAttacker(selectedAttackerId));
 let selectedTarget = $derived(getTrainingTarget(selectedTargetId));
@@ -73,6 +84,7 @@ let view = $derived<CombatEncounterView>(
 		lastState,
 		log,
 		errorMessage,
+		turn: turnState,
 	}),
 );
 
@@ -90,9 +102,39 @@ function attack(): void {
 		return;
 	}
 
+	const spentAction = turnService.spendAction({
+		state: turnState,
+		actorId: selectedAttacker.id,
+		actionCost: 1,
+	});
+	if (!spentAction.success) {
+		errorMessage = mapCombatTurnFailure(spentAction.error);
+		return;
+	}
+
+	turnState = spentAction.data;
 	lastState = result.data;
 	targetHitPoints = result.data.target.currentHitPoints;
 	log = [...log, ...result.data.log];
+	errorMessage = null;
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function endTurn(): void {
+	if (!view.canEndTurn) {
+		return;
+	}
+
+	const endedTurn = turnService.endTurn({
+		state: turnState,
+		actorId: turnState.activeActorId,
+	});
+	if (!endedTurn.success) {
+		errorMessage = mapCombatTurnFailure(endedTurn.error);
+		return;
+	}
+
+	turnState = endedTurn.data;
 	errorMessage = null;
 }
 
@@ -102,6 +144,7 @@ function resetEncounter(): void {
 	lastState = null;
 	errorMessage = null;
 	log = [];
+	turnState = createInitialTurnState(selectedAttacker.id, selectedTarget.id);
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -115,6 +158,7 @@ function selectAttacker(event: Event): void {
 	lastState = null;
 	errorMessage = null;
 	log = [];
+	turnState = createInitialTurnState(selectedAttackerId, selectedTarget.id);
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -129,6 +173,7 @@ function selectTarget(event: Event): void {
 	lastState = null;
 	errorMessage = null;
 	log = [];
+	turnState = createInitialTurnState(selectedAttacker.id, nextTarget.id);
 }
 
 function mapCombatEncounterFailure(failure: CombatEncounterFailure): string {
@@ -144,6 +189,19 @@ function mapCombatEncounterFailure(failure: CombatEncounterFailure): string {
 	}
 }
 
+function mapCombatTurnFailure(failure: CombatTurnFailure): string {
+	switch (failure.code) {
+		case "INVALID_TURN_INPUT":
+			return "O turno recebeu dados inv\u00e1lidos.";
+		case "UNKNOWN_TURN_ACTOR":
+			return "O participante do turno n\u00e3o foi encontrado.";
+		case "INACTIVE_TURN_ACTOR":
+			return "Este participante n\u00e3o est\u00e1 com o turno ativo.";
+		case "INSUFFICIENT_ACTION_POINTS":
+			return "N\u00e3o h\u00e1 a\u00e7\u00f5es suficientes para atacar.";
+	}
+}
+
 function getInitialTargetHitPoints(target: CombatTrainingTarget): number {
 	return target.currentHitPoints;
 }
@@ -154,6 +212,27 @@ function getTrainingTarget(id: string): CombatTrainingTarget {
 
 function getCombatAttacker(id: string): CombatEncounterActorRef {
 	return findCombatAttackerOptionById(attackerOptions, id) ?? attacker;
+}
+
+function createInitialTurnState(
+	attackerId: string,
+	targetId: string,
+): CombatTurnState {
+	const startedTurn = turnService.startTurnOrder({
+		actorOrder: [attackerId, targetId],
+	});
+
+	return startedTurn.success
+		? startedTurn.data
+		: {
+				round: 1,
+				activeActorId: attackerId,
+				activeActorIndex: 0,
+				actorOrder: [attackerId, targetId],
+				actionPointsRemaining: 3,
+				maxActionPoints: 3,
+				events: [],
+			};
 }
 </script>
 
@@ -175,6 +254,36 @@ function getCombatAttacker(id: string): CombatEncounterActorRef {
 			{view.statusLabel}
 		</p>
 	</div>
+
+	<div class="mt-6 grid gap-3 md:grid-cols-3">
+		<div class="border border-bronze bg-blood-shadow px-4 py-3">
+			<p class="text-sm font-semibold text-ether">Rodada</p>
+			<p class="mt-1 text-lg font-semibold text-bone" data-testid="combat-round">
+				{view.roundLabel}
+			</p>
+		</div>
+		<div class="border border-bronze bg-blood-shadow px-4 py-3">
+			<p class="text-sm font-semibold text-ether">Turno</p>
+			<p
+				class="mt-1 text-lg font-semibold text-bone"
+				data-testid="combat-active-turn"
+			>
+				{view.activeTurnLabel}
+			</p>
+		</div>
+		<div class="border border-bronze bg-blood-shadow px-4 py-3">
+			<p class="text-sm font-semibold text-ether">A&ccedil;&otilde;es</p>
+			<p
+				class="mt-1 text-lg font-semibold text-bone"
+				data-testid="combat-action-points"
+			>
+				{view.actionPointsLabel}
+			</p>
+		</div>
+	</div>
+	<p class="mt-3 leading-7 text-bone" data-testid="combat-turn-instruction">
+		{view.turnInstruction}
+	</p>
 
 	<div class="mt-6 grid gap-4 md:grid-cols-2">
 		<label class="block">
@@ -247,6 +356,15 @@ function getCombatAttacker(id: string): CombatEncounterActorRef {
 			class="border border-bronze bg-ruin px-4 py-2 text-sm font-semibold text-bone transition-colors hover:border-ether hover:text-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether"
 		>
 			Reiniciar encontro
+		</button>
+		<button
+			type="button"
+			disabled={!view.canEndTurn}
+			onclick={endTurn}
+			data-testid="combat-end-turn-button"
+			class="border border-bronze bg-ruin px-4 py-2 text-sm font-semibold text-bone transition-colors hover:border-ether hover:text-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:border-bronze disabled:bg-blood-shadow disabled:text-bone"
+		>
+			Encerrar turno
 		</button>
 	</div>
 

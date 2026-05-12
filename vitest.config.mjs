@@ -25,6 +25,7 @@ export default defineConfig({
 				"src/shared/action-queue/domain/ActionQueueService.ts",
 				"src/shared/damage/domain/DamagePipelineService.ts",
 				"src/features/combat-encounter/domain/CombatEncounterService.ts",
+				"src/features/combat-encounter/domain/CombatTurnService.ts",
 			],
 			exclude: [
 				"src/entities/character/testing/**/*.ts",
