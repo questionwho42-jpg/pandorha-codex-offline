@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260512-182841-t22j-combat-user-guide -->
+### T22J Combat User Guide
+- id: 20260512-182841-t22j-combat-user-guide
+- status: open
+- created_at: 2026-05-12T18:28:41-03:00
+- source: task-ledger
+- summary: Criar guia em pt-BR para testar a vertical slice de combate de treino no navegador.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260512-182841-t22j-combat-user-guide -->
 <!-- pandorha-inbox:20260512-182337-t22i-combat-encounter-outcome -->
 ### T22I Combat Encounter Outcome
 - id: 20260512-182337-t22i-combat-encounter-outcome
