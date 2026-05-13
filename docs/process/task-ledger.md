@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260513-182431-a06-mcp-and-skill-fixture-gates -->
+### A06 MCP And Skill Fixture Gates
+- id: 20260513-182431-a06-mcp-and-skill-fixture-gates
+- status: completed
+- kind: automation
+- planned: no
+- started_at: 2026-05-13T18:24:31-03:00
+- finished_at: 2026-05-13T18:29:37-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-13T18:29:37-03:00
+- branch: task/mcp-skill-fixture-gates
+- commit_at_start: 9c9c614 chore(skills): adiciona validadores node windows-first
+- summary: Expandir quality:skills com validadores Node e adicionar fixtures deterministicas para MCPs Pandorha.
+- last_change: Quality skills expandido com validadores Node, fixtures MCP deterministicas adicionadas e JSONs de skills normalizados para gate confiavel.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-13T18:24:31-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-13T18:29:37-03:00
+- Done: Quality skills expandido com validadores Node, fixtures MCP deterministicas adicionadas e JSONs de skills normalizados para gate confiavel.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260513-182431-a06-mcp-and-skill-fixture-gates -->
 <!-- pandorha-task:20260513-125718-a05-skill-validators-windows-first -->
 ### A05 Skill Validators Windows-First
 - id: 20260513-125718-a05-skill-validators-windows-first
@@ -1483,6 +1515,32 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T18:29:27-03:00 - mcp-skill-fixture-gates
+- branch: task/mcp-skill-fixture-gates
+- commit: 9c9c614 chore(skills): adiciona validadores node windows-first
+- changed_files_count: 16
+#### Changed Files
+- .agents/skills/ai-docs-formatter/assets/response-schema.json
+- .agents/skills/character-builder/references/rules_manifest.json
+- .agents/skills/crafting-engine/references/items.json
+- .agents/skills/monster-factory/references/master_table.json
+- .agents/skills/monster-factory/references/roles.json
+- .agents/skills/world-state-manager/assets/expected_correction_payload.json
+- .agents/skills/world-state-manager/references/acl_policies.json
+- .agents/skills/world-state-manager/references/seed_manifestos/morden_seed.json
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- mcp/pandorha-arch-guard/test/arch-guard.test.js
+- mcp/pandorha-db-auditor/test/auditor.test.js
+- mcp/pandorha-knowledge/test/search-engine.test.js
+- mcp/pandorha-memory-bridge/src/server.js
+- mcp/pandorha-memory-bridge/test/memory-bridge.test.js
+- scripts/run_full_quality_gate.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T18:23:22-03:00 - skill-validator-windows
 - branch: task/skill-validator-windows
 - commit: 48e4161 chore(quality): fortalece gates de cobertura

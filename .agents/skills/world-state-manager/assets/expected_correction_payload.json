@@ -1,0 +1,8 @@
+{
+  "success": false,
+  "error": {
+    "code": "FIXTURE_PLACEHOLDER",
+    "message": "Placeholder valido para o gate de JSON das skills."
+  },
+  "correction": null
+}

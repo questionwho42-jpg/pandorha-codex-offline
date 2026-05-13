@@ -93,6 +93,19 @@ test("finds feature names only inside src/features", () => {
   assert.equal(findFeatureName("src/lib/x.ts"), null);
 });
 
+test("treats src/entities as an allowed non-feature layer", () => {
+  assert.equal(findFeatureName("src/entities/character/model/schema.ts"), null);
+
+  const result = analyzeSource(
+    "import { characterApi } from '@/entities/character';",
+    "src/entities/character/model/schema.ts"
+  );
+
+  assert.equal(result.is_valid, true);
+  assert.equal(result.checks.feature, null);
+  assert.deepEqual(result.violations, []);
+});
+
 test("rejects files outside the project root or with unsupported extensions", () => {
   const root = path.join(os.tmpdir(), "pandorha-arch-guard-root");
 

@@ -134,6 +134,22 @@ async function runMcpGate() {
 }
 
 async function runSkillGate() {
+	await runStep("skills:validator-fixtures", "node", [
+		"scripts/test_skill_validators.mjs",
+	]);
+	await runStep("skills:core-conventions", "node", [
+		".agents/skills/core-conventions/scripts/validate.mjs",
+		"src",
+	]);
+	await runStep("skills:self-review-hard-stop", "node", [
+		".agents/skills/self-review-checklist/scripts/hard_stop.mjs",
+		"src",
+	]);
+	await runStep("skills:json-validator", "node", [
+		".agents/skills/self-review-checklist/scripts/run_json_tests.mjs",
+		".agents/skills",
+	]);
+
 	for (const skillPath of requiredSkillDirs) {
 		await validateSkillMetadata(skillPath);
 	}

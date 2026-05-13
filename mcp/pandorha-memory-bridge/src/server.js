@@ -16,6 +16,7 @@ const FILES = {
   scaling: "scaling-roadmap.md",
   plain: "plain-english.md"
 };
+const SUPPORTED_CONTEXT_LAYERS = new Set(["features", "entities"]);
 
 export function resolveProjectRoot(env = process.env) {
   return path.resolve(env.PANDORHA_PROJECT_ROOT || defaultProjectRoot);
@@ -50,21 +51,32 @@ export function normalizeModuleName(moduleName) {
   return slug;
 }
 
-export function resolveContextDir(projectRoot, moduleName) {
+export function normalizeContextLayer(layer = "features") {
+  const value = layer ?? "features";
+  if (!SUPPORTED_CONTEXT_LAYERS.has(value)) {
+    throw new Error("layer must be features or entities");
+  }
+
+  return value;
+}
+
+export function resolveContextDir(projectRoot, moduleName, layer = "features") {
   const moduleSlug = normalizeModuleName(moduleName);
-  const featuresRoot = path.join(path.resolve(projectRoot), "src", "features");
-  const contextDir = path.join(featuresRoot, moduleSlug, ".context");
-  const relative = path.relative(featuresRoot, contextDir);
+  const contextLayer = normalizeContextLayer(layer);
+  const layerRoot = path.join(path.resolve(projectRoot), "src", contextLayer);
+  const contextDir = path.join(layerRoot, moduleSlug, ".context");
+  const relative = path.relative(layerRoot, contextDir);
 
   /* node:coverage disable */
   if (relative.startsWith("..") || path.isAbsolute(relative)) {
-    throw new Error("resolved context directory escaped src/features");
+    throw new Error(`resolved context directory escaped src/${contextLayer}`);
   }
   /* node:coverage enable */
 
   return {
     moduleSlug,
-    featuresRoot,
+    layer: contextLayer,
+    layerRoot,
     contextDir
   };
 }
@@ -73,7 +85,7 @@ export async function commitModuleContext(input, options = {}) {
   const projectRoot = path.resolve(options.projectRoot || resolveProjectRoot());
   const now = options.now || new Date();
   const timestamp = now.toISOString();
-  const { moduleSlug, contextDir } = resolveContextDir(projectRoot, input.module_name);
+  const { moduleSlug, contextDir } = resolveContextDir(projectRoot, input.module_name, input.layer);
 
   await fs.mkdir(contextDir, { recursive: true });
 
@@ -227,7 +239,8 @@ export function createServer(projectRoot = resolveProjectRoot()) {
   server.tool(
     "commit_module_context",
     {
-      module_name: z.string().min(1).describe("Feature/module name under src/features."),
+      module_name: z.string().min(1).describe("Module name under the selected src layer."),
+      layer: z.enum(["features", "entities"]).optional().describe("Context layer under src; defaults to features."),
       error_log: z.string().describe("Errors found and fixes applied."),
       technical_summary: z.string().describe("Technical decisions, APIs, and conventions."),
       plain_english: z.string().describe("Plain-language explanation for non-technical readers."),

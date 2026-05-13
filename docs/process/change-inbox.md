@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260513-182431-a06-mcp-and-skill-fixture-gates -->
+### A06 MCP And Skill Fixture Gates
+- id: 20260513-182431-a06-mcp-and-skill-fixture-gates
+- status: open
+- created_at: 2026-05-13T18:24:31-03:00
+- source: task-ledger
+- summary: Expandir quality:skills com validadores Node e adicionar fixtures deterministicas para MCPs Pandorha.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260513-182431-a06-mcp-and-skill-fixture-gates -->
 <!-- pandorha-inbox:20260513-125718-a05-skill-validators-windows-first -->
 ### A05 Skill Validators Windows-First
 - id: 20260513-125718-a05-skill-validators-windows-first
