@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260513-202933-t24-inventorycapacityservice -->
+### T24 InventoryCapacityService
+- id: 20260513-202933-t24-inventorycapacityservice
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-13T20:29:33-03:00
+- finished_at: 2026-05-13T20:36:24-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-13T20:36:24-03:00
+- branch: task/inventory-capacity
+- commit_at_start: 426a725 chore(quality): adiciona gates de fixtures para mcp e skills
+- summary: Criar service puro para calcular limite de carga, slots usados e estado de sobrecarga sem persistir valores derivados.
+- last_change: InventoryCapacityService criado em shared/inventory com calculo de limite, slots usados e estados normal/lento/imobilizado, coberto por TDD e quality gate.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-13T20:29:33-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-13T20:36:24-03:00
+- Done: InventoryCapacityService criado em shared/inventory com calculo de limite, slots usados e estados normal/lento/imobilizado, coberto por TDD e quality gate.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260513-202933-t24-inventorycapacityservice -->
 <!-- pandorha-task:20260513-182431-a06-mcp-and-skill-fixture-gates -->
 ### A06 MCP And Skill Fixture Gates
 - id: 20260513-182431-a06-mcp-and-skill-fixture-gates
@@ -1515,6 +1547,20 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T20:36:15-03:00 - inventory-capacity
+- branch: task/inventory-capacity
+- commit: 426a725 chore(quality): adiciona gates de fixtures para mcp e skills
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/shared/inventory/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T18:29:27-03:00 - mcp-skill-fixture-gates
 - branch: task/mcp-skill-fixture-gates
 - commit: 9c9c614 chore(skills): adiciona validadores node windows-first

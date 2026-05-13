@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260513-202933-t24-inventorycapacityservice -->
+### T24 InventoryCapacityService
+- id: 20260513-202933-t24-inventorycapacityservice
+- status: open
+- created_at: 2026-05-13T20:29:33-03:00
+- source: task-ledger
+- summary: Criar service puro para calcular limite de carga, slots usados e estado de sobrecarga sem persistir valores derivados.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260513-202933-t24-inventorycapacityservice -->
 <!-- pandorha-inbox:20260513-182431-a06-mcp-and-skill-fixture-gates -->
 ### A06 MCP And Skill Fixture Gates
 - id: 20260513-182431-a06-mcp-and-skill-fixture-gates

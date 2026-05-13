@@ -27,6 +27,7 @@ export default defineConfig({
 				"src/shared/resolution/domain/ResolutionService.ts",
 				"src/shared/action-queue/domain/ActionQueueService.ts",
 				"src/shared/damage/domain/DamagePipelineService.ts",
+				"src/shared/inventory/domain/InventoryCapacityService.ts",
 				"src/features/combat-encounter/domain/CombatEncounterService.ts",
 				"src/features/combat-encounter/domain/CombatTurnService.ts",
 				"src/features/character-create/model/characterCreateView.ts",
