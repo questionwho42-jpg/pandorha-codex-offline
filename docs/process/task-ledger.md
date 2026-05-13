@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260513-122332-a01-process-automation-hardening -->
+### A01 Process Automation Hardening
+- id: 20260513-122332-a01-process-automation-hardening
+- status: completed
+- kind: automation
+- planned: no
+- started_at: 2026-05-13T12:23:32-03:00
+- finished_at: 2026-05-13T12:28:44-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-13T12:28:44-03:00
+- branch: task/process-automation-hardening
+- commit_at_start: f1018d8 feat(equipment): adiciona catalogo base
+- summary: Endurecer automacao de processo com validate/doctor, snapshot skip-clean e instalador Windows-first de hooks.
+- last_change: A01 concluida: automacao de processo validavel, snapshot skip-clean, hooks Node-first e instalador Windows-first adicionados.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-13T12:23:32-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-13T12:28:44-03:00
+- Done: A01 concluida: automacao de processo validavel, snapshot skip-clean, hooks Node-first e instalador Windows-first adicionados.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260513-122332-a01-process-automation-hardening -->
 <!-- pandorha-task:20260513-120357-t23-equipment-schema -->
 ### T23 Equipment Schema
 - id: 20260513-120357-t23-equipment-schema
@@ -1323,6 +1355,25 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T12:28:37-03:00 - process-automation-hardening
+- branch: task/process-automation-hardening
+- commit: f1018d8 feat(equipment): adiciona catalogo base
+- changed_files_count: 9
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- package.json
+- scripts/hooks/post-commit
+- scripts/hooks/post-merge
+- scripts/pandorha_process_automation.py
+- scripts/install_process_hooks.mjs
+- scripts/process_hook_runner.mjs
+- scripts/test_pandorha_process_automation.py
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T12:12:52-03:00 - equipment-schema
 - branch: task-equipment-schema
 - commit: f6b14c7 docs(combat): revisa vertical slice de treino

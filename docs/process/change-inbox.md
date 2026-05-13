@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260513-122332-a01-process-automation-hardening -->
+### A01 Process Automation Hardening
+- id: 20260513-122332-a01-process-automation-hardening
+- status: open
+- created_at: 2026-05-13T12:23:32-03:00
+- source: task-ledger
+- summary: Endurecer automacao de processo com validate/doctor, snapshot skip-clean e instalador Windows-first de hooks.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260513-122332-a01-process-automation-hardening -->
 <!-- pandorha-inbox:20260513-120357-t23-equipment-schema -->
 ### T23 Equipment Schema
 - id: 20260513-120357-t23-equipment-schema

@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/sh
 
 repo_root="$(git rev-parse --show-toplevel)"
-python "$repo_root/scripts/pandorha_process_automation.py" snapshot --reason post-commit >/dev/null 2>&1 || true
+node "$repo_root/scripts/process_hook_runner.mjs" post-commit >/dev/null 2>&1 || true
