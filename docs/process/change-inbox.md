@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260512-183308-t22k-combat-vertical-slice-review -->
+### T22K Combat Vertical Slice Review
+- id: 20260512-183308-t22k-combat-vertical-slice-review
+- status: open
+- created_at: 2026-05-12T18:33:08-03:00
+- source: task-ledger
+- summary: Revisar coesao final da T22, registrar checklist de funcionamento, limitacoes e validacao antes de avancar para T23.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260512-183308-t22k-combat-vertical-slice-review -->
 <!-- pandorha-inbox:20260512-182841-t22j-combat-user-guide -->
 ### T22J Combat User Guide
 - id: 20260512-182841-t22j-combat-user-guide

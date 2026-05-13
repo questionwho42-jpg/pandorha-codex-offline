@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260512-183308-t22k-combat-vertical-slice-review -->
+### T22K Combat Vertical Slice Review
+- id: 20260512-183308-t22k-combat-vertical-slice-review
+- status: completed
+- kind: review
+- planned: no
+- started_at: 2026-05-12T18:33:08-03:00
+- finished_at: 2026-05-13T07:17:43-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-13T07:17:43-03:00
+- branch: task-combat-vertical-slice-review
+- commit_at_start: 7c1a398 docs(combat): adiciona guia de treino
+- summary: Revisar coesao final da T22, registrar checklist de funcionamento, limitacoes e validacao antes de avancar para T23.
+- last_change: T22K concluida: revisao final da vertical slice T22 criada, fluxo completo validado no navegador e limites registrados.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-12T18:33:08-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-13T07:17:43-03:00
+- Done: T22K concluida: revisao final da vertical slice T22 criada, fluxo completo validado no navegador e limites registrados.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260512-183308-t22k-combat-vertical-slice-review -->
 <!-- pandorha-task:20260512-182841-t22j-combat-user-guide -->
 ### T22J Combat User Guide
 - id: 20260512-182841-t22j-combat-user-guide
@@ -1259,6 +1291,19 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T07:17:38-03:00 - combat-vertical-slice-review
+- branch: task-combat-vertical-slice-review
+- commit: 7c1a398 docs(combat): adiciona guia de treino
+- changed_files_count: 3
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/t22-combat-vertical-slice-review.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-12T18:31:37-03:00 - combat-user-guide
 - branch: task-combat-user-guide
 - commit: c1eefee feat(combat): mostra encerramento do encontro
