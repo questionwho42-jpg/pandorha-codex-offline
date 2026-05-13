@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260513-125718-a05-skill-validators-windows-first -->
+### A05 Skill Validators Windows-First
+- id: 20260513-125718-a05-skill-validators-windows-first
+- status: completed
+- kind: automation
+- planned: no
+- started_at: 2026-05-13T12:57:18-03:00
+- finished_at: 2026-05-13T18:23:33-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-13T18:23:33-03:00
+- branch: task/skill-validator-windows
+- commit_at_start: 48e4161 chore(quality): fortalece gates de cobertura
+- summary: Substituir validadores Bash frageis das skills por scripts Node portaveis para bloquear padroes proibidos.
+- last_change: Validadores oficiais das skills migrados para Node Windows-first, wrappers legados mantidos e gates locais aprovados.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-13T12:57:18-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-13T18:23:33-03:00
+- Done: Validadores oficiais das skills migrados para Node Windows-first, wrappers legados mantidos e gates locais aprovados.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260513-125718-a05-skill-validators-windows-first -->
 <!-- pandorha-task:20260513-124327-a04-coverage-and-quality-gate-automation -->
 ### A04 Coverage And Quality Gate Automation
 - id: 20260513-124327-a04-coverage-and-quality-gate-automation
@@ -1451,6 +1483,28 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T18:23:22-03:00 - skill-validator-windows
+- branch: task/skill-validator-windows
+- commit: 48e4161 chore(quality): fortalece gates de cobertura
+- changed_files_count: 12
+#### Changed Files
+- .agents/skills/core-conventions/SKILL.md
+- .agents/skills/core-conventions/scripts/validate.sh
+- .agents/skills/self-review-checklist/SKILL.md
+- .agents/skills/self-review-checklist/scripts/hard_stop.sh
+- .agents/skills/self-review-checklist/scripts/run_json_tests.sh
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- package.json
+- .agents/skills/core-conventions/scripts/validate.mjs
+- .agents/skills/self-review-checklist/scripts/hard_stop.mjs
+- .agents/skills/self-review-checklist/scripts/run_json_tests.mjs
+- scripts/test_skill_validators.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T12:55:48-03:00 - quality-gate-hardening
 - branch: task/quality-gate-hardening
 - commit: 64282f6 chore(scaffold): adiciona gerador de service de dominio

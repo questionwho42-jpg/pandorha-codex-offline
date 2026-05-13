@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260513-125718-a05-skill-validators-windows-first -->
+### A05 Skill Validators Windows-First
+- id: 20260513-125718-a05-skill-validators-windows-first
+- status: open
+- created_at: 2026-05-13T12:57:18-03:00
+- source: task-ledger
+- summary: Substituir validadores Bash frageis das skills por scripts Node portaveis para bloquear padroes proibidos.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260513-125718-a05-skill-validators-windows-first -->
 <!-- pandorha-inbox:20260513-124327-a04-coverage-and-quality-gate-automation -->
 ### A04 Coverage And Quality Gate Automation
 - id: 20260513-124327-a04-coverage-and-quality-gate-automation
