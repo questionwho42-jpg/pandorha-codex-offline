@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260513-123247-a02-catalog-entity-scaffolder -->
+### A02 Catalog Entity Scaffolder
+- id: 20260513-123247-a02-catalog-entity-scaffolder
+- status: completed
+- kind: automation
+- planned: no
+- started_at: 2026-05-13T12:32:47-03:00
+- finished_at: 2026-05-13T12:38:38-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-13T12:38:38-03:00
+- branch: task/catalog-entity-scaffold
+- commit_at_start: 847ebb2 chore(process): endurece automacao local
+- summary: Criar scaffolder Node para gerar estrutura padrao de entidades catalogo sem dados oficiais nem regras de RPG.
+- last_change: A02 concluida: scaffolder Node de entidade catalogo criado com testes de estrutura, path traversal, overwrite e comando npm.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-13T12:32:47-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-13T12:38:38-03:00
+- Done: A02 concluida: scaffolder Node de entidade catalogo criado com testes de estrutura, path traversal, overwrite e comando npm.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260513-123247-a02-catalog-entity-scaffolder -->
 <!-- pandorha-task:20260513-122332-a01-process-automation-hardening -->
 ### A01 Process Automation Hardening
 - id: 20260513-122332-a01-process-automation-hardening
@@ -1355,6 +1387,21 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T12:38:32-03:00 - catalog-entity-scaffold
+- branch: task/catalog-entity-scaffold
+- commit: 847ebb2 chore(process): endurece automacao local
+- changed_files_count: 5
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- package.json
+- scripts/scaffold_catalog_entity.mjs
+- scripts/test_scaffold_catalog_entity.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T12:28:37-03:00 - process-automation-hardening
 - branch: task/process-automation-hardening
 - commit: f1018d8 feat(equipment): adiciona catalogo base

@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260513-123247-a02-catalog-entity-scaffolder -->
+### A02 Catalog Entity Scaffolder
+- id: 20260513-123247-a02-catalog-entity-scaffolder
+- status: open
+- created_at: 2026-05-13T12:32:47-03:00
+- source: task-ledger
+- summary: Criar scaffolder Node para gerar estrutura padrao de entidades catalogo sem dados oficiais nem regras de RPG.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260513-123247-a02-catalog-entity-scaffolder -->
 <!-- pandorha-inbox:20260513-122332-a01-process-automation-hardening -->
 ### A01 Process Automation Hardening
 - id: 20260513-122332-a01-process-automation-hardening
