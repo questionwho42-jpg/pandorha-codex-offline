@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 const rootDir = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const artifactDir = path.join(rootDir, "artifacts", "quality-gate");
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+const pythonCommand = process.platform === "win32" ? "python" : "python3";
 
 const mcpPackages = [
 	"mcp/pandorha-arch-guard",
@@ -63,7 +64,9 @@ function parseOnlyArgument(args) {
 	}
 
 	const value = onlyArg.slice("--only=".length);
-	if (["all", "root", "mcp", "skills"].includes(value)) {
+	if (
+		["all", "root", "mcp", "skills", "automation", "release"].includes(value)
+	) {
 		return { success: true, value };
 	}
 
@@ -71,8 +74,21 @@ function parseOnlyArgument(args) {
 }
 
 async function runSelectedGate(selectedGate) {
+	if (selectedGate === "release") {
+		await runRootGate();
+		await runStep("root:build", npmCommand, ["run", "build"]);
+		await runAutomationGate();
+		await runMcpGate();
+		await runSkillGate();
+		return;
+	}
+
 	if (selectedGate === "all" || selectedGate === "root") {
 		await runRootGate();
+	}
+
+	if (selectedGate === "all" || selectedGate === "automation") {
+		await runAutomationGate();
 	}
 
 	if (selectedGate === "all" || selectedGate === "mcp") {
@@ -89,6 +105,16 @@ async function runRootGate() {
 	await runStep("root:test", npmCommand, ["test"]);
 	await runStep("root:coverage", npmCommand, ["run", "test:coverage"]);
 	await runStep("root:audit", npmCommand, ["audit", "--audit-level=high"]);
+}
+
+async function runAutomationGate() {
+	await runStep("automation:coverage-registration", "node", [
+		"scripts/validate_coverage_registration.mjs",
+	]);
+	await runStep("automation:process-doctor", pythonCommand, [
+		"scripts/pandorha_process_automation.py",
+		"validate",
+	]);
 }
 
 async function runMcpGate() {

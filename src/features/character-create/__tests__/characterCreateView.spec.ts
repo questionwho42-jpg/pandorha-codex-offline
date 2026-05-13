@@ -113,6 +113,11 @@ describe("character create view model", () => {
 			"human-maestria-improvisada",
 			true,
 		);
+		const unchangedTraits = toggleCharacterDraftTrait(
+			createDefaultCharacterCreateDraft(),
+			"human-vontade-indomavel",
+			true,
+		);
 
 		expect(twoTraits.ancestryTraitIds).toEqual([
 			"human-diligencia-erudita",
@@ -123,6 +128,11 @@ describe("character create view model", () => {
 			"human-lingua-de-prata",
 			"human-vontade-indomavel",
 			"human-maestria-improvisada",
+		]);
+		expect(unchangedTraits.ancestryTraitIds).toEqual([
+			"human-diligencia-erudita",
+			"human-lingua-de-prata",
+			"human-vontade-indomavel",
 		]);
 	});
 
@@ -165,6 +175,30 @@ describe("character create view model", () => {
 		).toBe(
 			"Não foi possível salvar o personagem nesta sessão. Tente criar novamente.",
 		);
+	});
+
+	it("uses safe fallback text for missing technical error details", () => {
+		expect(
+			mapCharacterCreateFailure(characterFailure("INVALID_AXIS_DISTRIBUTION")),
+		).toContain("valor");
+		expect(
+			mapCharacterCreateFailure(
+				characterFailure("INVALID_TIER_CAP", {
+					cap: "invalid",
+					field: 2,
+					received: "invalid",
+				}),
+			),
+		).toContain("Um campo");
+		expect(
+			mapCharacterCreateFailure(
+				characterFailure("INVALID_TIER_CAP", {
+					cap: 3,
+					field: "unknown",
+					received: 4,
+				}),
+			),
+		).toContain("Um campo");
 	});
 
 	it("translates ancestry trait failures to actionable pt-BR copy", () => {

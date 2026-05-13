@@ -69,7 +69,8 @@ function validateOptions(options) {
 	if (!options.layer || !allowedLayers.has(options.layer)) {
 		return {
 			success: false,
-			error: "Domain service scaffolds support shared, entities, or features layers.",
+			error:
+				"Domain service scaffolds support shared, entities, or features layers.",
 		};
 	}
 
@@ -240,7 +241,10 @@ function toPascalCase(value) {
 
 function isPathInside(child, parent) {
 	const relative = path.relative(parent, child);
-	return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
+	return (
+		relative === "" ||
+		(!relative.startsWith("..") && !path.isAbsolute(relative))
+	);
 }
 
 async function pathExists(filePath) {

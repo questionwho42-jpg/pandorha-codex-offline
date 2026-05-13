@@ -437,7 +437,10 @@ function toCamelCase(value) {
 
 function isPathInside(child, parent) {
 	const relative = path.relative(parent, child);
-	return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
+	return (
+		relative === "" ||
+		(!relative.startsWith("..") && !path.isAbsolute(relative))
+	);
 }
 
 async function pathExists(filePath) {

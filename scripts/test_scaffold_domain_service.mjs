@@ -3,11 +3,15 @@ import { spawnSync } from "node:child_process";
 import { mkdtemp, readFile, rm, stat } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 const repoRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const scriptPath = path.join(repoRoot, "scripts", "scaffold_domain_service.mjs");
+const scriptPath = path.join(
+	repoRoot,
+	"scripts",
+	"scaffold_domain_service.mjs",
+);
 
 test("domain service scaffold creates a shared service structure", async () => {
 	const root = await createTemporaryRoot();

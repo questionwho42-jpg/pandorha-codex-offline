@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260513-124327-a04-coverage-and-quality-gate-automation -->
+### A04 Coverage And Quality Gate Automation
+- id: 20260513-124327-a04-coverage-and-quality-gate-automation
+- status: open
+- created_at: 2026-05-13T12:43:27-03:00
+- source: task-ledger
+- summary: Adicionar validacao de coverage obrigatorio para services/view models e criar quality:release/quality:automation Windows-first.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260513-124327-a04-coverage-and-quality-gate-automation -->
 <!-- pandorha-inbox:20260513-123938-a03-domain-service-scaffolder -->
 ### A03 Domain Service Scaffolder
 - id: 20260513-123938-a03-domain-service-scaffolder

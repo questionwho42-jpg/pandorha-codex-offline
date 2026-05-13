@@ -3,6 +3,7 @@ import { OFFICIAL_COMPENDIUM_ENTRIES } from "$lib/entities/compendium";
 import {
 	createCompendiumBrowserView,
 	mapCompendiumCategoryLabel,
+	mapCompendiumFailure,
 } from "../model/compendiumBrowserView";
 
 describe("createCompendiumBrowserView", () => {
@@ -39,6 +40,12 @@ describe("createCompendiumBrowserView", () => {
 		expect(mapCompendiumCategoryLabel("class")).toBe("Classe");
 	});
 
+	it("maps every visible category to pt-BR", () => {
+		expect(mapCompendiumCategoryLabel("ancestry")).toBe("Ancestralidade");
+		expect(mapCompendiumCategoryLabel("background")).toBe("Antecedente");
+		expect(mapCompendiumCategoryLabel("character-creation")).toContain("ficha");
+	});
+
 	it("marks the selected entry and exposes readable detail", () => {
 		const view = createCompendiumBrowserView(OFFICIAL_COMPENDIUM_ENTRIES, {
 			query: "Vanguarda",
@@ -59,6 +66,16 @@ describe("createCompendiumBrowserView", () => {
 		});
 	});
 
+	it("uses singular result label when one entry is selected", () => {
+		const view = createCompendiumBrowserView([OFFICIAL_COMPENDIUM_ENTRIES[3]], {
+			query: "Vanguarda",
+			selectedEntryId: "class-vanguard",
+		});
+
+		expect(view.countLabel).toBe("1 resultado");
+		expect(view.selectedEntry?.title).toBe("Vanguarda");
+	});
+
 	it("uses an instruction when no entry is selected", () => {
 		const view = createCompendiumBrowserView(OFFICIAL_COMPENDIUM_ENTRIES, {
 			query: "",
@@ -69,5 +86,38 @@ describe("createCompendiumBrowserView", () => {
 		expect(view.detailInstruction).toBe(
 			"Selecione uma entrada para ler o resumo e a fonte da regra.",
 		);
+	});
+
+	it("maps compendium failures to pt-BR copy", () => {
+		expect(
+			mapCompendiumFailure({
+				code: "INVALID_COMPENDIUM_SEARCH_INPUT",
+				message: "invalid",
+			}),
+		).toContain("busca");
+		expect(
+			mapCompendiumFailure({
+				code: "COMPENDIUM_REPOSITORY_READ_FAILED",
+				message: "failed",
+			}),
+		).toContain("consultar");
+		expect(
+			mapCompendiumFailure({
+				code: "CORRUPTED_COMPENDIUM_ENTRY",
+				message: "corrupted",
+			}),
+		).toContain("entrada");
+		expect(
+			mapCompendiumFailure({
+				code: "COMPENDIUM_ENTRY_NOT_FOUND",
+				message: "missing",
+			}),
+		).toContain("entrada");
+		expect(
+			mapCompendiumFailure({
+				code: "INVALID_COMPENDIUM_ENTRY_ID",
+				message: "invalid id",
+			}),
+		).toContain("selecionada");
 	});
 });

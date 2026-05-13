@@ -1,18 +1,17 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import {
-	mkdtemp,
-	readFile,
-	rm,
-	stat,
-} from "node:fs/promises";
+import { mkdtemp, readFile, rm, stat } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 const repoRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const scriptPath = path.join(repoRoot, "scripts", "scaffold_catalog_entity.mjs");
+const scriptPath = path.join(
+	repoRoot,
+	"scripts",
+	"scaffold_catalog_entity.mjs",
+);
 
 test("catalog entity scaffold creates the expected entity structure", async () => {
 	const root = await createTemporaryRoot();

@@ -23,6 +23,17 @@ describe("CompendiumSearchService", () => {
 		);
 	});
 
+	it("uses the default search input when input is omitted", async () => {
+		const service = createService();
+
+		const result = await service.searchEntries(undefined);
+		const entries = expectCompendiumSuccess(result);
+
+		expect(entries.map((entry) => entry.id)).toEqual(
+			OFFICIAL_COMPENDIUM_ENTRIES.map((entry) => entry.id),
+		);
+	});
+
 	it.each([
 		"Vanguarda",
 		"vanguarda",
@@ -73,6 +84,20 @@ describe("CompendiumSearchService", () => {
 		const failure = expectCompendiumFailure(result);
 
 		expect(failure.code).toBe("INVALID_COMPENDIUM_SEARCH_INPUT");
+		expect(repository.lookupCount).toBe(0);
+	});
+
+	it("formats root-level search input validation issues", async () => {
+		const repository = new InMemoryCompendiumRepository(
+			OFFICIAL_COMPENDIUM_ENTRIES,
+		);
+		const service = new CompendiumSearchService(repository);
+
+		const result = await service.searchEntries(["Vanguarda"]);
+		const failure = expectCompendiumFailure(result);
+
+		expect(failure.code).toBe("INVALID_COMPENDIUM_SEARCH_INPUT");
+		expect(failure.details?.issues).toEqual([expect.stringContaining("root:")]);
 		expect(repository.lookupCount).toBe(0);
 	});
 

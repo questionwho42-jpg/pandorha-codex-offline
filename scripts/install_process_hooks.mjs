@@ -15,7 +15,10 @@ const hookBodies = {
 
 await mkdir(hooksDir, { recursive: true });
 for (const [name, body] of Object.entries(hookBodies)) {
-	await writeFile(path.join(hooksDir, name), body, { encoding: "utf8", mode: 0o755 });
+	await writeFile(path.join(hooksDir, name), body, {
+		encoding: "utf8",
+		mode: 0o755,
+	});
 }
 
 console.log(`Installed ${Object.keys(hookBodies).length} process hooks.`);

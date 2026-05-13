@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260513-124327-a04-coverage-and-quality-gate-automation -->
+### A04 Coverage And Quality Gate Automation
+- id: 20260513-124327-a04-coverage-and-quality-gate-automation
+- status: completed
+- kind: automation
+- planned: no
+- started_at: 2026-05-13T12:43:27-03:00
+- finished_at: 2026-05-13T12:56:02-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-13T12:56:02-03:00
+- branch: task/quality-gate-hardening
+- commit_at_start: 64282f6 chore(scaffold): adiciona gerador de service de dominio
+- summary: Adicionar validacao de coverage obrigatorio para services/view models e criar quality:release/quality:automation Windows-first.
+- last_change: A04 concluida: coverage obrigatorio validavel para services/view models, quality:automation e quality:release adicionados, e lacunas existentes de coverage fechadas.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-13T12:43:27-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-13T12:56:02-03:00
+- Done: A04 concluida: coverage obrigatorio validavel para services/view models, quality:automation e quality:release adicionados, e lacunas existentes de coverage fechadas.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260513-124327-a04-coverage-and-quality-gate-automation -->
 <!-- pandorha-task:20260513-123938-a03-domain-service-scaffolder -->
 ### A03 Domain Service Scaffolder
 - id: 20260513-123938-a03-domain-service-scaffolder
@@ -1419,6 +1451,32 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T12:55:48-03:00 - quality-gate-hardening
+- branch: task/quality-gate-hardening
+- commit: 64282f6 chore(scaffold): adiciona gerador de service de dominio
+- changed_files_count: 16
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- package.json
+- scripts/install_process_hooks.mjs
+- scripts/run_full_quality_gate.mjs
+- scripts/scaffold_catalog_entity.mjs
+- scripts/scaffold_domain_service.mjs
+- scripts/test_scaffold_catalog_entity.mjs
+- scripts/test_scaffold_domain_service.mjs
+- src/entities/compendium/__tests__/CompendiumSearchService.spec.ts
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/compendium-browser/__tests__/compendiumBrowserView.spec.ts
+- vitest.config.mjs
+- scripts/test_validate_coverage_registration.mjs
+- scripts/validate_coverage_registration.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T12:42:34-03:00 - domain-service-scaffold
 - branch: task/domain-service-scaffold
 - commit: 1173511 chore(scaffold): adiciona gerador de entidade catalogo

@@ -124,6 +124,29 @@ describe("createCombatEncounterView", () => {
 		]);
 	});
 
+	it.each([
+		["criticalSuccess", "sucesso"],
+		["successWithCost", "sucesso com custo"],
+		["failure", "falha"],
+	] as const)("summarizes %s degree labels", (degree, expectedLabel) => {
+		const view = createCombatEncounterView(
+			createViewInput({
+				lastState: createState({
+					degree,
+					finalDamage: degree === "failure" ? null : 6,
+					targetHitPoints: 12,
+				}),
+				targetHitPoints: 12,
+			}),
+		);
+
+		expect(view.resultSummary).toContain(expectedLabel);
+		expect(view.resultSummary).toContain(
+			`Dano final: ${degree === "failure" ? 0 : 6}.`,
+		);
+		expect(view.resultSummary).toContain("HP restante: 12.");
+	});
+
 	it("marks the target as defeated when HP reaches zero", () => {
 		const view = createCombatEncounterView(
 			createViewInput({
@@ -303,7 +326,8 @@ function createCharacterRecord(): CharacterRecord {
 
 function createState(input: {
 	readonly targetHitPoints: number;
-	readonly finalDamage: number;
+	readonly finalDamage: number | null;
+	readonly degree?: CombatEncounterState["resolution"]["degree"];
 }): CombatEncounterState {
 	const attacker: CombatEncounterActorRef = { id: "aria", label: "Aria" };
 	const target = {
@@ -318,7 +342,7 @@ function createState(input: {
 		target,
 		wasHit: true,
 		resolution: {
-			degree: "success",
+			degree: input.degree ?? "success",
 			total: 18,
 			margin: 3,
 			dc: 15,
@@ -349,22 +373,25 @@ function createState(input: {
 				itemBonus: 1,
 			},
 		},
-		damage: {
-			damageType: "physical",
-			baseDamage: input.finalDamage,
-			afterCritical: input.finalDamage,
-			afterReduction: input.finalDamage,
-			finalDamage: input.finalDamage,
-			appliedAffinities: [],
-			breakdown: {
-				baseDiceTotal: 4,
-				matrixValue: 2,
-				extraModifierTotal: 3,
-				criticalMultiplier: 1,
-				damageReduction: 0,
-				vulnerabilityBonusDamage: 0,
-			},
-		},
+		damage:
+			input.finalDamage === null
+				? null
+				: {
+						damageType: "physical",
+						baseDamage: input.finalDamage,
+						afterCritical: input.finalDamage,
+						afterReduction: input.finalDamage,
+						finalDamage: input.finalDamage,
+						appliedAffinities: [],
+						breakdown: {
+							baseDiceTotal: 4,
+							matrixValue: 2,
+							extraModifierTotal: 3,
+							criticalMultiplier: 1,
+							damageReduction: 0,
+							vulnerabilityBonusDamage: 0,
+						},
+					},
 		events: [],
 		log: [],
 		processedCommand: {
