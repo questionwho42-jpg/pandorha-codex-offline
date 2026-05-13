@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260513-203725-t25-inventory-read-only-ui -->
+### T25 Inventory Read Only UI
+- id: 20260513-203725-t25-inventory-read-only-ui
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-13T20:37:25-03:00
+- finished_at: 2026-05-13T20:47:41-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-13T20:47:41-03:00
+- branch: task/inventory-ui
+- commit_at_start: 817f09f feat(inventory): adiciona calculo de capacidade
+- summary: Criar aba de inventario somente leitura com itens fixos do catalogo T23 e carga calculada pelo InventoryCapacityService.
+- last_change: T25 concluida com aba Inventario somente leitura, itens do catalogo T23, calculo de carga pelo InventoryCapacityService, validacao no navegador, gates completos e quality release.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-13T20:37:25-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-13T20:47:41-03:00
+- Done: T25 concluida com aba Inventario somente leitura, itens do catalogo T23, calculo de carga pelo InventoryCapacityService, validacao no navegador, gates completos e quality release.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260513-203725-t25-inventory-read-only-ui -->
 <!-- pandorha-task:20260513-202933-t24-inventorycapacityservice -->
 ### T24 InventoryCapacityService
 - id: 20260513-202933-t24-inventorycapacityservice
@@ -1547,6 +1579,26 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T20:47:36-03:00 - inventory-ui
+- branch: task/inventory-ui
+- commit: 817f09f feat(inventory): adiciona calculo de capacidade
+- changed_files_count: 10
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- vitest.config.mjs
+- src/app/model/inventorySession.ts
+- src/features/inventory-readonly/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T20:36:15-03:00 - inventory-capacity
 - branch: task/inventory-capacity
 - commit: 426a725 chore(quality): adiciona gates de fixtures para mcp e skills

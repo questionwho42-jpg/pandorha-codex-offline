@@ -15,9 +15,12 @@ import { CharacterList } from "$lib/features/character-list";
 import { CombatEncounterPanel } from "$lib/features/combat-encounter";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CompendiumBrowser } from "$lib/features/compendium-browser";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
 import { createCharacterSession } from "./model/characterSession";
 import { createCombatEncounterSession } from "./model/combatEncounterSession";
 import { createCompendiumSession } from "./model/compendiumSession";
+import { createInventorySession } from "./model/inventorySession";
 import type { AppNavigationId } from "./model/navigation";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { APP_NAVIGATION_ITEMS, getAppNavigationItem } from "./model/navigation";
@@ -27,6 +30,8 @@ const characterSession = createCharacterSession();
 const combatEncounterSession = createCombatEncounterSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const compendiumSession = createCompendiumSession();
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const inventorySession = createInventorySession();
 
 let activeView = $state<AppNavigationId>("home");
 let characterRecords = $state<CharacterRecord[]>([]);
@@ -141,6 +146,11 @@ async function createCharacter(
 				<CompendiumBrowser
 					searchEntries={(input) =>
 						compendiumSession.searchService.searchEntries(input)}
+				/>
+			{:else if activeView === "inventory"}
+				<InventoryReadOnlyPanel
+					capacity={inventorySession.capacity}
+					items={inventorySession.items}
 				/>
 			{:else if activeView === "combat"}
 				<CombatEncounterPanel

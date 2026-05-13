@@ -21,6 +21,13 @@ export const APP_NAVIGATION_ITEMS = [
 			"A consulta de regras e lore será implementada nas tarefas T16 e T17.",
 	},
 	{
+		id: "inventory",
+		label: "Inventário",
+		heading: "Inventário",
+		description:
+			"A carga de treino mostra itens e slots em modo somente leitura.",
+	},
+	{
 		id: "combat",
 		label: "Combate",
 		heading: "Combate",

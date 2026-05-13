@@ -64,3 +64,10 @@
 - The combat tab now renders a defeated-outcome block from the combat view model when the selected target reaches 0 HP.
 - Attack and end-turn are blocked by the view model in that state, while reset remains enabled.
 - No reward, XP, loot, persistence, Worker, or official monster progression was added.
+
+## 2026-05-13 - T25 Inventory Read-Only UI
+
+- Added `inventory` to the state-driven navigation contract.
+- `inventorySession` maps the T23 equipment catalog into read-only slot items and calculates capacity through `InventoryCapacityService`.
+- `App.svelte` renders `InventoryReadOnlyPanel` only in the `Inventario` tab.
+- No item editing, persistence, Worker, SQLite, equipment effects, hands, runes, or combat integration was added.

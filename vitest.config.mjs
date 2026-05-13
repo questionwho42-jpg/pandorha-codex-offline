@@ -33,6 +33,7 @@ export default defineConfig({
 				"src/features/character-create/model/characterCreateView.ts",
 				"src/features/character-list/model/characterListView.ts",
 				"src/features/compendium-browser/model/compendiumBrowserView.ts",
+				"src/features/inventory-readonly/model/inventoryReadOnlyView.ts",
 				"src/features/combat-encounter/model/combatAttackerStatsView.ts",
 				"src/features/combat-encounter/model/combatEncounterView.ts",
 				"src/features/combat-encounter/model/combatTrainingAttackProfile.ts",

@@ -14,4 +14,5 @@
 - T22G lets session characters influence training damage through Matriz Fisica without adding real equipment.
 - T22H logs the target's passive turn explicitly, still without enemy AI.
 - T22I shows a clear defeated state and keeps reset as the only available follow-up action.
+- T25 adds a read-only inventory tab; future inventory work should introduce editable carried-item state only after a dedicated service/repository exists.
 - Future app bootstrapping should introduce typed providers for Worker/RPC, repositories, services, and UI state.

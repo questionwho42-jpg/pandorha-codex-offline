@@ -23,3 +23,5 @@ Na T22G, um personagem criado na sessao com Fisico maior passa a causar mais dan
 Na T22H, o turno do alvo ficou mais claro: quando o usuario encerra o turno do alvo de treino, o log informa que ele manteve posicao. Ele ainda nao age sozinho.
 
 Na T22I, quando o alvo de treino chega a 0 HP, a aba Combate mostra um aviso de alvo derrotado. Depois disso, atacar e encerrar turno ficam bloqueados, mas o usuario ainda pode reiniciar o encontro.
+
+Na T25, o app ganhou a aba Inventario. Ela mostra uma lista fixa de itens, quantos slots eles ocupam, o limite de carga e se o personagem de treino esta Normal, Lento ou Imobilizado. Ainda nao da para editar itens, salvar inventario ou usar equipamento no combate.
