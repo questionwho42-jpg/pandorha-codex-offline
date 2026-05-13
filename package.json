@@ -19,7 +19,8 @@
 		"quality:skills": "node scripts/run_full_quality_gate.mjs --only=skills",
 		"automation:doctor": "python scripts/pandorha_process_automation.py validate",
 		"automation:hooks": "node scripts/install_process_hooks.mjs",
-		"scaffold:catalog-entity": "node scripts/scaffold_catalog_entity.mjs"
+		"scaffold:catalog-entity": "node scripts/scaffold_catalog_entity.mjs",
+		"scaffold:domain-service": "node scripts/scaffold_domain_service.mjs"
 	},
 	"dependencies": {
 		"drizzle-orm": "^0.45.2",

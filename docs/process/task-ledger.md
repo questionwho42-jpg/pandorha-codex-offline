@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260513-123938-a03-domain-service-scaffolder -->
+### A03 Domain Service Scaffolder
+- id: 20260513-123938-a03-domain-service-scaffolder
+- status: completed
+- kind: automation
+- planned: no
+- started_at: 2026-05-13T12:39:38-03:00
+- finished_at: 2026-05-13T12:42:39-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-13T12:42:39-03:00
+- branch: task/domain-service-scaffold
+- commit_at_start: 1173511 chore(scaffold): adiciona gerador de entidade catalogo
+- summary: Criar scaffolder Node para services puros em shared, entities ou features com testes, contexto e orientacao de coverage.
+- last_change: A03 concluida: scaffolder Node de service de dominio criado para shared, entities e features com teste, contexto e orientacao de coverage.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-13T12:39:38-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-13T12:42:39-03:00
+- Done: A03 concluida: scaffolder Node de service de dominio criado para shared, entities e features com teste, contexto e orientacao de coverage.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260513-123938-a03-domain-service-scaffolder -->
 <!-- pandorha-task:20260513-123247-a02-catalog-entity-scaffolder -->
 ### A02 Catalog Entity Scaffolder
 - id: 20260513-123247-a02-catalog-entity-scaffolder
@@ -1387,6 +1419,21 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T12:42:34-03:00 - domain-service-scaffold
+- branch: task/domain-service-scaffold
+- commit: 1173511 chore(scaffold): adiciona gerador de entidade catalogo
+- changed_files_count: 5
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- package.json
+- scripts/scaffold_domain_service.mjs
+- scripts/test_scaffold_domain_service.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T12:38:32-03:00 - catalog-entity-scaffold
 - branch: task/catalog-entity-scaffold
 - commit: 847ebb2 chore(process): endurece automacao local

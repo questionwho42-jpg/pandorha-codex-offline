@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260513-123938-a03-domain-service-scaffolder -->
+### A03 Domain Service Scaffolder
+- id: 20260513-123938-a03-domain-service-scaffolder
+- status: open
+- created_at: 2026-05-13T12:39:38-03:00
+- source: task-ledger
+- summary: Criar scaffolder Node para services puros em shared, entities ou features com testes, contexto e orientacao de coverage.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260513-123938-a03-domain-service-scaffolder -->
 <!-- pandorha-inbox:20260513-123247-a02-catalog-entity-scaffolder -->
 ### A02 Catalog Entity Scaffolder
 - id: 20260513-123247-a02-catalog-entity-scaffolder
