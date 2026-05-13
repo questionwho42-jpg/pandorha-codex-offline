@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260513-120357-t23-equipment-schema -->
+### T23 Equipment Schema
+- id: 20260513-120357-t23-equipment-schema
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-13T12:03:57-03:00
+- finished_at: 2026-05-13T12:12:57-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-13T12:12:57-03:00
+- branch: task-equipment-schema
+- commit_at_start: f6b14c7 docs(combat): revisa vertical slice de treino
+- summary: Criar entidade Equipment com schemas Drizzle-Zod, catalogo minimo, fake repository e service read-only para equipamentos unicos e consumiveis empilhados.
+- last_change: T23 concluida: entidade Equipment criada com schemas Drizzle-Zod, catalogo minimo, fake repository, service read-only, testes e contexto.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-13T12:03:57-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-13T12:12:57-03:00
+- Done: T23 concluida: entidade Equipment criada com schemas Drizzle-Zod, catalogo minimo, fake repository, service read-only, testes e contexto.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260513-120357-t23-equipment-schema -->
 <!-- pandorha-task:20260512-183308-t22k-combat-vertical-slice-review -->
 ### T22K Combat Vertical Slice Review
 - id: 20260512-183308-t22k-combat-vertical-slice-review
@@ -1291,6 +1323,20 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T12:12:52-03:00 - equipment-schema
+- branch: task-equipment-schema
+- commit: f6b14c7 docs(combat): revisa vertical slice de treino
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/entities/equipment/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T07:17:38-03:00 - combat-vertical-slice-review
 - branch: task-combat-vertical-slice-review
 - commit: 7c1a398 docs(combat): adiciona guia de treino

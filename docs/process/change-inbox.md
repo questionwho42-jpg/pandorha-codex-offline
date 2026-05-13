@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260513-120357-t23-equipment-schema -->
+### T23 Equipment Schema
+- id: 20260513-120357-t23-equipment-schema
+- status: open
+- created_at: 2026-05-13T12:03:57-03:00
+- source: task-ledger
+- summary: Criar entidade Equipment com schemas Drizzle-Zod, catalogo minimo, fake repository e service read-only para equipamentos unicos e consumiveis empilhados.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260513-120357-t23-equipment-schema -->
 <!-- pandorha-inbox:20260512-183308-t22k-combat-vertical-slice-review -->
 ### T22K Combat Vertical Slice Review
 - id: 20260512-183308-t22k-combat-vertical-slice-review
