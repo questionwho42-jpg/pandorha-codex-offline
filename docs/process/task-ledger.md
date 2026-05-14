@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:T29 -->
+### WorldTile Schema
+- id: T29
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-14T00:09:23-03:00
+- finished_at: 2026-05-14T00:18:34-03:00
+- model_started: GPT-5.5
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-14T00:18:34-03:00
+- branch: task/world-tile-schema
+- commit_at_start: 27bca5d feat(spell): adiciona tela de conjuracao minima
+- summary: Criar entidade world-tile com coordenadas axiais, catalogo minimo e service read-only validado.
+- last_change: Entidade WorldTile criada com schema Drizzle-Zod, catalogo axial minimo, service read-only, fake em memoria e testes TDD.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-14T00:09:23-03:00
+- Done: task record created
+- Next: Implementar catalogo e testes TDD da entidade WorldTile.
+- Risks: Escopo deve permanecer sem UI, migration ou mundo procedural.
+- Improvements: Validar coordenadas axiais com fixture pequena de hexcrawl.
+- Model/config: GPT-5.5
+
+#### Checkpoint 2026-05-14T00:18:34-03:00
+- Done: Entidade WorldTile criada com schema Drizzle-Zod, catalogo axial minimo, service read-only, fake em memoria e testes TDD.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:T29 -->
 <!-- pandorha-task:20260513-234107-t28-ui-de-conjuracao-minima -->
 ### T28 UI De Conjuracao Minima
 - id: 20260513-234107-t28-ui-de-conjuracao-minima
@@ -1683,6 +1715,19 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-14T00:18:29-03:00 - world-tile-schema
+- branch: task/world-tile-schema
+- commit: 27bca5d feat(spell): adiciona tela de conjuracao minima
+- changed_files_count: 3
+#### Changed Files
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/entities/world-tile/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T23:54:32-03:00 - spell-casting-ui
 - branch: task/spell-casting-ui
 - commit: f1da92f feat(spell): adiciona builder de conjuracao
