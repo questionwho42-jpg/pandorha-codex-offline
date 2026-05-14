@@ -78,3 +78,10 @@
 - `spellCastSession` wires the T26 spell catalog into `SpellCastBuilderService` with a fixed training caster and target.
 - `App.svelte` renders `SpellCastPanel` only in the `Magia` tab and keeps URL-less navigation.
 - The UI prepares a command only; it does not spend EE, process ActionQueue entries, execute effects, or integrate with combat.
+
+## 2026-05-14 - T31 Hexcrawl Map UI
+
+- Added `exploration` to the state-driven navigation contract.
+- `hexcrawlSession` wires the T29 world-tile catalog into `HexcrawlMovementService` for a fixed seven-hex training map.
+- `App.svelte` renders `HexcrawlMapPanel` only in the `Exploracao` tab and keeps URL-less navigation.
+- Discovery is stored only in Svelte session state; no Worker, SQLite, world-state persistence, Navigation roll, resource consumption or real encounter table was added.

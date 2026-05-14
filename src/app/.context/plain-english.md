@@ -27,3 +27,5 @@ Na T22I, quando o alvo de treino chega a 0 HP, a aba Combate mostra um aviso de 
 Na T25, o app ganhou a aba Inventario. Ela mostra uma lista fixa de itens, quantos slots eles ocupam, o limite de carga e se o personagem de treino esta Normal, Lento ou Imobilizado. Ainda nao da para editar itens, salvar inventario ou usar equipamento no combate.
 
 Na T28, o app ganhou a aba Magia. Ela deixa o usuario escolher uma magia, ver custo, componentes, fonte e alvo de treino, e preparar um comando de conjuracao. A magia ainda nao e executada: nada gasta EE, nada causa dano e nada muda no combate.
+
+Na T31, o app ganhou a aba Exploracao. Ela mostra um mapa pequeno com sete hexagonos: o usuario pode clicar em um hex vizinho, ver a posicao mudar e acompanhar o log. O mapa ainda nao salva progresso, nao rola Navegacao e nao cria encontros reais.

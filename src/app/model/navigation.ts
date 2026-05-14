@@ -28,6 +28,13 @@ export const APP_NAVIGATION_ITEMS = [
 			"A carga de treino mostra itens e slots em modo somente leitura.",
 	},
 	{
+		id: "exploration",
+		label: "ExploraÃ§Ã£o",
+		heading: "ExploraÃ§Ã£o",
+		description:
+			"O mapa de treino permite mover o grupo entre hexes adjacentes.",
+	},
+	{
 		id: "magic",
 		label: "Magia",
 		heading: "Magia",

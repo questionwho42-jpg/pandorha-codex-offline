@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:T31 -->
+### UI De Mapa Hexcrawl Minima
+- id: T31
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-14T06:18:03-03:00
+- finished_at: 2026-05-14T06:34:46-03:00
+- model_started: GPT-5.5
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-14T06:34:46-03:00
+- branch: task/hexcrawl-map-ui
+- commit_at_start: 335c1b7 feat(hexcrawl): adiciona movimento axial minimo
+- summary: Adicionar aba Exploracao com mapa fixo de sete hexes, movimento adjacente e log em pt-BR.
+- last_change: Aba Exploracao criada com mapa fixo de sete hexes, movimento adjacente, estado visual, log em pt-BR e validacao no navegador.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-14T06:18:03-03:00
+- Done: task record created
+- Next: Criar view model, sessao app e painel Svelte para mapa hexcrawl minimo.
+- Risks: UI deve permanecer pequena, sem geracao procedural, persistencia, navegacao por DC ou encounter real.
+- Improvements: Validar fluxo no Browser Use e documentar limites no contexto da feature.
+- Model/config: GPT-5.5
+
+#### Checkpoint 2026-05-14T06:34:46-03:00
+- Done: Aba Exploracao criada com mapa fixo de sete hexes, movimento adjacente, estado visual, log em pt-BR e validacao no navegador.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:T31 -->
 <!-- pandorha-task:T30 -->
 ### Hexcrawl MovementService
 - id: T30
@@ -1747,6 +1779,31 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-14T06:34:40-03:00 - hexcrawl-map-ui
+- branch: task/hexcrawl-map-ui
+- commit: 335c1b7 feat(hexcrawl): adiciona movimento axial minimo
+- changed_files_count: 15
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/features/hexcrawl-map/.context/plain-english.md
+- src/features/hexcrawl-map/.context/scaling-roadmap.md
+- src/features/hexcrawl-map/.context/tech-memory.md
+- src/features/hexcrawl-map/index.ts
+- vitest.config.mjs
+- src/app/model/hexcrawlSession.ts
+- src/features/hexcrawl-map/__tests__/hexcrawlMapView.spec.ts
+- src/features/hexcrawl-map/model/hexcrawlMapView.ts
+- src/features/hexcrawl-map/ui/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-14T06:17:12-03:00 - hexcrawl-movement
 - branch: task/hexcrawl-movement
 - commit: 41e67da feat(world): adiciona catalogo base de hexcrawl

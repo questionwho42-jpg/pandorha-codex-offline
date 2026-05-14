@@ -16,12 +16,15 @@ import { CombatEncounterPanel } from "$lib/features/combat-encounter";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CompendiumBrowser } from "$lib/features/compendium-browser";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SpellCastPanel } from "$lib/features/spell-cast";
 import { createCharacterSession } from "./model/characterSession";
 import { createCombatEncounterSession } from "./model/combatEncounterSession";
 import { createCompendiumSession } from "./model/compendiumSession";
+import { createHexcrawlSession } from "./model/hexcrawlSession";
 import { createInventorySession } from "./model/inventorySession";
 import type { AppNavigationId } from "./model/navigation";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
@@ -33,6 +36,8 @@ const characterSession = createCharacterSession();
 const combatEncounterSession = createCombatEncounterSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const compendiumSession = createCompendiumSession();
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const hexcrawlSession = createHexcrawlSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const inventorySession = createInventorySession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -156,6 +161,13 @@ async function createCharacter(
 				<InventoryReadOnlyPanel
 					capacity={inventorySession.capacity}
 					items={inventorySession.items}
+				/>
+			{:else if activeView === "exploration"}
+				<HexcrawlMapPanel
+					createMovementInput={hexcrawlSession.createMovementInput}
+					initialTileId={hexcrawlSession.initialTileId}
+					moveParty={hexcrawlSession.moveParty}
+					tiles={hexcrawlSession.tiles}
 				/>
 			{:else if activeView === "magic"}
 				<SpellCastPanel
