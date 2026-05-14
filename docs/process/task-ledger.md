@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260513-233033-t27-spellcastbuilder-core -->
+### T27 SpellCastBuilder Core
+- id: 20260513-233033-t27-spellcastbuilder-core
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-13T23:30:33-03:00
+- finished_at: 2026-05-13T23:39:51-03:00
+- model_started: GPT-5.5
+- model_finished: GPT-5.5
+- last_modified_at: 2026-05-13T23:39:51-03:00
+- branch: task/spell-cast-builder
+- commit_at_start: 81e568e feat(spell): adiciona catalogo base
+- summary: Criar service puro para transformar intencao de conjuracao em comando cast-spell sem executar magia.
+- last_change: T27 concluiu SpellCastBuilderService puro com fluxo Draft-Weaving-Audit-Commit, comando cast-spell validado, testes TDD e memoria tripla.
+#### Files At Start
+- src/features/spell-cast/
+#### Checkpoints
+#### Checkpoint 2026-05-13T23:30:33-03:00
+- Done: task record created
+- Next: Implementar T28 UI de conjuracao minima depois dos gates.
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: GPT-5.5
+
+#### Checkpoint 2026-05-13T23:39:51-03:00
+- Done: T27 concluiu SpellCastBuilderService puro com fluxo Draft-Weaving-Audit-Commit, comando cast-spell validado, testes TDD e memoria tripla.
+- Next: Iniciar T28 UI de conjuracao minima na branch task/spell-casting-ui.
+- Risks: Nenhum bloqueio atual; metamagia e execucao real continuam fora do escopo.
+- Improvements: Validar T28 no Browser Use e documentar limite de comando preparado sem gasto de EE.
+- Model/config: GPT-5.5
+<!-- /pandorha-task:20260513-233033-t27-spellcastbuilder-core -->
 <!-- pandorha-task:20260513-220314-t26-spell-schema-minimo -->
 ### T26 Spell Schema Minimo
 - id: 20260513-220314-t26-spell-schema-minimo
@@ -1619,6 +1651,20 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T23:39:41-03:00 - spell-cast-builder
+- branch: task/spell-cast-builder
+- commit: 81e568e feat(spell): adiciona catalogo base
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/features/spell-cast/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T23:18:05-03:00 - spell-schema
 - branch: task/spell-schema
 - commit: 47490c3 feat(inventory): adiciona tela somente leitura

@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260513-233033-t27-spellcastbuilder-core -->
+### T27 SpellCastBuilder Core
+- id: 20260513-233033-t27-spellcastbuilder-core
+- status: open
+- created_at: 2026-05-13T23:30:33-03:00
+- source: task-ledger
+- summary: Criar service puro para transformar intencao de conjuracao em comando cast-spell sem executar magia.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260513-233033-t27-spellcastbuilder-core -->
 <!-- pandorha-inbox:20260513-220314-t26-spell-schema-minimo -->
 ### T26 Spell Schema Minimo
 - id: 20260513-220314-t26-spell-schema-minimo
