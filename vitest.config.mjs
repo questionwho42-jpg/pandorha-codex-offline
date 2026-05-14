@@ -25,6 +25,7 @@ export default defineConfig({
 				"src/entities/equipment/domain/EquipmentCatalogService.ts",
 				"src/entities/spell/domain/SpellCatalogService.ts",
 				"src/entities/world-tile/domain/WorldTileCatalogService.ts",
+				"src/entities/world-state/domain/WorldStateService.ts",
 				"src/shared/dice/domain/DiceService.ts",
 				"src/shared/resolution/domain/ResolutionService.ts",
 				"src/shared/action-queue/domain/ActionQueueService.ts",

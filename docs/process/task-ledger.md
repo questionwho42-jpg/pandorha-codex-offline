@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260514-065055-t32-worldstate-key-value -->
+### T32 - WorldState Key-Value
+- id: 20260514-065055-t32-worldstate-key-value
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-14T06:50:55-03:00
+- finished_at: 2026-05-14T06:58:55-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-14T06:58:55-03:00
+- branch: task/world-state-kv
+- commit_at_start: 2338a1b fix(app): corrige texto da aba exploracao
+- summary: Criar schema, service e fake repository de WorldState sem UI, Worker ou migration.
+- last_change: T32 concluida: WorldState Key-Value com schema Drizzle-Zod, WorldStateService, fake repository, testes e contextos.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-14T06:50:55-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-14T06:58:55-03:00
+- Done: T32 concluida: WorldState Key-Value com schema Drizzle-Zod, WorldStateService, fake repository, testes e contextos.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260514-065055-t32-worldstate-key-value -->
 <!-- pandorha-task:T31 -->
 ### UI De Mapa Hexcrawl Minima
 - id: T31
@@ -1779,6 +1811,20 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-14T06:58:50-03:00 - world-state-kv
+- branch: task/world-state-kv
+- commit: 2338a1b fix(app): corrige texto da aba exploracao
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/entities/world-state/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-14T06:39:27-03:00 - fix-exploration-label-encoding
 - branch: task/hexcrawl-map-ui
 - commit: e79e6dd feat(hexcrawl): adiciona mapa minimo de exploracao

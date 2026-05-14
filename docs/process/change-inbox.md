@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260514-065055-t32-worldstate-key-value -->
+### T32 - WorldState Key-Value
+- id: 20260514-065055-t32-worldstate-key-value
+- status: open
+- created_at: 2026-05-14T06:50:55-03:00
+- source: task-ledger
+- summary: Criar schema, service e fake repository de WorldState sem UI, Worker ou migration.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260514-065055-t32-worldstate-key-value -->
 <!-- pandorha-inbox:20260513-234107-t28-ui-de-conjuracao-minima -->
 ### T28 UI De Conjuracao Minima
 - id: 20260513-234107-t28-ui-de-conjuracao-minima
