@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260514-112014-t33a-worker-rpc-save-contract -->
+### T33A - Worker RPC Save Contract
+- id: 20260514-112014-t33a-worker-rpc-save-contract
+- status: open
+- created_at: 2026-05-14T11:20:14-03:00
+- source: task-ledger
+- summary: Criar contratos RPC serializaveis e FakeWorkerBridge para save/load sem SQLite real.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260514-112014-t33a-worker-rpc-save-contract -->
 <!-- pandorha-inbox:20260514-065055-t32-worldstate-key-value -->
 ### T32 - WorldState Key-Value
 - id: 20260514-065055-t32-worldstate-key-value
