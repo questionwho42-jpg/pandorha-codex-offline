@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:T30 -->
+### Hexcrawl MovementService
+- id: T30
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-14T00:19:39-03:00
+- finished_at: 2026-05-14T06:17:17-03:00
+- model_started: GPT-5.5
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-14T06:17:17-03:00
+- branch: task/hexcrawl-movement
+- commit_at_start: 41e67da feat(world): adiciona catalogo base de hexcrawl
+- summary: Criar service puro para mover grupo entre hexes axiais adjacentes, com falhas tipadas e eventos em memoria.
+- last_change: HexcrawlMovementService criado com movimento axial adjacente, bloqueio, descoberta, evento de encontro pendente e testes TDD.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-14T00:19:39-03:00
+- Done: task record created
+- Next: Escrever testes TDD do movimento axial e implementar HexcrawlMovementService.
+- Risks: Nao misturar teste de Navegacao, encontro real, persistencia ou geracao procedural.
+- Improvements: Reaproveitar WorldTileCatalog via porta para a UI T31.
+- Model/config: GPT-5.5
+
+#### Checkpoint 2026-05-14T06:17:17-03:00
+- Done: HexcrawlMovementService criado com movimento axial adjacente, bloqueio, descoberta, evento de encontro pendente e testes TDD.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:T30 -->
 <!-- pandorha-task:T29 -->
 ### WorldTile Schema
 - id: T29
@@ -1715,6 +1747,19 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-14T06:17:12-03:00 - hexcrawl-movement
+- branch: task/hexcrawl-movement
+- commit: 41e67da feat(world): adiciona catalogo base de hexcrawl
+- changed_files_count: 3
+#### Changed Files
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/features/hexcrawl-map/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-14T00:18:29-03:00 - world-tile-schema
 - branch: task/world-tile-schema
 - commit: 27bca5d feat(spell): adiciona tela de conjuracao minima
