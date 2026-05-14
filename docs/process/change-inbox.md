@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260513-220314-t26-spell-schema-minimo -->
+### T26 Spell Schema Minimo
+- id: 20260513-220314-t26-spell-schema-minimo
+- status: open
+- created_at: 2026-05-13T22:03:14-03:00
+- source: task-ledger
+- summary: Criar entidade spell como catalogo read-only validado por Drizzle-Zod/Zod, sem UI, migration, banco real ou conjuracao.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260513-220314-t26-spell-schema-minimo -->
 <!-- pandorha-inbox:20260513-203725-t25-inventory-read-only-ui -->
 ### T25 Inventory Read Only UI
 - id: 20260513-203725-t25-inventory-read-only-ui

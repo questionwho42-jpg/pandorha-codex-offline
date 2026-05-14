@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260513-220314-t26-spell-schema-minimo -->
+### T26 Spell Schema Minimo
+- id: 20260513-220314-t26-spell-schema-minimo
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-13T22:03:14-03:00
+- finished_at: 2026-05-13T23:18:11-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-13T23:18:11-03:00
+- branch: task/spell-schema
+- commit_at_start: 47490c3 feat(inventory): adiciona tela somente leitura
+- summary: Criar entidade spell como catalogo read-only validado por Drizzle-Zod/Zod, sem UI, migration, banco real ou conjuracao.
+- last_change: T26 concluida: entidade spell criada com schema Drizzle-Zod/Zod, catalogo minimo de 6 truques, fake repository, SpellCatalogService read-only, testes TDD, cobertura, build e quality gate.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-13T22:03:14-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-13T22:09:52-03:00
+- Done: T26 implementada em codigo, mas pausada sem commit porque Vitest, build e pandorha-arch-guard exigiram execucao elevada e a aprovacao foi bloqueada pelo limite de uso ate a janela indicada pelo Codex.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-13T23:18:11-03:00
+- Done: T26 concluida: entidade spell criada com schema Drizzle-Zod/Zod, catalogo minimo de 6 truques, fake repository, SpellCatalogService read-only, testes TDD, cobertura, build e quality gate.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260513-220314-t26-spell-schema-minimo -->
 <!-- pandorha-task:20260513-203725-t25-inventory-read-only-ui -->
 ### T25 Inventory Read Only UI
 - id: 20260513-203725-t25-inventory-read-only-ui
@@ -1575,10 +1614,25 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Unfinished
 <!-- pandorha-ledger:unfinished -->
+
 <!-- /pandorha-ledger:unfinished -->
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T23:18:05-03:00 - spell-schema
+- branch: task/spell-schema
+- commit: 47490c3 feat(inventory): adiciona tela somente leitura
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/entities/spell/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T20:47:36-03:00 - inventory-ui
 - branch: task/inventory-ui
 - commit: 817f09f feat(inventory): adiciona calculo de capacidade

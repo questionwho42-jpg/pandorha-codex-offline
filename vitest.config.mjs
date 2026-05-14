@@ -23,6 +23,7 @@ export default defineConfig({
 				"src/entities/compendium/domain/CompendiumCatalogService.ts",
 				"src/entities/compendium/domain/CompendiumSearchService.ts",
 				"src/entities/equipment/domain/EquipmentCatalogService.ts",
+				"src/entities/spell/domain/SpellCatalogService.ts",
 				"src/shared/dice/domain/DiceService.ts",
 				"src/shared/resolution/domain/ResolutionService.ts",
 				"src/shared/action-queue/domain/ActionQueueService.ts",
