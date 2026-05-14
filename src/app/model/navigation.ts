@@ -29,8 +29,8 @@ export const APP_NAVIGATION_ITEMS = [
 	},
 	{
 		id: "exploration",
-		label: "ExploraÃ§Ã£o",
-		heading: "ExploraÃ§Ã£o",
+		label: "Exploração",
+		heading: "Exploração",
 		description:
 			"O mapa de treino permite mover o grupo entre hexes adjacentes.",
 	},

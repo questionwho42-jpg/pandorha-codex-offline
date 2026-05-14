@@ -1779,6 +1779,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-14T06:39:27-03:00 - fix-exploration-label-encoding
+- branch: task/hexcrawl-map-ui
+- commit: e79e6dd feat(hexcrawl): adiciona mapa minimo de exploracao
+- changed_files_count: 1
+#### Changed Files
+- src/app/model/navigation.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-14T06:34:40-03:00 - hexcrawl-map-ui
 - branch: task/hexcrawl-map-ui
 - commit: 335c1b7 feat(hexcrawl): adiciona movimento axial minimo
