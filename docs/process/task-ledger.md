@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260513-234107-t28-ui-de-conjuracao-minima -->
+### T28 UI De Conjuracao Minima
+- id: 20260513-234107-t28-ui-de-conjuracao-minima
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-13T23:41:07-03:00
+- finished_at: 2026-05-13T23:54:32-03:00
+- model_started: GPT-5.5
+- model_finished: GPT-5.5
+- last_modified_at: 2026-05-13T23:54:32-03:00
+- branch: task/spell-casting-ui
+- commit_at_start: f1da92f feat(spell): adiciona builder de conjuracao
+- summary: Adicionar aba Magia para escolher magia do catalogo, alvo de treino e preparar comando cast-spell sem executar efeito.
+- last_change: T28 adicionou aba Magia com painel de conjuracao minima, view model testado, sessao local e validacao Browser Use para preparar Luz como comando cast-spell.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-13T23:41:07-03:00
+- Done: task record created
+- Next: Validar fluxo no Browser Use e commitar a UI minima.
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: GPT-5.5
+
+#### Checkpoint 2026-05-13T23:54:32-03:00
+- Done: T28 adicionou aba Magia com painel de conjuracao minima, view model testado, sessao local e validacao Browser Use para preparar Luz como comando cast-spell.
+- Next: Planejar proxima etapa de magia: Spell execution ou EE/session caster conforme prioridade.
+- Risks: A UI prepara comandos apenas; nao executa efeito, nao gasta EE e nao integra com combate.
+- Improvements: Criar guia de usuario ou T29 para execucao controlada de magia quando as regras de alvo/EE estiverem definidas.
+- Model/config: GPT-5.5
+<!-- /pandorha-task:20260513-234107-t28-ui-de-conjuracao-minima -->
 <!-- pandorha-task:20260513-233033-t27-spellcastbuilder-core -->
 ### T27 SpellCastBuilder Core
 - id: 20260513-233033-t27-spellcastbuilder-core
@@ -1651,6 +1683,32 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-13T23:54:32-03:00 - spell-casting-ui
+- branch: task/spell-casting-ui
+- commit: f1da92f feat(spell): adiciona builder de conjuracao
+- changed_files_count: 16
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/features/spell-cast/.context/plain-english.md
+- src/features/spell-cast/.context/scaling-roadmap.md
+- src/features/spell-cast/.context/tech-memory.md
+- src/features/spell-cast/index.ts
+- vitest.config.mjs
+- src/app/model/spellCastSession.ts
+- src/features/spell-cast/__tests__/spellCastView.spec.ts
+- src/features/spell-cast/model/spellCastView.ts
+- src/features/spell-cast/ui/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-13T23:39:41-03:00 - spell-cast-builder
 - branch: task/spell-cast-builder
 - commit: 81e568e feat(spell): adiciona catalogo base

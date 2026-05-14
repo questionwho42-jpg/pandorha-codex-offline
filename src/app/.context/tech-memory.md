@@ -71,3 +71,10 @@
 - `inventorySession` maps the T23 equipment catalog into read-only slot items and calculates capacity through `InventoryCapacityService`.
 - `App.svelte` renders `InventoryReadOnlyPanel` only in the `Inventario` tab.
 - No item editing, persistence, Worker, SQLite, equipment effects, hands, runes, or combat integration was added.
+
+## 2026-05-13 - T28 Spell Casting UI
+
+- Added `magic` to the state-driven navigation contract.
+- `spellCastSession` wires the T26 spell catalog into `SpellCastBuilderService` with a fixed training caster and target.
+- `App.svelte` renders `SpellCastPanel` only in the `Magia` tab and keeps URL-less navigation.
+- The UI prepares a command only; it does not spend EE, process ActionQueue entries, execute effects, or integrate with combat.

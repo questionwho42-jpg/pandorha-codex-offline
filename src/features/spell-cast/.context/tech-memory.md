@@ -6,3 +6,5 @@
 - Spell data enters through the `SpellCastCatalogPort`, so the feature depends on the lower `entities/spell` contract without owning the spell catalog.
 - Command validation is injected through `SpellCastCommandValidator` to keep the `INVALID_SPELL_COMMAND` failure covered without mutating the ActionQueue.
 - Metamagic is intentionally blocked with `UNSUPPORTED_METAMAGIC` until a dedicated metamagic task defines the real decorator/effect model.
+- T28 added `SpellCastPanel.svelte` and `spellCastView.ts` so UI copy is derived from a tested view model instead of embedded switch logic in Svelte.
+- The UI prepares a command through `SpellCastBuilderService`; it does not spend EE, process the ActionQueue, roll attacks, or apply spell effects.

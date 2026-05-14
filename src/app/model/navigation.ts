@@ -28,6 +28,13 @@ export const APP_NAVIGATION_ITEMS = [
 			"A carga de treino mostra itens e slots em modo somente leitura.",
 	},
 	{
+		id: "magic",
+		label: "Magia",
+		heading: "Magia",
+		description:
+			"A conjuraÃ§Ã£o de treino prepara comandos sem executar efeitos.",
+	},
+	{
 		id: "combat",
 		label: "Combate",
 		heading: "Combate",

@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260513-234107-t28-ui-de-conjuracao-minima -->
+### T28 UI De Conjuracao Minima
+- id: 20260513-234107-t28-ui-de-conjuracao-minima
+- status: open
+- created_at: 2026-05-13T23:41:07-03:00
+- source: task-ledger
+- summary: Adicionar aba Magia para escolher magia do catalogo, alvo de treino e preparar comando cast-spell sem executar efeito.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260513-234107-t28-ui-de-conjuracao-minima -->
 <!-- pandorha-inbox:20260513-233033-t27-spellcastbuilder-core -->
 ### T27 SpellCastBuilder Core
 - id: 20260513-233033-t27-spellcastbuilder-core

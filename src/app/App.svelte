@@ -17,6 +17,8 @@ import { CombatEncounterPanel } from "$lib/features/combat-encounter";
 import { CompendiumBrowser } from "$lib/features/compendium-browser";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { SpellCastPanel } from "$lib/features/spell-cast";
 import { createCharacterSession } from "./model/characterSession";
 import { createCombatEncounterSession } from "./model/combatEncounterSession";
 import { createCompendiumSession } from "./model/compendiumSession";
@@ -24,6 +26,7 @@ import { createInventorySession } from "./model/inventorySession";
 import type { AppNavigationId } from "./model/navigation";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { APP_NAVIGATION_ITEMS, getAppNavigationItem } from "./model/navigation";
+import { createSpellCastSession } from "./model/spellCastSession";
 
 const characterSession = createCharacterSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -32,6 +35,8 @@ const combatEncounterSession = createCombatEncounterSession();
 const compendiumSession = createCompendiumSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const inventorySession = createInventorySession();
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const spellCastSession = createSpellCastSession();
 
 let activeView = $state<AppNavigationId>("home");
 let characterRecords = $state<CharacterRecord[]>([]);
@@ -151,6 +156,14 @@ async function createCharacter(
 				<InventoryReadOnlyPanel
 					capacity={inventorySession.capacity}
 					items={inventorySession.items}
+				/>
+			{:else if activeView === "magic"}
+				<SpellCastPanel
+					buildCastCommand={spellCastSession.buildCastCommand}
+					caster={spellCastSession.caster}
+					createCastInput={spellCastSession.createCastInput}
+					spells={spellCastSession.spells}
+					target={spellCastSession.target}
 				/>
 			{:else if activeView === "combat"}
 				<CombatEncounterPanel
