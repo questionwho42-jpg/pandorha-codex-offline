@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260514-112622-t33b-sqlite-wasm-opfs-bootstrap -->
+### T33B - SQLite WASM OPFS Bootstrap
+- id: 20260514-112622-t33b-sqlite-wasm-opfs-bootstrap
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-14T11:26:22-03:00
+- finished_at: 2026-05-14T11:39:51-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-14T11:39:51-03:00
+- branch: task/sqlite-opfs-bootstrap
+- commit_at_start: f904516 feat(rpc): adiciona contrato de save load
+- summary: Implementar bootstrap Worker/SQLite WASM/OPFS e migration de world_state_entries sem UI.
+- last_change: T33B concluida: Drizzle config multi-schema, migration world_state_entries, bootstrap SQLite WASM/OPFS com Worker handler, storage OPFS e testes em sql.js.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-14T11:26:22-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-14T11:39:51-03:00
+- Done: T33B concluida: Drizzle config multi-schema, migration world_state_entries, bootstrap SQLite WASM/OPFS com Worker handler, storage OPFS e testes em sql.js.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260514-112622-t33b-sqlite-wasm-opfs-bootstrap -->
 <!-- pandorha-task:20260514-112014-t33a-worker-rpc-save-contract -->
 ### T33A - Worker RPC Save Contract
 - id: 20260514-112014-t33a-worker-rpc-save-contract
@@ -1843,6 +1875,24 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-14T11:39:45-03:00 - sqlite-opfs-bootstrap
+- branch: task/sqlite-opfs-bootstrap
+- commit: f904516 feat(rpc): adiciona contrato de save load
+- changed_files_count: 8
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- vitest.config.mjs
+- drizzle/0001_crazy_wallop.sql
+- drizzle/meta/0001_snapshot.json
+- src/shared/persistence/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-14T11:25:16-03:00 - save-rpc-contract
 - branch: task/save-rpc-contract
 - commit: b1a0606 feat(world-state): adiciona key-value core

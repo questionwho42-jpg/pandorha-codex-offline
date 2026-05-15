@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260514-112622-t33b-sqlite-wasm-opfs-bootstrap -->
+### T33B - SQLite WASM OPFS Bootstrap
+- id: 20260514-112622-t33b-sqlite-wasm-opfs-bootstrap
+- status: open
+- created_at: 2026-05-14T11:26:22-03:00
+- source: task-ledger
+- summary: Implementar bootstrap Worker/SQLite WASM/OPFS e migration de world_state_entries sem UI.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260514-112622-t33b-sqlite-wasm-opfs-bootstrap -->
 <!-- pandorha-inbox:20260514-112014-t33a-worker-rpc-save-contract -->
 ### T33A - Worker RPC Save Contract
 - id: 20260514-112014-t33a-worker-rpc-save-contract
