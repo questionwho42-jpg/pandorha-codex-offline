@@ -1,3 +1,7 @@
+export {
+	BrowserWorkerBridge,
+	type BrowserWorkerLike,
+} from "./infrastructure/BrowserWorkerBridge";
 export type {
 	JsonObject,
 	JsonValue,
@@ -25,5 +29,5 @@ export {
 	saveGameSnapshotRequestSchema,
 	saveGameSnapshotSchema,
 } from "./model/rpcSchemas";
-export type { WorkerBridge } from "./testing/FakeWorkerBridge";
+export type { WorkerBridge } from "./model/workerBridge";
 export { FakeWorkerBridge } from "./testing/FakeWorkerBridge";

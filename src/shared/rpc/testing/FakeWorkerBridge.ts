@@ -7,10 +7,7 @@ import {
 	rpcRequestSchema,
 	rpcResponseSchema,
 } from "../model/rpcSchemas";
-
-export interface WorkerBridge {
-	send(request: unknown): Promise<Result<RpcResponse, RpcBridgeFailure>>;
-}
+import type { WorkerBridge } from "../model/workerBridge";
 
 export class FakeWorkerBridge implements WorkerBridge {
 	private readonly recordedRequests: RpcRequest[] = [];

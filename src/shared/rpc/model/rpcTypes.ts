@@ -17,7 +17,8 @@ export type RpcBridgeFailureCode =
 	| "INVALID_RPC_REQUEST"
 	| "RPC_RESPONSE_NOT_QUEUED"
 	| "INVALID_RPC_RESPONSE"
-	| "RPC_MESSAGE_ID_MISMATCH";
+	| "RPC_MESSAGE_ID_MISMATCH"
+	| "RPC_RESPONSE_TIMEOUT";
 
 export interface RpcBridgeFailure {
 	readonly code: RpcBridgeFailureCode;

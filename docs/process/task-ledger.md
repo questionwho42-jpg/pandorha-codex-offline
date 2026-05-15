@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260515-201426-t33c-2-browserworkerbridge-real -->
+### T33C.2 BrowserWorkerBridge real
+- id: 20260515-201426-t33c-2-browserworkerbridge-real
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-15T20:14:26-03:00
+- finished_at: 2026-05-15T20:21:24-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-15T20:21:24-03:00
+- branch: task/save-load-worker-commands
+- commit_at_start: e4f49b3 feat(save-load): adiciona comandos de snapshot no worker
+- summary: Implementar WorkerBridge real do navegador com correlacao por messageId, timeouts tipados e validacao RPC.
+- last_change: BrowserWorkerBridge real implementado com correlacao por messageId, timeouts tipados e validacao de respostas RPC.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-15T20:14:26-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-15T20:21:24-03:00
+- Done: BrowserWorkerBridge real implementado com correlacao por messageId, timeouts tipados e validacao de respostas RPC.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260515-201426-t33c-2-browserworkerbridge-real -->
 <!-- pandorha-task:20260515-195054-t33c-1-worker-save-load-commands -->
 ### T33C.1 - Worker Save Load Commands
 - id: 20260515-195054-t33c-1-worker-save-load-commands
@@ -1971,6 +2003,27 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-15T20:21:24-03:00 - browser-worker-bridge
+- branch: task/browser-worker-bridge
+- commit: e4f49b3 feat(save-load): adiciona comandos de snapshot no worker
+- changed_files_count: 11
+#### Changed Files
+- docs/process/task-ledger.md
+- src/shared/rpc/.context/plain-english.md
+- src/shared/rpc/.context/scaling-roadmap.md
+- src/shared/rpc/.context/tech-memory.md
+- src/shared/rpc/index.ts
+- src/shared/rpc/model/rpcTypes.ts
+- src/shared/rpc/testing/FakeWorkerBridge.ts
+- vitest.config.mjs
+- src/shared/rpc/__tests__/BrowserWorkerBridge.spec.ts
+- src/shared/rpc/infrastructure/
+- src/shared/rpc/model/workerBridge.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-15T20:13:18-03:00 - save-load-worker-commands
 - branch: task/save-load-worker-commands
 - commit: da3fa41 feat(save-load): adiciona service de snapshot

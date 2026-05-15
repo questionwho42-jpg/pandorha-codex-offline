@@ -32,6 +32,7 @@ export default defineConfig({
 				"src/shared/damage/domain/DamagePipelineService.ts",
 				"src/shared/inventory/domain/InventoryCapacityService.ts",
 				"src/shared/persistence/domain/SqliteOpfsBootstrapService.ts",
+				"src/shared/rpc/infrastructure/BrowserWorkerBridge.ts",
 				"src/features/combat-encounter/domain/CombatEncounterService.ts",
 				"src/features/combat-encounter/domain/CombatTurnService.ts",
 				"src/features/hexcrawl-map/domain/HexcrawlMovementService.ts",
