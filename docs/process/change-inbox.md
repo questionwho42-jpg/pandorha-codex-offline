@@ -15,6 +15,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - summary: Atualizar patches nao breaking de svelte e devalue para remover o achado high do npm audit
 - expected_promotion: official docs after merge to main
 <!-- /pandorha-inbox:20260515-192238-d01-dependency-security-refresh -->
+<!-- pandorha-inbox:20260515-185920-t33c-saveloadservice -->
+### T33C - SaveLoadService
+- id: 20260515-185920-t33c-saveloadservice
+- status: open
+- created_at: 2026-05-15T18:59:20-03:00
+- source: task-ledger
+- summary: Criar service puro para salvar e carregar snapshots versionados de Character + WorldState via WorkerBridge.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260515-185920-t33c-saveloadservice -->
 <!-- pandorha-inbox:20260514-112622-t33b-sqlite-wasm-opfs-bootstrap -->
 ### T33B - SQLite WASM OPFS Bootstrap
 - id: 20260514-112622-t33b-sqlite-wasm-opfs-bootstrap

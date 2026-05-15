@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260515-185920-t33c-saveloadservice -->
+### T33C - SaveLoadService
+- id: 20260515-185920-t33c-saveloadservice
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-15T18:59:20-03:00
+- finished_at: 2026-05-15T19:34:29-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-15T19:34:29-03:00
+- branch: task/save-load-service
+- commit_at_start: 6c6297d feat(persistence): adiciona bootstrap sqlite opfs
+- summary: Criar service puro para salvar e carregar snapshots versionados de Character + WorldState via WorkerBridge.
+- last_change: T33C concluida: SaveLoadService versionado para snapshot de Character + WorldState via WorkerBridge, com validacao de registros carregados e falhas tipadas.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-15T18:59:20-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-15T19:34:29-03:00
+- Done: T33C concluida: SaveLoadService versionado para snapshot de Character + WorldState via WorkerBridge, com validacao de registros carregados e falhas tipadas.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260515-185920-t33c-saveloadservice -->
 <!-- pandorha-task:20260515-192238-d01-dependency-security-refresh -->
 ### D01 dependency security refresh
 - id: 20260515-192238-d01-dependency-security-refresh
@@ -1907,6 +1939,20 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-15T19:34:25-03:00 - save-load-service
+- branch: task/save-load-service
+- commit: 09af2d8 chore(deps): atualiza svelte e devalue
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/features/save-load/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-15T19:26:43-03:00 - dependency-security-refresh
 - branch: task/dependency-security-refresh
 - commit: 6c6297d feat(persistence): adiciona bootstrap sqlite opfs
