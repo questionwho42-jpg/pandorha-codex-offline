@@ -10,6 +10,11 @@ export const worldStateFlagSchema = z.object({
 	updatedAt: isoTimestamp,
 });
 
+export const saveMetadataSchema = z.object({
+	version: z.literal(1),
+	savedAt: isoTimestamp,
+});
+
 export const saveSessionInputSchema = z.object({
 	characters: z.array(characterSelectSchema),
 	worldState: z.array(worldStateFlagSchema),

@@ -215,7 +215,56 @@ describe("database worker request handler", () => {
 		});
 	});
 
-	it("returns failure responses for invalid and not-yet-implemented requests", async () => {
+	it("routes save and load commands through the injected snapshot worker port", async () => {
+		const saveResponse = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "SAVE_GAME_SNAPSHOT",
+				payload: {
+					saveId: "primary",
+					snapshot: {
+						version: 1,
+						savedAt: REQUESTED_AT,
+						characters: [],
+						worldState: [],
+					},
+				},
+			},
+			{
+				bootstrapService: createService(new InMemoryDatabaseFileStorage()),
+				snapshotService: new FakeSnapshotWorkerPort(),
+			},
+		);
+		const loadResponse = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "LOAD_GAME_SNAPSHOT",
+				payload: { saveId: "primary" },
+			},
+			{
+				bootstrapService: createService(new InMemoryDatabaseFileStorage()),
+				snapshotService: new FakeSnapshotWorkerPort(),
+			},
+		);
+
+		expect(saveResponse).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: { saved: true },
+		});
+		expect(loadResponse).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: {
+				version: 1,
+				savedAt: REQUESTED_AT,
+				characters: [],
+				worldState: [],
+			},
+		});
+	});
+
+	it("returns failure responses for invalid, unsupported, and failing requests", async () => {
 		const invalidResponse = await handleDatabaseWorkerRequest(
 			{ type: "INIT_DATABASE" },
 			{ bootstrapService: createService(new InMemoryDatabaseFileStorage()) },
@@ -238,6 +287,17 @@ describe("database worker request handler", () => {
 				bootstrapService: createFailingBootstrapService(),
 			},
 		);
+		const snapshotFailureResponse = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "LOAD_GAME_SNAPSHOT",
+				payload: { saveId: "primary" },
+			},
+			{
+				bootstrapService: createService(new InMemoryDatabaseFileStorage()),
+				snapshotService: new FailingSnapshotWorkerPort(),
+			},
+		);
 
 		expect(invalidResponse).toMatchObject({
 			messageId: "00000000-0000-4000-8000-000000000000",
@@ -251,6 +311,10 @@ describe("database worker request handler", () => {
 		expect(serviceFailureResponse).toMatchObject({
 			success: false,
 			error: { code: "SQLITE_MIGRATION_FAILED" },
+		});
+		expect(snapshotFailureResponse).toMatchObject({
+			success: false,
+			error: { code: "SAVE_NOT_FOUND" },
 		});
 	});
 });
@@ -407,4 +471,51 @@ class EmptyTablesDatabase {
 	}
 
 	public close(): void {}
+}
+
+class FakeSnapshotWorkerPort {
+	public async saveSnapshot(): Promise<
+		Result<
+			{ readonly saved: true },
+			{ readonly code: string; readonly message: string }
+		>
+	> {
+		return ok({ saved: true as const });
+	}
+
+	public async loadSnapshot(): Promise<
+		Result<
+			{
+				readonly version: 1;
+				readonly savedAt: string;
+				readonly characters: readonly [];
+				readonly worldState: readonly [];
+			},
+			{ readonly code: string; readonly message: string }
+		>
+	> {
+		return ok({
+			version: 1,
+			savedAt: REQUESTED_AT,
+			characters: [],
+			worldState: [],
+		});
+	}
+}
+
+class FailingSnapshotWorkerPort {
+	public async saveSnapshot(): Promise<
+		Result<
+			{ readonly saved: true },
+			{ readonly code: string; readonly message: string }
+		>
+	> {
+		return fail({ code: "SAVE_NOT_FOUND", message: "missing save" });
+	}
+
+	public async loadSnapshot(): Promise<
+		Result<never, { readonly code: string; readonly message: string }>
+	> {
+		return fail({ code: "SAVE_NOT_FOUND", message: "missing save" });
+	}
 }

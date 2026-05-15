@@ -1,6 +1,7 @@
 import {
 	createRpcFailureResponse,
 	createRpcSuccessResponse,
+	type JsonValue,
 	type RpcResponse,
 	rpcMessageIdSchema,
 	rpcRequestSchema,
@@ -11,6 +12,36 @@ const FALLBACK_MESSAGE_ID = "00000000-0000-4000-8000-000000000000";
 
 interface DatabaseWorkerHandlerInput {
 	readonly bootstrapService: SqliteOpfsBootstrapService;
+	readonly snapshotService?: DatabaseSnapshotWorkerPort;
+}
+
+interface DatabaseSnapshotWorkerPort {
+	saveSnapshot(input: unknown): Promise<
+		| {
+				readonly success: true;
+				readonly data: { readonly saved: true };
+		  }
+		| {
+				readonly success: false;
+				readonly error: DatabaseSnapshotWorkerFailure;
+		  }
+	>;
+	loadSnapshot(): Promise<
+		| {
+				readonly success: true;
+				readonly data: JsonValue;
+		  }
+		| {
+				readonly success: false;
+				readonly error: DatabaseSnapshotWorkerFailure;
+		  }
+	>;
+}
+
+interface DatabaseSnapshotWorkerFailure {
+	readonly code: string;
+	readonly message: string;
+	readonly details?: unknown;
 }
 
 export async function handleDatabaseWorkerRequest(
@@ -29,12 +60,47 @@ export async function handleDatabaseWorkerRequest(
 		});
 	}
 
-	if (parsedRequest.data.type !== "INIT_DATABASE") {
-		return createRpcFailureResponse({
+	if (parsedRequest.data.type === "SAVE_GAME_SNAPSHOT") {
+		if (!input.snapshotService) {
+			return createNotImplementedResponse(parsedRequest.data.messageId);
+		}
+
+		const saved = await input.snapshotService.saveSnapshot(
+			parsedRequest.data.payload.snapshot,
+		);
+		if (!saved.success) {
+			return createRpcFailureResponse({
+				messageId: parsedRequest.data.messageId,
+				code: saved.error.code,
+				message: saved.error.message,
+				details: asSerializableDetails(saved.error.details),
+			});
+		}
+
+		return createRpcSuccessResponse({
 			messageId: parsedRequest.data.messageId,
-			code: "RPC_COMMAND_NOT_IMPLEMENTED",
-			message: "Este comando RPC sera implementado em uma etapa posterior.",
-			details: { type: parsedRequest.data.type },
+			data: saved.data,
+		});
+	}
+
+	if (parsedRequest.data.type === "LOAD_GAME_SNAPSHOT") {
+		if (!input.snapshotService) {
+			return createNotImplementedResponse(parsedRequest.data.messageId);
+		}
+
+		const loaded = await input.snapshotService.loadSnapshot();
+		if (!loaded.success) {
+			return createRpcFailureResponse({
+				messageId: parsedRequest.data.messageId,
+				code: loaded.error.code,
+				message: loaded.error.message,
+				details: asSerializableDetails(loaded.error.details),
+			});
+		}
+
+		return createRpcSuccessResponse({
+			messageId: parsedRequest.data.messageId,
+			data: loaded.data,
 		});
 	}
 
@@ -58,6 +124,14 @@ export async function handleDatabaseWorkerRequest(
 			appliedMigrationIds: [...initialized.data.appliedMigrationIds],
 			tableNames: [...initialized.data.tableNames],
 		},
+	});
+}
+
+function createNotImplementedResponse(messageId: string): RpcResponse {
+	return createRpcFailureResponse({
+		messageId,
+		code: "RPC_COMMAND_NOT_IMPLEMENTED",
+		message: "Este comando RPC sera implementado em uma etapa posterior.",
 	});
 }
 

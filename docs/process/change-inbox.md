@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260515-195054-t33c-1-worker-save-load-commands -->
+### T33C.1 - Worker Save Load Commands
+- id: 20260515-195054-t33c-1-worker-save-load-commands
+- status: open
+- created_at: 2026-05-15T19:50:54-03:00
+- source: task-ledger
+- summary: Implementar persistencia real de snapshots primarios no Worker com SQLite WASM, preservando FSD por porta injetada.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260515-195054-t33c-1-worker-save-load-commands -->
 <!-- pandorha-inbox:20260515-192238-d01-dependency-security-refresh -->
 ### D01 dependency security refresh
 - id: 20260515-192238-d01-dependency-security-refresh

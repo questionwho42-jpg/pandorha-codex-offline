@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260515-195054-t33c-1-worker-save-load-commands -->
+### T33C.1 - Worker Save Load Commands
+- id: 20260515-195054-t33c-1-worker-save-load-commands
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-15T19:50:54-03:00
+- finished_at: 2026-05-15T20:13:18-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-15T20:13:18-03:00
+- branch: task/save-load-worker-commands
+- commit_at_start: da3fa41 feat(save-load): adiciona service de snapshot
+- summary: Implementar persistencia real de snapshots primarios no Worker com SQLite WASM, preservando FSD por porta injetada.
+- last_change: Persistencia transacional de snapshots primary e comandos RPC de save/load implementados no Worker, com validacao tipada e cobertura total.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-15T19:50:54-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-15T20:13:18-03:00
+- Done: Persistencia transacional de snapshots primary e comandos RPC de save/load implementados no Worker, com validacao tipada e cobertura total.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260515-195054-t33c-1-worker-save-load-commands -->
 <!-- pandorha-task:20260515-185920-t33c-saveloadservice -->
 ### T33C - SaveLoadService
 - id: 20260515-185920-t33c-saveloadservice
@@ -1939,6 +1971,29 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-15T20:13:18-03:00 - save-load-worker-commands
+- branch: task/save-load-worker-commands
+- commit: da3fa41 feat(save-load): adiciona service de snapshot
+- changed_files_count: 13
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/features/save-load/.context/plain-english.md
+- src/features/save-load/.context/scaling-roadmap.md
+- src/features/save-load/.context/tech-memory.md
+- src/features/save-load/index.ts
+- src/features/save-load/model/saveLoadSchemas.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- vitest.config.mjs
+- src/features/save-load/__tests__/SqliteSaveSnapshotService.spec.ts
+- src/features/save-load/domain/SqliteSaveSnapshotService.ts
+- src/features/save-load/model/saveSnapshotTypes.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-15T19:34:25-03:00 - save-load-service
 - branch: task/save-load-service
 - commit: 09af2d8 chore(deps): atualiza svelte e devalue
