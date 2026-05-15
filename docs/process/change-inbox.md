@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260515-192238-d01-dependency-security-refresh -->
+### D01 dependency security refresh
+- id: 20260515-192238-d01-dependency-security-refresh
+- status: open
+- created_at: 2026-05-15T19:22:38-03:00
+- source: task-ledger
+- summary: Atualizar patches nao breaking de svelte e devalue para remover o achado high do npm audit
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260515-192238-d01-dependency-security-refresh -->
 <!-- pandorha-inbox:20260514-112622-t33b-sqlite-wasm-opfs-bootstrap -->
 ### T33B - SQLite WASM OPFS Bootstrap
 - id: 20260514-112622-t33b-sqlite-wasm-opfs-bootstrap

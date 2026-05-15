@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260515-192238-d01-dependency-security-refresh -->
+### D01 dependency security refresh
+- id: 20260515-192238-d01-dependency-security-refresh
+- status: completed
+- kind: maintenance
+- planned: no
+- started_at: 2026-05-15T19:22:38-03:00
+- finished_at: 2026-05-15T19:26:43-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-15T19:26:43-03:00
+- branch: task/dependency-security-refresh
+- commit_at_start: 6c6297d feat(persistence): adiciona bootstrap sqlite opfs
+- summary: Atualizar patches nao breaking de svelte e devalue para remover o achado high do npm audit
+- last_change: Atualiza lockfile para svelte 5.55.7 e devalue 5.8.1, removendo o achado high do npm audit e preservando o alerta moderate de drizzle-kit para follow-up separado.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-15T19:22:38-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-15T19:26:43-03:00
+- Done: Atualiza lockfile para svelte 5.55.7 e devalue 5.8.1, removendo o achado high do npm audit e preservando o alerta moderate de drizzle-kit para follow-up separado.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260515-192238-d01-dependency-security-refresh -->
 <!-- pandorha-task:20260514-112622-t33b-sqlite-wasm-opfs-bootstrap -->
 ### T33B - SQLite WASM OPFS Bootstrap
 - id: 20260514-112622-t33b-sqlite-wasm-opfs-bootstrap
@@ -1875,6 +1907,19 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-15T19:26:43-03:00 - dependency-security-refresh
+- branch: task/dependency-security-refresh
+- commit: 6c6297d feat(persistence): adiciona bootstrap sqlite opfs
+- changed_files_count: 3
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- package-lock.json
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-14T11:39:45-03:00 - sqlite-opfs-bootstrap
 - branch: task/sqlite-opfs-bootstrap
 - commit: f904516 feat(rpc): adiciona contrato de save load
