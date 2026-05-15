@@ -17,4 +17,5 @@
 - T25 adds a read-only inventory tab; future inventory work should introduce editable carried-item state only after a dedicated service/repository exists.
 - T28 adds a minimal Magia tab; future magic UI should connect session caster resources and real targets only after EE, targeting, and spell execution services exist.
 - T31 adds a minimal Exploracao tab; future exploration work should add world-state persistence before promising saved discovery or mapped routes.
+- T33D adds explicit local save/load controls in the `Personagens` tab; future persistence work should add multiple slots, autosave, and user-facing WorldState views only after their dedicated services are defined.
 - Future app bootstrapping should introduce typed providers for Worker/RPC, repositories, services, and UI state.

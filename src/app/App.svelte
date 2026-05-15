@@ -1,8 +1,10 @@
 <script lang="ts">
+import { onMount } from "svelte";
 import type {
 	CharacterCreateInput,
 	CharacterRecord,
 } from "$lib/entities/character";
+import type { WorldStateFlagView } from "$lib/entities/world-state";
 import {
 	// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 	CharacterCreateForm,
@@ -19,6 +21,11 @@ import { CompendiumBrowser } from "$lib/features/compendium-browser";
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
+import {
+	// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+	SaveLoadControls,
+	type SaveLoadUiState,
+} from "$lib/features/save-load";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SpellCastPanel } from "$lib/features/spell-cast";
 import { createCharacterSession } from "./model/characterSession";
@@ -29,6 +36,7 @@ import { createInventorySession } from "./model/inventorySession";
 import type { AppNavigationId } from "./model/navigation";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { APP_NAVIGATION_ITEMS, getAppNavigationItem } from "./model/navigation";
+import { createSaveLoadSession } from "./model/saveLoadSession";
 import { createSpellCastSession } from "./model/spellCastSession";
 
 const characterSession = createCharacterSession();
@@ -42,9 +50,13 @@ const hexcrawlSession = createHexcrawlSession();
 const inventorySession = createInventorySession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const spellCastSession = createSpellCastSession();
+const saveLoadSession = createSaveLoadSession();
 
 let activeView = $state<AppNavigationId>("home");
 let characterRecords = $state<CharacterRecord[]>([]);
+let worldStateRecords = $state<WorldStateFlagView[]>([]);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let saveLoadState = $state<SaveLoadUiState>({ kind: "initializing" });
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let characterCreateError = $state<string | null>(null);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -89,6 +101,57 @@ async function createCharacter(
 	characterCreateSuccess = `${result.data.name} foi criado e adicionado à lista.`;
 	return true;
 }
+
+async function initializeSaveLoad(): Promise<void> {
+	const initialized = await saveLoadSession.initializeDatabase();
+	saveLoadState = initialized.success
+		? { kind: "ready" }
+		: { kind: "error", message: "Não foi possível preparar o save local." };
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function saveSession(): Promise<void> {
+	saveLoadState = { kind: "saving" };
+	const result = await saveLoadSession.service.saveSession({
+		characters: characterRecords,
+		worldState: worldStateRecords,
+		savedAt: new Date().toISOString(),
+	});
+
+	saveLoadState = result.success
+		? { kind: "saved" }
+		: { kind: "error", message: "Não foi possível salvar a sessão." };
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function loadSession(): Promise<void> {
+	saveLoadState = { kind: "loading" };
+	const result = await saveLoadSession.service.loadSession();
+	if (!result.success) {
+		saveLoadState = {
+			kind: "error",
+			message: "Não foi possível carregar o save local.",
+		};
+		return;
+	}
+
+	const restored = characterSession.restoreRecords(result.data.characters);
+	if (!restored.success) {
+		saveLoadState = {
+			kind: "error",
+			message: "O save local contém personagens inválidos.",
+		};
+		return;
+	}
+
+	characterRecords = [...restored.data];
+	worldStateRecords = [...result.data.worldState];
+	saveLoadState = { kind: "loaded" };
+}
+
+onMount(() => {
+	void initializeSaveLoad();
+});
 </script>
 
 <main
@@ -134,23 +197,30 @@ async function createCharacter(
 			class="mt-8 rounded-lg border border-bronze bg-ruin p-6 sm:p-8"
 		>
 			{#if activeView === "characters"}
-				<div class="grid gap-8 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-					<CharacterCreateForm
-						ancestries={characterSession.ancestries}
-						backgrounds={characterSession.backgrounds}
-						characterClasses={characterSession.characterClasses}
-						errorMessage={characterCreateError}
-						isSubmitting={isCreatingCharacter}
-						onCreate={createCharacter}
-						successMessage={characterCreateSuccess}
-						traitsByAncestryId={characterSession.traitsByAncestryId}
+				<div class="space-y-6">
+					<SaveLoadControls
+						onLoad={loadSession}
+						onSave={saveSession}
+						state={saveLoadState}
 					/>
-					<CharacterList
-						ancestries={characterSession.ancestries}
-						backgrounds={characterSession.backgrounds}
-						characterClasses={characterSession.characterClasses}
-						records={characterRecords}
-					/>
+					<div class="grid gap-8 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+						<CharacterCreateForm
+							ancestries={characterSession.ancestries}
+							backgrounds={characterSession.backgrounds}
+							characterClasses={characterSession.characterClasses}
+							errorMessage={characterCreateError}
+							isSubmitting={isCreatingCharacter}
+							onCreate={createCharacter}
+							successMessage={characterCreateSuccess}
+							traitsByAncestryId={characterSession.traitsByAncestryId}
+						/>
+						<CharacterList
+							ancestries={characterSession.ancestries}
+							backgrounds={characterSession.backgrounds}
+							characterClasses={characterSession.characterClasses}
+							records={characterRecords}
+						/>
+					</div>
 				</div>
 			{:else if activeView === "compendium"}
 				<CompendiumBrowser

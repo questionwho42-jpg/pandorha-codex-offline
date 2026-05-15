@@ -44,6 +44,7 @@ export default defineConfig({
 				"src/features/compendium-browser/model/compendiumBrowserView.ts",
 				"src/features/hexcrawl-map/model/hexcrawlMapView.ts",
 				"src/features/inventory-readonly/model/inventoryReadOnlyView.ts",
+				"src/features/save-load/model/saveLoadView.ts",
 				"src/features/combat-encounter/model/combatAttackerStatsView.ts",
 				"src/features/combat-encounter/model/combatEncounterView.ts",
 				"src/features/combat-encounter/model/combatTrainingAttackProfile.ts",

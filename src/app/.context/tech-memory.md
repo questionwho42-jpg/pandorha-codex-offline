@@ -85,3 +85,10 @@
 - `hexcrawlSession` wires the T29 world-tile catalog into `HexcrawlMovementService` for a fixed seven-hex training map.
 - `App.svelte` renders `HexcrawlMapPanel` only in the `Exploracao` tab and keeps URL-less navigation.
 - Discovery is stored only in Svelte session state; no Worker, SQLite, world-state persistence, Navigation roll, resource consumption or real encounter table was added.
+
+## 2026-05-15 - T33D Save Load UI
+
+- `saveLoadSession` owns real browser Worker construction and initializes the local SQLite/OPFS database on mount.
+- `App.svelte` exposes explicit save/load controls only in the `Personagens` tab, keeping URL-less navigation unchanged.
+- Loaded characters are restored into the session repository and resynchronize the next session-character id before new creations.
+- Loaded WorldState flags are preserved in app memory for future saves even though there is no dedicated UI for them yet.

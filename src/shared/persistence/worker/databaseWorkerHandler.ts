@@ -19,7 +19,7 @@ interface DatabaseSnapshotWorkerPort {
 	saveSnapshot(input: unknown): Promise<
 		| {
 				readonly success: true;
-				readonly data: { readonly saved: true };
+				readonly data: JsonValue;
 		  }
 		| {
 				readonly success: false;

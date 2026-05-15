@@ -6,3 +6,5 @@
 - The service treats Worker transport failures, Worker failure responses, corrupted snapshots, and future-version snapshots as separate typed failures.
 - T33C.1 keeps snapshot persistence in `features/save-load` because it validates both `Character` and `WorldState` without reversing FSD dependencies.
 - The first real save stores metadata in `system:save:primary:metadata` inside `world_state_entries`, avoiding a new table before multiple slots exist.
+- T33D exposes save/load controls through a dedicated view model and keeps browser-only Worker construction in the app layer.
+- Loaded characters are rehydrated through `SessionCharacterRepository.replaceAll`, and the session ID provider advances from restored IDs to avoid collisions after reload.

@@ -6,4 +6,6 @@ Ele garante que personagens e fatos do mundo estejam em um formato valido, ident
 
 O primeiro save real tambem grava uma marca tecnica escondida para lembrar a versao do save e quando ele foi feito.
 
-Nesta etapa ainda nao existe botao no navegador. A parte visivel chega na proxima subtarefa, quando o app ligar este servico ao Worker real.
+Agora ja existe controle no navegador para salvar e carregar a sessao atual. O primeiro ciclo guarda personagens e fatos do mundo no proprio navegador e consegue restaurar os personagens depois de recarregar a pagina.
+
+Ainda existe apenas um slot de save. Tambem nao ha autosave nem tela propria para os fatos do mundo; eles sao preservados por baixo dos panos para nao se perderem em um novo save.

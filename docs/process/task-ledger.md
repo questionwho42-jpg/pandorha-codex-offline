@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260515-202200-t33d-save-load-ui -->
+### T33D Save Load UI
+- id: 20260515-202200-t33d-save-load-ui
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-15T20:22:00-03:00
+- finished_at: 2026-05-15T20:36:50-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-15T20:36:50-03:00
+- branch: task/browser-worker-bridge
+- commit_at_start: 1e29e8a feat(rpc): adiciona browser worker bridge real
+- summary: Adicionar composicao real de Worker e controles visiveis de salvar/carregar na aba Personagens.
+- last_change: Save/load UI ligada ao Worker real; fluxo navegador -> salvar -> recarregar -> carregar validado com restauração de personagens e avanço do próximo ID.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-15T20:22:00-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-15T20:36:50-03:00
+- Done: Save/load UI ligada ao Worker real; fluxo navegador -> salvar -> recarregar -> carregar validado com restauração de personagens e avanço do próximo ID.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260515-202200-t33d-save-load-ui -->
 <!-- pandorha-task:20260515-201426-t33c-2-browserworkerbridge-real -->
 ### T33C.2 BrowserWorkerBridge real
 - id: 20260515-201426-t33c-2-browserworkerbridge-real
@@ -2003,6 +2035,36 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-15T20:36:08-03:00 - save-load-ui
+- branch: task/save-load-ui
+- commit: 1e29e8a feat(rpc): adiciona browser worker bridge real
+- changed_files_count: 20
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/characterSession.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/features/save-load/.context/plain-english.md
+- src/features/save-load/.context/scaling-roadmap.md
+- src/features/save-load/.context/tech-memory.md
+- src/features/save-load/index.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- vitest.config.mjs
+- src/app/model/characterSession.spec.ts
+- src/app/model/saveLoadSession.ts
+- src/app/workers/
+- src/features/save-load/__tests__/saveLoadView.spec.ts
+- src/features/save-load/model/saveLoadView.ts
+- src/features/save-load/ui/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-15T20:21:24-03:00 - browser-worker-bridge
 - branch: task/browser-worker-bridge
 - commit: e4f49b3 feat(save-load): adiciona comandos de snapshot no worker

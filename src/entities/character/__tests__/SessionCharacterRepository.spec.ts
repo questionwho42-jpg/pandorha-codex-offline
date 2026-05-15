@@ -53,4 +53,34 @@ describe("SessionCharacterRepository", () => {
 			},
 		});
 	});
+
+	it("replaces the session snapshot with validated records", () => {
+		const repository = new SessionCharacterRepository();
+		const replacement = {
+			...record,
+			id: "session-character-2",
+			name: "Lia",
+		};
+
+		const result = repository.replaceAll([replacement]);
+
+		expect(result).toEqual({ success: true, data: [replacement] });
+		expect(repository.all()).toEqual([replacement]);
+	});
+
+	it("rejects invalid hydrated records without mutating existing state", async () => {
+		const repository = new SessionCharacterRepository();
+		await repository.save(record);
+
+		const result = repository.replaceAll([{ ...record, level: 0 }]);
+
+		expect(result).toEqual({
+			success: false,
+			error: {
+				code: "CORRUPTED_CHARACTER_RECORD",
+				message: "Session repository received an invalid character record.",
+			},
+		});
+		expect(repository.all()).toEqual([record]);
+	});
 });

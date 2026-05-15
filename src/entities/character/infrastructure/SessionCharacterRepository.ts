@@ -45,4 +45,28 @@ export class SessionCharacterRepository implements CharacterRepository {
 	public all(): readonly CharacterRecord[] {
 		return Array.from(this.records.values());
 	}
+
+	public replaceAll(
+		records: readonly CharacterRecord[],
+	): Result<readonly CharacterRecord[], CharacterRepositoryFailure> {
+		const validatedRecords: CharacterRecord[] = [];
+		for (const record of records) {
+			const parsed = characterSelectSchema.safeParse(record);
+			if (!parsed.success) {
+				return fail({
+					code: "CORRUPTED_CHARACTER_RECORD",
+					message: "Session repository received an invalid character record.",
+				});
+			}
+
+			validatedRecords.push(parsed.data);
+		}
+
+		this.records.clear();
+		for (const record of validatedRecords) {
+			this.records.set(record.id, record);
+		}
+
+		return ok(validatedRecords);
+	}
 }
