@@ -1,5 +1,6 @@
 export type { ClockRepository } from "./domain/ClockRepository";
 export { ClockService } from "./domain/ClockService";
+export * from "./infrastructure/DrizzleClockRepository";
 export type {
 	ClockAdvanceInput,
 	ClockCreateInput,

@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260515-211229-t34b-clock-persistence -->
+### T34B Clock Persistence
+- id: 20260515-211229-t34b-clock-persistence
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-15T21:12:29-03:00
+- finished_at: 2026-05-15T21:16:39-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-15T21:16:39-03:00
+- branch: task/clock-persistence
+- commit_at_start: fc362b9 feat(clock): adiciona nucleo de relogios
+- summary: Adicionar migration de clocks e repository Drizzle minimo com testes de contrato.
+- last_change: T34B concluida: migration de clocks, DrizzleClockRepository com upsert e bootstrap SQLite atualizado.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-15T21:12:29-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-15T21:16:39-03:00
+- Done: T34B concluida: migration de clocks, DrizzleClockRepository com upsert e bootstrap SQLite atualizado.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260515-211229-t34b-clock-persistence -->
 <!-- pandorha-task:20260515-205733-t34a-clock-schema-core -->
 ### T34A Clock Schema Core
 - id: 20260515-205733-t34a-clock-schema-core
@@ -2067,6 +2099,31 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-15T21:16:39-03:00 - clock-persistence
+- branch: task/clock-persistence
+- commit: fc362b9 feat(clock): adiciona nucleo de relogios
+- changed_files_count: 15
+#### Changed Files
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/entities/clock/.context/plain-english.md
+- src/entities/clock/.context/scaling-roadmap.md
+- src/entities/clock/.context/tech-memory.md
+- src/entities/clock/index.ts
+- src/entities/clock/model/clockTypes.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- drizzle/0002_true_cable.sql
+- drizzle/meta/0002_snapshot.json
+- src/entities/clock/__tests__/ClockMigration.spec.ts
+- src/entities/clock/__tests__/DrizzleClockRepository.spec.ts
+- src/entities/clock/infrastructure/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-15T21:06:53-03:00 - clock-schema-core
 - branch: task/clock-schema-core
 - commit: 39b88cd feat(save-load): adiciona ui de save local

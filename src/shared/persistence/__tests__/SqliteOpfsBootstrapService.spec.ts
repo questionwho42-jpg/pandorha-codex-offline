@@ -44,8 +44,17 @@ describe("SqliteOpfsBootstrapService", () => {
 		expect(initialized).toMatchObject({
 			initialized: true,
 			loadedExistingDatabase: false,
-			appliedMigrationIds: ["0000_smiling_banshee", "0001_crazy_wallop"],
-			tableNames: ["_pandorha_migrations", "characters", "world_state_entries"],
+			appliedMigrationIds: [
+				"0000_smiling_banshee",
+				"0001_crazy_wallop",
+				"0002_true_cable",
+			],
+			tableNames: [
+				"_pandorha_migrations",
+				"characters",
+				"clocks",
+				"world_state_entries",
+			],
 		});
 		expect(storage.writeCount).toBe(1);
 		expect(storage.fileBytes?.byteLength).toBeGreaterThan(0);
@@ -85,7 +94,10 @@ describe("SqliteOpfsBootstrapService", () => {
 		);
 
 		expect(initialized.loadedExistingDatabase).toBe(true);
-		expect(initialized.appliedMigrationIds).toEqual(["0001_crazy_wallop"]);
+		expect(initialized.appliedMigrationIds).toEqual([
+			"0001_crazy_wallop",
+			"0002_true_cable",
+		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
 
@@ -193,6 +205,7 @@ describe("SqliteOpfsBootstrapService", () => {
 		expect(defaultMigrationResult.appliedMigrationIds).toEqual([
 			"0000_smiling_banshee",
 			"0001_crazy_wallop",
+			"0002_true_cable",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});

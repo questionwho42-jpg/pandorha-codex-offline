@@ -1,5 +1,6 @@
 import characterMigrationSql from "../../../../drizzle/0000_smiling_banshee.sql?raw";
 import worldStateMigrationSql from "../../../../drizzle/0001_crazy_wallop.sql?raw";
+import clockMigrationSql from "../../../../drizzle/0002_true_cable.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -10,5 +11,9 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0001_crazy_wallop",
 		sql: worldStateMigrationSql,
+	},
+	{
+		id: "0002_true_cable",
+		sql: clockMigrationSql,
 	},
 ];
