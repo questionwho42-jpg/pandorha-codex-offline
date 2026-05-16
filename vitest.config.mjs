@@ -20,6 +20,7 @@ export default defineConfig({
 				"src/entities/ancestry/domain/AncestryTraitSelectionService.ts",
 				"src/entities/character-class/domain/CharacterClassCatalogService.ts",
 				"src/entities/background/domain/BackgroundCatalogService.ts",
+				"src/entities/camp-activity/domain/CampActivityCatalogService.ts",
 				"src/entities/compendium/domain/CompendiumCatalogService.ts",
 				"src/entities/compendium/domain/CompendiumSearchService.ts",
 				"src/entities/equipment/domain/EquipmentCatalogService.ts",

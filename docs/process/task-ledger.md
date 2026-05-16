@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260515-211720-t35a-camp-activity-catalog -->
+### T35A Camp Activity Catalog
+- id: 20260515-211720-t35a-camp-activity-catalog
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-15T21:17:20-03:00
+- finished_at: 2026-05-15T21:23:25-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-15T21:23:25-03:00
+- branch: task/camp-activity-catalog
+- commit_at_start: 3e4885c feat(clock): adiciona persistencia sqlite
+- summary: Criar catalogo minimo de atividades e modelos persistiveis de sessao e atribuicao de acampamento.
+- last_change: T35A concluida: catalogo inicial de atividades e schemas persistiveis de sessao/atribuicoes de acampamento.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-15T21:17:20-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-15T21:23:25-03:00
+- Done: T35A concluida: catalogo inicial de atividades e schemas persistiveis de sessao/atribuicoes de acampamento.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260515-211720-t35a-camp-activity-catalog -->
 <!-- pandorha-task:20260515-211229-t34b-clock-persistence -->
 ### T34B Clock Persistence
 - id: 20260515-211229-t34b-clock-persistence
@@ -2099,6 +2131,20 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-15T21:23:25-03:00 - camp-activity-catalog
+- branch: task/camp-activity-catalog
+- commit: 3e4885c feat(clock): adiciona persistencia sqlite
+- changed_files_count: 4
+#### Changed Files
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/entities/camp-activity/
+- src/entities/camp-session/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-15T21:16:39-03:00 - clock-persistence
 - branch: task/clock-persistence
 - commit: fc362b9 feat(clock): adiciona nucleo de relogios
