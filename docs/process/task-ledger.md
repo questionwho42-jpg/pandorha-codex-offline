@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260515-205733-t34a-clock-schema-core -->
+### T34A Clock Schema Core
+- id: 20260515-205733-t34a-clock-schema-core
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-15T20:57:33-03:00
+- finished_at: 2026-05-15T21:07:00-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-15T21:07:00-03:00
+- branch: task/clock-schema-core
+- commit_at_start: 39b88cd feat(save-load): adiciona ui de save local
+- summary: Criar schema, fake repository e ClockService puro para relogios sem UI ou persistencia real.
+- last_change: T34A concluida: entidade Clock com schema Drizzle-Zod, ClockService puro, fake em memoria, testes TDD, memoria tripla e validacao completa.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-15T20:57:33-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-15T21:07:00-03:00
+- Done: T34A concluida: entidade Clock com schema Drizzle-Zod, ClockService puro, fake em memoria, testes TDD, memoria tripla e validacao completa.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260515-205733-t34a-clock-schema-core -->
 <!-- pandorha-task:20260515-202200-t33d-save-load-ui -->
 ### T33D Save Load UI
 - id: 20260515-202200-t33d-save-load-ui
@@ -2035,6 +2067,19 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-15T21:06:53-03:00 - clock-schema-core
+- branch: task/clock-schema-core
+- commit: 39b88cd feat(save-load): adiciona ui de save local
+- changed_files_count: 3
+#### Changed Files
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/entities/clock/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-15T20:36:08-03:00 - save-load-ui
 - branch: task/save-load-ui
 - commit: 1e29e8a feat(rpc): adiciona browser worker bridge real
