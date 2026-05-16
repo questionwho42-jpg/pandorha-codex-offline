@@ -1,8 +1,12 @@
 <script lang="ts">
+import { onMount } from "svelte";
 import type {
 	CharacterCreateInput,
 	CharacterRecord,
 } from "$lib/entities/character";
+import { InMemorySocialRepository } from "$lib/entities/social";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { CampPanel } from "$lib/features/camp";
 import {
 	// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 	CharacterCreateForm,
@@ -12,6 +16,8 @@ import {
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CharacterList } from "$lib/features/character-list";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { ClockDemo } from "$lib/features/clocks";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CombatEncounterPanel } from "$lib/features/combat-encounter";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CompendiumBrowser } from "$lib/features/compendium-browser";
@@ -19,6 +25,9 @@ import { CompendiumBrowser } from "$lib/features/compendium-browser";
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { SocialDemo } from "$lib/features/social";
+import { SocialStandingService } from "$lib/features/social/domain/SocialStandingService";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SpellCastPanel } from "$lib/features/spell-cast";
 import { createCharacterSession } from "./model/characterSession";
@@ -44,6 +53,17 @@ const inventorySession = createInventorySession();
 const spellCastSession = createSpellCastSession();
 
 let activeView = $state<AppNavigationId>("home");
+
+const socialRepository = new InMemorySocialRepository();
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const socialStandingService = new SocialStandingService(socialRepository);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let isRestBlocked = $state(false);
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function handleSocialStandingChange(blocked: boolean) {
+	isRestBlocked = blocked;
+}
 let characterRecords = $state<CharacterRecord[]>([]);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let characterCreateError = $state<string | null>(null);
@@ -53,6 +73,39 @@ let characterCreateSuccess = $state<string | null>(null);
 let isCreatingCharacter = $state(false);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let activeItem = $derived(getAppNavigationItem(activeView));
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let isOnline = $state(true);
+
+onMount(() => {
+	isOnline = typeof navigator !== "undefined" ? navigator.onLine : true;
+
+	if (typeof navigator !== "undefined" && "serviceWorker" in navigator) {
+		navigator.serviceWorker
+			.register("/sw.js")
+			.then((registration) => {
+				console.log(
+					"Service Worker registrado com sucesso: ",
+					registration.scope,
+				);
+			})
+			.catch((error) => {
+				console.error("Falha ao registrar Service Worker: ", error);
+			});
+	}
+
+	const updateOnlineStatus = () => {
+		isOnline = navigator.onLine;
+	};
+
+	window.addEventListener("online", updateOnlineStatus);
+	window.addEventListener("offline", updateOnlineStatus);
+
+	return () => {
+		window.removeEventListener("online", updateOnlineStatus);
+		window.removeEventListener("offline", updateOnlineStatus);
+	};
+});
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 async function createCharacter(
@@ -98,15 +151,30 @@ async function createCharacter(
 	<div
 		class="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 py-6 sm:px-8 lg:px-10"
 	>
-		<header class="border-b border-ether pb-6">
-			<p class="text-sm font-semibold text-ether">Pandorha Engine</p>
-			<h1
-				id="pandorha-title"
-				class="mt-3 max-w-3xl text-4xl font-semibold leading-tight text-bone sm:text-5xl"
-			>
-				{activeItem.heading}
-			</h1>
-		</header>
+		<header class="border-b border-ether pb-6 flex items-center justify-between gap-4">
+					<div>
+						<p class="text-sm font-semibold text-ether">Pandorha Engine</p>
+						<h1
+							id="pandorha-title"
+							class="mt-3 max-w-3xl text-4xl font-semibold leading-tight text-bone sm:text-5xl"
+						>
+							{activeItem.heading}
+						</h1>
+					</div>
+					<div class="flex items-center gap-2 shrink-0">
+						{#if isOnline}
+							<span class="inline-flex items-center gap-1.5 rounded-full border border-ether/40 bg-ruin px-3 py-1 text-xs font-semibold text-ether transition-all duration-300">
+								<span class="h-2 w-2 rounded-full bg-ether animate-pulse"></span>
+								ONLINE
+							</span>
+						{:else}
+							<span class="inline-flex items-center gap-1.5 rounded-full border border-bronze bg-ruin px-3 py-1 text-xs font-semibold text-bronze transition-all duration-300">
+								<span class="h-2 w-2 rounded-full bg-bronze"></span>
+								MODO OFFLINE
+							</span>
+						{/if}
+					</div>
+				</header>
 
 		<nav aria-label="Navegação principal" class="mt-6 flex flex-wrap gap-2">
 			{#each APP_NAVIGATION_ITEMS as item}
@@ -188,6 +256,12 @@ async function createCharacter(
 						combatEncounterSession.service.resolveAttack(input)}
 					trainingTargets={combatEncounterSession.trainingTargets}
 				/>
+			{:else if activeView === "social"}
+				<SocialDemo service={socialStandingService} onStandingChange={handleSocialStandingChange} />
+			{:else if activeView === "clocks"}
+				<ClockDemo />
+			{:else if activeView === "camp"}
+				<CampPanel isRestBlocked={isRestBlocked} />
 			{:else}
 				<p class="max-w-3xl text-lg leading-8 text-bone">
 					{activeItem.description}

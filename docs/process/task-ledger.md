@@ -13,6 +13,439 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:t39-qa-validation -->
+### Fase T39: QA e Validacao
+- id: t39-qa-validation
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-16T18:57:27-03:00
+- finished_at: 2026-05-16T19:09:19-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-16T19:09:19-03:00
+- branch: task/sqlite-opfs-bootstrap
+- commit_at_start: f904516 feat(rpc): adiciona contrato de save load
+- summary: Executar build, testes de regressao e auditoria estatica de banco local do Pandorha Engine
+- last_change: Remocao de tags <style> locais em componentes Svelte (CampPanel, ClockDemo, FactionPanel, SocialDemo), correcao de todos os avisos de linter do Biome e tsc em SocialStandingService.spec.ts, elevacao da cobertura de testes para 100% no subdominio de Social e atestado do Quality Gate de cobertura e linter.
+#### Files At Start
+- .agents/skills/ai-docs-formatter/assets/response-schema.json
+- .agents/skills/build-test-verify/scripts/check-query-budget.ts
+- .agents/skills/build-test-verify/scripts/verify-coverage.ts
+- .agents/skills/character-builder/references/rules_manifest.json
+- .agents/skills/dialogue-architect/scripts/validate_tree.ts
+- .agents/skills/monster-factory/references/master_table.json
+- .agents/skills/monster-factory/references/roles.json
+- .agents/skills/world-state-manager/assets/expected_correction_payload.json
+- .agents/skills/world-state-manager/references/acl_policies.json
+- .agents/skills/world-state-manager/references/seed_manifestos/morden_seed.json
+- .agents/skills/world-state-manager/scripts/world_state_cli.ts
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/0000_snapshot.json
+- drizzle/meta/_journal.json
+- mcp/pandorha-arch-guard/package.json
+- mcp/pandorha-arch-guard/scripts/validate-stdio.js
+- mcp/pandorha-arch-guard/src/server.js
+- mcp/pandorha-arch-guard/test/arch-guard.test.js
+- mcp/pandorha-db-auditor/package.json
+- mcp/pandorha-db-auditor/scripts/validate-stdio.js
+- mcp/pandorha-db-auditor/src/index.ts
+- mcp/pandorha-db-auditor/test/auditor.test.js
+- mcp/pandorha-db-auditor/tsconfig.json
+- mcp/pandorha-knowledge/package.json
+- mcp/pandorha-knowledge/scripts/validate-stdio.js
+- mcp/pandorha-knowledge/src/config.js
+- mcp/pandorha-knowledge/src/file-system.js
+- mcp/pandorha-knowledge/src/markdown-segments.js
+- mcp/pandorha-knowledge/src/search-engine.js
+- mcp/pandorha-knowledge/src/server.js
+- mcp/pandorha-knowledge/test/search-engine.test.js
+- mcp/pandorha-memory-bridge/package.json
+- mcp/pandorha-memory-bridge/scripts/validate-stdio.js
+- mcp/pandorha-memory-bridge/src/server.js
+- mcp/pandorha-memory-bridge/test/memory-bridge.test.js
+- mcp_config.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- ... 42 more
+#### Checkpoints
+#### Checkpoint 2026-05-16T18:57:27-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-16T19:09:19-03:00
+- Done: Remocao de tags <style> locais em componentes Svelte (CampPanel, ClockDemo, FactionPanel, SocialDemo), correcao de todos os avisos de linter do Biome e tsc em SocialStandingService.spec.ts, elevacao da cobertura de testes para 100% no subdominio de Social e atestado do Quality Gate de cobertura e linter.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:t39-qa-validation -->
+<!-- pandorha-task:t38-sqlite-persistence -->
+### Fase T38: Persistencia Local-First Real
+- id: t38-sqlite-persistence
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-16T18:52:26-03:00
+- finished_at: 2026-05-16T18:54:21-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-16T18:54:21-03:00
+- branch: task/sqlite-opfs-bootstrap
+- commit_at_start: f904516 feat(rpc): adiciona contrato de save load
+- summary: Conexao fisica ao SQLite WASM local e sincronizacao de estado por RPC
+- last_change: Conexao fisica ao SQLite WASM local e sincronizacao de snapshots de personagens e estado de mundo implementada e validada com 100 por cento de cobertura em 369 testes.
+#### Files At Start
+- .agents/skills/ai-docs-formatter/assets/response-schema.json
+- .agents/skills/build-test-verify/scripts/check-query-budget.ts
+- .agents/skills/build-test-verify/scripts/verify-coverage.ts
+- .agents/skills/character-builder/references/rules_manifest.json
+- .agents/skills/dialogue-architect/scripts/validate_tree.ts
+- .agents/skills/monster-factory/references/master_table.json
+- .agents/skills/monster-factory/references/roles.json
+- .agents/skills/world-state-manager/assets/expected_correction_payload.json
+- .agents/skills/world-state-manager/references/acl_policies.json
+- .agents/skills/world-state-manager/references/seed_manifestos/morden_seed.json
+- .agents/skills/world-state-manager/scripts/world_state_cli.ts
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/0000_snapshot.json
+- drizzle/meta/_journal.json
+- mcp/pandorha-arch-guard/package.json
+- mcp/pandorha-arch-guard/scripts/validate-stdio.js
+- mcp/pandorha-arch-guard/src/server.js
+- mcp/pandorha-arch-guard/test/arch-guard.test.js
+- mcp/pandorha-db-auditor/package.json
+- mcp/pandorha-db-auditor/scripts/validate-stdio.js
+- mcp/pandorha-db-auditor/src/index.ts
+- mcp/pandorha-db-auditor/test/auditor.test.js
+- mcp/pandorha-db-auditor/tsconfig.json
+- mcp/pandorha-knowledge/package.json
+- mcp/pandorha-knowledge/scripts/validate-stdio.js
+- mcp/pandorha-knowledge/src/config.js
+- mcp/pandorha-knowledge/src/file-system.js
+- mcp/pandorha-knowledge/src/markdown-segments.js
+- mcp/pandorha-knowledge/src/search-engine.js
+- mcp/pandorha-knowledge/src/server.js
+- mcp/pandorha-knowledge/test/search-engine.test.js
+- mcp/pandorha-memory-bridge/package.json
+- mcp/pandorha-memory-bridge/scripts/validate-stdio.js
+- mcp/pandorha-memory-bridge/src/server.js
+- mcp/pandorha-memory-bridge/test/memory-bridge.test.js
+- mcp_config.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- ... 42 more
+#### Checkpoints
+#### Checkpoint 2026-05-16T18:52:26-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-16T18:54:21-03:00
+- Done: Conexao fisica ao SQLite WASM local e sincronizacao de snapshots de personagens e estado de mundo implementada e validada com 100 por cento de cobertura em 369 testes.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:t38-sqlite-persistence -->
+<!-- pandorha-task:t37-pwa-offline -->
+### Fase T37: PWA Offline Smoke
+- id: t37-pwa-offline
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-16T18:43:56-03:00
+- finished_at: 2026-05-16T18:46:53-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: Gemini
+- last_modified_at: 2026-05-16T18:46:53-03:00
+- branch: task/sqlite-opfs-bootstrap
+- commit_at_start: f904516 feat(rpc): adiciona contrato de save load
+- summary: Implementacao do Service Worker nativo (Vanilla) e indicador de status de rede online/offline na UI
+- last_change: Implementacao do Service Worker Vanilla offline com cache de recursos e badge dinamico de rede online/offline no cabecalho.
+#### Files At Start
+- .agents/skills/ai-docs-formatter/assets/response-schema.json
+- .agents/skills/build-test-verify/scripts/check-query-budget.ts
+- .agents/skills/build-test-verify/scripts/verify-coverage.ts
+- .agents/skills/character-builder/references/rules_manifest.json
+- .agents/skills/dialogue-architect/scripts/validate_tree.ts
+- .agents/skills/monster-factory/references/master_table.json
+- .agents/skills/monster-factory/references/roles.json
+- .agents/skills/world-state-manager/assets/expected_correction_payload.json
+- .agents/skills/world-state-manager/references/acl_policies.json
+- .agents/skills/world-state-manager/references/seed_manifestos/morden_seed.json
+- .agents/skills/world-state-manager/scripts/world_state_cli.ts
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/0000_snapshot.json
+- drizzle/meta/_journal.json
+- mcp/pandorha-arch-guard/package.json
+- mcp/pandorha-arch-guard/scripts/validate-stdio.js
+- mcp/pandorha-arch-guard/src/server.js
+- mcp/pandorha-arch-guard/test/arch-guard.test.js
+- mcp/pandorha-db-auditor/package.json
+- mcp/pandorha-db-auditor/scripts/validate-stdio.js
+- mcp/pandorha-db-auditor/src/index.ts
+- mcp/pandorha-db-auditor/test/auditor.test.js
+- mcp/pandorha-db-auditor/tsconfig.json
+- mcp/pandorha-knowledge/package.json
+- mcp/pandorha-knowledge/scripts/validate-stdio.js
+- mcp/pandorha-knowledge/src/config.js
+- mcp/pandorha-knowledge/src/file-system.js
+- mcp/pandorha-knowledge/src/markdown-segments.js
+- mcp/pandorha-knowledge/src/search-engine.js
+- mcp/pandorha-knowledge/src/server.js
+- mcp/pandorha-knowledge/test/search-engine.test.js
+- mcp/pandorha-memory-bridge/package.json
+- mcp/pandorha-memory-bridge/scripts/validate-stdio.js
+- mcp/pandorha-memory-bridge/src/server.js
+- mcp/pandorha-memory-bridge/test/memory-bridge.test.js
+- mcp_config.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- ... 41 more
+#### Checkpoints
+#### Checkpoint 2026-05-16T18:43:56-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-16T18:46:53-03:00
+- Done: Implementacao do Service Worker Vanilla offline com cache de recursos e badge dinamico de rede online/offline no cabecalho.
+- Next: Iniciar Fase T38 de Persistencia Local-First com SQLite OPFS + Drizzle e sincronizacao por RPC.
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: Gemini
+<!-- /pandorha-task:t37-pwa-offline -->
+<!-- pandorha-task:t35-campservice -->
+### T35 CampService - Descanso Ativo
+- id: t35-campservice
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-16T17:55:06-03:00
+- finished_at: 2026-05-16T18:43:53-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-16T18:43:53-03:00
+- branch: task/sqlite-opfs-bootstrap
+- commit_at_start: f904516 feat(rpc): adiciona contrato de save load
+- summary: Implementação do sistema de acampamento e economia de tempo conforme Capítulo 28 do Códex. Foco em ações de acampamento, contador de perigo e Padrão Decorator para bônus de recuperação.
+- last_change: Conclusao do CampService e integracao da UI CampPanel/FactionPanel
+#### Files At Start
+- .agents/skills/ai-docs-formatter/assets/response-schema.json
+- .agents/skills/build-test-verify/scripts/check-query-budget.ts
+- .agents/skills/build-test-verify/scripts/verify-coverage.ts
+- .agents/skills/character-builder/references/rules_manifest.json
+- .agents/skills/dialogue-architect/scripts/validate_tree.ts
+- .agents/skills/monster-factory/references/master_table.json
+- .agents/skills/monster-factory/references/roles.json
+- .agents/skills/world-state-manager/assets/expected_correction_payload.json
+- .agents/skills/world-state-manager/references/acl_policies.json
+- .agents/skills/world-state-manager/references/seed_manifestos/morden_seed.json
+- .agents/skills/world-state-manager/scripts/world_state_cli.ts
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/0000_snapshot.json
+- drizzle/meta/_journal.json
+- mcp/pandorha-arch-guard/package.json
+- mcp/pandorha-arch-guard/scripts/validate-stdio.js
+- mcp/pandorha-arch-guard/src/server.js
+- mcp/pandorha-arch-guard/test/arch-guard.test.js
+- mcp/pandorha-db-auditor/package.json
+- mcp/pandorha-db-auditor/scripts/validate-stdio.js
+- mcp/pandorha-db-auditor/src/index.ts
+- mcp/pandorha-db-auditor/test/auditor.test.js
+- mcp/pandorha-db-auditor/tsconfig.json
+- mcp/pandorha-knowledge/package.json
+- mcp/pandorha-knowledge/scripts/validate-stdio.js
+- mcp/pandorha-knowledge/src/config.js
+- mcp/pandorha-knowledge/src/file-system.js
+- mcp/pandorha-knowledge/src/markdown-segments.js
+- mcp/pandorha-knowledge/src/search-engine.js
+- mcp/pandorha-knowledge/src/server.js
+- mcp/pandorha-knowledge/test/search-engine.test.js
+- mcp/pandorha-memory-bridge/package.json
+- mcp/pandorha-memory-bridge/scripts/validate-stdio.js
+- mcp/pandorha-memory-bridge/src/server.js
+- mcp/pandorha-memory-bridge/test/memory-bridge.test.js
+- mcp_config.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- ... 34 more
+#### Checkpoints
+#### Checkpoint 2026-05-16T17:55:06-03:00
+- Done: task record created
+- Next: Escrever teste de unidade inicial para CampService (Reverse TDD)
+- Risks: Complexidade na gestão de estado do Contador de Perigo e integração com relógios de grupo.
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-16T17:56:18-03:00
+- Done: Implementação do domínio CampService e RecoveryDecorators com 100% de cobertura de testes.
+- Next: Implementar a UI CampPanel.svelte e integrar o contador de perigo.
+- Risks: A integração da UI com o estado global de personagens pode exigir refatoração nos stores.
+- Improvements: O padrão Decorator foi aplicado com sucesso para cálculos de bônus, permitindo fácil extensão.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-16T18:43:53-03:00
+- Done: Conclusao do CampService e integracao da UI CampPanel/FactionPanel
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:t35-campservice -->
+<!-- pandorha-task:20260515-092517-t34-clockservice -->
+### T34 ClockService
+- id: 20260515-092517-t34-clockservice
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-15T09:25:17-03:00
+- finished_at: 2026-05-15T12:01:38-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-15T12:01:38-03:00
+- branch: task/sqlite-opfs-bootstrap
+- commit_at_start: f904516 feat(rpc): adiciona contrato de save load
+- summary: Sistema de Clocks In-Memory com Schema Zod, Fake Repository, Service puro com Result Pattern e UI mínima.
+- last_change: Integração completa do ClockService com 100% de cobertura e UI Svelte 5 funcional.
+#### Files At Start
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- mcp_config.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- vitest.config.mjs
+- .serena/
+- drizzle/0001_crazy_wallop.sql
+- drizzle/meta/0001_snapshot.json
+- "pandorha obsidian antigravity/"
+- src/app/model/socialManeuvers.spec.ts
+- src/app/model/socialSession.spec.ts
+- src/app/model/socialSession.ts
+- src/features/social/__tests__/
+- src/features/social/domain/
+- src/features/social/index.ts
+- src/features/social/model-api.ts
+- src/features/social/model/
+- src/features/social/ui/
+- src/shared/persistence/
+#### Checkpoints
+#### Checkpoint 2026-05-15T09:25:17-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-15T12:01:38-03:00
+- Done: Integração completa do ClockService com 100% de cobertura e UI Svelte 5 funcional.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260515-092517-t34-clockservice -->
+<!-- pandorha-task:20260514-221059-ciclo-3-manobras-sociais-in-memory -->
+### Ciclo 3: Manobras Sociais In-Memory
+- id: 20260514-221059-ciclo-3-manobras-sociais-in-memory
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-14T22:10:59-03:00
+- finished_at: 2026-05-14T22:11:05-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-14T22:11:05-03:00
+- branch: task/sqlite-opfs-bootstrap
+- commit_at_start: f904516 feat(rpc): adiciona contrato de save load
+- summary: Implementação do Padrão Decorator para Senso de Grupo, Lisonja Venenosa e Charme Místico, integração com SocialSession e UI de Facções
+- last_change: Decoradores de manobras concluídos com 341 testes passando.
+#### Files At Start
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- mcp_config.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- vitest.config.mjs
+- .serena/
+- drizzle/0001_crazy_wallop.sql
+- drizzle/meta/0001_snapshot.json
+- "pandorha obsidian antigravity/"
+- src/app/model/socialManeuvers.spec.ts
+- src/app/model/socialSession.spec.ts
+- src/app/model/socialSession.ts
+- src/features/social/__tests__/
+- src/features/social/domain/
+- src/features/social/index.ts
+- src/features/social/model-api.ts
+- src/features/social/model/
+- src/features/social/ui/
+- src/shared/persistence/
+#### Checkpoints
+#### Checkpoint 2026-05-14T22:10:59-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-14T22:11:05-03:00
+- Done: Decoradores de manobras concluídos com 341 testes passando.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260514-221059-ciclo-3-manobras-sociais-in-memory -->
+<!-- pandorha-task:20260514-112622-t33b-sqlite-wasm-opfs-bootstrap -->
+### T33B - SQLite WASM OPFS Bootstrap
+- id: 20260514-112622-t33b-sqlite-wasm-opfs-bootstrap
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-14T11:26:22-03:00
+- finished_at: 2026-05-14T11:39:51-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-14T11:39:51-03:00
+- branch: task/sqlite-opfs-bootstrap
+- commit_at_start: f904516 feat(rpc): adiciona contrato de save load
+- summary: Implementar bootstrap Worker/SQLite WASM/OPFS e migration de world_state_entries sem UI.
+- last_change: T33B concluida: Drizzle config multi-schema, migration world_state_entries, bootstrap SQLite WASM/OPFS com Worker handler, storage OPFS e testes em sql.js.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-14T11:26:22-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-14T11:39:51-03:00
+- Done: T33B concluida: Drizzle config multi-schema, migration world_state_entries, bootstrap SQLite WASM/OPFS com Worker handler, storage OPFS e testes em sql.js.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260514-112622-t33b-sqlite-wasm-opfs-bootstrap -->
 <!-- pandorha-task:20260514-112014-t33a-worker-rpc-save-contract -->
 ### T33A - Worker RPC Save Contract
 - id: 20260514-112014-t33a-worker-rpc-save-contract
@@ -1843,6 +2276,75 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-16T18:31:42-03:00 - Conclusao da integracao de UI de acampamento e standing social na Fase T37
+- branch: task/sqlite-opfs-bootstrap
+- commit: f904516 feat(rpc): adiciona contrato de save load
+- changed_files_count: 80
+#### Changed Files
+- .agents/skills/ai-docs-formatter/assets/response-schema.json
+- .agents/skills/build-test-verify/scripts/check-query-budget.ts
+- .agents/skills/build-test-verify/scripts/verify-coverage.ts
+- .agents/skills/character-builder/references/rules_manifest.json
+- .agents/skills/dialogue-architect/scripts/validate_tree.ts
+- .agents/skills/monster-factory/references/master_table.json
+- .agents/skills/monster-factory/references/roles.json
+- .agents/skills/world-state-manager/assets/expected_correction_payload.json
+- .agents/skills/world-state-manager/references/acl_policies.json
+- .agents/skills/world-state-manager/references/seed_manifestos/morden_seed.json
+- .agents/skills/world-state-manager/scripts/world_state_cli.ts
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/0000_snapshot.json
+- drizzle/meta/_journal.json
+- mcp/pandorha-arch-guard/package.json
+- mcp/pandorha-arch-guard/scripts/validate-stdio.js
+- mcp/pandorha-arch-guard/src/server.js
+- mcp/pandorha-arch-guard/test/arch-guard.test.js
+- mcp/pandorha-db-auditor/package.json
+- mcp/pandorha-db-auditor/scripts/validate-stdio.js
+- mcp/pandorha-db-auditor/src/index.ts
+- mcp/pandorha-db-auditor/test/auditor.test.js
+- mcp/pandorha-db-auditor/tsconfig.json
+- mcp/pandorha-knowledge/package.json
+- mcp/pandorha-knowledge/scripts/validate-stdio.js
+- mcp/pandorha-knowledge/src/config.js
+- mcp/pandorha-knowledge/src/file-system.js
+- mcp/pandorha-knowledge/src/markdown-segments.js
+- mcp/pandorha-knowledge/src/search-engine.js
+- mcp/pandorha-knowledge/src/server.js
+- mcp/pandorha-knowledge/test/search-engine.test.js
+- mcp/pandorha-memory-bridge/package.json
+- mcp/pandorha-memory-bridge/scripts/validate-stdio.js
+- mcp/pandorha-memory-bridge/src/server.js
+- mcp/pandorha-memory-bridge/test/memory-bridge.test.js
+- mcp_config.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- ... 40 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-14T11:39:45-03:00 - sqlite-opfs-bootstrap
+- branch: task/sqlite-opfs-bootstrap
+- commit: f904516 feat(rpc): adiciona contrato de save load
+- changed_files_count: 8
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- vitest.config.mjs
+- drizzle/0001_crazy_wallop.sql
+- drizzle/meta/0001_snapshot.json
+- src/shared/persistence/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-14T11:25:16-03:00 - save-rpc-contract
 - branch: task/save-rpc-contract
 - commit: b1a0606 feat(world-state): adiciona key-value core

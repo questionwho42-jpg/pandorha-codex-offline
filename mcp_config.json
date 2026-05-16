@@ -1,96 +1,84 @@
 {
-  "mcpServers": {
-    "pandorha-docs": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "C:/Users/Pichau/Desktop/pandorha sistema 28-04/docs",
-        "C:/Users/Pichau/Desktop/pandorha sistema 28-04/lore"
-      ],
-      "cwd": "C:/Users/Pichau/Desktop/pandorha sistema 28-04",
-      "disabled": false,
-      "autoApprove": [
-        "read_file",
-        "list_directory"
-      ]
-    },
-    "sqlite-inspector": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-sqlite",
-        "C:/Users/Pichau/Desktop/pandorha sistema 28-04/dev.db"
-      ],
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "cwd": "C:/Users/Pichau/Desktop/pandorha sistema 28-04",
-      "disabled": false,
-      "autoApprove": [
-        "db_info",
-        "list_tables",
-        "get_table_schema",
-        "read_records"
-      ]
-    },
-    "pandorha-knowledge": {
-      "command": "C:/nvm4w/nodejs/node.exe",
-      "args": [
-        "C:/Users/Pichau/Desktop/pandorha sistema 28-04/mcp/pandorha-knowledge/src/server.js"
-      ],
-      "cwd": "C:/Users/Pichau/Desktop/pandorha sistema 28-04/mcp/pandorha-knowledge",
-      "env": {
-        "PANDORHA_PROJECT_ROOT": "C:/Users/Pichau/Desktop/pandorha sistema 28-04"
-      },
-      "disabled": false,
-      "autoApprove": [
-        "search_rpg_rule"
-      ]
-    },
-    "pandorha-db-auditor": {
-      "command": "C:/nvm4w/nodejs/node.exe",
-      "args": [
-        "C:/Users/Pichau/Desktop/pandorha sistema 28-04/mcp/pandorha-db-auditor/dist/index.js"
-      ],
-      "cwd": "C:/Users/Pichau/Desktop/pandorha sistema 28-04/mcp/pandorha-db-auditor",
-      "env": {
-        "PANDORHA_PROJECT_ROOT": "C:/Users/Pichau/Desktop/pandorha sistema 28-04",
-        "PANDORHA_DB_PATH": "C:/Users/Pichau/Desktop/pandorha sistema 28-04/dev.db"
-      },
-      "disabled": false,
-      "autoApprove": [
-        "get_actor_stats",
-        "verify_math"
-      ]
-    },
-    "pandorha-memory-bridge": {
-      "command": "C:/nvm4w/nodejs/node.exe",
-      "args": [
-        "C:/Users/Pichau/Desktop/pandorha sistema 28-04/mcp/pandorha-memory-bridge/src/server.js"
-      ],
-      "cwd": "C:/Users/Pichau/Desktop/pandorha sistema 28-04/mcp/pandorha-memory-bridge",
-      "env": {
-        "PANDORHA_PROJECT_ROOT": "C:/Users/Pichau/Desktop/pandorha sistema 28-04"
-      },
-      "disabled": false,
-      "autoApprove": [
-        "commit_module_context"
-      ]
-    },
-    "pandorha-arch-guard": {
-      "command": "C:/nvm4w/nodejs/node.exe",
-      "args": [
-        "C:/Users/Pichau/Desktop/pandorha sistema 28-04/mcp/pandorha-arch-guard/src/server.js"
-      ],
-      "cwd": "C:/Users/Pichau/Desktop/pandorha sistema 28-04/mcp/pandorha-arch-guard",
-      "env": {
-        "PANDORHA_PROJECT_ROOT": "C:/Users/Pichau/Desktop/pandorha sistema 28-04"
-      },
-      "disabled": false,
-      "autoApprove": [
-        "validate_implementation"
-      ]
-    }
-  }
+	"mcpServers": {
+		"pandorha-docs": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"@modelcontextprotocol/server-filesystem",
+				"C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04/docs",
+				"C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04/lore"
+			],
+			"cwd": "C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04",
+			"disabled": false,
+			"autoApprove": ["read_file", "list_directory"]
+		},
+		"sqlite-inspector": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"mcp-sqlite",
+				"C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04/dev.db"
+			],
+			"env": {
+				"NODE_ENV": "development"
+			},
+			"cwd": "C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04",
+			"disabled": false,
+			"autoApprove": [
+				"db_info",
+				"list_tables",
+				"get_table_schema",
+				"read_records"
+			]
+		},
+		"pandorha-knowledge": {
+			"command": "C:/nvm4w/nodejs/node.exe",
+			"args": [
+				"C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04/mcp/pandorha-knowledge/src/server.js"
+			],
+			"cwd": "C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04/mcp/pandorha-knowledge",
+			"env": {
+				"PANDORHA_PROJECT_ROOT": "C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04"
+			},
+			"disabled": false,
+			"autoApprove": ["search_rpg_rule"]
+		},
+		"pandorha-db-auditor": {
+			"command": "C:/nvm4w/nodejs/node.exe",
+			"args": [
+				"C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04/mcp/pandorha-db-auditor/dist/index.js"
+			],
+			"cwd": "C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04/mcp/pandorha-db-auditor",
+			"env": {
+				"PANDORHA_PROJECT_ROOT": "C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04",
+				"PANDORHA_DB_PATH": "C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04/dev.db"
+			},
+			"disabled": false,
+			"autoApprove": ["get_actor_stats", "verify_math"]
+		},
+		"pandorha-memory-bridge": {
+			"command": "C:/nvm4w/nodejs/node.exe",
+			"args": [
+				"C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04/mcp/pandorha-memory-bridge/src/server.js"
+			],
+			"cwd": "C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04/mcp/pandorha-memory-bridge",
+			"env": {
+				"PANDORHA_PROJECT_ROOT": "C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04"
+			},
+			"disabled": false,
+			"autoApprove": ["commit_module_context"]
+		},
+		"pandorha-arch-guard": {
+			"command": "C:/nvm4w/nodejs/node.exe",
+			"args": [
+				"C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04/mcp/pandorha-arch-guard/src/server.js"
+			],
+			"cwd": "C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04/mcp/pandorha-arch-guard",
+			"env": {
+				"PANDORHA_PROJECT_ROOT": "C:/Users/Pichau/Desktop/antigravity/pandorha sistema 28-04"
+			},
+			"disabled": false,
+			"autoApprove": ["validate_implementation"]
+		}
+	}
 }

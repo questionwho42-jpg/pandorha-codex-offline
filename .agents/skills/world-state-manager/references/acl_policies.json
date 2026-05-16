@@ -1,4 +1,4 @@
 {
-  "readOnlyPrefixes": ["system:", "engine:"],
-  "writablePrefixes": ["location:", "npc:", "plot:"]
+	"readOnlyPrefixes": ["system:", "engine:"],
+	"writablePrefixes": ["location:", "npc:", "plot:"]
 }

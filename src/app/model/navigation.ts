@@ -48,6 +48,24 @@ export const APP_NAVIGATION_ITEMS = [
 		description:
 			"O primeiro encontro de treino permite testar ataque, dano e log.",
 	},
+	{
+		id: "social",
+		label: "Social",
+		heading: "Combate Social",
+		description: "Interações e negociações sociais.",
+	},
+	{
+		id: "clocks",
+		label: "Relógios",
+		heading: "Relógios de Progresso",
+		description: "Mecânica de acompanhamento de eventos estendidos.",
+	},
+	{
+		id: "camp",
+		label: "Acampamento",
+		heading: "Descanso Ativo",
+		description: "Gestão de tempo, vigília e recuperação do grupo.",
+	},
 ] as const;
 
 export type AppNavigationId = (typeof APP_NAVIGATION_ITEMS)[number]["id"];

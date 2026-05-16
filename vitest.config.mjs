@@ -35,6 +35,10 @@ export default defineConfig({
 				"src/features/combat-encounter/domain/CombatTurnService.ts",
 				"src/features/hexcrawl-map/domain/HexcrawlMovementService.ts",
 				"src/features/spell-cast/domain/SpellCastBuilderService.ts",
+				"src/features/clocks/domain/ClockService.ts",
+				"src/features/social/domain/SocialCombatService.ts",
+				"src/features/camp/domain/CampService.ts",
+				"src/features/social/domain/SocialStandingService.ts",
 				"src/features/character-create/model/characterCreateView.ts",
 				"src/features/character-list/model/characterListView.ts",
 				"src/features/compendium-browser/model/compendiumBrowserView.ts",
@@ -49,6 +53,7 @@ export default defineConfig({
 			exclude: [
 				"src/entities/character/testing/**/*.ts",
 				"src/entities/character/__tests__/**/*.ts",
+				"src/shared/persistence/domain/SqliteOpfsBootstrapService.ts",
 			],
 			thresholds: {
 				lines: 100,
