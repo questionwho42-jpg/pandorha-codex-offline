@@ -15,6 +15,11 @@ export const rpcCommandTypeSchema = z.enum([
 	"INIT_DATABASE",
 	"SAVE_GAME_SNAPSHOT",
 	"LOAD_GAME_SNAPSHOT",
+	"SAVE_CHARACTER",
+	"FIND_CHARACTER",
+	"SAVE_STATUS_EFFECT",
+	"FIND_STATUS_EFFECTS",
+	"DELETE_STATUS_EFFECT",
 ]);
 
 export const jsonSerializableValueSchema = z.custom<JsonValue>(
@@ -59,10 +64,55 @@ export const loadGameSnapshotRequestSchema = z.object({
 	}),
 });
 
+export const saveCharacterRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_CHARACTER"),
+	payload: z.object({
+		character: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findCharacterRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_CHARACTER"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const saveStatusEffectRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_STATUS_EFFECT"),
+	payload: z.object({
+		effect: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findStatusEffectsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_STATUS_EFFECTS"),
+	payload: z.object({
+		characterId: z.string().min(1),
+	}),
+});
+
+export const deleteStatusEffectRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("DELETE_STATUS_EFFECT"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
 export const rpcRequestSchema = z.discriminatedUnion("type", [
 	initDatabaseRequestSchema,
 	saveGameSnapshotRequestSchema,
 	loadGameSnapshotRequestSchema,
+	saveCharacterRequestSchema,
+	findCharacterRequestSchema,
+	saveStatusEffectRequestSchema,
+	findStatusEffectsRequestSchema,
+	deleteStatusEffectRequestSchema,
 ]);
 
 const rpcErrorSchema = z.object({

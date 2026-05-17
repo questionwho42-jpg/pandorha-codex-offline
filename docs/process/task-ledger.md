@@ -13,6 +13,110 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:t41-crafting-workshop -->
+### Fase T41: Oficina e Forja sob Padrao Decorator
+- id: t41-crafting-workshop
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-17T13:57:32-03:00
+- finished_at: 2026-05-17T13:57:35-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-17T13:57:35-03:00
+- branch: task/crafting-workshop
+- commit_at_start: 644a2af feat(vertical-slice): conclui e homologa Fases T34 a T39 com 100% de cobertura
+- summary: Implementar Oficina de Forja de equipamentos e composicao dinamica de propriedades com Decorator
+- last_change: Oficina e Forja com Decorator, testes e linter 100% integrados
+#### Files At Start
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- "pandorha obsidian antigravity/.obsidian/app.json"
+- "pandorha obsidian antigravity/.obsidian/appearance.json"
+- "pandorha obsidian antigravity/.obsidian/core-plugins.json"
+- "pandorha obsidian antigravity/.obsidian/graph.json"
+- "pandorha obsidian antigravity/.obsidian/workspace.json"
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/domain/CharacterRepository.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/InMemoryCharacterRepository.ts
+- src/features/camp/ui/CampPanel.svelte
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- src/shared/rpc/model/rpcTypes.ts
+- drizzle/0003_tricky_lila_cheney.sql
+- drizzle/0004_sturdy_omega_sentinel.sql
+- drizzle/meta/0003_snapshot.json
+- drizzle/meta/0004_snapshot.json
+- pandorha-sistema-28-04-backup/App.svelte.bak
+- pandorha-sistema-28-04-backup/SqliteOpfsBootstrapService.spec.ts.bak
+- pandorha-sistema-28-04-backup/drizzle.config.mjs.bak
+- pandorha-sistema-28-04-backup/navigation.ts.bak
+- pandorha-sistema-28-04-backup/sqliteMigrations.ts.bak
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/equipment/__tests__/CraftingQualityDecorators.spec.ts
+- ... 11 more
+#### Checkpoints
+#### Checkpoint 2026-05-17T13:57:32-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-17T13:57:35-03:00
+- Done: Oficina e Forja com Decorator, testes e linter 100% integrados
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:t41-crafting-workshop -->
+<!-- pandorha-task:t40-status-effects -->
+### Fase T40: Sistema de Enfermidades e Toxinas
+- id: t40-status-effects
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-16T19:20:09-03:00
+- finished_at: 2026-05-16T19:29:53-03:00
+- model_started: Antigravity
+- model_finished: Claude 3.5 Sonnet
+- last_modified_at: 2026-05-16T19:29:53-03:00
+- branch: task/status-effects-decorations
+- commit_at_start: 644a2af feat(vertical-slice): conclui e homologa Fases T34 a T39 com 100% de cobertura
+- summary: Modelagem de eixos e penalidades temporarias atraves de Decorators e persistencia local SQLite
+- last_change: Implementada a ponte RPC para persistencia local SQLite WASM de personagens e status effects de enfermidades de forma granular
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-16T19:20:09-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: Antigravity
+
+#### Checkpoint 2026-05-16T19:29:53-03:00
+- Done: Implementada a ponte RPC para persistencia local SQLite WASM de personagens e status effects de enfermidades de forma granular
+- Next: Criar o componente de UI de Enfermidades e visualizacao reativa dos eixos recalculados e status ativos
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: Claude 3.5 Sonnet
+<!-- /pandorha-task:t40-status-effects -->
 <!-- pandorha-task:t39-qa-validation -->
 ### Fase T39: QA e Validacao
 - id: t39-qa-validation
@@ -2276,6 +2380,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-17T12:14:51-03:00 - manual
+- branch: task/status-effects-decorations
+- commit: 644a2af feat(vertical-slice): conclui e homologa Fases T34 a T39 com 100% de cobertura
+- changed_files_count: 29
+#### Changed Files
+- docs/process/task-ledger.md
+- drizzle/meta/_journal.json
+- "pandorha obsidian antigravity/.obsidian/app.json"
+- "pandorha obsidian antigravity/.obsidian/appearance.json"
+- "pandorha obsidian antigravity/.obsidian/core-plugins.json"
+- "pandorha obsidian antigravity/.obsidian/graph.json"
+- "pandorha obsidian antigravity/.obsidian/workspace.json"
+- src/app/App.svelte
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/domain/CharacterRepository.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/InMemoryCharacterRepository.ts
+- src/features/camp/ui/CampPanel.svelte
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- src/shared/rpc/model/rpcTypes.ts
+- drizzle/0003_tricky_lila_cheney.sql
+- drizzle/meta/0003_snapshot.json
+- pandorha-backup/
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-16T18:31:42-03:00 - Conclusao da integracao de UI de acampamento e standing social na Fase T37
 - branch: task/sqlite-opfs-bootstrap
 - commit: f904516 feat(rpc): adiciona contrato de save load

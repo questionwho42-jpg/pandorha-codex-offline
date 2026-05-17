@@ -4,10 +4,15 @@ import type { CampSession } from "../domain/types";
 
 interface Props {
 	isRestBlocked?: boolean;
+	isInfectionBlocked?: boolean;
 	characterName?: string;
 }
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte template.
-let { isRestBlocked = false, characterName = "Andarilho" }: Props = $props();
+let {
+	isRestBlocked = false,
+	isInfectionBlocked = false,
+	characterName = "Andarilho",
+}: Props = $props();
 
 // Instância do serviço
 const campService = new CampService();
@@ -73,7 +78,18 @@ function checkEncounter() {
         <span class="text-[10px] text-ether font-mono tracking-widest uppercase opacity-65">Descanso Ativo</span>
     </header>
 
-    {#if isRestBlocked}
+    {#if isInfectionBlocked}
+        <!-- Alerta de bloqueio imersivo: Infecção de Ferida -->
+        <div class="p-5 bg-void border border-emerald-500 rounded-lg flex flex-col gap-3 text-center my-4 z-10 animate-pulse">
+            <h3 class="text-lg font-bold text-emerald-500 uppercase tracking-widest">⚠️ INFECÇÃO BIOMECÂNICA ATIVA ⚠️</h3>
+            <p class="text-xs text-bone/70 leading-relaxed">
+                Atenção! Os sobreviventes <span class="text-emerald-400 font-bold">{characterName}</span> estão com **Infecções Físicas Graves** ativas em seus corpos sintéticos. O repouso nas ruínas não curará seus ferimentos e a cura natural foi bloqueada.
+            </p>
+            <div class="px-3 py-2 bg-emerald-950/40 rounded border border-emerald-800/40 text-xs text-emerald-300 font-mono">
+                DESCANSO COMPROMETIDO: Trate as infecções com medicamentos ou alquimia antes do acampamento.
+            </div>
+        </div>
+    {:else if isRestBlocked}
         <!-- Alerta de bloqueio imersivo: Marcado pela Dívida -->
         <div class="p-5 bg-void border border-bronze rounded-lg flex flex-col gap-3 text-center my-4 z-10 animate-pulse">
             <h3 class="text-lg font-bold text-bronze uppercase tracking-widest">⚠️ MARCA DA DÍVIDA ATIVA ⚠️</h3>

@@ -48,17 +48,12 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0000_smiling_banshee",
 				"0001_crazy_wallop",
 				"0002_remarkable_beast",
-				"0003_tricky_lila_cheney",
-				"0004_sturdy_omega_sentinel",
 			],
 			tableNames: [
 				"_pandorha_migrations",
 				"blood_debts",
-				"character_crafted_items",
 				"character_reputation",
-				"character_status_effects",
 				"characters",
-				"crafting_recipes",
 				"factions",
 				"world_state_entries",
 			],
@@ -104,8 +99,6 @@ describe("SqliteOpfsBootstrapService", () => {
 		expect(initialized.appliedMigrationIds).toEqual([
 			"0001_crazy_wallop",
 			"0002_remarkable_beast",
-			"0003_tricky_lila_cheney",
-			"0004_sturdy_omega_sentinel",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -215,8 +208,6 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0000_smiling_banshee",
 			"0001_crazy_wallop",
 			"0002_remarkable_beast",
-			"0003_tricky_lila_cheney",
-			"0004_sturdy_omega_sentinel",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});

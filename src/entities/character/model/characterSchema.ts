@@ -71,3 +71,38 @@ export const characterCreateInputSchema = characterInsertSchema.omit({
 export type CharacterRecord = z.infer<typeof characterSelectSchema>;
 export type NewCharacterRecord = z.infer<typeof characterInsertSchema>;
 export type CharacterCreateInput = z.infer<typeof characterCreateInputSchema>;
+
+// Tabela de Efeitos de Status Ativos do Personagem
+export const characterStatusEffects = sqliteTable("character_status_effects", {
+	id: text("id").primaryKey(),
+	characterId: text("character_id")
+		.notNull()
+		.references(() => characters.id, { onDelete: "cascade" }),
+	type: text("type").notNull(), // 'eter_fever' | 'wound_infection' | 'viper_poison'
+	createdAt: text("created_at").notNull(),
+});
+
+export const characterStatusEffectInsertSchema = createInsertSchema(
+	characterStatusEffects,
+).extend({
+	id: notBlankText,
+	characterId: notBlankText,
+	type: z.enum(["eter_fever", "wound_infection", "viper_poison"]),
+	createdAt: notBlankText,
+});
+
+export const characterStatusEffectSelectSchema = createSelectSchema(
+	characterStatusEffects,
+).extend({
+	id: notBlankText,
+	characterId: notBlankText,
+	type: z.enum(["eter_fever", "wound_infection", "viper_poison"]),
+	createdAt: notBlankText,
+});
+
+export type CharacterStatusEffectRecord = z.infer<
+	typeof characterStatusEffectSelectSchema
+>;
+export type NewCharacterStatusEffectRecord = z.infer<
+	typeof characterStatusEffectInsertSchema
+>;

@@ -66,6 +66,8 @@ describe("createCharacterListView", () => {
 					{ label: "Interação", value: 1 },
 					{ label: "Resistência", value: 3 },
 				],
+				statusEffects: [],
+				allowsNaturalRecovery: true,
 			},
 		]);
 	});
@@ -83,5 +85,117 @@ describe("createCharacterListView", () => {
 		]);
 
 		expect(view.countLabel).toBe("2 personagens");
+	});
+
+	it("applies status effect decorators (Eter Fever) and recalculates stats dynamically", () => {
+		const view = createCharacterListView([character], {
+			ancestries: [{ id: "human", label: "Humano" } as AncestryRecord],
+			backgrounds: [{ id: "acolyte", label: "Acólito" } as BackgroundRecord],
+			characterClasses: [
+				{
+					id: "vanguard",
+					label: "Vanguarda",
+					baseHp: 10,
+				} as unknown as CharacterClassRecord,
+			],
+			statusEffects: [
+				{
+					id: "effect-fever",
+					characterId: "character-kael",
+					type: "eter_fever",
+					severity: 2,
+					severityMax: 4,
+					isAggravated: false,
+					createdAt: "2026-05-03T13:14:25.000Z",
+				} as any,
+			],
+		});
+
+		const item = view.items[0];
+		expect(item).toBeDefined();
+		expect(item.statusEffects).toEqual([
+			{
+				id: "effect-fever",
+				type: "eter_fever",
+				label: "Febre de Éter",
+				severity: 2,
+				isAggravated: false,
+			},
+		]);
+
+		// Mental caiu de 1 para 0
+		const mentalStat = item.axes.find((s) => s.label === "Mental");
+		expect(mentalStat).toEqual({ label: "Mental", value: 0, baseValue: 1 });
+
+		// Resistência (aplicações) caiu de 3 para 2
+		const resistanceStat = item.applications.find(
+			(s) => s.label === "Resistência",
+		);
+		expect(resistanceStat).toEqual({
+			label: "Resistência",
+			value: 2,
+			baseValue: 3,
+		});
+
+		// Outros eixos intactos e sem baseValue exposto por não terem sido penalizados!
+		const physicalStat = item.axes.find((s) => s.label === "Físico");
+		expect(physicalStat).toEqual({ label: "Físico", value: 3 });
+	});
+
+	it("applies multiple decorators (Wound Infection + Eter Fever) in onion pattern", () => {
+		const view = createCharacterListView([character], {
+			ancestries: [{ id: "human", label: "Humano" } as AncestryRecord],
+			backgrounds: [{ id: "acolyte", label: "Acólito" } as BackgroundRecord],
+			characterClasses: [
+				{
+					id: "vanguard",
+					label: "Vanguarda",
+					baseHp: 10,
+				} as unknown as CharacterClassRecord,
+			],
+			statusEffects: [
+				{
+					id: "effect-inf",
+					characterId: "character-kael",
+					type: "wound_infection",
+					severity: 1,
+					severityMax: 3,
+					isAggravated: false,
+					createdAt: "2026-05-03T13:14:25.000Z",
+				} as any,
+				{
+					id: "effect-fever",
+					characterId: "character-kael",
+					type: "eter_fever",
+					severity: 2,
+					severityMax: 4,
+					isAggravated: false,
+					createdAt: "2026-05-03T13:14:25.000Z",
+				} as any,
+			],
+		});
+
+		const item = view.items[0];
+		expect(item).toBeDefined();
+		expect(item.allowsNaturalRecovery).toBe(false); // Infecção de ferida impede cura natural
+		expect(item.statusEffects.length).toBe(2);
+
+		// Físico caiu de 3 para 2 por conta de Wound Infection
+		const physicalStat = item.axes.find((s) => s.label === "Físico");
+		expect(physicalStat).toEqual({ label: "Físico", value: 2, baseValue: 3 });
+
+		// Mental caiu de 1 para 0 por conta de Eter Fever
+		const mentalStat = item.axes.find((s) => s.label === "Mental");
+		expect(mentalStat).toEqual({ label: "Mental", value: 0, baseValue: 1 });
+
+		// Resistência caiu de 3 para 2 por conta de Eter Fever
+		const resistanceStat = item.applications.find(
+			(s) => s.label === "Resistência",
+		);
+		expect(resistanceStat).toEqual({
+			label: "Resistência",
+			value: 2,
+			baseValue: 3,
+		});
 	});
 });

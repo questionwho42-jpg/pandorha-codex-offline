@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 import { drizzle } from "drizzle-orm/sql-js";
+import { DrizzleCharacterRepository } from "$lib/entities/character/infrastructure/DrizzleCharacterRepository";
 import { characters } from "$lib/entities/character/model/characterSchema";
 import { worldStateEntries } from "$lib/entities/world-state/model/worldStateSchema";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
@@ -319,6 +320,258 @@ export class SqliteOpfsBootstrapService {
 			return fail({
 				code: "SQLITE_READ_FAILED",
 				message: "Could not load game snapshot from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveCharacter(
+		character: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCharacterRepository(db as any);
+
+			const result = await repository.save(character);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "SQLITE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "SQLITE_WRITE_FAILED",
+				message: "Could not save character to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findCharacter(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCharacterRepository(db as any);
+
+			const result = await repository.findById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "SQLITE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "SQLITE_READ_FAILED",
+				message: "Could not load character from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveStatusEffect(
+		effect: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCharacterRepository(db as any);
+
+			const result = await repository.saveStatusEffect(effect);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "SQLITE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "SQLITE_WRITE_FAILED",
+				message: "Could not save status effect to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findStatusEffects(
+		characterId: string,
+	): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCharacterRepository(db as any);
+
+			const result =
+				await repository.findStatusEffectsByCharacterId(characterId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "SQLITE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "SQLITE_READ_FAILED",
+				message: "Could not load status effects from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async deleteStatusEffect(
+		id: string,
+	): Promise<Result<void, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCharacterRepository(db as any);
+
+			const result = await repository.deleteStatusEffect(id);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "SQLITE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(undefined);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "SQLITE_WRITE_FAILED",
+				message: "Could not delete status effect from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
 		}

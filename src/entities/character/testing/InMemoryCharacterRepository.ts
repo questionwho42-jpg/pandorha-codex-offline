@@ -2,13 +2,20 @@ import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { CharacterRepository } from "../domain/CharacterRepository";
 import {
 	type CharacterRecord,
+	type CharacterStatusEffectRecord,
 	characterSelectSchema,
+	characterStatusEffectSelectSchema,
 	type NewCharacterRecord,
+	type NewCharacterStatusEffectRecord,
 } from "../model/characterSchema";
 import type { CharacterRepositoryFailure } from "../model/characterTypes";
 
 export class InMemoryCharacterRepository implements CharacterRepository {
 	private readonly records = new Map<string, CharacterRecord>();
+	private readonly statusEffects = new Map<
+		string,
+		CharacterStatusEffectRecord
+	>();
 	private nextSaveFailure: CharacterRepositoryFailure | null = null;
 
 	public async save(
@@ -46,6 +53,39 @@ export class InMemoryCharacterRepository implements CharacterRepository {
 		}
 
 		return ok(record);
+	}
+
+	public async saveStatusEffect(
+		effect: NewCharacterStatusEffectRecord,
+	): Promise<Result<CharacterStatusEffectRecord, CharacterRepositoryFailure>> {
+		const parsed = characterStatusEffectSelectSchema.safeParse(effect);
+		if (!parsed.success) {
+			return fail({
+				code: "CORRUPTED_CHARACTER_RECORD",
+				message: "Fake repository received an invalid status effect record.",
+			});
+		}
+
+		this.statusEffects.set(parsed.data.id, parsed.data);
+		return ok(parsed.data);
+	}
+
+	public async findStatusEffectsByCharacterId(
+		characterId: string,
+	): Promise<
+		Result<CharacterStatusEffectRecord[], CharacterRepositoryFailure>
+	> {
+		const list = Array.from(this.statusEffects.values()).filter(
+			(effect) => effect.characterId === characterId,
+		);
+		return ok(list);
+	}
+
+	public async deleteStatusEffect(
+		id: string,
+	): Promise<Result<void, CharacterRepositoryFailure>> {
+		this.statusEffects.delete(id);
+		return ok(undefined);
 	}
 
 	public all(): readonly CharacterRecord[] {

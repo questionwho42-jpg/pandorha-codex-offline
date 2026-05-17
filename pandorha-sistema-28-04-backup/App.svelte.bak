@@ -23,8 +23,6 @@ import { CombatEncounterPanel } from "$lib/features/combat-encounter";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CompendiumBrowser } from "$lib/features/compendium-browser";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
-import { CraftingWorkshopPanel } from "$lib/features/crafting";
-// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
@@ -332,10 +330,6 @@ async function createCharacter(
 					isRestBlocked={isRestBlocked}
 					isInfectionBlocked={isNaturalRecoveryBlocked}
 					characterName={infectedCharacterNames.length > 0 ? infectedCharacterNames.join(', ') : undefined}
-				/>
-			{:else if activeView === "crafting"}
-				<CraftingWorkshopPanel 
-					characters={characterRecords}
 				/>
 			{:else}
 				<p class="max-w-3xl text-lg leading-8 text-bone">

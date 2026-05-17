@@ -1,8 +1,6 @@
 import characterMigrationSql from "../../../../drizzle/0000_smiling_banshee.sql?raw";
 import worldStateMigrationSql from "../../../../drizzle/0001_crazy_wallop.sql?raw";
 import socialMigrationSql from "../../../../drizzle/0002_remarkable_beast.sql?raw";
-import statusEffectsMigrationSql from "../../../../drizzle/0003_tricky_lila_cheney.sql?raw";
-import craftingMigrationSql from "../../../../drizzle/0004_sturdy_omega_sentinel.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -17,13 +15,5 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0002_remarkable_beast",
 		sql: socialMigrationSql,
-	},
-	{
-		id: "0003_tricky_lila_cheney",
-		sql: statusEffectsMigrationSql,
-	},
-	{
-		id: "0004_sturdy_omega_sentinel",
-		sql: craftingMigrationSql,
 	},
 ];

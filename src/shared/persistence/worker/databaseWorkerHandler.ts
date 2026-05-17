@@ -92,6 +92,95 @@ export async function handleDatabaseWorkerRequest(
 			});
 		}
 
+		case "SAVE_CHARACTER": {
+			const result = await input.bootstrapService.saveCharacter(
+				command.payload.character,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_CHARACTER": {
+			const result = await input.bootstrapService.findCharacter(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "SAVE_STATUS_EFFECT": {
+			const result = await input.bootstrapService.saveStatusEffect(
+				command.payload.effect,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_STATUS_EFFECTS": {
+			const result = await input.bootstrapService.findStatusEffects(
+				command.payload.characterId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "DELETE_STATUS_EFFECT": {
+			const result = await input.bootstrapService.deleteStatusEffect(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+			});
+		}
+
 		default: {
 			const _exhaustiveCheck: never = command;
 			return createRpcFailureResponse({

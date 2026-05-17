@@ -48,6 +48,13 @@ const expectedColumns = [
 	{ name: "updated_at", type: "TEXT", notNull: true, primaryKey: false },
 ];
 
+const expectedStatusEffectsColumns = [
+	{ name: "id", type: "TEXT", notNull: true, primaryKey: true },
+	{ name: "character_id", type: "TEXT", notNull: true, primaryKey: false },
+	{ name: "type", type: "TEXT", notNull: true, primaryKey: false },
+	{ name: "created_at", type: "TEXT", notNull: true, primaryKey: false },
+];
+
 const findSqlFiles = (directory: string): string[] => {
 	if (!existsSync(directory)) {
 		return [];
@@ -104,6 +111,37 @@ describe("Character migration", () => {
 			);
 
 			for (const expectedColumn of expectedColumns) {
+				expect(columnsByName.get(expectedColumn.name)).toEqual(expectedColumn);
+			}
+		} finally {
+			database.close();
+		}
+	});
+
+	it("creates the character_status_effects table from versioned SQL migrations", async () => {
+		const migrationSql = loadMigrationSql();
+		expect(migrationSql).toContain("CREATE TABLE `character_status_effects`");
+
+		const SQL = await initSqlJs({
+			locateFile: () => sqlJsWasmPath,
+		});
+		const database = new SQL.Database();
+
+		try {
+			database.run(migrationSql);
+			const [tableInfo] = database.exec(
+				"PRAGMA table_info('character_status_effects');",
+			);
+			const columns = tableColumnsFrom(tableInfo?.values ?? []);
+			const columnsByName = new Map(
+				columns.map((column) => [column.name, column]),
+			);
+
+			expect(columns.map((column) => column.name)).toEqual(
+				expectedStatusEffectsColumns.map((column) => column.name),
+			);
+
+			for (const expectedColumn of expectedStatusEffectsColumns) {
 				expect(columnsByName.get(expectedColumn.name)).toEqual(expectedColumn);
 			}
 		} finally {

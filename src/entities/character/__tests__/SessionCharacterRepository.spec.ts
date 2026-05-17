@@ -53,4 +53,38 @@ describe("SessionCharacterRepository", () => {
 			},
 		});
 	});
+
+	it("saves, finds, and deletes status effects in session memory", async () => {
+		const repository = new SessionCharacterRepository();
+		const effectInput = {
+			characterId: "session-character-1",
+			type: "eter_fever",
+			severity: 2,
+			severityMax: 4,
+			isAggravated: false,
+		};
+
+		const saveResult = await repository.saveStatusEffect(effectInput);
+		expect(saveResult.success).toBe(true);
+		expect(saveResult.data?.id).toBeDefined();
+		expect(saveResult.data?.type).toBe("eter_fever");
+
+		const effectId = saveResult.data?.id;
+
+		const findResult = await repository.findStatusEffectsByCharacterId(
+			"session-character-1",
+		);
+		expect(findResult.success).toBe(true);
+		expect(findResult.data?.length).toBe(1);
+		expect(findResult.data?.[0].id).toBe(effectId);
+
+		const deleteResult = await repository.deleteStatusEffect(effectId);
+		expect(deleteResult.success).toBe(true);
+
+		const findAfterDelete = await repository.findStatusEffectsByCharacterId(
+			"session-character-1",
+		);
+		expect(findAfterDelete.success).toBe(true);
+		expect(findAfterDelete.data?.length).toBe(0);
+	});
 });
