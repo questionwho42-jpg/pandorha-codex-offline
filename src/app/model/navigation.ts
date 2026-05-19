@@ -35,6 +35,13 @@ export const APP_NAVIGATION_ITEMS = [
 			"O mapa de treino permite mover o grupo entre hexes adjacentes.",
 	},
 	{
+		id: "camp",
+		label: "Acampamento",
+		heading: "Acampamento",
+		description:
+			"O descanso ativo permite planejar uma hora de ações do grupo.",
+	},
+	{
 		id: "magic",
 		label: "Magia",
 		heading: "Magia",

@@ -92,3 +92,10 @@
 - `App.svelte` exposes explicit save/load controls only in the `Personagens` tab, keeping URL-less navigation unchanged.
 - Loaded characters are restored into the session repository and resynchronize the next session-character id before new creations.
 - Loaded WorldState flags are preserved in app memory for future saves even though there is no dedicated UI for them yet.
+
+## 2026-05-19 - T35D Camp UI
+
+- Added `camp` to the state-driven navigation contract.
+- `campSession` wires the camp activity catalog, default camp state, `ClockService`, and `CampHourService` for the browser panel.
+- `App.svelte` now owns camp persisted state arrays (`clocks`, `campSessions`, `campAssignments`) and sends them through save/load v2.
+- The camp UI remains one-hour only and does not introduce a router, autosave, random event table, recovery engine, or encounter generation.

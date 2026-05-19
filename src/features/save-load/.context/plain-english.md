@@ -9,3 +9,5 @@ O primeiro save real tambem grava uma marca tecnica escondida para lembrar a ver
 Agora ja existe controle no navegador para salvar e carregar a sessao atual. O primeiro ciclo guarda personagens e fatos do mundo no proprio navegador e consegue restaurar os personagens depois de recarregar a pagina.
 
 Ainda existe apenas um slot de save. Tambem nao ha autosave nem tela propria para os fatos do mundo; eles sao preservados por baixo dos panos para nao se perderem em um novo save.
+
+O save agora esta na versao 2. Alem de personagens e fatos do mundo, ele consegue guardar relogios e o estado do acampamento. Saves antigos da versao 1 continuam carregando, mas com acampamento vazio.

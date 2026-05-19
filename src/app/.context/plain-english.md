@@ -31,3 +31,5 @@ Na T28, o app ganhou a aba Magia. Ela deixa o usuario escolher uma magia, ver cu
 Na T31, o app ganhou a aba Exploracao. Ela mostra um mapa pequeno com sete hexagonos: o usuario pode clicar em um hex vizinho, ver a posicao mudar e acompanhar o log. O mapa ainda nao salva progresso, nao rola Navegacao e nao cria encontros reais.
 
 Na T33D, a aba Personagens ganhou os botoes Salvar sessao e Carregar save. O usuario pode criar um personagem, salvar, recarregar a pagina e carregar o personagem de volta usando o armazenamento local real do navegador. Ainda existe apenas um slot de save e os fatos do mundo sao guardados sem tela propria.
+
+Na T35D, o app ganhou a aba Acampamento. O usuario pode escolher uma acao para cada personagem, resolver 1 hora, ver o perigo subir, acompanhar o relogio Fortificar perimetro e salvar esse estado no navegador.

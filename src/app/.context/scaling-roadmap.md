@@ -18,4 +18,5 @@
 - T28 adds a minimal Magia tab; future magic UI should connect session caster resources and real targets only after EE, targeting, and spell execution services exist.
 - T31 adds a minimal Exploracao tab; future exploration work should add world-state persistence before promising saved discovery or mapped routes.
 - T33D adds explicit local save/load controls in the `Personagens` tab; future persistence work should add multiple slots, autosave, and user-facing WorldState views only after their dedicated services are defined.
+- T35D adds a minimal Acampamento tab; future camp work should add multi-hour orchestration, activity rolls, recovery, and encounter checks only after the one-hour saved flow is stable.
 - Future app bootstrapping should introduce typed providers for Worker/RPC, repositories, services, and UI state.

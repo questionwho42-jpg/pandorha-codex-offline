@@ -1,10 +1,17 @@
 <script lang="ts">
 import { onMount } from "svelte";
 import type {
+	CampAssignmentRecord,
+	CampSessionRecord,
+} from "$lib/entities/camp-session";
+import type {
 	CharacterCreateInput,
 	CharacterRecord,
 } from "$lib/entities/character";
+import type { ClockRecord } from "$lib/entities/clock";
 import type { WorldStateFlagView } from "$lib/entities/world-state";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { CampHourPanel } from "$lib/features/camp-hour";
 import {
 	// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 	CharacterCreateForm,
@@ -28,6 +35,7 @@ import {
 } from "$lib/features/save-load";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SpellCastPanel } from "$lib/features/spell-cast";
+import { createCampSession } from "./model/campSession";
 import { createCharacterSession } from "./model/characterSession";
 import { createCombatEncounterSession } from "./model/combatEncounterSession";
 import { createCompendiumSession } from "./model/compendiumSession";
@@ -41,6 +49,8 @@ import { createSpellCastSession } from "./model/spellCastSession";
 
 const characterSession = createCharacterSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const campSession = createCampSession();
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const combatEncounterSession = createCombatEncounterSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const compendiumSession = createCompendiumSession();
@@ -53,7 +63,10 @@ const spellCastSession = createSpellCastSession();
 const saveLoadSession = createSaveLoadSession();
 
 let activeView = $state<AppNavigationId>("home");
+let campAssignmentRecords = $state<CampAssignmentRecord[]>([]);
+let campSessionRecords = $state<CampSessionRecord[]>([]);
 let characterRecords = $state<CharacterRecord[]>([]);
+let clockRecords = $state<ClockRecord[]>([]);
 let worldStateRecords = $state<WorldStateFlagView[]>([]);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let saveLoadState = $state<SaveLoadUiState>({ kind: "initializing" });
@@ -115,6 +128,9 @@ async function saveSession(): Promise<void> {
 	const result = await saveLoadSession.service.saveSession({
 		characters: characterRecords,
 		worldState: worldStateRecords,
+		clocks: clockRecords,
+		campSessions: campSessionRecords,
+		campAssignments: campAssignmentRecords,
 		savedAt: new Date().toISOString(),
 	});
 
@@ -146,6 +162,9 @@ async function loadSession(): Promise<void> {
 
 	characterRecords = [...restored.data];
 	worldStateRecords = [...result.data.worldState];
+	clockRecords = [...result.data.clocks];
+	campSessionRecords = [...result.data.campSessions];
+	campAssignmentRecords = [...result.data.campAssignments];
 	saveLoadState = { kind: "loaded" };
 }
 
@@ -238,6 +257,21 @@ onMount(() => {
 					initialTileId={hexcrawlSession.initialTileId}
 					moveParty={hexcrawlSession.moveParty}
 					tiles={hexcrawlSession.tiles}
+				/>
+			{:else if activeView === "camp"}
+				<CampHourPanel
+					activities={campSession.activities}
+					campAssignments={campAssignmentRecords}
+					campSessions={campSessionRecords}
+					characters={characterRecords}
+					clocks={clockRecords}
+					createInitialState={campSession.createInitialState}
+					onStateChange={(state) => {
+						clockRecords = [...state.clocks];
+						campSessionRecords = [...state.campSessions];
+						campAssignmentRecords = [...state.campAssignments];
+					}}
+					resolveHour={campSession.resolveHour}
 				/>
 			{:else if activeView === "magic"}
 				<SpellCastPanel

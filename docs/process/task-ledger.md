@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260519-123008-t35d-camp-ui -->
+### T35D Camp UI
+- id: 20260519-123008-t35d-camp-ui
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-19T12:30:08-03:00
+- finished_at: 2026-05-19T18:43:22-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-19T18:43:22-03:00
+- branch: task/camp-ui
+- commit_at_start: 7029214 feat(save-load): adiciona snapshot v2 de acampamento
+- summary: Adicionar aba Acampamento com planejamento de uma hora, contador de perigo, relogio Fortificar perimetro, log em pt-BR e save/load v2.
+- last_change: T35D concluida: aba Acampamento adicionada com planejamento de 1 hora, Contador de Perigo, relogio Fortificar perimetro, save/load v2 restaurando estado, guia de usuario, Browser Use validado e gates completos verdes.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-19T12:30:08-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-19T12:40:09-03:00
+- Done: T35D parcialmente implementada: aba Acampamento, view model, testes e docs criados; lint, testes e coverage passaram, mas build/quality gate/browser validation foram pausados porque a execução escalada foi rejeitada por limite de uso do Codex.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-19T18:43:22-03:00
+- Done: T35D concluida: aba Acampamento adicionada com planejamento de 1 hora, Contador de Perigo, relogio Fortificar perimetro, save/load v2 restaurando estado, guia de usuario, Browser Use validado e gates completos verdes.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260519-123008-t35d-camp-ui -->
 <!-- pandorha-task:20260519-121519-t35c-save-load-v2-camp -->
 ### T35C Save Load V2 Camp
 - id: 20260519-121519-t35c-save-load-v2-camp
@@ -2195,6 +2234,93 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-19T18:43:17-03:00 - camp-ui
+- branch: task/camp-ui
+- commit: 7029214 feat(save-load): adiciona snapshot v2 de acampamento
+- changed_files_count: 19
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/features/camp-hour/.context/plain-english.md
+- src/features/camp-hour/.context/scaling-roadmap.md
+- src/features/camp-hour/.context/tech-memory.md
+- src/features/camp-hour/index.ts
+- src/features/save-load/.context/plain-english.md
+- src/features/save-load/.context/scaling-roadmap.md
+- src/features/save-load/.context/tech-memory.md
+- vitest.config.mjs
+- docs/user/camp-training.md
+- src/app/model/campSession.ts
+- src/features/camp-hour/__tests__/campHourView.spec.ts
+- src/features/camp-hour/model/campHourView.ts
+- src/features/camp-hour/ui/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-19T18:30:00-03:00 - camp-ui-resume
+- branch: task/camp-ui
+- commit: 7029214 feat(save-load): adiciona snapshot v2 de acampamento
+- changed_files_count: 19
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/features/camp-hour/.context/plain-english.md
+- src/features/camp-hour/.context/scaling-roadmap.md
+- src/features/camp-hour/.context/tech-memory.md
+- src/features/camp-hour/index.ts
+- src/features/save-load/.context/plain-english.md
+- src/features/save-load/.context/scaling-roadmap.md
+- src/features/save-load/.context/tech-memory.md
+- vitest.config.mjs
+- docs/user/camp-training.md
+- src/app/model/campSession.ts
+- src/features/camp-hour/__tests__/campHourView.spec.ts
+- src/features/camp-hour/model/campHourView.ts
+- src/features/camp-hour/ui/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-19T12:40:02-03:00 - camp-ui-paused-build-approval-limit
+- branch: task/camp-ui
+- commit: 7029214 feat(save-load): adiciona snapshot v2 de acampamento
+- changed_files_count: 19
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/features/camp-hour/.context/plain-english.md
+- src/features/camp-hour/.context/scaling-roadmap.md
+- src/features/camp-hour/.context/tech-memory.md
+- src/features/camp-hour/index.ts
+- src/features/save-load/.context/plain-english.md
+- src/features/save-load/.context/scaling-roadmap.md
+- src/features/save-load/.context/tech-memory.md
+- vitest.config.mjs
+- docs/user/camp-training.md
+- src/app/model/campSession.ts
+- src/features/camp-hour/__tests__/campHourView.spec.ts
+- src/features/camp-hour/model/campHourView.ts
+- src/features/camp-hour/ui/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-19T12:29:07-03:00 - save-load-v2-camp
 - branch: task/save-load-v2-camp
 - commit: feab80f feat(camp): adiciona resolucao de hora

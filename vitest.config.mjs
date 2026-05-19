@@ -44,6 +44,7 @@ export default defineConfig({
 				"src/features/spell-cast/domain/SpellCastBuilderService.ts",
 				"src/features/character-create/model/characterCreateView.ts",
 				"src/features/character-list/model/characterListView.ts",
+				"src/features/camp-hour/model/campHourView.ts",
 				"src/features/compendium-browser/model/compendiumBrowserView.ts",
 				"src/features/hexcrawl-map/model/hexcrawlMapView.ts",
 				"src/features/inventory-readonly/model/inventoryReadOnlyView.ts",
