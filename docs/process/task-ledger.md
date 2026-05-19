@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260519-120236-t35b-camphourservice -->
+### T35B CampHourService
+- id: 20260519-120236-t35b-camphourservice
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-19T12:02:36-03:00
+- finished_at: 2026-05-19T12:14:10-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-19T12:14:10-03:00
+- branch: task/camp-hour-service
+- commit_at_start: 151e295 feat(camp): adiciona modelos iniciais de acampamento
+- summary: Implementar service puro para resolver uma hora de acampamento com atribuicoes, perigo, log e avanço de relogio.
+- last_change: T35B concluida: CampHourService resolve uma hora deterministica de acampamento com perigo, logs e avanco de relogio.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-19T12:02:36-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-19T12:14:10-03:00
+- Done: T35B concluida: CampHourService resolve uma hora deterministica de acampamento com perigo, logs e avanco de relogio.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260519-120236-t35b-camphourservice -->
 <!-- pandorha-task:20260515-211720-t35a-camp-activity-catalog -->
 ### T35A Camp Activity Catalog
 - id: 20260515-211720-t35a-camp-activity-catalog
@@ -2131,6 +2163,20 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-19T12:14:01-03:00 - camp-hour-service
+- branch: task/camp-hour-service
+- commit: 151e295 feat(camp): adiciona modelos iniciais de acampamento
+- changed_files_count: 4
+#### Changed Files
+- docs/process/task-ledger.md
+- src/shared/game-rules.ts
+- vitest.config.mjs
+- src/features/camp-hour/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-15T21:23:25-03:00 - camp-activity-catalog
 - branch: task/camp-activity-catalog
 - commit: 3e4885c feat(clock): adiciona persistencia sqlite

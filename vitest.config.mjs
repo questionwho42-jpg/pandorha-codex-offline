@@ -37,6 +37,7 @@ export default defineConfig({
 				"src/shared/rpc/infrastructure/BrowserWorkerBridge.ts",
 				"src/features/combat-encounter/domain/CombatEncounterService.ts",
 				"src/features/combat-encounter/domain/CombatTurnService.ts",
+				"src/features/camp-hour/domain/CampHourService.ts",
 				"src/features/hexcrawl-map/domain/HexcrawlMovementService.ts",
 				"src/features/save-load/domain/SaveLoadService.ts",
 				"src/features/save-load/domain/SqliteSaveSnapshotService.ts",

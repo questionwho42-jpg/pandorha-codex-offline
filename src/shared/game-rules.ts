@@ -183,6 +183,19 @@ export const PANDORHA_RULES = {
 		 */
 		POTION_BELT_CAPACITY: 5,
 	},
+
+	CAMP: {
+		/**
+		 * Deterministic minimum danger increase for the first one-hour camp slice.
+		 * @source docs/system/survival/28-codex-acampamento-descanso-ativo.md - Secao 2 (O Risco Crescente)
+		 */
+		BASE_DANGER_INCREASE_PER_HOUR: 1,
+		/**
+		 * T35B does not roll activity tests yet; each assigned helper advances one deterministic slice.
+		 * @source docs/system/survival/28-codex-acampamento-descanso-ativo.md - Secao 5 (Relogios de Esforco Coletivo)
+		 */
+		FORTIFY_PERIMETER_PROGRESS_PER_ASSIGNMENT: 1,
+	},
 } as const;
 
 export type PandorhaRulesType = typeof PANDORHA_RULES;
