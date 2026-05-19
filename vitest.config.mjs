@@ -24,6 +24,7 @@ export default defineConfig({
 				"src/entities/compendium/domain/CompendiumCatalogService.ts",
 				"src/entities/compendium/domain/CompendiumSearchService.ts",
 				"src/entities/equipment/domain/EquipmentCatalogService.ts",
+				"src/entities/faction/domain/FactionCatalogService.ts",
 				"src/entities/spell/domain/SpellCatalogService.ts",
 				"src/entities/world-tile/domain/WorldTileCatalogService.ts",
 				"src/entities/world-state/domain/WorldStateService.ts",
