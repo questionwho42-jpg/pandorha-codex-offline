@@ -32,7 +32,7 @@ describe("RPC save/load contract", () => {
 			payload: {
 				saveId: "primary",
 				snapshot: {
-					version: 1,
+					version: 2,
 					savedAt: CREATED_AT,
 					characters: [{ id: "lia", name: "Lia", level: 1 }],
 					worldState: [
@@ -42,6 +42,9 @@ describe("RPC save/load contract", () => {
 							updatedAt: CREATED_AT,
 						},
 					],
+					clocks: [{ id: "fortify-perimeter", currentSlices: 1 }],
+					campSessions: [{ id: "camp-session-1", danger: 1 }],
+					campAssignments: [{ id: "camp-assignment-1", hour: 1 }],
 				},
 			},
 		});
@@ -66,10 +69,13 @@ describe("RPC save/load contract", () => {
 			payload: {
 				saveId: "primary",
 				snapshot: {
-					version: 1,
+					version: 2,
 					savedAt: CREATED_AT,
 					characters: [{ id: "lia", createdAt: new Date(CREATED_AT) }],
 					worldState: [],
+					clocks: [],
+					campSessions: [],
+					campAssignments: [],
 				},
 			},
 		});

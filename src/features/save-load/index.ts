@@ -1,8 +1,16 @@
 export { SaveLoadService } from "./domain/SaveLoadService";
 export { SqliteSaveSnapshotService } from "./domain/SqliteSaveSnapshotService";
 export {
+	CURRENT_SAVE_VERSION,
 	loadedSessionStateSchema,
+	loadedSessionStateV1Schema,
+	loadedSessionStateV2Schema,
+	migrateLoadedSessionToCurrent,
+	migrateSaveV1ToV2,
+	saveMetadataAnySchema,
 	saveMetadataSchema,
+	saveMetadataV1Schema,
+	saveMetadataV2Schema,
 	saveSessionInputSchema,
 	worldStateFlagSchema,
 } from "./model/saveLoadSchemas";

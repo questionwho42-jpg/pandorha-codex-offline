@@ -1,7 +1,9 @@
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { SaveGameSnapshot, WorkerBridge } from "$lib/shared/rpc";
 import {
+	CURRENT_SAVE_VERSION,
 	loadedSessionStateSchema,
+	migrateLoadedSessionToCurrent,
 	saveSessionInputSchema,
 } from "../model/saveLoadSchemas";
 import type {
@@ -10,8 +12,6 @@ import type {
 	SaveLoadMessageIdProvider,
 	SaveSessionResult,
 } from "../model/saveLoadTypes";
-
-const CURRENT_SAVE_VERSION = 1;
 
 /**
  * @description Coordinates validated save/load snapshots over the WorkerBridge without owning Worker transport, OPFS, or UI concerns.
@@ -41,6 +41,9 @@ export class SaveLoadService {
 			savedAt: parsedInput.data.savedAt,
 			characters: parsedInput.data.characters,
 			worldState: parsedInput.data.worldState,
+			clocks: parsedInput.data.clocks,
+			campSessions: parsedInput.data.campSessions,
+			campAssignments: parsedInput.data.campAssignments,
 		};
 
 		const response = await this.workerBridge.send({
@@ -73,6 +76,9 @@ export class SaveLoadService {
 			savedAt: parsedInput.data.savedAt,
 			characterCount: parsedInput.data.characters.length,
 			worldStateCount: parsedInput.data.worldState.length,
+			clockCount: parsedInput.data.clocks.length,
+			campSessionCount: parsedInput.data.campSessions.length,
+			campAssignmentCount: parsedInput.data.campAssignments.length,
 		});
 	}
 
@@ -110,7 +116,7 @@ export class SaveLoadService {
 		const candidate = response.data.data;
 		if (
 			typeof candidate.version === "number" &&
-			candidate.version !== CURRENT_SAVE_VERSION
+			candidate.version > CURRENT_SAVE_VERSION
 		) {
 			return fail({
 				code: "PENDING_SAVE_MIGRATION",
@@ -127,12 +133,16 @@ export class SaveLoadService {
 				details: { issues: formatIssues(parsedLoaded.error.issues) },
 			});
 		}
+		const currentSnapshot = migrateLoadedSessionToCurrent(parsedLoaded.data);
 
 		return ok({
-			version: parsedLoaded.data.version,
-			savedAt: parsedLoaded.data.savedAt,
-			characters: parsedLoaded.data.characters,
-			worldState: parsedLoaded.data.worldState,
+			version: currentSnapshot.version,
+			savedAt: currentSnapshot.savedAt,
+			characters: currentSnapshot.characters,
+			worldState: currentSnapshot.worldState,
+			clocks: currentSnapshot.clocks,
+			campSessions: currentSnapshot.campSessions,
+			campAssignments: currentSnapshot.campAssignments,
 		});
 	}
 }

@@ -34,6 +34,9 @@ const snapshotWorkerPort = {
 			savedAt: saved.data.savedAt,
 			characterCount: saved.data.characterCount,
 			worldStateCount: saved.data.worldStateCount,
+			clockCount: saved.data.clockCount,
+			campSessionCount: saved.data.campSessionCount,
+			campAssignmentCount: saved.data.campAssignmentCount,
 		});
 	},
 	loadSnapshot: async () => {
@@ -52,6 +55,15 @@ const snapshotWorkerPort = {
 				key: flag.key,
 				value: flag.value,
 				updatedAt: flag.updatedAt,
+			})),
+			clocks: loaded.data.clocks.map((clock) => ({
+				...clock,
+			})),
+			campSessions: loaded.data.campSessions.map((session) => ({
+				...session,
+			})),
+			campAssignments: loaded.data.campAssignments.map((assignment) => ({
+				...assignment,
 			})),
 		});
 	},

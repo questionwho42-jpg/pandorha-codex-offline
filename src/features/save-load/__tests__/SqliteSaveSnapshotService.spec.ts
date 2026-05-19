@@ -45,10 +45,13 @@ describe("SqliteSaveSnapshotService", () => {
 
 		expect(saved).toEqual({
 			saveId: "primary",
-			version: 1,
+			version: 2,
 			savedAt: SAVED_AT,
 			characterCount: 1,
 			worldStateCount: 1,
+			clockCount: 1,
+			campSessionCount: 1,
+			campAssignmentCount: 1,
 		});
 		expect(loaded).toEqual(buildSnapshot());
 	});
@@ -82,12 +85,15 @@ describe("SqliteSaveSnapshotService", () => {
 		);
 	});
 
-	it("saves empty character snapshots and rejects uninitialized databases", async () => {
+	it("saves empty structured snapshots and rejects uninitialized databases", async () => {
 		const storage = await createMigratedStorage();
 		const service = createService(storage);
 		const emptySnapshot = {
 			...buildSnapshot(),
 			characters: [],
+			clocks: [],
+			campSessions: [],
+			campAssignments: [],
 		};
 
 		const saved = expectSaveSuccess(await service.saveSnapshot(emptySnapshot));
@@ -101,6 +107,9 @@ describe("SqliteSaveSnapshotService", () => {
 		);
 
 		expect(saved.characterCount).toBe(0);
+		expect(saved.clockCount).toBe(0);
+		expect(saved.campSessionCount).toBe(0);
+		expect(saved.campAssignmentCount).toBe(0);
 		expect(expectLoadSuccess(await service.loadSnapshot())).toEqual(
 			emptySnapshot,
 		);
@@ -125,6 +134,28 @@ describe("SqliteSaveSnapshotService", () => {
 		expect(missing.code).toBe("SAVE_NOT_FOUND");
 		expect(invalid.code).toBe("INVALID_SAVE_SNAPSHOT");
 		expect(corrupted.code).toBe("CORRUPTED_SAVE_SNAPSHOT");
+	});
+
+	it("migrates a legacy v1 save to v2 with empty camp data", async () => {
+		const loaded = expectLoadSuccess(
+			await createService(await createLegacyV1SaveStorage()).loadSnapshot(),
+		);
+
+		expect(loaded).toEqual({
+			version: 2,
+			savedAt: SAVED_AT,
+			characters: [buildCharacter()],
+			worldState: [
+				{
+					key: "location:morden:gate-open",
+					value: true,
+					updatedAt: UPDATED_AT,
+				},
+			],
+			clocks: [],
+			campSessions: [],
+			campAssignments: [],
+		});
 	});
 
 	it("returns typed failures for corrupted metadata and world-state rows", async () => {
@@ -164,6 +195,44 @@ describe("SqliteSaveSnapshotService", () => {
 		expect(invalidMetadataRow.code).toBe("CORRUPTED_SAVE_SNAPSHOT");
 		expect(invalidMetadataPayload.code).toBe("CORRUPTED_SAVE_SNAPSHOT");
 		expect(invalidWorldState.code).toBe("CORRUPTED_SAVE_SNAPSHOT");
+	});
+
+	it("returns typed failures for corrupted clock and camp rows", async () => {
+		const invalidClockStorage = await createMigratedStorage();
+		const invalidCampSessionStorage = await createMigratedStorage();
+		const invalidCampAssignmentStorage = await createMigratedStorage();
+		expectSaveSuccess(
+			await createService(invalidClockStorage).saveSnapshot(buildSnapshot()),
+		);
+		expectSaveSuccess(
+			await createService(invalidCampSessionStorage).saveSnapshot(
+				buildSnapshot(),
+			),
+		);
+		expectSaveSuccess(
+			await createService(invalidCampAssignmentStorage).saveSnapshot(
+				buildSnapshot(),
+			),
+		);
+
+		await corruptClockSlices(invalidClockStorage);
+		await corruptCampSessionHour(invalidCampSessionStorage);
+		await corruptCampAssignmentHour(invalidCampAssignmentStorage);
+
+		expect(
+			expectFailure(await createService(invalidClockStorage).loadSnapshot())
+				.code,
+		).toBe("CORRUPTED_SAVE_SNAPSHOT");
+		expect(
+			expectFailure(
+				await createService(invalidCampSessionStorage).loadSnapshot(),
+			).code,
+		).toBe("CORRUPTED_SAVE_SNAPSHOT");
+		expect(
+			expectFailure(
+				await createService(invalidCampAssignmentStorage).loadSnapshot(),
+			).code,
+		).toBe("CORRUPTED_SAVE_SNAPSHOT");
 	});
 
 	it("maps storage, SQLite, and export failures to typed results", async () => {
@@ -251,7 +320,7 @@ describe("SqliteSaveSnapshotService", () => {
 
 function buildSnapshot() {
 	return {
-		version: 1 as const,
+		version: 2 as const,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
 		worldState: [
@@ -261,6 +330,9 @@ function buildSnapshot() {
 				updatedAt: UPDATED_AT,
 			},
 		],
+		clocks: [buildClock()],
+		campSessions: [buildCampSession()],
+		campAssignments: [buildCampAssignment()],
 	};
 }
 
@@ -270,6 +342,42 @@ function buildCharacter() {
 		id: "session-character-1",
 		createdAt: SAVED_AT,
 		updatedAt: SAVED_AT,
+	};
+}
+
+function buildClock() {
+	return {
+		id: "fortify-perimeter",
+		label: "Fortificar perímetro",
+		currentSlices: 1,
+		maxSlices: 4,
+		status: "active",
+		source: "camp",
+		createdAt: SAVED_AT,
+		updatedAt: SAVED_AT,
+	};
+}
+
+function buildCampSession() {
+	return {
+		id: "camp-session-1",
+		currentHour: 1,
+		danger: 1,
+		status: "resolved",
+		fortifyClockId: "fortify-perimeter",
+		createdAt: SAVED_AT,
+		updatedAt: SAVED_AT,
+	};
+}
+
+function buildCampAssignment() {
+	return {
+		id: "camp-assignment-1",
+		sessionId: "camp-session-1",
+		characterId: "session-character-1",
+		activityId: "fortify-perimeter",
+		hour: 1,
+		createdAt: SAVED_AT,
 	};
 }
 
@@ -291,6 +399,58 @@ async function createMigratedStorage(): Promise<InMemoryDatabaseFileStorage> {
 	const storage = new InMemoryDatabaseFileStorage(database.export());
 	database.close();
 	return storage;
+}
+
+async function createLegacyV1SaveStorage(): Promise<InMemoryDatabaseFileStorage> {
+	const sqlite = await createSqlite();
+	const database = new sqlite.Database();
+	for (const migration of PANDORHA_SQLITE_MIGRATIONS) {
+		database.run(migration.sql);
+	}
+	insertCharacter(database);
+	database.run(
+		"INSERT INTO world_state_entries (key, value_json, updated_at) VALUES (?, ?, ?);",
+		["location:morden:gate-open", JSON.stringify(true), UPDATED_AT],
+	);
+	database.run(
+		"INSERT INTO world_state_entries (key, value_json, updated_at) VALUES (?, ?, ?);",
+		[
+			"system:save:primary:metadata",
+			JSON.stringify({ version: 1, savedAt: SAVED_AT }),
+			SAVED_AT,
+		],
+	);
+	const storage = new InMemoryDatabaseFileStorage(database.export());
+	database.close();
+	return storage;
+}
+
+function insertCharacter(database: SqlJsStatic["Database"]["prototype"]): void {
+	const character = buildCharacter();
+	database.run(
+		`INSERT INTO characters (
+			id, name, concept, ancestry_id, class_id, background_id, level,
+			physical, mental, social, conflict, interaction, resistance,
+			created_at, updated_at
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+		[
+			character.id,
+			character.name,
+			character.concept,
+			character.ancestryId,
+			character.classId,
+			character.backgroundId,
+			character.level,
+			character.physical,
+			character.mental,
+			character.social,
+			character.conflict,
+			character.interaction,
+			character.resistance,
+			character.createdAt,
+			character.updatedAt,
+		],
+	);
 }
 
 async function corruptCharacterLevel(
@@ -321,7 +481,7 @@ async function corruptMetadataVersion(
 	const sqlite = await createSqlite();
 	const database = new sqlite.Database(storage.fileBytes);
 	database.run(
-		'UPDATE world_state_entries SET value_json = \'{"version":2,"savedAt":"2026-05-15T19:50:00.000Z"}\' WHERE key = \'system:save:primary:metadata\';',
+		'UPDATE world_state_entries SET value_json = \'{"version":3,"savedAt":"2026-05-15T19:50:00.000Z"}\' WHERE key = \'system:save:primary:metadata\';',
 	);
 	storage.fileBytes = database.export();
 	database.close();
@@ -339,6 +499,38 @@ async function corruptWorldStateUpdatedAt(
 	database.close();
 }
 
+async function corruptClockSlices(
+	storage: InMemoryDatabaseFileStorage,
+): Promise<void> {
+	const sqlite = await createSqlite();
+	const database = new sqlite.Database(storage.fileBytes);
+	database.run(
+		"UPDATE clocks SET current_slices = 5 WHERE id = 'fortify-perimeter';",
+	);
+	storage.fileBytes = database.export();
+	database.close();
+}
+
+async function corruptCampSessionHour(
+	storage: InMemoryDatabaseFileStorage,
+): Promise<void> {
+	const sqlite = await createSqlite();
+	const database = new sqlite.Database(storage.fileBytes);
+	database.run("UPDATE camp_sessions SET current_hour = 0;");
+	storage.fileBytes = database.export();
+	database.close();
+}
+
+async function corruptCampAssignmentHour(
+	storage: InMemoryDatabaseFileStorage,
+): Promise<void> {
+	const sqlite = await createSqlite();
+	const database = new sqlite.Database(storage.fileBytes);
+	database.run("UPDATE camp_assignments SET hour = 0;");
+	storage.fileBytes = database.export();
+	database.close();
+}
+
 async function createMalformedSchemaStorage(): Promise<InMemoryDatabaseFileStorage> {
 	const sqlite = await createSqlite();
 	const database = new sqlite.Database();
@@ -346,6 +538,9 @@ async function createMalformedSchemaStorage(): Promise<InMemoryDatabaseFileStora
 	database.run(
 		"CREATE TABLE world_state_entries (key text PRIMARY KEY NOT NULL, value_json text NOT NULL, updated_at text NOT NULL);",
 	);
+	database.run("CREATE TABLE clocks (id text PRIMARY KEY NOT NULL);");
+	database.run("CREATE TABLE camp_sessions (id text PRIMARY KEY NOT NULL);");
+	database.run("CREATE TABLE camp_assignments (id text PRIMARY KEY NOT NULL);");
 	const storage = new InMemoryDatabaseFileStorage(database.export());
 	database.close();
 	return storage;

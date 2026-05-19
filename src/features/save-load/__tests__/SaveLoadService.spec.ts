@@ -33,16 +33,22 @@ describe("SaveLoadService", () => {
 			await service.saveSession({
 				characters: [buildCharacter()],
 				worldState: [buildWorldStateFlag()],
+				clocks: [buildClock()],
+				campSessions: [buildCampSession()],
+				campAssignments: [buildCampAssignment()],
 				savedAt: SAVED_AT,
 			}),
 		);
 
 		expect(saved).toEqual({
 			saveId: "primary",
-			version: 1,
+			version: 2,
 			savedAt: SAVED_AT,
 			characterCount: 1,
 			worldStateCount: 1,
+			clockCount: 1,
+			campSessionCount: 1,
+			campAssignmentCount: 1,
 		});
 		expect(bridge.requests).toEqual([
 			{
@@ -51,10 +57,13 @@ describe("SaveLoadService", () => {
 				payload: {
 					saveId: "primary",
 					snapshot: {
-						version: 1,
+						version: 2,
 						savedAt: SAVED_AT,
 						characters: [buildCharacter()],
 						worldState: [buildWorldStateFlag()],
+						clocks: [buildClock()],
+						campSessions: [buildCampSession()],
+						campAssignments: [buildCampAssignment()],
 					},
 				},
 			},
@@ -67,10 +76,13 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 1,
+					version: 2,
 					savedAt: SAVED_AT,
 					characters: [buildCharacter()],
 					worldState: [buildWorldStateFlag()],
+					clocks: [buildClock()],
+					campSessions: [buildCampSession()],
+					campAssignments: [buildCampAssignment()],
 				},
 			}),
 		);
@@ -79,10 +91,13 @@ describe("SaveLoadService", () => {
 		const loaded = expectLoadSuccess(await service.loadSession());
 
 		expect(loaded).toEqual({
-			version: 1,
+			version: 2,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
 			worldState: [buildWorldStateFlag()],
+			clocks: [buildClock()],
+			campSessions: [buildCampSession()],
+			campAssignments: [buildCampAssignment()],
 		});
 		expect(bridge.requests).toEqual([
 			{
@@ -174,10 +189,13 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 1,
+					version: 2,
 					savedAt: SAVED_AT,
 					characters: [{ ...buildCharacter(), level: 0 }],
 					worldState: [buildWorldStateFlag()],
+					clocks: [],
+					campSessions: [],
+					campAssignments: [],
 				},
 			}),
 		);
@@ -190,6 +208,9 @@ describe("SaveLoadService", () => {
 					savedAt: SAVED_AT,
 					characters: [buildCharacter()],
 					worldState: [buildWorldStateFlag()],
+					clocks: [],
+					campSessions: [],
+					campAssignments: [],
 				},
 			}),
 		);
@@ -198,10 +219,13 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 2,
+					version: 3,
 					savedAt: SAVED_AT,
 					characters: [buildCharacter()],
 					worldState: [buildWorldStateFlag()],
+					clocks: [],
+					campSessions: [],
+					campAssignments: [],
 				},
 			}),
 		);
@@ -292,6 +316,42 @@ function buildWorldStateFlag() {
 	};
 }
 
+function buildClock() {
+	return {
+		id: "fortify-perimeter",
+		label: "Fortificar perímetro",
+		currentSlices: 1,
+		maxSlices: 4,
+		status: "active",
+		source: "camp",
+		createdAt: SAVED_AT,
+		updatedAt: SAVED_AT,
+	};
+}
+
+function buildCampSession() {
+	return {
+		id: "camp-session-1",
+		currentHour: 1,
+		danger: 1,
+		status: "resolved",
+		fortifyClockId: "fortify-perimeter",
+		createdAt: SAVED_AT,
+		updatedAt: SAVED_AT,
+	};
+}
+
+function buildCampAssignment() {
+	return {
+		id: "camp-assignment-1",
+		sessionId: "camp-session-1",
+		characterId: "session-character-1",
+		activityId: "fortify-perimeter",
+		hour: 1,
+		createdAt: SAVED_AT,
+	};
+}
+
 function expectSaveSuccess(
 	result: Result<SaveSessionResult, SaveLoadFailure>,
 ): SaveSessionResult {
@@ -336,3 +396,31 @@ class SequenceMessageIdProvider implements SaveLoadMessageIdProvider {
 		return id;
 	}
 }
+it("migrates legacy v1 snapshots to v2 with empty camp data", async () => {
+	const bridge = new FakeWorkerBridge();
+	bridge.queueResponse(
+		createRpcSuccessResponse({
+			messageId: LOAD_MESSAGE_ID,
+			data: {
+				version: 1,
+				savedAt: SAVED_AT,
+				characters: [buildCharacter()],
+				worldState: [buildWorldStateFlag()],
+			},
+		}),
+	);
+
+	const loaded = expectLoadSuccess(
+		await createService(bridge, [LOAD_MESSAGE_ID]).loadSession(),
+	);
+
+	expect(loaded).toEqual({
+		version: 2,
+		savedAt: SAVED_AT,
+		characters: [buildCharacter()],
+		worldState: [buildWorldStateFlag()],
+		clocks: [],
+		campSessions: [],
+		campAssignments: [],
+	});
+});

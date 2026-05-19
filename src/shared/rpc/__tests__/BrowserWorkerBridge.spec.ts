@@ -159,10 +159,13 @@ function buildSaveRequest() {
 		payload: {
 			saveId: "primary" as const,
 			snapshot: {
-				version: 1 as const,
+				version: 2 as const,
 				savedAt: "2026-05-15T20:14:00.000Z",
 				characters: [],
 				worldState: [],
+				clocks: [],
+				campSessions: [],
+				campAssignments: [],
 			},
 		},
 	};

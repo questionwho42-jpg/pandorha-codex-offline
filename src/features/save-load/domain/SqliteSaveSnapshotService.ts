@@ -1,6 +1,22 @@
 import { asc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/sql-js";
+import {
+	type CampAssignmentRecord,
+	type CampSessionRecord,
+	campAssignmentInsertSchema,
+	campAssignmentSelectSchema,
+	campAssignments,
+	campSessionInsertSchema,
+	campSessionSelectSchema,
+	campSessions,
+} from "$lib/entities/camp-session";
 import { characterSelectSchema, characters } from "$lib/entities/character";
+import {
+	type ClockRecord,
+	clockInsertSchema,
+	clockSelectSchema,
+	clocks,
+} from "$lib/entities/clock";
 import {
 	worldStateEntries,
 	worldStateEntryInsertSchema,
@@ -13,8 +29,11 @@ import type {
 	SqliteWasmFactory,
 } from "$lib/shared/persistence";
 import {
-	loadedSessionStateSchema,
-	saveMetadataSchema,
+	loadedSessionStateV1Schema,
+	loadedSessionStateV2Schema,
+	migrateSaveV1ToV2,
+	saveMetadataAnySchema,
+	saveMetadataV2Schema,
 } from "../model/saveLoadSchemas";
 import type { LoadedSessionState } from "../model/saveLoadTypes";
 import type {
@@ -39,7 +58,7 @@ export class SqliteSaveSnapshotService {
 	public async saveSnapshot(
 		input: unknown,
 	): Promise<Result<SaveSnapshotResult, SaveSnapshotFailure>> {
-		const parsedSnapshot = loadedSessionStateSchema.safeParse(input);
+		const parsedSnapshot = loadedSessionStateV2Schema.safeParse(input);
 		if (!parsedSnapshot.success) {
 			return fail({
 				code: "INVALID_SAVE_SNAPSHOT",
@@ -58,6 +77,15 @@ export class SqliteSaveSnapshotService {
 		const database = opened.data;
 		try {
 			const db = drizzle(database);
+			const clockRecords = parsedSnapshot.data.clocks.map((clock) =>
+				clockInsertSchema.parse(clock),
+			);
+			const campSessionRecords = parsedSnapshot.data.campSessions.map(
+				(session) => campSessionInsertSchema.parse(session),
+			);
+			const campAssignmentRecords = parsedSnapshot.data.campAssignments.map(
+				(assignment) => campAssignmentInsertSchema.parse(assignment),
+			);
 			const worldStateRecords = parsedSnapshot.data.worldState.map((flag) =>
 				worldStateEntryInsertSchema.parse({
 					key: flag.key,
@@ -67,16 +95,30 @@ export class SqliteSaveSnapshotService {
 			);
 			const metadataRecord = worldStateEntryInsertSchema.parse({
 				key: SAVE_METADATA_KEY,
-				valueJson: JSON.stringify({
-					version: parsedSnapshot.data.version,
-					savedAt: parsedSnapshot.data.savedAt,
-				}),
+				valueJson: JSON.stringify(
+					saveMetadataV2Schema.parse({
+						version: parsedSnapshot.data.version,
+						savedAt: parsedSnapshot.data.savedAt,
+					}),
+				),
 				updatedAt: parsedSnapshot.data.savedAt,
 			});
 
 			db.transaction((tx) => {
+				tx.delete(campAssignments).run();
+				tx.delete(campSessions).run();
+				tx.delete(clocks).run();
 				tx.delete(characters).run();
 				tx.delete(worldStateEntries).run();
+				if (clockRecords.length > 0) {
+					tx.insert(clocks).values(clockRecords).run();
+				}
+				if (campSessionRecords.length > 0) {
+					tx.insert(campSessions).values(campSessionRecords).run();
+				}
+				if (campAssignmentRecords.length > 0) {
+					tx.insert(campAssignments).values(campAssignmentRecords).run();
+				}
 				if (parsedSnapshot.data.characters.length > 0) {
 					tx.insert(characters).values(parsedSnapshot.data.characters).run();
 				}
@@ -100,10 +142,13 @@ export class SqliteSaveSnapshotService {
 			database.close();
 			return ok({
 				saveId: "primary",
-				version: 1,
+				version: 2,
 				savedAt: parsedSnapshot.data.savedAt,
 				characterCount: parsedSnapshot.data.characters.length,
 				worldStateCount: parsedSnapshot.data.worldState.length,
+				clockCount: parsedSnapshot.data.clocks.length,
+				campSessionCount: parsedSnapshot.data.campSessions.length,
+				campAssignmentCount: parsedSnapshot.data.campAssignments.length,
 			});
 		} catch (error: unknown) {
 			database.close();
@@ -147,7 +192,7 @@ export class SqliteSaveSnapshotService {
 				return corruptedSnapshotFailure("metadata row failed validation");
 			}
 
-			const parsedMetadata = saveMetadataSchema.safeParse(
+			const parsedMetadata = saveMetadataAnySchema.safeParse(
 				JSON.parse(parsedMetadataRow.data.valueJson) as unknown,
 			);
 			if (!parsedMetadata.success) {
@@ -192,11 +237,43 @@ export class SqliteSaveSnapshotService {
 				});
 			}
 
-			const parsedLoaded = loadedSessionStateSchema.parse({
+			if (parsedMetadata.data.version === 1) {
+				const parsedLoaded = migrateSaveV1ToV2(
+					loadedSessionStateV1Schema.parse({
+						version: parsedMetadata.data.version,
+						savedAt: parsedMetadata.data.savedAt,
+						characters: parsedCharacters,
+						worldState: parsedWorldState,
+					}),
+				);
+				database.close();
+				return ok(parsedLoaded);
+			}
+
+			const parsedClocks = readClocks(db);
+			if (!parsedClocks.success) {
+				database.close();
+				return parsedClocks;
+			}
+			const parsedCampSessions = readCampSessions(db);
+			if (!parsedCampSessions.success) {
+				database.close();
+				return parsedCampSessions;
+			}
+			const parsedCampAssignments = readCampAssignments(db);
+			if (!parsedCampAssignments.success) {
+				database.close();
+				return parsedCampAssignments;
+			}
+
+			const parsedLoaded = loadedSessionStateV2Schema.parse({
 				version: parsedMetadata.data.version,
 				savedAt: parsedMetadata.data.savedAt,
 				characters: parsedCharacters,
 				worldState: parsedWorldState,
+				clocks: parsedClocks.data,
+				campSessions: parsedCampSessions.data,
+				campAssignments: parsedCampAssignments.data,
 			});
 			database.close();
 			return ok(parsedLoaded);
@@ -283,7 +360,10 @@ export class SqliteSaveSnapshotService {
 			);
 			if (
 				!tableNames.has("characters") ||
-				!tableNames.has("world_state_entries")
+				!tableNames.has("world_state_entries") ||
+				!tableNames.has("clocks") ||
+				!tableNames.has("camp_sessions") ||
+				!tableNames.has("camp_assignments")
 			) {
 				return fail({
 					code: "CORRUPTED_DATABASE_FILE",
@@ -300,6 +380,56 @@ export class SqliteSaveSnapshotService {
 			});
 		}
 	}
+}
+
+function readClocks(
+	db: ReturnType<typeof drizzle>,
+): Result<readonly ClockRecord[], SaveSnapshotFailure> {
+	const parsedClocks: ClockRecord[] = [];
+	for (const row of db.select().from(clocks).orderBy(asc(clocks.id)).all()) {
+		const parsed = clockSelectSchema.safeParse(row);
+		if (!parsed.success) {
+			return corruptedSnapshotFailure("clock row failed validation");
+		}
+		parsedClocks.push(parsed.data);
+	}
+	return ok(parsedClocks);
+}
+
+function readCampSessions(
+	db: ReturnType<typeof drizzle>,
+): Result<readonly CampSessionRecord[], SaveSnapshotFailure> {
+	const parsedSessions: CampSessionRecord[] = [];
+	for (const row of db
+		.select()
+		.from(campSessions)
+		.orderBy(asc(campSessions.id))
+		.all()) {
+		const parsed = campSessionSelectSchema.safeParse(row);
+		if (!parsed.success) {
+			return corruptedSnapshotFailure("camp session row failed validation");
+		}
+		parsedSessions.push(parsed.data);
+	}
+	return ok(parsedSessions);
+}
+
+function readCampAssignments(
+	db: ReturnType<typeof drizzle>,
+): Result<readonly CampAssignmentRecord[], SaveSnapshotFailure> {
+	const parsedAssignments: CampAssignmentRecord[] = [];
+	for (const row of db
+		.select()
+		.from(campAssignments)
+		.orderBy(asc(campAssignments.id))
+		.all()) {
+		const parsed = campAssignmentSelectSchema.safeParse(row);
+		if (!parsed.success) {
+			return corruptedSnapshotFailure("camp assignment row failed validation");
+		}
+		parsedAssignments.push(parsed.data);
+	}
+	return ok(parsedAssignments);
 }
 
 function corruptedSnapshotFailure(

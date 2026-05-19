@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260519-121519-t35c-save-load-v2-camp -->
+### T35C Save Load V2 Camp
+- id: 20260519-121519-t35c-save-load-v2-camp
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-19T12:15:19-03:00
+- finished_at: 2026-05-19T12:29:15-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-19T12:29:15-03:00
+- branch: task/save-load-v2-camp
+- commit_at_start: feab80f feat(camp): adiciona resolucao de hora
+- summary: Evoluir snapshot para version 2 com clocks e estado estruturado de acampamento, incluindo migracao v1 para v2 e persistencia transacional.
+- last_change: T35C concluida: snapshot v2 salva e carrega personagens, world state, clocks e acampamento com migracao explicita de v1 para v2.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-19T12:15:19-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-19T12:29:15-03:00
+- Done: T35C concluida: snapshot v2 salva e carrega personagens, world state, clocks e acampamento com migracao explicita de v1 para v2.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260519-121519-t35c-save-load-v2-camp -->
 <!-- pandorha-task:20260519-120236-t35b-camphourservice -->
 ### T35B CampHourService
 - id: 20260519-120236-t35b-camphourservice
@@ -2163,6 +2195,36 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-19T12:29:07-03:00 - save-load-v2-camp
+- branch: task/save-load-v2-camp
+- commit: feab80f feat(camp): adiciona resolucao de hora
+- changed_files_count: 20
+#### Changed Files
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/workers/pandorhaDatabase.worker.ts
+- src/features/save-load/__tests__/SaveLoadService.spec.ts
+- src/features/save-load/__tests__/SqliteSaveSnapshotService.spec.ts
+- src/features/save-load/domain/SaveLoadService.ts
+- src/features/save-load/domain/SqliteSaveSnapshotService.ts
+- src/features/save-load/index.ts
+- src/features/save-load/model/saveLoadSchemas.ts
+- src/features/save-load/model/saveLoadTypes.ts
+- src/features/save-load/model/saveSnapshotTypes.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/rpc/__tests__/BrowserWorkerBridge.spec.ts
+- src/shared/rpc/__tests__/RpcContract.spec.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- drizzle/0003_public_tyger_tiger.sql
+- drizzle/meta/0003_snapshot.json
+- src/entities/camp-session/__tests__/CampSessionMigration.spec.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-19T12:14:01-03:00 - camp-hour-service
 - branch: task/camp-hour-service
 - commit: 151e295 feat(camp): adiciona modelos iniciais de acampamento

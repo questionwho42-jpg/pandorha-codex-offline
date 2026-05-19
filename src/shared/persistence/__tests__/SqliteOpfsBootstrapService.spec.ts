@@ -48,9 +48,12 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0000_smiling_banshee",
 				"0001_crazy_wallop",
 				"0002_true_cable",
+				"0003_public_tyger_tiger",
 			],
 			tableNames: [
 				"_pandorha_migrations",
+				"camp_assignments",
+				"camp_sessions",
 				"characters",
 				"clocks",
 				"world_state_entries",
@@ -97,6 +100,7 @@ describe("SqliteOpfsBootstrapService", () => {
 		expect(initialized.appliedMigrationIds).toEqual([
 			"0001_crazy_wallop",
 			"0002_true_cable",
+			"0003_public_tyger_tiger",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -206,6 +210,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0000_smiling_banshee",
 			"0001_crazy_wallop",
 			"0002_true_cable",
+			"0003_public_tyger_tiger",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -236,10 +241,13 @@ describe("database worker request handler", () => {
 				payload: {
 					saveId: "primary",
 					snapshot: {
-						version: 1,
+						version: 2,
 						savedAt: REQUESTED_AT,
 						characters: [],
 						worldState: [],
+						clocks: [],
+						campSessions: [],
+						campAssignments: [],
 					},
 				},
 			},
@@ -269,10 +277,13 @@ describe("database worker request handler", () => {
 			messageId: MESSAGE_ID,
 			success: true,
 			data: {
-				version: 1,
+				version: 2,
 				savedAt: REQUESTED_AT,
 				characters: [],
 				worldState: [],
+				clocks: [],
+				campSessions: [],
+				campAssignments: [],
 			},
 		});
 	});
@@ -499,19 +510,25 @@ class FakeSnapshotWorkerPort {
 	public async loadSnapshot(): Promise<
 		Result<
 			{
-				readonly version: 1;
+				readonly version: 2;
 				readonly savedAt: string;
 				readonly characters: readonly [];
 				readonly worldState: readonly [];
+				readonly clocks: readonly [];
+				readonly campSessions: readonly [];
+				readonly campAssignments: readonly [];
 			},
 			{ readonly code: string; readonly message: string }
 		>
 	> {
 		return ok({
-			version: 1,
+			version: 2,
 			savedAt: REQUESTED_AT,
 			characters: [],
 			worldState: [],
+			clocks: [],
+			campSessions: [],
+			campAssignments: [],
 		});
 	}
 }
