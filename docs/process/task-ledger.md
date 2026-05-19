@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260519-190740-t36b-socialstandingservice -->
+### T36B SocialStandingService
+- id: 20260519-190740-t36b-socialstandingservice
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-19T19:07:40-03:00
+- finished_at: 2026-05-19T19:17:24-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-19T19:17:24-03:00
+- branch: task/social-standing-service
+- commit_at_start: f6c2518 feat(faction): adiciona catalogo social base
+- summary: Criar service puro para limite de divida, favor de faccao, intriga, ganho/perda de fama e redencao de divida usando Result Pattern.
+- last_change: T36B implementou SocialStandingService puro para limite de divida, favor, intriga, redenção e fama com Result Pattern e cobertura 100%.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-19T19:07:40-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-19T19:17:24-03:00
+- Done: T36B implementou SocialStandingService puro para limite de divida, favor, intriga, redenção e fama com Result Pattern e cobertura 100%.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260519-190740-t36b-socialstandingservice -->
 <!-- pandorha-task:20260519-190052-t36a-faction-standing-schema -->
 ### T36A Faction Standing Schema
 - id: 20260519-190052-t36a-faction-standing-schema
@@ -2266,6 +2298,19 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-19T19:17:20-03:00 - social-standing-service
+- branch: task/social-standing-service
+- commit: f6c2518 feat(faction): adiciona catalogo social base
+- changed_files_count: 3
+#### Changed Files
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/features/social-standing/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-19T19:06:19-03:00 - faction-standing-schema
 - branch: task/faction-standing-schema
 - commit: 436ef4d feat(camp): adiciona ui de acampamento
