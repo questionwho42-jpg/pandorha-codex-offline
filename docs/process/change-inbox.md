@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260520-182802-t46-social-appeal-resolution -->
+### T46 Social Appeal Resolution
+- id: 20260520-182802-t46-social-appeal-resolution
+- status: open
+- created_at: 2026-05-20T18:28:02-03:00
+- source: task-ledger
+- summary: Criar serviço puro para transformar teste social auditável em SocialAppealOutcome usando ResolutionService.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260520-182802-t46-social-appeal-resolution -->
 <!-- pandorha-inbox:20260520-182331-t45-social-qa-refresh -->
 ### T45 Social QA Refresh
 - id: 20260520-182331-t45-social-qa-refresh

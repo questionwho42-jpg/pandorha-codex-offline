@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260520-182802-t46-social-appeal-resolution -->
+### T46 Social Appeal Resolution
+- id: 20260520-182802-t46-social-appeal-resolution
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-20T18:28:02-03:00
+- finished_at: 2026-05-20T18:35:33-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-20T18:35:33-03:00
+- branch: task/social-qa-refresh
+- commit_at_start: ff87a17 chore(qa): atualiza smoke social pos negociacao
+- summary: Criar serviço puro para transformar teste social auditável em SocialAppealOutcome usando ResolutionService.
+- last_change: SocialAppealResolutionService criado para transformar teste social auditavel em SocialAppealOutcome com cobertura e validacao de arquitetura.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-20T18:28:02-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-20T18:35:33-03:00
+- Done: SocialAppealResolutionService criado para transformar teste social auditavel em SocialAppealOutcome com cobertura e validacao de arquitetura.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260520-182802-t46-social-appeal-resolution -->
 <!-- pandorha-task:20260520-182331-t45-social-qa-refresh -->
 ### T45 Social QA Refresh
 - id: 20260520-182331-t45-social-qa-refresh
@@ -2586,6 +2618,28 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-20T18:35:29-03:00 - social-appeal-resolution
+- branch: task/social-appeal-resolution
+- commit: ff87a17 chore(qa): atualiza smoke social pos negociacao
+- changed_files_count: 12
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/SocialAppealResolutionService.spec.ts
+- src/features/social-encounter/domain/SocialAppealResolutionService.ts
+- src/features/social-encounter/model/socialAppealResolutionSchemas.ts
+- src/features/social-encounter/model/socialAppealResolutionTypes.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-20T18:27:19-03:00 - social-qa-refresh
 - branch: task/social-qa-refresh
 - commit: 487ba69 feat(social): adiciona ui de negociacao social
