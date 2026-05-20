@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260520-091722-t41-npc-schema -->
+### T41 NPC Schema
+- id: 20260520-091722-t41-npc-schema
+- status: open
+- created_at: 2026-05-20T09:17:22-03:00
+- source: task-ledger
+- summary: Criar entidade catalogo read-only de NPCs de treino com schemas Drizzle-Zod, fake repository, service e cobertura.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260520-091722-t41-npc-schema -->
 <!-- pandorha-inbox:20260515-195054-t33c-1-worker-save-load-commands -->
 ### T33C.1 - Worker Save Load Commands
 - id: 20260515-195054-t33c-1-worker-save-load-commands
