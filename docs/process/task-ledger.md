@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260520-070803-t40-qa-vertical-slice -->
+### T40 QA Vertical Slice
+- id: 20260520-070803-t40-qa-vertical-slice
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-20T07:08:03-03:00
+- finished_at: 2026-05-20T07:16:21-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-20T07:16:21-03:00
+- branch: task/vertical-slice-qa
+- commit_at_start: fe69ecc feat(pwa): adiciona smoke offline
+- summary: Criar roteiro oficial de QA do MVP atual, automacao smoke reutilizavel e validar fluxo visual principal no navegador.
+- last_change: Adicionado roteiro oficial de QA vertical, smoke browser automatizado e integração ao quality gate.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-20T07:08:03-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-20T07:16:21-03:00
+- Done: Adicionado roteiro oficial de QA vertical, smoke browser automatizado e integração ao quality gate.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260520-070803-t40-qa-vertical-slice -->
 <!-- pandorha-task:20260519-221612-t39-pwa-offline-smoke -->
 ### T39 PWA Offline Smoke
 - id: 20260519-221612-t39-pwa-offline-smoke
@@ -2394,6 +2426,22 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-20T07:16:17-03:00 - vertical-slice-qa
+- branch: task/vertical-slice-qa
+- commit: fe69ecc feat(pwa): adiciona smoke offline
+- changed_files_count: 6
+#### Changed Files
+- docs/process/task-ledger.md
+- package.json
+- scripts/run_full_quality_gate.mjs
+- docs/process/vertical-slice-qa.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-19T22:25:55-03:00 - pwa-offline-smoke
 - branch: task/pwa-offline-smoke
 - commit: 008bf37 feat(social): adiciona ui de relacoes
