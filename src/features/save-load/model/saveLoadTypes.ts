@@ -4,6 +4,7 @@ import type {
 } from "$lib/entities/camp-session";
 import type { CharacterRecord } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
+import type { FactionStandingRecord } from "$lib/entities/faction";
 import type { WorldStateFlagView } from "$lib/entities/world-state";
 
 export interface SaveLoadMessageIdProvider {
@@ -12,23 +13,25 @@ export interface SaveLoadMessageIdProvider {
 
 export interface SaveSessionResult {
 	readonly saveId: "primary";
-	readonly version: 2;
+	readonly version: 3;
 	readonly savedAt: string;
 	readonly characterCount: number;
 	readonly worldStateCount: number;
 	readonly clockCount: number;
 	readonly campSessionCount: number;
 	readonly campAssignmentCount: number;
+	readonly factionStandingCount: number;
 }
 
 export interface LoadedSessionState {
-	readonly version: 2;
+	readonly version: 3;
 	readonly savedAt: string;
 	readonly characters: readonly CharacterRecord[];
 	readonly worldState: readonly WorldStateFlagView[];
 	readonly clocks: readonly ClockRecord[];
 	readonly campSessions: readonly CampSessionRecord[];
 	readonly campAssignments: readonly CampAssignmentRecord[];
+	readonly factionStandings: readonly FactionStandingRecord[];
 }
 
 export type SaveLoadFailureCode =

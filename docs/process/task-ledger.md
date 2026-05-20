@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260519-191724-t37-save-load-v3-social -->
+### T37 Save Load V3 Social
+- id: 20260519-191724-t37-save-load-v3-social
+- status: completed
+- kind: implementation
+- planned: yes
+- started_at: 2026-05-19T19:18:07-03:00
+- finished_at: 2026-05-19T21:26:33-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-19T21:26:33-03:00
+- branch: task/save-load-v3-social
+- commit_at_start: bf8c263 feat(social): adiciona service de standing
+- summary: Evoluir snapshot para version 3 com factionStandings, migracao v2->v3 e roundtrip no Worker/SaveLoadService sem UI.
+- last_change: T37 evoluiu o save local para version 3 com factionStandings, migration Drizzle social, migracoes v1/v2 para v3 e roundtrip SQLite/Worker validado.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-19T19:18:07-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-19T21:26:33-03:00
+- Done: T37 evoluiu o save local para version 3 com factionStandings, migration Drizzle social, migracoes v1/v2 para v3 e roundtrip SQLite/Worker validado.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260519-191724-t37-save-load-v3-social -->
 <!-- pandorha-task:20260519-190740-t36b-socialstandingservice -->
 ### T36B SocialStandingService
 - id: 20260519-190740-t36b-socialstandingservice
@@ -2298,6 +2330,37 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-19T21:26:26-03:00 - save-load-v3-social
+- branch: task/save-load-v3-social
+- commit: bf8c263 feat(social): adiciona service de standing
+- changed_files_count: 21
+#### Changed Files
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/features/save-load/.context/plain-english.md
+- src/features/save-load/.context/scaling-roadmap.md
+- src/features/save-load/.context/tech-memory.md
+- src/features/save-load/__tests__/SaveLoadService.spec.ts
+- src/features/save-load/__tests__/SqliteSaveSnapshotService.spec.ts
+- src/features/save-load/domain/SaveLoadService.ts
+- src/features/save-load/domain/SqliteSaveSnapshotService.ts
+- src/features/save-load/model/saveLoadSchemas.ts
+- src/features/save-load/model/saveLoadTypes.ts
+- src/features/save-load/model/saveSnapshotTypes.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/rpc/__tests__/BrowserWorkerBridge.spec.ts
+- src/shared/rpc/__tests__/RpcContract.spec.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- drizzle/0004_abnormal_luke_cage.sql
+- drizzle/meta/0004_snapshot.json
+- src/entities/faction/__tests__/FactionMigration.spec.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-19T19:17:20-03:00 - social-standing-service
 - branch: task/social-standing-service
 - commit: f6c2518 feat(faction): adiciona catalogo social base

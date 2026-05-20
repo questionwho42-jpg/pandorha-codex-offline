@@ -10,4 +10,6 @@ Agora ja existe controle no navegador para salvar e carregar a sessao atual. O p
 
 Ainda existe apenas um slot de save. Tambem nao ha autosave nem tela propria para os fatos do mundo; eles sao preservados por baixo dos panos para nao se perderem em um novo save.
 
-O save agora esta na versao 2. Alem de personagens e fatos do mundo, ele consegue guardar relogios e o estado do acampamento. Saves antigos da versao 1 continuam carregando, mas com acampamento vazio.
+O save agora esta na versao 3. Alem de personagens, fatos do mundo, relogios e acampamento, ele tambem consegue guardar relacoes com faccoes, como fama, divida e intriga.
+
+Saves antigos das versoes 1 e 2 continuam carregando. Quando isso acontece, o jogo cria a parte social vazia para o usuario poder continuar sem perder personagens ou acampamento.

@@ -29,6 +29,13 @@
       "when": 1779203856542,
       "tag": "0003_public_tyger_tiger",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1779229185015,
+      "tag": "0004_abnormal_luke_cage",
+      "breakpoints": true
     }
   ]
 }

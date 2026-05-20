@@ -49,6 +49,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0001_crazy_wallop",
 				"0002_true_cable",
 				"0003_public_tyger_tiger",
+				"0004_abnormal_luke_cage",
 			],
 			tableNames: [
 				"_pandorha_migrations",
@@ -56,6 +57,8 @@ describe("SqliteOpfsBootstrapService", () => {
 				"camp_sessions",
 				"characters",
 				"clocks",
+				"faction_standings",
+				"factions",
 				"world_state_entries",
 			],
 		});
@@ -101,6 +104,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0001_crazy_wallop",
 			"0002_true_cable",
 			"0003_public_tyger_tiger",
+			"0004_abnormal_luke_cage",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -211,6 +215,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0001_crazy_wallop",
 			"0002_true_cable",
 			"0003_public_tyger_tiger",
+			"0004_abnormal_luke_cage",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -241,13 +246,14 @@ describe("database worker request handler", () => {
 				payload: {
 					saveId: "primary",
 					snapshot: {
-						version: 2,
+						version: 3,
 						savedAt: REQUESTED_AT,
 						characters: [],
 						worldState: [],
 						clocks: [],
 						campSessions: [],
 						campAssignments: [],
+						factionStandings: [],
 					},
 				},
 			},
@@ -277,13 +283,14 @@ describe("database worker request handler", () => {
 			messageId: MESSAGE_ID,
 			success: true,
 			data: {
-				version: 2,
+				version: 3,
 				savedAt: REQUESTED_AT,
 				characters: [],
 				worldState: [],
 				clocks: [],
 				campSessions: [],
 				campAssignments: [],
+				factionStandings: [],
 			},
 		});
 	});
@@ -510,25 +517,27 @@ class FakeSnapshotWorkerPort {
 	public async loadSnapshot(): Promise<
 		Result<
 			{
-				readonly version: 2;
+				readonly version: 3;
 				readonly savedAt: string;
 				readonly characters: readonly [];
 				readonly worldState: readonly [];
 				readonly clocks: readonly [];
 				readonly campSessions: readonly [];
 				readonly campAssignments: readonly [];
+				readonly factionStandings: readonly [];
 			},
 			{ readonly code: string; readonly message: string }
 		>
 	> {
 		return ok({
-			version: 2,
+			version: 3,
 			savedAt: REQUESTED_AT,
 			characters: [],
 			worldState: [],
 			clocks: [],
 			campSessions: [],
 			campAssignments: [],
+			factionStandings: [],
 		});
 	}
 }

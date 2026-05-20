@@ -44,6 +44,7 @@ export class SaveLoadService {
 			clocks: parsedInput.data.clocks,
 			campSessions: parsedInput.data.campSessions,
 			campAssignments: parsedInput.data.campAssignments,
+			factionStandings: parsedInput.data.factionStandings,
 		};
 
 		const response = await this.workerBridge.send({
@@ -79,6 +80,7 @@ export class SaveLoadService {
 			clockCount: parsedInput.data.clocks.length,
 			campSessionCount: parsedInput.data.campSessions.length,
 			campAssignmentCount: parsedInput.data.campAssignments.length,
+			factionStandingCount: parsedInput.data.factionStandings.length,
 		});
 	}
 
@@ -143,6 +145,7 @@ export class SaveLoadService {
 			clocks: currentSnapshot.clocks,
 			campSessions: currentSnapshot.campSessions,
 			campAssignments: currentSnapshot.campAssignments,
+			factionStandings: currentSnapshot.factionStandings,
 		});
 	}
 }

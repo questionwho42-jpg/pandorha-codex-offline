@@ -11,3 +11,6 @@
 - T35C evolves the snapshot to `version: 2`, adding `clocks`, `campSessions`, and `campAssignments`.
 - Legacy v1 saves are migrated explicitly to v2 with empty camp arrays so old character/world-state saves still load.
 - `SqliteSaveSnapshotService` now persists clocks and camp rows transactionally with characters and world state.
+- T37 evolves the snapshot to `version: 3`, adding `factionStandings` for the first social-state persistence path.
+- Legacy v1 and v2 saves migrate through explicit functions to v3; old saves receive empty `factionStandings`.
+- The social migration adds `faction_standings` and `factions` tables, but the current save roundtrip only persists standings because the faction catalog remains static.

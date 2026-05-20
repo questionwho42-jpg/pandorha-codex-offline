@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { CharacterBuilder } from "$lib/entities/character/testing/CharacterBuilder";
+import { TRAINING_FACTION_STANDINGS } from "$lib/entities/faction";
 import type { Result } from "$lib/shared/lib/result";
 import {
 	createRpcFailureResponse,
@@ -36,19 +37,21 @@ describe("SaveLoadService", () => {
 				clocks: [buildClock()],
 				campSessions: [buildCampSession()],
 				campAssignments: [buildCampAssignment()],
+				factionStandings: [buildFactionStanding()],
 				savedAt: SAVED_AT,
 			}),
 		);
 
 		expect(saved).toEqual({
 			saveId: "primary",
-			version: 2,
+			version: 3,
 			savedAt: SAVED_AT,
 			characterCount: 1,
 			worldStateCount: 1,
 			clockCount: 1,
 			campSessionCount: 1,
 			campAssignmentCount: 1,
+			factionStandingCount: 1,
 		});
 		expect(bridge.requests).toEqual([
 			{
@@ -57,13 +60,14 @@ describe("SaveLoadService", () => {
 				payload: {
 					saveId: "primary",
 					snapshot: {
-						version: 2,
+						version: 3,
 						savedAt: SAVED_AT,
 						characters: [buildCharacter()],
 						worldState: [buildWorldStateFlag()],
 						clocks: [buildClock()],
 						campSessions: [buildCampSession()],
 						campAssignments: [buildCampAssignment()],
+						factionStandings: [buildFactionStanding()],
 					},
 				},
 			},
@@ -76,13 +80,14 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 2,
+					version: 3,
 					savedAt: SAVED_AT,
 					characters: [buildCharacter()],
 					worldState: [buildWorldStateFlag()],
 					clocks: [buildClock()],
 					campSessions: [buildCampSession()],
 					campAssignments: [buildCampAssignment()],
+					factionStandings: [buildFactionStanding()],
 				},
 			}),
 		);
@@ -91,13 +96,14 @@ describe("SaveLoadService", () => {
 		const loaded = expectLoadSuccess(await service.loadSession());
 
 		expect(loaded).toEqual({
-			version: 2,
+			version: 3,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
 			worldState: [buildWorldStateFlag()],
 			clocks: [buildClock()],
 			campSessions: [buildCampSession()],
 			campAssignments: [buildCampAssignment()],
+			factionStandings: [buildFactionStanding()],
 		});
 		expect(bridge.requests).toEqual([
 			{
@@ -189,13 +195,14 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 2,
+					version: 3,
 					savedAt: SAVED_AT,
 					characters: [{ ...buildCharacter(), level: 0 }],
 					worldState: [buildWorldStateFlag()],
 					clocks: [],
 					campSessions: [],
 					campAssignments: [],
+					factionStandings: [],
 				},
 			}),
 		);
@@ -211,6 +218,7 @@ describe("SaveLoadService", () => {
 					clocks: [],
 					campSessions: [],
 					campAssignments: [],
+					factionStandings: [],
 				},
 			}),
 		);
@@ -219,13 +227,14 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 3,
+					version: 4,
 					savedAt: SAVED_AT,
 					characters: [buildCharacter()],
 					worldState: [buildWorldStateFlag()],
 					clocks: [],
 					campSessions: [],
 					campAssignments: [],
+					factionStandings: [],
 				},
 			}),
 		);
@@ -352,6 +361,14 @@ function buildCampAssignment() {
 	};
 }
 
+function buildFactionStanding() {
+	return {
+		...TRAINING_FACTION_STANDINGS[0],
+		bloodDebt: 1,
+		intriguePoints: 1,
+	};
+}
+
 function expectSaveSuccess(
 	result: Result<SaveSessionResult, SaveLoadFailure>,
 ): SaveSessionResult {
@@ -396,7 +413,7 @@ class SequenceMessageIdProvider implements SaveLoadMessageIdProvider {
 		return id;
 	}
 }
-it("migrates legacy v1 snapshots to v2 with empty camp data", async () => {
+it("migrates legacy v1 snapshots to v3 with empty structured social data", async () => {
 	const bridge = new FakeWorkerBridge();
 	bridge.queueResponse(
 		createRpcSuccessResponse({
@@ -415,12 +432,46 @@ it("migrates legacy v1 snapshots to v2 with empty camp data", async () => {
 	);
 
 	expect(loaded).toEqual({
-		version: 2,
+		version: 3,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
 		worldState: [buildWorldStateFlag()],
 		clocks: [],
 		campSessions: [],
 		campAssignments: [],
+		factionStandings: [],
+	});
+});
+
+it("migrates legacy v2 snapshots to v3 with empty faction standings", async () => {
+	const bridge = new FakeWorkerBridge();
+	bridge.queueResponse(
+		createRpcSuccessResponse({
+			messageId: LOAD_MESSAGE_ID,
+			data: {
+				version: 2,
+				savedAt: SAVED_AT,
+				characters: [buildCharacter()],
+				worldState: [buildWorldStateFlag()],
+				clocks: [buildClock()],
+				campSessions: [buildCampSession()],
+				campAssignments: [buildCampAssignment()],
+			},
+		}),
+	);
+
+	const loaded = expectLoadSuccess(
+		await createService(bridge, [LOAD_MESSAGE_ID]).loadSession(),
+	);
+
+	expect(loaded).toEqual({
+		version: 3,
+		savedAt: SAVED_AT,
+		characters: [buildCharacter()],
+		worldState: [buildWorldStateFlag()],
+		clocks: [buildClock()],
+		campSessions: [buildCampSession()],
+		campAssignments: [buildCampAssignment()],
+		factionStandings: [],
 	});
 });

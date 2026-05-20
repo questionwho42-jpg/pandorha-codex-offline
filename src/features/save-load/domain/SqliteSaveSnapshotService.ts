@@ -18,6 +18,12 @@ import {
 	clocks,
 } from "$lib/entities/clock";
 import {
+	type FactionStandingRecord,
+	factionStandingInsertSchema,
+	factionStandingSelectSchema,
+	factionStandings,
+} from "$lib/entities/faction";
+import {
 	worldStateEntries,
 	worldStateEntryInsertSchema,
 	worldStateEntrySelectSchema,
@@ -31,9 +37,10 @@ import type {
 import {
 	loadedSessionStateV1Schema,
 	loadedSessionStateV2Schema,
-	migrateSaveV1ToV2,
+	loadedSessionStateV3Schema,
+	migrateLoadedSessionToCurrent,
 	saveMetadataAnySchema,
-	saveMetadataV2Schema,
+	saveMetadataV3Schema,
 } from "../model/saveLoadSchemas";
 import type { LoadedSessionState } from "../model/saveLoadTypes";
 import type {
@@ -58,7 +65,7 @@ export class SqliteSaveSnapshotService {
 	public async saveSnapshot(
 		input: unknown,
 	): Promise<Result<SaveSnapshotResult, SaveSnapshotFailure>> {
-		const parsedSnapshot = loadedSessionStateV2Schema.safeParse(input);
+		const parsedSnapshot = loadedSessionStateV3Schema.safeParse(input);
 		if (!parsedSnapshot.success) {
 			return fail({
 				code: "INVALID_SAVE_SNAPSHOT",
@@ -86,6 +93,9 @@ export class SqliteSaveSnapshotService {
 			const campAssignmentRecords = parsedSnapshot.data.campAssignments.map(
 				(assignment) => campAssignmentInsertSchema.parse(assignment),
 			);
+			const factionStandingRecords = parsedSnapshot.data.factionStandings.map(
+				(standing) => factionStandingInsertSchema.parse(standing),
+			);
 			const worldStateRecords = parsedSnapshot.data.worldState.map((flag) =>
 				worldStateEntryInsertSchema.parse({
 					key: flag.key,
@@ -96,7 +106,7 @@ export class SqliteSaveSnapshotService {
 			const metadataRecord = worldStateEntryInsertSchema.parse({
 				key: SAVE_METADATA_KEY,
 				valueJson: JSON.stringify(
-					saveMetadataV2Schema.parse({
+					saveMetadataV3Schema.parse({
 						version: parsedSnapshot.data.version,
 						savedAt: parsedSnapshot.data.savedAt,
 					}),
@@ -108,6 +118,7 @@ export class SqliteSaveSnapshotService {
 				tx.delete(campAssignments).run();
 				tx.delete(campSessions).run();
 				tx.delete(clocks).run();
+				tx.delete(factionStandings).run();
 				tx.delete(characters).run();
 				tx.delete(worldStateEntries).run();
 				if (clockRecords.length > 0) {
@@ -121,6 +132,9 @@ export class SqliteSaveSnapshotService {
 				}
 				if (parsedSnapshot.data.characters.length > 0) {
 					tx.insert(characters).values(parsedSnapshot.data.characters).run();
+				}
+				if (factionStandingRecords.length > 0) {
+					tx.insert(factionStandings).values(factionStandingRecords).run();
 				}
 				tx.insert(worldStateEntries)
 					.values([...worldStateRecords, metadataRecord])
@@ -142,13 +156,14 @@ export class SqliteSaveSnapshotService {
 			database.close();
 			return ok({
 				saveId: "primary",
-				version: 2,
+				version: 3,
 				savedAt: parsedSnapshot.data.savedAt,
 				characterCount: parsedSnapshot.data.characters.length,
 				worldStateCount: parsedSnapshot.data.worldState.length,
 				clockCount: parsedSnapshot.data.clocks.length,
 				campSessionCount: parsedSnapshot.data.campSessions.length,
 				campAssignmentCount: parsedSnapshot.data.campAssignments.length,
+				factionStandingCount: parsedSnapshot.data.factionStandings.length,
 			});
 		} catch (error: unknown) {
 			database.close();
@@ -238,7 +253,7 @@ export class SqliteSaveSnapshotService {
 			}
 
 			if (parsedMetadata.data.version === 1) {
-				const parsedLoaded = migrateSaveV1ToV2(
+				const parsedLoaded = migrateLoadedSessionToCurrent(
 					loadedSessionStateV1Schema.parse({
 						version: parsedMetadata.data.version,
 						savedAt: parsedMetadata.data.savedAt,
@@ -266,7 +281,29 @@ export class SqliteSaveSnapshotService {
 				return parsedCampAssignments;
 			}
 
-			const parsedLoaded = loadedSessionStateV2Schema.parse({
+			if (parsedMetadata.data.version === 2) {
+				const parsedLoaded = migrateLoadedSessionToCurrent(
+					loadedSessionStateV2Schema.parse({
+						version: parsedMetadata.data.version,
+						savedAt: parsedMetadata.data.savedAt,
+						characters: parsedCharacters,
+						worldState: parsedWorldState,
+						clocks: parsedClocks.data,
+						campSessions: parsedCampSessions.data,
+						campAssignments: parsedCampAssignments.data,
+					}),
+				);
+				database.close();
+				return ok(parsedLoaded);
+			}
+
+			const parsedFactionStandings = readFactionStandings(db);
+			if (!parsedFactionStandings.success) {
+				database.close();
+				return parsedFactionStandings;
+			}
+
+			const parsedLoaded = loadedSessionStateV3Schema.parse({
 				version: parsedMetadata.data.version,
 				savedAt: parsedMetadata.data.savedAt,
 				characters: parsedCharacters,
@@ -274,6 +311,7 @@ export class SqliteSaveSnapshotService {
 				clocks: parsedClocks.data,
 				campSessions: parsedCampSessions.data,
 				campAssignments: parsedCampAssignments.data,
+				factionStandings: parsedFactionStandings.data,
 			});
 			database.close();
 			return ok(parsedLoaded);
@@ -363,7 +401,8 @@ export class SqliteSaveSnapshotService {
 				!tableNames.has("world_state_entries") ||
 				!tableNames.has("clocks") ||
 				!tableNames.has("camp_sessions") ||
-				!tableNames.has("camp_assignments")
+				!tableNames.has("camp_assignments") ||
+				!tableNames.has("faction_standings")
 			) {
 				return fail({
 					code: "CORRUPTED_DATABASE_FILE",
@@ -430,6 +469,24 @@ function readCampAssignments(
 		parsedAssignments.push(parsed.data);
 	}
 	return ok(parsedAssignments);
+}
+
+function readFactionStandings(
+	db: ReturnType<typeof drizzle>,
+): Result<readonly FactionStandingRecord[], SaveSnapshotFailure> {
+	const parsedStandings: FactionStandingRecord[] = [];
+	for (const row of db
+		.select()
+		.from(factionStandings)
+		.orderBy(asc(factionStandings.factionId))
+		.all()) {
+		const parsed = factionStandingSelectSchema.safeParse(row);
+		if (!parsed.success) {
+			return corruptedSnapshotFailure("faction standing row failed validation");
+		}
+		parsedStandings.push(parsed.data);
+	}
+	return ok(parsedStandings);
 }
 
 function corruptedSnapshotFailure(
