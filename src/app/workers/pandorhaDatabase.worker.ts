@@ -37,6 +37,7 @@ const snapshotWorkerPort = {
 			clockCount: saved.data.clockCount,
 			campSessionCount: saved.data.campSessionCount,
 			campAssignmentCount: saved.data.campAssignmentCount,
+			factionStandingCount: saved.data.factionStandingCount,
 		});
 	},
 	loadSnapshot: async () => {
@@ -64,6 +65,9 @@ const snapshotWorkerPort = {
 			})),
 			campAssignments: loaded.data.campAssignments.map((assignment) => ({
 				...assignment,
+			})),
+			factionStandings: loaded.data.factionStandings.map((standing) => ({
+				...standing,
 			})),
 		});
 	},

@@ -9,6 +9,7 @@ import type {
 	CharacterRecord,
 } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
+import type { FactionStandingRecord } from "$lib/entities/faction";
 import type { WorldStateFlagView } from "$lib/entities/world-state";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CampHourPanel } from "$lib/features/camp-hour";
@@ -34,6 +35,8 @@ import {
 	type SaveLoadUiState,
 } from "$lib/features/save-load";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { SocialRelationsPanel } from "$lib/features/social-relations";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SpellCastPanel } from "$lib/features/spell-cast";
 import { createCampSession } from "./model/campSession";
 import { createCharacterSession } from "./model/characterSession";
@@ -45,6 +48,7 @@ import type { AppNavigationId } from "./model/navigation";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { APP_NAVIGATION_ITEMS, getAppNavigationItem } from "./model/navigation";
 import { createSaveLoadSession } from "./model/saveLoadSession";
+import { createSocialRelationsSession } from "./model/socialRelationsSession";
 import { createSpellCastSession } from "./model/spellCastSession";
 
 const characterSession = createCharacterSession();
@@ -61,12 +65,16 @@ const inventorySession = createInventorySession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const spellCastSession = createSpellCastSession();
 const saveLoadSession = createSaveLoadSession();
+const socialRelationsSession = createSocialRelationsSession();
 
 let activeView = $state<AppNavigationId>("home");
 let campAssignmentRecords = $state<CampAssignmentRecord[]>([]);
 let campSessionRecords = $state<CampSessionRecord[]>([]);
 let characterRecords = $state<CharacterRecord[]>([]);
 let clockRecords = $state<ClockRecord[]>([]);
+let factionStandingRecords = $state<FactionStandingRecord[]>(
+	socialRelationsSession.createInitialStandings(),
+);
 let worldStateRecords = $state<WorldStateFlagView[]>([]);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let saveLoadState = $state<SaveLoadUiState>({ kind: "initializing" });
@@ -131,6 +139,7 @@ async function saveSession(): Promise<void> {
 		clocks: clockRecords,
 		campSessions: campSessionRecords,
 		campAssignments: campAssignmentRecords,
+		factionStandings: factionStandingRecords,
 		savedAt: new Date().toISOString(),
 	});
 
@@ -165,6 +174,9 @@ async function loadSession(): Promise<void> {
 	clockRecords = [...result.data.clocks];
 	campSessionRecords = [...result.data.campSessions];
 	campAssignmentRecords = [...result.data.campAssignments];
+	factionStandingRecords = socialRelationsSession.normalizeStandings(
+		result.data.factionStandings,
+	);
 	saveLoadState = { kind: "loaded" };
 }
 
@@ -273,6 +285,23 @@ onMount(() => {
 					}}
 					resolveHour={campSession.resolveHour}
 				/>
+			{:else if activeView === "relations"}
+				<div class="space-y-6">
+					<SaveLoadControls
+						onLoad={loadSession}
+						onSave={saveSession}
+						state={saveLoadState}
+					/>
+					<SocialRelationsPanel
+						factions={socialRelationsSession.factions}
+						invokeTierOneFavor={socialRelationsSession.invokeTierOneFavor}
+						onStandingsChange={(standings) => {
+							factionStandingRecords = [...standings];
+						}}
+						redeemTierOneDebt={socialRelationsSession.redeemTierOneDebt}
+						standings={factionStandingRecords}
+					/>
+				</div>
 			{:else if activeView === "magic"}
 				<SpellCastPanel
 					buildCastCommand={spellCastSession.buildCastCommand}

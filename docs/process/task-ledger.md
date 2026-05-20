@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260519-212508-t38-social-relations-ui -->
+### T38 UI Relações
+- id: 20260519-212508-t38-social-relations-ui
+- status: completed
+- kind: implementation
+- planned: yes
+- started_at: 2026-05-19T21:28:28-03:00
+- finished_at: 2026-05-19T21:46:29-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-19T21:46:29-03:00
+- branch: task/social-relations-ui
+- commit_at_start: 663dcfa feat(save-load): evolui snapshot social para v3
+- summary: Adicionar aba Relações com facções de treino, operações sociais Tier 1 e integração com save/load v3.
+- last_change: T38 implementou a aba Relações com standings sociais de treino, ações de favor e redenção, integração com save/load v3, guia de usuário, validação Browser Use e gates completos.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-19T21:28:28-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-19T21:46:29-03:00
+- Done: T38 implementou a aba Relações com standings sociais de treino, ações de favor e redenção, integração com save/load v3, guia de usuário, validação Browser Use e gates completos.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260519-212508-t38-social-relations-ui -->
 <!-- pandorha-task:20260519-191724-t37-save-load-v3-social -->
 ### T37 Save Load V3 Social
 - id: 20260519-191724-t37-save-load-v3-social
@@ -2330,6 +2362,24 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-19T21:46:25-03:00 - social-relations-ui
+- branch: task/social-relations-ui
+- commit: 663dcfa feat(save-load): evolui snapshot social para v3
+- changed_files_count: 8
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/app/workers/pandorhaDatabase.worker.ts
+- vitest.config.mjs
+- docs/user/social-relations.md
+- src/app/model/socialRelationsSession.ts
+- src/features/social-relations/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-19T21:26:26-03:00 - save-load-v3-social
 - branch: task/save-load-v3-social
 - commit: bf8c263 feat(social): adiciona service de standing

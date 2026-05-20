@@ -42,6 +42,12 @@ export const APP_NAVIGATION_ITEMS = [
 			"O descanso ativo permite planejar uma hora de ações do grupo.",
 	},
 	{
+		id: "relations",
+		label: "Relações",
+		heading: "Relações",
+		description: "Facções de treino permitem testar fama, dívida e intriga.",
+	},
+	{
 		id: "magic",
 		label: "Magia",
 		heading: "Magia",
