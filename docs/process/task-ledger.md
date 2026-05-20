@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260520-114359-t42-social-encounter-core -->
+### T42 Social Encounter Core
+- id: 20260520-114359-t42-social-encounter-core
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-20T11:43:59-03:00
+- finished_at: 2026-05-20T11:59:18-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-20T11:59:18-03:00
+- branch: task/social-encounter-core
+- commit_at_start: 0ec9ed8 feat(npc): adiciona catalogo base
+- summary: Criar service puro de negociação social mínima com NPC catalog, ActionQueue, estado determinístico e cobertura.
+- last_change: T42 criou SocialEncounterService deterministico com NPC catalog, ActionQueue, eventos/log em pt-BR, memoria tripla, cobertura 100% e gates completos.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-20T11:43:59-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-20T11:59:18-03:00
+- Done: T42 criou SocialEncounterService deterministico com NPC catalog, ActionQueue, eventos/log em pt-BR, memoria tripla, cobertura 100% e gates completos.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260520-114359-t42-social-encounter-core -->
 <!-- pandorha-task:20260520-091722-t41-npc-schema -->
 ### T41 NPC Schema
 - id: 20260520-091722-t41-npc-schema
@@ -2458,6 +2490,20 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-20T11:59:13-03:00 - social-encounter-core
+- branch: task/social-encounter-core
+- commit: 0ec9ed8 feat(npc): adiciona catalogo base
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/features/social-encounter/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-20T09:25:17-03:00 - npc-schema
 - branch: task/npc-schema
 - commit: c180ec4 chore(qa): adiciona smoke da vertical slice

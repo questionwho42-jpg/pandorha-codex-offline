@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260520-114359-t42-social-encounter-core -->
+### T42 Social Encounter Core
+- id: 20260520-114359-t42-social-encounter-core
+- status: open
+- created_at: 2026-05-20T11:43:59-03:00
+- source: task-ledger
+- summary: Criar service puro de negociação social mínima com NPC catalog, ActionQueue, estado determinístico e cobertura.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260520-114359-t42-social-encounter-core -->
 <!-- pandorha-inbox:20260520-091722-t41-npc-schema -->
 ### T41 NPC Schema
 - id: 20260520-091722-t41-npc-schema
