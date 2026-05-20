@@ -47,6 +47,11 @@ import { createInventorySession } from "./model/inventorySession";
 import type { AppNavigationId } from "./model/navigation";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { APP_NAVIGATION_ITEMS, getAppNavigationItem } from "./model/navigation";
+import { registerPwaOfflineSupport } from "./model/pwaOfflineRegistration";
+import {
+	createPwaStatusView,
+	type PwaOfflineStatus,
+} from "./model/pwaStatusView";
 import { createSaveLoadSession } from "./model/saveLoadSession";
 import { createSocialRelationsSession } from "./model/socialRelationsSession";
 import { createSpellCastSession } from "./model/spellCastSession";
@@ -76,6 +81,7 @@ let factionStandingRecords = $state<FactionStandingRecord[]>(
 	socialRelationsSession.createInitialStandings(),
 );
 let worldStateRecords = $state<WorldStateFlagView[]>([]);
+let pwaOfflineStatus = $state<PwaOfflineStatus>({ kind: "checking" });
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let saveLoadState = $state<SaveLoadUiState>({ kind: "initializing" });
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -86,6 +92,8 @@ let characterCreateSuccess = $state<string | null>(null);
 let isCreatingCharacter = $state(false);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let activeItem = $derived(getAppNavigationItem(activeView));
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let pwaStatusView = $derived(createPwaStatusView(pwaOfflineStatus));
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 async function createCharacter(
@@ -128,6 +136,19 @@ async function initializeSaveLoad(): Promise<void> {
 	saveLoadState = initialized.success
 		? { kind: "ready" }
 		: { kind: "error", message: "Não foi possível preparar o save local." };
+}
+
+async function initializePwaOfflineSupport(): Promise<void> {
+	const registered = await registerPwaOfflineSupport();
+	if (registered.success) {
+		pwaOfflineStatus = registered.data;
+		return;
+	}
+
+	pwaOfflineStatus =
+		registered.error.code === "SERVICE_WORKER_UNSUPPORTED"
+			? { kind: "unsupported" }
+			: { kind: "failed" };
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -182,6 +203,7 @@ async function loadSession(): Promise<void> {
 
 onMount(() => {
 	void initializeSaveLoad();
+	void initializePwaOfflineSupport();
 });
 </script>
 
@@ -193,7 +215,19 @@ onMount(() => {
 		class="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 py-6 sm:px-8 lg:px-10"
 	>
 		<header class="border-b border-ether pb-6">
-			<p class="text-sm font-semibold text-ether">Pandorha Engine</p>
+			<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+				<p class="text-sm font-semibold text-ether">Pandorha Engine</p>
+				<p
+					aria-live="polite"
+					class="border border-bronze bg-blood-shadow px-3 py-2 text-sm font-semibold"
+					class:text-ether={pwaStatusView.tone === "ready"}
+					class:text-bone={pwaStatusView.tone === "pending"}
+					class:text-bronze={pwaStatusView.tone === "warning"}
+					data-testid="pwa-status"
+				>
+					{pwaStatusView.label}
+				</p>
+			</div>
 			<h1
 				id="pandorha-title"
 				class="mt-3 max-w-3xl text-4xl font-semibold leading-tight text-bone sm:text-5xl"

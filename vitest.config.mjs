@@ -57,6 +57,7 @@ export default defineConfig({
 				"src/features/combat-encounter/model/combatTrainingAttackProfile.ts",
 				"src/features/combat-encounter/model/combatTrainingTargetTurn.ts",
 				"src/features/spell-cast/model/spellCastView.ts",
+				"src/app/model/pwaStatusView.ts",
 			],
 			exclude: [
 				"src/entities/character/testing/**/*.ts",

@@ -99,3 +99,9 @@
 - `campSession` wires the camp activity catalog, default camp state, `ClockService`, and `CampHourService` for the browser panel.
 - `App.svelte` now owns camp persisted state arrays (`clocks`, `campSessions`, `campAssignments`) and sends them through save/load v2.
 - The camp UI remains one-hour only and does not introduce a router, autosave, random event table, recovery engine, or encounter generation.
+
+## 2026-05-19 - T39 PWA Offline Smoke
+
+- Added a minimal app-level PWA status model and service worker registration from `App.svelte`.
+- The service worker lives in `public/pandorha-sw.js` and uses runtime same-origin caching plus navigation fallback.
+- This is an offline smoke foundation only; it does not add push notifications, background sync, cache UI, manifest icons, or complex update prompts.
