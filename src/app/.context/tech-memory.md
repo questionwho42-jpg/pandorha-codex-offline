@@ -116,3 +116,9 @@
 - `App.svelte` renders `SocialEncounterPanel` inside the `Relações` tab.
 - The app keeps social encounter records as persisted state and lets the panel convert feature state into v4 save records.
 - The first UI uses deterministic training appeals only; no dialogue tree, ResolutionService roll, or world-state flag was added.
+
+## 2026-05-20 - T47 Social Appeal Character UI
+
+- `App.svelte` passes session `characterRecords` into `SocialEncounterPanel` so the UI can select a negotiator.
+- `socialEncounterSession` owns the deterministic social appeal resolution service and keeps the panel focused on orchestration.
+- Save/load v4 remains unchanged; persisted social encounter records still store derived encounter state and events, not the last transient roll display.

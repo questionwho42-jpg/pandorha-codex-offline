@@ -20,4 +20,5 @@
 - T33D adds explicit local save/load controls in the `Personagens` tab; future persistence work should add multiple slots, autosave, and user-facing WorldState views only after their dedicated services are defined.
 - T35D adds a minimal Acampamento tab; future camp work should add multi-hour orchestration, activity rolls, recovery, and encounter checks only after the one-hour saved flow is stable.
 - T39 adds the first offline smoke path through a small service worker; T40 should turn the repeated browser checks into a reusable QA script before expanding cache policy.
+- T47 connects `Relacoes` to session-character social stats; T48 should add argument choices before adding deeper dialogue trees.
 - Future app bootstrapping should introduce typed providers for Worker/RPC, repositories, services, and UI state.

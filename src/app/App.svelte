@@ -351,7 +351,9 @@ onMount(() => {
 						standings={factionStandingRecords}
 					/>
 					<SocialEncounterPanel
+						characters={characterRecords}
 						createAppealInput={socialEncounterSession.createAppealInput}
+						createAppealResolutionInput={socialEncounterSession.createAppealResolutionInput}
 						createStartInput={socialEncounterSession.createStartInput}
 						encounterEvents={socialEncounterEventRecords}
 						encounters={socialEncounterRecords}
@@ -364,6 +366,8 @@ onMount(() => {
 						}}
 						resolveAppeal={(input) =>
 							socialEncounterSession.service.resolveAppeal(input)}
+						resolveAppealOutcome={(input) =>
+							socialEncounterSession.appealResolutionService.resolveAppealOutcome(input)}
 						startEncounter={(input) =>
 							socialEncounterSession.service.startEncounter(input)}
 					/>

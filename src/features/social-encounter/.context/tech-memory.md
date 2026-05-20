@@ -8,4 +8,5 @@
 - T42 does not roll dice, use `ResolutionService`, persist state, or create dialogue trees.
 - T44 adds `SocialEncounterPanel` and persistence converters. UI state is converted into `entities/social-encounter` records before save/load v4.
 - T46 adds `SocialAppealResolutionService` to convert audited global social tests into `SocialAppealOutcome` without mutating encounter state.
+- T47 wires session characters into `SocialEncounterPanel`; the UI now resolves appeals through `SocialAppealResolutionService` before passing the derived outcome to `SocialEncounterService.resolveAppeal`.
 - Rule sources: `docs/system/survival/regras-completas-interacoes-sociais.md`, `docs/system/survival/regras-negociacao.md`, and `docs/architecture/feature_state_machines.md`.

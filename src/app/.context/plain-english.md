@@ -35,3 +35,5 @@ Na T33D, a aba Personagens ganhou os botoes Salvar sessao e Carregar save. O usu
 Na T35D, o app ganhou a aba Acampamento. O usuario pode escolher uma acao para cada personagem, resolver 1 hora, ver o perigo subir, acompanhar o relogio Fortificar perimetro e salvar esse estado no navegador.
 
 Na T39, o app ganhou o primeiro suporte offline. Depois de carregar o jogo uma vez, o navegador prepara uma copia local basica para tentar abrir a interface mesmo sem conexao. Isso ainda nao e um modo offline completo com atualizacao sofisticada; e um teste inicial para provar que o app consegue sobreviver a um recarregamento offline.
+
+Na T47, a aba Relacoes passou a usar personagens criados na sessao como negociadores. O usuario escolhe o personagem, inicia uma negociacao, faz um apelo e ve a rolagem social usada para alterar HP mental, paciencia e progresso.

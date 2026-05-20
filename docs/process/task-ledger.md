@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260520-183600-t47-social-appeal-character-ui -->
+### T47 Social appeal character UI
+- id: 20260520-183600-t47-social-appeal-character-ui
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-20T18:36:40-03:00
+- finished_at: 2026-05-20T18:48:53-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-20T18:48:53-03:00
+- branch: task/social-appeal-character-ui
+- commit_at_start: 3a04a2c feat(social): adiciona resolucao de apelo social
+- summary: Expandir a UI de Relacoes para escolher personagem da sessao como negociador e resolver apelo social via SocialAppealResolutionService.
+- last_change: UI de Relacoes agora escolhe personagem da sessao como negociador e resolve apelo social via SocialAppealResolutionService, com browser save/load validado.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-20T18:36:40-03:00
+- Done: task record created
+- Next: Implementar view model/sessao/UI e validar com Browser Use.
+- Risks: Integração Svelte com save/load v4 e estado social existente.
+- Improvements: T48 adicionara escolhas de dialogo.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-20T18:48:53-03:00
+- Done: UI de Relacoes agora escolhe personagem da sessao como negociador e resolve apelo social via SocialAppealResolutionService, com browser save/load validado.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260520-183600-t47-social-appeal-character-ui -->
 <!-- pandorha-task:20260520-182802-t46-social-appeal-resolution -->
 ### T46 Social Appeal Resolution
 - id: 20260520-182802-t46-social-appeal-resolution
@@ -2618,6 +2650,29 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-20T18:48:49-03:00 - social-appeal-character-ui
+- branch: task/social-appeal-character-ui
+- commit: 3a04a2c feat(social): adiciona resolucao de apelo social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/__tests__/socialEncounterView.spec.ts
+- src/features/social-encounter/model/socialEncounterView.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-20T18:35:29-03:00 - social-appeal-resolution
 - branch: task/social-appeal-resolution
 - commit: ff87a17 chore(qa): atualiza smoke social pos negociacao
