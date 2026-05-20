@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260520-182331-t45-social-qa-refresh -->
+### T45 Social QA Refresh
+- id: 20260520-182331-t45-social-qa-refresh
+- status: open
+- created_at: 2026-05-20T18:23:31-03:00
+- source: task-ledger
+- summary: Atualizar QA vertical e smoke para refletir NPCs, negociação social, HP mental, save/load v4 e cache runtime pós-T44.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260520-182331-t45-social-qa-refresh -->
 <!-- pandorha-inbox:20260520-130747-t44-social-encounter-ui -->
 ### T44 Social Encounter UI
 - id: 20260520-130747-t44-social-encounter-ui

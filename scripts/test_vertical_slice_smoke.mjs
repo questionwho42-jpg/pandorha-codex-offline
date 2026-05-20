@@ -65,10 +65,12 @@ async function createFixtureRoot({
 		"src/app/model/navigation.ts": navigationText,
 		"src/app/App.svelte": renderApp(),
 		"public/pandorha-sw.js": renderServiceWorker(),
+		"src/features/save-load/model/saveLoadSchemas.ts": renderSaveSchemas(),
 		"docs/user/character-creation.md": renderDoc("Personagens"),
 		"docs/user/combat-training.md": renderDoc("Combate"),
 		"docs/user/camp-training.md": renderDoc("Acampamento"),
 		"docs/user/social-relations.md": renderDoc("Relações"),
+		"docs/user/social-encounter.md": renderDoc("NegociaÃ§Ã£o Social"),
 		"docs/user/offline-smoke.md": renderDoc("Offline"),
 		...docOverrides,
 	};
@@ -106,6 +108,7 @@ CombatEncounterPanel;
 HexcrawlMapPanel;
 CampHourPanel;
 SocialRelationsPanel;
+SocialEncounterPanel;
 SpellCastPanel;
 InventoryReadOnlyPanel;
 CompendiumBrowser;
@@ -121,6 +124,17 @@ self.addEventListener("install", () => undefined);
 self.addEventListener("activate", () => undefined);
 self.addEventListener("fetch", () => handleNavigationRequest());
 function handleNavigationRequest() {}
+function handleRuntimeRequest() {}
+`;
+}
+
+function renderSaveSchemas() {
+	return `
+export const CURRENT_SAVE_VERSION = 4;
+const save = {
+  socialEncounters: [],
+  socialEncounterEvents: [],
+};
 `;
 }
 

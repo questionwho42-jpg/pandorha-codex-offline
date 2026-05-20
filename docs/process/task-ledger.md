@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260520-182331-t45-social-qa-refresh -->
+### T45 Social QA Refresh
+- id: 20260520-182331-t45-social-qa-refresh
+- status: completed
+- kind: maintenance
+- planned: no
+- started_at: 2026-05-20T18:23:31-03:00
+- finished_at: 2026-05-20T18:27:24-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-20T18:27:24-03:00
+- branch: task/social-qa-refresh
+- commit_at_start: 487ba69 feat(social): adiciona ui de negociacao social
+- summary: Atualizar QA vertical e smoke para refletir NPCs, negociação social, HP mental, save/load v4 e cache runtime pós-T44.
+- last_change: QA vertical e smoke atualizados para cobrir negociação social, NPCs, HP mental, save/load v4 e service worker pós-T44.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-20T18:23:31-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-20T18:27:24-03:00
+- Done: QA vertical e smoke atualizados para cobrir negociação social, NPCs, HP mental, save/load v4 e service worker pós-T44.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260520-182331-t45-social-qa-refresh -->
 <!-- pandorha-task:20260520-130747-t44-social-encounter-ui -->
 ### T44 Social Encounter UI
 - id: 20260520-130747-t44-social-encounter-ui
@@ -2554,6 +2586,21 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-20T18:27:19-03:00 - social-qa-refresh
+- branch: task/social-qa-refresh
+- commit: 487ba69 feat(social): adiciona ui de negociacao social
+- changed_files_count: 5
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-20T18:18:26-03:00 - social-encounter-ui
 - branch: task/social-encounter-ui
 - commit: f70edb3 feat(save-load): persiste negociacao social no snapshot v4

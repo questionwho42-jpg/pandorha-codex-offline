@@ -53,6 +53,7 @@ async function runVerticalSliceSmoke(root) {
 			"HexcrawlMapPanel",
 			"CampHourPanel",
 			"SocialRelationsPanel",
+			"SocialEncounterPanel",
 			"SpellCastPanel",
 			"InventoryReadOnlyPanel",
 			"CompendiumBrowser",
@@ -64,7 +65,21 @@ async function runVerticalSliceSmoke(root) {
 	await validateFileContains(
 		root,
 		"public/pandorha-sw.js",
-		["CACHE_NAME", "install", "activate", "fetch", "handleNavigationRequest"],
+		[
+			"CACHE_NAME",
+			"install",
+			"activate",
+			"fetch",
+			"handleNavigationRequest",
+			"handleRuntimeRequest",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/save-load/model/saveLoadSchemas.ts",
+		["CURRENT_SAVE_VERSION = 4", "socialEncounters", "socialEncounterEvents"],
 		errors,
 	);
 
@@ -73,6 +88,7 @@ async function runVerticalSliceSmoke(root) {
 		"docs/user/combat-training.md",
 		"docs/user/camp-training.md",
 		"docs/user/social-relations.md",
+		"docs/user/social-encounter.md",
 		"docs/user/offline-smoke.md",
 	]) {
 		await validateFileContainsAny(
