@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260520-130747-t44-social-encounter-ui -->
+### T44 Social Encounter UI
+- id: 20260520-130747-t44-social-encounter-ui
+- status: open
+- created_at: 2026-05-20T13:07:47-03:00
+- source: task-ledger
+- summary: Expandir a aba Relações com negociação social de treino, apelo determinístico, save/load v4 e guia de usuário.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260520-130747-t44-social-encounter-ui -->
 <!-- pandorha-inbox:20260520-125428-t43-save-load-v4-social-encounter -->
 ### T43 Save Load V4 Social Encounter
 - id: 20260520-125428-t43-save-load-v4-social-encounter

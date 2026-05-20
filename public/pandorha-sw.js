@@ -1,4 +1,4 @@
-const CACHE_NAME = "pandorha-engine-offline-v1";
+const CACHE_NAME = "pandorha-engine-offline-v2";
 const CACHE_PREFIX = "pandorha-engine-offline-";
 const APP_SHELL_URLS = ["/", "/index.html"];
 
@@ -63,11 +63,6 @@ async function handleNavigationRequest(request) {
 }
 
 async function handleRuntimeRequest(request) {
-	const cached = await caches.match(request);
-	if (cached) {
-		return cached;
-	}
-
 	try {
 		const response = await fetch(request);
 		if (response.status === 200) {
@@ -76,6 +71,7 @@ async function handleRuntimeRequest(request) {
 		}
 		return response;
 	} catch {
-		return (await caches.match(request)) ?? Response.error();
+		const cached = await caches.match(request);
+		return cached ?? Response.error();
 	}
 }

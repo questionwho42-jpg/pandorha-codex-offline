@@ -5,3 +5,4 @@
 - A future task can replace deterministic appeal outcomes with `ResolutionService` and social stats from characters.
 - `dialogue-architect` becomes relevant when appeal choices become authored dialogue nodes.
 - `world-state-manager` becomes relevant when social outcomes set narrative flags or unlock locations.
+- Future UI iterations should add player argument choices before adding random rolls, so the user can understand what changed.

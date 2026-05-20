@@ -110,3 +110,9 @@
 
 - `App.svelte` now carries social encounter records and event records through explicit save/load state.
 - No social negotiation UI was added in T43; the arrays are ready for the T44 `Relações` expansion.
+
+## 2026-05-20 - T44 Social Encounter UI
+
+- `App.svelte` renders `SocialEncounterPanel` inside the `Relações` tab.
+- The app keeps social encounter records as persisted state and lets the panel convert feature state into v4 save records.
+- The first UI uses deterministic training appeals only; no dialogue tree, ResolutionService roll, or world-state flag was added.

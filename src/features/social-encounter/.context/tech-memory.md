@@ -6,4 +6,5 @@
 - `startEncounter` copies NPC mental HP, patience, attitude, and computes `persuasionTarget = requestComplexity + npc.tier`.
 - `resolveAppeal` uses `ActionQueueService` and only accepts queued `social-appeal` commands.
 - T42 does not roll dice, use `ResolutionService`, persist state, or create dialogue trees.
+- T44 adds `SocialEncounterPanel` and persistence converters. UI state is converted into `entities/social-encounter` records before save/load v4.
 - Rule sources: `docs/system/survival/regras-completas-interacoes-sociais.md`, `docs/system/survival/regras-negociacao.md`, and `docs/architecture/feature_state_machines.md`.

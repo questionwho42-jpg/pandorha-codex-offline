@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { InMemoryNpcCatalogRepository } from "$lib/entities/npc";
-import { SocialEncounterService } from "$lib/features/social-encounter";
+import {
+	SocialEncounterService,
+	type SocialEncounterState,
+} from "$lib/features/social-encounter/model-api";
 import type { ActionCommand } from "$lib/shared/action-queue";
-import type { SocialEncounterState } from "../model/socialEncounterTypes";
 
 describe("SocialEncounterService", () => {
 	it("starts an encounter with training broker using NPC resources", async () => {

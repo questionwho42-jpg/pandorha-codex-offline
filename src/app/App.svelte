@@ -39,6 +39,8 @@ import {
 	type SaveLoadUiState,
 } from "$lib/features/save-load";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { SocialEncounterPanel } from "$lib/features/social-encounter";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SocialRelationsPanel } from "$lib/features/social-relations";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SpellCastPanel } from "$lib/features/spell-cast";
@@ -57,6 +59,7 @@ import {
 	type PwaOfflineStatus,
 } from "./model/pwaStatusView";
 import { createSaveLoadSession } from "./model/saveLoadSession";
+import { createSocialEncounterSession } from "./model/socialEncounterSession";
 import { createSocialRelationsSession } from "./model/socialRelationsSession";
 import { createSpellCastSession } from "./model/spellCastSession";
 
@@ -74,6 +77,8 @@ const inventorySession = createInventorySession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const spellCastSession = createSpellCastSession();
 const saveLoadSession = createSaveLoadSession();
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const socialEncounterSession = createSocialEncounterSession();
 const socialRelationsSession = createSocialRelationsSession();
 
 let activeView = $state<AppNavigationId>("home");
@@ -344,6 +349,23 @@ onMount(() => {
 						}}
 						redeemTierOneDebt={socialRelationsSession.redeemTierOneDebt}
 						standings={factionStandingRecords}
+					/>
+					<SocialEncounterPanel
+						createAppealInput={socialEncounterSession.createAppealInput}
+						createStartInput={socialEncounterSession.createStartInput}
+						encounterEvents={socialEncounterEventRecords}
+						encounters={socialEncounterRecords}
+						npcs={socialEncounterSession.npcs}
+						onRecordsChange={(records) => {
+							socialEncounterRecords = [...records.socialEncounters];
+							socialEncounterEventRecords = [
+								...records.socialEncounterEvents,
+							];
+						}}
+						resolveAppeal={(input) =>
+							socialEncounterSession.service.resolveAppeal(input)}
+						startEncounter={(input) =>
+							socialEncounterSession.service.startEncounter(input)}
 					/>
 				</div>
 			{:else if activeView === "magic"}

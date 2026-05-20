@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260520-130747-t44-social-encounter-ui -->
+### T44 Social Encounter UI
+- id: 20260520-130747-t44-social-encounter-ui
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-20T13:07:47-03:00
+- finished_at: 2026-05-20T18:18:33-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-20T18:18:33-03:00
+- branch: task/social-encounter-ui
+- commit_at_start: f70edb3 feat(save-load): persiste negociacao social no snapshot v4
+- summary: Expandir a aba Relações com negociação social de treino, apelo determinístico, save/load v4 e guia de usuário.
+- last_change: UI de negociação social com save/load v4 validada no navegador.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-20T13:07:47-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-20T18:18:33-03:00
+- Done: UI de negociação social com save/load v4 validada no navegador.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260520-130747-t44-social-encounter-ui -->
 <!-- pandorha-task:20260520-125428-t43-save-load-v4-social-encounter -->
 ### T43 Save Load V4 Social Encounter
 - id: 20260520-125428-t43-save-load-v4-social-encounter
@@ -2522,6 +2554,66 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-20T18:18:26-03:00 - social-encounter-ui
+- branch: task/social-encounter-ui
+- commit: f70edb3 feat(save-load): persiste negociacao social no snapshot v4
+- changed_files_count: 20
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- public/pandorha-sw.js
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/__tests__/SocialEncounterService.spec.ts
+- src/features/social-encounter/index.ts
+- vitest.config.mjs
+- docs/user/social-encounter.md
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/__tests__/socialEncounterPersistence.spec.ts
+- src/features/social-encounter/__tests__/socialEncounterView.spec.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/model/socialEncounterPersistence.ts
+- src/features/social-encounter/model/socialEncounterView.ts
+- src/features/social-encounter/ui/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-20T13:28:18-03:00 - social-encounter-ui-browser-validated-gate-pending
+- branch: task/social-encounter-ui
+- commit: f70edb3 feat(save-load): persiste negociacao social no snapshot v4
+- changed_files_count: 20
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- public/pandorha-sw.js
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/__tests__/SocialEncounterService.spec.ts
+- src/features/social-encounter/index.ts
+- vitest.config.mjs
+- docs/user/social-encounter.md
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/__tests__/socialEncounterPersistence.spec.ts
+- src/features/social-encounter/__tests__/socialEncounterView.spec.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/model/socialEncounterPersistence.ts
+- src/features/social-encounter/model/socialEncounterView.ts
+- src/features/social-encounter/ui/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-20T13:06:54-03:00 - save-load-v4-social-encounter
 - branch: task/save-load-v4-social-encounter
 - commit: feb3c1b feat(social): adiciona nucleo de encontro social

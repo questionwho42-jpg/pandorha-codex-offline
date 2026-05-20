@@ -53,6 +53,7 @@ export default defineConfig({
 				"src/features/hexcrawl-map/model/hexcrawlMapView.ts",
 				"src/features/inventory-readonly/model/inventoryReadOnlyView.ts",
 				"src/features/save-load/model/saveLoadView.ts",
+				"src/features/social-encounter/model/socialEncounterView.ts",
 				"src/features/social-relations/model/socialRelationsView.ts",
 				"src/features/combat-encounter/model/combatAttackerStatsView.ts",
 				"src/features/combat-encounter/model/combatEncounterView.ts",
