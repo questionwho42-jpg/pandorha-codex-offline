@@ -32,7 +32,7 @@ describe("RPC save/load contract", () => {
 			payload: {
 				saveId: "primary",
 				snapshot: {
-					version: 3,
+					version: 4,
 					savedAt: CREATED_AT,
 					characters: [{ id: "lia", name: "Lia", level: 1 }],
 					worldState: [
@@ -47,6 +47,10 @@ describe("RPC save/load contract", () => {
 					campAssignments: [{ id: "camp-assignment-1", hour: 1 }],
 					factionStandings: [
 						{ factionId: "training-thieves-guild", bloodDebt: 1 },
+					],
+					socialEncounters: [{ id: "social-encounter-one", status: "active" }],
+					socialEncounterEvents: [
+						{ id: "social-encounter-one-event-one", sequence: 0 },
 					],
 				},
 			},
@@ -72,7 +76,7 @@ describe("RPC save/load contract", () => {
 			payload: {
 				saveId: "primary",
 				snapshot: {
-					version: 3,
+					version: 4,
 					savedAt: CREATED_AT,
 					characters: [{ id: "lia", createdAt: new Date(CREATED_AT) }],
 					worldState: [],
@@ -80,6 +84,8 @@ describe("RPC save/load contract", () => {
 					campSessions: [],
 					campAssignments: [],
 					factionStandings: [],
+					socialEncounters: [],
+					socialEncounterEvents: [],
 				},
 			},
 		});

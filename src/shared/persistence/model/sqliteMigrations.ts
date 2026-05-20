@@ -3,6 +3,7 @@ import worldStateMigrationSql from "../../../../drizzle/0001_crazy_wallop.sql?ra
 import clockMigrationSql from "../../../../drizzle/0002_true_cable.sql?raw";
 import campSessionMigrationSql from "../../../../drizzle/0003_public_tyger_tiger.sql?raw";
 import factionMigrationSql from "../../../../drizzle/0004_abnormal_luke_cage.sql?raw";
+import socialEncounterMigrationSql from "../../../../drizzle/0005_perfect_sinister_six.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -25,5 +26,9 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0004_abnormal_luke_cage",
 		sql: factionMigrationSql,
+	},
+	{
+		id: "0005_perfect_sinister_six",
+		sql: socialEncounterMigrationSql,
 	},
 ];

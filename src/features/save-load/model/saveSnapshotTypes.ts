@@ -2,7 +2,7 @@ import type { DatabaseFileFailure } from "$lib/shared/persistence";
 
 export interface SaveSnapshotResult {
 	readonly saveId: "primary";
-	readonly version: 3;
+	readonly version: 4;
 	readonly savedAt: string;
 	readonly characterCount: number;
 	readonly worldStateCount: number;
@@ -10,6 +10,8 @@ export interface SaveSnapshotResult {
 	readonly campSessionCount: number;
 	readonly campAssignmentCount: number;
 	readonly factionStandingCount: number;
+	readonly socialEncounterCount: number;
+	readonly socialEncounterEventCount: number;
 }
 
 export type SaveSnapshotFailureCode =

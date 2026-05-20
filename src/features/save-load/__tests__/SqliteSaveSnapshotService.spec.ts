@@ -46,7 +46,7 @@ describe("SqliteSaveSnapshotService", () => {
 
 		expect(saved).toEqual({
 			saveId: "primary",
-			version: 3,
+			version: 4,
 			savedAt: SAVED_AT,
 			characterCount: 1,
 			worldStateCount: 1,
@@ -54,6 +54,8 @@ describe("SqliteSaveSnapshotService", () => {
 			campSessionCount: 1,
 			campAssignmentCount: 1,
 			factionStandingCount: 1,
+			socialEncounterCount: 1,
+			socialEncounterEventCount: 1,
 		});
 		expect(loaded).toEqual(buildSnapshot());
 	});
@@ -97,6 +99,8 @@ describe("SqliteSaveSnapshotService", () => {
 			campSessions: [],
 			campAssignments: [],
 			factionStandings: [],
+			socialEncounters: [],
+			socialEncounterEvents: [],
 		};
 
 		const saved = expectSaveSuccess(await service.saveSnapshot(emptySnapshot));
@@ -114,6 +118,8 @@ describe("SqliteSaveSnapshotService", () => {
 		expect(saved.campSessionCount).toBe(0);
 		expect(saved.campAssignmentCount).toBe(0);
 		expect(saved.factionStandingCount).toBe(0);
+		expect(saved.socialEncounterCount).toBe(0);
+		expect(saved.socialEncounterEventCount).toBe(0);
 		expect(expectLoadSuccess(await service.loadSnapshot())).toEqual(
 			emptySnapshot,
 		);
@@ -140,13 +146,13 @@ describe("SqliteSaveSnapshotService", () => {
 		expect(corrupted.code).toBe("CORRUPTED_SAVE_SNAPSHOT");
 	});
 
-	it("migrates a legacy v1 save to v3 with empty camp and social data", async () => {
+	it("migrates a legacy v1 save to v4 with empty structured data", async () => {
 		const loaded = expectLoadSuccess(
 			await createService(await createLegacyV1SaveStorage()).loadSnapshot(),
 		);
 
 		expect(loaded).toEqual({
-			version: 3,
+			version: 4,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
 			worldState: [
@@ -160,16 +166,18 @@ describe("SqliteSaveSnapshotService", () => {
 			campSessions: [],
 			campAssignments: [],
 			factionStandings: [],
+			socialEncounters: [],
+			socialEncounterEvents: [],
 		});
 	});
 
-	it("migrates a legacy v2 save to v3 with empty faction standings", async () => {
+	it("migrates a legacy v2 save to v4 with empty social data", async () => {
 		const loaded = expectLoadSuccess(
 			await createService(await createLegacyV2SaveStorage()).loadSnapshot(),
 		);
 
 		expect(loaded).toEqual({
-			version: 3,
+			version: 4,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
 			worldState: [
@@ -183,6 +191,33 @@ describe("SqliteSaveSnapshotService", () => {
 			campSessions: [buildCampSession()],
 			campAssignments: [buildCampAssignment()],
 			factionStandings: [],
+			socialEncounters: [],
+			socialEncounterEvents: [],
+		});
+	});
+
+	it("migrates a legacy v3 save to v4 with empty social encounter state", async () => {
+		const loaded = expectLoadSuccess(
+			await createService(await createLegacyV3SaveStorage()).loadSnapshot(),
+		);
+
+		expect(loaded).toEqual({
+			version: 4,
+			savedAt: SAVED_AT,
+			characters: [buildCharacter()],
+			worldState: [
+				{
+					key: "location:morden:gate-open",
+					value: true,
+					updatedAt: UPDATED_AT,
+				},
+			],
+			clocks: [buildClock()],
+			campSessions: [buildCampSession()],
+			campAssignments: [buildCampAssignment()],
+			factionStandings: [buildFactionStanding()],
+			socialEncounters: [],
+			socialEncounterEvents: [],
 		});
 	});
 
@@ -225,11 +260,13 @@ describe("SqliteSaveSnapshotService", () => {
 		expect(invalidWorldState.code).toBe("CORRUPTED_SAVE_SNAPSHOT");
 	});
 
-	it("returns typed failures for corrupted clock, camp, and faction rows", async () => {
+	it("returns typed failures for corrupted clock, camp, faction, and social rows", async () => {
 		const invalidClockStorage = await createMigratedStorage();
 		const invalidCampSessionStorage = await createMigratedStorage();
 		const invalidCampAssignmentStorage = await createMigratedStorage();
 		const invalidFactionStandingStorage = await createMigratedStorage();
+		const invalidSocialEncounterStorage = await createMigratedStorage();
+		const invalidSocialEncounterEventStorage = await createMigratedStorage();
 		expectSaveSuccess(
 			await createService(invalidClockStorage).saveSnapshot(buildSnapshot()),
 		);
@@ -248,11 +285,25 @@ describe("SqliteSaveSnapshotService", () => {
 				buildSnapshot(),
 			),
 		);
+		expectSaveSuccess(
+			await createService(invalidSocialEncounterStorage).saveSnapshot(
+				buildSnapshot(),
+			),
+		);
+		expectSaveSuccess(
+			await createService(invalidSocialEncounterEventStorage).saveSnapshot(
+				buildSnapshot(),
+			),
+		);
 
 		await corruptClockSlices(invalidClockStorage);
 		await corruptCampSessionHour(invalidCampSessionStorage);
 		await corruptCampAssignmentHour(invalidCampAssignmentStorage);
 		await corruptFactionStandingStatus(invalidFactionStandingStorage);
+		await corruptSocialEncounterStatus(invalidSocialEncounterStorage);
+		await corruptSocialEncounterEventSequence(
+			invalidSocialEncounterEventStorage,
+		);
 
 		expect(
 			expectFailure(await createService(invalidClockStorage).loadSnapshot())
@@ -271,6 +322,16 @@ describe("SqliteSaveSnapshotService", () => {
 		expect(
 			expectFailure(
 				await createService(invalidFactionStandingStorage).loadSnapshot(),
+			).code,
+		).toBe("CORRUPTED_SAVE_SNAPSHOT");
+		expect(
+			expectFailure(
+				await createService(invalidSocialEncounterStorage).loadSnapshot(),
+			).code,
+		).toBe("CORRUPTED_SAVE_SNAPSHOT");
+		expect(
+			expectFailure(
+				await createService(invalidSocialEncounterEventStorage).loadSnapshot(),
 			).code,
 		).toBe("CORRUPTED_SAVE_SNAPSHOT");
 	});
@@ -360,7 +421,7 @@ describe("SqliteSaveSnapshotService", () => {
 
 function buildSnapshot() {
 	return {
-		version: 3 as const,
+		version: 4 as const,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
 		worldState: [
@@ -374,6 +435,8 @@ function buildSnapshot() {
 		campSessions: [buildCampSession()],
 		campAssignments: [buildCampAssignment()],
 		factionStandings: [buildFactionStanding()],
+		socialEncounters: [buildSocialEncounter()],
+		socialEncounterEvents: [buildSocialEncounterEvent()],
 	};
 }
 
@@ -427,6 +490,36 @@ function buildFactionStanding() {
 		...TRAINING_FACTION_STANDINGS[0],
 		bloodDebt: 1,
 		intriguePoints: 1,
+	};
+}
+
+function buildSocialEncounter() {
+	return {
+		id: "social-encounter-one",
+		npcId: "training-broker",
+		actorId: "session-character-1",
+		status: "active",
+		attitude: "skeptical",
+		mentalHpCurrent: 5,
+		mentalHpMax: 8,
+		patienceCurrent: 6,
+		patienceMax: 6,
+		persuasionProgress: 1,
+		persuasionTarget: 3,
+		createdAt: SAVED_AT,
+		updatedAt: SAVED_AT,
+	};
+}
+
+function buildSocialEncounterEvent() {
+	return {
+		id: "social-encounter-one-event-one",
+		encounterId: "social-encounter-one",
+		sequence: 0,
+		type: "social-encounter-started",
+		message: "Negociação iniciada com Corretora de Treino.",
+		createdAt: SAVED_AT,
+		commandId: null,
 	};
 }
 
@@ -493,6 +586,34 @@ async function createLegacyV2SaveStorage(): Promise<InMemoryDatabaseFileStorage>
 		[
 			"system:save:primary:metadata",
 			JSON.stringify({ version: 2, savedAt: SAVED_AT }),
+			SAVED_AT,
+		],
+	);
+	const storage = new InMemoryDatabaseFileStorage(database.export());
+	database.close();
+	return storage;
+}
+
+async function createLegacyV3SaveStorage(): Promise<InMemoryDatabaseFileStorage> {
+	const sqlite = await createSqlite();
+	const database = new sqlite.Database();
+	for (const migration of PANDORHA_SQLITE_MIGRATIONS) {
+		database.run(migration.sql);
+	}
+	insertCharacter(database);
+	insertClock(database);
+	insertCampSession(database);
+	insertCampAssignment(database);
+	insertFactionStanding(database);
+	database.run(
+		"INSERT INTO world_state_entries (key, value_json, updated_at) VALUES (?, ?, ?);",
+		["location:morden:gate-open", JSON.stringify(true), UPDATED_AT],
+	);
+	database.run(
+		"INSERT INTO world_state_entries (key, value_json, updated_at) VALUES (?, ?, ?);",
+		[
+			"system:save:primary:metadata",
+			JSON.stringify({ version: 3, savedAt: SAVED_AT }),
 			SAVED_AT,
 		],
 	);
@@ -587,6 +708,28 @@ function insertCampAssignment(
 	);
 }
 
+function insertFactionStanding(
+	database: SqlJsStatic["Database"]["prototype"],
+): void {
+	const standing = buildFactionStanding();
+	database.run(
+		`INSERT INTO faction_standings (
+			faction_id, fame_level, fame_xp, infamy_level, blood_debt,
+			favor_points, intrigue_points, status
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
+		[
+			standing.factionId,
+			standing.fameLevel,
+			standing.fameXp,
+			standing.infamyLevel,
+			standing.bloodDebt,
+			standing.favorPoints,
+			standing.intriguePoints,
+			standing.status,
+		],
+	);
+}
+
 async function corruptCharacterLevel(
 	storage: InMemoryDatabaseFileStorage,
 ): Promise<void> {
@@ -615,7 +758,7 @@ async function corruptMetadataVersion(
 	const sqlite = await createSqlite();
 	const database = new sqlite.Database(storage.fileBytes);
 	database.run(
-		'UPDATE world_state_entries SET value_json = \'{"version":4,"savedAt":"2026-05-15T19:50:00.000Z"}\' WHERE key = \'system:save:primary:metadata\';',
+		'UPDATE world_state_entries SET value_json = \'{"version":5,"savedAt":"2026-05-15T19:50:00.000Z"}\' WHERE key = \'system:save:primary:metadata\';',
 	);
 	storage.fileBytes = database.export();
 	database.close();
@@ -675,6 +818,26 @@ async function corruptFactionStandingStatus(
 	database.close();
 }
 
+async function corruptSocialEncounterStatus(
+	storage: InMemoryDatabaseFileStorage,
+): Promise<void> {
+	const sqlite = await createSqlite();
+	const database = new sqlite.Database(storage.fileBytes);
+	database.run("UPDATE social_encounters SET status = 'unknown';");
+	storage.fileBytes = database.export();
+	database.close();
+}
+
+async function corruptSocialEncounterEventSequence(
+	storage: InMemoryDatabaseFileStorage,
+): Promise<void> {
+	const sqlite = await createSqlite();
+	const database = new sqlite.Database(storage.fileBytes);
+	database.run("UPDATE social_encounter_events SET sequence = -1;");
+	storage.fileBytes = database.export();
+	database.close();
+}
+
 async function createMalformedSchemaStorage(): Promise<InMemoryDatabaseFileStorage> {
 	const sqlite = await createSqlite();
 	const database = new sqlite.Database();
@@ -687,6 +850,12 @@ async function createMalformedSchemaStorage(): Promise<InMemoryDatabaseFileStora
 	database.run("CREATE TABLE camp_assignments (id text PRIMARY KEY NOT NULL);");
 	database.run(
 		"CREATE TABLE faction_standings (faction_id text PRIMARY KEY NOT NULL);",
+	);
+	database.run(
+		"CREATE TABLE social_encounters (id text PRIMARY KEY NOT NULL);",
+	);
+	database.run(
+		"CREATE TABLE social_encounter_events (id text PRIMARY KEY NOT NULL);",
 	);
 	const storage = new InMemoryDatabaseFileStorage(database.export());
 	database.close();

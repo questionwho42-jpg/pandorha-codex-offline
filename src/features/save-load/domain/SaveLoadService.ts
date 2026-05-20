@@ -45,6 +45,8 @@ export class SaveLoadService {
 			campSessions: parsedInput.data.campSessions,
 			campAssignments: parsedInput.data.campAssignments,
 			factionStandings: parsedInput.data.factionStandings,
+			socialEncounters: parsedInput.data.socialEncounters,
+			socialEncounterEvents: parsedInput.data.socialEncounterEvents,
 		};
 
 		const response = await this.workerBridge.send({
@@ -81,6 +83,8 @@ export class SaveLoadService {
 			campSessionCount: parsedInput.data.campSessions.length,
 			campAssignmentCount: parsedInput.data.campAssignments.length,
 			factionStandingCount: parsedInput.data.factionStandings.length,
+			socialEncounterCount: parsedInput.data.socialEncounters.length,
+			socialEncounterEventCount: parsedInput.data.socialEncounterEvents.length,
 		});
 	}
 
@@ -146,6 +150,8 @@ export class SaveLoadService {
 			campSessions: currentSnapshot.campSessions,
 			campAssignments: currentSnapshot.campAssignments,
 			factionStandings: currentSnapshot.factionStandings,
+			socialEncounters: currentSnapshot.socialEncounters,
+			socialEncounterEvents: currentSnapshot.socialEncounterEvents,
 		});
 	}
 }

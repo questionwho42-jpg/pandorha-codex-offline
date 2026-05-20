@@ -24,6 +24,16 @@ import {
 	factionStandings,
 } from "$lib/entities/faction";
 import {
+	type SocialEncounterEventRecord,
+	type SocialEncounterRecord,
+	socialEncounterEventInsertSchema,
+	socialEncounterEventSelectSchema,
+	socialEncounterEvents,
+	socialEncounterInsertSchema,
+	socialEncounterSelectSchema,
+	socialEncounters,
+} from "$lib/entities/social-encounter";
+import {
 	worldStateEntries,
 	worldStateEntryInsertSchema,
 	worldStateEntrySelectSchema,
@@ -38,9 +48,10 @@ import {
 	loadedSessionStateV1Schema,
 	loadedSessionStateV2Schema,
 	loadedSessionStateV3Schema,
+	loadedSessionStateV4Schema,
 	migrateLoadedSessionToCurrent,
 	saveMetadataAnySchema,
-	saveMetadataV3Schema,
+	saveMetadataV4Schema,
 } from "../model/saveLoadSchemas";
 import type { LoadedSessionState } from "../model/saveLoadTypes";
 import type {
@@ -65,7 +76,7 @@ export class SqliteSaveSnapshotService {
 	public async saveSnapshot(
 		input: unknown,
 	): Promise<Result<SaveSnapshotResult, SaveSnapshotFailure>> {
-		const parsedSnapshot = loadedSessionStateV3Schema.safeParse(input);
+		const parsedSnapshot = loadedSessionStateV4Schema.safeParse(input);
 		if (!parsedSnapshot.success) {
 			return fail({
 				code: "INVALID_SAVE_SNAPSHOT",
@@ -96,6 +107,13 @@ export class SqliteSaveSnapshotService {
 			const factionStandingRecords = parsedSnapshot.data.factionStandings.map(
 				(standing) => factionStandingInsertSchema.parse(standing),
 			);
+			const socialEncounterRecords = parsedSnapshot.data.socialEncounters.map(
+				(encounter) => socialEncounterInsertSchema.parse(encounter),
+			);
+			const socialEncounterEventRecords =
+				parsedSnapshot.data.socialEncounterEvents.map((event) =>
+					socialEncounterEventInsertSchema.parse(event),
+				);
 			const worldStateRecords = parsedSnapshot.data.worldState.map((flag) =>
 				worldStateEntryInsertSchema.parse({
 					key: flag.key,
@@ -106,7 +124,7 @@ export class SqliteSaveSnapshotService {
 			const metadataRecord = worldStateEntryInsertSchema.parse({
 				key: SAVE_METADATA_KEY,
 				valueJson: JSON.stringify(
-					saveMetadataV3Schema.parse({
+					saveMetadataV4Schema.parse({
 						version: parsedSnapshot.data.version,
 						savedAt: parsedSnapshot.data.savedAt,
 					}),
@@ -115,6 +133,8 @@ export class SqliteSaveSnapshotService {
 			});
 
 			db.transaction((tx) => {
+				tx.delete(socialEncounterEvents).run();
+				tx.delete(socialEncounters).run();
 				tx.delete(campAssignments).run();
 				tx.delete(campSessions).run();
 				tx.delete(clocks).run();
@@ -136,6 +156,14 @@ export class SqliteSaveSnapshotService {
 				if (factionStandingRecords.length > 0) {
 					tx.insert(factionStandings).values(factionStandingRecords).run();
 				}
+				if (socialEncounterRecords.length > 0) {
+					tx.insert(socialEncounters).values(socialEncounterRecords).run();
+				}
+				if (socialEncounterEventRecords.length > 0) {
+					tx.insert(socialEncounterEvents)
+						.values(socialEncounterEventRecords)
+						.run();
+				}
 				tx.insert(worldStateEntries)
 					.values([...worldStateRecords, metadataRecord])
 					.run();
@@ -156,7 +184,7 @@ export class SqliteSaveSnapshotService {
 			database.close();
 			return ok({
 				saveId: "primary",
-				version: 3,
+				version: 4,
 				savedAt: parsedSnapshot.data.savedAt,
 				characterCount: parsedSnapshot.data.characters.length,
 				worldStateCount: parsedSnapshot.data.worldState.length,
@@ -164,6 +192,9 @@ export class SqliteSaveSnapshotService {
 				campSessionCount: parsedSnapshot.data.campSessions.length,
 				campAssignmentCount: parsedSnapshot.data.campAssignments.length,
 				factionStandingCount: parsedSnapshot.data.factionStandings.length,
+				socialEncounterCount: parsedSnapshot.data.socialEncounters.length,
+				socialEncounterEventCount:
+					parsedSnapshot.data.socialEncounterEvents.length,
 			});
 		} catch (error: unknown) {
 			database.close();
@@ -303,7 +334,35 @@ export class SqliteSaveSnapshotService {
 				return parsedFactionStandings;
 			}
 
-			const parsedLoaded = loadedSessionStateV3Schema.parse({
+			if (parsedMetadata.data.version === 3) {
+				const parsedLoaded = migrateLoadedSessionToCurrent(
+					loadedSessionStateV3Schema.parse({
+						version: parsedMetadata.data.version,
+						savedAt: parsedMetadata.data.savedAt,
+						characters: parsedCharacters,
+						worldState: parsedWorldState,
+						clocks: parsedClocks.data,
+						campSessions: parsedCampSessions.data,
+						campAssignments: parsedCampAssignments.data,
+						factionStandings: parsedFactionStandings.data,
+					}),
+				);
+				database.close();
+				return ok(parsedLoaded);
+			}
+
+			const parsedSocialEncounters = readSocialEncounters(db);
+			if (!parsedSocialEncounters.success) {
+				database.close();
+				return parsedSocialEncounters;
+			}
+			const parsedSocialEncounterEvents = readSocialEncounterEvents(db);
+			if (!parsedSocialEncounterEvents.success) {
+				database.close();
+				return parsedSocialEncounterEvents;
+			}
+
+			const parsedLoaded = loadedSessionStateV4Schema.parse({
 				version: parsedMetadata.data.version,
 				savedAt: parsedMetadata.data.savedAt,
 				characters: parsedCharacters,
@@ -312,6 +371,8 @@ export class SqliteSaveSnapshotService {
 				campSessions: parsedCampSessions.data,
 				campAssignments: parsedCampAssignments.data,
 				factionStandings: parsedFactionStandings.data,
+				socialEncounters: parsedSocialEncounters.data,
+				socialEncounterEvents: parsedSocialEncounterEvents.data,
 			});
 			database.close();
 			return ok(parsedLoaded);
@@ -402,7 +463,9 @@ export class SqliteSaveSnapshotService {
 				!tableNames.has("clocks") ||
 				!tableNames.has("camp_sessions") ||
 				!tableNames.has("camp_assignments") ||
-				!tableNames.has("faction_standings")
+				!tableNames.has("faction_standings") ||
+				!tableNames.has("social_encounters") ||
+				!tableNames.has("social_encounter_events")
 			) {
 				return fail({
 					code: "CORRUPTED_DATABASE_FILE",
@@ -487,6 +550,47 @@ function readFactionStandings(
 		parsedStandings.push(parsed.data);
 	}
 	return ok(parsedStandings);
+}
+
+function readSocialEncounters(
+	db: ReturnType<typeof drizzle>,
+): Result<readonly SocialEncounterRecord[], SaveSnapshotFailure> {
+	const parsedEncounters: SocialEncounterRecord[] = [];
+	for (const row of db
+		.select()
+		.from(socialEncounters)
+		.orderBy(asc(socialEncounters.id))
+		.all()) {
+		const parsed = socialEncounterSelectSchema.safeParse(row);
+		if (!parsed.success) {
+			return corruptedSnapshotFailure("social encounter row failed validation");
+		}
+		parsedEncounters.push(parsed.data);
+	}
+	return ok(parsedEncounters);
+}
+
+function readSocialEncounterEvents(
+	db: ReturnType<typeof drizzle>,
+): Result<readonly SocialEncounterEventRecord[], SaveSnapshotFailure> {
+	const parsedEvents: SocialEncounterEventRecord[] = [];
+	for (const row of db
+		.select()
+		.from(socialEncounterEvents)
+		.orderBy(
+			asc(socialEncounterEvents.encounterId),
+			asc(socialEncounterEvents.sequence),
+		)
+		.all()) {
+		const parsed = socialEncounterEventSelectSchema.safeParse(row);
+		if (!parsed.success) {
+			return corruptedSnapshotFailure(
+				"social encounter event row failed validation",
+			);
+		}
+		parsedEvents.push(parsed.data);
+	}
+	return ok(parsedEvents);
 }
 
 function corruptedSnapshotFailure(

@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260520-125428-t43-save-load-v4-social-encounter -->
+### T43 Save Load V4 Social Encounter
+- id: 20260520-125428-t43-save-load-v4-social-encounter
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-20T12:54:28-03:00
+- finished_at: 2026-05-20T13:06:59-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-20T13:06:59-03:00
+- branch: task/save-load-v4-social-encounter
+- commit_at_start: feb3c1b feat(social): adiciona nucleo de encontro social
+- summary: Persistir o estado de negociação social em snapshot v4 com tabelas dedicadas, migration SQLite e roundtrip no worker.
+- last_change: T43 evoluiu o save para v4 com tabelas social_encounters/social_encounter_events, migration SQLite, worker/RPC, App state e roundtrip validado.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-20T12:54:28-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-20T13:06:59-03:00
+- Done: T43 evoluiu o save para v4 com tabelas social_encounters/social_encounter_events, migration SQLite, worker/RPC, App state e roundtrip validado.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260520-125428-t43-save-load-v4-social-encounter -->
 <!-- pandorha-task:20260520-114359-t42-social-encounter-core -->
 ### T42 Social Encounter Core
 - id: 20260520-114359-t42-social-encounter-core
@@ -2490,6 +2522,43 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-20T13:06:54-03:00 - save-load-v4-social-encounter
+- branch: task/save-load-v4-social-encounter
+- commit: feb3c1b feat(social): adiciona nucleo de encontro social
+- changed_files_count: 27
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/workers/pandorhaDatabase.worker.ts
+- src/features/save-load/.context/plain-english.md
+- src/features/save-load/.context/scaling-roadmap.md
+- src/features/save-load/.context/tech-memory.md
+- src/features/save-load/__tests__/SaveLoadService.spec.ts
+- src/features/save-load/__tests__/SqliteSaveSnapshotService.spec.ts
+- src/features/save-load/domain/SaveLoadService.ts
+- src/features/save-load/domain/SqliteSaveSnapshotService.ts
+- src/features/save-load/index.ts
+- src/features/save-load/model/saveLoadSchemas.ts
+- src/features/save-load/model/saveLoadTypes.ts
+- src/features/save-load/model/saveSnapshotTypes.ts
+- src/shared/persistence/.context/tech-memory.md
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/rpc/__tests__/BrowserWorkerBridge.spec.ts
+- src/shared/rpc/__tests__/RpcContract.spec.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- drizzle/0005_perfect_sinister_six.sql
+- drizzle/meta/0005_snapshot.json
+- src/entities/social-encounter/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-20T11:59:13-03:00 - social-encounter-core
 - branch: task/social-encounter-core
 - commit: 0ec9ed8 feat(npc): adiciona catalogo base

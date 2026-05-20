@@ -38,6 +38,8 @@ const snapshotWorkerPort = {
 			campSessionCount: saved.data.campSessionCount,
 			campAssignmentCount: saved.data.campAssignmentCount,
 			factionStandingCount: saved.data.factionStandingCount,
+			socialEncounterCount: saved.data.socialEncounterCount,
+			socialEncounterEventCount: saved.data.socialEncounterEventCount,
 		});
 	},
 	loadSnapshot: async () => {
@@ -68,6 +70,12 @@ const snapshotWorkerPort = {
 			})),
 			factionStandings: loaded.data.factionStandings.map((standing) => ({
 				...standing,
+			})),
+			socialEncounters: loaded.data.socialEncounters.map((encounter) => ({
+				...encounter,
+			})),
+			socialEncounterEvents: loaded.data.socialEncounterEvents.map((event) => ({
+				...event,
 			})),
 		});
 	},

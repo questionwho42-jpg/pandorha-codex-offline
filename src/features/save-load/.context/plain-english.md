@@ -1,15 +1,5 @@
-# Save Load In Plain Portuguese
+# SaveLoad In Plain English
 
-O SaveLoadService prepara o pacote do save antes de mandar para o Worker e confere o pacote quando ele volta.
+This feature saves the current browser session into the local SQLite file and loads it back later.
 
-Ele garante que personagens e fatos do mundo estejam em um formato valido, identifica saves corrompidos e percebe quando um save pertence a uma versao futura ainda nao suportada.
-
-O primeiro save real tambem grava uma marca tecnica escondida para lembrar a versao do save e quando ele foi feito.
-
-Agora ja existe controle no navegador para salvar e carregar a sessao atual. O primeiro ciclo guarda personagens e fatos do mundo no proprio navegador e consegue restaurar os personagens depois de recarregar a pagina.
-
-Ainda existe apenas um slot de save. Tambem nao ha autosave nem tela propria para os fatos do mundo; eles sao preservados por baixo dos panos para nao se perderem em um novo save.
-
-O save agora esta na versao 3. Alem de personagens, fatos do mundo, relogios e acampamento, ele tambem consegue guardar relacoes com faccoes, como fama, divida e intriga.
-
-Saves antigos das versoes 1 e 2 continuam carregando. Quando isso acontece, o jogo cria a parte social vazia para o usuario poder continuar sem perder personagens ou acampamento.
+In version 4, it also saves active social negotiations so a conversation can come back after reload.

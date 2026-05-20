@@ -50,6 +50,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0002_true_cable",
 				"0003_public_tyger_tiger",
 				"0004_abnormal_luke_cage",
+				"0005_perfect_sinister_six",
 			],
 			tableNames: [
 				"_pandorha_migrations",
@@ -59,6 +60,8 @@ describe("SqliteOpfsBootstrapService", () => {
 				"clocks",
 				"faction_standings",
 				"factions",
+				"social_encounter_events",
+				"social_encounters",
 				"world_state_entries",
 			],
 		});
@@ -105,6 +108,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0002_true_cable",
 			"0003_public_tyger_tiger",
 			"0004_abnormal_luke_cage",
+			"0005_perfect_sinister_six",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -216,6 +220,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0002_true_cable",
 			"0003_public_tyger_tiger",
 			"0004_abnormal_luke_cage",
+			"0005_perfect_sinister_six",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -246,7 +251,7 @@ describe("database worker request handler", () => {
 				payload: {
 					saveId: "primary",
 					snapshot: {
-						version: 3,
+						version: 4,
 						savedAt: REQUESTED_AT,
 						characters: [],
 						worldState: [],
@@ -254,6 +259,8 @@ describe("database worker request handler", () => {
 						campSessions: [],
 						campAssignments: [],
 						factionStandings: [],
+						socialEncounters: [],
+						socialEncounterEvents: [],
 					},
 				},
 			},
@@ -283,7 +290,7 @@ describe("database worker request handler", () => {
 			messageId: MESSAGE_ID,
 			success: true,
 			data: {
-				version: 3,
+				version: 4,
 				savedAt: REQUESTED_AT,
 				characters: [],
 				worldState: [],
@@ -291,6 +298,8 @@ describe("database worker request handler", () => {
 				campSessions: [],
 				campAssignments: [],
 				factionStandings: [],
+				socialEncounters: [],
+				socialEncounterEvents: [],
 			},
 		});
 	});
@@ -517,7 +526,7 @@ class FakeSnapshotWorkerPort {
 	public async loadSnapshot(): Promise<
 		Result<
 			{
-				readonly version: 3;
+				readonly version: 4;
 				readonly savedAt: string;
 				readonly characters: readonly [];
 				readonly worldState: readonly [];
@@ -525,12 +534,14 @@ class FakeSnapshotWorkerPort {
 				readonly campSessions: readonly [];
 				readonly campAssignments: readonly [];
 				readonly factionStandings: readonly [];
+				readonly socialEncounters: readonly [];
+				readonly socialEncounterEvents: readonly [];
 			},
 			{ readonly code: string; readonly message: string }
 		>
 	> {
 		return ok({
-			version: 3,
+			version: 4,
 			savedAt: REQUESTED_AT,
 			characters: [],
 			worldState: [],
@@ -538,6 +549,8 @@ class FakeSnapshotWorkerPort {
 			campSessions: [],
 			campAssignments: [],
 			factionStandings: [],
+			socialEncounters: [],
+			socialEncounterEvents: [],
 		});
 	}
 }

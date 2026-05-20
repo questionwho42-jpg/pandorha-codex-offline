@@ -10,6 +10,10 @@ import type {
 } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
 import type { FactionStandingRecord } from "$lib/entities/faction";
+import type {
+	SocialEncounterEventRecord,
+	SocialEncounterRecord,
+} from "$lib/entities/social-encounter";
 import type { WorldStateFlagView } from "$lib/entities/world-state";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CampHourPanel } from "$lib/features/camp-hour";
@@ -80,6 +84,8 @@ let clockRecords = $state<ClockRecord[]>([]);
 let factionStandingRecords = $state<FactionStandingRecord[]>(
 	socialRelationsSession.createInitialStandings(),
 );
+let socialEncounterRecords = $state<SocialEncounterRecord[]>([]);
+let socialEncounterEventRecords = $state<SocialEncounterEventRecord[]>([]);
 let worldStateRecords = $state<WorldStateFlagView[]>([]);
 let pwaOfflineStatus = $state<PwaOfflineStatus>({ kind: "checking" });
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -161,6 +167,8 @@ async function saveSession(): Promise<void> {
 		campSessions: campSessionRecords,
 		campAssignments: campAssignmentRecords,
 		factionStandings: factionStandingRecords,
+		socialEncounters: socialEncounterRecords,
+		socialEncounterEvents: socialEncounterEventRecords,
 		savedAt: new Date().toISOString(),
 	});
 
@@ -198,6 +206,8 @@ async function loadSession(): Promise<void> {
 	factionStandingRecords = socialRelationsSession.normalizeStandings(
 		result.data.factionStandings,
 	);
+	socialEncounterRecords = [...result.data.socialEncounters];
+	socialEncounterEventRecords = [...result.data.socialEncounterEvents];
 	saveLoadState = { kind: "loaded" };
 }
 

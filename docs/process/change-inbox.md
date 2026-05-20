@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260520-125428-t43-save-load-v4-social-encounter -->
+### T43 Save Load V4 Social Encounter
+- id: 20260520-125428-t43-save-load-v4-social-encounter
+- status: open
+- created_at: 2026-05-20T12:54:28-03:00
+- source: task-ledger
+- summary: Persistir o estado de negociação social em snapshot v4 com tabelas dedicadas, migration SQLite e roundtrip no worker.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260520-125428-t43-save-load-v4-social-encounter -->
 <!-- pandorha-inbox:20260520-114359-t42-social-encounter-core -->
 ### T42 Social Encounter Core
 - id: 20260520-114359-t42-social-encounter-core

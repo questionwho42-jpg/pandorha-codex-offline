@@ -36,6 +36,13 @@
       "when": 1779229185015,
       "tag": "0004_abnormal_luke_cage",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1779292611261,
+      "tag": "0005_perfect_sinister_six",
+      "breakpoints": true
     }
   ]
 }

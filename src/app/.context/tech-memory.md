@@ -105,3 +105,8 @@
 - Added a minimal app-level PWA status model and service worker registration from `App.svelte`.
 - The service worker lives in `public/pandorha-sw.js` and uses runtime same-origin caching plus navigation fallback.
 - This is an offline smoke foundation only; it does not add push notifications, background sync, cache UI, manifest icons, or complex update prompts.
+
+## 2026-05-20 - T43 Save Load V4 Social Encounter
+
+- `App.svelte` now carries social encounter records and event records through explicit save/load state.
+- No social negotiation UI was added in T43; the arrays are ready for the T44 `Relações` expansion.

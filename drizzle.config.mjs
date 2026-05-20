@@ -7,6 +7,7 @@ export default defineConfig({
 		"./src/entities/clock/model/clockSchema.ts",
 		"./src/entities/camp-session/model/campSessionSchema.ts",
 		"./src/entities/faction/model/factionSchema.ts",
+		"./src/entities/social-encounter/model/socialEncounterPersistenceSchema.ts",
 	],
 	out: "./drizzle",
 	dialect: "sqlite",
