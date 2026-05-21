@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import type { CharacterRecord } from "$lib/entities/character";
+import { createSocialDialogueChoiceProfile } from "$lib/features/social-encounter/model-api";
 import { createSocialEncounterSession } from "./socialEncounterSession";
 
 describe("createSocialEncounterSession", () => {
@@ -13,9 +14,26 @@ describe("createSocialEncounterSession", () => {
 			"training-broker",
 			character.id,
 		);
+		const bargain = session.dialogueChoices.find(
+			(choice) => choice.id === "bargain",
+		);
+		expect(bargain).toBeDefined();
+		if (bargain === undefined) {
+			expect.fail("Expected bargain choice in social encounter session.");
+		}
+		const profile = createSocialDialogueChoiceProfile({
+			character,
+			choice: bargain,
+			state: buildState(character.id),
+		});
+		expect(profile.success).toBe(true);
+		if (!profile.success) {
+			expect.fail(`Expected profile success, got ${profile.error.code}`);
+		}
 		const appealResolutionInput = session.createAppealResolutionInput(
 			buildState(character.id),
 			character,
+			profile.data,
 		);
 		const resolution = session.appealResolutionService.resolveAppealOutcome(
 			appealResolutionInput,
@@ -27,9 +45,15 @@ describe("createSocialEncounterSession", () => {
 		const appealInput = session.createAppealInput(
 			buildState(character.id),
 			resolution.data,
+			profile.data,
 		);
 
 		expect(session.npcs.map((npc) => npc.id)).toContain("training-broker");
+		expect(session.dialogueChoices.map((choice) => choice.id)).toEqual([
+			"persuade",
+			"bargain",
+			"threaten",
+		]);
 		expect(startInput).toEqual({
 			id: "social-encounter-primary",
 			actorId: "character-lia",
@@ -38,22 +62,29 @@ describe("createSocialEncounterSession", () => {
 			createdAt: "2026-05-20T14:00:00.000Z",
 		});
 		expect(appealResolutionInput).toEqual({
-			reason: "Apelo social de Lia contra training-broker",
+			reason: "Apelo social de Lia com Barganhar contra training-broker",
 			level: 1,
 			social: 3,
 			interaction: 2,
-			itemBonus: 0,
+			itemBonus: 1,
 			dc: 14,
 		});
 		expect(resolution.data.resolution).toMatchObject({
 			degree: "success",
-			total: 16,
+			total: 17,
 			dc: 14,
 		});
 		expect(appealInput.command).toMatchObject({
 			id: "social-appeal-1",
 			type: "social-appeal",
 			source: "social-appeal-character-ui",
+			payload: {
+				actorId: "character-lia",
+				npcId: "training-broker",
+				choiceId: "bargain",
+				choiceTag: "bargain",
+				choiceLabel: "Barganhar",
+			},
 		});
 		expect(appealInput.outcome).toEqual({
 			kind: "success",

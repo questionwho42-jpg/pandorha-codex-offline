@@ -1,5 +1,6 @@
 <script lang="ts">
 import type { CharacterRecord } from "$lib/entities/character";
+import type { DialogueChoiceRecord } from "$lib/entities/dialogue-choice";
 import type { NpcRecord } from "$lib/entities/npc";
 import type {
 	SocialEncounterEventRecord,
@@ -11,6 +12,10 @@ import type {
 	SocialAppealResolutionFailure,
 	SocialAppealResolutionResult,
 } from "../model/socialAppealResolutionTypes";
+import {
+	createSocialDialogueChoiceProfile,
+	type SocialDialogueChoiceProfile,
+} from "../model/socialDialogueChoiceProfile";
 import {
 	createSocialEncounterConsequenceFlag,
 	createSocialEncounterConsequenceView,
@@ -55,15 +60,18 @@ type Props = {
 	readonly createAppealInput: (
 		state: SocialEncounterState,
 		resolution: SocialAppealResolutionResult,
+		profile: SocialDialogueChoiceProfile,
 	) => AppealInput;
 	readonly createAppealResolutionInput: (
 		state: SocialEncounterState,
 		character: CharacterRecord,
+		profile: SocialDialogueChoiceProfile,
 	) => unknown;
 	readonly createStartInput: (
 		npcId: string,
 		actorId: string,
 	) => StartEncounterInput;
+	readonly dialogueChoices: readonly DialogueChoiceRecord[];
 	readonly encounterEvents: readonly SocialEncounterEventRecord[];
 	readonly encounters: readonly SocialEncounterRecord[];
 	readonly npcs: readonly NpcRecord[];
@@ -86,6 +94,7 @@ let {
 	createAppealInput,
 	createAppealResolutionInput,
 	createStartInput,
+	dialogueChoices,
 	encounterEvents,
 	encounters,
 	npcs,
@@ -98,6 +107,7 @@ let {
 }: Props = $props();
 
 let selectedActorId = $state("");
+let selectedChoiceId = $state("");
 let selectedNpcId = $state("");
 let state = $state<SocialEncounterState | null>(null);
 let errorMessage = $state<string | null>(null);
@@ -109,6 +119,16 @@ $effect(() => {
 	const nextActorId = resolveSelectedActorId(selectedActorId, characters);
 	if (nextActorId !== selectedActorId) {
 		selectedActorId = nextActorId;
+	}
+});
+
+$effect(() => {
+	const nextChoiceId = resolveSelectedChoiceId(
+		selectedChoiceId,
+		dialogueChoices,
+	);
+	if (nextChoiceId !== selectedChoiceId) {
+		selectedChoiceId = nextChoiceId;
 	}
 });
 
@@ -135,10 +155,12 @@ $effect(() => {
 let view = $derived(
 	createSocialEncounterView({
 		characters,
+		dialogueChoices,
 		errorMessage,
 		lastResolution,
 		npcs,
 		selectedActorId,
+		selectedChoiceId,
 		selectedNpcId,
 		state,
 	}),
@@ -187,9 +209,28 @@ function resolveCharacterAppeal(): void {
 		return;
 	}
 
+	const choice = dialogueChoices.find(
+		(candidate) => candidate.id === selectedChoiceId,
+	);
+	if (choice === undefined) {
+		errorMessage = "Selecione um argumento social antes de fazer o apelo.";
+		return;
+	}
+
+	const profile = createSocialDialogueChoiceProfile({
+		character,
+		choice,
+		state,
+	});
+	if (!profile.success) {
+		errorMessage =
+			"Este argumento social nÃ£o pode ser usado nesta negociaÃ§Ã£o.";
+		return;
+	}
+
 	isWorking = true;
 	const resolution = resolveAppealOutcome(
-		createAppealResolutionInput(state, character),
+		createAppealResolutionInput(state, character, profile.data),
 	);
 	if (!resolution.success) {
 		isWorking = false;
@@ -197,7 +238,9 @@ function resolveCharacterAppeal(): void {
 		return;
 	}
 
-	const result = resolveAppeal(createAppealInput(state, resolution.data));
+	const result = resolveAppeal(
+		createAppealInput(state, resolution.data, profile.data),
+	);
 	isWorking = false;
 
 	if (!result.success) {
@@ -241,6 +284,17 @@ function resolveSelectedActorId(
 	}
 
 	return availableCharacters[0]?.id ?? "";
+}
+
+function resolveSelectedChoiceId(
+	currentChoiceId: string,
+	availableChoices: readonly DialogueChoiceRecord[],
+): string {
+	if (availableChoices.some((choice) => choice.id === currentChoiceId)) {
+		return currentChoiceId;
+	}
+
+	return availableChoices[0]?.id ?? "";
 }
 
 function createHydrationKey(
@@ -306,6 +360,23 @@ function createHydrationKey(
 							{/each}
 						</select>
 					</label>
+					<label class="flex flex-col gap-2 text-sm font-semibold text-bone">
+						Argumento
+						<select
+							bind:value={selectedChoiceId}
+							class="border border-bronze bg-ruin px-3 py-2 text-bone disabled:opacity-60"
+							data-testid="social-choice-select"
+							disabled={view.dialogueChoiceOptions.length === 0}
+						>
+							{#each view.dialogueChoiceOptions as choice}
+								<option value={choice.id}>{choice.label}</option>
+							{/each}
+						</select>
+					</label>
+					<div class="border border-bronze bg-ruin px-3 py-2 text-sm leading-6 text-bone/85" data-testid="social-choice-summary">
+						<p>{view.selectedChoiceDescription}</p>
+						<p class="mt-1 font-semibold text-ether">{view.selectedChoiceModifierLabel}</p>
+					</div>
 				</div>
 
 				<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

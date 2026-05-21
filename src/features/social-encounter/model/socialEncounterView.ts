@@ -1,4 +1,5 @@
 import type { CharacterRecord } from "$lib/entities/character";
+import type { DialogueChoiceRecord } from "$lib/entities/dialogue-choice";
 import type { NpcRecord } from "$lib/entities/npc";
 import type { SocialAppealResolutionResult } from "./socialAppealResolutionTypes";
 import type {
@@ -10,6 +11,11 @@ export interface SocialEncounterCharacterOptionView {
 	readonly id: string;
 	readonly label: string;
 	readonly summary: string;
+}
+
+export interface SocialEncounterDialogueChoiceOptionView {
+	readonly id: string;
+	readonly label: string;
 }
 
 export interface SocialEncounterNpcOptionView {
@@ -24,6 +30,7 @@ export interface SocialEncounterView {
 	readonly canAppeal: boolean;
 	readonly canStart: boolean;
 	readonly characterOptions: readonly SocialEncounterCharacterOptionView[];
+	readonly dialogueChoiceOptions: readonly SocialEncounterDialogueChoiceOptionView[];
 	readonly emptyStateLabel: string | null;
 	readonly errorMessage: string | null;
 	readonly logLines: readonly string[];
@@ -34,6 +41,8 @@ export interface SocialEncounterView {
 	readonly resolutionLabel: string;
 	readonly resolutionSummaryLabel: string | null;
 	readonly selectedCharacterSummary: string;
+	readonly selectedChoiceDescription: string;
+	readonly selectedChoiceModifierLabel: string;
 	readonly selectedNpcSummary: string;
 	readonly startButtonLabel: string;
 	readonly statusLabel: string;
@@ -42,10 +51,12 @@ export interface SocialEncounterView {
 
 export interface SocialEncounterViewInput {
 	readonly characters: readonly CharacterRecord[];
+	readonly dialogueChoices?: readonly DialogueChoiceRecord[];
 	readonly errorMessage: string | null;
 	readonly lastResolution: SocialAppealResolutionResult | null;
 	readonly npcs: readonly NpcRecord[];
 	readonly selectedActorId: string;
+	readonly selectedChoiceId?: string;
 	readonly selectedNpcId: string;
 	readonly state: SocialEncounterState | null;
 }
@@ -57,10 +68,18 @@ export function createSocialEncounterView(
 	const selectedCharacter = input.characters.find(
 		(character) => character.id === input.selectedActorId,
 	);
+	const dialogueChoices = input.dialogueChoices ?? [];
+	const selectedChoice =
+		dialogueChoices.find((choice) => choice.id === input.selectedChoiceId) ??
+		dialogueChoices[0];
 	const characterOptions = input.characters.map((character) => ({
 		id: character.id,
 		label: character.name,
 		summary: createCharacterSummary(character),
+	}));
+	const dialogueChoiceOptions = dialogueChoices.map((choice) => ({
+		id: choice.id,
+		label: choice.label,
 	}));
 	const npcOptions = input.npcs.map((npc) => ({
 		id: npc.id,
@@ -73,9 +92,13 @@ export function createSocialEncounterView(
 		attitudeLabel: input.state
 			? `Atitude: ${mapAttitude(input.state.attitude)}`
 			: "Atitude: sem negociação",
-		canAppeal: input.state?.status === "active" && Boolean(selectedCharacter),
+		canAppeal:
+			input.state?.status === "active" &&
+			Boolean(selectedCharacter) &&
+			(dialogueChoices.length === 0 || selectedChoice !== undefined),
 		canStart: Boolean(selectedNpc && selectedCharacter),
 		characterOptions,
+		dialogueChoiceOptions,
 		emptyStateLabel:
 			input.npcs.length === 0
 				? "Nenhum NPC de treino está disponível para negociação."
@@ -104,6 +127,12 @@ export function createSocialEncounterView(
 			selectedCharacter !== undefined
 				? createCharacterSummary(selectedCharacter)
 				: "Selecione um personagem da sessão para negociar.",
+		selectedChoiceDescription:
+			selectedChoice?.visibleText ?? "Nenhum argumento social disponÃ­vel.",
+		selectedChoiceModifierLabel:
+			selectedChoice !== undefined
+				? `Modificador do argumento: ${formatSignedModifier(selectedChoice.appealModifier)}`
+				: "Modificador do argumento: --",
 		selectedNpcSummary:
 			selectedNpc?.summary ??
 			"Selecione um NPC de treino para iniciar a negociação.",
@@ -136,6 +165,10 @@ export function mapSocialEncounterFailureToMessage(
 
 export function mapSocialAppealResolutionFailureToMessage(): string {
 	return "Não foi possível resolver o teste social deste apelo.";
+}
+
+function formatSignedModifier(modifier: number): string {
+	return modifier >= 0 ? `+${modifier}` : `${modifier}`;
 }
 
 function createCharacterSummary(character: CharacterRecord): string {

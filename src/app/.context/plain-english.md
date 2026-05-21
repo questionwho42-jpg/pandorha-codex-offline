@@ -39,3 +39,5 @@ Na T39, o app ganhou o primeiro suporte offline. Depois de carregar o jogo uma v
 Na T47, a aba Relacoes passou a usar personagens criados na sessao como negociadores. O usuario escolhe o personagem, inicia uma negociacao, faz um apelo e ve a rolagem social usada para alterar HP mental, paciencia e progresso.
 
 Na T49, quando uma negociacao termina, o app registra uma consequencia no estado do mundo. Essa consequencia aparece na aba Relacoes e tambem volta depois que o usuario salva, recarrega a pagina e carrega o save.
+
+Na T51, a aba Relacoes ganhou escolhas de argumento. Antes de fazer o apelo, o usuario pode escolher Persuadir, Barganhar ou Pressionar; a tela mostra o modificador e a rolagem passa a usar esse bonus.

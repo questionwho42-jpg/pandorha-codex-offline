@@ -355,6 +355,7 @@ onMount(() => {
 						createAppealInput={socialEncounterSession.createAppealInput}
 						createAppealResolutionInput={socialEncounterSession.createAppealResolutionInput}
 						createStartInput={socialEncounterSession.createStartInput}
+						dialogueChoices={socialEncounterSession.dialogueChoices}
 						encounterEvents={socialEncounterEventRecords}
 						encounters={socialEncounterRecords}
 						npcs={socialEncounterSession.npcs}

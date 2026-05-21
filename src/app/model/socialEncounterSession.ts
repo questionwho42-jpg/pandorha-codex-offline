@@ -1,5 +1,9 @@
 import type { CharacterRecord } from "$lib/entities/character";
 import {
+	DIALOGUE_CHOICE_CATALOG,
+	type DialogueChoiceRecord,
+} from "$lib/entities/dialogue-choice";
+import {
 	InMemoryNpcCatalogRepository,
 	NPC_CATALOG,
 	type NpcRecord,
@@ -7,6 +11,8 @@ import {
 import {
 	type SocialAppealResolutionResult,
 	SocialAppealResolutionService,
+	type SocialDialogueChoiceCommandPayload,
+	type SocialDialogueChoiceProfile,
 	SocialEncounterService,
 	type SocialEncounterState,
 } from "$lib/features/social-encounter/model-api";
@@ -24,11 +30,13 @@ const TRAINING_SOCIAL_ITEM_BONUS = 0;
 
 export interface SocialEncounterSession {
 	readonly appealResolutionService: SocialAppealResolutionService;
+	readonly dialogueChoices: readonly DialogueChoiceRecord[];
 	readonly npcs: readonly NpcRecord[];
 	readonly service: SocialEncounterService;
 	createAppealInput(
 		state: SocialEncounterState,
 		resolution: SocialAppealResolutionResult,
+		profile: SocialDialogueChoiceProfile,
 	): {
 		readonly state: SocialEncounterState;
 		readonly command: {
@@ -36,10 +44,7 @@ export interface SocialEncounterSession {
 			readonly type: "social-appeal";
 			readonly source: string;
 			readonly createdAt: string;
-			readonly payload: {
-				readonly actorId: string;
-				readonly npcId: string;
-			};
+			readonly payload: SocialDialogueChoiceCommandPayload;
 		};
 		readonly outcome: SocialAppealResolutionResult["outcome"];
 		readonly resolvedAt: string;
@@ -47,6 +52,7 @@ export interface SocialEncounterSession {
 	createAppealResolutionInput(
 		state: SocialEncounterState,
 		character: CharacterRecord,
+		profile: SocialDialogueChoiceProfile,
 	): {
 		readonly reason: string;
 		readonly level: number;
@@ -81,6 +87,7 @@ export function createSocialEncounterSession(): SocialEncounterSession {
 		appealResolutionService: new SocialAppealResolutionService(
 			new ResolutionService(diceService),
 		),
+		dialogueChoices: DIALOGUE_CHOICE_CATALOG,
 		npcs: NPC_CATALOG,
 		service,
 		createAppealInput,
@@ -102,13 +109,14 @@ function createStartInput(npcId: string, actorId: string) {
 function createAppealResolutionInput(
 	state: SocialEncounterState,
 	character: CharacterRecord,
+	profile: SocialDialogueChoiceProfile,
 ) {
 	return {
-		reason: `Apelo social de ${character.name} contra ${state.npcId}`,
+		reason: `Apelo social de ${character.name} com ${profile.choiceLabel} contra ${state.npcId}`,
 		level: character.level,
 		social: character.social,
 		interaction: character.interaction,
-		itemBonus: TRAINING_SOCIAL_ITEM_BONUS,
+		itemBonus: TRAINING_SOCIAL_ITEM_BONUS + profile.resolutionItemBonus,
 		dc: TRAINING_SOCIAL_APPEAL_DC,
 	};
 }
@@ -116,6 +124,7 @@ function createAppealResolutionInput(
 function createAppealInput(
 	state: SocialEncounterState,
 	resolution: SocialAppealResolutionResult,
+	profile: SocialDialogueChoiceProfile,
 ) {
 	const createdAt = new Date().toISOString();
 
@@ -126,10 +135,7 @@ function createAppealInput(
 			type: "social-appeal" as const,
 			source: "social-appeal-character-ui",
 			createdAt,
-			payload: {
-				actorId: state.actorId,
-				npcId: state.npcId,
-			},
+			payload: profile.commandPayload,
 		},
 		outcome: resolution.outcome,
 		resolvedAt: createdAt,

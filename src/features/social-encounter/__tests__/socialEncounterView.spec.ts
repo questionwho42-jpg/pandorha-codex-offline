@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { CharacterRecord } from "$lib/entities/character";
+import { DIALOGUE_CHOICE_CATALOG } from "$lib/entities/dialogue-choice";
 import { NPC_CATALOG } from "$lib/entities/npc";
 import type { SocialAppealResolutionResult } from "../model/socialAppealResolutionTypes";
 import type { SocialEncounterState } from "../model/socialEncounterTypes";
@@ -58,6 +59,48 @@ describe("createSocialEncounterView", () => {
 			"Nível 1; Social 3; Interação 2.",
 		);
 		expect(view.canAppeal).toBe(true);
+	});
+
+	it("shows dialogue choice options and selected modifier", () => {
+		const view = createSocialEncounterView({
+			characters: [buildCharacter()],
+			dialogueChoices: DIALOGUE_CHOICE_CATALOG,
+			errorMessage: null,
+			lastResolution: null,
+			npcs: NPC_CATALOG,
+			selectedActorId: "character-lia",
+			selectedChoiceId: "bargain",
+			selectedNpcId: "training-broker",
+			state: buildState({ status: "active", actorId: "character-lia" }),
+		});
+
+		expect(view.dialogueChoiceOptions).toEqual([
+			{ id: "persuade", label: "Persuadir" },
+			{ id: "bargain", label: "Barganhar" },
+			{ id: "threaten", label: "Pressionar" },
+		]);
+		expect(view.selectedChoiceDescription).toBe(
+			"Oferecer uma troca clara para tornar o acordo mais atraente.",
+		);
+		expect(view.selectedChoiceModifierLabel).toBe(
+			"Modificador do argumento: +1",
+		);
+		expect(view.canAppeal).toBe(true);
+
+		const pressureView = createSocialEncounterView({
+			characters: [buildCharacter()],
+			dialogueChoices: DIALOGUE_CHOICE_CATALOG,
+			errorMessage: null,
+			lastResolution: null,
+			npcs: NPC_CATALOG,
+			selectedActorId: "character-lia",
+			selectedChoiceId: "threaten",
+			selectedNpcId: "training-broker",
+			state: buildState({ status: "active", actorId: "character-lia" }),
+		});
+		expect(pressureView.selectedChoiceModifierLabel).toBe(
+			"Modificador do argumento: -1",
+		);
 	});
 
 	it("shows the audited social roll after an appeal is resolved", () => {

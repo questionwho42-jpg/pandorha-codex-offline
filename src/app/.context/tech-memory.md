@@ -127,3 +127,9 @@
 
 - `App.svelte` passes loaded `worldStateRecords` into `SocialEncounterPanel` and accepts updated records back from terminal social outcomes.
 - Social consequences reuse the existing v4 `worldState` snapshot array; no save v5, migration, or new persistence table was introduced.
+
+## 2026-05-21 - T51 Social Choice UI
+
+- `socialEncounterSession` now exposes the read-only dialogue choice catalog to `App.svelte`.
+- `App.svelte` passes `dialogueChoices` into `SocialEncounterPanel`; the panel keeps the selected choice as local UI state and does not change save v4.
+- The selected choice modifies the audited social appeal through `createSocialDialogueChoiceProfile`; no migration, Worker change, or new persistence table was added.

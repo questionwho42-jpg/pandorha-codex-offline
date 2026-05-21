@@ -11,4 +11,5 @@
 - T47 wires session characters into `SocialEncounterPanel`; the UI now resolves appeals through `SocialAppealResolutionService` before passing the derived outcome to `SocialEncounterService.resolveAppeal`.
 - T49 records terminal social outcomes as structured WorldState flags with `npc:` keys, without adding snapshot v5 or a dedicated social-consequence table.
 - T50 adds `createSocialDialogueChoiceProfile` as the bridge between the read-only dialogue choice catalog and social appeal resolution inputs.
+- T51 passes the dialogue choice catalog into `SocialEncounterPanel`; the selected choice now changes `itemBonus` through the T50 profile and writes choice metadata into the `social-appeal` command payload.
 - Rule sources: `docs/system/survival/regras-completas-interacoes-sociais.md`, `docs/system/survival/regras-negociacao.md`, and `docs/architecture/feature_state_machines.md`.

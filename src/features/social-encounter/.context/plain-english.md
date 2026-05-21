@@ -15,3 +15,5 @@ T47 liga esse calculo a tela. Agora o usuario escolhe um personagem criado na se
 T49 registra uma consequencia no estado do mundo quando a negociacao termina. Se o NPC for convencido, ou se a conversa for perdida, essa consequencia aparece na tela e volta depois de salvar, recarregar e carregar o save.
 
 T50 prepara as escolhas de argumento. O codigo agora sabe transformar uma escolha como Persuadir, Barganhar ou Pressionar em um modificador para o apelo social, mas a tela ainda nao mostra esse seletor nesta etapa.
+
+T51 mostra esse seletor na aba Relacoes. O usuario pode escolher Persuadir, Barganhar ou Pressionar antes de fazer o apelo; Barganhar, por exemplo, aparece com bonus +1 na rolagem social.

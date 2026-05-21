@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260521-000003-t51-social-choice-ui -->
+### T51 Social Choice UI
+- id: 20260521-000003-t51-social-choice-ui
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-21T03:59:49-03:00
+- finished_at: 2026-05-21T09:23:09-03:00
+- model_started: GPT-5.5 medium-high
+- model_finished: GPT-5.5 medium-high
+- last_modified_at: 2026-05-21T09:23:09-03:00
+- branch: task/social-choice-ui
+- commit_at_start: 697cc08 feat(social): adiciona perfil de escolha de dialogo
+- summary: Expor escolhas de argumento na UI de Relacoes e aplicar o modificador selecionado no apelo social.
+- last_change: T51 expôs escolhas de argumento na aba Relações e aplicou o modificador selecionado no apelo social.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-21T03:59:49-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: GPT-5.5 medium-high
+
+#### Checkpoint 2026-05-21T09:23:09-03:00
+- Done: T51 expôs escolhas de argumento na aba Relações e aplicou o modificador selecionado no apelo social.
+- Next: Iniciar T52 para melhorar logs persistidos com o nome do argumento e manter fallback para comandos antigos.
+- Risks: A digitação no Browser Use continua bloqueada pelo clipboard virtual; a validação usou personagem existente carregado do save local.
+- Improvements: T52 deve validar save/load do log com escolha social e manter compatibilidade com comandos sem payload de escolha.
+- Model/config: GPT-5.5 medium-high
+<!-- /pandorha-task:20260521-000003-t51-social-choice-ui -->
 <!-- pandorha-task:20260521-000002-t50-social-choice-appeal-core -->
 ### T50 Social Choice Appeal Core
 - id: 20260521-000002-t50-social-choice-appeal-core
@@ -2746,6 +2778,29 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-21T09:23:01-03:00 - social-choice-ui
+- branch: task/social-choice-ui
+- commit: 697cc08 feat(social): adiciona perfil de escolha de dialogo
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/__tests__/socialEncounterView.spec.ts
+- src/features/social-encounter/model/socialEncounterView.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-21T03:59:08-03:00 - social-choice-appeal-core
 - branch: task/social-choice-appeal-core
 - commit: 259ba58 feat(social): registra consequencias no worldstate
