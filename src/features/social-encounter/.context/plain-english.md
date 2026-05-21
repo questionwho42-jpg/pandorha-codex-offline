@@ -13,3 +13,5 @@ T46 prepara o proximo passo: um servico separado ja consegue transformar uma rol
 T47 liga esse calculo a tela. Agora o usuario escolhe um personagem criado na sessao como negociador, faz um apelo, ve a rolagem contra DC e depois o resultado e aplicado na conversa com o NPC de treino.
 
 T49 registra uma consequencia no estado do mundo quando a negociacao termina. Se o NPC for convencido, ou se a conversa for perdida, essa consequencia aparece na tela e volta depois de salvar, recarregar e carregar o save.
+
+T50 prepara as escolhas de argumento. O codigo agora sabe transformar uma escolha como Persuadir, Barganhar ou Pressionar em um modificador para o apelo social, mas a tela ainda nao mostra esse seletor nesta etapa.

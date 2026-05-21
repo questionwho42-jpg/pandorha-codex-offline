@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260521-000002-t50-social-choice-appeal-core -->
+### T50 Social Choice Appeal Core
+- id: 20260521-000002-t50-social-choice-appeal-core
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-21T03:52:00-03:00
+- finished_at: 2026-05-21T03:59:14-03:00
+- model_started: GPT-5.5 high
+- model_finished: GPT-5.5 high
+- last_modified_at: 2026-05-21T03:59:14-03:00
+- branch: task/social-choice-appeal-core
+- commit_at_start: 259ba58 feat(social): registra consequencias no worldstate
+- summary: Criar perfil testavel de argumento social para aplicar modificador de DialogueChoice na resolucao de apelo.
+- last_change: T50 criou perfil testavel para aplicar escolhas de argumento social na resolucao de apelo.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-21T03:52:00-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: GPT-5.5 high
+
+#### Checkpoint 2026-05-21T03:59:14-03:00
+- Done: T50 criou perfil testavel para aplicar escolhas de argumento social na resolucao de apelo.
+- Next: Iniciar T51 para expor escolhas na UI de Relacoes.
+- Risks: Sem UI nesta etapa; integracao visual fica para T51.
+- Improvements: T51 deve validar Barganhar no navegador mostrando Bonus 1.
+- Model/config: GPT-5.5 high
+<!-- /pandorha-task:20260521-000002-t50-social-choice-appeal-core -->
 <!-- pandorha-task:20260521-000001-t49-social-worldstate-consequences -->
 ### T49 Social WorldState consequences
 - id: 20260521-000001-t49-social-worldstate-consequences
@@ -2714,6 +2746,25 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-21T03:59:08-03:00 - social-choice-appeal-core
+- branch: task/social-choice-appeal-core
+- commit: 259ba58 feat(social): registra consequencias no worldstate
+- changed_files_count: 9
+#### Changed Files
+- docs/process/task-ledger.md
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueChoiceProfile.spec.ts
+- src/features/social-encounter/model/socialDialogueChoiceProfile.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-21T02:38:57-03:00 - social-worldstate-consequences
 - branch: task/social-worldstate-consequences
 - commit: 1be7433 feat(social): adiciona catalogo de escolhas de dialogo
