@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260521-000006-t54-dialogue-tree-schema -->
+### T54 Dialogue Tree Schema
+- id: 20260521-000006-t54-dialogue-tree-schema
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-21T12:03:43-03:00
+- finished_at: 2026-05-21T12:10:08-03:00
+- model_started: GPT-5.5 high
+- model_finished: GPT-5.5 high
+- last_modified_at: 2026-05-21T12:10:08-03:00
+- branch: task/dialogue-tree-schema
+- commit_at_start: 424d0ea docs(social): atualiza qa de escolhas sociais
+- summary: Criar catalogo read-only de arvore de dialogo para a Corretora de Treino.
+- last_change: T54 criou catalogo read-only de arvore de dialogo para training-broker com nodes, options, service, fake repository e testes.
+#### Files At Start
+- src/entities/dialogue-tree/
+#### Checkpoints
+#### Checkpoint 2026-05-21T12:03:43-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: GPT-5.5 high
+
+#### Checkpoint 2026-05-21T12:10:08-03:00
+- Done: T54 criou catalogo read-only de arvore de dialogo para training-broker com nodes, options, service, fake repository e testes.
+- Next: Iniciar T55 para selecionar opcoes da arvore e registrar evento dialogue-option-selected no ledger social.
+- Risks: Catalogo ainda e de treino e nao possui persistence/migration propria; save continua pelo ledger social v4.
+- Improvements: Expandir a arvore para outros NPCs depois da primeira validacao de UI.
+- Model/config: GPT-5.5 high
+<!-- /pandorha-task:20260521-000006-t54-dialogue-tree-schema -->
 <!-- pandorha-task:20260521-000005-t53-social-dialogue-qa-docs -->
 ### T53 Social Dialogue QA Docs
 - id: 20260521-000005-t53-social-dialogue-qa-docs
@@ -2842,6 +2874,19 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-21T12:10:08-03:00 - dialogue-tree-schema
+- branch: task/dialogue-tree-schema
+- commit: 424d0ea docs(social): atualiza qa de escolhas sociais
+- changed_files_count: 3
+#### Changed Files
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/entities/dialogue-tree/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-21T09:40:43-03:00 - social-dialogue-qa-docs
 - branch: task/social-dialogue-qa-docs
 - commit: 6e63531 feat(social): registra argumento nos logs

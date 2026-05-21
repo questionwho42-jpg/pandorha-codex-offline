@@ -26,6 +26,7 @@ export default defineConfig({
 				"src/entities/equipment/domain/EquipmentCatalogService.ts",
 				"src/entities/faction/domain/FactionCatalogService.ts",
 				"src/entities/dialogue-choice/domain/DialogueChoiceCatalogService.ts",
+				"src/entities/dialogue-tree/domain/DialogueTreeCatalogService.ts",
 				"src/entities/npc/domain/NpcCatalogService.ts",
 				"src/entities/spell/domain/SpellCatalogService.ts",
 				"src/entities/world-tile/domain/WorldTileCatalogService.ts",
