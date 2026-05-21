@@ -13,4 +13,6 @@
 - T50 adds `createSocialDialogueChoiceProfile` as the bridge between the read-only dialogue choice catalog and social appeal resolution inputs.
 - T51 passes the dialogue choice catalog into `SocialEncounterPanel`; the selected choice now changes `itemBonus` through the T50 profile and writes choice metadata into the `social-appeal` command payload.
 - T52 makes `SocialEncounterService` read optional `choiceLabel` metadata from `social-appeal` commands when composing queued/success logs; commands without that metadata keep the legacy generic copy.
+- T55 adds `DialogueTraversalService` to navigate read-only dialogue trees and emit `dialogue-option-selected` events in the existing social ledger.
+- The new event type is schema-compatible with save v4 because it reuses `social_encounter_events` and stores the selected option id in `commandId`.
 - Rule sources: `docs/system/survival/regras-completas-interacoes-sociais.md`, `docs/system/survival/regras-negociacao.md`, and `docs/architecture/feature_state_machines.md`.

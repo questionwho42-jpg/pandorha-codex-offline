@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260521-000007-t55-dialogue-traversal-core -->
+### T55 Dialogue Traversal Core
+- id: 20260521-000007-t55-dialogue-traversal-core
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-21T12:10:48-03:00
+- finished_at: 2026-05-21T15:53:09-03:00
+- model_started: GPT-5.5 high
+- model_finished: GPT-5.5 high
+- last_modified_at: 2026-05-21T15:53:09-03:00
+- branch: task/dialogue-traversal-core
+- commit_at_start: 915bdfa feat(dialogue): adiciona catalogo de arvore social
+- summary: Criar service puro para selecionar opcoes de dialogo e registrar evento no ledger social.
+- last_change: T55 criou DialogueTraversalService, evento dialogue-option-selected e replay de no atual usando o ledger social existente.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-21T12:10:48-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: GPT-5.5 high
+
+#### Checkpoint 2026-05-21T15:53:09-03:00
+- Done: T55 criou DialogueTraversalService, evento dialogue-option-selected e replay de no atual usando o ledger social existente.
+- Next: Iniciar T56 para expor a arvore de dialogo na aba Relacoes e validar no Browser Use.
+- Risks: Sem UI nesta etapa; save v4 depende do evento novo continuar dentro do schema de social_encounter_events.
+- Improvements: T56 deve validar no navegador que Barganhar seleciona o argumento e restaura o log apos save/load.
+- Model/config: GPT-5.5 high
+<!-- /pandorha-task:20260521-000007-t55-dialogue-traversal-core -->
 <!-- pandorha-task:20260521-000006-t54-dialogue-tree-schema -->
 ### T54 Dialogue Tree Schema
 - id: 20260521-000006-t54-dialogue-tree-schema
@@ -2874,6 +2906,30 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-21T15:53:09-03:00 - dialogue-traversal-core
+- branch: task/dialogue-traversal-core
+- commit: 915bdfa feat(dialogue): adiciona catalogo de arvore social
+- changed_files_count: 14
+#### Changed Files
+- docs/process/task-ledger.md
+- src/entities/social-encounter/.context/tech-memory.md
+- src/entities/social-encounter/model/socialEncounterPersistenceSchema.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/model/socialEncounterSchemas.ts
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/DialogueTraversalService.spec.ts
+- src/features/social-encounter/domain/DialogueTraversalService.ts
+- src/features/social-encounter/model/dialogueTraversalSchemas.ts
+- src/features/social-encounter/model/dialogueTraversalTypes.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-21T12:10:08-03:00 - dialogue-tree-schema
 - branch: task/dialogue-tree-schema
 - commit: 424d0ea docs(social): atualiza qa de escolhas sociais

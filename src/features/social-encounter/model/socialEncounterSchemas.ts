@@ -18,6 +18,7 @@ export const socialEncounterStatusSchema = z.enum([
 ]);
 
 export const socialEncounterEventTypeSchema = z.enum([
+	"dialogue-option-selected",
 	"social-encounter-started",
 	"social-appeal-queued",
 	"social-appeal-succeeded",

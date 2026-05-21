@@ -45,6 +45,7 @@ export default defineConfig({
 				"src/features/hexcrawl-map/domain/HexcrawlMovementService.ts",
 				"src/features/save-load/domain/SaveLoadService.ts",
 				"src/features/save-load/domain/SqliteSaveSnapshotService.ts",
+				"src/features/social-encounter/domain/DialogueTraversalService.ts",
 				"src/features/social-standing/domain/SocialStandingService.ts",
 				"src/features/social-encounter/domain/SocialAppealResolutionService.ts",
 				"src/features/social-encounter/domain/SocialEncounterService.ts",
