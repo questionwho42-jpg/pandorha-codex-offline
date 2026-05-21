@@ -56,22 +56,50 @@ test("vertical slice smoke fails when a user guide is missing localhost steps", 
 	}
 });
 
+test("vertical slice smoke fails when social choice UI contract is missing", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/social-encounter/ui/SocialEncounterPanel.svelte":
+				"<script>SocialEncounterPanel;</script>",
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(
+			result.stderr,
+			/src\/features\/social-encounter\/ui\/SocialEncounterPanel\.svelte/,
+		);
+		assert.match(result.stderr, /social-choice-select/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 async function createFixtureRoot({
 	navigationText = renderNavigation(),
 	docOverrides = {},
+	fileOverrides = {},
 } = {}) {
 	const root = await mkdtemp(path.join(os.tmpdir(), "pandorha-vertical-qa-"));
 	const files = {
 		"src/app/model/navigation.ts": navigationText,
 		"src/app/App.svelte": renderApp(),
+		"src/features/social-encounter/ui/SocialEncounterPanel.svelte":
+			renderSocialEncounterPanel(),
+		"src/features/social-encounter/domain/SocialEncounterService.ts":
+			renderSocialEncounterService(),
 		"public/pandorha-sw.js": renderServiceWorker(),
 		"src/features/save-load/model/saveLoadSchemas.ts": renderSaveSchemas(),
 		"docs/user/character-creation.md": renderDoc("Personagens"),
 		"docs/user/combat-training.md": renderDoc("Combate"),
 		"docs/user/camp-training.md": renderDoc("Acampamento"),
 		"docs/user/social-relations.md": renderDoc("Relações"),
-		"docs/user/social-encounter.md": renderDoc("NegociaÃ§Ã£o Social"),
+		"docs/user/social-encounter.md": renderSocialEncounterDoc(),
 		"docs/user/offline-smoke.md": renderDoc("Offline"),
+		...fileOverrides,
 		...docOverrides,
 	};
 
@@ -117,6 +145,24 @@ CompendiumBrowser;
 `;
 }
 
+function renderSocialEncounterPanel() {
+	return `
+<script>
+export let dialogueChoices = [];
+</script>
+<select data-testid="social-choice-select"></select>
+<div data-testid="social-choice-summary"></div>
+`;
+}
+
+function renderSocialEncounterService() {
+	return `
+const choiceLabel = "Barganhar";
+const success = "Apelo social com Barganhar foi bem-sucedido.";
+const fallback = "Apelo social entrou na fila oficial.";
+`;
+}
+
 function renderServiceWorker() {
 	return `
 const CACHE_NAME = "fixture";
@@ -140,6 +186,16 @@ const save = {
 
 function renderDoc(title) {
 	return `# ${title}\n\nAbra http://127.0.0.1:5173/ para testar.\n`;
+}
+
+function renderSocialEncounterDoc() {
+	return `# NegociaÃ§Ã£o Social
+
+Abra http://127.0.0.1:5173/ para testar.
+
+Escolha o campo Argumento, selecione Barganhar e confirme Modificador do argumento: +1.
+Depois valide WorldState ao encerrar a negociaÃ§Ã£o.
+`;
 }
 
 function runSmoke(root) {

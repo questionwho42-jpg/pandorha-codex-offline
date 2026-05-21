@@ -64,6 +64,24 @@ async function runVerticalSliceSmoke(root) {
 
 	await validateFileContains(
 		root,
+		"src/features/social-encounter/ui/SocialEncounterPanel.svelte",
+		[
+			"dialogueChoices",
+			'data-testid="social-choice-select"',
+			'data-testid="social-choice-summary"',
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/social-encounter/domain/SocialEncounterService.ts",
+		["choiceLabel", "Apelo social com", "Apelo social entrou na fila oficial."],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
 		"public/pandorha-sw.js",
 		[
 			"CACHE_NAME",
@@ -98,6 +116,13 @@ async function runVerticalSliceSmoke(root) {
 			errors,
 		);
 	}
+
+	await validateFileContains(
+		root,
+		"docs/user/social-encounter.md",
+		["Argumento", "Barganhar", "Modificador do argumento: +1", "WorldState"],
+		errors,
+	);
 
 	return errors.length === 0 ? { success: true } : { success: false, errors };
 }

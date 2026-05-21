@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260521-000005-t53-social-dialogue-qa-docs -->
+### T53 Social Dialogue QA Docs
+- id: 20260521-000005-t53-social-dialogue-qa-docs
+- status: completed
+- kind: docs
+- planned: yes
+- started_at: 2026-05-21T09:32:55-03:00
+- finished_at: 2026-05-21T09:40:51-03:00
+- model_started: GPT-5.5 medium-high
+- model_finished: GPT-5.5 medium-high
+- last_modified_at: 2026-05-21T09:40:51-03:00
+- branch: task/social-dialogue-qa-docs
+- commit_at_start: 6e63531 feat(social): registra argumento nos logs
+- summary: Atualizar guia de usuario, QA vertical e smoke script para cobrir escolhas de argumento social.
+- last_change: T53 atualizou o guia de usuario, o roteiro de QA vertical e o smoke script para cobrir escolhas de argumento social, log persistido e consequencias em WorldState.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-21T09:32:55-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: GPT-5.5 medium-high
+
+#### Checkpoint 2026-05-21T09:40:51-03:00
+- Done: T53 atualizou o guia de usuario, o roteiro de QA vertical e o smoke script para cobrir escolhas de argumento social, log persistido e consequencias em WorldState.
+- Next: Planejar a proxima fase apos escolhas sociais, mantendo uma subtarefa por branch e Browser Use quando houver UI.
+- Risks: Browser Use segue com digitacao instavel por clipboard virtual; validacoes recentes de UI usaram save existente quando necessario.
+- Improvements: Automatizar smoke browser real quando a digitacao do Browser Use estiver estavel.
+- Model/config: GPT-5.5 medium-high
+<!-- /pandorha-task:20260521-000005-t53-social-dialogue-qa-docs -->
 <!-- pandorha-task:20260521-000004-t52-social-choice-log-worldstate -->
 ### T52 Social Choice Log WorldState
 - id: 20260521-000004-t52-social-choice-log-worldstate
@@ -2810,6 +2842,21 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-21T09:40:43-03:00 - social-dialogue-qa-docs
+- branch: task/social-dialogue-qa-docs
+- commit: 6e63531 feat(social): registra argumento nos logs
+- changed_files_count: 5
+#### Changed Files
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/social-encounter.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-21T09:31:53-03:00 - social-choice-log-worldstate
 - branch: task/social-choice-log-worldstate
 - commit: 513c0af feat(social): adiciona escolhas de argumento na ui
