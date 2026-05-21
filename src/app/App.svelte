@@ -364,12 +364,16 @@ onMount(() => {
 								...records.socialEncounterEvents,
 							];
 						}}
+						onWorldStateChange={(records) => {
+							worldStateRecords = [...records];
+						}}
 						resolveAppeal={(input) =>
 							socialEncounterSession.service.resolveAppeal(input)}
 						resolveAppealOutcome={(input) =>
 							socialEncounterSession.appealResolutionService.resolveAppealOutcome(input)}
 						startEncounter={(input) =>
 							socialEncounterSession.service.startEncounter(input)}
+						worldState={worldStateRecords}
 					/>
 				</div>
 			{:else if activeView === "magic"}

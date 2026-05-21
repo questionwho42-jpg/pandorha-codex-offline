@@ -11,3 +11,5 @@ T44 adiciona a primeira tela: o usuario pode iniciar uma negociacao de treino, f
 T46 prepara o proximo passo: um servico separado ja consegue transformar uma rolagem social auditavel em resultado de apelo, mas ainda nao muda a tela por conta propria.
 
 T47 liga esse calculo a tela. Agora o usuario escolhe um personagem criado na sessao como negociador, faz um apelo, ve a rolagem contra DC e depois o resultado e aplicado na conversa com o NPC de treino.
+
+T49 registra uma consequencia no estado do mundo quando a negociacao termina. Se o NPC for convencido, ou se a conversa for perdida, essa consequencia aparece na tela e volta depois de salvar, recarregar e carregar o save.

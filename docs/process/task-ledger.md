@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260521-000001-t49-social-worldstate-consequences -->
+### T49 Social WorldState consequences
+- id: 20260521-000001-t49-social-worldstate-consequences
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-21T02:28:04-03:00
+- finished_at: 2026-05-21T02:39:07-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: GPT-5.5 high
+- last_modified_at: 2026-05-21T02:39:07-03:00
+- branch: task/social-worldstate-consequences
+- commit_at_start: 1be7433 feat(social): adiciona catalogo de escolhas de dialogo
+- summary: Registrar flags narrativas em WorldState ao concluir negociacao social e exibir consequencia restaurada na aba Relacoes.
+- last_change: T49 registrou consequencias sociais terminais em WorldState e validou restauracao por save/load no navegador.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-21T02:28:04-03:00
+- Done: task record created
+- Next: Implementar helper de consequencias, integrar App/SocialEncounterPanel e validar Browser Use save-load.
+- Risks: Evitar novo schema/save v5; usar apenas namespace npc existente em WorldState.
+- Improvements: Dialogos futuros podem usar catalogo T48 e flags para liberar caminhos narrativos.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-21T02:39:07-03:00
+- Done: T49 registrou consequencias sociais terminais em WorldState e validou restauracao por save/load no navegador.
+- Next: Planejar a proxima fase apos T45-T49 com base no estado estabilizado.
+- Risks: Sem riscos conhecidos; consequencias usam flags npc: existentes, sem snapshot v5.
+- Improvements: Futuras tarefas podem exibir um painel de fatos do mundo e ligar escolhas de dialogo a flags narrativas.
+- Model/config: GPT-5.5 high
+<!-- /pandorha-task:20260521-000001-t49-social-worldstate-consequences -->
 <!-- pandorha-task:20260520-185000-t48-dialogue-choice-catalog -->
 ### T48 Dialogue choice catalog
 - id: 20260520-185000-t48-dialogue-choice-catalog
@@ -2682,6 +2714,30 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-21T02:38:57-03:00 - social-worldstate-consequences
+- branch: task/social-worldstate-consequences
+- commit: 1be7433 feat(social): adiciona catalogo de escolhas de dialogo
+- changed_files_count: 14
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialEncounterConsequences.spec.ts
+- src/features/social-encounter/model/socialEncounterConsequences.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-20T18:56:20-03:00 - dialogue-choice-catalog
 - branch: task/dialogue-choice-catalog
 - commit: d9d11fa feat(social): conecta apelo social ao personagem

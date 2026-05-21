@@ -122,3 +122,8 @@
 - `App.svelte` passes session `characterRecords` into `SocialEncounterPanel` so the UI can select a negotiator.
 - `socialEncounterSession` owns the deterministic social appeal resolution service and keeps the panel focused on orchestration.
 - Save/load v4 remains unchanged; persisted social encounter records still store derived encounter state and events, not the last transient roll display.
+
+## 2026-05-21 - T49 Social WorldState Consequences
+
+- `App.svelte` passes loaded `worldStateRecords` into `SocialEncounterPanel` and accepts updated records back from terminal social outcomes.
+- Social consequences reuse the existing v4 `worldState` snapshot array; no save v5, migration, or new persistence table was introduced.

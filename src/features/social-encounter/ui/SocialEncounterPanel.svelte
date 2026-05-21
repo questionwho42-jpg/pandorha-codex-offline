@@ -5,11 +5,17 @@ import type {
 	SocialEncounterEventRecord,
 	SocialEncounterRecord,
 } from "$lib/entities/social-encounter";
+import type { WorldStateFlagView } from "$lib/entities/world-state";
 import type { Result } from "$lib/shared/lib/result";
 import type {
 	SocialAppealResolutionFailure,
 	SocialAppealResolutionResult,
 } from "../model/socialAppealResolutionTypes";
+import {
+	createSocialEncounterConsequenceFlag,
+	createSocialEncounterConsequenceView,
+	upsertSocialEncounterConsequenceFlag,
+} from "../model/socialEncounterConsequences";
 import {
 	createSocialEncounterRecordsFromState,
 	createSocialEncounterStateFromRecords,
@@ -62,6 +68,7 @@ type Props = {
 	readonly encounters: readonly SocialEncounterRecord[];
 	readonly npcs: readonly NpcRecord[];
 	readonly onRecordsChange: (records: PersistedRecords) => void;
+	readonly onWorldStateChange: (records: readonly WorldStateFlagView[]) => void;
 	readonly resolveAppeal: (
 		input: unknown,
 	) => Result<SocialEncounterState, SocialEncounterFailure>;
@@ -71,6 +78,7 @@ type Props = {
 	readonly startEncounter: (
 		input: unknown,
 	) => Promise<Result<SocialEncounterState, SocialEncounterFailure>>;
+	readonly worldState: readonly WorldStateFlagView[];
 };
 
 let {
@@ -82,9 +90,11 @@ let {
 	encounters,
 	npcs,
 	onRecordsChange,
+	onWorldStateChange,
 	resolveAppeal,
 	resolveAppealOutcome,
 	startEncounter,
+	worldState,
 }: Props = $props();
 
 let selectedActorId = $state("");
@@ -131,6 +141,14 @@ let view = $derived(
 		selectedActorId,
 		selectedNpcId,
 		state,
+	}),
+);
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let consequenceView = $derived(
+	createSocialEncounterConsequenceView({
+		state,
+		worldState,
 	}),
 );
 
@@ -200,6 +218,16 @@ function applyState(nextState: SocialEncounterState): void {
 		records.socialEncounterEvents,
 	);
 	onRecordsChange(records);
+
+	const consequence = createSocialEncounterConsequenceFlag({
+		state: nextState,
+		updatedAt: nextState.updatedAt,
+	});
+	if (consequence) {
+		onWorldStateChange(
+			upsertSocialEncounterConsequenceFlag(worldState, consequence),
+		);
+	}
 }
 
 function resolveSelectedActorId(
@@ -323,6 +351,13 @@ function createHydrationKey(
 					<p class="mt-1 text-ether">{view.resolutionSummaryLabel}</p>
 				{/if}
 			</div>
+
+			{#if consequenceView}
+				<div class="mt-4 border border-ether bg-ruin px-4 py-3 text-sm leading-6 text-bone" data-testid="social-worldstate-consequence">
+					<p class="font-semibold text-ether">{consequenceView.label}</p>
+					<p class="mt-1">{consequenceView.summary}</p>
+				</div>
+			{/if}
 
 			{#if view.errorMessage}
 				<p class="mt-4 border border-bronze bg-ruin px-4 py-3 text-sm font-semibold text-ether">

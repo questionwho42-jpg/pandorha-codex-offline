@@ -37,3 +37,5 @@ Na T35D, o app ganhou a aba Acampamento. O usuario pode escolher uma acao para c
 Na T39, o app ganhou o primeiro suporte offline. Depois de carregar o jogo uma vez, o navegador prepara uma copia local basica para tentar abrir a interface mesmo sem conexao. Isso ainda nao e um modo offline completo com atualizacao sofisticada; e um teste inicial para provar que o app consegue sobreviver a um recarregamento offline.
 
 Na T47, a aba Relacoes passou a usar personagens criados na sessao como negociadores. O usuario escolhe o personagem, inicia uma negociacao, faz um apelo e ve a rolagem social usada para alterar HP mental, paciencia e progresso.
+
+Na T49, quando uma negociacao termina, o app registra uma consequencia no estado do mundo. Essa consequencia aparece na aba Relacoes e tambem volta depois que o usuario salva, recarrega a pagina e carrega o save.
