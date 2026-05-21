@@ -17,3 +17,5 @@ T49 registra uma consequencia no estado do mundo quando a negociacao termina. Se
 T50 prepara as escolhas de argumento. O codigo agora sabe transformar uma escolha como Persuadir, Barganhar ou Pressionar em um modificador para o apelo social, mas a tela ainda nao mostra esse seletor nesta etapa.
 
 T51 mostra esse seletor na aba Relacoes. O usuario pode escolher Persuadir, Barganhar ou Pressionar antes de fazer o apelo; Barganhar, por exemplo, aparece com bonus +1 na rolagem social.
+
+T52 melhora o registro da conversa. Quando o usuario usa Barganhar, o log passa a dizer que o apelo foi feito com Barganhar, e essa mensagem continua voltando depois de salvar e carregar.

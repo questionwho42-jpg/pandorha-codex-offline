@@ -23,4 +23,5 @@
 - T47 connects `Relacoes` to session-character social stats; T48 should add argument choices before adding deeper dialogue trees.
 - T49 lets social outcomes write WorldState flags; future UI can surface a compact "facts of the world" panel before adding branching dialogue.
 - T51 shows argument choices in `Relacoes`; T52 should persist clearer log copy for the chosen argument without changing snapshot version.
+- T52 keeps save v4 unchanged while making social logs clearer. T53 should update user docs and the vertical smoke script to cover the argument choice flow.
 - Future app bootstrapping should introduce typed providers for Worker/RPC, repositories, services, and UI state.

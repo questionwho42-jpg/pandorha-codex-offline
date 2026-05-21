@@ -189,7 +189,7 @@ function resolveQueuedSocialAppeal(input: {
 }): SocialEncounterState {
 	const queuedEvent: SocialEncounterEvent = {
 		type: "social-appeal-queued",
-		message: "Apelo social entrou na fila oficial.",
+		message: createQueuedAppealMessage(input.command),
 		createdAt: input.resolvedAt,
 		commandId: input.command.id,
 	};
@@ -233,7 +233,13 @@ function resolveSuccessfulAppeal(input: {
 	const events: SocialEncounterEvent[] = [
 		{
 			type: "social-appeal-succeeded",
-			message: `Apelo social bem-sucedido. HP mental ${mentalHpCurrent}/${input.state.mentalHpMax}; Progresso ${persuasionProgress}/${input.state.persuasionTarget}.`,
+			message: createSuccessfulAppealMessage({
+				command: input.command,
+				mentalHpCurrent,
+				mentalHpMax: input.state.mentalHpMax,
+				persuasionProgress,
+				persuasionTarget: input.state.persuasionTarget,
+			}),
 			createdAt: input.resolvedAt,
 			commandId: input.command.id,
 		},
@@ -299,6 +305,37 @@ function resolveFailedAppeal(input: {
 		persuasionProgress: input.state.persuasionProgress,
 		events,
 	};
+}
+
+function createQueuedAppealMessage(command: ActionCommand): string {
+	const choiceLabel = getChoiceLabel(command);
+	return choiceLabel
+		? `Apelo social com ${choiceLabel} entrou na fila oficial.`
+		: "Apelo social entrou na fila oficial.";
+}
+
+function createSuccessfulAppealMessage(input: {
+	readonly command: ActionCommand;
+	readonly mentalHpCurrent: number;
+	readonly mentalHpMax: number;
+	readonly persuasionProgress: number;
+	readonly persuasionTarget: number;
+}): string {
+	const choiceLabel = getChoiceLabel(input.command);
+	const prefix = choiceLabel
+		? `Apelo social com ${choiceLabel} foi bem-sucedido`
+		: "Apelo social bem-sucedido";
+	return `${prefix}. HP mental ${input.mentalHpCurrent}/${input.mentalHpMax}; Progresso ${input.persuasionProgress}/${input.persuasionTarget}.`;
+}
+
+function getChoiceLabel(command: ActionCommand): string | null {
+	const choiceLabel = command.payload?.choiceLabel;
+	if (typeof choiceLabel !== "string") {
+		return null;
+	}
+
+	const trimmedLabel = choiceLabel.trim();
+	return trimmedLabel.length > 0 ? trimmedLabel : null;
 }
 
 function appendEvents(

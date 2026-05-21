@@ -64,14 +64,14 @@ function buildState(): SocialEncounterState {
 			},
 			{
 				type: "social-appeal-succeeded",
-				message: "Apelo social bem-sucedido.",
+				message: "Apelo social com Barganhar foi bem-sucedido.",
 				createdAt: "2026-05-20T14:01:00.000Z",
 				commandId: "social-appeal-1",
 			},
 		],
 		log: [
 			"Negociação iniciada com Corretora de Treino.",
-			"Apelo social bem-sucedido.",
+			"Apelo social com Barganhar foi bem-sucedido.",
 		],
 		createdAt: "2026-05-20T14:00:00.000Z",
 		updatedAt: "2026-05-20T14:01:00.000Z",

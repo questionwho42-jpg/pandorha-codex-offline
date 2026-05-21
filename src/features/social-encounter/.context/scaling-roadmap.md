@@ -9,4 +9,5 @@
 - After T49, future dialogue branches can read `npc:<npc-id>:convinced` or `npc:<npc-id>:walked-away` flags before unlocking follow-up scenes.
 - After T50, the social UI can select a dialogue choice and pass its modifier into audited social resolution without changing persistence.
 - After T51, `Persuadir`, `Barganhar`, and `Pressionar` are visible in the UI; T52 should make persisted logs mention the chosen argument while keeping old commands compatible.
+- After T52, persisted logs can mention the chosen argument. Future dialogue-tree work can add richer authored text without changing the current event schema.
 - Future UI iterations should add player argument choices before adding random rolls, so the user can understand what changed.

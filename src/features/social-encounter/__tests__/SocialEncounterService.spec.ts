@@ -124,6 +124,62 @@ describe("SocialEncounterService", () => {
 		);
 	});
 
+	it("records the selected argument label in new social appeal logs", async () => {
+		const service = createService();
+		const state = await startBrokerEncounter(service);
+
+		const result = service.resolveAppeal({
+			state,
+			command: createSocialAppealCommand("appeal-one", {
+				choiceLabel: "Barganhar",
+			}),
+			outcome: {
+				kind: "success",
+				mentalDamage: 3,
+				persuasionProgress: 1,
+			},
+			resolvedAt: "2026-05-20T12:01:00.000Z",
+		});
+
+		expect(result.success).toBe(true);
+		if (!result.success) {
+			return;
+		}
+		expect(result.data.log).toContain(
+			"Apelo social com Barganhar entrou na fila oficial.",
+		);
+		expect(result.data.log).toContain(
+			"Apelo social com Barganhar foi bem-sucedido. HP mental 5/8; Progresso 1/3.",
+		);
+	});
+
+	it("falls back to generic copy when the choice label is blank", async () => {
+		const service = createService();
+		const state = await startBrokerEncounter(service);
+
+		const result = service.resolveAppeal({
+			state,
+			command: createSocialAppealCommand("appeal-one", {
+				choiceLabel: " ",
+			}),
+			outcome: {
+				kind: "success",
+				mentalDamage: 3,
+				persuasionProgress: 1,
+			},
+			resolvedAt: "2026-05-20T12:01:00.000Z",
+		});
+
+		expect(result.success).toBe(true);
+		if (!result.success) {
+			return;
+		}
+		expect(result.data.log).toContain("Apelo social entrou na fila oficial.");
+		expect(result.data.log).toContain(
+			"Apelo social bem-sucedido. HP mental 5/8; Progresso 1/3.",
+		);
+	});
+
 	it("convinces the NPC when mental HP reaches zero", async () => {
 		const service = createService();
 		const state = await startBrokerEncounter(service);
@@ -339,7 +395,10 @@ async function startBrokerEncounter(
 	return result.data;
 }
 
-function createSocialAppealCommand(id: string): ActionCommand {
+function createSocialAppealCommand(
+	id: string,
+	patch: ActionCommand["payload"] = {},
+): ActionCommand {
 	return {
 		id,
 		type: "social-appeal",
@@ -348,6 +407,7 @@ function createSocialAppealCommand(id: string): ActionCommand {
 		payload: {
 			actorId: "hero-one",
 			npcId: "training-broker",
+			...patch,
 		},
 	};
 }
