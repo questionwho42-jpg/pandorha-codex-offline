@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260520-185000-t48-dialogue-choice-catalog -->
+### T48 Dialogue choice catalog
+- id: 20260520-185000-t48-dialogue-choice-catalog
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-20T18:49:38-03:00
+- finished_at: 2026-05-20T18:56:25-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-20T18:56:25-03:00
+- branch: task/dialogue-choice-catalog
+- commit_at_start: d9d11fa feat(social): conecta apelo social ao personagem
+- summary: Criar catalogo read-only de escolhas sociais persuade, bargain e threaten com modificadores simples para apelos futuros.
+- last_change: Catalogo read-only de escolhas sociais persuade, bargain e threaten criado com Drizzle-Zod, fake repository e cobertura 100%.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-20T18:49:38-03:00
+- Done: task record created
+- Next: Implementar entidade catalogo, testes TDD, contextos e gates.
+- Risks: Manter escolhas como catalogo de treino sem arvore de dialogo completa.
+- Improvements: T49 usara consequencias em WorldState.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-20T18:56:25-03:00
+- Done: Catalogo read-only de escolhas sociais persuade, bargain e threaten criado com Drizzle-Zod, fake repository e cobertura 100%.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260520-185000-t48-dialogue-choice-catalog -->
 <!-- pandorha-task:20260520-183600-t47-social-appeal-character-ui -->
 ### T47 Social appeal character UI
 - id: 20260520-183600-t47-social-appeal-character-ui
@@ -2650,6 +2682,19 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-20T18:56:20-03:00 - dialogue-choice-catalog
+- branch: task/dialogue-choice-catalog
+- commit: d9d11fa feat(social): conecta apelo social ao personagem
+- changed_files_count: 3
+#### Changed Files
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- src/entities/dialogue-choice/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-20T18:48:49-03:00 - social-appeal-character-ui
 - branch: task/social-appeal-character-ui
 - commit: 3a04a2c feat(social): adiciona resolucao de apelo social
