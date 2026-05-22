@@ -378,10 +378,10 @@ def find_empty_snapshots(content: str) -> list[str]:
 def command_post_merge(_: argparse.Namespace) -> None:
     ensure_files()
     state = git_state()
-    if state["branch"] != "main":
+    if state["branch"] not in ("main", "master"):
         return
     timestamp = now()
-    block = f"""## {timestamp} - main merge promotion candidate
+    block = f"""## {timestamp} - {state["branch"]} merge promotion candidate
 - branch: {state["branch"]}
 - commit: {state["commit"]}
 - changed_files_count: {state["changed_count"]}
