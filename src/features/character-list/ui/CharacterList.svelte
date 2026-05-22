@@ -110,26 +110,10 @@ async function handleClear(characterId: string) {
 								<div class="mt-3 flex flex-wrap gap-2">
 									{#each character.statusEffects as effect}
 										<span 
-											class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold border transition-all duration-300 rounded-sm"
-											class:border-purple-runic={effect.type === 'eter_fever'}
-											class:bg-purple-runic/10={effect.type === 'eter_fever'}
-											class:text-purple-runic={effect.type === 'eter_fever'}
-											class:border-blood={effect.type === 'wound_infection'}
-											class:bg-blood-shadow/20={effect.type === 'wound_infection'}
-											class:text-blood={effect.type === 'wound_infection'}
-											class:border-emerald-poison={effect.type === 'viper_poison'}
-											class:bg-emerald-poison/15={effect.type === 'viper_poison'}
-											class:text-emerald-poison={effect.type === 'viper_poison'}
-											class:border-orange-hungry={effect.type === 'hungry'}
-											class:bg-orange-hungry/15={effect.type === 'hungry'}
-											class:text-orange-hungry={effect.type === 'hungry'}
+											class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold border transition-all duration-300 rounded-sm {effect.type === 'eter_fever' ? 'border-purple-runic bg-purple-runic/10 text-purple-runic' : ''} {effect.type === 'wound_infection' ? 'border-blood bg-blood-shadow/20 text-blood' : ''} {effect.type === 'viper_poison' ? 'border-emerald-poison bg-emerald-poison/15 text-emerald-poison' : ''} {effect.type === 'hungry' ? 'border-orange-hungry bg-orange-hungry/15 text-orange-hungry' : ''}"
 										>
 											<span 
-												class="h-1.5 w-1.5 rounded-full animate-pulse"
-												class:bg-purple-runic={effect.type === 'eter_fever'}
-												class:bg-blood={effect.type === 'wound_infection'}
-												class:bg-emerald-poison={effect.type === 'viper_poison'}
-												class:bg-orange-hungry={effect.type === 'hungry'}
+												class="h-1.5 w-1.5 rounded-full animate-pulse {effect.type === 'eter_fever' ? 'bg-purple-runic' : ''} {effect.type === 'wound_infection' ? 'bg-blood' : ''} {effect.type === 'viper_poison' ? 'bg-emerald-poison' : ''} {effect.type === 'hungry' ? 'bg-orange-hungry' : ''}"
 											></span>
 											{effect.label} (Gravidade {effect.severity})
 											{#if effect.isAggravated}
@@ -248,4 +232,3 @@ async function handleClear(characterId: string) {
 		</ul>
 	{/if}
 </section>
-

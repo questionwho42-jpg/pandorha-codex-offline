@@ -13,6 +13,41 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:t44-hexcrawl-encounters -->
+### Fase T44: Hexcrawl & Encontros
+- id: t44-hexcrawl-encounters
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-22T15:21:15-03:00
+- finished_at: 2026-05-22T15:21:21-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-22T15:21:21-03:00
+- branch: task/hexcrawl-encounters
+- commit_at_start: ab28379 fix(crafting-workshop): estabilizacao e redesign do quality gate (2026-05-22 09:35)
+- summary: Integracao do EncounterService com o DiceService, correcao de tipos estritos do TS no world-tile e cobertura de 100% dos testes unitarios
+- last_change: Finalizacao da Etapa 2: Integracao do EncounterService com o DiceService, correcao de tipos estritos do TS no world-tile e cobertura de 100% dos testes unitarios
+#### Files At Start
+- src/features/hexcrawl-map/ui/HexcrawlMapPanel.svelte
+- pandorha-sistema-28-04-backup/
+- src/entities/world-tile/__tests__/EncounterService.spec.ts
+- src/entities/world-tile/domain/EncounterService.ts
+#### Checkpoints
+#### Checkpoint 2026-05-22T15:21:15-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-22T15:21:21-03:00
+- Done: Finalizacao da Etapa 2: Integracao do EncounterService com o DiceService, correcao de tipos estritos do TS no world-tile e cobertura de 100% dos testes unitarios
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:t44-hexcrawl-encounters -->
 <!-- pandorha-task:t43-lint-stabilization -->
 ### Fase T43: Estabilizacao de Lints e Homologacao de UI
 - id: t43-lint-stabilization

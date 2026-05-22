@@ -1,7 +1,9 @@
 <script lang="ts">
 import type { CharacterRecord } from "$lib/entities/character";
+import { BaseCharacterStats } from "$lib/entities/character/domain/StatusEffectDecorator";
 import type { TrapRecord } from "$lib/entities/traps";
 import type { WorldTileRecord } from "$lib/entities/world-tile";
+import { EncounterService } from "$lib/entities/world-tile/domain/EncounterService";
 import type { Result } from "$lib/shared/lib/result";
 import {
 	createHexcrawlMapView,
@@ -69,6 +71,13 @@ let isMoving = $state(false);
 let selectedCharacterId = $state("");
 let rollOverride = $state(10);
 
+// Controles da jornada de exploração (Batedor)
+let selectedScoutId = $state("");
+let scoutAttribute = $state<"physical" | "mental">("physical");
+let ritmo = $state<"fast" | "normal" | "cautious">("normal");
+let climaAdverso = $state(false);
+let visibilidadeNula = $state(false);
+
 let view = $derived(
 	createHexcrawlMapView({
 		currentTileId,
@@ -79,6 +88,72 @@ let view = $derived(
 	}),
 );
 
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+function getBiomeClass(
+	tileId: string,
+	isCurrent: boolean,
+	canMove: boolean,
+): string {
+	const originalTile = tiles.find((t) => t.id === tileId);
+	const biome = originalTile?.biome ?? "road";
+
+	if (isCurrent) {
+		return "min-h-32 border px-4 py-4 text-left transition-all duration-300 border-ether bg-ether text-void font-bold shadow-[0_0_15px_rgba(218,185,115,0.4)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:cursor-not-allowed";
+	}
+
+	let baseClass =
+		"min-h-32 border px-4 py-4 text-left transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:cursor-not-allowed ";
+
+	if (!canMove) {
+		baseClass += "opacity-60 cursor-not-allowed ";
+	} else {
+		baseClass += "hover:scale-[1.02] active:scale-[0.98] cursor-pointer ";
+	}
+
+	switch (biome) {
+		case "road":
+			return (
+				baseClass +
+				"border-stone-700 bg-stone-900/60 text-bone hover:border-ether/40 hover:bg-stone-900"
+			);
+		case "forest":
+			return (
+				baseClass +
+				"border-emerald-900/40 bg-emerald-950/20 text-bone hover:border-emerald-500/40 hover:bg-emerald-950/40"
+			);
+		case "watch":
+			return (
+				baseClass +
+				"border-sky-900/40 bg-sky-950/20 text-bone hover:border-sky-500/40 hover:bg-sky-950/40"
+			);
+		case "ruins":
+			return (
+				baseClass +
+				"border-purple-900/40 bg-purple-950/20 text-bone hover:border-purple-500/40 hover:bg-purple-950/40"
+			);
+		case "marsh":
+			return (
+				baseClass +
+				"border-amber-950/40 bg-amber-950/15 text-bone hover:border-amber-600/40 hover:bg-amber-950/30"
+			);
+		case "barrow":
+			return (
+				baseClass +
+				"border-zinc-800 bg-zinc-950/40 text-bone hover:border-zinc-600 hover:bg-zinc-900"
+			);
+		case "ridge":
+			return (
+				baseClass +
+				"border-stone-800 bg-stone-950/40 text-bone hover:border-stone-600 hover:bg-stone-900"
+			);
+		default:
+			return (
+				baseClass +
+				"border-bronze bg-blood-shadow text-bone hover:border-ether/40"
+			);
+	}
+}
+
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 async function moveToTile(targetTileId: string): Promise<void> {
 	const target = view.tiles.find((tile) => tile.id === targetTileId);
@@ -86,6 +161,50 @@ async function moveToTile(targetTileId: string): Promise<void> {
 		return;
 	}
 
+	// Regra de RPG: Bloqueia movimento se nenhum batedor estiver alocado para a viagem
+	if (!selectedScoutId) {
+		errorMessage =
+			"Selecione um batedor na seção de Preparação antes de viajar!";
+		return;
+	}
+
+	const scout = props.characters?.find((c) => c.id === selectedScoutId);
+	if (!scout) {
+		errorMessage = "O batedor selecionado é inválido.";
+		return;
+	}
+
+	const targetTileRecord = tiles.find((tile) => tile.id === targetTileId);
+	if (!targetTileRecord) {
+		errorMessage = "Hexágono de destino não encontrado.";
+		return;
+	}
+
+	// 1. Instanciar o estado estatístico decorado do batedor
+	const scoutStats = new BaseCharacterStats(scout, {
+		id: scout.classId || "vanguard",
+		baseHp: 8,
+	});
+
+	// 2. Chamar o serviço de exploração para realizar o teste do batedor
+	const encounterService = new EncounterService();
+	const checkResult = encounterService.resolveScoutCheck({
+		scoutStats,
+		attribute: scoutAttribute,
+		targetTile: targetTileRecord,
+		ritmo,
+		climaAdverso,
+		visibilidadeNula,
+	});
+
+	if (!checkResult.success) {
+		errorMessage = checkResult.error.message;
+		return;
+	}
+
+	const data = checkResult.data;
+
+	// 3. Realizar o avanço no mapa hexagonal
 	isMoving = true;
 	const result = await moveParty(
 		createMovementInput(currentTileId, targetTileId),
@@ -98,10 +217,31 @@ async function moveToTile(targetTileId: string): Promise<void> {
 	}
 
 	currentTileId = result.data.toTile.id;
-	events = [...result.data.events];
 	errorMessage = null;
 
-	// Resetar selecao de personagem ao mudar de bloco
+	// 4. Anexar logs reativos descritivos e matemáticos da viagem
+	const scoutEvent: HexcrawlMovementEvent = {
+		type: "encounter-check-pending",
+		message: `🧭 Batedor: ${scout.name} | Teste: ${scoutAttribute === "physical" ? "Físico" : "Mental"} | Rolagem: d20=${data.diceRoll}${data.diceRollAlt !== undefined ? ` (Alt=${data.diceRollAlt})` : ""} + mod=${data.attributeValue} | Total: ${data.totalRoll} vs CD Final: ${data.cdFinal} (Base=${data.cdBase}${data.modifiersApplied.difficultTerrain ? " + Terreno=3" : ""}${data.modifiersApplied.climaAdverso ? " + Clima=3" : ""}${data.modifiersApplied.visibilidadeNula ? " + Visibilidade=5" : ""}) | Resultado: ${data.outcome.toUpperCase()}`,
+		tileId: targetTileId,
+		createdAt: new Date().toISOString(),
+	};
+
+	let newEvents = [...result.data.events, scoutEvent];
+
+	if (data.encounterEvent) {
+		const encounterLogEvent: HexcrawlMovementEvent = {
+			type: "encounter-check-pending",
+			message: `⚠️ ENCONTRO! [${data.encounterEvent.type.toUpperCase()}] ${data.encounterEvent.name}: ${data.encounterEvent.description}`,
+			tileId: targetTileId,
+			createdAt: new Date().toISOString(),
+		};
+		newEvents.push(encounterLogEvent);
+	}
+
+	events = newEvents;
+
+	// Resetar selecao de personagem de armadilhas ao mudar de bloco
 	selectedCharacterId = "";
 
 	if (onMoveSuccess) {
@@ -161,14 +301,7 @@ async function handleDisarm(trapId: string, isTrained: boolean) {
 					disabled={!tile.canMove || isMoving}
 					onclick={() => moveToTile(tile.id)}
 					data-testid={`hexcrawl-tile-${tile.id}`}
-					class="min-h-32 border px-4 py-4 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:cursor-not-allowed"
-					class:border-ether={tile.isCurrent}
-					class:bg-ether={tile.isCurrent}
-					class:text-void={tile.isCurrent}
-					class:border-bronze={!tile.isCurrent}
-					class:bg-blood-shadow={!tile.isCurrent}
-					class:text-bone={!tile.isCurrent}
-					class:opacity-60={!tile.canMove && !tile.isCurrent}
+					class={getBiomeClass(tile.id, tile.isCurrent, tile.canMove)}
 				>
 					<span class="block text-sm font-semibold">
 						{tile.stateLabel}
@@ -211,6 +344,75 @@ async function handleDisarm(trapId: string, isTrained: boolean) {
 					>
 						{view.mappingStatusLabel}
 					</p>
+				</div>
+			</div>
+
+			<!-- Preparação de Viagem (Batedor) -->
+			<div class="mt-6 border-t border-bronze/40 pt-5">
+				<p class="text-sm font-semibold text-ether uppercase tracking-wider">🧭 Preparação de Viagem</p>
+				
+				<div class="mt-3 flex flex-col gap-3">
+					<!-- Seleção do Batedor -->
+					<div class="flex flex-col gap-1">
+						<span class="text-xs text-bone/60 font-semibold">Batedor Alocado:</span>
+						<select 
+							bind:value={selectedScoutId} 
+							class="bg-void text-bone border border-bronze/40 px-2 py-1.5 rounded text-xs focus:outline-none focus:border-ether w-full"
+						>
+							<option value="">Selecione um batedor...</option>
+							{#if props.characters}
+								{#each props.characters as char}
+									<option value={char.id}>{char.name}</option>
+								{/each}
+							{/if}
+						</select>
+					</div>
+
+					<!-- Atributo do Teste -->
+					<div class="flex flex-col gap-1">
+						<span class="text-xs text-bone/60 font-semibold">Atributo do Teste:</span>
+						<select 
+							bind:value={scoutAttribute} 
+							class="bg-void text-bone border border-bronze/40 px-2 py-1.5 rounded text-xs focus:outline-none focus:border-ether w-full"
+						>
+							<option value="physical">Físico</option>
+							<option value="mental">Mental</option>
+						</select>
+					</div>
+
+					<!-- Ritmo de Viagem -->
+					<div class="flex flex-col gap-1">
+						<span class="text-xs text-bone/60 font-semibold">Ritmo de Viagem:</span>
+						<select 
+							bind:value={ritmo} 
+							class="bg-void text-bone border border-bronze/40 px-2 py-1.5 rounded text-xs focus:outline-none focus:border-ether w-full"
+						>
+							<option value="normal">Normal (Sem Modificadores)</option>
+							<option value="fast">Rápido (-4 no Teste, Viagem Veloz)</option>
+							<option value="cautious">Cauteloso (+4 no Teste, Viagem Lenta)</option>
+						</select>
+					</div>
+
+					<!-- Condições Adversas -->
+					<div class="flex flex-col gap-2 mt-1 border-t border-bronze/20 pt-2">
+						<label class="flex items-center gap-2 text-xs text-bone/70 cursor-pointer">
+							<input 
+								type="checkbox" 
+								bind:checked={climaAdverso} 
+								class="accent-ether border-bronze/40"
+							/>
+							<span>🌧️ Clima Adverso (+3 CD)</span>
+						</label>
+						
+						<label class="flex items-center gap-2 text-xs text-bone/70 cursor-pointer">
+							<input 
+								type="checkbox" 
+								bind:checked={visibilidadeNula} 
+								class="accent-ether border-bronze/40"
+							/>
+							<span>🌑 Visibilidade Nula (+5 CD)</span>
+						</label>
+					</div>
 				</div>
 			</div>
 
