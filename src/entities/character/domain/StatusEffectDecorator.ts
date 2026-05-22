@@ -19,6 +19,11 @@ export interface ICharacterStats {
 	readonly maxHp: number;
 	readonly initiativeBase: number;
 	readonly carrySlotLimit: number;
+	readonly movementSpeedBase: number;
+
+	// Logística de Carga
+	readonly currentCarryWeight: number;
+	readonly encumbranceState: "light" | "encumbered" | "overloaded";
 
 	// Flags de Sobrevivência
 	readonly allowsNaturalRecovery: boolean;
@@ -77,9 +82,23 @@ export class BaseCharacterStats implements ICharacterStats {
 		return this.level + this.mental + this.interaction;
 	}
 
-	// Regra de RPG: Carga = Físico + Resistência + 6
+	// Regra de RPG: Carga = Físico + Resistência + 6 + (2 se for Anão - Mule do Abismo)
 	public get carrySlotLimit(): number {
-		return this.physical + this.resistance + 6;
+		const bonus = this.character.ancestryId === "dwarf" ? 2 : 0;
+		return this.physical + this.resistance + 6 + bonus;
+	}
+
+	// Velocidade base em metros (Pandorha padrão: 9m)
+	public get movementSpeedBase(): number {
+		return 9;
+	}
+
+	public get currentCarryWeight(): number {
+		return 0;
+	}
+
+	public get encumbranceState(): "light" | "encumbered" | "overloaded" {
+		return "light";
 	}
 
 	// Por padrão, um personagem saudável pode se recuperar normalmente no acampamento
@@ -139,8 +158,25 @@ export abstract class StatusEffectDecorator implements ICharacterStats {
 		return this.level + this.mental + this.interaction;
 	}
 
+	// Reatividade de Carga: recalcula com os atributos flutuantes na cebola mas preserva o bônus de anão original do wrapped
 	public get carrySlotLimit(): number {
-		return this.physical + this.resistance + 6;
+		const originalBaseLimit = this.wrapped.carrySlotLimit;
+		const originalAttributesSum =
+			this.wrapped.physical + this.wrapped.resistance + 6;
+		const fixedBonus = originalBaseLimit - originalAttributesSum;
+		return this.physical + this.resistance + 6 + fixedBonus;
+	}
+
+	public get movementSpeedBase(): number {
+		return this.wrapped.movementSpeedBase;
+	}
+
+	public get currentCarryWeight(): number {
+		return this.wrapped.currentCarryWeight;
+	}
+
+	public get encumbranceState(): "light" | "encumbered" | "overloaded" {
+		return this.wrapped.encumbranceState;
 	}
 
 	public get allowsNaturalRecovery(): boolean {
@@ -192,5 +228,76 @@ export class ViperPoisonDecorator extends StatusEffectDecorator {
 	// Reduz a iniciativa base final em 1
 	public override get initiativeBase(): number {
 		return Math.max(0, super.initiativeBase - 1);
+	}
+}
+
+/**
+ * 🧅 DECORADOR CONCRETO 4: Sobrecarga de Peso (EncumberedStatusDecorator)
+ * Decorador de logística que penaliza o deslocamento e reação baseando-se no peso equipado.
+ */
+export class EncumberedStatusDecorator extends StatusEffectDecorator {
+	public constructor(
+		wrapped: ICharacterStats,
+		private readonly equippedWeight: number,
+	) {
+		super(wrapped);
+	}
+
+	public override get currentCarryWeight(): number {
+		return this.equippedWeight;
+	}
+
+	public override get encumbranceState():
+		| "light"
+		| "encumbered"
+		| "overloaded" {
+		const limit = this.carrySlotLimit;
+		if (this.equippedWeight > limit + 5) {
+			return "overloaded";
+		}
+		if (this.equippedWeight > limit) {
+			return "encumbered";
+		}
+		return "light";
+	}
+
+	public override get movementSpeedBase(): number {
+		const state = this.encumbranceState;
+		if (state === "overloaded") {
+			return 0; // Imobilizado (Velocidade 0)
+		}
+		if (state === "encumbered") {
+			// Lento (-3m na velocidade)
+			return Math.max(1, this.wrapped.movementSpeedBase - 3);
+		}
+		return this.wrapped.movementSpeedBase;
+	}
+
+	public override get initiativeBase(): number {
+		const state = this.encumbranceState;
+		if (state === "encumbered" || state === "overloaded") {
+			// -2 na Iniciativa por estar sobrecarregado
+			return Math.max(0, this.wrapped.initiativeBase - 2);
+		}
+		return this.wrapped.initiativeBase;
+	}
+}
+
+/**
+ * 🧅 DECORADOR CONCRETO 5: Faminto (HungryDecorator)
+ * Condição severa por falta de nutrientes no descanso do acampamento.
+ * Reduz: physical -1, mental -1, impede cura natural.
+ */
+export class HungryDecorator extends StatusEffectDecorator {
+	public override get physical(): number {
+		return Math.max(0, this.wrapped.physical - 1);
+	}
+
+	public override get mental(): number {
+		return Math.max(0, this.wrapped.mental - 1);
+	}
+
+	public override get allowsNaturalRecovery(): boolean {
+		return false;
 	}
 }

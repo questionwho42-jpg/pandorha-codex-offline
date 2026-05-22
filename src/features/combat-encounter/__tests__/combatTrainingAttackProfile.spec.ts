@@ -80,6 +80,104 @@ describe("createCombatTrainingAttackProfile", () => {
 		expect(profile.matrixValue).toBe(2);
 		expect(profile.matrixLabel).toBe("Matriz F\u00edsica: 2");
 	});
+
+	it("applies sharp and runic weapon decorators and changes damage type/affinities", () => {
+		// Arma comum
+		const commonProfile = createCombatTrainingAttackProfile(
+			{
+				attacker: { id: "session-character-1", label: "Lia" },
+				characters: [createCharacterRecord({ physical: 3 })],
+			},
+			{
+				id: "weapon-1",
+				label: "Espada Comum",
+				isSharp: 0,
+				isRunic: 0,
+				baseDamage: 4,
+				extraModifier: 3,
+				damageType: "physical",
+				createdAt: TEST_TIMESTAMP,
+				updatedAt: TEST_TIMESTAMP,
+			} as any,
+		);
+		expect(commonProfile.helperText).toContain("Atacando com Espada Comum");
+		expect(commonProfile.damageType).toBe("physical");
+		expect(commonProfile.affinities).toEqual([]);
+
+		// Arma afiada
+		const sharpProfile = createCombatTrainingAttackProfile(
+			{
+				attacker: { id: "session-character-1", label: "Lia" },
+				characters: [createCharacterRecord({ physical: 3 })],
+			},
+			{
+				id: "weapon-2",
+				label: "Adaga Afiada",
+				isSharp: 1,
+				isRunic: 0,
+				baseDamage: 4,
+				extraModifier: 3,
+				damageType: "physical",
+				createdAt: TEST_TIMESTAMP,
+				updatedAt: TEST_TIMESTAMP,
+			} as any,
+		);
+		expect(sharpProfile.helperText).toContain("[Afiada]");
+		expect(sharpProfile.extraModifierTotal).toBe(4); // Sharp adiciona 1 no modificador extra
+
+		// Arma rúnica
+		const runicProfile = createCombatTrainingAttackProfile(
+			{
+				attacker: { id: "session-character-1", label: "Lia" },
+				characters: [createCharacterRecord({ physical: 3 })],
+			},
+			{
+				id: "weapon-3",
+				label: "Cajado Rúnico",
+				isSharp: 0,
+				isRunic: 1,
+				baseDamage: 4,
+				extraModifier: 3,
+				damageType: "physical",
+				createdAt: TEST_TIMESTAMP,
+				updatedAt: TEST_TIMESTAMP,
+			} as any,
+		);
+		expect(runicProfile.helperText).toContain("[Rúnica]");
+		expect(runicProfile.damageType).toBe("ether");
+		expect(runicProfile.affinities).toEqual(["ether"]);
+	});
+
+	it("applies status effects that debilitate physical matrix", () => {
+		const profile = createCombatTrainingAttackProfile({
+			attacker: { id: "session-character-1", label: "Lia" },
+			characters: [createCharacterRecord({ physical: 3 })],
+			activeEffects: [
+				{ type: "eter_fever" },
+				{ type: "wound_infection" },
+				{ type: "viper_poison" },
+				{ type: "hungry" },
+			],
+		});
+
+		expect(profile.matrixValue).toBe(0);
+	});
+
+	it("uses character class base Hp fallback when classes are provided", () => {
+		const profileWithClass = createCombatTrainingAttackProfile({
+			attacker: { id: "session-character-1", label: "Lia" },
+			characters: [createCharacterRecord({ physical: 3 })],
+			characterClasses: [{ id: "vanguard", baseHp: 12 } as any],
+		});
+		expect(profileWithClass.matrixValue).toBe(3);
+
+		const profileWithoutClass = createCombatTrainingAttackProfile({
+			attacker: { id: "session-character-1", label: "Lia" },
+			characters: [createCharacterRecord({ physical: 3 })],
+			characterClasses: [],
+		});
+		expect(profileWithoutClass.matrixValue).toBe(3);
+	});
 });
 
 function createCharacterRecord(

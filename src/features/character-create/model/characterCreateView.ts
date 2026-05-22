@@ -115,6 +115,8 @@ export function mapCharacterCreateFailure(failure: CharacterFailure): string {
 			return "O personagem foi montado com dados inválidos. Revise o formulário e tente novamente.";
 		case "REPOSITORY_WRITE_FAILED":
 			return "Não foi possível salvar o personagem nesta sessão. Tente criar novamente.";
+		default:
+			return "Ocorreu um erro desconhecido ao criar o personagem.";
 	}
 }
 
@@ -138,6 +140,8 @@ export function mapAncestryTraitSelectionFailure(
 			return "Os dados de traços carregados estão inválidos. Recarregue a página e tente novamente.";
 		case "CORRUPTED_ANCESTRY_TRAIT_LINK":
 			return "A ligação entre ancestralidade e traços está inválida. Recarregue a página e tente novamente.";
+		default:
+			return "Erro de validação dos traços escolhidos.";
 	}
 }
 

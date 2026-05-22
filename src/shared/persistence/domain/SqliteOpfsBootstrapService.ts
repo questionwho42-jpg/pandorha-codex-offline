@@ -251,7 +251,7 @@ export class SqliteOpfsBootstrapService {
 		} catch (error: unknown) {
 			database.data.close();
 			return fail({
-				code: "SQLITE_WRITE_FAILED",
+				code: "DATABASE_FILE_WRITE_FAILED",
 				message: "Could not save game snapshot to SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
@@ -293,7 +293,8 @@ export class SqliteOpfsBootstrapService {
 			const loadedWorldState = db.select().from(worldStateEntries).all();
 
 			const mappedWorldState = loadedWorldState.map((entry) => {
-				let decodedValue: unknown = null;
+				// biome-ignore lint/suspicious/noExplicitAny: JSON.parse returns dynamic any for JsonValue compatibility
+				let decodedValue: any = null;
 				try {
 					decodedValue = JSON.parse(entry.valueJson);
 				} catch {
@@ -318,7 +319,7 @@ export class SqliteOpfsBootstrapService {
 		} catch (error: unknown) {
 			database.data.close();
 			return fail({
-				code: "SQLITE_READ_FAILED",
+				code: "DATABASE_FILE_READ_FAILED",
 				message: "Could not load game snapshot from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
@@ -326,7 +327,9 @@ export class SqliteOpfsBootstrapService {
 	}
 
 	public async saveCharacter(
+		// biome-ignore lint/suspicious/noExplicitAny: Drizzle model is generic
 		character: any,
+		// biome-ignore lint/suspicious/noExplicitAny: return record has dynamic structure
 	): Promise<Result<any, SqliteBootstrapFailure>> {
 		const storedFile = await this.storage.readDatabaseFile();
 		if (!storedFile.success) {
@@ -345,13 +348,14 @@ export class SqliteOpfsBootstrapService {
 
 		try {
 			const db = drizzle(database.data);
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle mock mapping
 			const repository = new DrizzleCharacterRepository(db as any);
 
 			const result = await repository.save(character);
 			if (!result.success) {
 				database.data.close();
 				return fail({
-					code: "SQLITE_WRITE_FAILED",
+					code: "DATABASE_FILE_WRITE_FAILED",
 					message: result.error.message,
 				});
 			}
@@ -373,7 +377,7 @@ export class SqliteOpfsBootstrapService {
 		} catch (error: unknown) {
 			database.data.close();
 			return fail({
-				code: "SQLITE_WRITE_FAILED",
+				code: "DATABASE_FILE_WRITE_FAILED",
 				message: "Could not save character to SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
@@ -382,6 +386,7 @@ export class SqliteOpfsBootstrapService {
 
 	public async findCharacter(
 		id: string,
+		// biome-ignore lint/suspicious/noExplicitAny: return record has dynamic structure
 	): Promise<Result<any, SqliteBootstrapFailure>> {
 		const storedFile = await this.storage.readDatabaseFile();
 		if (!storedFile.success) {
@@ -400,6 +405,7 @@ export class SqliteOpfsBootstrapService {
 
 		try {
 			const db = drizzle(database.data);
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle mock mapping
 			const repository = new DrizzleCharacterRepository(db as any);
 
 			const result = await repository.findById(id);
@@ -407,7 +413,7 @@ export class SqliteOpfsBootstrapService {
 
 			if (!result.success) {
 				return fail({
-					code: "SQLITE_READ_FAILED",
+					code: "DATABASE_FILE_READ_FAILED",
 					message: result.error.message,
 				});
 			}
@@ -416,7 +422,7 @@ export class SqliteOpfsBootstrapService {
 		} catch (error: unknown) {
 			database.data.close();
 			return fail({
-				code: "SQLITE_READ_FAILED",
+				code: "DATABASE_FILE_READ_FAILED",
 				message: "Could not load character from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
@@ -424,7 +430,9 @@ export class SqliteOpfsBootstrapService {
 	}
 
 	public async saveStatusEffect(
+		// biome-ignore lint/suspicious/noExplicitAny: Drizzle model is generic
 		effect: any,
+		// biome-ignore lint/suspicious/noExplicitAny: return record has dynamic structure
 	): Promise<Result<any, SqliteBootstrapFailure>> {
 		const storedFile = await this.storage.readDatabaseFile();
 		if (!storedFile.success) {
@@ -443,13 +451,14 @@ export class SqliteOpfsBootstrapService {
 
 		try {
 			const db = drizzle(database.data);
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle mock mapping
 			const repository = new DrizzleCharacterRepository(db as any);
 
 			const result = await repository.saveStatusEffect(effect);
 			if (!result.success) {
 				database.data.close();
 				return fail({
-					code: "SQLITE_WRITE_FAILED",
+					code: "DATABASE_FILE_WRITE_FAILED",
 					message: result.error.message,
 				});
 			}
@@ -471,7 +480,7 @@ export class SqliteOpfsBootstrapService {
 		} catch (error: unknown) {
 			database.data.close();
 			return fail({
-				code: "SQLITE_WRITE_FAILED",
+				code: "DATABASE_FILE_WRITE_FAILED",
 				message: "Could not save status effect to SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
@@ -480,6 +489,7 @@ export class SqliteOpfsBootstrapService {
 
 	public async findStatusEffects(
 		characterId: string,
+		// biome-ignore lint/suspicious/noExplicitAny: return list has dynamic structure
 	): Promise<Result<any[], SqliteBootstrapFailure>> {
 		const storedFile = await this.storage.readDatabaseFile();
 		if (!storedFile.success) {
@@ -498,6 +508,7 @@ export class SqliteOpfsBootstrapService {
 
 		try {
 			const db = drizzle(database.data);
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle mock mapping
 			const repository = new DrizzleCharacterRepository(db as any);
 
 			const result =
@@ -506,7 +517,7 @@ export class SqliteOpfsBootstrapService {
 
 			if (!result.success) {
 				return fail({
-					code: "SQLITE_READ_FAILED",
+					code: "DATABASE_FILE_READ_FAILED",
 					message: result.error.message,
 				});
 			}
@@ -515,7 +526,7 @@ export class SqliteOpfsBootstrapService {
 		} catch (error: unknown) {
 			database.data.close();
 			return fail({
-				code: "SQLITE_READ_FAILED",
+				code: "DATABASE_FILE_READ_FAILED",
 				message: "Could not load status effects from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
@@ -542,13 +553,14 @@ export class SqliteOpfsBootstrapService {
 
 		try {
 			const db = drizzle(database.data);
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle mock mapping
 			const repository = new DrizzleCharacterRepository(db as any);
 
 			const result = await repository.deleteStatusEffect(id);
 			if (!result.success) {
 				database.data.close();
 				return fail({
-					code: "SQLITE_WRITE_FAILED",
+					code: "DATABASE_FILE_WRITE_FAILED",
 					message: result.error.message,
 				});
 			}
@@ -570,7 +582,7 @@ export class SqliteOpfsBootstrapService {
 		} catch (error: unknown) {
 			database.data.close();
 			return fail({
-				code: "SQLITE_WRITE_FAILED",
+				code: "DATABASE_FILE_WRITE_FAILED",
 				message: "Could not delete status effect from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});

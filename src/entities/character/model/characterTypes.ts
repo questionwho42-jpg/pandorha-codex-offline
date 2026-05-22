@@ -4,7 +4,12 @@ export type CharacterFailureCode =
 	| "INVALID_APPLICATION_DISTRIBUTION"
 	| "INVALID_TIER_CAP"
 	| "INVALID_CHARACTER_RECORD"
-	| "REPOSITORY_WRITE_FAILED";
+	| "REPOSITORY_WRITE_FAILED"
+	| "FETCH_STATUS_EFFECTS_FAILED"
+	| "ALREADY_INFECTED"
+	| "PERSIST_STATUS_EFFECT_FAILED"
+	| "EFFECT_NOT_FOUND"
+	| "DELETE_STATUS_EFFECT_FAILED";
 
 export type CharacterFailureDetails = Readonly<
 	Record<string, string | number | boolean | readonly string[]>

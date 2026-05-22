@@ -100,14 +100,22 @@ describe("DrizzleCharacterRepository contract", () => {
 			id: "effect-1",
 			characterId: "character-1",
 			type: "eter_fever",
+			severity: 2,
+			severityMax: 4,
+			isAggravated: false,
 			createdAt: TEST_TIMESTAMP,
 		};
-		db.queueInsertRows([effect]);
+		const expectedReturnedEffect: CharacterStatusEffectRecord = {
+			...effect,
+			metadata: null,
+			updatedAt: TEST_TIMESTAMP,
+		};
+		db.queueInsertRows([expectedReturnedEffect]);
 
 		const result = await repository.saveStatusEffect(effect);
 		const saved = expectSuccess(result);
 
-		expect(saved).toEqual(effect);
+		expect(saved).toEqual(expectedReturnedEffect);
 		expect(db.insertedRecords).toEqual([effect]);
 	});
 
@@ -118,7 +126,12 @@ describe("DrizzleCharacterRepository contract", () => {
 			id: "effect-1",
 			characterId: "character-1",
 			type: "eter_fever",
+			severity: 2,
+			severityMax: 4,
+			isAggravated: false,
+			metadata: null,
 			createdAt: TEST_TIMESTAMP,
+			updatedAt: TEST_TIMESTAMP,
 		};
 		db.queueSelectRows([effect]);
 
@@ -151,7 +164,7 @@ function buildCharacterRecord(
 	};
 }
 
-function asRecord(value: unknown): any {
+function asRecord(value: unknown): unknown {
 	return value;
 }
 
@@ -176,19 +189,19 @@ function expectFailure<T>(
 }
 
 class FakeCharacterDrizzleDatabase implements CharacterDrizzleDatabase {
-	public readonly insertedRecords: any[] = [];
+	public readonly insertedRecords: unknown[] = [];
 	public lastSelectLimit: number | null = null;
 	public lastDeletedId: string | null = null;
 
-	private insertRows: any[] = [];
-	private selectRows: any[] = [];
+	private insertRows: unknown[] = [];
+	private selectRows: unknown[] = [];
 	private nextInsertFailure: unknown = null;
 
-	public queueInsertRows(rows: any[]): void {
+	public queueInsertRows(rows: unknown[]): void {
 		this.insertRows = rows;
 	}
 
-	public queueSelectRows(rows: any[]): void {
+	public queueSelectRows(rows: unknown[]): void {
 		this.selectRows = rows;
 	}
 
@@ -196,8 +209,11 @@ class FakeCharacterDrizzleDatabase implements CharacterDrizzleDatabase {
 		this.nextInsertFailure = error;
 	}
 
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract requires any
 	public insert(_table: any): {
+		// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract
 		values(record: any): {
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract
 			returning(): Promise<any[]>;
 		};
 	} {
@@ -211,15 +227,19 @@ class FakeCharacterDrizzleDatabase implements CharacterDrizzleDatabase {
 						return Promise.reject(error);
 					}
 
-					return this.insertRows;
+					// biome-ignore lint/suspicious/noExplicitAny: mock return requires matching Drizzle returning signature
+					return this.insertRows as any[];
 				},
 			}),
 		};
 	}
 
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract
 	public select(): any {
 		return {
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract
 			from: (_table: any) => {
+				// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract
 				const queryResult: any = {
 					where: (_condition: SQL<unknown>) => {
 						return {
@@ -228,12 +248,14 @@ class FakeCharacterDrizzleDatabase implements CharacterDrizzleDatabase {
 								return this.selectRows;
 							},
 							// biome-ignore lint/suspicious/noThenProperty: Intentionally mocking Thenable behavior for Drizzle query resolution.
+							// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract
 							then: (onfulfilled: any) => {
 								return Promise.resolve(this.selectRows).then(onfulfilled);
 							},
 						};
 					},
 					// biome-ignore lint/suspicious/noThenProperty: Intentionally mocking Thenable behavior for Drizzle query resolution.
+					// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract
 					then: (onfulfilled: any) => {
 						return Promise.resolve(this.selectRows).then(onfulfilled);
 					},
@@ -243,13 +265,16 @@ class FakeCharacterDrizzleDatabase implements CharacterDrizzleDatabase {
 		};
 	}
 
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract
 	public delete(_table: any): {
 		where(condition: SQL<unknown>): Promise<void>;
 	} {
 		return {
 			where: async (condition) => {
 				// Capturar o ID deletado a partir do eq(coluna, valor) se possivel
+				// biome-ignore lint/suspicious/noExplicitAny: Drizzle structure
 				if (condition && (condition as any).value) {
+					// biome-ignore lint/suspicious/noExplicitAny: Drizzle structure
 					this.lastDeletedId = (condition as any).value;
 				} else {
 					// Fallback simples

@@ -3,6 +3,8 @@ import worldStateMigrationSql from "../../../../drizzle/0001_crazy_wallop.sql?ra
 import socialMigrationSql from "../../../../drizzle/0002_remarkable_beast.sql?raw";
 import statusEffectsMigrationSql from "../../../../drizzle/0003_tricky_lila_cheney.sql?raw";
 import craftingMigrationSql from "../../../../drizzle/0004_sturdy_omega_sentinel.sql?raw";
+import inventoryMigrationSql from "../../../../drizzle/0005_brainy_plazm.sql?raw";
+import trapsMigrationSql from "../../../../drizzle/0006_noisy_ultragirl.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -25,5 +27,13 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0004_sturdy_omega_sentinel",
 		sql: craftingMigrationSql,
+	},
+	{
+		id: "0005_brainy_plazm",
+		sql: inventoryMigrationSql,
+	},
+	{
+		id: "0006_noisy_ultragirl",
+		sql: trapsMigrationSql,
 	},
 ];

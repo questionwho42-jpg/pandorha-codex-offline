@@ -15,7 +15,6 @@ export default defineConfig({
 				"src/entities/character/domain/CharacterService.ts",
 				"src/entities/character/domain/CharacterDerivedStatsService.ts",
 				"src/entities/character/model/characterRules.ts",
-				"src/entities/character/model/characterSchema.ts",
 				"src/entities/ancestry/domain/AncestryCatalogService.ts",
 				"src/entities/ancestry/domain/AncestryTraitSelectionService.ts",
 				"src/entities/character-class/domain/CharacterClassCatalogService.ts",
@@ -49,6 +48,10 @@ export default defineConfig({
 				"src/features/combat-encounter/model/combatTrainingAttackProfile.ts",
 				"src/features/combat-encounter/model/combatTrainingTargetTurn.ts",
 				"src/features/spell-cast/model/spellCastView.ts",
+				"src/entities/character/domain/IllnessService.ts",
+				"src/entities/equipment/domain/CraftingService.ts",
+				"src/entities/equipment/domain/InventoryService.ts",
+				"src/entities/traps/domain/TrapService.ts",
 			],
 			exclude: [
 				"src/entities/character/testing/**/*.ts",

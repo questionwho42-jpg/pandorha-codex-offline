@@ -2,24 +2,24 @@
  * ============================================================================
  * PANDORHA ENGINE - DECORATOR MANIFESTO (CRAFTING QUALITY DECORATORS)
  * ============================================================================
- * 
+ *
  * 🗣️ MODO PROFESSOR (EXPLICAÇÃO DIDÁTICA DA ARQUITETURA):
- * 
+ *
  * 🤔 POR QUE A HERANÇA FALHARIA NESTE CENÁRIO?
  * Se tentássemos utilizar herança de classes para modelar as qualidades superiores dos
  * itens forjados (Afiado, Reforçado, Rúnico), cairíamos no clássico problema da
- * "EXPLOSÃO DE CLASSES". 
+ * "EXPLOSÃO DE CLASSES".
  * Imagine que o jogador crie uma espada que é apenas "Afiada". Precisamos da classe "SharpWeapon".
- * E se for "Afiada e Reforçada"? Precisamos de "SharpReinforcedWeapon". 
+ * E se for "Afiada e Reforçada"? Precisamos de "SharpReinforcedWeapon".
  * E se for "Afiada, Reforçada e Rúnica"? Precisamos de "SharpReinforcedRunicWeapon".
  * Para apenas 3 qualidades combináveis, precisaríamos de 8 combinações de classes para CADA item.
  * Se tivermos 20 tipos de armas no catálogo, teríamos 160 classes apenas para lidar com isso!
- * 
+ *
  * 💡 SOLUÇÃO: PADRÃO DECORATOR (COMPOSIÇÃO SOBRE HERANÇA)
  * O padrão Decorator permite adicionar comportamentos a um objeto individual, dinamicamente,
  * sem afetar o comportamento de outros objetos da mesma classe. Nós criamos um objeto base
  * simples e o "embrulhamos" (wrap) com cascas de comportamento extra.
- * 
+ *
  * 🧅 O "EFEITO CEBOLA" (CALL STACK RECURSIVO):
  * Ao chamar o método getSlotCost() na camada externa:
  * 1. O Decorador Externo (ex: Reinforced) recebe a chamada.
@@ -172,7 +172,10 @@ export abstract class CraftedEquipmentDecorator implements ICraftedEquipment {
 // Bônus: +1 de Dano Físico e +2 de Margem Crítica a armas.
 export class SharpEquipmentDecorator extends CraftedEquipmentDecorator {
 	public override get label(): string {
-		if (this.wrapped.label.includes("Afiada") || this.wrapped.label.includes("Afiado")) {
+		if (
+			this.wrapped.label.includes("Afiada") ||
+			this.wrapped.label.includes("Afiado")
+		) {
 			return this.wrapped.label;
 		}
 		const suffix = this.wrapped.kind === "weapon" ? "Afiada" : "Afiado";
@@ -194,7 +197,10 @@ export class SharpEquipmentDecorator extends CraftedEquipmentDecorator {
 // Bônus: Reduz peso em inventário em 1 slot (mínimo de 1) ou concede +1 de Defesa Física a armaduras/escudos.
 export class ReinforcedEquipmentDecorator extends CraftedEquipmentDecorator {
 	public override get label(): string {
-		if (this.wrapped.label.includes("Reforçada") || this.wrapped.label.includes("Reforçado")) {
+		if (
+			this.wrapped.label.includes("Reforçada") ||
+			this.wrapped.label.includes("Reforçado")
+		) {
 			return this.wrapped.label;
 		}
 		const suffix = this.wrapped.kind === "weapon" ? "Reforçado" : "Reforçada";
@@ -208,7 +214,8 @@ export class ReinforcedEquipmentDecorator extends CraftedEquipmentDecorator {
 
 	public override getDefenseBonus(): number {
 		const baseBonus = this.wrapped.getDefenseBonus();
-		const isProtective = this.wrapped.kind === "armor" || this.wrapped.kind === "shield";
+		const isProtective =
+			this.wrapped.kind === "armor" || this.wrapped.kind === "shield";
 		return isProtective ? baseBonus + 1 : baseBonus;
 	}
 }
@@ -217,7 +224,10 @@ export class ReinforcedEquipmentDecorator extends CraftedEquipmentDecorator {
 // Bônus: Concede 1 slot de runa adicional para infusões mágicas.
 export class RunicEquipmentDecorator extends CraftedEquipmentDecorator {
 	public override get label(): string {
-		if (this.wrapped.label.includes("Rúnica") || this.wrapped.label.includes("Rúnico")) {
+		if (
+			this.wrapped.label.includes("Rúnica") ||
+			this.wrapped.label.includes("Rúnico")
+		) {
 			return this.wrapped.label;
 		}
 		const suffix = this.wrapped.kind === "weapon" ? "Rúnica" : "Rúnico";

@@ -4,6 +4,7 @@ import type { CharacterRecord } from "$lib/entities/character";
 import {
 	BaseCharacterStats,
 	EterFeverDecorator,
+	HungryDecorator,
 	type ICharacterStats,
 	ViperPoisonDecorator,
 	WoundInfectionDecorator,
@@ -97,6 +98,7 @@ const STATUS_EFFECT_LABELS: Record<string, string> = {
 	eter_fever: "Febre de Éter",
 	wound_infection: "Infecção de Ferida",
 	viper_poison: "Veneno de Víbora",
+	hungry: "Faminto",
 };
 
 function toCharacterListItem(
@@ -131,6 +133,8 @@ function toCharacterListItem(
 			stats = new WoundInfectionDecorator(stats);
 		} else if (effect.type === "viper_poison") {
 			stats = new ViperPoisonDecorator(stats);
+		} else if (effect.type === "hungry") {
+			stats = new HungryDecorator(stats);
 		}
 	}
 

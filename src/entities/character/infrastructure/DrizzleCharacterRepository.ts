@@ -18,8 +18,11 @@ import type { CharacterRepositoryFailure } from "../model/characterTypes";
  * sem travar a tipagem rígida nos mocks de teste.
  */
 export interface CharacterDrizzleDatabase {
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle insert query is generic
 	insert(table: any): any;
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle select query is generic
 	select(): any;
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle delete query is generic
 	delete(table: any): any;
 }
 

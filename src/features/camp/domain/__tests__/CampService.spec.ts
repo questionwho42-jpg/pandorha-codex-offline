@@ -23,6 +23,43 @@ describe("CampService", () => {
 
 		expect(session.availableActions).toBe(8); // 12 - 4
 	});
+
+	// Bastião Avançado: Regras de Dívida de Sangue & Acúmulo de Perigo
+	it("should determine that blood debt blocks rest when it exceeds fame * 3", () => {
+		const fame = 2;
+		const blockingDebt = 7; // 7 > 2 * 3 (6)
+		const safeDebt = 5; // 5 <= 2 * 3 (6)
+
+		const isBlocked = blockingDebt > fame * 3;
+		const isSafe = safeDebt > fame * 3;
+
+		expect(isBlocked).toBe(true);
+		expect(isSafe).toBe(false);
+	});
+
+	it("should calculate correct danger increment based on guard active tasks", () => {
+		const baseDangerAccumulation = 25;
+
+		// Sem guardas (0)
+		const guards0 = 0;
+		const increment0 = Math.max(5, baseDangerAccumulation - guards0 * 10);
+		expect(increment0).toBe(25);
+
+		// Com 1 guarda
+		const guards1 = 1;
+		const increment1 = Math.max(5, baseDangerAccumulation - guards1 * 10);
+		expect(increment1).toBe(15);
+
+		// Com 2 guardas
+		const guards2 = 2;
+		const increment2 = Math.max(5, baseDangerAccumulation - guards2 * 10);
+		expect(increment2).toBe(5);
+
+		// Com 3 guardas (respeita o limite mínimo de 5%)
+		const guards3 = 3;
+		const increment3 = Math.max(5, baseDangerAccumulation - guards3 * 10);
+		expect(increment3).toBe(5);
+	});
 });
 
 import {

@@ -2,12 +2,12 @@ import { eq } from "drizzle-orm";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { CraftingRepository } from "../domain/CraftingRepository";
 import {
-	characterCraftedItems,
-	characterCraftedItemSelectSchema,
-	craftingRecipes,
-	craftingRecipeSelectSchema,
 	type CharacterCraftedItemRecord,
 	type CraftingRecipeRecord,
+	characterCraftedItemSelectSchema,
+	characterCraftedItems,
+	craftingRecipeSelectSchema,
+	craftingRecipes,
 	type NewCharacterCraftedItemRecord,
 	type NewCraftingRecipeRecord,
 } from "../model/craftingSchema";
@@ -23,6 +23,8 @@ export interface CraftingDrizzleDatabase {
 	select(): any;
 	// biome-ignore lint/suspicious/noExplicitAny: Drizzle dynamic types
 	delete(table: any): any;
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle dynamic types
+	update(table: any): any;
 }
 
 export class DrizzleCraftingRepository implements CraftingRepository {
@@ -32,7 +34,10 @@ export class DrizzleCraftingRepository implements CraftingRepository {
 		recipe: NewCraftingRecipeRecord,
 	): Promise<Result<CraftingRecipeRecord, CraftingFailure>> {
 		try {
-			const rows = await this.db.insert(craftingRecipes).values(recipe).returning();
+			const rows = await this.db
+				.insert(craftingRecipes)
+				.values(recipe)
+				.returning();
 			const parsed = craftingRecipeSelectSchema.safeParse(rows[0]);
 
 			if (!parsed.success) {
@@ -51,7 +56,9 @@ export class DrizzleCraftingRepository implements CraftingRepository {
 		}
 	}
 
-	public async findAllRecipes(): Promise<Result<readonly CraftingRecipeRecord[], CraftingFailure>> {
+	public async findAllRecipes(): Promise<
+		Result<readonly CraftingRecipeRecord[], CraftingFailure>
+	> {
 		try {
 			const rows = await this.db.select().from(craftingRecipes);
 			const records: CraftingRecipeRecord[] = [];
@@ -170,6 +177,41 @@ export class DrizzleCraftingRepository implements CraftingRepository {
 			return fail({
 				code: "CRAFTING_REPOSITORY_WRITE_FAILED",
 				message: `Falha ao deletar item artesanal no SQLite: ${error instanceof Error ? error.message : String(error)}`,
+			});
+		}
+	}
+
+	public async updateCraftedItemEquipStatus(
+		id: string,
+		isEquipped: number,
+	): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>> {
+		try {
+			const rows = await this.db
+				.update(characterCraftedItems)
+				.set({ isEquipped })
+				.where(eq(characterCraftedItems.id, id))
+				.returning();
+
+			if (rows.length === 0) {
+				return fail({
+					code: "ITEM_NOT_FOUND",
+					message: `Item artesanal com ID ${id} não foi encontrado para atualização de equipagem.`,
+				});
+			}
+
+			const parsed = characterCraftedItemSelectSchema.safeParse(rows[0]);
+			if (!parsed.success) {
+				return fail({
+					code: "CORRUPTED_CRAFTING_RECORD",
+					message: "Item artesanal retornado após atualização é inválido.",
+				});
+			}
+
+			return ok(parsed.data);
+		} catch (error: unknown) {
+			return fail({
+				code: "CRAFTING_REPOSITORY_WRITE_FAILED",
+				message: `Falha ao atualizar equipagem do item no SQLite: ${error instanceof Error ? error.message : String(error)}`,
 			});
 		}
 	}

@@ -13,6 +13,176 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:t43-lint-stabilization -->
+### Fase T43: Estabilizacao de Lints e Homologacao de UI
+- id: t43-lint-stabilization
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-18T22:28:05-03:00
+- finished_at: 2026-05-18T22:28:07-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-18T22:28:07-03:00
+- branch: task/crafting-workshop
+- commit_at_start: 020bd2e cleanup(crafting): remover pasta de backups temporarios pos-homologacao (2026-05-17 13:58)
+- summary: Correcao de 34 lints no Biome, erros de tipo no characterListView.spec.ts e homologacao visual do CampPanel, CombatEncounterPanel e SocialDemo
+- last_change: Estabilizacao completa de 34 avisos de linter no Biome, remocao de supressoes desnecessarias, resolucao de erros do compilador TypeScript em characterListView.spec.ts e validacao visual de UI em CampPanel, CombatEncounterPanel, Oficina/Forja (Decorator) e SocialDemo.
+#### Files At Start
+- docs/process/task-ledger.md
+- drizzle/meta/_journal.json
+- pandorha-sistema-backup/App.svelte.bak
+- pandorha-sistema-backup/navigation.ts.bak
+- src/app/App.svelte
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/equipment/__tests__/CraftingService.spec.ts
+- src/entities/equipment/__tests__/DrizzleCraftingRepository.spec.ts
+- src/entities/equipment/__tests__/InMemoryCraftingRepository.ts
+- src/entities/equipment/domain/CraftingQualityDecorators.ts
+- src/entities/equipment/domain/CraftingRepository.ts
+- src/entities/equipment/domain/CraftingService.ts
+- src/entities/equipment/infrastructure/DrizzleCraftingRepository.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/features/camp/domain/__tests__/CampService.spec.ts
+- src/features/camp/ui/CampPanel.svelte
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatTrainingAttackProfile.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/index.ts
+- src/features/crafting/ui/CraftingWorkshopPanel.svelte
+- src/features/hexcrawl-map/ui/HexcrawlMapPanel.svelte
+- src/features/inventory-readonly/ui/InventoryReadOnlyPanel.svelte
+- src/features/social/ui/SocialDemo.svelte
+- src/shared/inventory/__tests__/CraftingInventoryCapacity.spec.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- correcao_de_lints_e_persistencia.md
+- drizzle/0005_brainy_plazm.sql
+- drizzle/meta/0005_snapshot.json
+- pandorha-combate-backup/
+- pandorha-sistema-backup/CampPanel.svelte.bak
+- ... 17 more
+#### Checkpoints
+#### Checkpoint 2026-05-18T22:28:05-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-18T22:28:07-03:00
+- Done: Estabilizacao completa de 34 avisos de linter no Biome, remocao de supressoes desnecessarias, resolucao de erros do compilador TypeScript em characterListView.spec.ts e validacao visual de UI em CampPanel, CombatEncounterPanel, Oficina/Forja (Decorator) e SocialDemo.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:t43-lint-stabilization -->
+<!-- pandorha-task:t42-inventory-encumbrance -->
+### Fase T42: Inventario Tatico e Decorador de Carga
+- id: t42-inventory-encumbrance
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-17T14:28:08-03:00
+- finished_at: 2026-05-18T13:24:51-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gemini-2.5-pro
+- last_modified_at: 2026-05-18T13:24:51-03:00
+- branch: task/crafting-workshop
+- commit_at_start: 020bd2e cleanup(crafting): remover pasta de backups temporarios pos-homologacao (2026-05-17 13:58)
+- summary: Implementacao do Inventario Tatico, Capacidade de Carga e Decorador de Penalidades de Sobrecarga integrado com SQLite
+- last_change: Resolvido ReferenceError nas abas de UI por renomeacao incorreta de variaveis no linter Biome. Adicionados comentarios de ignore nos arquivos App.svelte, CharacterList.svelte, SocialDemo.svelte e InventoryReadOnlyPanel.svelte.
+#### Files At Start
+- pandorha-inventario-backup/
+#### Checkpoints
+#### Checkpoint 2026-05-17T14:28:08-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-18T12:25:16-03:00
+- Done: Planejamento estruturado da homologacao de UI, execucao de todos os 432 testes de regressao com sucesso, inicializacao e checagem do servidor Vite local e carregamento do Service Worker online
+- Next: Homologacao visual assistida com o usuario e execucao de gates de qualidade finais
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-18T13:08:32-03:00
+- Done: Correcao completa de lints e validacao de testes. Servidor local Vite inicializado na porta 5173 para homologacao de UI.
+- Next: Validacao manual no navegador
+- Risks: Nenhum
+- Improvements: Nenhum
+- Model/config: gemini-2.5-pro
+
+#### Checkpoint 2026-05-18T13:24:51-03:00
+- Done: Resolvido ReferenceError nas abas de UI por renomeacao incorreta de variaveis no linter Biome. Adicionados comentarios de ignore nos arquivos App.svelte, CharacterList.svelte, SocialDemo.svelte e InventoryReadOnlyPanel.svelte.
+- Next: Validacao de UI no navegador
+- Risks: Nenhum
+- Improvements: Nenhum
+- Model/config: gemini-2.5-pro
+<!-- /pandorha-task:t42-inventory-encumbrance -->
+<!-- pandorha-task:t42-tactical-inventory -->
+### Implementacao do Inventario Tatico e Carga
+- id: t42-tactical-inventory
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-17T14:33:25-03:00
+- finished_at: 2026-05-17T14:33:29-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-17T14:33:29-03:00
+- branch: task/crafting-workshop
+- commit_at_start: 020bd2e cleanup(crafting): remover pasta de backups temporarios pos-homologacao (2026-05-17 13:58)
+- summary: Refatoracao e implementacao da UI Reativa de Inventario Tatico e Carga com o padrao Decorator no painel da Oficina (CraftingWorkshopPanel.svelte), integrando calculo de sobrecarga tatico de RPG no Svelte 5 com persistencia local.
+- last_change: Concluido com exito: persistencia local no SQLite, decorators de logistica de sobrecarga, servico de inventario com testes 100% verdes, painel de UI do Svelte 5 totalmente reativo com mudanca de cor e barra biomecanica premium.
+#### Files At Start
+- docs/process/task-ledger.md
+- drizzle/meta/_journal.json
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/equipment/__tests__/CraftingService.spec.ts
+- src/entities/equipment/__tests__/DrizzleCraftingRepository.spec.ts
+- src/entities/equipment/__tests__/InMemoryCraftingRepository.ts
+- src/entities/equipment/domain/CraftingQualityDecorators.ts
+- src/entities/equipment/domain/CraftingRepository.ts
+- src/entities/equipment/domain/CraftingService.ts
+- src/entities/equipment/infrastructure/DrizzleCraftingRepository.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/features/crafting/ui/CraftingWorkshopPanel.svelte
+- src/shared/inventory/__tests__/CraftingInventoryCapacity.spec.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- drizzle/0005_brainy_plazm.sql
+- drizzle/meta/0005_snapshot.json
+- pandorha-inventario-backup/
+- src/entities/equipment/__tests__/InventoryService.spec.ts
+- src/entities/equipment/domain/InventoryService.ts
+#### Checkpoints
+#### Checkpoint 2026-05-17T14:33:25-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-17T14:33:29-03:00
+- Done: Concluido com exito: persistencia local no SQLite, decorators de logistica de sobrecarga, servico de inventario com testes 100% verdes, painel de UI do Svelte 5 totalmente reativo com mudanca de cor e barra biomecanica premium.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:t42-tactical-inventory -->
 <!-- pandorha-task:t41-crafting-workshop -->
 ### Fase T41: Oficina e Forja sob Padrao Decorator
 - id: t41-crafting-workshop
@@ -2380,6 +2550,57 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-18T22:50:24-03:00 - manual
+- branch: task/crafting-workshop
+- commit: 020bd2e cleanup(crafting): remover pasta de backups temporarios pos-homologacao (2026-05-17 13:58)
+- changed_files_count: 66
+#### Changed Files
+- docs/process/task-ledger.md
+- drizzle/meta/_journal.json
+- pandorha-sistema-backup/App.svelte.bak
+- pandorha-sistema-backup/navigation.ts.bak
+- src/app/App.svelte
+- src/entities/character/__tests__/CharacterService.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/model/characterTypes.ts
+- src/entities/equipment/__tests__/CraftingService.spec.ts
+- src/entities/equipment/__tests__/DrizzleCraftingRepository.spec.ts
+- src/entities/equipment/__tests__/InMemoryCraftingRepository.ts
+- src/entities/equipment/domain/CraftingQualityDecorators.ts
+- src/entities/equipment/domain/CraftingRepository.ts
+- src/entities/equipment/domain/CraftingService.ts
+- src/entities/equipment/infrastructure/DrizzleCraftingRepository.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/entities/equipment/model/craftingTypes.ts
+- src/features/camp/domain/__tests__/CampService.spec.ts
+- src/features/camp/ui/CampPanel.svelte
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatTrainingAttackProfile.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/index.ts
+- src/features/crafting/ui/CraftingWorkshopPanel.svelte
+- src/features/hexcrawl-map/ui/HexcrawlMapPanel.svelte
+- src/features/inventory-readonly/ui/InventoryReadOnlyPanel.svelte
+- src/features/social/ui/SocialDemo.svelte
+- src/shared/inventory/__tests__/CraftingInventoryCapacity.spec.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- ... 26 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-17T12:14:51-03:00 - manual
 - branch: task/status-effects-decorations
 - commit: 644a2af feat(vertical-slice): conclui e homologa Fases T34 a T39 com 100% de cobertura

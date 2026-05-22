@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { SessionCharacterRepository } from "../infrastructure/SessionCharacterRepository";
-import type { CharacterRecord } from "../model/characterSchema";
+import type {
+	CharacterRecord,
+	CharacterStatusEffectRecord,
+} from "../model/characterSchema";
 
 const record: CharacterRecord = {
 	id: "session-character-1",
@@ -57,26 +60,42 @@ describe("SessionCharacterRepository", () => {
 	it("saves, finds, and deletes status effects in session memory", async () => {
 		const repository = new SessionCharacterRepository();
 		const effectInput = {
+			id: "effect-1",
 			characterId: "session-character-1",
-			type: "eter_fever",
+			type: "eter_fever" as const,
 			severity: 2,
 			severityMax: 4,
 			isAggravated: false,
+			createdAt: "2026-05-03T13:57:34.000Z",
 		};
 
 		const saveResult = await repository.saveStatusEffect(effectInput);
 		expect(saveResult.success).toBe(true);
-		expect(saveResult.data?.id).toBeDefined();
-		expect(saveResult.data?.type).toBe("eter_fever");
+		if (!saveResult.success) {
+			expect.fail("Save expected to succeed");
+			return;
+		}
+		expect(saveResult.data.id).toBeDefined();
+		expect(saveResult.data.type).toBe("eter_fever");
 
-		const effectId = saveResult.data?.id;
+		const effectId = saveResult.data.id;
 
 		const findResult = await repository.findStatusEffectsByCharacterId(
 			"session-character-1",
 		);
 		expect(findResult.success).toBe(true);
-		expect(findResult.data?.length).toBe(1);
-		expect(findResult.data?.[0].id).toBe(effectId);
+		if (!findResult.success) {
+			expect.fail("Query expected to succeed");
+			return;
+		}
+		const findData = findResult.data as CharacterStatusEffectRecord[];
+		expect(findData.length).toBe(1);
+		const [firstEffect] = findData;
+		if (!firstEffect) {
+			expect.fail("Expected at least one effect");
+			return;
+		}
+		expect(firstEffect.id).toBe(effectId);
 
 		const deleteResult = await repository.deleteStatusEffect(effectId);
 		expect(deleteResult.success).toBe(true);
@@ -85,6 +104,11 @@ describe("SessionCharacterRepository", () => {
 			"session-character-1",
 		);
 		expect(findAfterDelete.success).toBe(true);
-		expect(findAfterDelete.data?.length).toBe(0);
+		if (!findAfterDelete.success) {
+			expect.fail("Query expected to succeed");
+			return;
+		}
+		const deleteData = findAfterDelete.data as CharacterStatusEffectRecord[];
+		expect(deleteData.length).toBe(0);
 	});
 });

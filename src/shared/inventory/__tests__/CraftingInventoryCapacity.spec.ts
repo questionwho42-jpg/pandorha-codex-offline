@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { BaseCraftedEquipment, ReinforcedEquipmentDecorator } from "$lib/entities/equipment/domain/CraftingQualityDecorators";
+import {
+	BaseCraftedEquipment,
+	ReinforcedEquipmentDecorator,
+} from "$lib/entities/equipment/domain/CraftingQualityDecorators";
 import { InventoryCapacityService } from "../domain/InventoryCapacityService";
 
 describe("Crafting Inventory Capacity Integration (Integração de Carga Física e Forja)", () => {
@@ -28,7 +31,11 @@ describe("Crafting Inventory Capacity Integration (Integração de Carga Física
 			physical: physicalAttr,
 			resistance: resistanceAttr,
 			items: [
-				{ id: baseArmor.id, label: baseArmor.label, slotCost: baseArmor.getSlotCost() },
+				{
+					id: baseArmor.id,
+					label: baseArmor.label,
+					slotCost: baseArmor.getSlotCost(),
+				},
 				{ id: "iron-shield", label: "Escudo Grande", slotCost: 2 },
 				{ id: "rations", label: "Rações Extras", slotCost: 5 }, // Total 9 slots. Limite para físico 1 + resist 1 + base 6 = 8 slots!
 			],
@@ -50,7 +57,11 @@ describe("Crafting Inventory Capacity Integration (Integração de Carga Física
 			physical: physicalAttr,
 			resistance: resistanceAttr,
 			items: [
-				{ id: reinforcedArmor.id, label: reinforcedArmor.label, slotCost: reinforcedArmor.getSlotCost() }, // Peso passa a ser 1!
+				{
+					id: reinforcedArmor.id,
+					label: reinforcedArmor.label,
+					slotCost: reinforcedArmor.getSlotCost(),
+				}, // Peso passa a ser 1!
 				{ id: "iron-shield", label: "Escudo Grande", slotCost: 2 },
 				{ id: "rations", label: "Rações Extras", slotCost: 5 }, // Total 8 slots. Limite = 8 slots!
 			],

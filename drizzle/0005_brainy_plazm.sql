@@ -1,0 +1,1 @@
+ALTER TABLE `character_crafted_items` ADD `is_equipped` integer DEFAULT 0 NOT NULL;

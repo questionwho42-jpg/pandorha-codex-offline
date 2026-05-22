@@ -1,4 +1,4 @@
-import { ok, fail, type Result } from "$lib/shared/lib/result";
+import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { CraftingRepository } from "../domain/CraftingRepository";
 import type {
 	CharacterCraftedItemRecord,
@@ -20,7 +20,9 @@ export class InMemoryCraftingRepository implements CraftingRepository {
 		return ok(record);
 	}
 
-	public async findAllRecipes(): Promise<Result<readonly CraftingRecipeRecord[], CraftingFailure>> {
+	public async findAllRecipes(): Promise<
+		Result<readonly CraftingRecipeRecord[], CraftingFailure>
+	> {
 		return ok(Array.from(this.recipes.values()));
 	}
 
@@ -65,5 +67,21 @@ export class InMemoryCraftingRepository implements CraftingRepository {
 			});
 		}
 		return ok(undefined);
+	}
+
+	public async updateCraftedItemEquipStatus(
+		id: string,
+		isEquipped: number,
+	): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>> {
+		const item = this.items.get(id);
+		if (!item) {
+			return fail({
+				code: "ITEM_NOT_FOUND",
+				message: `Item artesanal com ID ${id} não foi localizado em memória para equipar/desequipar.`,
+			});
+		}
+		const updated = { ...item, isEquipped };
+		this.items.set(id, updated);
+		return ok(updated);
 	}
 }

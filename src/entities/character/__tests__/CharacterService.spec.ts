@@ -9,9 +9,13 @@ import {
 } from "../model/characterRules";
 import type {
 	CharacterRecord,
+	CharacterStatusEffectRecord,
 	NewCharacterRecord,
 } from "../model/characterSchema";
-import type { CharacterFailure } from "../model/characterTypes";
+import type {
+	CharacterFailure,
+	CharacterRepositoryFailure,
+} from "../model/characterTypes";
 import { CharacterBuilder } from "../testing/CharacterBuilder";
 import { InMemoryCharacterRepository } from "../testing/InMemoryCharacterRepository";
 
@@ -285,5 +289,41 @@ class CorruptOutputCharacterRepository implements CharacterRepository {
 			createdAt: TEST_TIMESTAMP,
 			updatedAt: TEST_TIMESTAMP,
 		});
+	}
+
+	public async saveStatusEffect(): Promise<
+		Result<CharacterStatusEffectRecord, CharacterRepositoryFailure>
+	> {
+		return {
+			success: false,
+			error: {
+				code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+				message: "Not implemented in CorruptOutputCharacterRepository",
+			},
+		};
+	}
+
+	public async findStatusEffectsByCharacterId(): Promise<
+		Result<CharacterStatusEffectRecord[], CharacterRepositoryFailure>
+	> {
+		return {
+			success: false,
+			error: {
+				code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+				message: "Not implemented in CorruptOutputCharacterRepository",
+			},
+		};
+	}
+
+	public async deleteStatusEffect(): Promise<
+		Result<void, CharacterRepositoryFailure>
+	> {
+		return {
+			success: false,
+			error: {
+				code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+				message: "Not implemented in CorruptOutputCharacterRepository",
+			},
+		};
 	}
 }

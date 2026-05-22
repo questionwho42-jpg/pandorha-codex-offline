@@ -50,6 +50,8 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0002_remarkable_beast",
 				"0003_tricky_lila_cheney",
 				"0004_sturdy_omega_sentinel",
+				"0005_brainy_plazm",
+				"0006_noisy_ultragirl",
 			],
 			tableNames: [
 				"_pandorha_migrations",
@@ -60,6 +62,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"characters",
 				"crafting_recipes",
 				"factions",
+				"traps",
 				"world_state_entries",
 			],
 		});
@@ -106,6 +109,8 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0002_remarkable_beast",
 			"0003_tricky_lila_cheney",
 			"0004_sturdy_omega_sentinel",
+			"0005_brainy_plazm",
+			"0006_noisy_ultragirl",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -217,6 +222,8 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0002_remarkable_beast",
 			"0003_tricky_lila_cheney",
 			"0004_sturdy_omega_sentinel",
+			"0005_brainy_plazm",
+			"0006_noisy_ultragirl",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});

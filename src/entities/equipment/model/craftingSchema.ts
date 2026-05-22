@@ -16,7 +16,9 @@ export const craftingMaterialRequirementSchema = z.object({
 	quantity: z.number().int().min(1).max(100),
 });
 
-export const craftingMaterialsListSchema = z.array(craftingMaterialRequirementSchema);
+export const craftingMaterialsListSchema = z.array(
+	craftingMaterialRequirementSchema,
+);
 
 // Tabela de Receitas de Forja Conhecidas
 export const craftingRecipes = sqliteTable("crafting_recipes", {
@@ -39,12 +41,15 @@ export const characterCraftedItems = sqliteTable("character_crafted_items", {
 	isSharp: integer("is_sharp").notNull(), // 0 ou 1 (Decorator Afiada)
 	isReinforced: integer("is_reinforced").notNull(), // 0 ou 1 (Decorator Reforçada)
 	isRunic: integer("is_runic").notNull(), // 0 ou 1 (Decorator Rúnica)
+	isEquipped: integer("is_equipped").notNull().default(0), // 0 ou 1 (Equipado no inventário ativo)
 	durabilityCurrent: integer("durability_current").notNull(),
 	durabilityMax: integer("durability_max").notNull(),
 	createdAt: text("created_at").notNull(),
 });
 
-export const craftingRecipeInsertSchema = createInsertSchema(craftingRecipes).extend({
+export const craftingRecipeInsertSchema = createInsertSchema(
+	craftingRecipes,
+).extend({
 	id: recipeIdSchema,
 	label: visibleLabel,
 	targetEquipmentId: notBlankText,
@@ -53,7 +58,9 @@ export const craftingRecipeInsertSchema = createInsertSchema(craftingRecipes).ex
 	materialsRequiredJson: z.string(),
 });
 
-export const craftingRecipeSelectSchema = createSelectSchema(craftingRecipes).extend({
+export const craftingRecipeSelectSchema = createSelectSchema(
+	craftingRecipes,
+).extend({
 	id: recipeIdSchema,
 	label: visibleLabel,
 	targetEquipmentId: notBlankText,
@@ -62,7 +69,9 @@ export const craftingRecipeSelectSchema = createSelectSchema(craftingRecipes).ex
 	materialsRequiredJson: z.string(),
 });
 
-export const characterCraftedItemInsertSchema = createInsertSchema(characterCraftedItems).extend({
+export const characterCraftedItemInsertSchema = createInsertSchema(
+	characterCraftedItems,
+).extend({
 	id: notBlankText,
 	characterId: notBlankText,
 	equipmentId: notBlankText,
@@ -70,12 +79,15 @@ export const characterCraftedItemInsertSchema = createInsertSchema(characterCraf
 	isSharp: flagVal,
 	isReinforced: flagVal,
 	isRunic: flagVal,
+	isEquipped: flagVal,
 	durabilityCurrent: z.number().int().min(0).max(100),
 	durabilityMax: z.number().int().min(1).max(100),
 	createdAt: notBlankText,
 });
 
-export const characterCraftedItemSelectSchema = createSelectSchema(characterCraftedItems).extend({
+export const characterCraftedItemSelectSchema = createSelectSchema(
+	characterCraftedItems,
+).extend({
 	id: notBlankText,
 	characterId: notBlankText,
 	equipmentId: notBlankText,
@@ -83,13 +95,20 @@ export const characterCraftedItemSelectSchema = createSelectSchema(characterCraf
 	isSharp: flagVal,
 	isReinforced: flagVal,
 	isRunic: flagVal,
+	isEquipped: flagVal,
 	durabilityCurrent: z.number().int().min(0).max(100),
 	durabilityMax: z.number().int().min(1).max(100),
 	createdAt: notBlankText,
 });
 
 export type CraftingRecipeRecord = z.infer<typeof craftingRecipeSelectSchema>;
-export type NewCraftingRecipeRecord = z.infer<typeof craftingRecipeInsertSchema>;
+export type NewCraftingRecipeRecord = z.infer<
+	typeof craftingRecipeInsertSchema
+>;
 
-export type CharacterCraftedItemRecord = z.infer<typeof characterCraftedItemSelectSchema>;
-export type NewCharacterCraftedItemRecord = z.infer<typeof characterCraftedItemInsertSchema>;
+export type CharacterCraftedItemRecord = z.infer<
+	typeof characterCraftedItemSelectSchema
+>;
+export type NewCharacterCraftedItemRecord = z.infer<
+	typeof characterCraftedItemInsertSchema
+>;

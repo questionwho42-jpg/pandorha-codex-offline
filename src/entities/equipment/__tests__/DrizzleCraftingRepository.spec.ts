@@ -117,6 +117,7 @@ describe("DrizzleCraftingRepository (Infraestrutura de Banco)", () => {
 			isSharp: 1,
 			isReinforced: 0,
 			isRunic: 0,
+			isEquipped: 0,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
 			createdAt: "2026-05-17T16:50:00.000Z",
@@ -142,6 +143,7 @@ describe("DrizzleCraftingRepository (Infraestrutura de Banco)", () => {
 			isSharp: 1,
 			isReinforced: 0,
 			isRunic: 0,
+			isEquipped: 0,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
 			createdAt: "2026-05-17T16:50:00.000Z",
@@ -163,6 +165,36 @@ describe("DrizzleCraftingRepository (Infraestrutura de Banco)", () => {
 		expectSuccess(result);
 		expect(db.lastDeletedId).toBe("crafted-longsword-123");
 	});
+
+	it("deve atualizar o status de equipagem de um item artesanal", async () => {
+		const db = new FakeCraftingDrizzleDatabase();
+		const repository = new DrizzleCraftingRepository(db);
+
+		const updatedItem: CharacterCraftedItemRecord = {
+			id: "crafted-longsword-123",
+			characterId: "char-123",
+			equipmentId: "longsword",
+			label: "Espada Longa Afiada",
+			isSharp: 1,
+			isReinforced: 0,
+			isRunic: 0,
+			isEquipped: 1,
+			durabilityCurrent: 100,
+			durabilityMax: 100,
+			createdAt: "2026-05-17T16:50:00.000Z",
+		};
+
+		db.queueUpdateRows([updatedItem]);
+
+		const result = await repository.updateCraftedItemEquipStatus(
+			"crafted-longsword-123",
+			1,
+		);
+		const saved = expectSuccess(result);
+
+		expect(saved).toEqual(updatedItem);
+		expect(db.updatedRecord).toEqual({ isEquipped: 1 });
+	});
 });
 
 function expectSuccess<T, F>(result: Result<T, F>): T {
@@ -170,7 +202,7 @@ function expectSuccess<T, F>(result: Result<T, F>): T {
 	if (result.success) {
 		return result.data;
 	}
-	throw new Error("Expected success");
+	expect.fail("Expected success");
 }
 
 function expectFailure<T, F>(result: Result<T, F>): F {
@@ -178,7 +210,7 @@ function expectFailure<T, F>(result: Result<T, F>): F {
 	if (!result.success) {
 		return result.error;
 	}
-	throw new Error("Expected failure");
+	expect.fail("Expected failure");
 }
 
 class FakeCraftingDrizzleDatabase implements CraftingDrizzleDatabase {
@@ -260,6 +292,42 @@ class FakeCraftingDrizzleDatabase implements CraftingDrizzleDatabase {
 				} else {
 					this.lastDeletedId = "crafted-longsword-123";
 				}
+			},
+		};
+	}
+
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle test mock dynamic bindings
+	public updatedRecord: any = null;
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle test mock dynamic bindings
+	private queuedUpdateRows: any[] = [];
+
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle test mock dynamic bindings
+	public queueUpdateRows(rows: any[]): void {
+		this.queuedUpdateRows = rows;
+	}
+
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle test mock dynamic bindings
+	public update(_table: any): {
+		// biome-ignore lint/suspicious/noExplicitAny: Drizzle test mock dynamic bindings
+		set(data: any): {
+			where(condition: SQL<unknown>): {
+				// biome-ignore lint/suspicious/noExplicitAny: Drizzle return value is dynamic mock array
+				returning(): Promise<any[]>;
+			};
+		};
+	} {
+		return {
+			set: (data) => {
+				this.updatedRecord = data;
+				return {
+					where: (_condition) => {
+						return {
+							returning: async () => {
+								return this.queuedUpdateRows;
+							},
+						};
+					},
+				};
 			},
 		};
 	}

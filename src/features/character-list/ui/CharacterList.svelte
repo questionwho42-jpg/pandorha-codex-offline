@@ -29,7 +29,8 @@ let {
 	onClearStatusEffects,
 }: Props = $props();
 
-let _view = $derived(
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let view = $derived(
 	createCharacterListView(records, {
 		ancestries,
 		backgrounds,
@@ -41,17 +42,20 @@ let _view = $derived(
 // Controle do menu GM de simulação por personagem
 let activeGmPanels = $state<Record<string, boolean>>({});
 
-function _toggleGmPanel(characterId: string) {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function toggleGmPanel(characterId: string) {
 	activeGmPanels[characterId] = !activeGmPanels[characterId];
 }
 
-async function _handleApply(characterId: string, type: string) {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleApply(characterId: string, type: string) {
 	if (onApplyStatusEffect) {
 		await onApplyStatusEffect(characterId, type);
 	}
 }
 
-async function _handleClear(characterId: string) {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleClear(characterId: string) {
 	if (onClearStatusEffects) {
 		await onClearStatusEffects(characterId);
 	}
@@ -107,25 +111,29 @@ async function _handleClear(characterId: string) {
 									{#each character.statusEffects as effect}
 										<span 
 											class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold border transition-all duration-300 rounded-sm"
-											class:border-red-500={effect.type === 'eter_fever'}
-											class:bg-red-950={effect.type === 'eter_fever'}
-											class:text-red-300={effect.type === 'eter_fever'}
-											class:border-emerald-500={effect.type === 'wound_infection'}
-											class:bg-emerald-950={effect.type === 'wound_infection'}
-											class:text-emerald-300={effect.type === 'wound_infection'}
-											class:border-amber-500={effect.type === 'viper_poison'}
-											class:bg-amber-950={effect.type === 'viper_poison'}
-											class:text-amber-300={effect.type === 'viper_poison'}
+											class:border-purple-runic={effect.type === 'eter_fever'}
+											class:bg-purple-runic/10={effect.type === 'eter_fever'}
+											class:text-purple-runic={effect.type === 'eter_fever'}
+											class:border-blood={effect.type === 'wound_infection'}
+											class:bg-blood-shadow/20={effect.type === 'wound_infection'}
+											class:text-blood={effect.type === 'wound_infection'}
+											class:border-emerald-poison={effect.type === 'viper_poison'}
+											class:bg-emerald-poison/15={effect.type === 'viper_poison'}
+											class:text-emerald-poison={effect.type === 'viper_poison'}
+											class:border-orange-hungry={effect.type === 'hungry'}
+											class:bg-orange-hungry/15={effect.type === 'hungry'}
+											class:text-orange-hungry={effect.type === 'hungry'}
 										>
 											<span 
 												class="h-1.5 w-1.5 rounded-full animate-pulse"
-												class:bg-red-400={effect.type === 'eter_fever'}
-												class:bg-emerald-400={effect.type === 'wound_infection'}
-												class:bg-amber-400={effect.type === 'viper_poison'}
+												class:bg-purple-runic={effect.type === 'eter_fever'}
+												class:bg-blood={effect.type === 'wound_infection'}
+												class:bg-emerald-poison={effect.type === 'viper_poison'}
+												class:bg-orange-hungry={effect.type === 'hungry'}
 											></span>
 											{effect.label} (Gravidade {effect.severity})
 											{#if effect.isAggravated}
-												<span class="text-[9px] uppercase font-bold text-red-400 ml-1">AGRAVADO</span>
+												<span class="text-[9px] uppercase font-bold text-blood ml-1 px-1 py-0.5 bg-blood-shadow/50 border border-blood/30 animate-pulse rounded-[2px]">💀 AGRAVADO</span>
 											{/if}
 										</span>
 									{/each}
@@ -134,8 +142,8 @@ async function _handleClear(characterId: string) {
 
 							<!-- AVISO DE CURA NATURAL IMPEDIDA -->
 							{#if !character.allowsNaturalRecovery}
-								<div class="mt-2 text-xs font-bold text-amber-500 flex items-center gap-1">
-									⚠️ Cura natural impedida por infecção física!
+								<div class="mt-2 text-xs font-bold text-blood flex items-center gap-1">
+									⚠️ Cura natural impedida por infecção física ou fome!
 								</div>
 							{/if}
 
@@ -154,23 +162,30 @@ async function _handleClear(characterId: string) {
 										<button
 											type="button"
 											onclick={() => handleApply(character.id, 'eter_fever')}
-											class="border border-red-800 bg-red-950/60 px-2 py-1 text-[11px] font-semibold text-red-300 hover:bg-red-900 transition-colors"
+											class="border border-purple-runic/30 bg-purple-runic/10 px-2 py-1 text-[11px] font-semibold text-purple-runic hover:bg-purple-runic/30 transition-colors"
 										>
 											🌡️ Febre de Éter
 										</button>
 										<button
 											type="button"
 											onclick={() => handleApply(character.id, 'wound_infection')}
-											class="border border-emerald-800 bg-emerald-950/60 px-2 py-1 text-[11px] font-semibold text-emerald-300 hover:bg-emerald-900 transition-colors"
+											class="border border-blood/30 bg-blood-shadow/40 px-2 py-1 text-[11px] font-semibold text-blood hover:bg-blood/20 transition-colors"
 										>
 											🩹 Infecção de Ferida
 										</button>
 										<button
 											type="button"
 											onclick={() => handleApply(character.id, 'viper_poison')}
-											class="border border-amber-800 bg-amber-950/60 px-2 py-1 text-[11px] font-semibold text-amber-300 hover:bg-amber-900 transition-colors"
+											class="border border-emerald-poison/30 bg-emerald-poison/10 px-2 py-1 text-[11px] font-semibold text-emerald-poison hover:bg-emerald-poison/25 transition-colors"
 										>
 											🐍 Veneno de Víbora
+										</button>
+										<button
+											type="button"
+											onclick={() => handleApply(character.id, 'hungry')}
+											class="border border-orange-hungry/30 bg-orange-hungry/10 px-2 py-1 text-[11px] font-semibold text-orange-hungry hover:bg-orange-hungry/25 transition-colors"
+										>
+											🍗 Faminto
 										</button>
 										<button
 											type="button"
@@ -193,7 +208,7 @@ async function _handleClear(characterId: string) {
 											<p class="text-xs text-ether">{stat.label}</p>
 											<p 
 												class="mt-1 text-lg font-semibold"
-												class:text-red-400={stat.baseValue !== undefined}
+												class:text-blood={stat.baseValue !== undefined}
 												class:text-bone={stat.baseValue === undefined}
 											>
 												{stat.value}
@@ -214,7 +229,7 @@ async function _handleClear(characterId: string) {
 											<p class="text-xs text-ether">{stat.label}</p>
 											<p 
 												class="mt-1 text-lg font-semibold"
-												class:text-red-400={stat.baseValue !== undefined}
+												class:text-blood={stat.baseValue !== undefined}
 												class:text-bone={stat.baseValue === undefined}
 											>
 												{stat.value}

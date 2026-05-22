@@ -1,22 +1,23 @@
-import { ok, fail, type Result } from "$lib/shared/lib/result";
+import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { ResolutionService } from "$lib/shared/resolution";
+import type { CharacterCraftedItemRecord } from "../model/craftingSchema";
+import type { CraftingFailure } from "../model/craftingTypes";
 import { OFFICIAL_EQUIPMENT } from "../model/equipmentCatalog";
-import type { CraftingRepository } from "./CraftingRepository";
 import {
 	BaseCraftedEquipment,
+	type ICraftedEquipment,
 	ReinforcedEquipmentDecorator,
 	RunicEquipmentDecorator,
 	SharpEquipmentDecorator,
-	type ICraftedEquipment,
 } from "./CraftingQualityDecorators";
-import type {
-	CharacterCraftedItemRecord,
-	CraftingRecipeRecord,
-} from "../model/craftingSchema";
-import type { CraftingFailure, CraftingFailureCode } from "../model/craftingTypes";
+import type { CraftingRepository } from "./CraftingRepository";
 
 export interface CraftingMaterialInput {
-	readonly materialId: "ether-ore" | "ironwood" | "mystic-essence" | "metal-ore";
+	readonly materialId:
+		| "ether-ore"
+		| "ironwood"
+		| "mystic-essence"
+		| "metal-ore";
 	readonly quantity: number;
 }
 
@@ -32,7 +33,11 @@ export interface CraftInput {
 }
 
 export interface CraftResult {
-	readonly degree: "success" | "criticalSuccess" | "successWithCost" | "failure";
+	readonly degree:
+		| "success"
+		| "criticalSuccess"
+		| "successWithCost"
+		| "failure";
 	readonly craftedItemRecord?: CharacterCraftedItemRecord;
 	readonly decoratedItem?: ICraftedEquipment;
 	readonly goldSpent: number;
@@ -75,10 +80,11 @@ export class CraftingService {
 		let requiredMaterials: readonly CraftingMaterialInput[] = [];
 		try {
 			requiredMaterials = JSON.parse(recipe.materialsRequiredJson);
-		} catch (error) {
+		} catch (_error) {
 			return fail({
 				code: "CORRUPTED_CRAFTING_RECORD",
-				message: "As matérias-primas da receita estão no formato JSON inválido.",
+				message:
+					"As matérias-primas da receita estão no formato JSON inválido.",
 			});
 		}
 
@@ -86,7 +92,9 @@ export class CraftingService {
 		for (const mat of requiredMaterials) {
 			const owned = input.characterMaterials[mat.materialId] ?? 0;
 			if (owned < mat.quantity) {
-				missingMaterials.push(`${mat.materialId} (Falta: ${mat.quantity - owned})`);
+				missingMaterials.push(
+					`${mat.materialId} (Falta: ${mat.quantity - owned})`,
+				);
 			}
 		}
 
@@ -118,7 +126,8 @@ export class CraftingService {
 			dc: recipe.difficultyClass,
 		};
 
-		const testResult = this.resolutionService.resolveGlobalTest(resolutionInput);
+		const testResult =
+			this.resolutionService.resolveGlobalTest(resolutionInput);
 		if (!testResult.success) {
 			return fail({
 				code: "RESOLUTION_FAILED",
@@ -171,7 +180,7 @@ export class CraftingService {
 		let isSharp = 0;
 		let isReinforced = 0;
 		let isRunic = 0;
-		let durabilityCurrent = baseEquipment.durabilityCurrent;
+		let durabilityCurrent: number = baseEquipment.durabilityCurrent;
 
 		if (degree === "criticalSuccess") {
 			// SUCESSO CRÍTICO: O item é forjado com qualidade lendária englobando os 3 Decoradores!
@@ -184,7 +193,10 @@ export class CraftingService {
 			);
 		} else if (degree === "successWithCost") {
 			// SUCESSO COM CUSTO: Durabilidade atual reduzida pela metade
-			durabilityCurrent = Math.max(1, Math.floor(baseEquipment.durabilityMax / 2));
+			durabilityCurrent = Math.max(
+				1,
+				Math.floor(baseEquipment.durabilityMax / 2),
+			);
 		}
 
 		// Persistir o item artesanal forjado na tabela do banco SQLite
@@ -198,6 +210,7 @@ export class CraftingService {
 			isRunic,
 			durabilityCurrent,
 			durabilityMax: baseEquipment.durabilityMax,
+			isEquipped: 0,
 			createdAt: new Date().toISOString(),
 		};
 

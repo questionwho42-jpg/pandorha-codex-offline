@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
 	BaseCharacterStats,
+	EncumberedStatusDecorator,
 	EterFeverDecorator,
 	ViperPoisonDecorator,
 	WoundInfectionDecorator,
@@ -116,6 +117,102 @@ describe("StatusEffectDecorator - Efeitos de Status do RPG Pandorha", () => {
 		expect(complexStats.maxHp).toBe(30);
 
 		expect(complexStats.allowsNaturalRecovery).toBe(false); // A infecção interna continua impedindo a cura!
+	});
+
+	describe("Logística de Carga e Sobrecarga (EncumberedStatusDecorator)", () => {
+		it("deve aplicar estado de Carga Leve se o peso não exceder o limite", () => {
+			const character = createCharacter({
+				physical: 3,
+				resistance: 3,
+				level: 1,
+			});
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+
+			// carrySlotLimit = 3 + 3 + 6 = 12 slots. Peso equipado = 5 slots.
+			const encumberedStats = new EncumberedStatusDecorator(baseStats, 5);
+
+			expect(encumberedStats.currentCarryWeight).toBe(5);
+			expect(encumberedStats.encumbranceState).toBe("light");
+			expect(encumberedStats.movementSpeedBase).toBe(9);
+			expect(encumberedStats.initiativeBase).toBe(baseStats.initiativeBase);
+		});
+
+		it("deve aplicar estado Sobrecarregado (encumbered) se o peso exceder o limite, reduzindo velocidade em 3m e iniciativa em 2", () => {
+			const character = createCharacter({
+				physical: 3,
+				resistance: 3,
+				level: 1,
+				mental: 1,
+				interaction: 1,
+			});
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+
+			// carrySlotLimit = 12. Peso equipado = 13.
+			const encumberedStats = new EncumberedStatusDecorator(baseStats, 13);
+
+			expect(encumberedStats.encumbranceState).toBe("encumbered");
+			expect(encumberedStats.movementSpeedBase).toBe(6); // 9 - 3 = 6m
+			expect(encumberedStats.initiativeBase).toBe(1); // original: level 1 + mental 1 + interaction 1 = 3. Penalidade: 3 - 2 = 1.
+		});
+
+		it("deve aplicar estado Imobilizado (overloaded) se o peso exceder o limite + 5, reduzindo velocidade para 0m", () => {
+			const character = createCharacter({
+				physical: 3,
+				resistance: 3,
+				level: 1,
+			});
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+
+			// carrySlotLimit = 12. Peso equipado = 18.
+			const encumberedStats = new EncumberedStatusDecorator(baseStats, 18);
+
+			expect(encumberedStats.encumbranceState).toBe("overloaded");
+			expect(encumberedStats.movementSpeedBase).toBe(0); // Imobilizado
+			expect(encumberedStats.initiativeBase).toBe(1); // initiative: 3 - 2 = 1.
+		});
+
+		it("deve conceder bônus de ancestralidade Anão (+2 slots de carga)", () => {
+			const character = createCharacter({
+				ancestryId: "dwarf",
+				physical: 3,
+				resistance: 3,
+			});
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+
+			// carrySlotLimit = physical: 3 + resistance: 3 + 6 + bonus anão: 2 = 14 slots
+			expect(baseStats.carrySlotLimit).toBe(14);
+		});
+
+		it("deve encolher a capacidade de carga de forma reativa se doenças afetarem atributos físicos/resistência na cebola", () => {
+			const character = createCharacter({
+				ancestryId: "dwarf",
+				physical: 3,
+				resistance: 3,
+				level: 1,
+			});
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+
+			// Febre de Éter (-1 na resistência)
+			const diseasedStats = new EterFeverDecorator(baseStats);
+
+			// carrySlotLimit deve encolher de 14 para 13 slots de forma reativa na cebola!
+			expect(diseasedStats.carrySlotLimit).toBe(13); // physical: 3 + resistance: 2 + 6 + 2 = 13
+		});
 	});
 });
 

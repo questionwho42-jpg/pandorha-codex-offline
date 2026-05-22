@@ -253,6 +253,18 @@ describe("character create view model", () => {
 			"A ligação entre ancestralidade e traços está inválida. Recarregue a página e tente novamente.",
 		);
 	});
+
+	it("returns fallback message for unknown failure codes", () => {
+		expect(
+			mapCharacterCreateFailure(characterFailure("UNKNOWN_CODE" as any)),
+		).toBe("Ocorreu um erro desconhecido ao criar o personagem.");
+
+		expect(
+			mapAncestryTraitSelectionFailure(
+				ancestryTraitFailure("UNKNOWN_CODE" as any),
+			),
+		).toBe("Erro de validação dos traços escolhidos.");
+	});
 });
 
 function characterFailure(

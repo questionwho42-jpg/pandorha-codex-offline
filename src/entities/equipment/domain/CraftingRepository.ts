@@ -12,7 +12,9 @@ export interface CraftingRepository {
 		recipe: NewCraftingRecipeRecord,
 	): Promise<Result<CraftingRecipeRecord, CraftingFailure>>;
 
-	findAllRecipes(): Promise<Result<readonly CraftingRecipeRecord[], CraftingFailure>>;
+	findAllRecipes(): Promise<
+		Result<readonly CraftingRecipeRecord[], CraftingFailure>
+	>;
 
 	findRecipeById(
 		id: string,
@@ -26,7 +28,10 @@ export interface CraftingRepository {
 		characterId: string,
 	): Promise<Result<readonly CharacterCraftedItemRecord[], CraftingFailure>>;
 
-	deleteCraftedItem(
+	deleteCraftedItem(id: string): Promise<Result<void, CraftingFailure>>;
+
+	updateCraftedItemEquipStatus(
 		id: string,
-	): Promise<Result<void, CraftingFailure>>;
+		isEquipped: number,
+	): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>>;
 }

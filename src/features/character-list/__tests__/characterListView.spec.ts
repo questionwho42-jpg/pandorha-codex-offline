@@ -107,12 +107,14 @@ describe("createCharacterListView", () => {
 					severityMax: 4,
 					isAggravated: false,
 					createdAt: "2026-05-03T13:14:25.000Z",
+					// biome-ignore lint/suspicious/noExplicitAny: test fixtures dynamic mapping
 				} as any,
 			],
 		});
 
 		const item = view.items[0];
 		expect(item).toBeDefined();
+		if (!item) return;
 		expect(item.statusEffects).toEqual([
 			{
 				id: "effect-fever",
@@ -162,6 +164,7 @@ describe("createCharacterListView", () => {
 					severityMax: 3,
 					isAggravated: false,
 					createdAt: "2026-05-03T13:14:25.000Z",
+					// biome-ignore lint/suspicious/noExplicitAny: test fixtures dynamic mapping
 				} as any,
 				{
 					id: "effect-fever",
@@ -171,12 +174,14 @@ describe("createCharacterListView", () => {
 					severityMax: 4,
 					isAggravated: false,
 					createdAt: "2026-05-03T13:14:25.000Z",
+					// biome-ignore lint/suspicious/noExplicitAny: test fixtures dynamic mapping
 				} as any,
 			],
 		});
 
 		const item = view.items[0];
 		expect(item).toBeDefined();
+		if (!item) return;
 		expect(item.allowsNaturalRecovery).toBe(false); // Infecção de ferida impede cura natural
 		expect(item.statusEffects.length).toBe(2);
 
@@ -197,5 +202,67 @@ describe("createCharacterListView", () => {
 			value: 2,
 			baseValue: 3,
 		});
+	});
+
+	it("applies Viper Poison and Hungry decorators, handles unknown effects, and fallback classes", () => {
+		const view = createCharacterListView([character], {
+			ancestries: [{ id: "human", label: "Humano" } as AncestryRecord],
+			backgrounds: [{ id: "acolyte", label: "Acólito" } as BackgroundRecord],
+			characterClasses: [], // força classe vazia para usar o fallback
+			statusEffects: [
+				{
+					id: "effect-poison",
+					characterId: "character-kael",
+					type: "viper_poison",
+					severity: 1,
+					severityMax: 3,
+					isAggravated: false,
+					createdAt: "2026-05-03T13:14:25.000Z",
+				} as any,
+				{
+					id: "effect-hungry",
+					characterId: "character-kael",
+					type: "hungry",
+					severity: 1,
+					severityMax: 3,
+					isAggravated: false,
+					createdAt: "2026-05-03T13:14:25.000Z",
+				} as any,
+				{
+					id: "effect-unknown",
+					characterId: "character-kael",
+					type: "unknown_effect",
+					severity: 1,
+					severityMax: 3,
+					isAggravated: false,
+					createdAt: "2026-05-03T13:14:25.000Z",
+				} as any,
+			],
+		});
+
+		const item = view.items[0];
+		expect(item).toBeDefined();
+		if (!item) return;
+
+		// Verifica o fallback de classe ausente
+		expect(item.identityLabel).toBe("Humano · vanguard · Acólito");
+
+		// Verifica se o efeito desconhecido usa o tipo bruto como label
+		const unknownEffect = item.statusEffects.find(
+			(e) => e.type === "unknown_effect",
+		);
+		expect(unknownEffect?.label).toBe("unknown_effect");
+
+		// Físico caiu de 3 para 0 por conta de Viper Poison (-2) e Hungry (-1)
+		const physicalStat = item.axes.find((s) => s.label === "Físico");
+		expect(physicalStat).toEqual({ label: "Físico", value: 0, baseValue: 3 });
+
+		// Mental caiu de 1 para 0 por conta de Hungry (-1)
+		const mentalStat = item.axes.find((s) => s.label === "Mental");
+		expect(mentalStat).toEqual({ label: "Mental", value: 0, baseValue: 1 });
+
+		// Social permaneceu intacto (2)
+		const socialStat = item.axes.find((s) => s.label === "Social");
+		expect(socialStat).toEqual({ label: "Social", value: 2 });
 	});
 });

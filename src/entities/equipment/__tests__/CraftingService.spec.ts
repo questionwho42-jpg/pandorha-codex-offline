@@ -5,10 +5,16 @@ import {
 	createSequentialDiceRollIdProvider,
 	SequenceDiceRng,
 } from "$lib/shared/dice/testing/SequenceDiceRng";
+import { fail, type Result } from "$lib/shared/lib/result";
 import { ResolutionService } from "$lib/shared/resolution";
-import { InMemoryCraftingRepository } from "./InMemoryCraftingRepository";
 import { CraftingService } from "../domain/CraftingService";
-import type { NewCraftingRecipeRecord } from "../model/craftingSchema";
+import type {
+	CharacterCraftedItemRecord,
+	NewCharacterCraftedItemRecord,
+	NewCraftingRecipeRecord,
+} from "../model/craftingSchema";
+import type { CraftingFailure } from "../model/craftingTypes";
+import { InMemoryCraftingRepository } from "./InMemoryCraftingRepository";
 
 describe("CraftingService (TDD - Forja Tática e Economia de Artífice)", () => {
 	let repository: InMemoryCraftingRepository;
@@ -108,13 +114,14 @@ describe("CraftingService (TDD - Forja Tática e Economia de Artífice)", () => 
 			artificeTalentBonus: 1,
 			itemBonus: 0,
 			characterGoldCopper: 1000,
-			characterMaterials: { "metal-ore": 1, ironwood: 2 }, // Espada requer 3 metal-ore
+			characterMaterials: { "metal-ore": 1 }, // Espada requer 3 metal-ore e 1 ironwood (ironwood ausente cai no ?? 0)
 		});
 
 		expect(result.success).toBe(false);
 		if (!result.success) {
 			expect(result.error.code).toBe("INSUFFICIENT_MATERIALS");
 			expect(result.error.message).toContain("metal-ore");
+			expect(result.error.message).toContain("ironwood");
 		}
 	});
 
@@ -145,7 +152,9 @@ describe("CraftingService (TDD - Forja Tática e Economia de Artífice)", () => 
 
 			// O item deve ser criado e possuir todas as decorações combinadas
 			expect(data.craftedItemRecord).toBeDefined();
-			expect(data.craftedItemRecord?.label).toBe("Espada Longa Afiada Reforçado Rúnica");
+			expect(data.craftedItemRecord?.label).toBe(
+				"Espada Longa Afiada Reforçado Rúnica",
+			);
 			expect(data.craftedItemRecord?.isSharp).toBe(1);
 			expect(data.craftedItemRecord?.isReinforced).toBe(1);
 			expect(data.craftedItemRecord?.isRunic).toBe(1);
@@ -186,7 +195,7 @@ describe("CraftingService (TDD - Forja Tática e Economia de Artífice)", () => 
 
 	it("deve forjar um item com complicação (Sucesso com Custo) e reduzir durabilidade inicial pela metade (rola 5 natural, total 11 vs DC 12, margem -1)", async () => {
 		// 0.20 rascunha 5 natural. Total = 5 + 2 (level) + 3 (aptitude) + 1 (talent) = 11. DC 12. Margem = -1 (Sucesso com Custo)
-		setupDiceService([0.20]);
+		setupDiceService([0.2]);
 
 		const result = await service.craftItem({
 			characterId: "char-123",
@@ -234,6 +243,142 @@ describe("CraftingService (TDD - Forja Tática e Economia de Artífice)", () => 
 				ironwood: 1, // 1 / 2 = 0.5 -> arredonda para cima = 1
 			});
 			expect(data.craftedItemRecord).toBeUndefined(); // Nenhum item criado
+		}
+	});
+
+	it("deve falhar se os materiais da receita estiverem em JSON inválido", async () => {
+		setupDiceService([0.5]);
+		const recipeCorrupted: NewCraftingRecipeRecord = {
+			id: "recipe-corrupted",
+			label: "Item Corrompido",
+			targetEquipmentId: "longsword",
+			difficultyClass: 12,
+			copperCost: 500,
+			materialsRequiredJson: "{ invalid json }",
+		};
+		await repository.saveRecipe(recipeCorrupted);
+
+		const result = await service.craftItem({
+			characterId: "char-123",
+			recipeId: "recipe-corrupted",
+			characterLevel: 2,
+			mentalAptitude: 3,
+			artificeTalentBonus: 1,
+			itemBonus: 0,
+			characterGoldCopper: 1000,
+			characterMaterials: {},
+		});
+
+		expect(result.success).toBe(false);
+		if (!result.success) {
+			expect(result.error.code).toBe("CORRUPTED_CRAFTING_RECORD");
+		}
+	});
+
+	it("deve falhar se o item base da receita não existir no catálogo oficial", async () => {
+		setupDiceService([0.5]);
+		const recipeNoEquipment: NewCraftingRecipeRecord = {
+			id: "recipe-no-eq",
+			label: "Item Sem Equipamento",
+			targetEquipmentId: "non-existent-eq-id",
+			difficultyClass: 12,
+			copperCost: 500,
+			materialsRequiredJson: JSON.stringify([]),
+		};
+		await repository.saveRecipe(recipeNoEquipment);
+
+		const result = await service.craftItem({
+			characterId: "char-123",
+			recipeId: "recipe-no-eq",
+			characterLevel: 2,
+			mentalAptitude: 3,
+			artificeTalentBonus: 1,
+			itemBonus: 0,
+			characterGoldCopper: 1000,
+			characterMaterials: {},
+		});
+
+		expect(result.success).toBe(false);
+		if (!result.success) {
+			expect(result.error.code).toBe("RECIPE_NOT_FOUND");
+			expect(result.error.message).toContain("não existe no catálogo");
+		}
+	});
+
+	it("deve retornar erro se a resolução global do teste de Artífice falhar", async () => {
+		const mockFailResolutionService = {
+			resolveGlobalTest: () =>
+				fail({
+					code: "RESOLUTION_FAILED",
+					message: "Falha de teste simulada",
+				}),
+		} as unknown as ResolutionService;
+
+		const localService = new CraftingService(
+			repository,
+			mockFailResolutionService,
+		);
+
+		const result = await localService.craftItem({
+			characterId: "char-123",
+			recipeId: "recipe-longsword",
+			characterLevel: 2,
+			mentalAptitude: 3,
+			artificeTalentBonus: 1,
+			itemBonus: 0,
+			characterGoldCopper: 1000,
+			characterMaterials: { "metal-ore": 5, ironwood: 2 },
+		});
+
+		expect(result.success).toBe(false);
+		if (!result.success) {
+			expect(result.error.code).toBe("RESOLUTION_FAILED");
+		}
+	});
+
+	it("deve retornar erro se a gravação do item artesanal forjado no banco SQLite falhar", async () => {
+		setupDiceService([0.5]);
+
+		class SaveFailureCraftingRepository extends InMemoryCraftingRepository {
+			public override async saveCraftedItem(
+				_item: NewCharacterCraftedItemRecord,
+			): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>> {
+				return fail({
+					code: "CRAFTING_REPOSITORY_WRITE_FAILED",
+					message: "Erro simulado de gravação de item",
+				});
+			}
+		}
+
+		const localRepository = new SaveFailureCraftingRepository();
+		// Copiar as receitas cadastradas para o novo repositório
+		const recipes = await repository.findAllRecipes();
+		if (recipes.success) {
+			for (const r of recipes.data) {
+				await localRepository.saveRecipe(r);
+			}
+		}
+
+		const localService = new CraftingService(
+			localRepository,
+			resolutionService,
+		);
+
+		const result = await localService.craftItem({
+			characterId: "char-123",
+			recipeId: "recipe-longsword",
+			characterLevel: 2,
+			mentalAptitude: 3,
+			artificeTalentBonus: 1,
+			itemBonus: 0,
+			characterGoldCopper: 1000,
+			characterMaterials: { "metal-ore": 5, ironwood: 2 },
+		});
+
+		expect(result.success).toBe(false);
+		if (!result.success) {
+			expect(result.error.code).toBe("CRAFTING_REPOSITORY_WRITE_FAILED");
+			expect(result.error.message).toContain("Erro simulado de gravação");
 		}
 	});
 });

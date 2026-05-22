@@ -1,7 +1,16 @@
 import {
-	CharacterDerivedStatsService,
 	type CharacterRecord,
+	characterSelectSchema,
 } from "$lib/entities/character";
+import {
+	BaseCharacterStats,
+	EncumberedStatusDecorator,
+	EterFeverDecorator,
+	HungryDecorator,
+	type ICharacterStats,
+	ViperPoisonDecorator,
+	WoundInfectionDecorator,
+} from "$lib/entities/character/domain/StatusEffectDecorator";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import type { CombatEncounterActorRef } from "./combatEncounterTypes";
 
@@ -19,15 +28,20 @@ export interface CombatAttackerStatsView {
 	readonly maxHpLabel: string;
 	readonly sourceLabel: string;
 	readonly status: CombatAttackerStatsStatus;
+	readonly activeEffectsLabels: readonly {
+		type: string;
+		label: string;
+		color: string;
+	}[];
 }
 
 export interface CombatAttackerStatsViewInput {
 	readonly attacker: CombatEncounterActorRef;
 	readonly characterClasses: readonly CharacterClassRecord[];
 	readonly characters: readonly CharacterRecord[];
+	readonly equippedWeight?: number;
+	readonly activeEffects?: readonly { type: string }[];
 }
-
-const derivedStatsService = new CharacterDerivedStatsService();
 
 export function createCombatAttackerStatsView(
 	input: CombatAttackerStatsViewInput,
@@ -39,58 +53,118 @@ export function createCombatAttackerStatsView(
 		return createTrainingStatsView();
 	}
 
+	const validationResult = characterSelectSchema.safeParse(selectedCharacter);
+	if (!validationResult.success) {
+		return createUnavailableStatsView(
+			"Não foi possível calcular os atributos derivados deste personagem.",
+		);
+	}
+
 	const selectedClass = input.characterClasses.find(
 		(characterClass) => characterClass.id === selectedCharacter.classId,
 	);
 	if (!selectedClass) {
 		return createUnavailableStatsView(
-			"N\u00e3o foi poss\u00edvel localizar a classe deste personagem nesta sess\u00e3o.",
+			"Não foi possível localizar a classe deste personagem nesta sessão.",
 		);
 	}
 
-	const derivedStats = derivedStatsService.calculateCharacterDerivedStats({
-		character: selectedCharacter,
-		characterClass: {
-			id: selectedClass.id,
-			baseHp: selectedClass.baseHp,
-		},
+	const baseStats = new BaseCharacterStats(selectedCharacter, {
+		id: selectedClass.id,
+		baseHp: selectedClass.baseHp,
 	});
-	if (!derivedStats.success) {
-		return createUnavailableStatsView(
-			"N\u00e3o foi poss\u00edvel calcular os atributos derivados deste personagem.",
-		);
+
+	// Aplicação recursiva do Decorator (Efeito Cebola 🧅) para Doenças/Debuffs
+	let decoratedStats: ICharacterStats = baseStats;
+	const activeEffectsLabels: { type: string; label: string; color: string }[] =
+		[];
+
+	if (input.activeEffects) {
+		for (const effect of input.activeEffects) {
+			if (effect.type === "eter_fever") {
+				decoratedStats = new EterFeverDecorator(decoratedStats);
+				activeEffectsLabels.push({
+					type: "eter_fever",
+					label: "🤒 Febre de Éter (-1 Mente, -1 Resistência)",
+					color: "#c084fc", // Violeta elegante
+				});
+			} else if (effect.type === "wound_infection") {
+				decoratedStats = new WoundInfectionDecorator(decoratedStats);
+				activeEffectsLabels.push({
+					type: "wound_infection",
+					label: "🩸 Infecção de Ferida (-1 Físico, Sem Cura Natural)",
+					color: "#ef4444", // Vermelho sangue
+				});
+			} else if (effect.type === "viper_poison") {
+				decoratedStats = new ViperPoisonDecorator(decoratedStats);
+				activeEffectsLabels.push({
+					type: "viper_poison",
+					label: "🤢 Veneno de Víbora (-2 Físico, -1 Iniciativa)",
+					color: "#22c55e", // Verde-ácido / Toxina
+				});
+			} else if (effect.type === "hungry") {
+				decoratedStats = new HungryDecorator(decoratedStats);
+				activeEffectsLabels.push({
+					type: "hungry",
+					label: "🍗 Faminto (-1 Físico, -1 Mente, Sem Cura Natural)",
+					color: "#f97316", // Laranja vibrante para aviso alimentar
+				});
+			}
+		}
+	}
+
+	const finalStats = new EncumberedStatusDecorator(
+		decoratedStats,
+		input.equippedWeight ?? 0,
+	);
+
+	const encumbState = finalStats.encumbranceState;
+	let helperText =
+		"Valores informativos da ficha atual. Ataque, dano, equipamento e HP real ainda usam o treino determinístico.";
+
+	if (activeEffectsLabels.length > 0) {
+		helperText = `⚠️ ATENÇÃO: O personagem está debilitado por ${activeEffectsLabels.length} aflição(ões) do Códex!`;
+	}
+
+	if (encumbState === "encumbered") {
+		helperText =
+			"🚨 PERSONAGEM LENTO: Penalidade de -2 de Iniciativa aplicada devido ao peso equipado!";
+	} else if (encumbState === "overloaded") {
+		helperText =
+			"⚠️ PERSONAGEM IMOBILIZADO: Sobrecarga extrema! Ataques bloqueados e velocidade zero!";
 	}
 
 	return {
-		carrySlotLimit: derivedStats.data.carrySlotLimit,
-		carrySlotLimitLabel: `Carga: ${derivedStats.data.carrySlotLimit} slots`,
+		carrySlotLimit: finalStats.carrySlotLimit,
+		carrySlotLimitLabel: `Carga: ${finalStats.currentCarryWeight}/${finalStats.carrySlotLimit} slots (${encumbState.toUpperCase()})`,
 		classLabel: `Classe: ${selectedClass.label}`,
 		heading: "Ficha no combate",
-		helperText:
-			"Valores informativos da ficha atual. Ataque, dano, equipamento e HP real ainda usam o treino determin\u00edstico.",
-		initiativeBase: derivedStats.data.initiativeBase,
-		initiativeLabel: `Iniciativa: ${derivedStats.data.initiativeBase}`,
-		maxHp: derivedStats.data.maxHp,
-		maxHpLabel: `HP m\u00e1ximo: ${derivedStats.data.maxHp}`,
-		sourceLabel: "Personagem da sess\u00e3o",
+		helperText,
+		initiativeBase: finalStats.initiativeBase,
+		initiativeLabel: `Iniciativa: ${finalStats.initiativeBase}`,
+		maxHp: finalStats.maxHp,
+		maxHpLabel: `HP máximo: ${finalStats.maxHp}`,
+		sourceLabel: "Personagem da sessão",
 		status: "derived",
+		activeEffectsLabels,
 	};
 }
 
 function createTrainingStatsView(): CombatAttackerStatsView {
 	return {
 		carrySlotLimit: null,
-		carrySlotLimitLabel: "Carga: n\u00e3o aplicada",
+		carrySlotLimitLabel: "Carga: não aplicada",
 		classLabel: "Classe: treino",
 		heading: "Ficha no combate",
 		helperText:
 			"Aria usa valores fixos de treino. Crie e selecione um personagem para ver atributos derivados da ficha.",
 		initiativeBase: null,
-		initiativeLabel: "Iniciativa: n\u00e3o aplicada",
+		initiativeLabel: "Iniciativa: não aplicada",
 		maxHp: null,
-		maxHpLabel: "HP m\u00e1ximo: n\u00e3o aplicado",
+		maxHpLabel: "HP máximo: não aplicado",
 		sourceLabel: "Atacante de treino",
 		status: "training",
+		activeEffectsLabels: [],
 	};
 }
 
@@ -99,15 +173,16 @@ function createUnavailableStatsView(
 ): CombatAttackerStatsView {
 	return {
 		carrySlotLimit: null,
-		carrySlotLimitLabel: "Carga: indispon\u00edvel",
-		classLabel: "Classe: indispon\u00edvel",
+		carrySlotLimitLabel: "Carga: indisponível",
+		classLabel: "Classe: indisponível",
 		heading: "Ficha no combate",
 		helperText,
 		initiativeBase: null,
-		initiativeLabel: "Iniciativa: indispon\u00edvel",
+		initiativeLabel: "Iniciativa: indisponível",
 		maxHp: null,
-		maxHpLabel: "HP m\u00e1ximo: indispon\u00edvel",
-		sourceLabel: "Personagem da sess\u00e3o",
+		maxHpLabel: "HP máximo: indisponível",
+		sourceLabel: "Personagem da sessão",
 		status: "unavailable",
+		activeEffectsLabels: [],
 	};
 }

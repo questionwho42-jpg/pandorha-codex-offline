@@ -79,7 +79,14 @@ export const characterStatusEffects = sqliteTable("character_status_effects", {
 		.notNull()
 		.references(() => characters.id, { onDelete: "cascade" }),
 	type: text("type").notNull(), // 'eter_fever' | 'wound_infection' | 'viper_poison'
+	severity: integer("severity").notNull().default(1),
+	severityMax: integer("severity_max").notNull().default(3),
+	isAggravated: integer("is_aggravated", { mode: "boolean" })
+		.notNull()
+		.default(false),
+	metadata: text("metadata"),
 	createdAt: text("created_at").notNull(),
+	updatedAt: text("updated_at").notNull(),
 });
 
 export const characterStatusEffectInsertSchema = createInsertSchema(
@@ -88,7 +95,12 @@ export const characterStatusEffectInsertSchema = createInsertSchema(
 	id: notBlankText,
 	characterId: notBlankText,
 	type: z.enum(["eter_fever", "wound_infection", "viper_poison"]),
+	severity: z.number().int().min(1).max(20).default(1),
+	severityMax: z.number().int().min(1).max(20).default(3),
+	isAggravated: z.boolean().default(false),
+	metadata: z.string().nullable().optional(),
 	createdAt: notBlankText,
+	updatedAt: notBlankText.optional(),
 });
 
 export const characterStatusEffectSelectSchema = createSelectSchema(
@@ -97,7 +109,12 @@ export const characterStatusEffectSelectSchema = createSelectSchema(
 	id: notBlankText,
 	characterId: notBlankText,
 	type: z.enum(["eter_fever", "wound_infection", "viper_poison"]),
+	severity: z.number().int(),
+	severityMax: z.number().int(),
+	isAggravated: z.boolean(),
+	metadata: z.string().nullable(),
 	createdAt: notBlankText,
+	updatedAt: notBlankText,
 });
 
 export type CharacterStatusEffectRecord = z.infer<

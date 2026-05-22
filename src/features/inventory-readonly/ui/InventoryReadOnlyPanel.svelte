@@ -14,6 +14,19 @@ let { capacity, items }: Props = $props();
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let view = $derived(createInventoryReadOnlyView({ capacity, items }));
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let percent = $derived(
+	capacity.slotLimit > 0 ? (capacity.usedSlots / capacity.slotLimit) * 100 : 0,
+);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let progressColor = $derived(
+	capacity.state === "normal"
+		? "bg-ether"
+		: capacity.state === "slowed"
+			? "bg-bronze"
+			: "bg-blood/80 border border-blood/50 animate-pulse",
+);
 </script>
 
 <section aria-labelledby="inventory-readonly-title" data-testid="inventory-panel">
@@ -64,10 +77,23 @@ let view = $derived(createInventoryReadOnlyView({ capacity, items }));
 			</p>
 		</div>
 	</div>
-
 	<p class="mt-4 leading-7 text-bone" data-testid="inventory-state-description">
 		{view.stateDescription}
 	</p>
+
+	<!-- Barra de progresso de carga horizontal premium -->
+	<div class="mt-6 p-4 bg-void border border-bronze/40 rounded flex flex-col gap-2">
+		<div class="flex justify-between items-center text-xs font-semibold">
+			<span class="text-ether uppercase tracking-wider">Capacidade de Carga Ativa</span>
+			<span class="text-bone font-mono">{capacity.usedSlots} / {capacity.slotLimit} Slots ({Math.min(100, Math.round(percent))}% em uso)</span>
+		</div>
+		<div class="w-full h-3 bg-ruin border border-bronze/30 rounded overflow-hidden p-[2px]">
+			<div 
+				class="h-full rounded-sm transition-all duration-500 {progressColor}"
+				style="width: {Math.min(100, percent)}%"
+			></div>
+		</div>
+	</div>
 
 	<div class="mt-6 border border-bronze bg-blood-shadow px-5 py-6">
 		<div class="flex flex-wrap items-center justify-between gap-2">

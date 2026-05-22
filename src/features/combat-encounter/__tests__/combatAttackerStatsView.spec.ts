@@ -27,6 +27,7 @@ describe("createCombatAttackerStatsView", () => {
 			maxHpLabel: "HP m\u00e1ximo: n\u00e3o aplicado",
 			sourceLabel: "Atacante de treino",
 			status: "training",
+			activeEffectsLabels: [],
 		});
 	});
 
@@ -40,17 +41,31 @@ describe("createCombatAttackerStatsView", () => {
 		expect(view).toEqual({
 			classLabel: "Classe: Vanguarda",
 			carrySlotLimit: 10,
-			carrySlotLimitLabel: "Carga: 10 slots",
+			carrySlotLimitLabel: "Carga: 0/10 slots (LIGHT)",
 			heading: "Ficha no combate",
 			helperText:
-				"Valores informativos da ficha atual. Ataque, dano, equipamento e HP real ainda usam o treino determin\u00edstico.",
+				"Valores informativos da ficha atual. Ataque, dano, equipamento e HP real ainda usam o treino determinístico.",
 			initiativeBase: 5,
 			initiativeLabel: "Iniciativa: 5",
 			maxHp: 14,
-			maxHpLabel: "HP m\u00e1ximo: 14",
-			sourceLabel: "Personagem da sess\u00e3o",
+			maxHpLabel: "HP máximo: 14",
+			sourceLabel: "Personagem da sessão",
 			status: "derived",
+			activeEffectsLabels: [],
 		});
+	});
+
+	it("shows derived stats with encumbered penalty (-2 initiative)", () => {
+		const view = createCombatAttackerStatsView({
+			attacker: { id: "session-character-1", label: "Lia" },
+			characterClasses: OFFICIAL_CHARACTER_CLASSES,
+			characters: [createCharacterRecord()],
+			equippedWeight: 12, // Excede o limite de 10 slots
+		});
+
+		expect(view.carrySlotLimitLabel).toBe("Carga: 12/10 slots (ENCUMBERED)");
+		expect(view.initiativeLabel).toBe("Iniciativa: 3"); // 5 - 2
+		expect(view.helperText).toContain("🚨 PERSONAGEM LENTO");
 	});
 
 	it("shows an unavailable state when the selected character class is missing", () => {
@@ -80,6 +95,44 @@ describe("createCombatAttackerStatsView", () => {
 		expect(view.status).toBe("unavailable");
 		expect(view.helperText).toBe(
 			"N\u00e3o foi poss\u00edvel calcular os atributos derivados deste personagem.",
+		);
+	});
+
+	it("shows derived stats with active effects (Eter Fever, Wound Infection, Viper Poison, Hungry)", () => {
+		const view = createCombatAttackerStatsView({
+			attacker: { id: "session-character-1", label: "Lia" },
+			characterClasses: OFFICIAL_CHARACTER_CLASSES,
+			characters: [createCharacterRecord()],
+			activeEffects: [
+				{ type: "eter_fever" },
+				{ type: "wound_infection" },
+				{ type: "viper_poison" },
+				{ type: "hungry" },
+			],
+		});
+
+		expect(view.activeEffectsLabels).toHaveLength(4);
+		expect(view.activeEffectsLabels[0]).toEqual({
+			type: "eter_fever",
+			label: "🤒 Febre de Éter (-1 Mente, -1 Resistência)",
+			color: "#c084fc",
+		});
+		expect(view.helperText).toContain(
+			"⚠️ ATENÇÃO: O personagem está debilitado por 4 aflição(ões) do Códex!",
+		);
+	});
+
+	it("shows derived stats with overloaded penalty", () => {
+		const view = createCombatAttackerStatsView({
+			attacker: { id: "session-character-1", label: "Lia" },
+			characterClasses: OFFICIAL_CHARACTER_CLASSES,
+			characters: [createCharacterRecord()],
+			equippedWeight: 16,
+		});
+
+		expect(view.carrySlotLimitLabel).toBe("Carga: 16/10 slots (OVERLOADED)");
+		expect(view.helperText).toContain(
+			"⚠️ PERSONAGEM IMOBILIZADO: Sobrecarga extrema!",
 		);
 	});
 });

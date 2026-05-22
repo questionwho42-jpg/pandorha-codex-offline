@@ -1,6 +1,9 @@
 <script lang="ts">
+import { onMount } from "svelte";
 import type { CharacterRecord } from "$lib/entities/character";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
+import { OFFICIAL_EQUIPMENT } from "$lib/entities/equipment/model/equipmentCatalog";
+import type { CharacterCraftedItemRecord } from "../../crafting/model/craftingSchema";
 import { CombatTurnService } from "../domain/CombatTurnService";
 import { createCombatAttackerStatsView } from "../model/combatAttackerStatsView";
 import type {
@@ -80,22 +83,112 @@ let log = $state<readonly string[]>([]);
 let turnState = $state<CombatTurnState>(
 	createInitialTurnState(attacker.id, initialTarget.id),
 );
+
+// Estado de itens artesanais carregados do localStorage
+let craftedItems = $state<CharacterCraftedItemRecord[]>([]);
+// biome-ignore lint/suspicious/noExplicitAny: status effects loaded dynamically from local storage
+let activeEffects = $state<any[]>([]);
+
+onMount(() => {
+	if (typeof window !== "undefined") {
+		const stored = localStorage.getItem("pandorha_crafted_items");
+		if (stored) {
+			try {
+				craftedItems = JSON.parse(stored);
+			} catch (e) {
+				console.error("Erro ao carregar itens da forja no combate", e);
+			}
+		}
+
+		const storedEffects = localStorage.getItem("pandorha_status_effects");
+		if (storedEffects) {
+			try {
+				activeEffects = JSON.parse(storedEffects);
+			} catch (e) {
+				console.error("Erro ao carregar status effects no combate", e);
+			}
+		}
+	}
+});
+
+// Sincronização reativa sempre que o atacante for alterado
+$effect(() => {
+	if (typeof window !== "undefined" && selectedAttackerId) {
+		const stored = localStorage.getItem("pandorha_crafted_items");
+		if (stored) {
+			try {
+				craftedItems = JSON.parse(stored);
+			} catch (e) {
+				console.error("Erro ao ler itens do localStorage", e);
+			}
+		}
+
+		const storedEffects = localStorage.getItem("pandorha_status_effects");
+		if (storedEffects) {
+			try {
+				activeEffects = JSON.parse(storedEffects);
+			} catch (e) {
+				console.error("Erro ao ler status effects do localStorage", e);
+			}
+		}
+	}
+});
+
+// Cálculo reativo das propriedades de carga e arma equipada do personagem
+let characterItems = $derived(
+	craftedItems.filter((i) => i.characterId === selectedAttackerId),
+);
+
+let attackerActiveEffects = $derived(
+	activeEffects.filter((e) => e.characterId === selectedAttackerId),
+);
+
+let equippedWeapon = $derived(
+	characterItems.find((i) => {
+		if (i.isEquipped !== 1) return false;
+		const eqInfo = OFFICIAL_EQUIPMENT.find((eq) => eq.id === i.equipmentId);
+		return eqInfo?.kind === "weapon";
+	}),
+);
+
+let equippedWeight = $derived(
+	characterItems.reduce((acc, item) => {
+		if (item.isEquipped === 1) {
+			const eqInfo = OFFICIAL_EQUIPMENT.find(
+				(eq) => eq.id === item.equipmentId,
+			);
+			const weight = eqInfo ? eqInfo.slotCost : 1;
+			return acc + weight;
+		}
+		return acc;
+	}, 0),
+);
+
 let attackerOptions = $derived(createCombatAttackerOptions(characters));
 let selectedAttacker = $derived(getCombatAttacker(selectedAttackerId));
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+
 let attackerStatsView = $derived(
 	createCombatAttackerStatsView({
 		attacker: selectedAttacker,
 		characterClasses,
 		characters,
+		equippedWeight,
+		activeEffects: attackerActiveEffects,
 	}),
 );
+
 let trainingAttackProfile = $derived(
-	createCombatTrainingAttackProfile({
-		attacker: selectedAttacker,
-		characters,
-	}),
+	createCombatTrainingAttackProfile(
+		{
+			attacker: selectedAttacker,
+			characters,
+			activeEffects: attackerActiveEffects,
+			characterClasses,
+		},
+		equippedWeapon,
+	),
 );
+
 let selectedTarget = $derived(getTrainingTarget(selectedTargetId));
 
 let view = $derived<CombatEncounterView>(
@@ -115,6 +208,12 @@ let view = $derived<CombatEncounterView>(
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function attack(): void {
 	if (!view.canAttack) {
+		return;
+	}
+
+	if (attackerStatsView.carrySlotLimitLabel.includes("OVERLOADED")) {
+		errorMessage =
+			"⚠️ PERSONAGEM IMOBILIZADO: Sobrecarga extrema! Ataques bloqueados e velocidade zero!";
 		return;
 	}
 
@@ -403,6 +502,20 @@ function createInitialTurnState(
 				<p class="mt-3 text-sm leading-6 text-bone">
 					{attackerStatsView.helperText}
 				</p>
+				{#if attackerStatsView.activeEffectsLabels && attackerStatsView.activeEffectsLabels.length > 0}
+					<div class="mt-3 border border-[#ef4444]/30 bg-[#1e1212] p-2.5 rounded-sm">
+						<p class="text-xs font-semibold text-[#ef4444] uppercase tracking-wider flex items-center gap-1.5">
+							🤢 Aflições Ativas do Códex:
+						</p>
+						<div class="mt-1.5 flex flex-col gap-1">
+							{#each attackerStatsView.activeEffectsLabels as effect}
+								<span class="text-xs font-bold px-1.5 py-0.5 rounded-sm flex items-center gap-1.5" style="color: {effect.color}; background-color: {effect.color}15; border: 1px solid {effect.color}40;">
+									{effect.label}
+								</span>
+							{/each}
+						</div>
+					</div>
+				{/if}
 			</div>
 			<div
 				class="mt-4 border-t border-bronze pt-4"
@@ -432,6 +545,25 @@ function createInitialTurnState(
 				<p class="mt-3 text-sm leading-6 text-bone">
 					{trainingAttackProfile.helperText}
 				</p>
+				{#if equippedWeapon}
+					<div class="mt-3 border border-[#DAB973]/30 bg-[#1A1412] p-2.5 rounded-sm">
+						<p class="text-xs font-semibold text-[#DAB973] uppercase tracking-wider flex items-center gap-1.5">
+							⚔️ Arma Equipada: {equippedWeapon.label}
+						</p>
+						<div class="mt-1.5 flex flex-wrap gap-1">
+							{#if equippedWeapon.isSharp === 1}
+								<span class="text-[10px] font-bold bg-[#DAB973]/20 text-[#DAB973] px-1.5 py-0.5 border border-[#DAB973]/40 rounded-sm">
+									AFIADA (+2 Margem, +1 Dano)
+								</span>
+							{/if}
+							{#if equippedWeapon.isRunic === 1}
+								<span class="text-[10px] font-bold bg-[#38bdf8]/20 text-[#38bdf8] px-1.5 py-0.5 border border-[#38bdf8]/40 rounded-sm">
+									RÚNICA (Dano de Éter)
+								</span>
+							{/if}
+						</div>
+					</div>
+				{/if}
 			</div>
 			<p class="mt-3 leading-7 text-bone">Ação disponível: ataque simples.</p>
 		</div>
