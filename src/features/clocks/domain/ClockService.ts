@@ -1,5 +1,8 @@
-import { clockSchema } from "../../../entities/clocks/model/clockSchema";
-import type { ClockData } from "../../../entities/clocks/model-api";
+import { clockSelectSchema as clockSchema } from "../../../entities/clocks/model/clockSchema";
+import type {
+	ClockData,
+	IClockRepository,
+} from "../../../entities/clocks/model-api";
 import { generateId } from "../../../shared/lib/id";
 import { fail, ok, type Result } from "../../../shared/lib/result";
 
@@ -8,8 +11,109 @@ export type AdvanceClockResult = {
 	eventTriggered?: string | undefined;
 };
 
-// biome-ignore lint/complexity/noStaticOnlyClass: Domain Service encapsulate static domain logic for now
 export class ClockService {
+	public constructor(private readonly repository?: IClockRepository) {}
+
+	/**
+	 * Métodos de instância persistentes assíncronos
+	 */
+	public async create(
+		name: string,
+		totalSegments: number,
+		triggerEvent?: string,
+	): Promise<Result<ClockData, Error>> {
+		if (!this.repository) {
+			return fail(new Error("Repository not configured in ClockService"));
+		}
+
+		const result = ClockService.createClock(name, totalSegments, triggerEvent);
+		if (!result.success) {
+			return fail(result.error);
+		}
+
+		const saveRes = await this.repository.save(result.data);
+		if (!saveRes.success) {
+			return fail(saveRes.error);
+		}
+
+		return ok(saveRes.data);
+	}
+
+	public async advance(
+		id: string,
+		amount: number,
+	): Promise<Result<AdvanceClockResult, Error>> {
+		if (!this.repository) {
+			return fail(new Error("Repository not configured in ClockService"));
+		}
+
+		const findRes = await this.repository.findById(id);
+		if (!findRes.success) {
+			return fail(findRes.error);
+		}
+		if (!findRes.data) {
+			return fail(new Error(`Clock com ID ${id} não encontrado`));
+		}
+
+		const advanceRes = ClockService.advanceClock(findRes.data, amount);
+		if (!advanceRes.success) {
+			return fail(advanceRes.error);
+		}
+
+		const saveRes = await this.repository.save(advanceRes.data.clock);
+		if (!saveRes.success) {
+			return fail(saveRes.error);
+		}
+
+		return ok({
+			clock: saveRes.data,
+			eventTriggered: advanceRes.data.eventTriggered,
+		});
+	}
+
+	public async reduce(
+		id: string,
+		amount: number,
+	): Promise<Result<ClockData, Error>> {
+		if (!this.repository) {
+			return fail(new Error("Repository not configured in ClockService"));
+		}
+
+		const findRes = await this.repository.findById(id);
+		if (!findRes.success) {
+			return fail(findRes.error);
+		}
+		if (!findRes.data) {
+			return fail(new Error(`Clock com ID ${id} não encontrado`));
+		}
+
+		const reduceRes = ClockService.reduceClock(findRes.data, amount);
+		if (!reduceRes.success) {
+			return fail(reduceRes.error);
+		}
+
+		const saveRes = await this.repository.save(reduceRes.data);
+		if (!saveRes.success) {
+			return fail(saveRes.error);
+		}
+
+		return ok(saveRes.data);
+	}
+
+	public async list(): Promise<Result<ClockData[], Error>> {
+		if (!this.repository) {
+			return fail(new Error("Repository not configured in ClockService"));
+		}
+		return this.repository.findAll();
+	}
+
+	public async delete(id: string): Promise<Result<void, Error>> {
+		if (!this.repository) {
+			return fail(new Error("Repository not configured in ClockService"));
+		}
+		return this.repository.delete(id);
+	}
+
 	/**
 	 * Cria um novo relógio limpo, validado pelo schema
 	 */
@@ -74,7 +178,7 @@ export class ClockService {
 
 		return ok<AdvanceClockResult>({
 			clock: validation.data,
-			eventTriggered: validation.data.isCompleted
+			eventTriggered: (validation.data.isCompleted && validation.data.triggerEvent)
 				? validation.data.triggerEvent
 				: undefined,
 		});

@@ -1,8 +1,12 @@
 <script lang="ts">
-import type { ClockData } from "../../../entities/clocks/model-api";
+import { onMount } from "svelte";
+import { WorkerClockRepository } from "$lib/entities/clocks/infrastructure/WorkerClockRepository";
+import type { ClockData } from "$lib/entities/clocks/model-api";
 import { ClockService } from "../domain/ClockService";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import ClockWidget from "./ClockWidget.svelte";
+
+let { service = new ClockService(new WorkerClockRepository()) } = $props();
 
 let clocks = $state<ClockData[]>([]);
 let logs = $state<string[]>([]);
@@ -13,9 +17,18 @@ function addLog(msg: string) {
 	logs = [...logs, msg];
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-function handleCreate() {
-	const result = ClockService.createClock(
+onMount(async () => {
+	const res = await service.list();
+	if (res.success) {
+		clocks = res.data;
+	} else {
+		addLog(`Erro ao carregar relógios: ${res.error.message}`);
+	}
+});
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+async function handleCreate() {
+	const result = await service.create(
 		newClockName,
 		newClockSegments,
 		"EVENTO_GENERICO",
@@ -34,23 +47,22 @@ function handleCreate() {
 	}
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-function handleAdvance(id: string) {
-	const clockIndex = clocks.findIndex((c) => c.id === id);
-	if (clockIndex < 0) return;
-
-	const clock = clocks[clockIndex];
-	const result = ClockService.advanceClock(clock, 1);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+async function handleAdvance(id: string) {
+	const result = await service.advance(id, 1);
 
 	if (result.success) {
-		clocks[clockIndex] = result.data.clock;
+		const clockIndex = clocks.findIndex((c) => c.id === id);
+		if (clockIndex >= 0) {
+			clocks[clockIndex] = result.data.clock;
+		}
 		addLog(
-			`Avançou '${clock.name}'. Progresso: ${result.data.clock.filledSegments}/${clock.totalSegments}`,
+			`Avançou '${result.data.clock.name}'. Progresso: ${result.data.clock.filledSegments}/${result.data.clock.totalSegments}`,
 		);
 
 		if (result.data.eventTriggered) {
 			addLog(
-				`⚡ EVENTO DISPARADO: ${result.data.eventTriggered} (Origem: ${clock.name})`,
+				`⚡ EVENTO DISPARADO: ${result.data.eventTriggered} (Origem: ${result.data.clock.name})`,
 			);
 		}
 	} else {
@@ -58,27 +70,32 @@ function handleAdvance(id: string) {
 	}
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-function handleReduce(id: string) {
-	const clockIndex = clocks.findIndex((c) => c.id === id);
-	if (clockIndex < 0) return;
-
-	const clock = clocks[clockIndex];
-	const result = ClockService.reduceClock(clock, 1);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+async function handleReduce(id: string) {
+	const result = await service.reduce(id, 1);
 
 	if (result.success) {
-		clocks[clockIndex] = result.data;
+		const clockIndex = clocks.findIndex((c) => c.id === id);
+		if (clockIndex >= 0) {
+			clocks[clockIndex] = result.data;
+		}
 		addLog(
-			`Reduziu '${clock.name}'. Progresso: ${result.data.filledSegments}/${clock.totalSegments}`,
+			`Reduziu '${result.data.name}'. Progresso: ${result.data.filledSegments}/${result.data.totalSegments}`,
 		);
 	} else {
 		addLog(`Erro ao reduzir: ${result.error.message}`);
 	}
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-function handleRemove(id: string) {
-	clocks = clocks.filter((c) => c.id !== id);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+async function handleRemove(id: string) {
+	const result = await service.delete(id);
+	if (result.success) {
+		clocks = clocks.filter((c) => c.id !== id);
+		addLog(`Removeu relógio com sucesso.`);
+	} else {
+		addLog(`Erro ao remover: ${result.error.message}`);
+	}
 }
 </script>
 

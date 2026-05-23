@@ -8,4 +8,6 @@ export interface IClockRepository {
 	delete(id: string): Promise<Result<void, Error>>;
 }
 
+export { DrizzleClockRepository } from "./infrastructure/DrizzleClockRepository";
+export { WorkerClockRepository } from "./infrastructure/WorkerClockRepository";
 export type { ClockData };
