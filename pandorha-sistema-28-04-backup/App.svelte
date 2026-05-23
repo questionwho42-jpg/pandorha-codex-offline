@@ -18,7 +18,7 @@ import type {
 	TrapDowntimeCharacterService,
 	TrapRecord,
 } from "$lib/entities/traps";
-import { TrapService, WorkerTrapRepository } from "$lib/entities/traps";
+import { SessionTrapRepository, TrapService } from "$lib/entities/traps";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CampPanel } from "$lib/features/camp";
 import {
@@ -45,12 +45,13 @@ import {
 	CraftingWorkshopPanel,
 	IllnessWorkshopPanel,
 } from "$lib/features/crafting";
+import { DialoguePanel } from "$lib/features/dialogue";
+import { BastionPanel } from "$lib/features/bastion";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
-// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
-import { QuestLogPanel } from "$lib/features/quests";
+import { SaveManagerPanel } from "$lib/features/saves";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SocialDemo } from "$lib/features/social";
 import { SocialStandingService } from "$lib/features/social/domain/SocialStandingService";
@@ -67,7 +68,7 @@ import type { AppNavigationId } from "./model/navigation";
 import { APP_NAVIGATION_ITEMS, getAppNavigationItem } from "./model/navigation";
 import { createSpellCastSession } from "./model/spellCastSession";
 
-const trapRepository = new WorkerTrapRepository();
+const trapRepository = new SessionTrapRepository();
 const trapService = new TrapService();
 
 const characterSession = createCharacterSession();
@@ -175,15 +176,6 @@ let trapsList = $state<TrapRecord[]>([]);
 let activeTileId = $state(hexcrawlSession.initialTileId);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let currentTraps = $derived(trapsList.filter((t) => t.tileId === activeTileId));
-
-async function persistTrapUpdate(updatedTrap: TrapRecord) {
-	const res = await trapRepository.save(updatedTrap);
-	if (res.success) {
-		trapsList = trapsList.map((t) => (t.id === updatedTrap.id ? res.data : t));
-	} else {
-		console.error("Erro ao persistir armadilha no SQLite:", res.error);
-	}
-}
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let characterCreateError = $state<string | null>(null);
@@ -332,7 +324,9 @@ async function handleHexcrawlMoveSuccess(biome: string, toTileId?: string) {
 			console.log(detectRes.data.log);
 
 			if (detectRes.data.isDetected) {
-				await persistTrapUpdate({ ...trap, isDetected: true });
+				trapsList = trapsList.map((t) =>
+					t.id === trap.id ? { ...t, isDetected: true } : t,
+				);
 			} else {
 				// Falhou na vigília automática: a armadilha dispara!
 				const triggerRollArray = new Uint32Array(1);
@@ -375,11 +369,11 @@ async function handleHexcrawlMoveSuccess(biome: string, toTileId?: string) {
 				);
 				if (triggerRes.success) {
 					console.log(triggerRes.data.log);
-					await persistTrapUpdate({
-						...trap,
-						isDetected: true,
-						isTriggered: true,
-					});
+					trapsList = trapsList.map((t) =>
+						t.id === trap.id
+							? { ...t, isDetected: true, isTriggered: true }
+							: t,
+					);
 				}
 			}
 		}
@@ -438,7 +432,9 @@ async function handleManualDetectTrap(
 		console.log(res.data.log);
 
 		if (res.data.isDetected) {
-			await persistTrapUpdate({ ...trap, isDetected: true });
+			trapsList = trapsList.map((t) =>
+				t.id === trapId ? { ...t, isDetected: true } : t,
+			);
 		} else {
 			// Dispara a armadilha na falha do teste
 			const triggerRollArray = new Uint32Array(1);
@@ -476,11 +472,9 @@ async function handleManualDetectTrap(
 			);
 			if (triggerRes.success) {
 				console.log(triggerRes.data.log);
-				await persistTrapUpdate({
-					...trap,
-					isDetected: true,
-					isTriggered: true,
-				});
+				trapsList = trapsList.map((t) =>
+					t.id === trapId ? { ...t, isDetected: true, isTriggered: true } : t,
+				);
 			}
 		}
 	}
@@ -531,9 +525,13 @@ async function handleManualDisarmTrap(
 		console.log(res.data.log);
 
 		if (res.data.isDisarmed) {
-			await persistTrapUpdate({ ...trap, isDisarmed: true });
+			trapsList = trapsList.map((t) =>
+				t.id === trapId ? { ...t, isDisarmed: true } : t,
+			);
 		} else {
-			await persistTrapUpdate({ ...trap, isTriggered: true });
+			trapsList = trapsList.map((t) =>
+				t.id === trapId ? { ...t, isTriggered: true } : t,
+			);
 		}
 	}
 }
@@ -625,14 +623,9 @@ onMount(async () => {
 	];
 
 	for (const trap of initialTraps) {
-		const existing = await trapRepository.findById(trap.id);
-		if (existing.success) {
-			trapsList.push(existing.data);
-		} else {
-			const res = await trapRepository.save(trap);
-			if (res.success) {
-				trapsList.push(res.data);
-			}
+		const res = await trapRepository.save(trap);
+		if (res.success) {
+			trapsList.push(res.data);
 		}
 	}
 
@@ -821,8 +814,6 @@ async function createCharacter(
 				<BastionPanel
 					characters={characterRecords}
 				/>
-			{:else if activeView === "quests"}
-				<QuestLogPanel />
 			{:else if activeView === "camp"}
 				<CampPanel 
 					isRestBlocked={isRestBlocked}

@@ -10,8 +10,6 @@ export default defineConfig({
 		"./src/entities/bastion/model/bastionSchema.ts",
 		"./src/entities/clocks/model/clockSchema.ts",
 		"./src/entities/dialogue/model/dialogueSchema.ts",
-		"./src/entities/quest/model/questSchema.ts",
-		"./src/entities/synergy/model/synergySchema.ts",
 	],
 	out: "./drizzle",
 	dialect: "sqlite",

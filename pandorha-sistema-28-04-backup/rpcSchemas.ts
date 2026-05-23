@@ -40,20 +40,6 @@ export const rpcCommandTypeSchema = z.enum([
 	"SAVE_DIALOGUE_STATE",
 	"FIND_DIALOGUE_STATE",
 	"DELETE_DIALOGUE_STATE",
-	"SAVE_QUEST",
-	"FIND_QUEST",
-	"LIST_QUESTS",
-	"DELETE_QUEST",
-	"SAVE_COHESION",
-	"FIND_COHESION",
-	"SAVE_SIGNATURE",
-	"FIND_SIGNATURE",
-	"LIST_SIGNATURES",
-	"DELETE_SIGNATURE",
-	"SAVE_TRAP",
-	"FIND_TRAP",
-	"LIST_TRAPS",
-	"DELETE_TRAP",
 ]);
 
 export const jsonSerializableValueSchema = z.custom<JsonValue>(
@@ -78,7 +64,6 @@ export const saveGameSnapshotSchema = z.object({
 	bloodDebts: z.array(jsonSerializableObjectSchema).optional(),
 	progressClocks: z.array(jsonSerializableObjectSchema).optional(),
 	dialogueStates: z.array(jsonSerializableObjectSchema).optional(),
-	quests: z.array(jsonSerializableObjectSchema).optional(),
 });
 
 export const initDatabaseRequestSchema = z.object({
@@ -304,114 +289,6 @@ export const deleteDialogueStateRequestSchema = z.object({
 	}),
 });
 
-export const saveQuestRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("SAVE_QUEST"),
-	payload: z.object({
-		quest: jsonSerializableObjectSchema,
-	}),
-});
-
-export const findQuestRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("FIND_QUEST"),
-	payload: z.object({
-		id: z.string().min(1),
-	}),
-});
-
-export const listQuestsRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("LIST_QUESTS"),
-	payload: z.object({}),
-});
-
-export const deleteQuestRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("DELETE_QUEST"),
-	payload: z.object({
-		id: z.string().min(1),
-	}),
-});
-
-export const saveCohesionRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("SAVE_COHESION"),
-	payload: z.object({
-		cohesion: jsonSerializableObjectSchema,
-	}),
-});
-
-export const findCohesionRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("FIND_COHESION"),
-	payload: z.object({
-		id: z.string().min(1),
-	}),
-});
-
-export const saveSignatureRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("SAVE_SIGNATURE"),
-	payload: z.object({
-		signature: jsonSerializableObjectSchema,
-	}),
-});
-
-export const findSignatureRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("FIND_SIGNATURE"),
-	payload: z.object({
-		id: z.string().min(1),
-	}),
-});
-
-export const listSignaturesRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("LIST_SIGNATURES"),
-	payload: z.object({}),
-});
-
-export const deleteSignatureRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("DELETE_SIGNATURE"),
-	payload: z.object({
-		id: z.string().min(1),
-	}),
-});
-
-export const saveTrapRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("SAVE_TRAP"),
-	payload: z.object({
-		trap: jsonSerializableObjectSchema,
-	}),
-});
-
-export const findTrapRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("FIND_TRAP"),
-	payload: z.object({
-		id: z.string().min(1),
-	}),
-});
-
-export const listTrapsRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("LIST_TRAPS"),
-	payload: z.object({
-		tileId: z.string().min(1),
-	}),
-});
-
-export const deleteTrapRequestSchema = z.object({
-	messageId: rpcMessageIdSchema,
-	type: z.literal("DELETE_TRAP"),
-	payload: z.object({
-		id: z.string().min(1),
-	}),
-});
-
 export const rpcRequestSchema = z.discriminatedUnion("type", [
 	initDatabaseRequestSchema,
 	saveGameSnapshotRequestSchema,
@@ -441,20 +318,6 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	saveDialogueStateRequestSchema,
 	findDialogueStateRequestSchema,
 	deleteDialogueStateRequestSchema,
-	saveQuestRequestSchema,
-	findQuestRequestSchema,
-	listQuestsRequestSchema,
-	deleteQuestRequestSchema,
-	saveCohesionRequestSchema,
-	findCohesionRequestSchema,
-	saveSignatureRequestSchema,
-	findSignatureRequestSchema,
-	listSignaturesRequestSchema,
-	deleteSignatureRequestSchema,
-	saveTrapRequestSchema,
-	findTrapRequestSchema,
-	listTrapsRequestSchema,
-	deleteTrapRequestSchema,
 ]);
 
 const rpcErrorSchema = z.object({

@@ -187,4 +187,42 @@ export class DrizzleBastionRepository implements BastionRepository {
 			});
 		}
 	}
+
+	public async loadFirstBastion(): Promise<
+		Result<
+			{ bastion: BastionRecord | null; modules: BastionModuleRecord[] },
+			BastionRepositoryFailure
+		>
+	> {
+		try {
+			const bRows = await this.db.select().from(bastions).limit(1).all();
+			const bRow = bRows[0];
+			if (!bRow) {
+				return ok({ bastion: null, modules: [] });
+			}
+
+			const bastion = bastionSelectSchema.parse(bRow);
+
+			const mRows = await this.db
+				.select()
+				.from(bastionModules)
+				.where(eq(bastionModules.bastionId, bastion.id))
+				.all();
+
+			const modules = mRows.map((r: any) => {
+				return bastionModuleSelectSchema.parse({
+					...r,
+					isBroken: r.isBroken === 1 || r.isBroken === true,
+				});
+			});
+
+			return ok({ bastion, modules });
+		} catch (error: unknown) {
+			return fail({
+				code: "BASTION_REPOSITORY_READ_FAILED",
+				message: "Could not load first bastion from SQLite.",
+				details: { cause: String(error) },
+			});
+		}
+	}
 }

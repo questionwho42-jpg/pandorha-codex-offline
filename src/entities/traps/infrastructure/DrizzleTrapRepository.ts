@@ -27,7 +27,26 @@ export class DrizzleTrapRepository implements TrapRepository {
 		record: NewTrapRecord,
 	): Promise<Result<TrapRecord, TrapRepositoryFailure>> {
 		try {
-			const rows = await this.db.insert(traps).values(record).returning();
+			const rows = await this.db
+				.insert(traps)
+				.values(record)
+				.onConflictDoUpdate({
+					target: traps.id,
+					set: {
+						tileId: record.tileId,
+						name: record.name,
+						type: record.type,
+						severity: record.severity,
+						dc: record.dc,
+						damage: record.damage,
+						isDetected: record.isDetected,
+						isDisarmed: record.isDisarmed,
+						isTriggered: record.isTriggered,
+						effects: record.effects,
+						updatedAt: record.updatedAt ?? new Date().toISOString(),
+					},
+				})
+				.returning();
 			const parsed = trapSelectSchema.safeParse(rows[0]);
 
 			if (!parsed.success) {

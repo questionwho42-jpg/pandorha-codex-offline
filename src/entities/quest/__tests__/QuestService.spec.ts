@@ -130,8 +130,14 @@ describe("QuestService", () => {
 		expect(res.success).toBe(true);
 		if (res.success) {
 			expect(res.data.length).toBe(2);
-			expect(res.data[0].id).toBe("q1");
-			expect(res.data[1].id).toBe("q2");
+			const first = res.data[0];
+			const second = res.data[1];
+			expect(first).toBeDefined();
+			expect(second).toBeDefined();
+			if (first && second) {
+				expect(first.id).toBe("q1");
+				expect(second.id).toBe("q2");
+			}
 		}
 	});
 

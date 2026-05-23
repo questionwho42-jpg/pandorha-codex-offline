@@ -3,6 +3,8 @@ import { onMount } from "svelte";
 import type { CharacterRecord } from "$lib/entities/character";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import { OFFICIAL_EQUIPMENT } from "$lib/entities/equipment/model/equipmentCatalog";
+import { SynergyService } from "$lib/entities/synergy/domain/SynergyService";
+import { WorkerSynergyRepository } from "$lib/entities/synergy/infrastructure/WorkerSynergyRepository";
 import type { CharacterCraftedItemRecord } from "../../crafting/model/craftingSchema";
 import { CombatTurnService } from "../domain/CombatTurnService";
 import { createCombatAttackerStatsView } from "../model/combatAttackerStatsView";
@@ -89,7 +91,173 @@ let craftedItems = $state<CharacterCraftedItemRecord[]>([]);
 // biome-ignore lint/suspicious/noExplicitAny: status effects loaded dynamically from local storage
 let activeEffects = $state<any[]>([]);
 
-onMount(() => {
+// Lógica de Sinergia de Combate
+const synergyRepository = new WorkerSynergyRepository();
+const synergyService = new SynergyService(synergyRepository);
+
+let cohesionState = $state<any>(null);
+let activeElo = $state<any>(null);
+let registeredSignaturesList = $state<any[]>([]);
+let openingTact = $state("physical_push");
+let reinforceTact = $state("physical_expose");
+let selectedReinforcerId = $state("");
+let detonationTact = $state("physical_expose");
+
+const availableTactics = [
+	{
+		id: "physical_push",
+		label: "Física: Empurrar (Ação Imediata: Empurra o alvo)",
+	},
+	{
+		id: "physical_expose",
+		label: "Física: Expor (Condição: Aplica Exposto ao inimigo)",
+	},
+	{
+		id: "mental_silence",
+		label: "Mental: Silenciar (Condição: Aplica Silenciado ao inimigo)",
+	},
+];
+
+async function handleOpenElo() {
+	if (!cohesionState) return;
+	const res = await synergyService.openSynergyElo({
+		cohesionId: cohesionState.id,
+		abridorId: selectedAttackerId,
+		targetId: selectedTargetId,
+		openingTactId: openingTact,
+		timestamp: new Date().toISOString(),
+	});
+	if (res.success) {
+		activeElo = res.data;
+		const cohesionRes = await synergyRepository.getCohesion(cohesionState.id);
+		if (cohesionRes.success) {
+			cohesionState = cohesionRes.data;
+		}
+		log = [
+			...log,
+			`🔗 Elo de Sinergia aberto por ${getCombatAttacker(selectedAttackerId).name} contra ${getTrainingTarget(selectedTargetId).label} usando tática [${openingTact}].`,
+		];
+	} else {
+		errorMessage = `Erro ao abrir elo: ${res.error.message}`;
+	}
+}
+
+async function handleReinforceElo() {
+	if (!cohesionState || !activeElo) return;
+	const otherHero = characters.find((c) => c.id !== activeElo.abridorId);
+	const reinforcerId = selectedReinforcerId || (otherHero ? otherHero.id : "");
+	if (!reinforcerId) {
+		errorMessage = "Selecione um reforçador válido.";
+		return;
+	}
+	const res = await synergyService.reinforceSynergyElo({
+		cohesionId: cohesionState.id,
+		reinforcerId: reinforcerId,
+		reinforceTactId: reinforceTact,
+		timestamp: new Date().toISOString(),
+	});
+	if (res.success) {
+		activeElo = res.data;
+		const cohesionRes = await synergyRepository.getCohesion(cohesionState.id);
+		if (cohesionRes.success) {
+			cohesionState = cohesionRes.data;
+		}
+		log = [
+			...log,
+			`⚡ Sinergia em Cadeia: Elo reforçado por ${getCombatAttacker(reinforcerId).name} com tática [${reinforceTact}].`,
+		];
+	} else {
+		errorMessage = `Erro ao reforçar elo: ${res.error.message}`;
+	}
+}
+
+async function handleDetonateElo() {
+	if (!cohesionState || !activeElo) return;
+	const attackRoll =
+		Math.floor(Math["random"]() * 20) +
+		1 +
+		(trainingAttackProfile.attackBonus || 2);
+	const targetDefense = selectedTarget.armorClass;
+	const targetSaveRoll = Math.floor(Math["random"]() * 20) + 1;
+	const targetSaveBonus = selectedTarget.saveBonus ?? 2;
+	const res = await synergyService.detonateSynergyElo({
+		cohesionId: cohesionState.id,
+		detonatorId: selectedAttackerId,
+		detonationTactId: detonationTact,
+		attackRoll,
+		targetDefense,
+		targetSaveRoll,
+		targetSaveBonus,
+		timestamp: new Date().toISOString(),
+	});
+	if (res.success) {
+		const result = res.data;
+		const detonatorName = getCombatAttacker(selectedAttackerId).name;
+		const targetName = selectedTarget.label;
+		let detonationLog = "";
+		if (result.hit) {
+			detonationLog = `💥 Detonação de Elo por ${detonatorName} contra ${targetName}! Ataque: ${attackRoll} vs CA ${targetDefense} (ACERTO). `;
+			if (
+				result.conditionsApplied.length > 0 ||
+				result.instantEffectsExecuted.length > 0
+			) {
+				detonationLog += `Efeitos Fundidos: [${[...result.instantEffectsExecuted, ...result.conditionsApplied].join(", ")}]. `;
+			}
+			if (result.saveSuccess) {
+				detonationLog += `O alvo resistiu a efeitos de status (Resistência: ${targetSaveRoll + targetSaveBonus}).`;
+			} else {
+				detonationLog += `O alvo FALHOU em resistir (Resistência: ${targetSaveRoll + targetSaveBonus}).`;
+				for (const cond of result.conditionsApplied) {
+					const nextId = crypto.randomUUID();
+					const newEffect = {
+						id: nextId,
+						characterId: selectedTargetId,
+						name: cond,
+						label: cond,
+						color: "#ef4444",
+						createdAt: new Date().toISOString(),
+					};
+					activeEffects = [...activeEffects, newEffect];
+					localStorage.setItem(
+						"pandorha_status_effects",
+						JSON.stringify(activeEffects),
+					);
+				}
+			}
+			const damage = Math.floor(Math["random"]() * 6) + 3;
+			targetHitPoints = Math.max(0, targetHitPoints - damage);
+			detonationLog += ` Dano de Detonação: ${damage} PV.`;
+		} else {
+			detonationLog = `💨 Detonação falhou! Ataque de ${detonatorName} (${attackRoll}) errou a CA de ${targetName} (${targetDefense}).`;
+		}
+		activeElo = null;
+		log = [...log, detonationLog];
+		const sigsRes = await synergyRepository.findAllSignatures();
+		if (sigsRes.success) {
+			registeredSignaturesList = sigsRes.data;
+		}
+	} else {
+		errorMessage = `Erro ao detonar elo: ${res.error.message}`;
+	}
+}
+
+async function handleRecoverCohesion() {
+	if (!cohesionState) return;
+	const res = await synergyService.recoverCohesionOnRest(
+		cohesionState.id,
+		"long",
+		new Date().toISOString(),
+	);
+	if (res.success) {
+		cohesionState = res.data;
+		log = [
+			...log,
+			"💤 Descanso longo realizado. Reserva de Coesão compartilhada restaurada ao máximo!",
+		];
+	}
+}
+
+onMount(async () => {
 	if (typeof window !== "undefined") {
 		const stored = localStorage.getItem("pandorha_crafted_items");
 		if (stored) {
@@ -107,6 +275,20 @@ onMount(() => {
 			} catch (e) {
 				console.error("Erro ao carregar status effects no combate", e);
 			}
+		}
+
+		const initCohesion = await synergyService.initializeCohesion({
+			id: "primary",
+			activePlayers: 4,
+			updatedAt: new Date().toISOString(),
+		});
+		if (initCohesion.success) {
+			cohesionState = initCohesion.data;
+		}
+
+		const sigsRes = await synergyRepository.findAllSignatures();
+		if (sigsRes.success) {
+			registeredSignaturesList = sigsRes.data;
 		}
 	}
 });
@@ -447,6 +629,194 @@ function createInitialTurnState(
 			</select>
 		</label>
 	</div>
+
+	<!-- Painel de Sinergia de Combate e Coesão Compartilhada -->
+	{#if cohesionState}
+		<div class="mt-6 border border-[#38bdf8]/40 bg-[#0f172a]/90 p-5 rounded-md shadow-lg" data-testid="combat-synergy-panel">
+			<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-[#38bdf8]/20 pb-3">
+				<div>
+					<h3 class="text-lg font-semibold text-[#38bdf8] flex items-center gap-2">
+						🌌 Sinergia de Combate (Forja Tática)
+					</h3>
+					<p class="text-xs text-bone/70 mt-1">
+						Teça elos cooperativos consumindo a Coesão compartilhada do grupo.
+					</p>
+				</div>
+				<div class="flex items-center gap-3">
+					<div class="bg-[#1e293b] border border-[#38bdf8]/30 px-3.5 py-1.5 rounded-sm">
+						<span class="text-xs font-semibold text-[#38bdf8]">Coesão Tier {cohesionState.cohesionLevel}</span>
+						<span class="text-sm font-bold text-bone ml-2">{cohesionState.cohesionPoints} / {cohesionState.cohesionLevel + cohesionState.activePlayers} PE</span>
+					</div>
+					<button
+						type="button"
+						onclick={handleRecoverCohesion}
+						class="text-xs border border-bronze bg-ruin px-2.5 py-1.5 text-bone hover:border-ether transition-colors"
+					>
+						💤 Recuperar (Descanso)
+					</button>
+				</div>
+			</div>
+
+			<div class="mt-4 grid gap-4 md:grid-cols-3">
+				<!-- Passo 1: Abertura de Elo -->
+				<div class="border border-bronze/30 bg-[#1e293b]/40 p-3.5 rounded-sm">
+					<p class="text-xs font-bold text-[#38bdf8] uppercase tracking-wider">1. Abrir Elo (Abertura)</p>
+					<p class="text-xs text-bone/80 mt-1">Custa 1 ponto de Coesão. Marca o alvo com um Eixo.</p>
+					
+					<label class="block mt-3">
+						<span class="text-[11px] font-semibold text-ether">Selecionar Tática de Abertura</span>
+						<select
+							bind:value={openingTact}
+							class="mt-1 w-full text-xs border border-bronze bg-blood-shadow px-2 py-1.5 text-bone outline-none focus:border-ether"
+						>
+							{#each availableTactics as tact}
+								<option value={tact.id}>{tact.label}</option>
+							{/each}
+						</select>
+					</label>
+
+					<button
+						type="button"
+						disabled={cohesionState.cohesionPoints < 1 || activeElo !== null}
+						onclick={handleOpenElo}
+						class="mt-3.5 w-full border border-[#38bdf8] bg-[#38bdf8]/15 py-1.5 text-xs font-semibold text-[#38bdf8] transition-colors hover:bg-[#38bdf8]/35 disabled:opacity-40 disabled:hover:bg-[#38bdf8]/15"
+					>
+						Vincular Elo 🔗
+					</button>
+				</div>
+
+				<!-- Passo 2: Sinergia em Cadeia (Reforço) -->
+				<div class="border border-bronze/30 bg-[#1e293b]/40 p-3.5 rounded-sm">
+					<p class="text-xs font-bold text-[#38bdf8] uppercase tracking-wider">2. Reforçar Elo (Cadeia)</p>
+					<p class="text-xs text-bone/80 mt-1">Disponível no Tier 2+. Custa 1 ponto de Coesão adicional.</p>
+					
+					{#if cohesionState.cohesionLevel < 2}
+						<div class="mt-4 border border-[#ef4444]/30 bg-[#1e1212] p-2 text-center rounded-sm">
+							<p class="text-[10px] font-bold text-[#ef4444]">🚫 BLOQUEADO: Exige Coesão Tier 2</p>
+						</div>
+					{:else}
+						<label class="block mt-2.5">
+							<span class="text-[11px] font-semibold text-ether">Herói Auxiliar</span>
+							<select
+								bind:value={selectedReinforcerId}
+								class="mt-1 w-full text-xs border border-bronze bg-blood-shadow px-2 py-1.5 text-bone outline-none focus:border-ether"
+							>
+								<option value="">Selecione outro herói...</option>
+								{#each characters as char}
+									{#if activeElo && char.id !== activeElo.abridorId}
+										<option value={char.id}>{char.name}</option>
+									{/if}
+								{/each}
+							</select>
+						</label>
+
+						<label class="block mt-2">
+							<span class="text-[11px] font-semibold text-ether">Tática de Reforço</span>
+							<select
+								bind:value={reinforceTact}
+								class="mt-1 w-full text-xs border border-bronze bg-blood-shadow px-2 py-1.5 text-bone outline-none focus:border-ether"
+							>
+								{#each availableTactics as tact}
+									<option value={tact.id}>{tact.label}</option>
+								{/each}
+							</select>
+						</label>
+
+						<button
+							type="button"
+							disabled={!activeElo || activeElo.reinforceTactId !== undefined || cohesionState.cohesionPoints < 1}
+							onclick={handleReinforceElo}
+							class="mt-3 w-full border border-[#dab973] bg-[#dab973]/15 py-1.5 text-xs font-semibold text-[#dab973] transition-colors hover:bg-[#dab973]/35 disabled:opacity-40"
+						>
+							Adicionar Reforço ⚡
+						</button>
+					{/if}
+				</div>
+
+				<!-- Passo 3: Detonação e Técnicas -->
+				<div class="border border-bronze/30 bg-[#1e293b]/40 p-3.5 rounded-sm flex flex-col justify-between">
+					<div>
+						<p class="text-xs font-bold text-[#38bdf8] uppercase tracking-wider">3. Detonar Elo (Forja)</p>
+						<p class="text-xs text-bone/80 mt-1">Atacante active detona os efeitos combinados no alvo.</p>
+
+						<label class="block mt-3">
+							<span class="text-[11px] font-semibold text-ether">Tática de Detonação</span>
+							<select
+								bind:value={detonationTact}
+								class="mt-1 w-full text-xs border border-bronze bg-blood-shadow px-2 py-1.5 text-bone outline-none focus:border-ether"
+							>
+								{#each availableTactics as tact}
+									<option value={tact.id}>{tact.label}</option>
+								{/each}
+							</select>
+						</label>
+					</div>
+
+					<button
+						type="button"
+						disabled={!activeElo}
+						onclick={handleDetonateElo}
+						class="mt-4 w-full border border-[#ef4444] bg-[#ef4444]/15 py-2 text-xs font-bold text-[#ef4444] transition-colors hover:bg-[#ef4444]/35 disabled:opacity-40"
+					>
+						💥 Detonar Fusão de Sinergia
+					</button>
+				</div>
+			</div>
+
+			<!-- Status do Elo Ativo -->
+			<div class="mt-4 bg-[#1e293b]/50 border border-bronze/20 p-3 rounded-sm flex items-center justify-between text-xs">
+				<div class="flex items-center gap-2">
+					<span class="text-[#38bdf8]">Status do Elo:</span>
+					{#if activeElo}
+						<span class="font-bold text-bone">🔗 ELO ATIVO (Abridor: {getCombatAttacker(activeElo.abridorId).name} ➔ Alvo: {getTrainingTarget(activeElo.targetId).label})</span>
+						<span class="text-[10px] bg-[#38bdf8]/20 text-[#38bdf8] px-1.5 py-0.5 border border-[#38bdf8]/40 rounded-sm ml-2">
+							Tática 1: {activeElo.openingTactId}
+						</span>
+						{#if activeElo.reinforceTactId}
+							<span class="text-[10px] bg-[#dab973]/20 text-[#dab973] px-1.5 py-0.5 border border-[#dab973]/40 rounded-sm ml-2">
+								Tática 2: {activeElo.reinforceTactId} ({getCombatAttacker(activeElo.reinforcerId || '').name})
+							</span>
+						{/if}
+					{:else}
+						<span class="text-bone/50">Nenhum Elo de sinergia ativo no momento.</span>
+					{/if}
+				</div>
+				{#if activeElo}
+					<button
+						type="button"
+						onclick={() => activeElo = null}
+						class="text-[10px] text-[#ef4444] hover:underline"
+					>
+						Cancelar Elo
+					</button>
+				{/if}
+			</div>
+
+			<!-- Técnicas de Assinatura Desbloqueadas -->
+			{#if registeredSignaturesList.length > 0}
+				<div class="mt-4 border-t border-[#38bdf8]/20 pt-3">
+					<p class="text-xs font-semibold text-[#38bdf8] uppercase tracking-wider flex items-center gap-1.5">
+						🔮 Técnicas de Assinatura Registradas na Campanha:
+					</p>
+					<div class="mt-2 grid gap-2 sm:grid-cols-2">
+						{#each registeredSignaturesList as sig}
+							<div class="border border-bronze/20 bg-void p-2 rounded-sm text-xs flex justify-between items-center">
+								<div>
+									<span class="font-bold text-bone">{sig.name}</span>
+									<p class="text-[10px] text-bone/60 mt-0.5">
+										Fusão: {sig.openingTactId} ➔ {sig.reinforceTactId ? sig.reinforceTactId + ' ➔ ' : ''}{sig.detonationTactId}
+									</p>
+								</div>
+								<span class="text-[10px] bg-[#dab973]/20 text-[#dab973] px-1.5 py-0.5 border border-[#dab973]/40 rounded-sm">
+									Usos: {sig.usageCount}
+								</span>
+							</div>
+						{/each}
+					</div>
+				</div>
+			{/if}
+		</div>
+	{/if}
 
 	<div class="mt-6 grid gap-4 md:grid-cols-2">
 		<div class="border border-bronze bg-blood-shadow px-5 py-4">

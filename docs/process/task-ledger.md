@@ -8,6 +8,32 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## In Progress
 <!-- pandorha-ledger:in-progress -->
+<!-- pandorha-task:20260523-133802-fase-19-sinergia-de-combate-e-forja-tatica -->
+### Fase 19: Sinergia de Combate e Forja Tatica
+- id: 20260523-133802-fase-19-sinergia-de-combate-e-forja-tatica
+- status: in-progress
+- kind: feature
+- planned: yes
+- started_at: 2026-05-23T13:38:02-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-05-23T13:38:02-03:00
+- branch: task/combat-synergy
+- commit_at_start: 6998459 feat(bastion-quest): conclui integracao do bastiao e diario de missoes
+- summary: Implementacao do modulo de Coesao, reserva compartilhada, ciclo de combo de Sinergia e persistencia RPC no SQLite
+- last_change: created task record
+#### Files At Start
+- pandorha-sistema-28-04-backup/
+- planejamento_etapas.md
+#### Checkpoints
+#### Checkpoint 2026-05-23T13:38:02-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260523-133802-fase-19-sinergia-de-combate-e-forja-tatica -->
 
 <!-- /pandorha-ledger:in-progress -->
 

@@ -78,6 +78,13 @@
       "when": 1779541906519,
       "tag": "0010_windy_wither",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1779554337736,
+      "tag": "0011_petite_thor_girl",
+      "breakpoints": true
     }
   ]
 }

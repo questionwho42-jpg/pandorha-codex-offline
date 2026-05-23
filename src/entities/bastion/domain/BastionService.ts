@@ -57,7 +57,7 @@ export class BaseBastionStats implements IBastionStats {
  * Decorador Base abstrato.
  */
 export abstract class BastionStatsDecorator implements IBastionStats {
-	protected constructor(protected readonly wrapped: IBastionStats) {}
+	public constructor(protected readonly wrapped: IBastionStats) {}
 
 	public getMaintenanceCost(): number {
 		return this.wrapped.getMaintenanceCost();

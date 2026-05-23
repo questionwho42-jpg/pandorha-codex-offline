@@ -56,12 +56,14 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0008_clear_magma",
 				"0009_special_sentinels",
 				"0010_windy_wither",
+				"0011_petite_thor_girl",
 			],
 			tableNames: [
 				"_pandorha_migrations",
 				"bastion_modules",
 				"bastions",
 				"blood_debts",
+				"campaign_cohesion",
 				"campaign_dialogue_states",
 				"campaign_quests",
 				"character_crafted_items",
@@ -71,6 +73,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"crafting_recipes",
 				"factions",
 				"progress_clocks",
+				"registered_signatures",
 				"traps",
 				"world_state_entries",
 			],
@@ -124,6 +127,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0008_clear_magma",
 			"0009_special_sentinels",
 			"0010_windy_wither",
+			"0011_petite_thor_girl",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -241,6 +245,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0008_clear_magma",
 			"0009_special_sentinels",
 			"0010_windy_wither",
+			"0011_petite_thor_girl",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
