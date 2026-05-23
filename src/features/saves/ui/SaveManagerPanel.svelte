@@ -35,7 +35,10 @@ async function handleExport() {
 			a.click();
 			document.body.removeChild(a);
 			URL.revokeObjectURL(url);
-			showStatus("Crônicas exportadas com sucesso! Arquivo JSON baixado.", "success");
+			showStatus(
+				"Crônicas exportadas com sucesso! Arquivo JSON baixado.",
+				"success",
+			);
 		} catch (error: any) {
 			showStatus(`Erro ao gerar arquivo de save: ${error.message}`, "error");
 		}
@@ -61,27 +64,38 @@ async function handleImport(event: Event) {
 		try {
 			const content = e.target?.result as string;
 			const parsed = JSON.parse(content);
-			
+
 			// Validação do schema Zod
 			const validation = saveGameSnapshotSchema.safeParse(parsed);
 			if (!validation.success) {
-				const errors = validation.error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join(", ");
+				const errors = validation.error.issues
+					.map((i) => `${i.path.join(".")}: ${i.message}`)
+					.join(", ");
 				showStatus(`Arquivo corrompido ou inválido: ${errors}`, "error");
 				isProcessing = false;
 				return;
 			}
 
-			showStatus("Restaurando a realidade narrativa no SQLite local...", "info");
+			showStatus(
+				"Restaurando a realidade narrativa no SQLite local...",
+				"info",
+			);
 			const saveRes = await repository.saveSnapshot(validation.data);
 			isProcessing = false;
 
 			if (saveRes.success) {
-				showStatus("O tear do destino foi reescrito com sucesso! Recarregando a página em 3 segundos para aplicar as mudanças...", "success");
+				showStatus(
+					"O tear do destino foi reescrito com sucesso! Recarregando a página em 3 segundos para aplicar as mudanças...",
+					"success",
+				);
 				setTimeout(() => {
 					window.location.reload();
 				}, 3000);
 			} else {
-				showStatus(`Erro ao gravar save no banco: ${saveRes.error.message}`, "error");
+				showStatus(
+					`Erro ao gravar save no banco: ${saveRes.error.message}`,
+					"error",
+				);
 			}
 		} catch (err: any) {
 			isProcessing = false;

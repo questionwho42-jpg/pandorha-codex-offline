@@ -178,9 +178,10 @@ export class ClockService {
 
 		return ok<AdvanceClockResult>({
 			clock: validation.data,
-			eventTriggered: (validation.data.isCompleted && validation.data.triggerEvent)
-				? validation.data.triggerEvent
-				: undefined,
+			eventTriggered:
+				validation.data.isCompleted && validation.data.triggerEvent
+					? validation.data.triggerEvent
+					: undefined,
 		});
 	}
 

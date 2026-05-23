@@ -65,7 +65,9 @@ export class WorkerSaveRepository {
 	}
 
 	public async getSnapshot(): Promise<Result<SaveGameSnapshot, Error>> {
-		const res = await this.sendRequest("LOAD_GAME_SNAPSHOT", { saveId: "primary" });
+		const res = await this.sendRequest("LOAD_GAME_SNAPSHOT", {
+			saveId: "primary",
+		});
 		if (!res.success) {
 			return fail(new Error(res.error.message));
 		}
@@ -77,7 +79,9 @@ export class WorkerSaveRepository {
 		return fail(new Error("Formato de snapshot inválido retornado do banco."));
 	}
 
-	public async saveSnapshot(snapshot: SaveGameSnapshot): Promise<Result<void, Error>> {
+	public async saveSnapshot(
+		snapshot: SaveGameSnapshot,
+	): Promise<Result<void, Error>> {
 		const res = await this.sendRequest("SAVE_GAME_SNAPSHOT", {
 			saveId: "primary",
 			snapshot,

@@ -31,7 +31,6 @@ import {
 import { CharacterList } from "$lib/features/character-list";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { ClockDemo } from "$lib/features/clocks";
-import { SaveManagerPanel } from "$lib/features/saves";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CombatEncounterPanel } from "$lib/features/combat-encounter";
 import type {
@@ -50,6 +49,7 @@ import {
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
+import { SaveManagerPanel } from "$lib/features/saves";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SocialDemo } from "$lib/features/social";
 import { SocialStandingService } from "$lib/features/social/domain/SocialStandingService";

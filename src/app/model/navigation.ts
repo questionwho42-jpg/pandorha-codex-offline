@@ -83,7 +83,8 @@ export const APP_NAVIGATION_ITEMS = [
 		id: "saves",
 		label: "Saves",
 		heading: "Gerenciador de Saves",
-		description: "Exportação e importação física de snapshots de jogo em formato JSON local.",
+		description:
+			"Exportação e importação física de snapshots de jogo em formato JSON local.",
 	},
 ] as const;
 
