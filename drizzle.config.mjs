@@ -7,6 +7,8 @@ export default defineConfig({
 		"./src/entities/social/model/socialSchema.ts",
 		"./src/entities/equipment/model/craftingSchema.ts",
 		"./src/entities/traps/model/trapSchema.ts",
+		"./src/entities/bastion/model/bastionSchema.ts",
+		"./src/entities/clocks/model/clockSchema.ts",
 	],
 	out: "./drizzle",
 	dialect: "sqlite",

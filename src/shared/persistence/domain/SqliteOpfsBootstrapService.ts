@@ -1,7 +1,20 @@
 /* istanbul ignore file */
 import { drizzle } from "drizzle-orm/sql-js";
+import { DrizzleBastionRepository } from "$lib/entities/bastion/infrastructure/DrizzleBastionRepository";
+import {
+	bastionModules,
+	bastions,
+} from "$lib/entities/bastion/model/bastionSchema";
 import { DrizzleCharacterRepository } from "$lib/entities/character/infrastructure/DrizzleCharacterRepository";
 import { characters } from "$lib/entities/character/model/characterSchema";
+import { DrizzleClockRepository } from "$lib/entities/clocks/infrastructure/DrizzleClockRepository";
+import { progressClocks } from "$lib/entities/clocks/model/clockSchema";
+import { DrizzleSocialRepository } from "$lib/entities/social/infrastructure/DrizzleSocialRepository";
+import {
+	bloodDebts,
+	characterReputation,
+	factions,
+} from "$lib/entities/social/model/socialSchema";
 import { worldStateEntries } from "$lib/entities/world-state/model/worldStateSchema";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { SaveGameSnapshot } from "$lib/shared/rpc";
@@ -222,6 +235,12 @@ export class SqliteOpfsBootstrapService {
 			}
 
 			database.data.run("DELETE FROM world_state_entries;");
+			database.data.run("DELETE FROM bastions;");
+			database.data.run("DELETE FROM bastion_modules;");
+			database.data.run("DELETE FROM factions;");
+			database.data.run("DELETE FROM character_reputation;");
+			database.data.run("DELETE FROM blood_debts;");
+			database.data.run("DELETE FROM progress_clocks;");
 
 			if (snapshot.worldState && snapshot.worldState.length > 0) {
 				for (const state of snapshot.worldState) {
@@ -231,6 +250,103 @@ export class SqliteOpfsBootstrapService {
 						updatedAt: String(state.updatedAt ?? new Date().toISOString()),
 					};
 					db.insert(worldStateEntries).values(mergedState).run();
+				}
+			}
+
+			if (snapshot.bastions && snapshot.bastions.length > 0) {
+				for (const b of snapshot.bastions) {
+					const mappedB = {
+						id: String(b.id),
+						name: String(b.name),
+						chassisId: String(b.chassisId),
+						tier: Number(b.tier ?? 0),
+						structure: Number(b.structure),
+						vigilance: Number(b.vigilance),
+						logistics: Number(b.logistics),
+						integrityCurrent: Number(b.integrityCurrent),
+						threatCurrent: Number(b.threatCurrent ?? 0),
+						vaultGold: Number(b.vaultGold ?? 0),
+						createdAt: String(b.createdAt),
+						updatedAt: String(b.updatedAt),
+					};
+					db.insert(bastions).values(mappedB).run();
+				}
+			}
+
+			if (snapshot.bastionModules && snapshot.bastionModules.length > 0) {
+				for (const m of snapshot.bastionModules) {
+					const mappedM = {
+						id: String(m.id),
+						bastionId: String(m.bastionId),
+						moduleId: String(m.moduleId),
+						tier: Number(m.tier),
+						progressCurrent: Number(m.progressCurrent ?? 0),
+						progressMax: Number(m.progressMax),
+						isBroken:
+							m.isBroken === true || m.isBroken === 1 || m.isBroken === "1",
+						createdAt: String(m.createdAt),
+						updatedAt: String(m.updatedAt),
+					};
+					db.insert(bastionModules).values(mappedM).run();
+				}
+			}
+
+			if (snapshot.factions && snapshot.factions.length > 0) {
+				for (const f of snapshot.factions) {
+					const mappedF = {
+						id: String(f.id),
+						name: String(f.name),
+						description: String(f.description ?? ""),
+						alignment: String(f.alignment ?? "neutral"),
+					};
+					db.insert(factions).values(mappedF).run();
+				}
+			}
+
+			if (
+				snapshot.characterReputation &&
+				snapshot.characterReputation.length > 0
+			) {
+				for (const r of snapshot.characterReputation) {
+					const mappedR = {
+						id: String(r.id),
+						characterId: String(r.characterId),
+						factionId: String(r.factionId),
+						value: Number(r.value ?? 0),
+						updatedAt: String(r.updatedAt ?? new Date().toISOString()),
+					};
+					db.insert(characterReputation).values(mappedR).run();
+				}
+			}
+
+			if (snapshot.bloodDebts && snapshot.bloodDebts.length > 0) {
+				for (const bd of snapshot.bloodDebts) {
+					const mappedBd = {
+						id: String(bd.id),
+						characterId: String(bd.characterId),
+						targetName: String(bd.targetName),
+						debtValue: Number(bd.debtValue ?? 1),
+						isPaid: bd.isPaid === true || bd.isPaid === 1 || bd.isPaid === "1",
+						createdAt: String(bd.createdAt ?? new Date().toISOString()),
+					};
+					db.insert(bloodDebts).values(mappedBd).run();
+				}
+			}
+
+			if (snapshot.progressClocks && snapshot.progressClocks.length > 0) {
+				for (const c of snapshot.progressClocks) {
+					const mappedC = {
+						id: String(c.id),
+						name: String(c.name),
+						totalSegments: Number(c.totalSegments),
+						filledSegments: Number(c.filledSegments ?? 0),
+						isCompleted:
+							c.isCompleted === true ||
+							c.isCompleted === 1 ||
+							c.isCompleted === "1",
+						triggerEvent: c.triggerEvent ? String(c.triggerEvent) : null,
+					};
+					db.insert(progressClocks).values(mappedC).run();
 				}
 			}
 
@@ -308,6 +424,33 @@ export class SqliteOpfsBootstrapService {
 				};
 			});
 
+			const loadedBastions = db.select().from(bastions).all();
+			const loadedBastionModules = db.select().from(bastionModules).all();
+			const loadedFactions = db.select().from(factions).all();
+			const loadedReputations = db.select().from(characterReputation).all();
+			const loadedBloodDebts = db.select().from(bloodDebts).all();
+			const loadedClocks = db.select().from(progressClocks).all();
+
+			const mappedBastionModules = loadedBastionModules.map((m: any) => ({
+				...m,
+				isBroken: m.isBroken === 1 || m.isBroken === true,
+			}));
+
+			const mappedReputations = loadedReputations.map((r: any) => ({
+				...r,
+			}));
+
+			const mappedBloodDebts = loadedBloodDebts.map((bd: any) => ({
+				...bd,
+				isPaid: bd.isPaid === 1 || bd.isPaid === true,
+			}));
+
+			const mappedClocks = loadedClocks.map((c: any) => ({
+				...c,
+				isCompleted: c.isCompleted === 1 || c.isCompleted === true,
+				triggerEvent: c.triggerEvent ?? undefined,
+			}));
+
 			database.data.close();
 
 			return ok({
@@ -315,6 +458,12 @@ export class SqliteOpfsBootstrapService {
 				savedAt: new Date().toISOString(),
 				characters: loadedCharacters,
 				worldState: mappedWorldState,
+				bastions: loadedBastions,
+				bastionModules: mappedBastionModules,
+				factions: loadedFactions,
+				characterReputation: mappedReputations,
+				bloodDebts: mappedBloodDebts,
+				progressClocks: mappedClocks,
 			});
 		} catch (error: unknown) {
 			database.data.close();
@@ -584,6 +733,830 @@ export class SqliteOpfsBootstrapService {
 			return fail({
 				code: "DATABASE_FILE_WRITE_FAILED",
 				message: "Could not delete status effect from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveBastion(
+		bastion: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleBastionRepository(db as any);
+
+			const result = await repository.save(bastion);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save bastion to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findBastion(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleBastionRepository(db as any);
+
+			const result = await repository.findById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load bastion from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveBastionModule(
+		module: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleBastionRepository(db as any);
+
+			const result = await repository.saveModule(module);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save bastion module to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findBastionModules(
+		bastionId: string,
+	): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleBastionRepository(db as any);
+
+			const result = await repository.findModulesByBastionId(bastionId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data as any);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load bastion modules from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async deleteBastionModule(
+		id: string,
+	): Promise<Result<void, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleBastionRepository(db as any);
+
+			const result = await repository.deleteModule(id);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(undefined);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not delete bastion module from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveFaction(
+		faction: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleSocialRepository(db as any);
+
+			const result = await repository.saveFaction(faction);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save faction to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findFaction(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleSocialRepository(db as any);
+
+			const result = await repository.findFactionById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load faction from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listFactions(): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleSocialRepository(db as any);
+
+			const result = await repository.listFactions();
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data as any[]);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load factions list from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveReputation(
+		reputation: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleSocialRepository(db as any);
+
+			const result = await repository.saveReputation(reputation);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save reputation to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findReputation(
+		characterId: string,
+		factionId: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleSocialRepository(db as any);
+
+			const result = await repository.findReputation(characterId, factionId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load reputation from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listReputationsByCharacter(
+		characterId: string,
+	): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleSocialRepository(db as any);
+
+			const result = await repository.listReputationsByCharacter(characterId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data as any[]);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load reputations list from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveBloodDebt(
+		debt: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleSocialRepository(db as any);
+
+			const result = await repository.saveBloodDebt(debt);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save blood debt to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listBloodDebtsByCharacter(
+		characterId: string,
+	): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleSocialRepository(db as any);
+
+			const result = await repository.listBloodDebtsByCharacter(characterId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data as any[]);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load blood debts list from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveClock(
+		clock: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleClockRepository(db as any);
+
+			const result = await repository.save(clock);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save progress clock to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findClock(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleClockRepository(db as any);
+
+			const result = await repository.findById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load progress clock from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listClocks(): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleClockRepository(db as any);
+
+			const result = await repository.findAll();
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data as any[]);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load progress clocks list from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async deleteClock(
+		id: string,
+	): Promise<Result<void, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleClockRepository(db as any);
+
+			const result = await repository.delete(id);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(undefined);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not delete progress clock from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
 		}

@@ -73,6 +73,18 @@ export const APP_NAVIGATION_ITEMS = [
 		description:
 			"Forja de itens base e decorações de qualidade (Afiado, Reforçado, Rúnico).",
 	},
+	{
+		id: "bastion",
+		label: "Bastião",
+		heading: "Bastião e Recesso",
+		description: "Gestão física de base de operações e projetos de downtime.",
+	},
+	{
+		id: "saves",
+		label: "Saves",
+		heading: "Gerenciador de Saves",
+		description: "Exportação e importação física de snapshots de jogo em formato JSON local.",
+	},
 ] as const;
 
 export type AppNavigationId = (typeof APP_NAVIGATION_ITEMS)[number]["id"];

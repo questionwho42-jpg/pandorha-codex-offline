@@ -31,6 +31,7 @@ import {
 import { CharacterList } from "$lib/features/character-list";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { ClockDemo } from "$lib/features/clocks";
+import { SaveManagerPanel } from "$lib/features/saves";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CombatEncounterPanel } from "$lib/features/combat-encounter";
 import type {
@@ -799,6 +800,8 @@ async function createCharacter(
 				/>
 			{:else if activeView === "clocks"}
 				<ClockDemo />
+			{:else if activeView === "saves"}
+				<SaveManagerPanel />
 			{:else if activeView === "camp"}
 				<CampPanel 
 					isRestBlocked={isRestBlocked}

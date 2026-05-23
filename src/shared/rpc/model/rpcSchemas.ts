@@ -20,6 +20,23 @@ export const rpcCommandTypeSchema = z.enum([
 	"SAVE_STATUS_EFFECT",
 	"FIND_STATUS_EFFECTS",
 	"DELETE_STATUS_EFFECT",
+	"SAVE_BASTION",
+	"FIND_BASTION",
+	"SAVE_BASTION_MODULE",
+	"FIND_BASTION_MODULES",
+	"DELETE_BASTION_MODULE",
+	"SAVE_FACTION",
+	"FIND_FACTION",
+	"LIST_FACTIONS",
+	"SAVE_REPUTATION",
+	"FIND_REPUTATION",
+	"LIST_REPUTATIONS",
+	"SAVE_BLOOD_DEBT",
+	"LIST_BLOOD_DEBTS",
+	"SAVE_CLOCK",
+	"FIND_CLOCK",
+	"LIST_CLOCKS",
+	"DELETE_CLOCK",
 ]);
 
 export const jsonSerializableValueSchema = z.custom<JsonValue>(
@@ -37,6 +54,12 @@ export const saveGameSnapshotSchema = z.object({
 	savedAt: isoTimestamp,
 	characters: z.array(jsonSerializableObjectSchema),
 	worldState: z.array(jsonSerializableObjectSchema),
+	bastions: z.array(jsonSerializableObjectSchema).optional(),
+	bastionModules: z.array(jsonSerializableObjectSchema).optional(),
+	factions: z.array(jsonSerializableObjectSchema).optional(),
+	characterReputation: z.array(jsonSerializableObjectSchema).optional(),
+	bloodDebts: z.array(jsonSerializableObjectSchema).optional(),
+	progressClocks: z.array(jsonSerializableObjectSchema).optional(),
 });
 
 export const initDatabaseRequestSchema = z.object({
@@ -104,6 +127,139 @@ export const deleteStatusEffectRequestSchema = z.object({
 	}),
 });
 
+export const saveBastionRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_BASTION"),
+	payload: z.object({
+		bastion: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findBastionRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_BASTION"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const saveBastionModuleRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_BASTION_MODULE"),
+	payload: z.object({
+		module: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findBastionModulesRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_BASTION_MODULES"),
+	payload: z.object({
+		bastionId: z.string().min(1),
+	}),
+});
+
+export const deleteBastionModuleRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("DELETE_BASTION_MODULE"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const saveFactionRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_FACTION"),
+	payload: z.object({
+		faction: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findFactionRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_FACTION"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const listFactionsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_FACTIONS"),
+	payload: z.object({}),
+});
+
+export const saveReputationRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_REPUTATION"),
+	payload: z.object({
+		reputation: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findReputationRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_REPUTATION"),
+	payload: z.object({
+		characterId: z.string().min(1),
+		factionId: z.string().min(1),
+	}),
+});
+
+export const listReputationsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_REPUTATIONS"),
+	payload: z.object({
+		characterId: z.string().min(1),
+	}),
+});
+
+export const saveBloodDebtRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_BLOOD_DEBT"),
+	payload: z.object({
+		debt: jsonSerializableObjectSchema,
+	}),
+});
+
+export const listBloodDebtsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_BLOOD_DEBTS"),
+	payload: z.object({
+		characterId: z.string().min(1),
+	}),
+});
+
+export const saveClockRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_CLOCK"),
+	payload: z.object({
+		clock: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findClockRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_CLOCK"),
+	payload: z.object({
+		id: z.string().uuid("ID inválido para o relógio"),
+	}),
+});
+
+export const listClocksRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_CLOCKS"),
+	payload: z.object({}),
+});
+
+export const deleteClockRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("DELETE_CLOCK"),
+	payload: z.object({
+		id: z.string().uuid("ID inválido para o relógio"),
+	}),
+});
+
 export const rpcRequestSchema = z.discriminatedUnion("type", [
 	initDatabaseRequestSchema,
 	saveGameSnapshotRequestSchema,
@@ -113,6 +269,23 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	saveStatusEffectRequestSchema,
 	findStatusEffectsRequestSchema,
 	deleteStatusEffectRequestSchema,
+	saveBastionRequestSchema,
+	findBastionRequestSchema,
+	saveBastionModuleRequestSchema,
+	findBastionModulesRequestSchema,
+	deleteBastionModuleRequestSchema,
+	saveFactionRequestSchema,
+	findFactionRequestSchema,
+	listFactionsRequestSchema,
+	saveReputationRequestSchema,
+	findReputationRequestSchema,
+	listReputationsRequestSchema,
+	saveBloodDebtRequestSchema,
+	listBloodDebtsRequestSchema,
+	saveClockRequestSchema,
+	findClockRequestSchema,
+	listClocksRequestSchema,
+	deleteClockRequestSchema,
 ]);
 
 const rpcErrorSchema = z.object({

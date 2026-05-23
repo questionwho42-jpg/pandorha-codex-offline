@@ -1,5 +1,5 @@
 <script lang="ts">
-import { InMemorySocialRepository } from "$lib/entities/social";
+import { WorkerSocialRepository } from "$lib/entities/social";
 import type {
 	BloodDebtRecord,
 	ReputationRecord,
@@ -18,9 +18,9 @@ let {
 	onStandingChange,
 }: Props = $props();
 
-// Se o serviço não foi fornecido, inicializamos um local em memória compartilhado
+// Se o serviço não foi fornecido, inicializamos a ponte RPC conectada ao SQLite físico
 if (!service) {
-	const localRepo = new InMemorySocialRepository();
+	const localRepo = new WorkerSocialRepository();
 	service = new SocialStandingService(localRepo);
 }
 
@@ -44,6 +44,7 @@ $effect(() => {
 
 async function loadStanding() {
 	if (!service) return;
+	await service.ensureBaseFactions(); // Inicializa as facções padrão de lore
 	const standing = await service.getCharacterStanding(characterId);
 	reputations = [...standing.reputations];
 	debts = [...standing.debts];

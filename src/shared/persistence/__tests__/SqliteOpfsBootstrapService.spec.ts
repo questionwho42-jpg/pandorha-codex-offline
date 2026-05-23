@@ -52,9 +52,13 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0004_sturdy_omega_sentinel",
 				"0005_brainy_plazm",
 				"0006_noisy_ultragirl",
+				"0007_material_silver_surfer",
+				"0008_clear_magma",
 			],
 			tableNames: [
 				"_pandorha_migrations",
+				"bastion_modules",
+				"bastions",
 				"blood_debts",
 				"character_crafted_items",
 				"character_reputation",
@@ -62,6 +66,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"characters",
 				"crafting_recipes",
 				"factions",
+				"progress_clocks",
 				"traps",
 				"world_state_entries",
 			],
@@ -111,6 +116,8 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0004_sturdy_omega_sentinel",
 			"0005_brainy_plazm",
 			"0006_noisy_ultragirl",
+			"0007_material_silver_surfer",
+			"0008_clear_magma",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -224,6 +231,8 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0004_sturdy_omega_sentinel",
 			"0005_brainy_plazm",
 			"0006_noisy_ultragirl",
+			"0007_material_silver_surfer",
+			"0008_clear_magma",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -296,6 +305,16 @@ describe("database worker request handler", () => {
 								updatedAt: REQUESTED_AT,
 							},
 						],
+						progressClocks: [
+							{
+								id: "d51b73d5-2d05-4fec-a18c-7cd685cfed11",
+								name: "Ameaça Orc",
+								totalSegments: 6,
+								filledSegments: 2,
+								isCompleted: false,
+								triggerEvent: "ORC_ATTACK",
+							},
+						],
 					},
 				},
 			},
@@ -337,8 +356,122 @@ describe("database worker request handler", () => {
 							updatedAt: REQUESTED_AT,
 						},
 					],
+					progressClocks: [
+						{
+							id: "d51b73d5-2d05-4fec-a18c-7cd685cfed11",
+							name: "Ameaça Orc",
+							totalSegments: 6,
+							filledSegments: 2,
+							isCompleted: false,
+							triggerEvent: "ORC_ATTACK",
+						},
+					],
 				},
 			},
+		});
+	});
+
+	it("handles Clock RPC operations (save, find, list, delete)", async () => {
+		const storage = new InMemoryDatabaseFileStorage();
+		const service = createService(storage);
+
+		await service.initializeDatabase({ requestedAt: REQUESTED_AT });
+
+		const clockId = "e51b73d5-2d05-4fec-a18c-7cd685cfed22";
+		const clockObj = {
+			id: clockId,
+			name: "Construção do Bastião",
+			totalSegments: 4,
+			filledSegments: 1,
+			isCompleted: false,
+			triggerEvent: null,
+		};
+
+		// 1. SAVE_CLOCK
+		const saveRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "SAVE_CLOCK",
+				payload: { clock: clockObj },
+			},
+			{ bootstrapService: service },
+		);
+
+		expect(saveRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: clockObj,
+		});
+
+		// 2. FIND_CLOCK
+		const findRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FIND_CLOCK",
+				payload: { id: clockId },
+			},
+			{ bootstrapService: service },
+		);
+
+		expect(findRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: {
+				...clockObj,
+				triggerEvent: undefined,
+			},
+		});
+
+		// 3. LIST_CLOCKS
+		const listRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "LIST_CLOCKS",
+				payload: {},
+			},
+			{ bootstrapService: service },
+		);
+
+		expect(listRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: [
+				{
+					...clockObj,
+					triggerEvent: undefined,
+				},
+			],
+		});
+
+		// 4. DELETE_CLOCK
+		const delRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "DELETE_CLOCK",
+				payload: { id: clockId },
+			},
+			{ bootstrapService: service },
+		);
+
+		expect(delRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+		});
+
+		// 5. FIND_CLOCK after delete
+		const findAfterDelRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FIND_CLOCK",
+				payload: { id: clockId },
+			},
+			{ bootstrapService: service },
+		);
+
+		expect(findAfterDelRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: null,
 		});
 	});
 });

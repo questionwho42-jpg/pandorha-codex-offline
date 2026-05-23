@@ -13,6 +13,55 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:t51-social-persistence -->
+### Fase T51: Integracao e Persistencia do Sistema Social
+- id: t51-social-persistence
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-22T22:51:07-03:00
+- finished_at: 2026-05-22T22:51:14-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gemini
+- last_modified_at: 2026-05-22T22:51:14-03:00
+- branch: master
+- commit_at_start: 97b167b chore(maintenance): ajuste do script de automacao e consolidacao da etapa 2 [2026-05-22 18:15]
+- summary: Integracao e Persistencia fisica do modulo Social via RPC no Web Worker e SQLite local.
+- last_change: Registradas as assinaturas RPC de Social, tratados os comandos no Web Worker SQLite físico, estendidos os snapshots de save/load de jogo e atualizada a UI reativa Svelte 5 para conectar ao WorkerSocialRepository persistente.
+#### Files At Start
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/entities/social/index.ts
+- src/features/social/ui/FactionPanel.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- drizzle/0007_material_silver_surfer.sql
+- drizzle/meta/0007_snapshot.json
+- pandorha-sistema-28-04-backup/
+- planejamento_bastiao.md
+- src/entities/bastion/
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/features/bastion/
+#### Checkpoints
+#### Checkpoint 2026-05-22T22:51:07-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-22T22:51:14-03:00
+- Done: Registradas as assinaturas RPC de Social, tratados os comandos no Web Worker SQLite físico, estendidos os snapshots de save/load de jogo e atualizada a UI reativa Svelte 5 para conectar ao WorkerSocialRepository persistente.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gemini
+<!-- /pandorha-task:t51-social-persistence -->
 <!-- pandorha-task:t44-hexcrawl-encounters -->
 ### Fase T44: Hexcrawl & Encontros
 - id: t44-hexcrawl-encounters
@@ -2585,6 +2634,43 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-23T08:45:09-03:00 - manual
+- branch: master
+- commit: 97b167b chore(maintenance): ajuste do script de automacao e consolidacao da etapa 2 [2026-05-22 18:15]
+- changed_files_count: 27
+#### Changed Files
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/entities/clocks/model-api.ts
+- src/entities/clocks/model/clockSchema.ts
+- src/entities/social/index.ts
+- src/features/clocks/domain/ClockService.ts
+- src/features/clocks/ui/ClockDemo.svelte
+- src/features/social/ui/FactionPanel.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- drizzle/0007_material_silver_surfer.sql
+- drizzle/0008_clear_magma.sql
+- drizzle/meta/0007_snapshot.json
+- drizzle/meta/0008_snapshot.json
+- pandorha-sistema-28-04-backup/
+- planejamento_bastiao.md
+- src/entities/bastion/
+- src/entities/clocks/infrastructure/
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/features/bastion/
+- src/features/saves/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-18T22:50:24-03:00 - manual
 - branch: task/crafting-workshop
 - commit: 020bd2e cleanup(crafting): remover pasta de backups temporarios pos-homologacao (2026-05-17 13:58)
