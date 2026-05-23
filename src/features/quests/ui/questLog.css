@@ -1,0 +1,313 @@
+/* Design Aesthetics - Dark Fantasy Codex theme, Harmonious HSL */
+.quest-log-container {
+	font-family: "Outfit", sans-serif;
+	color: #e2e8f0;
+	padding: 1.5rem;
+	max-width: 1000px;
+	margin: 0 auto;
+	background: radial-gradient(circle at top, #1e1b4b 0%, #0c0817 100%);
+	min-height: 100vh;
+}
+
+.panel {
+	background: rgba(30, 27, 75, 0.4);
+	backdrop-filter: blur(12px);
+	border: 1px solid rgba(139, 92, 246, 0.2);
+	border-radius: 12px;
+	padding: 1.5rem;
+	margin-bottom: 1.5rem;
+	box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+h1 {
+	font-size: 2.25rem;
+	color: #f8fafc;
+	margin-top: 0;
+	margin-bottom: 0.5rem;
+	text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+}
+
+.subtitle {
+	color: #94a3b8;
+	font-style: italic;
+	margin-bottom: 2rem;
+}
+
+.tabs-header {
+	display: flex;
+	gap: 1rem;
+	border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+	padding-bottom: 0.75rem;
+	margin-bottom: 1.5rem;
+}
+
+.tab-btn {
+	background: transparent;
+	border: none;
+	color: #94a3b8;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	padding: 0.5rem 1rem;
+	border-radius: 6px;
+	transition:
+		color 0.2s,
+		background-color 0.2s;
+}
+
+.tab-btn:hover {
+	color: #e2e8f0;
+	background: rgba(139, 92, 246, 0.1);
+}
+
+.tab-btn.active {
+	color: #a78bfa;
+	background: rgba(139, 92, 246, 0.15);
+	box-shadow: 0 0 8px rgba(139, 92, 246, 0.3);
+}
+
+/* Lista de Missões */
+.quest-list {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.25rem;
+}
+
+.quest-card {
+	background: rgba(15, 10, 30, 0.5);
+	border: 1px solid rgba(139, 92, 246, 0.2);
+	border-radius: 8px;
+	padding: 1.25rem;
+	transition:
+		border-color 0.2s,
+		transform 0.1s;
+}
+
+.quest-card:hover {
+	border-color: rgba(139, 92, 246, 0.4);
+}
+
+.quest-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 0.75rem;
+}
+
+.quest-header h3 {
+	margin: 0;
+	font-size: 1.25rem;
+	color: #f1f5f9;
+}
+
+.quest-status-badge {
+	font-size: 0.75rem;
+	font-weight: 700;
+	padding: 0.25rem 0.75rem;
+	border-radius: 9999px;
+}
+
+.status-active {
+	background: rgba(59, 130, 246, 0.15);
+	color: #60a5fa;
+	border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.status-completed {
+	background: rgba(16, 185, 129, 0.15);
+	color: #34d399;
+	border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-failed {
+	background: rgba(239, 68, 68, 0.15);
+	color: #f87171;
+	border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.quest-desc {
+	color: #cbd5e1;
+	font-size: 0.95rem;
+	line-height: 1.5;
+	margin-bottom: 1.25rem;
+}
+
+.quest-meta {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	border-top: 1px solid rgba(139, 92, 246, 0.1);
+	padding-top: 0.75rem;
+	font-size: 0.85rem;
+}
+
+.meta-section h4 {
+	margin: 0 0 0.25rem 0;
+	color: #a78bfa;
+	font-size: 0.8rem;
+	text-transform: uppercase;
+}
+
+.clues-list {
+	display: flex;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.clue-tag {
+	background: rgba(139, 92, 246, 0.1);
+	color: #c084fc;
+	border: 1px solid rgba(139, 92, 246, 0.2);
+	padding: 0.125rem 0.5rem;
+	border-radius: 4px;
+}
+
+.rewards-list {
+	display: flex;
+	gap: 1rem;
+	color: #eab308;
+	font-weight: 600;
+}
+
+.reward-item {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.reward-renown {
+	color: #38bdf8;
+}
+
+.reward-xp {
+	color: #a78bfa;
+}
+
+/* Ações */
+.quest-actions {
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 1rem;
+}
+
+.btn {
+	cursor: pointer;
+	padding: 0.5rem 1rem;
+	border-radius: 6px;
+	font-weight: 600;
+	font-size: 0.875rem;
+	transition:
+		background-color 0.2s,
+		transform 0.1s;
+	border: none;
+}
+
+.btn:active {
+	transform: scale(0.98);
+}
+
+.btn-primary {
+	background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%);
+	color: #fff;
+}
+
+.btn-primary:hover {
+	background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+}
+
+.btn-outline {
+	background: transparent;
+	border: 1px solid #8b5cf6;
+	color: #c084fc;
+}
+
+.btn-outline:hover {
+	background: rgba(139, 92, 246, 0.1);
+}
+
+.btn-danger {
+	background: rgba(239, 68, 68, 0.15);
+	color: #f87171;
+	border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover {
+	background: rgba(239, 68, 68, 0.25);
+}
+
+/* Rumores */
+.rumors-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+}
+
+.rumor-card {
+	background: rgba(15, 10, 30, 0.4);
+	border: 1px dashed rgba(139, 92, 246, 0.3);
+	border-radius: 8px;
+	padding: 1.25rem;
+}
+
+.rumor-card p {
+	margin: 0;
+	line-height: 1.6;
+	font-style: italic;
+	color: #cbd5e1;
+}
+
+.rumor-source {
+	display: block;
+	margin-top: 0.75rem;
+	font-size: 0.8rem;
+	color: #a78bfa;
+	text-align: right;
+}
+
+.empty {
+	color: #94a3b8;
+	font-style: italic;
+	text-align: center;
+	padding: 2rem;
+}
+
+/* Painel de Controle (Depuração) */
+.dev-controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+.alert {
+	padding: 0.75rem 1rem;
+	border-radius: 6px;
+	margin-bottom: 1.5rem;
+	font-size: 0.875rem;
+	animation: fadeIn 0.3s ease-out;
+}
+
+.success-alert {
+	background: rgba(16, 185, 129, 0.15);
+	border: 1px solid rgba(16, 185, 129, 0.4);
+	color: #34d399;
+}
+
+.error-alert {
+	background: rgba(239, 68, 68, 0.15);
+	border: 1px solid rgba(239, 68, 68, 0.4);
+	color: #f87171;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

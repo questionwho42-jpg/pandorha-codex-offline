@@ -80,11 +80,24 @@ export const APP_NAVIGATION_ITEMS = [
 		description: "Gestão física de base de operações e projetos de downtime.",
 	},
 	{
+		id: "quests",
+		label: "Missões",
+		heading: "Diário de Missões e Rumores",
+		description: "Acompanhe seus objetivos e boatos narrativos na crônica.",
+	},
+	{
 		id: "saves",
 		label: "Saves",
 		heading: "Gerenciador de Saves",
 		description:
 			"Exportação e importação física de snapshots de jogo em formato JSON local.",
+	},
+	{
+		id: "dialogue",
+		label: "Diálogos",
+		heading: "Diálogos e Investigação",
+		description:
+			"Conduza investigações, interrogue NPCs e desvende pistas consumindo seu Esforço Extra.",
 	},
 ] as const;
 

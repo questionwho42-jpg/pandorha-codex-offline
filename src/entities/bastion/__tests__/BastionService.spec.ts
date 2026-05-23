@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { fail, ok } from "$lib/shared/lib/result";
 import { BastionService } from "../domain/BastionService";
 import { InMemoryBastionRepository } from "../infrastructure/InMemoryBastionRepository";
 import type { BastionRecord } from "../model/bastionSchema";
@@ -62,7 +61,7 @@ describe("BastionService", () => {
 
 		await service.startModule(bId, "horta_alquimia", 1);
 		const modules = await repository.findModulesByBastionId(bId);
-		const mId = modules.success ? modules.data[0]!.id : "";
+		const mId = modules.success ? modules.data[0]?.id : "";
 
 		// Rolagem que falha contra DC 15 (Mental: 2, Dado: 8 => Total 10 vs 15)
 		const failProgress = await service.advanceModuleObra(mId, 2, 8, 15);

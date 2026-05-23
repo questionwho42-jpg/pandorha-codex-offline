@@ -82,4 +82,15 @@ export class InMemoryBastionRepository implements BastionRepository {
 		this.modules.splice(idx, 1);
 		return ok(undefined);
 	}
+
+	public async loadFirstBastion(): Promise<
+		Result<
+			{ bastion: BastionRecord | null; modules: BastionModuleRecord[] },
+			BastionRepositoryFailure
+		>
+	> {
+		const b = this.bastions[0] || null;
+		const m = b ? this.modules.filter((mod) => mod.bastionId === b.id) : [];
+		return ok({ bastion: b, modules: m });
+	}
 }

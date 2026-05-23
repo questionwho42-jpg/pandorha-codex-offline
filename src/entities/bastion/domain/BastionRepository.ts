@@ -31,4 +31,10 @@ export interface BastionRepository {
 		bastionId: string,
 	): Promise<Result<readonly BastionModuleRecord[], BastionRepositoryFailure>>;
 	deleteModule(id: string): Promise<Result<void, BastionRepositoryFailure>>;
+	loadFirstBastion(): Promise<
+		Result<
+			{ bastion: BastionRecord | null; modules: BastionModuleRecord[] },
+			BastionRepositoryFailure
+		>
+	>;
 }

@@ -37,6 +37,13 @@ export const rpcCommandTypeSchema = z.enum([
 	"FIND_CLOCK",
 	"LIST_CLOCKS",
 	"DELETE_CLOCK",
+	"SAVE_DIALOGUE_STATE",
+	"FIND_DIALOGUE_STATE",
+	"DELETE_DIALOGUE_STATE",
+	"SAVE_QUEST",
+	"FIND_QUEST",
+	"LIST_QUESTS",
+	"DELETE_QUEST",
 ]);
 
 export const jsonSerializableValueSchema = z.custom<JsonValue>(
@@ -60,6 +67,8 @@ export const saveGameSnapshotSchema = z.object({
 	characterReputation: z.array(jsonSerializableObjectSchema).optional(),
 	bloodDebts: z.array(jsonSerializableObjectSchema).optional(),
 	progressClocks: z.array(jsonSerializableObjectSchema).optional(),
+	dialogueStates: z.array(jsonSerializableObjectSchema).optional(),
+	quests: z.array(jsonSerializableObjectSchema).optional(),
 });
 
 export const initDatabaseRequestSchema = z.object({
@@ -260,6 +269,61 @@ export const deleteClockRequestSchema = z.object({
 	}),
 });
 
+export const saveDialogueStateRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_DIALOGUE_STATE"),
+	payload: z.object({
+		dialogueState: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findDialogueStateRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_DIALOGUE_STATE"),
+	payload: z.object({
+		characterId: z.string().uuid("ID do personagem inválido"),
+		npcId: z.string().min(1, "NPC ID inválido"),
+	}),
+});
+
+export const deleteDialogueStateRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("DELETE_DIALOGUE_STATE"),
+	payload: z.object({
+		id: z.string().uuid("ID de estado de diálogo inválido"),
+	}),
+});
+
+export const saveQuestRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_QUEST"),
+	payload: z.object({
+		quest: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findQuestRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_QUEST"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const listQuestsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_QUESTS"),
+	payload: z.object({}),
+});
+
+export const deleteQuestRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("DELETE_QUEST"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
 export const rpcRequestSchema = z.discriminatedUnion("type", [
 	initDatabaseRequestSchema,
 	saveGameSnapshotRequestSchema,
@@ -286,6 +350,13 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	findClockRequestSchema,
 	listClocksRequestSchema,
 	deleteClockRequestSchema,
+	saveDialogueStateRequestSchema,
+	findDialogueStateRequestSchema,
+	deleteDialogueStateRequestSchema,
+	saveQuestRequestSchema,
+	findQuestRequestSchema,
+	listQuestsRequestSchema,
+	deleteQuestRequestSchema,
 ]);
 
 const rpcErrorSchema = z.object({

@@ -54,12 +54,16 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0006_noisy_ultragirl",
 				"0007_material_silver_surfer",
 				"0008_clear_magma",
+				"0009_special_sentinels",
+				"0010_windy_wither",
 			],
 			tableNames: [
 				"_pandorha_migrations",
 				"bastion_modules",
 				"bastions",
 				"blood_debts",
+				"campaign_dialogue_states",
+				"campaign_quests",
 				"character_crafted_items",
 				"character_reputation",
 				"character_status_effects",
@@ -118,6 +122,8 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0006_noisy_ultragirl",
 			"0007_material_silver_surfer",
 			"0008_clear_magma",
+			"0009_special_sentinels",
+			"0010_windy_wither",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -233,6 +239,8 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0006_noisy_ultragirl",
 			"0007_material_silver_surfer",
 			"0008_clear_magma",
+			"0009_special_sentinels",
+			"0010_windy_wither",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -315,6 +323,18 @@ describe("database worker request handler", () => {
 								triggerEvent: "ORC_ATTACK",
 							},
 						],
+						dialogueStates: [
+							{
+								id: "f51b73d5-2d05-4fec-a18c-7cd685cfed33",
+								characterId: "00000000-0000-0000-0000-000000000001",
+								npcId: "npc-emissary",
+								currentConversationNodeId: "node-1",
+								dialogueTreeId: "tree-1",
+								historyJson: JSON.stringify(["root", "node-1"]),
+								unlockedCluesJson: JSON.stringify(["clue-1"]),
+								updatedAt: REQUESTED_AT,
+							},
+						],
 					},
 				},
 			},
@@ -364,6 +384,18 @@ describe("database worker request handler", () => {
 							filledSegments: 2,
 							isCompleted: false,
 							triggerEvent: "ORC_ATTACK",
+						},
+					],
+					dialogueStates: [
+						{
+							id: "f51b73d5-2d05-4fec-a18c-7cd685cfed33",
+							characterId: "00000000-0000-0000-0000-000000000001",
+							npcId: "npc-emissary",
+							currentConversationNodeId: "node-1",
+							dialogueTreeId: "tree-1",
+							historyJson: JSON.stringify(["root", "node-1"]),
+							unlockedCluesJson: JSON.stringify(["clue-1"]),
+							updatedAt: REQUESTED_AT,
 						},
 					],
 				},
@@ -464,6 +496,89 @@ describe("database worker request handler", () => {
 				messageId: MESSAGE_ID,
 				type: "FIND_CLOCK",
 				payload: { id: clockId },
+			},
+			{ bootstrapService: service },
+		);
+
+		expect(findAfterDelRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: null,
+		});
+	});
+
+	it("handles Dialogue RPC operations (save, find, delete)", async () => {
+		const storage = new InMemoryDatabaseFileStorage();
+		const service = createService(storage);
+
+		await service.initializeDatabase({ requestedAt: REQUESTED_AT });
+
+		const dialogueId = "f51b73d5-2d05-4fec-a18c-7cd685cfed33";
+		const characterId = "a0000000-0000-4000-8000-00000000000a";
+		const dialogueStateObj = {
+			id: dialogueId,
+			characterId,
+			npcId: "npc-emissary",
+			currentConversationNodeId: "node-1",
+			dialogueTreeId: "tree-1",
+			historyJson: JSON.stringify(["root", "node-1"]),
+			unlockedCluesJson: JSON.stringify(["clue-1"]),
+			updatedAt: REQUESTED_AT,
+		};
+
+		// 1. SAVE_DIALOGUE_STATE
+		const saveRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "SAVE_DIALOGUE_STATE",
+				payload: { dialogueState: dialogueStateObj },
+			},
+			{ bootstrapService: service },
+		);
+
+		expect(saveRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: dialogueStateObj,
+		});
+
+		// 2. FIND_DIALOGUE_STATE
+		const findRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FIND_DIALOGUE_STATE",
+				payload: { characterId, npcId: "npc-emissary" },
+			},
+			{ bootstrapService: service },
+		);
+
+		expect(findRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: dialogueStateObj,
+		});
+
+		// 3. DELETE_DIALOGUE_STATE
+		const delRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "DELETE_DIALOGUE_STATE",
+				payload: { id: dialogueId },
+			},
+			{ bootstrapService: service },
+		);
+
+		expect(delRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+		});
+
+		// 4. FIND_DIALOGUE_STATE after delete
+		const findAfterDelRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FIND_DIALOGUE_STATE",
+				payload: { characterId, npcId: "npc-emissary" },
 			},
 			{ bootstrapService: service },
 		);

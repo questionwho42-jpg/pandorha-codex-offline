@@ -84,10 +84,6 @@ export abstract class BastionStatsDecorator implements IBastionStats {
  * Decorador Concreto que aplica desconto de 10% por ponto de Logística na manutenção (limite de 90%).
  */
 export class LogisticsDiscountDecorator extends BastionStatsDecorator {
-	public constructor(wrapped: IBastionStats) {
-		super(wrapped);
-	}
-
 	public override getMaintenanceCost(): number {
 		const baseCost = this.wrapped.getMaintenanceCost();
 		const logistics = this.wrapped.getLogistics();

@@ -7,6 +7,8 @@ import inventoryMigrationSql from "../../../../drizzle/0005_brainy_plazm.sql?raw
 import trapsMigrationSql from "../../../../drizzle/0006_noisy_ultragirl.sql?raw";
 import bastionMigrationSql from "../../../../drizzle/0007_material_silver_surfer.sql?raw";
 import clocksMigrationSql from "../../../../drizzle/0008_clear_magma.sql?raw";
+import dialogueMigrationSql from "../../../../drizzle/0009_special_sentinels.sql?raw";
+import questMigrationSql from "../../../../drizzle/0010_windy_wither.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -45,5 +47,13 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0008_clear_magma",
 		sql: clocksMigrationSql,
+	},
+	{
+		id: "0009_special_sentinels",
+		sql: dialogueMigrationSql,
+	},
+	{
+		id: "0010_windy_wither",
+		sql: questMigrationSql,
 	},
 ];

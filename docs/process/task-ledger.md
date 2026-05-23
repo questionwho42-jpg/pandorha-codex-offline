@@ -13,6 +13,69 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260523-132712-fases-17-e-18-bastiao-diario-de-missoes -->
+### Fases 17 e 18: Bastiao & Diario de Missoes
+- id: 20260523-132712-fases-17-e-18-bastiao-diario-de-missoes
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-23T13:27:12-03:00
+- finished_at: 2026-05-23T13:27:17-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-23T13:27:17-03:00
+- branch: task/campaign-dialogue
+- commit_at_start: baf93f5 style: aplica formatacao do Biome aos arquivos do app
+- summary: Integracao de UI e persistencia RPC local-first do Bastiao e Diario de Quests/Rumores
+- last_change: Integracao visual completa do Bastiao, refatoracao do painel para respeitar o limite de 500 linhas e desenvolvimento do Diario de Quests/Rumores com persistencia RPC no SQLite WASM e 520 testes unitarios passando.
+#### Files At Start
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/entities/bastion/__tests__/BastionService.spec.ts
+- src/entities/bastion/domain/BastionRepository.ts
+- src/entities/bastion/domain/BastionService.ts
+- src/entities/bastion/infrastructure/InMemoryBastionRepository.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/saves/infrastructure/WorkerSaveRepository.ts
+- src/features/saves/ui/SaveManagerPanel.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- drizzle/0009_special_sentinels.sql
+- drizzle/0010_windy_wither.sql
+- drizzle/meta/0009_snapshot.json
+- drizzle/meta/0010_snapshot.json
+- pandorha-sistema-28-04-backup/
+- planejamento_etapas.md
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/dialogue/
+- src/entities/quest/
+- src/features/bastion/index.ts
+- src/features/bastion/ui/BastionStructureCard.svelte
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/bastion/ui/moduleCatalog.ts
+- src/features/dialogue/
+- src/features/quests/
+#### Checkpoints
+#### Checkpoint 2026-05-23T13:27:12-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-23T13:27:17-03:00
+- Done: Integracao visual completa do Bastiao, refatoracao do painel para respeitar o limite de 500 linhas e desenvolvimento do Diario de Quests/Rumores com persistencia RPC no SQLite WASM e 520 testes unitarios passando.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260523-132712-fases-17-e-18-bastiao-diario-de-missoes -->
 <!-- pandorha-task:t51-social-persistence -->
 ### Fase T51: Integracao e Persistencia do Sistema Social
 - id: t51-social-persistence

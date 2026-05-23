@@ -49,7 +49,8 @@ import {
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
-import { SaveManagerPanel } from "$lib/features/saves";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { QuestLogPanel } from "$lib/features/quests";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SocialDemo } from "$lib/features/social";
 import { SocialStandingService } from "$lib/features/social/domain/SocialStandingService";
@@ -802,6 +803,18 @@ async function createCharacter(
 				<ClockDemo />
 			{:else if activeView === "saves"}
 				<SaveManagerPanel />
+			{:else if activeView === "dialogue"}
+				<DialoguePanel
+					characters={characterRecords}
+					characterClasses={characterSession.characterClasses}
+					activeStatusEffects={activeStatusEffects}
+				/>
+			{:else if activeView === "bastion"}
+				<BastionPanel
+					characters={characterRecords}
+				/>
+			{:else if activeView === "quests"}
+				<QuestLogPanel />
 			{:else if activeView === "camp"}
 				<CampPanel 
 					isRestBlocked={isRestBlocked}

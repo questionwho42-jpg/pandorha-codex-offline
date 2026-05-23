@@ -481,6 +481,127 @@ export async function handleDatabaseWorkerRequest(
 			});
 		}
 
+		case "SAVE_DIALOGUE_STATE": {
+			const result = await input.bootstrapService.saveDialogueState(
+				command.payload.dialogueState,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "FIND_DIALOGUE_STATE": {
+			const result = await input.bootstrapService.findDialogueState(
+				command.payload.characterId,
+				command.payload.npcId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "DELETE_DIALOGUE_STATE": {
+			const result = await input.bootstrapService.deleteDialogueState(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+			});
+		}
+
+		case "SAVE_QUEST": {
+			const result = await input.bootstrapService.saveQuest(
+				command.payload.quest,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as any,
+			});
+		}
+
+		case "FIND_QUEST": {
+			const result = await input.bootstrapService.findQuest(command.payload.id);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as any,
+			});
+		}
+
+		case "LIST_QUESTS": {
+			const result = await input.bootstrapService.listQuests();
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as any,
+			});
+		}
+
+		case "DELETE_QUEST": {
+			const result = await input.bootstrapService.deleteQuest(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+			});
+		}
+
 		default: {
 			const _exhaustiveCheck: never = command;
 			return createRpcFailureResponse({

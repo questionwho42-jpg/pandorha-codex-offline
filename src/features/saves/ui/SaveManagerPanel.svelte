@@ -4,13 +4,13 @@ import { WorkerSaveRepository } from "../infrastructure/WorkerSaveRepository";
 
 const repository = new WorkerSaveRepository();
 
-let statusMessage = $state<string | null>(null);
-let statusType = $state<"success" | "error" | "info" | null>(null);
+let _statusMessage = $state<string | null>(null);
+let _statusType = $state<"success" | "error" | "info" | null>(null);
 let isProcessing = $state(false);
 
 function showStatus(msg: string, type: "success" | "error" | "info") {
-	statusMessage = msg;
-	statusType = type;
+	_statusMessage = msg;
+	_statusType = type;
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup

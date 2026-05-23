@@ -9,6 +9,10 @@ import { DrizzleCharacterRepository } from "$lib/entities/character/infrastructu
 import { characters } from "$lib/entities/character/model/characterSchema";
 import { DrizzleClockRepository } from "$lib/entities/clocks/infrastructure/DrizzleClockRepository";
 import { progressClocks } from "$lib/entities/clocks/model/clockSchema";
+import { DrizzleDialogueRepository } from "$lib/entities/dialogue/infrastructure/DrizzleDialogueRepository";
+import { campaignDialogueStates } from "$lib/entities/dialogue/model/dialogueSchema";
+import { DrizzleQuestRepository } from "$lib/entities/quest/infrastructure/DrizzleQuestRepository";
+import { campaignQuests } from "$lib/entities/quest/model/questSchema";
 import { DrizzleSocialRepository } from "$lib/entities/social/infrastructure/DrizzleSocialRepository";
 import {
 	bloodDebts,
@@ -241,6 +245,8 @@ export class SqliteOpfsBootstrapService {
 			database.data.run("DELETE FROM character_reputation;");
 			database.data.run("DELETE FROM blood_debts;");
 			database.data.run("DELETE FROM progress_clocks;");
+			database.data.run("DELETE FROM campaign_dialogue_states;");
+			database.data.run("DELETE FROM campaign_quests;");
 
 			if (snapshot.worldState && snapshot.worldState.length > 0) {
 				for (const state of snapshot.worldState) {
@@ -350,6 +356,40 @@ export class SqliteOpfsBootstrapService {
 				}
 			}
 
+			if (snapshot.dialogueStates && snapshot.dialogueStates.length > 0) {
+				for (const d of snapshot.dialogueStates) {
+					const mappedD = {
+						id: String(d.id),
+						characterId: String(d.characterId),
+						npcId: String(d.npcId),
+						currentConversationNodeId: String(d.currentConversationNodeId),
+						dialogueTreeId: String(d.dialogueTreeId),
+						historyJson: String(d.historyJson ?? "[]"),
+						unlockedCluesJson: String(d.unlockedCluesJson ?? "[]"),
+						updatedAt: String(d.updatedAt ?? new Date().toISOString()),
+					};
+					db.insert(campaignDialogueStates).values(mappedD).run();
+				}
+			}
+
+			// biome-ignore lint/suspicious/noExplicitAny: response snapshot quests typing
+			const snapshotQuests = (snapshot as any).quests;
+			if (snapshotQuests && snapshotQuests.length > 0) {
+				for (const q of snapshotQuests) {
+					const mappedQ = {
+						id: String(q.id),
+						title: String(q.title),
+						description: String(q.description),
+						status: String(q.status ?? "active"),
+						requirementsJson: String(q.requirementsJson ?? "[]"),
+						rewardsJson: String(q.rewardsJson ?? "{}"),
+						createdAt: String(q.createdAt),
+						updatedAt: String(q.updatedAt),
+					};
+					db.insert(campaignQuests).values(mappedQ).run();
+				}
+			}
+
 			const exported = this.exportDatabase(database.data);
 			if (!exported.success) {
 				database.data.close();
@@ -430,6 +470,11 @@ export class SqliteOpfsBootstrapService {
 			const loadedReputations = db.select().from(characterReputation).all();
 			const loadedBloodDebts = db.select().from(bloodDebts).all();
 			const loadedClocks = db.select().from(progressClocks).all();
+			const loadedDialogueStates = db
+				.select()
+				.from(campaignDialogueStates)
+				.all();
+			const loadedQuests = db.select().from(campaignQuests).all();
 
 			const mappedBastionModules = loadedBastionModules.map((m: any) => ({
 				...m,
@@ -464,6 +509,8 @@ export class SqliteOpfsBootstrapService {
 				characterReputation: mappedReputations,
 				bloodDebts: mappedBloodDebts,
 				progressClocks: mappedClocks,
+				dialogueStates: loadedDialogueStates,
+				quests: loadedQuests,
 			});
 		} catch (error: unknown) {
 			database.data.close();
@@ -1606,6 +1653,355 @@ export class SqliteOpfsBootstrapService {
 			return fail({
 				code: "CORRUPTED_DATABASE_FILE",
 				message: "Stored SQLite database file failed validation.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveDialogueState(
+		dialogueState: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleDialogueRepository(db as any);
+
+			const result = await repository.save(dialogueState);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save campaign dialogue state to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findDialogueState(
+		characterId: string,
+		npcId: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleDialogueRepository(db as any);
+
+			const result = await repository.findByCharacterAndNpc(characterId, npcId);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load campaign dialogue state from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async deleteDialogueState(
+		id: string,
+	): Promise<Result<void, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleDialogueRepository(db as any);
+
+			const result = await repository.delete(id);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(undefined);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message:
+					"Could not delete campaign dialogue state from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveQuest(
+		quest: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleQuestRepository(db as any);
+
+			const result = await repository.save(quest);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save quest to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findQuest(
+		id: string,
+	): Promise<Result<any | null, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleQuestRepository(db as any);
+
+			const result = await repository.findById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not read quest from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listQuests(): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleQuestRepository(db as any);
+
+			const result = await repository.findAll();
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list quests from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async deleteQuest(
+		id: string,
+	): Promise<Result<void, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleQuestRepository(db as any);
+
+			const result = await repository.delete(id);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(undefined);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not delete quest from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
 		}

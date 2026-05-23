@@ -1,7 +1,12 @@
 import { fail, ok, type Result } from "$lib/shared/lib/result";
-import type { RpcResponse, SaveGameSnapshot } from "$lib/shared/rpc";
+import type { RpcResponse } from "$lib/shared/rpc";
+import type {
+	QuestRepository,
+	QuestRepositoryFailure,
+} from "../domain/QuestRepository";
+import type { QuestRecord } from "../model/questSchema";
 
-export class WorkerSaveRepository {
+export class WorkerQuestRepository implements QuestRepository {
 	private readonly worker: Worker;
 	private readonly pendingRequests = new Map<
 		string,
@@ -64,30 +69,54 @@ export class WorkerSaveRepository {
 		);
 	}
 
-	public async getSnapshot(): Promise<Result<SaveGameSnapshot, Error>> {
-		const res = await this.sendRequest("LOAD_GAME_SNAPSHOT", {
-			saveId: "primary",
-		});
+	public async save(
+		quest: QuestRecord,
+	): Promise<Result<QuestRecord, QuestRepositoryFailure>> {
+		const res = await this.sendRequest("SAVE_QUEST", { quest });
 		if (!res.success) {
-			return fail(new Error(res.error.message));
+			return fail({
+				code: "QUEST_REPOSITORY_WRITE_FAILED",
+				message: res.error.message,
+			});
 		}
-		// biome-ignore lint/suspicious/noExplicitAny: response structure contains snapshot
-		const data = res.data as any;
-		if (data?.snapshot) {
-			return ok(data.snapshot as SaveGameSnapshot);
-		}
-		return fail(new Error("Formato de snapshot inválido retornado do banco."));
+		return ok(res.data as QuestRecord);
 	}
 
-	public async saveSnapshot(
-		snapshot: SaveGameSnapshot,
-	): Promise<Result<void, Error>> {
-		const res = await this.sendRequest("SAVE_GAME_SNAPSHOT", {
-			saveId: "primary",
-			snapshot,
-		});
+	public async findById(
+		id: string,
+	): Promise<Result<QuestRecord | null, QuestRepositoryFailure>> {
+		const res = await this.sendRequest("FIND_QUEST", { id });
 		if (!res.success) {
-			return fail(new Error(res.error.message));
+			return fail({
+				code: "QUEST_REPOSITORY_READ_FAILED",
+				message: res.error.message,
+			});
+		}
+		return ok(res.data as QuestRecord | null);
+	}
+
+	public async findAll(): Promise<
+		Result<QuestRecord[], QuestRepositoryFailure>
+	> {
+		const res = await this.sendRequest("LIST_QUESTS", {});
+		if (!res.success) {
+			return fail({
+				code: "QUEST_REPOSITORY_READ_FAILED",
+				message: res.error.message,
+			});
+		}
+		return ok(res.data as QuestRecord[]);
+	}
+
+	public async delete(
+		id: string,
+	): Promise<Result<void, QuestRepositoryFailure>> {
+		const res = await this.sendRequest("DELETE_QUEST", { id });
+		if (!res.success) {
+			return fail({
+				code: "QUEST_REPOSITORY_WRITE_FAILED",
+				message: res.error.message,
+			});
 		}
 		return ok(undefined);
 	}
