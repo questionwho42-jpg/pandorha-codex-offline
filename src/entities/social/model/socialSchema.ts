@@ -33,6 +33,14 @@ export const bloodDebts = sqliteTable("blood_debts", {
 	createdAt: text("created_at").notNull(),
 });
 
+export const campaignSocialLedger = sqliteTable("campaign_social_ledger", {
+	id: text("id").primaryKey(), // ex: "campaign_default"
+	fameXp: integer("fame_xp").notNull().default(0),
+	fameLevel: integer("fame_level").notNull().default(0),
+	favorPoints: integer("favor_points").notNull().default(0),
+	updatedAt: text("updated_at").notNull(),
+});
+
 // Zod Schemas
 export const factionInsertSchema = createInsertSchema(factions);
 export const factionSelectSchema = createSelectSchema(factions);
@@ -43,6 +51,17 @@ export const reputationSelectSchema = createSelectSchema(characterReputation);
 export const bloodDebtInsertSchema = createInsertSchema(bloodDebts);
 export const bloodDebtSelectSchema = createSelectSchema(bloodDebts);
 
+export const campaignSocialLedgerInsertSchema =
+	createInsertSchema(campaignSocialLedger);
+export const campaignSocialLedgerSelectSchema =
+	createSelectSchema(campaignSocialLedger);
+
 export type FactionRecord = z.infer<typeof factionSelectSchema>;
 export type ReputationRecord = z.infer<typeof reputationSelectSchema>;
 export type BloodDebtRecord = z.infer<typeof bloodDebtSelectSchema>;
+export type CampaignSocialLedgerRecord = z.infer<
+	typeof campaignSocialLedgerSelectSchema
+>;
+export type NewCampaignSocialLedgerRecord = z.infer<
+	typeof campaignSocialLedgerInsertSchema
+>;

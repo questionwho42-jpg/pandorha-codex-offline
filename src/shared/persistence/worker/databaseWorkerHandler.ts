@@ -250,7 +250,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -773,6 +773,60 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
+			});
+		}
+
+		case "SAVE_COMPANION": {
+			const result = await input.bootstrapService.saveCompanion(
+				command.payload.companion,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_COMPANION": {
+			const result = await input.bootstrapService.findCompanion(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "LIST_COMPANIONS": {
+			const result = await input.bootstrapService.listCompanionsByCharacter(
+				command.payload.characterId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as any,
 			});
 		}
 

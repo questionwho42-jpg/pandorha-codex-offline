@@ -10,6 +10,7 @@ import clocksMigrationSql from "../../../../drizzle/0008_clear_magma.sql?raw";
 import dialogueMigrationSql from "../../../../drizzle/0009_special_sentinels.sql?raw";
 import questMigrationSql from "../../../../drizzle/0010_windy_wither.sql?raw";
 import synergyMigrationSql from "../../../../drizzle/0011_petite_thor_girl.sql?raw";
+import factionsCompanionsMigrationSql from "../../../../drizzle/0012_reflective_sasquatch.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -60,5 +61,9 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0011_petite_thor_girl",
 		sql: synergyMigrationSql,
+	},
+	{
+		id: "0012_reflective_sasquatch",
+		sql: factionsCompanionsMigrationSql,
 	},
 ];

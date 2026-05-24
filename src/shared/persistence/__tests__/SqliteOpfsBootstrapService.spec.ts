@@ -57,6 +57,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0009_special_sentinels",
 				"0010_windy_wither",
 				"0011_petite_thor_girl",
+				"0012_reflective_sasquatch",
 			],
 			tableNames: [
 				"_pandorha_migrations",
@@ -66,6 +67,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"campaign_cohesion",
 				"campaign_dialogue_states",
 				"campaign_quests",
+				"campaign_social_ledger",
 				"character_crafted_items",
 				"character_reputation",
 				"character_status_effects",
@@ -74,6 +76,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"factions",
 				"progress_clocks",
 				"registered_signatures",
+				"summon_companions",
 				"traps",
 				"world_state_entries",
 			],
@@ -128,6 +131,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0009_special_sentinels",
 			"0010_windy_wither",
 			"0011_petite_thor_girl",
+			"0012_reflective_sasquatch",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -246,6 +250,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0009_special_sentinels",
 			"0010_windy_wither",
 			"0011_petite_thor_girl",
+			"0012_reflective_sasquatch",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});

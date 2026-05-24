@@ -54,6 +54,9 @@ export const rpcCommandTypeSchema = z.enum([
 	"FIND_TRAP",
 	"LIST_TRAPS",
 	"DELETE_TRAP",
+	"SAVE_COMPANION",
+	"FIND_COMPANION",
+	"LIST_COMPANIONS",
 ]);
 
 export const jsonSerializableValueSchema = z.custom<JsonValue>(
@@ -412,6 +415,30 @@ export const deleteTrapRequestSchema = z.object({
 	}),
 });
 
+export const saveCompanionRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_COMPANION"),
+	payload: z.object({
+		companion: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findCompanionRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_COMPANION"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const listCompanionsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_COMPANIONS"),
+	payload: z.object({
+		characterId: z.string().min(1),
+	}),
+});
+
 export const rpcRequestSchema = z.discriminatedUnion("type", [
 	initDatabaseRequestSchema,
 	saveGameSnapshotRequestSchema,
@@ -455,6 +482,9 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	findTrapRequestSchema,
 	listTrapsRequestSchema,
 	deleteTrapRequestSchema,
+	saveCompanionRequestSchema,
+	findCompanionRequestSchema,
+	listCompanionsRequestSchema,
 ]);
 
 const rpcErrorSchema = z.object({

@@ -12,7 +12,12 @@ import {
 	WoundInfectionDecorator,
 } from "$lib/entities/character/domain/StatusEffectDecorator";
 import type { CharacterStatusEffectRecord } from "$lib/entities/character/model/characterSchema";
-import { InMemorySocialRepository } from "$lib/entities/social";
+import {
+	type CompanionRecord,
+	CompanionService,
+	WorkerCompanionRepository,
+} from "$lib/entities/companions";
+import { WorkerSocialRepository } from "$lib/entities/social";
 import type {
 	NewTrapRecord,
 	TrapDowntimeCharacterService,
@@ -132,7 +137,6 @@ function handleCreateAttackInput(
 const compendiumSession = createCompendiumSession();
 const hexcrawlSession = createHexcrawlSession();
 const inventorySession = createInventorySession();
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const spellCastSession = createSpellCastSession();
 
 let activeView = $state<AppNavigationId>("home");
@@ -153,17 +157,45 @@ let dynamicInventoryItems = $derived(
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let craftingSubTab = $state<"forge" | "alchemy">("forge");
 
-const socialRepository = new InMemorySocialRepository();
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const socialRepository = new WorkerSocialRepository();
 const socialStandingService = new SocialStandingService(socialRepository);
+const companionRepository = new WorkerCompanionRepository();
+const companionService = new CompanionService(
+	companionRepository,
+	characterSession.repository as any,
+);
+
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let isRestBlocked = $state(false);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-let fame = $state(2);
+let fame = $state(0);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-let bloodDebt = $state(3);
+let bloodDebt = $state(0);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let dangerCounter = $state(15);
+let companions = $state<CompanionRecord[]>([]);
+
+// Cálculo reativo do caster de magia do Tecelão (Fase 22)
+let _activeCaster = $derived.by(() => {
+	const weaverChar = characterRecords.find((c) => c.classId === "weaver");
+	if (weaverChar) {
+		const baseEe = weaverChar.level + weaverChar.mental;
+		const hasActiveFamiliar = companions.some(
+			(comp) =>
+				comp.characterId === weaverChar.id &&
+				comp.type === "familiar" &&
+				!comp.isDissipated,
+		);
+		const finalEe = hasActiveFamiliar ? Math.max(0, baseEe - 1) : baseEe;
+
+		return {
+			id: weaverChar.id,
+			label: `${weaverChar.name} (Tecelão)`,
+			availableEther: finalEe,
+		};
+	}
+	return spellCastSession.caster;
+});
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function handleSocialStandingChange(blocked: boolean) {
@@ -239,6 +271,90 @@ async function handleClearStatusEffects(characterId: string) {
 	activeStatusEffects = activeStatusEffects.filter(
 		(e) => e.characterId !== characterId,
 	);
+}
+
+async function _handleSummonCompanion(
+	characterId: string,
+	name: string,
+	type: "aggressor" | "protector" | "scout" | "familiar",
+	subModel: string,
+	tier: number,
+) {
+	const res = await companionService.summonCompanion(
+		characterId,
+		name,
+		type,
+		subModel,
+		tier,
+		new Date().toISOString(),
+	);
+	if (res.success) {
+		await reloadCompanions();
+	} else {
+		console.error("Erro ao invocar companheiro:", res.error);
+	}
+}
+
+async function _handleShareSensory(companionId: string, isShare: boolean) {
+	const res = await companionService.shareSensory(
+		companionId,
+		isShare,
+		new Date().toISOString(),
+	);
+	if (res.success) {
+		await reloadCompanions();
+	}
+}
+
+async function _handleCompanionDamage(companionId: string, damage: number) {
+	const res = await companionService.applyDamageToCompanion(
+		companionId,
+		damage,
+		new Date().toISOString(),
+	);
+	if (res.success) {
+		await reloadCompanions();
+		// O dano no familiar pode aplicar dano mental no mestre, então recarregamos os personagens
+		characterRecords = characterSession.repository.all();
+	}
+}
+
+async function _handleStabilizeMaster(characterId: string) {
+	const res = await companionService.stabilizeMaster(
+		characterId,
+		new Date().toISOString(),
+	);
+	if (res.success && res.data) {
+		await reloadCompanions();
+		characterRecords = characterSession.repository.all();
+	}
+}
+
+async function _handleUpdateCompanionTraits(
+	companionId: string,
+	traits: string[],
+) {
+	const res = await companionService.updateSelectedTraits(
+		companionId,
+		traits,
+		new Date().toISOString(),
+	);
+	if (res.success) {
+		await reloadCompanions();
+	} else {
+		alert(`Erro ao atualizar traços: ${res.error.message}`);
+	}
+}
+
+async function reloadCompanions() {
+	const tempCompanions: CompanionRecord[] = [];
+	for (const char of characterRecords) {
+		const res = await companionRepository.findCompanionsByCharacter(char.id);
+		if (res.success) {
+			tempCompanions.push(...res.data);
+		}
+	}
+	companions = tempCompanions;
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -636,6 +752,61 @@ onMount(async () => {
 		}
 	}
 
+	// Carregar todos os companions para os personagens existentes
+	const tempCompanions: CompanionRecord[] = [];
+	for (const char of characterRecords) {
+		const res = await companionRepository.findCompanionsByCharacter(char.id);
+		if (res.success) {
+			tempCompanions.push(...res.data);
+		}
+	}
+	companions = tempCompanions;
+
+	// Carregar reputação/standing físico e calcular bloqueio global de descanso
+	await socialStandingService.ensureBaseFactions();
+	let totalBloodDebt = 0;
+	let highestFame = 0;
+	let restBlocked = false;
+	for (const char of characterRecords) {
+		const standing = await socialStandingService.getCharacterStanding(char.id);
+		const charDebt = standing.debts
+			.filter((d) => !d.isPaid)
+			.reduce((sum, d) => sum + d.debtValue, 0);
+		totalBloodDebt += charDebt;
+
+		const charFame = standing.reputations.reduce(
+			(sum, r) => sum + Math.max(0, r.value),
+			0,
+		);
+		if (charFame > highestFame) {
+			highestFame = charFame;
+		}
+
+		// Checa se este personagem está bloqueado por dívida de sangue
+		for (const rep of standing.reputations) {
+			const checkRes = await socialRepository.findReputation(
+				char.id,
+				rep.factionId,
+			);
+			if (checkRes.success && checkRes.data) {
+				const debtsRes = await socialRepository.findBloodDebtsByCharacter(
+					char.id,
+				);
+				if (debtsRes.success) {
+					const charUnpaidDebt = debtsRes.data
+						.filter((d) => !d.isPaid)
+						.reduce((sum, d) => sum + d.debtValue, 0);
+					if (charUnpaidDebt > checkRes.data.value * 3) {
+						restBlocked = true;
+					}
+				}
+			}
+		}
+	}
+	fame = highestFame;
+	bloodDebt = totalBloodDebt;
+	isRestBlocked = restBlocked;
+
 	return () => {
 		window.removeEventListener("online", updateOnlineStatus);
 		window.removeEventListener("offline", updateOnlineStatus);
@@ -697,6 +868,16 @@ async function createCharacter(
 				</h1>
 			</div>
 			<div class="flex items-center gap-2 shrink-0">
+				{#if isRestBlocked}
+					<button
+						type="button"
+						onclick={() => activeView = "social"}
+						class="inline-flex items-center gap-1.5 rounded-full border border-blood bg-blood-shadow/40 px-3 py-1 text-xs font-bold text-blood transition-all duration-300 animate-pulse hover:bg-blood/20"
+						title="Dívida de Sangue excede o limite safe com alguma facção. Clique para ir ao painel social e renegociar."
+					>
+						⚠️ DESCANSO BLOQUEADO (DÍVIDA)
+					</button>
+				{/if}
 				{#if isOnline}
 					<span class="inline-flex items-center gap-1.5 rounded-full border border-ether/40 bg-ruin px-3 py-1 text-xs font-semibold text-ether transition-all duration-300">
 						<span class="h-2 w-2 rounded-full bg-ether animate-pulse"></span>
@@ -756,6 +937,12 @@ async function createCharacter(
 						statusEffects={activeStatusEffects}
 						onApplyStatusEffect={handleApplyStatusEffect}
 						onClearStatusEffects={handleClearStatusEffects}
+						companions={companions}
+						onSummonCompanion={handleSummonCompanion}
+						onShareSensory={handleShareSensory}
+						onCompanionDamage={handleCompanionDamage}
+						onStabilizeMaster={handleStabilizeMaster}
+						onUpdateCompanionTraits={handleUpdateCompanionTraits}
 					/>
 				</div>
 			{:else if activeView === "compendium"}
@@ -783,7 +970,7 @@ async function createCharacter(
 			{:else if activeView === "magic"}
 				<SpellCastPanel
 					buildCastCommand={spellCastSession.buildCastCommand}
-					caster={spellCastSession.caster}
+					caster={activeCaster}
 					createCastInput={spellCastSession.createCastInput}
 					spells={spellCastSession.spells}
 					target={spellCastSession.target}

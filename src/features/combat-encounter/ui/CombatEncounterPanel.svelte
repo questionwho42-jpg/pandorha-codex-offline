@@ -97,13 +97,13 @@ const synergyService = new SynergyService(synergyRepository);
 
 let cohesionState = $state<any>(null);
 let activeElo = $state<any>(null);
-let registeredSignaturesList = $state<any[]>([]);
+let _registeredSignaturesList = $state<any[]>([]);
 let openingTact = $state("physical_push");
 let reinforceTact = $state("physical_expose");
 let selectedReinforcerId = $state("");
 let detonationTact = $state("physical_expose");
 
-const availableTactics = [
+const _availableTactics = [
 	{
 		id: "physical_push",
 		label: "Física: Empurrar (Ação Imediata: Empurra o alvo)",
@@ -118,7 +118,7 @@ const availableTactics = [
 	},
 ];
 
-async function handleOpenElo() {
+async function _handleOpenElo() {
 	if (!cohesionState) return;
 	const res = await synergyService.openSynergyElo({
 		cohesionId: cohesionState.id,
@@ -142,7 +142,7 @@ async function handleOpenElo() {
 	}
 }
 
-async function handleReinforceElo() {
+async function _handleReinforceElo() {
 	if (!cohesionState || !activeElo) return;
 	const otherHero = characters.find((c) => c.id !== activeElo.abridorId);
 	const reinforcerId = selectedReinforcerId || (otherHero ? otherHero.id : "");
@@ -171,14 +171,21 @@ async function handleReinforceElo() {
 	}
 }
 
-async function handleDetonateElo() {
+async function _handleDetonateElo() {
 	if (!cohesionState || !activeElo) return;
-	const attackRoll =
-		Math.floor(Math["random"]() * 20) +
-		1 +
-		(trainingAttackProfile.attackBonus || 2);
+	const randRoll = () => {
+		const arr = new Uint32Array(1);
+		crypto.getRandomValues(arr);
+		return (arr[0] % 20) + 1;
+	};
+	const randD6 = () => {
+		const arr = new Uint32Array(1);
+		crypto.getRandomValues(arr);
+		return (arr[0] % 6) + 3;
+	};
+	const attackRoll = randRoll() + (trainingAttackProfile.attackBonus || 2);
 	const targetDefense = selectedTarget.armorClass;
-	const targetSaveRoll = Math.floor(Math["random"]() * 20) + 1;
+	const targetSaveRoll = randRoll();
 	const targetSaveBonus = selectedTarget.saveBonus ?? 2;
 	const res = await synergyService.detonateSynergyElo({
 		cohesionId: cohesionState.id,
@@ -224,7 +231,7 @@ async function handleDetonateElo() {
 					);
 				}
 			}
-			const damage = Math.floor(Math["random"]() * 6) + 3;
+			const damage = randD6();
 			targetHitPoints = Math.max(0, targetHitPoints - damage);
 			detonationLog += ` Dano de Detonação: ${damage} PV.`;
 		} else {
@@ -234,14 +241,14 @@ async function handleDetonateElo() {
 		log = [...log, detonationLog];
 		const sigsRes = await synergyRepository.findAllSignatures();
 		if (sigsRes.success) {
-			registeredSignaturesList = sigsRes.data;
+			_registeredSignaturesList = sigsRes.data;
 		}
 	} else {
 		errorMessage = `Erro ao detonar elo: ${res.error.message}`;
 	}
 }
 
-async function handleRecoverCohesion() {
+async function _handleRecoverCohesion() {
 	if (!cohesionState) return;
 	const res = await synergyService.recoverCohesionOnRest(
 		cohesionState.id,
@@ -288,7 +295,7 @@ onMount(async () => {
 
 		const sigsRes = await synergyRepository.findAllSignatures();
 		if (sigsRes.success) {
-			registeredSignaturesList = sigsRes.data;
+			_registeredSignaturesList = sigsRes.data;
 		}
 	}
 });

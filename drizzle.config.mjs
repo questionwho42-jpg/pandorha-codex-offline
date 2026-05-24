@@ -12,6 +12,7 @@ export default defineConfig({
 		"./src/entities/dialogue/model/dialogueSchema.ts",
 		"./src/entities/quest/model/questSchema.ts",
 		"./src/entities/synergy/model/synergySchema.ts",
+		"./src/entities/companions/model/companionSchema.ts",
 	],
 	out: "./drizzle",
 	dialect: "sqlite",
