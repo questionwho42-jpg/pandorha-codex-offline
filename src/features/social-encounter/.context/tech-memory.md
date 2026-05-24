@@ -15,4 +15,5 @@
 - T52 makes `SocialEncounterService` read optional `choiceLabel` metadata from `social-appeal` commands when composing queued/success logs; commands without that metadata keep the legacy generic copy.
 - T55 adds `DialogueTraversalService` to navigate read-only dialogue trees and emit `dialogue-option-selected` events in the existing social ledger.
 - The new event type is schema-compatible with save v4 because it reuses `social_encounter_events` and stores the selected option id in `commandId`.
+- T56 wires the dialogue tree into `SocialEncounterPanel`; current dialogue text is derived by replaying ledger events and choosing an option updates the selected social argument.
 - Rule sources: `docs/system/survival/regras-completas-interacoes-sociais.md`, `docs/system/survival/regras-negociacao.md`, and `docs/architecture/feature_state_machines.md`.

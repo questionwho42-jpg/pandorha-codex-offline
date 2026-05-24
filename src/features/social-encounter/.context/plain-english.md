@@ -21,3 +21,5 @@ T51 mostra esse seletor na aba Relacoes. O usuario pode escolher Persuadir, Barg
 T52 melhora o registro da conversa. Quando o usuario usa Barganhar, o log passa a dizer que o apelo foi feito com Barganhar, e essa mensagem continua voltando depois de salvar e carregar.
 
 T55 registra tambem qual opcao de dialogo foi escolhida. Assim, a conversa pode voltar para a fala certa depois de salvar e carregar, sem criar um novo formato de save.
+
+T56 mostra essa conversa na aba Relacoes. O usuario ve a fala da Corretora de Treino, escolhe uma resposta e essa escolha prepara o argumento usado no apelo social.

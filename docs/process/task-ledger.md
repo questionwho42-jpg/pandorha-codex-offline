@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260521-000008-t56-dialogue-tree-ui -->
+### T56 Dialogue Tree UI
+- id: 20260521-000008-t56-dialogue-tree-ui
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-21T15:53:46-03:00
+- finished_at: 2026-05-24T04:06:40-03:00
+- model_started: GPT-5.5 medium-high
+- model_finished: GPT-5.5 medium-high
+- last_modified_at: 2026-05-24T04:06:40-03:00
+- branch: task/dialogue-tree-ui
+- commit_at_start: f795942 feat(dialogue): adiciona navegacao da arvore social
+- summary: Expor a arvore de dialogo de training-broker na aba Relacoes e validar no navegador.
+- last_change: T56 expos a arvore de dialogo da Corretora de Treino na aba Relacoes, com escolha persistida no ledger social.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-21T15:53:46-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: GPT-5.5 medium-high
+
+#### Checkpoint 2026-05-24T04:06:40-03:00
+- Done: T56 expos a arvore de dialogo da Corretora de Treino na aba Relacoes, com escolha persistida no ledger social.
+- Next: Iniciar T57 para atualizar guia de usuario, QA vertical e smoke script com a arvore de dialogo.
+- Risks: Browser Use pode continuar sem digitacao estavel; validacao deve usar save existente quando possivel.
+- Improvements: T57 deve documentar o fluxo de fala do NPC, escolha Barganhar, apelo e save/load.
+- Model/config: GPT-5.5 medium-high
+<!-- /pandorha-task:20260521-000008-t56-dialogue-tree-ui -->
 <!-- pandorha-task:20260521-000007-t55-dialogue-traversal-core -->
 ### T55 Dialogue Traversal Core
 - id: 20260521-000007-t55-dialogue-traversal-core
@@ -2906,6 +2938,282 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-24T04:06:33-03:00 - dialogue-tree-ui
+- branch: task/dialogue-tree-ui
+- commit: f795942 feat(dialogue): adiciona navegacao da arvore social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-24T03:07:44-03:00 - post-commit
+- branch: task/dialogue-tree-ui
+- commit: f795942 feat(dialogue): adiciona navegacao da arvore social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-23T14:24:35-03:00 - post-commit
+- branch: task/dialogue-tree-ui
+- commit: f795942 feat(dialogue): adiciona navegacao da arvore social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-23T13:37:18-03:00 - post-commit
+- branch: task/dialogue-tree-ui
+- commit: f795942 feat(dialogue): adiciona navegacao da arvore social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-23T08:53:41-03:00 - post-commit
+- branch: task/dialogue-tree-ui
+- commit: f795942 feat(dialogue): adiciona navegacao da arvore social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-23T08:53:21-03:00 - post-commit
+- branch: task/dialogue-tree-ui
+- commit: f795942 feat(dialogue): adiciona navegacao da arvore social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-23T08:53:11-03:00 - post-commit
+- branch: task/dialogue-tree-ui
+- commit: f795942 feat(dialogue): adiciona navegacao da arvore social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-23T08:53:05-03:00 - post-commit
+- branch: task/dialogue-tree-ui
+- commit: f795942 feat(dialogue): adiciona navegacao da arvore social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-23T08:52:59-03:00 - post-commit
+- branch: task/dialogue-tree-ui
+- commit: f795942 feat(dialogue): adiciona navegacao da arvore social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-22T18:14:01-03:00 - post-commit
+- branch: task/dialogue-tree-ui
+- commit: f795942 feat(dialogue): adiciona navegacao da arvore social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-22T16:58:09-03:00 - post-commit
+- branch: task/dialogue-tree-ui
+- commit: f795942 feat(dialogue): adiciona navegacao da arvore social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-22T12:24:27-03:00 - post-commit
+- branch: task/dialogue-tree-ui
+- commit: f795942 feat(dialogue): adiciona navegacao da arvore social
+- changed_files_count: 13
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/socialEncounterSession.spec.ts
+- src/app/model/socialEncounterSession.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/index.ts
+- src/features/social-encounter/model-api.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- vitest.config.mjs
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-21T15:53:09-03:00 - dialogue-traversal-core
 - branch: task/dialogue-traversal-core
 - commit: 915bdfa feat(dialogue): adiciona catalogo de arvore social

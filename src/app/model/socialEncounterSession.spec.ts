@@ -54,6 +54,12 @@ describe("createSocialEncounterSession", () => {
 			"bargain",
 			"threaten",
 		]);
+		expect(session.dialogueNodes.map((node) => node.id)).toContain(
+			"training-broker-opening",
+		);
+		expect(session.dialogueOptions.map((option) => option.id)).toContain(
+			"training-broker-option-bargain",
+		);
 		expect(startInput).toEqual({
 			id: "social-encounter-primary",
 			actorId: "character-lia",

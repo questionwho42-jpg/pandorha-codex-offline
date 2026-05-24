@@ -1,6 +1,10 @@
 <script lang="ts">
 import type { CharacterRecord } from "$lib/entities/character";
 import type { DialogueChoiceRecord } from "$lib/entities/dialogue-choice";
+import type {
+	DialogueNodeRecord,
+	DialogueOptionRecord,
+} from "$lib/entities/dialogue-tree";
 import type { NpcRecord } from "$lib/entities/npc";
 import type {
 	SocialEncounterEventRecord,
@@ -9,6 +13,10 @@ import type {
 import type { WorldStateFlagView } from "$lib/entities/world-state";
 import type { Result } from "$lib/shared/lib/result";
 import type {
+	DialogueTraversalFailure,
+	DialogueTraversalResult,
+} from "../model/dialogueTraversalTypes";
+import type {
 	SocialAppealResolutionFailure,
 	SocialAppealResolutionResult,
 } from "../model/socialAppealResolutionTypes";
@@ -16,6 +24,10 @@ import {
 	createSocialDialogueChoiceProfile,
 	type SocialDialogueChoiceProfile,
 } from "../model/socialDialogueChoiceProfile";
+import {
+	createSocialDialogueTreeView,
+	resolveDialogueChoiceIdFromEvents,
+} from "../model/socialDialogueTreeView";
 import {
 	createSocialEncounterConsequenceFlag,
 	createSocialEncounterConsequenceView,
@@ -72,6 +84,8 @@ type Props = {
 		actorId: string,
 	) => StartEncounterInput;
 	readonly dialogueChoices: readonly DialogueChoiceRecord[];
+	readonly dialogueNodes: readonly DialogueNodeRecord[];
+	readonly dialogueOptions: readonly DialogueOptionRecord[];
 	readonly encounterEvents: readonly SocialEncounterEventRecord[];
 	readonly encounters: readonly SocialEncounterRecord[];
 	readonly npcs: readonly NpcRecord[];
@@ -86,6 +100,9 @@ type Props = {
 	readonly startEncounter: (
 		input: unknown,
 	) => Promise<Result<SocialEncounterState, SocialEncounterFailure>>;
+	readonly selectDialogueTreeOption: (
+		input: unknown,
+	) => Promise<Result<DialogueTraversalResult, DialogueTraversalFailure>>;
 	readonly worldState: readonly WorldStateFlagView[];
 };
 
@@ -95,6 +112,8 @@ let {
 	createAppealResolutionInput,
 	createStartInput,
 	dialogueChoices,
+	dialogueNodes,
+	dialogueOptions,
 	encounterEvents,
 	encounters,
 	npcs,
@@ -103,6 +122,7 @@ let {
 	resolveAppeal,
 	resolveAppealOutcome,
 	startEncounter,
+	selectDialogueTreeOption,
 	worldState,
 }: Props = $props();
 
@@ -145,6 +165,13 @@ $effect(() => {
 	selectedNpcId = state?.npcId ?? (selectedNpcId || npcs[0]?.id) ?? "";
 	selectedActorId =
 		state?.actorId ?? resolveSelectedActorId(selectedActorId, characters);
+	selectedChoiceId = state
+		? resolveDialogueChoiceIdFromEvents(
+				state.events,
+				dialogueOptions,
+				resolveSelectedChoiceId(selectedChoiceId, dialogueChoices),
+			)
+		: resolveSelectedChoiceId(selectedChoiceId, dialogueChoices);
 	errorMessage = null;
 	lastResolution = null;
 	isWorking = false;
@@ -171,6 +198,15 @@ let consequenceView = $derived(
 	createSocialEncounterConsequenceView({
 		state,
 		worldState,
+	}),
+);
+
+let dialogueTreeView = $derived(
+	createSocialDialogueTreeView({
+		nodes: dialogueNodes,
+		options: dialogueOptions,
+		selectedNpcId,
+		state,
 	}),
 );
 
@@ -252,6 +288,37 @@ function resolveCharacterAppeal(): void {
 	applyState(result.data);
 }
 
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function chooseDialogueOption(optionId: string): Promise<void> {
+	if (!state || isWorking || !dialogueTreeView.currentNodeId) {
+		return;
+	}
+
+	isWorking = true;
+	const result = await selectDialogueTreeOption({
+		npcId: state.npcId,
+		currentNodeId: dialogueTreeView.currentNodeId,
+		optionId,
+		selectedAt: new Date().toISOString(),
+		events: state.events,
+	});
+	isWorking = false;
+
+	if (!result.success) {
+		errorMessage = mapDialogueTraversalFailureToMessage(result.error);
+		return;
+	}
+
+	selectedChoiceId = result.data.selectedChoiceId;
+	const nextState: SocialEncounterState = {
+		...state,
+		events: [...state.events, result.data.event],
+		log: [...state.log, result.data.event.message],
+		updatedAt: result.data.event.createdAt,
+	};
+	applyState(nextState);
+}
+
 function applyState(nextState: SocialEncounterState): void {
 	state = nextState;
 	errorMessage = null;
@@ -305,6 +372,21 @@ function createHydrationKey(
 		encounters,
 		events,
 	});
+}
+
+function mapDialogueTraversalFailureToMessage(
+	failure: DialogueTraversalFailure,
+): string {
+	switch (failure.code) {
+		case "INVALID_DIALOGUE_TRAVERSAL_INPUT":
+			return "Esta opção de diálogo não pode ser usada agora.";
+		case "DIALOGUE_TREE_LOOKUP_FAILED":
+			return "Não foi possível carregar a fala deste diálogo.";
+		case "DIALOGUE_NODE_MISMATCH":
+			return "Esta fala não pertence ao NPC selecionado.";
+		case "DIALOGUE_OPTION_MISSING":
+			return "Esta opção de diálogo não está disponível nesta fala.";
+	}
 }
 </script>
 
@@ -379,19 +461,44 @@ function createHydrationKey(
 					</div>
 				</div>
 
-				<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-					<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone" data-testid="social-mental-hp">
-						{view.mentalHpLabel}
-					</p>
-					<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone" data-testid="social-patience">
-						{view.patienceLabel}
-					</p>
-					<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone" data-testid="social-persuasion">
-						{view.progressLabel}
-					</p>
-					<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone">
-						{view.attitudeLabel}
-					</p>
+				<div class="grid gap-4">
+					<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+						<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone" data-testid="social-mental-hp">
+							{view.mentalHpLabel}
+						</p>
+						<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone" data-testid="social-patience">
+							{view.patienceLabel}
+						</p>
+						<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone" data-testid="social-persuasion">
+							{view.progressLabel}
+						</p>
+						<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone">
+							{view.attitudeLabel}
+						</p>
+					</div>
+					<div class="border border-bronze bg-ruin px-4 py-4 text-sm leading-6 text-bone" data-testid="social-dialogue-tree">
+						<p class="font-semibold text-ether">Fala do NPC</p>
+						<p class="mt-2" data-testid="social-dialogue-current-text">
+							{dialogueTreeView.currentNodeText}
+						</p>
+						<p class="mt-2 text-bone/80">{dialogueTreeView.stateLabel}</p>
+						{#if dialogueTreeView.options.length > 0}
+							<div class="mt-3 flex flex-wrap gap-2">
+								{#each dialogueTreeView.options as option}
+									<button
+										type="button"
+										class="rounded-lg border border-bronze bg-blood-shadow px-3 py-2 text-left text-sm font-semibold text-bone transition-colors hover:border-ether hover:text-ether disabled:cursor-not-allowed disabled:opacity-50"
+										disabled={!dialogueTreeView.canChooseOption || isWorking}
+										onclick={() => void chooseDialogueOption(option.id)}
+										data-testid="social-dialogue-option"
+									>
+										<span class="block text-ether">{option.label}</span>
+										<span class="block font-normal text-bone/85">{option.visibleText}</span>
+									</button>
+								{/each}
+							</div>
+						{/if}
+					</div>
 				</div>
 			</div>
 

@@ -5,6 +5,7 @@ export * from "./model/dialogueTraversalSchemas";
 export * from "./model/dialogueTraversalTypes";
 export * from "./model/socialAppealResolutionTypes";
 export * from "./model/socialDialogueChoiceProfile";
+export * from "./model/socialDialogueTreeView";
 export * from "./model/socialEncounterConsequences";
 export * from "./model/socialEncounterPersistence";
 export * from "./model/socialEncounterSchemas";

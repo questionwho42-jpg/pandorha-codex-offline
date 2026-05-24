@@ -356,6 +356,8 @@ onMount(() => {
 						createAppealResolutionInput={socialEncounterSession.createAppealResolutionInput}
 						createStartInput={socialEncounterSession.createStartInput}
 						dialogueChoices={socialEncounterSession.dialogueChoices}
+						dialogueNodes={socialEncounterSession.dialogueNodes}
+						dialogueOptions={socialEncounterSession.dialogueOptions}
 						encounterEvents={socialEncounterEventRecords}
 						encounters={socialEncounterRecords}
 						npcs={socialEncounterSession.npcs}
@@ -372,6 +374,8 @@ onMount(() => {
 							socialEncounterSession.service.resolveAppeal(input)}
 						resolveAppealOutcome={(input) =>
 							socialEncounterSession.appealResolutionService.resolveAppealOutcome(input)}
+						selectDialogueTreeOption={(input) =>
+							socialEncounterSession.dialogueTraversalService.selectOption(input)}
 						startEncounter={(input) =>
 							socialEncounterSession.service.startEncounter(input)}
 						worldState={worldStateRecords}

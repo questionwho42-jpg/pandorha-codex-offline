@@ -58,6 +58,7 @@ export default defineConfig({
 				"src/features/inventory-readonly/model/inventoryReadOnlyView.ts",
 				"src/features/save-load/model/saveLoadView.ts",
 				"src/features/social-encounter/model/socialDialogueChoiceProfile.ts",
+				"src/features/social-encounter/model/socialDialogueTreeView.ts",
 				"src/features/social-encounter/model/socialEncounterConsequences.ts",
 				"src/features/social-encounter/model/socialEncounterView.ts",
 				"src/features/social-relations/model/socialRelationsView.ts",

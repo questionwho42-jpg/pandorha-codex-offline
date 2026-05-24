@@ -4,11 +4,20 @@ import {
 	type DialogueChoiceRecord,
 } from "$lib/entities/dialogue-choice";
 import {
+	DIALOGUE_NODE_CATALOG,
+	DIALOGUE_OPTION_CATALOG,
+	type DialogueNodeRecord,
+	type DialogueOptionRecord,
+	DialogueTreeCatalogService,
+	InMemoryDialogueTreeCatalogRepository,
+} from "$lib/entities/dialogue-tree";
+import {
 	InMemoryNpcCatalogRepository,
 	NPC_CATALOG,
 	type NpcRecord,
 } from "$lib/entities/npc";
 import {
+	DialogueTraversalService,
 	type SocialAppealResolutionResult,
 	SocialAppealResolutionService,
 	type SocialDialogueChoiceCommandPayload,
@@ -31,6 +40,9 @@ const TRAINING_SOCIAL_ITEM_BONUS = 0;
 export interface SocialEncounterSession {
 	readonly appealResolutionService: SocialAppealResolutionService;
 	readonly dialogueChoices: readonly DialogueChoiceRecord[];
+	readonly dialogueNodes: readonly DialogueNodeRecord[];
+	readonly dialogueOptions: readonly DialogueOptionRecord[];
+	readonly dialogueTraversalService: DialogueTraversalService;
 	readonly npcs: readonly NpcRecord[];
 	readonly service: SocialEncounterService;
 	createAppealInput(
@@ -77,6 +89,9 @@ export function createSocialEncounterSession(): SocialEncounterSession {
 	const service = new SocialEncounterService(
 		new InMemoryNpcCatalogRepository(),
 	);
+	const dialogueTreeService = new DialogueTreeCatalogService(
+		new InMemoryDialogueTreeCatalogRepository(),
+	);
 	const diceService = new DiceService(
 		new LoopingDiceRng([0.45]),
 		createSequentialDiceRollIdProvider("social-appeal-roll"),
@@ -88,6 +103,9 @@ export function createSocialEncounterSession(): SocialEncounterSession {
 			new ResolutionService(diceService),
 		),
 		dialogueChoices: DIALOGUE_CHOICE_CATALOG,
+		dialogueNodes: DIALOGUE_NODE_CATALOG,
+		dialogueOptions: DIALOGUE_OPTION_CATALOG,
+		dialogueTraversalService: new DialogueTraversalService(dialogueTreeService),
 		npcs: NPC_CATALOG,
 		service,
 		createAppealInput,
