@@ -78,6 +78,33 @@ test("vertical slice smoke fails when social choice UI contract is missing", asy
 	}
 });
 
+test("vertical slice smoke fails when dialogue tree UI contract is missing", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/social-encounter/ui/SocialEncounterPanel.svelte": `
+<script>
+export let dialogueChoices = [];
+</script>
+<select data-testid="social-choice-select"></select>
+<div data-testid="social-choice-summary"></div>
+`,
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(
+			result.stderr,
+			/src\/features\/social-encounter\/ui\/SocialEncounterPanel\.svelte/,
+		);
+		assert.match(result.stderr, /social-dialogue-tree/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 async function createFixtureRoot({
 	navigationText = renderNavigation(),
 	docOverrides = {},
@@ -89,6 +116,8 @@ async function createFixtureRoot({
 		"src/app/App.svelte": renderApp(),
 		"src/features/social-encounter/ui/SocialEncounterPanel.svelte":
 			renderSocialEncounterPanel(),
+		"src/features/social-encounter/domain/DialogueTraversalService.ts":
+			renderDialogueTraversalService(),
 		"src/features/social-encounter/domain/SocialEncounterService.ts":
 			renderSocialEncounterService(),
 		"public/pandorha-sw.js": renderServiceWorker(),
@@ -149,9 +178,26 @@ function renderSocialEncounterPanel() {
 	return `
 <script>
 export let dialogueChoices = [];
+export let dialogueNodes = [];
+export let dialogueOptions = [];
+export let selectDialogueTreeOption = () => undefined;
+function chooseDialogueOption() {}
 </script>
 <select data-testid="social-choice-select"></select>
 <div data-testid="social-choice-summary"></div>
+<div data-testid="social-dialogue-tree">
+  <p>Fala do NPC</p>
+  <p data-testid="social-dialogue-current-text">A corretora pede uma proposta concreta.</p>
+  <button data-testid="social-dialogue-option">Barganhar</button>
+</div>
+`;
+}
+
+function renderDialogueTraversalService() {
+	return `
+const type = "dialogue-option-selected";
+const message = "Opção de diálogo escolhida: Barganhar.";
+const nextNode = "training-broker-bargain-response";
 `;
 }
 
@@ -189,12 +235,13 @@ function renderDoc(title) {
 }
 
 function renderSocialEncounterDoc() {
-	return `# NegociaÃ§Ã£o Social
+	return `# Negociação Social
 
 Abra http://127.0.0.1:5173/ para testar.
 
 Escolha o campo Argumento, selecione Barganhar e confirme Modificador do argumento: +1.
-Depois valide WorldState ao encerrar a negociaÃ§Ã£o.
+Leia Fala do NPC, escolha Barganhar, confirme a troca proposta e o log Opção de diálogo escolhida: Barganhar.
+Depois valide WorldState ao encerrar a negociação.
 `;
 }
 

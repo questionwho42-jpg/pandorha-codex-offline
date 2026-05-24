@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260524-000001-t57-dialogue-tree-qa-docs -->
+### T57 - Guia E QA De Dialogo
+- id: 20260524-000001-t57-dialogue-tree-qa-docs
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-24T04:07:56-03:00
+- finished_at: 2026-05-24T04:13:54-03:00
+- model_started: GPT-5.5 medium-high
+- model_finished: GPT-5.5 medium-high
+- last_modified_at: 2026-05-24T04:13:54-03:00
+- branch: task/dialogue-tree-qa-docs
+- commit_at_start: e7223d8 feat(dialogue): mostra arvore na ui social
+- summary: Atualizar guia de usuario, QA vertical e smoke script para refletir a arvore de dialogo social V1.
+- last_change: T57 atualizou guia de usuario, QA vertical e smoke script para cobrir a arvore curta de dialogo social.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-24T04:07:56-03:00
+- Done: task record created
+- Next: Editar docs/user/social-encounter.md, docs/process/vertical-slice-qa.md e scripts/vertical_slice_smoke.mjs.
+- Risks: T57 nao deve alterar UI ou gameplay; mudancas ficam restritas a documentacao e automacao de QA.
+- Improvements: Smoke vertical deve exigir fala do NPC, opcoes de dialogo e evento persistido.
+- Model/config: GPT-5.5 medium-high
+
+#### Checkpoint 2026-05-24T04:13:54-03:00
+- Done: T57 atualizou guia de usuario, QA vertical e smoke script para cobrir a arvore curta de dialogo social.
+- Next: Planejar a proxima fase apos T54-T57, mantendo a vertical social como base validada.
+- Risks: A arvore segue curta e cobre apenas a Corretora de Treino; dialogo literario completo permanece fora do escopo.
+- Improvements: Futuras fases podem expandir multiplos NPCs, consequencias mais profundas e escolhas com efeitos sociais persistentes.
+- Model/config: GPT-5.5 medium-high
+<!-- /pandorha-task:20260524-000001-t57-dialogue-tree-qa-docs -->
 <!-- pandorha-task:20260521-000008-t56-dialogue-tree-ui -->
 ### T56 Dialogue Tree UI
 - id: 20260521-000008-t56-dialogue-tree-ui
@@ -2938,6 +2970,21 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-24T04:13:48-03:00 - dialogue-tree-qa-docs
+- branch: task/dialogue-tree-qa-docs
+- commit: e7223d8 feat(dialogue): mostra arvore na ui social
+- changed_files_count: 5
+#### Changed Files
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/social-encounter.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-24T04:06:33-03:00 - dialogue-tree-ui
 - branch: task/dialogue-tree-ui
 - commit: f795942 feat(dialogue): adiciona navegacao da arvore social

@@ -67,9 +67,24 @@ async function runVerticalSliceSmoke(root) {
 		"src/features/social-encounter/ui/SocialEncounterPanel.svelte",
 		[
 			"dialogueChoices",
+			"dialogueNodes",
+			"dialogueOptions",
+			"selectDialogueTreeOption",
+			"chooseDialogueOption",
 			'data-testid="social-choice-select"',
 			'data-testid="social-choice-summary"',
+			'data-testid="social-dialogue-tree"',
+			'data-testid="social-dialogue-current-text"',
+			'data-testid="social-dialogue-option"',
+			"Fala do NPC",
 		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/social-encounter/domain/DialogueTraversalService.ts",
+		["dialogue-option-selected", "Opção de diálogo escolhida", "nextNode"],
 		errors,
 	);
 
@@ -120,7 +135,15 @@ async function runVerticalSliceSmoke(root) {
 	await validateFileContains(
 		root,
 		"docs/user/social-encounter.md",
-		["Argumento", "Barganhar", "Modificador do argumento: +1", "WorldState"],
+		[
+			"Fala do NPC",
+			"Argumento",
+			"Barganhar",
+			"troca proposta",
+			"Modificador do argumento: +1",
+			"Opção de diálogo escolhida: Barganhar",
+			"WorldState",
+		],
 		errors,
 	);
 
