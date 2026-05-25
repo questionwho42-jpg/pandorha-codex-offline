@@ -299,6 +299,7 @@ async function chooseDialogueOption(optionId: string): Promise<void> {
 		npcId: state.npcId,
 		currentNodeId: dialogueTreeView.currentNodeId,
 		optionId,
+		mentalHpCurrent: state.mentalHpCurrent,
 		selectedAt: new Date().toISOString(),
 		events: state.events,
 	});
@@ -386,6 +387,8 @@ function mapDialogueTraversalFailureToMessage(
 			return "Esta fala não pertence ao NPC selecionado.";
 		case "DIALOGUE_OPTION_MISSING":
 			return "Esta opção de diálogo não está disponível nesta fala.";
+		case "DIALOGUE_OPTION_BLOCKED":
+			return "Esta opção exige mais HP mental antes de ser usada.";
 	}
 }
 </script>
@@ -488,12 +491,17 @@ function mapDialogueTraversalFailureToMessage(
 									<button
 										type="button"
 										class="rounded-lg border border-bronze bg-blood-shadow px-3 py-2 text-left text-sm font-semibold text-bone transition-colors hover:border-ether hover:text-ether disabled:cursor-not-allowed disabled:opacity-50"
-										disabled={!dialogueTreeView.canChooseOption || isWorking}
+										disabled={!dialogueTreeView.canChooseOption || !option.isAvailable || isWorking}
 										onclick={() => void chooseDialogueOption(option.id)}
 										data-testid="social-dialogue-option"
 									>
 										<span class="block text-ether">{option.label}</span>
 										<span class="block font-normal text-bone/85">{option.visibleText}</span>
+										{#if option.blockedReason}
+											<span class="mt-1 block font-normal text-bronze">
+												{option.blockedReason}
+											</span>
+										{/if}
 									</button>
 								{/each}
 							</div>

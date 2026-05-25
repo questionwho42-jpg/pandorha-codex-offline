@@ -33,6 +33,44 @@ describe("DialogueTreeCatalogService", () => {
 		]);
 	});
 
+	it("exposes the training informant tree with one blocked pressure option", async () => {
+		const service = createService();
+
+		const nodes = await service.listNodesByNpcId("training-informant");
+		const options = await service.listOptionsByNodeId(
+			"training-informant-opening",
+		);
+
+		expect(nodes.success).toBe(true);
+		expect(options.success).toBe(true);
+		if (!nodes.success || !options.success) {
+			return;
+		}
+		expect(nodes.data.map((node) => node.id)).toEqual([
+			"training-informant-opening",
+			"training-informant-persuade-response",
+			"training-informant-bargain-response",
+			"training-informant-threaten-response",
+		]);
+		expect(options.data).toEqual([
+			expect.objectContaining({
+				id: "training-informant-option-persuade",
+				choiceId: "persuade",
+			}),
+			expect.objectContaining({
+				id: "training-informant-option-bargain",
+				choiceId: "bargain",
+			}),
+			expect.objectContaining({
+				id: "training-informant-option-threaten",
+				choiceId: "threaten",
+				minimumMentalHp: 7,
+				blockedReason:
+					"Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.",
+			}),
+		]);
+	});
+
 	it("keeps technical ids in English ASCII", () => {
 		const technicalId = /^[a-z][a-z0-9-]*$/;
 
@@ -90,6 +128,30 @@ describe("DialogueTreeCatalogService", () => {
 			"Barganhar",
 			"Pressionar",
 		]);
+	});
+
+	it("exposes optional mental HP requirements for gated dialogue options", async () => {
+		const service = createService();
+
+		const result = await service.listOptionsByNodeId("training-broker-opening");
+
+		expect(result.success).toBe(true);
+		if (!result.success) {
+			return;
+		}
+		const [persuade, bargain, threaten] = result.data;
+		expect(persuade).toMatchObject({ id: "training-broker-option-persuade" });
+		expect(persuade).not.toHaveProperty("minimumMentalHp");
+		expect(persuade).not.toHaveProperty("blockedReason");
+		expect(bargain).toMatchObject({ id: "training-broker-option-bargain" });
+		expect(bargain).not.toHaveProperty("minimumMentalHp");
+		expect(bargain).not.toHaveProperty("blockedReason");
+		expect(threaten).toMatchObject({
+			id: "training-broker-option-threaten",
+			minimumMentalHp: 6,
+			blockedReason:
+				"Exige HP mental 6 ou maior para sustentar a pressão social.",
+		});
 	});
 
 	it("rejects invalid ids without calling the repository", async () => {

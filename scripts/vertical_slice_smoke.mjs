@@ -76,6 +76,8 @@ async function runVerticalSliceSmoke(root) {
 			'data-testid="social-dialogue-tree"',
 			'data-testid="social-dialogue-current-text"',
 			'data-testid="social-dialogue-option"',
+			"option.isAvailable",
+			"option.blockedReason",
 			"Fala do NPC",
 		],
 		errors,
@@ -83,8 +85,36 @@ async function runVerticalSliceSmoke(root) {
 
 	await validateFileContains(
 		root,
+		"src/entities/dialogue-tree/model/dialogueTreeCatalog.ts",
+		[
+			"training-informant",
+			"training-informant-option-threaten",
+			"minimumMentalHp: 7",
+			"blockedReason",
+			"Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/social-encounter/model/socialDialogueTreeView.ts",
+		["isAvailable", "blockedReason", "minimumMentalHp"],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
 		"src/features/social-encounter/domain/DialogueTraversalService.ts",
-		["dialogue-option-selected", "Opção de diálogo escolhida", "nextNode"],
+		[
+			"dialogue-option-selected",
+			"Opção de diálogo escolhida",
+			"nextNode",
+			"DIALOGUE_OPTION_BLOCKED",
+			"mentalHpCurrent",
+			"minimumMentalHp",
+			"blockedReason",
+		],
 		errors,
 	);
 
@@ -138,8 +168,11 @@ async function runVerticalSliceSmoke(root) {
 		[
 			"Fala do NPC",
 			"Argumento",
+			"Informante de Treino",
+			"HP mental 6/6",
 			"Barganhar",
 			"troca proposta",
+			"Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.",
 			"Modificador do argumento: +1",
 			"Opção de diálogo escolhida: Barganhar",
 			"WorldState",

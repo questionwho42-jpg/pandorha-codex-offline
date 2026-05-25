@@ -8,6 +8,8 @@ import {
 const SOURCE_FILE = "docs/system/survival/regras-negociacao.md";
 const BROKER_NPC_ID = "training-broker";
 const OPENING_NODE_ID = "training-broker-opening";
+const INFORMANT_NPC_ID = "training-informant";
+const INFORMANT_OPENING_NODE_ID = "training-informant-opening";
 
 const rawDialogueNodeCatalog = [
 	{
@@ -49,6 +51,48 @@ const rawDialogueNodeCatalog = [
 		sourceFile: SOURCE_FILE,
 		summary: "Resposta de treino para pressão social antes do apelo social.",
 	},
+	{
+		id: INFORMANT_OPENING_NODE_ID,
+		npcId: INFORMANT_NPC_ID,
+		label: "Abertura do informante",
+		bodyText:
+			"O informante pesa cada palavra e exige uma garantia antes de falar.",
+		kind: "start",
+		sourceFile: SOURCE_FILE,
+		summary: "Nó inicial da negociação de treino com o Informante de Treino.",
+	},
+	{
+		id: "training-informant-persuade-response",
+		npcId: INFORMANT_NPC_ID,
+		label: "Resposta à persuasão do informante",
+		bodyText:
+			"Ele aceita revelar uma pista pequena se sentir confiança no grupo.",
+		kind: "response",
+		sourceFile: SOURCE_FILE,
+		summary:
+			"Resposta de treino para persuasão discreta antes do apelo social.",
+	},
+	{
+		id: "training-informant-bargain-response",
+		npcId: INFORMANT_NPC_ID,
+		label: "Resposta à barganha do informante",
+		bodyText:
+			"Ele sorri ao perceber que a troca pode protegê-lo depois da conversa.",
+		kind: "response",
+		sourceFile: SOURCE_FILE,
+		summary:
+			"Resposta de treino para barganha de informação antes do apelo social.",
+	},
+	{
+		id: "training-informant-threaten-response",
+		npcId: INFORMANT_NPC_ID,
+		label: "Resposta à pressão do informante",
+		bodyText: "Ele recua, calculando se sobreviverá ao risco de falar.",
+		kind: "response",
+		sourceFile: SOURCE_FILE,
+		summary:
+			"Resposta de treino para pressão contra informante antes do apelo social.",
+	},
 ] satisfies readonly DialogueNodeRecord[];
 
 const rawDialogueOptionCatalog = [
@@ -82,9 +126,51 @@ const rawDialogueOptionCatalog = [
 		visibleText: "Pressione por uma concessão, aceitando risco social.",
 		choiceId: "threaten",
 		nextNodeId: "training-broker-threaten-response",
+		minimumMentalHp: 6,
+		blockedReason:
+			"Exige HP mental 6 ou maior para sustentar a pressão social.",
 		sortOrder: 2,
 		sourceFile: SOURCE_FILE,
 		summary: "Opção de diálogo que prepara o argumento social Pressionar.",
+	},
+	{
+		id: "training-informant-option-persuade",
+		nodeId: INFORMANT_OPENING_NODE_ID,
+		label: "Persuadir",
+		visibleText: "Prometa proteção discreta e um favor futuro.",
+		choiceId: "persuade",
+		nextNodeId: "training-informant-persuade-response",
+		sortOrder: 0,
+		sourceFile: SOURCE_FILE,
+		summary:
+			"Opção de diálogo que prepara persuasão cautelosa com o informante.",
+	},
+	{
+		id: "training-informant-option-bargain",
+		nodeId: INFORMANT_OPENING_NODE_ID,
+		label: "Barganhar",
+		visibleText: "Ofereça pagamento ou informação equivalente pela pista.",
+		choiceId: "bargain",
+		nextNodeId: "training-informant-bargain-response",
+		sortOrder: 1,
+		sourceFile: SOURCE_FILE,
+		summary:
+			"Opção de diálogo que prepara barganha de informação com o informante.",
+	},
+	{
+		id: "training-informant-option-threaten",
+		nodeId: INFORMANT_OPENING_NODE_ID,
+		label: "Pressionar",
+		visibleText: "Pressione por nomes, assumindo que ele pode se fechar.",
+		choiceId: "threaten",
+		nextNodeId: "training-informant-threaten-response",
+		minimumMentalHp: 7,
+		blockedReason:
+			"Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.",
+		sortOrder: 2,
+		sourceFile: SOURCE_FILE,
+		summary:
+			"Opção de diálogo bloqueável que prepara pressão social contra o informante.",
 	},
 ] satisfies readonly DialogueOptionRecord[];
 

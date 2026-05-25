@@ -1,3 +1,5 @@
+# Scaling Roadmap
+
 # SocialEncounterService Scaling Roadmap
 
 - T43 should persist social encounter state in save/load v4, not mutate the NPC catalog.
@@ -13,3 +15,30 @@
 - After T55, the UI should derive the current dialogue node by replaying `dialogue-option-selected` events instead of persisting a duplicate current-node field.
 - After T56, add more nodes only after the first tree is documented and covered by QA; avoid lore-heavy branches until blocked options and requirements have clear UI copy.
 - Future UI iterations should add player argument choices before adding random rolls, so the user can understand what changed.
+
+## 2026-05-24T07:37:58.933Z
+
+### Scaling Notes
+T59 can add another NPC with gated options using the same fields. Future work can add flag/fame requirements by extending the same availability view shape, but should avoid save v5 until requirements need persistence beyond the read-only catalog.
+
+### Follow-Up
+- Revisit after the next feature change or failed validation run.
+- Convert durable lessons into tests or automation where practical.
+
+## 2026-05-24T07:59:50.343Z
+
+### Scaling Notes
+T60 should document and smoke-test the visible blocked option. Later social trees can add flag/fame requirements by extending availability data, but the current runtime already supports multiple NPC trees through selectedNpcId.
+
+### Follow-Up
+- Revisit after the next feature change or failed validation run.
+- Convert durable lessons into tests or automation where practical.
+
+## 2026-05-25T23:08:57.238Z
+
+### Scaling Notes
+Keep extending vertical_slice_smoke.mjs whenever a new social encounter contract becomes user-visible. Future browser automation should cover the same Informante de Treino path dynamically once Browser Use or an equivalent stable UI runner can select NPCs, click disabled options, and validate save/load state reliably.
+
+### Follow-Up
+- Revisit after the next feature change or failed validation run.
+- Convert durable lessons into tests or automation where practical.

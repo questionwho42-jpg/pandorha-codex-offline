@@ -10,7 +10,8 @@ export type DialogueTraversalFailureCode =
 	| "INVALID_DIALOGUE_TRAVERSAL_INPUT"
 	| "DIALOGUE_TREE_LOOKUP_FAILED"
 	| "DIALOGUE_NODE_MISMATCH"
-	| "DIALOGUE_OPTION_MISSING";
+	| "DIALOGUE_OPTION_MISSING"
+	| "DIALOGUE_OPTION_BLOCKED";
 
 export interface DialogueTraversalFailure {
 	readonly code: DialogueTraversalFailureCode;

@@ -105,6 +105,31 @@ export let dialogueChoices = [];
 	}
 });
 
+test("vertical slice smoke fails when informant gated option contract is missing", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/entities/dialogue-tree/model/dialogueTreeCatalog.ts":
+				renderDialogueTreeCatalog().replace(
+					"minimumMentalHp: 7",
+					"minimumMentalHp: 6",
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(
+			result.stderr,
+			/src\/entities\/dialogue-tree\/model\/dialogueTreeCatalog\.ts/,
+		);
+		assert.match(result.stderr, /minimumMentalHp: 7/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 async function createFixtureRoot({
 	navigationText = renderNavigation(),
 	docOverrides = {},
@@ -116,8 +141,12 @@ async function createFixtureRoot({
 		"src/app/App.svelte": renderApp(),
 		"src/features/social-encounter/ui/SocialEncounterPanel.svelte":
 			renderSocialEncounterPanel(),
+		"src/entities/dialogue-tree/model/dialogueTreeCatalog.ts":
+			renderDialogueTreeCatalog(),
 		"src/features/social-encounter/domain/DialogueTraversalService.ts":
 			renderDialogueTraversalService(),
+		"src/features/social-encounter/model/socialDialogueTreeView.ts":
+			renderSocialDialogueTreeView(),
 		"src/features/social-encounter/domain/SocialEncounterService.ts":
 			renderSocialEncounterService(),
 		"public/pandorha-sw.js": renderServiceWorker(),
@@ -182,6 +211,8 @@ export let dialogueNodes = [];
 export let dialogueOptions = [];
 export let selectDialogueTreeOption = () => undefined;
 function chooseDialogueOption() {}
+const disabled = !option.isAvailable;
+const reason = option.blockedReason;
 </script>
 <select data-testid="social-choice-select"></select>
 <div data-testid="social-choice-summary"></div>
@@ -193,11 +224,39 @@ function chooseDialogueOption() {}
 `;
 }
 
+function renderDialogueTreeCatalog() {
+	return `
+export const DIALOGUE_OPTION_CATALOG = [
+  {
+    id: "training-informant-option-threaten",
+    nodeId: "training-informant-opening",
+    choiceId: "threaten",
+    minimumMentalHp: 7,
+    blockedReason: "Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.",
+  },
+];
+`;
+}
+
 function renderDialogueTraversalService() {
 	return `
 const type = "dialogue-option-selected";
 const message = "Opção de diálogo escolhida: Barganhar.";
 const nextNode = "training-broker-bargain-response";
+const failureCode = "DIALOGUE_OPTION_BLOCKED";
+const mentalHpCurrent = 6;
+const minimumMentalHp = 7;
+const blockedReason = "Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.";
+`;
+}
+
+function renderSocialDialogueTreeView() {
+	return `
+const option = {
+  isAvailable: false,
+  blockedReason: "Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.",
+  minimumMentalHp: 7,
+};
 `;
 }
 
@@ -241,6 +300,7 @@ Abra http://127.0.0.1:5173/ para testar.
 
 Escolha o campo Argumento, selecione Barganhar e confirme Modificador do argumento: +1.
 Leia Fala do NPC, escolha Barganhar, confirme a troca proposta e o log Opção de diálogo escolhida: Barganhar.
+Selecione Informante de Treino, confirme HP mental 6/6 e a opção bloqueada: Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.
 Depois valide WorldState ao encerrar a negociação.
 `;
 }

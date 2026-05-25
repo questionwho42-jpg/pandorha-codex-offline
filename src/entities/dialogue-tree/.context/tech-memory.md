@@ -1,6 +1,32 @@
+# Technical Memory
+
 # DialogueTree Tech Memory
 
 - T54 criou a primeira árvore de diálogo read-only para `training-broker`.
 - A entidade mantém `dialogue_nodes` e `dialogue_options` como contratos Drizzle-Zod, mas sem migration real nesta fase.
 - As opções apontam para `DialogueChoice` por `choiceId` técnico; a validação cruzada fica em testes para evitar importação obrigatória entre entidades irmãs no runtime.
 - A árvore prepara o argumento social; ela ainda não executa resolução, consequência ou save próprio.
+
+## 2026-05-24T07:38:10.771Z
+
+### Error Log
+Focused catalog tests initially failed because the new optional fields were missing from the schema/catalog. After adding the optional schema fields and catalog values, the remaining test expectation was adjusted to treat unrestricted option fields as absent rather than explicitly undefined.
+
+### Technical Summary
+T58 extends DialogueOptionRecord with optional minimumMentalHp and blockedReason fields. The read-only training-broker catalog gates the Pressionar option at minimumMentalHp 6 while Persuadir and Barganhar remain unrestricted and omit the optional keys. No Drizzle migration or save version change was generated for this catalog-only phase.
+
+### Patterns And Decisions
+- Keep implementation details tied to local module boundaries.
+- Preserve previous entries and append new findings instead of overwriting memory.
+
+## 2026-05-24T07:59:37.766Z
+
+### Error Log
+T59 tests were written first and failed with missing training-informant nodes/options. Adding the read-only catalog entries made DialogueTreeCatalogService, DialogueTraversalService, and SocialDialogueTreeView focused tests pass.
+
+### Technical Summary
+T59 expands the read-only dialogue catalog with a second training tree for training-informant. The new tree has start/response nodes for Persuadir, Barganhar, and Pressionar. The Pressionar option uses minimumMentalHp 7 and a pt-BR blockedReason, demonstrating option availability on an NPC whose starting mental HP is 6. No migration, save v5, or authored-lore import was introduced.
+
+### Patterns And Decisions
+- Keep implementation details tied to local module boundaries.
+- Preserve previous entries and append new findings instead of overwriting memory.

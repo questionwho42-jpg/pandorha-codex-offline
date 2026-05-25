@@ -9,9 +9,11 @@ const technicalId = z
 	.max(120);
 const visibleLabel = z.string().trim().min(1).max(120);
 const visibleText = z.string().trim().min(1).max(320);
+const blockedReason = z.string().trim().min(1).max(160);
 const sourceFile = z.string().trim().min(1).max(180);
 const ruleText = z.string().trim().min(1).max(1000);
 const sortOrder = z.number().int().min(0).max(99);
+const minimumMentalHp = z.number().int().min(0).max(999);
 
 export const dialogueNodeKindSchema = z.enum(["start", "response"]);
 
@@ -32,6 +34,8 @@ export const dialogueOptions = sqliteTable("dialogue_options", {
 	visibleText: text("visible_text").notNull(),
 	choiceId: text("choice_id").notNull(),
 	nextNodeId: text("next_node_id").notNull(),
+	minimumMentalHp: integer("minimum_mental_hp"),
+	blockedReason: text("blocked_reason"),
 	sortOrder: integer("sort_order").notNull(),
 	sourceFile: text("source_file").notNull(),
 	summary: text("summary").notNull(),
@@ -70,6 +74,8 @@ export const dialogueOptionInsertSchema = createInsertSchema(
 	visibleText,
 	choiceId: technicalId,
 	nextNodeId: technicalId,
+	minimumMentalHp: minimumMentalHp.optional(),
+	blockedReason: blockedReason.optional(),
 	sortOrder,
 	sourceFile,
 	summary: ruleText,
@@ -84,6 +90,8 @@ export const dialogueOptionSelectSchema = createSelectSchema(
 	visibleText,
 	choiceId: technicalId,
 	nextNodeId: technicalId,
+	minimumMentalHp: minimumMentalHp.optional(),
+	blockedReason: blockedReason.optional(),
 	sortOrder,
 	sourceFile,
 	summary: ruleText,

@@ -20,6 +20,7 @@ describe("DialogueTraversalService", () => {
 			npcId: "training-broker",
 			currentNodeId: "training-broker-opening",
 			optionId: "training-broker-option-bargain",
+			mentalHpCurrent: 1,
 			selectedAt: "2026-05-21T12:00:00.000Z",
 			events: [],
 		});
@@ -39,6 +40,98 @@ describe("DialogueTraversalService", () => {
 			return;
 		}
 		expect(result.data.event.message).toContain("Barganhar");
+	});
+
+	it("rejects a dialogue option blocked by current mental HP", async () => {
+		const service = createService();
+
+		const result = await service.selectOption({
+			npcId: "training-broker",
+			currentNodeId: "training-broker-opening",
+			optionId: "training-broker-option-threaten",
+			mentalHpCurrent: 5,
+			selectedAt: "2026-05-21T12:00:00.000Z",
+			events: [],
+		});
+
+		expect(result).toMatchObject({
+			success: false,
+			error: {
+				code: "DIALOGUE_OPTION_BLOCKED",
+				details: {
+					optionId: "training-broker-option-threaten",
+					minimumMentalHp: 6,
+					mentalHpCurrent: 5,
+				},
+			},
+		});
+	});
+
+	it("selects a mental HP gated option when the requirement is met", async () => {
+		const service = createService();
+
+		const result = await service.selectOption({
+			npcId: "training-broker",
+			currentNodeId: "training-broker-opening",
+			optionId: "training-broker-option-threaten",
+			mentalHpCurrent: 6,
+			selectedAt: "2026-05-21T12:00:00.000Z",
+			events: [],
+		});
+
+		expect(result).toMatchObject({
+			success: true,
+			data: {
+				selectedChoiceId: "threaten",
+				nextNode: { id: "training-broker-threaten-response" },
+			},
+		});
+	});
+
+	it("rejects the informant pressure option at starting mental HP", async () => {
+		const service = createService();
+
+		const result = await service.selectOption({
+			npcId: "training-informant",
+			currentNodeId: "training-informant-opening",
+			optionId: "training-informant-option-threaten",
+			mentalHpCurrent: 6,
+			selectedAt: "2026-05-24T12:00:00.000Z",
+			events: [],
+		});
+
+		expect(result).toMatchObject({
+			success: false,
+			error: {
+				code: "DIALOGUE_OPTION_BLOCKED",
+				details: {
+					optionId: "training-informant-option-threaten",
+					minimumMentalHp: 7,
+					mentalHpCurrent: 6,
+				},
+			},
+		});
+	});
+
+	it("selects an unrestricted informant bargain option", async () => {
+		const service = createService();
+
+		const result = await service.selectOption({
+			npcId: "training-informant",
+			currentNodeId: "training-informant-opening",
+			optionId: "training-informant-option-bargain",
+			mentalHpCurrent: 6,
+			selectedAt: "2026-05-24T12:00:00.000Z",
+			events: [],
+		});
+
+		expect(result).toMatchObject({
+			success: true,
+			data: {
+				selectedChoiceId: "bargain",
+				nextNode: { id: "training-informant-bargain-response" },
+			},
+		});
 	});
 
 	it("rejects invalid traversal input", async () => {
@@ -65,6 +158,7 @@ describe("DialogueTraversalService", () => {
 			npcId: "other-npc",
 			currentNodeId: "training-broker-opening",
 			optionId: "training-broker-option-bargain",
+			mentalHpCurrent: 8,
 			selectedAt: "2026-05-21T12:00:00.000Z",
 			events: [],
 		});
@@ -82,6 +176,7 @@ describe("DialogueTraversalService", () => {
 			npcId: "training-broker",
 			currentNodeId: "training-broker-opening",
 			optionId: "missing-option",
+			mentalHpCurrent: 8,
 			selectedAt: "2026-05-21T12:00:00.000Z",
 			events: [],
 		});
@@ -103,6 +198,7 @@ describe("DialogueTraversalService", () => {
 			npcId: "training-broker",
 			currentNodeId: "training-broker-opening",
 			optionId: "training-broker-option-bargain",
+			mentalHpCurrent: 8,
 			selectedAt: "2026-05-21T12:00:00.000Z",
 			events: [],
 		});
@@ -123,6 +219,7 @@ describe("DialogueTraversalService", () => {
 			npcId: "training-broker",
 			currentNodeId: "training-broker-opening",
 			optionId: "training-broker-option-bargain",
+			mentalHpCurrent: 8,
 			selectedAt: "2026-05-21T12:00:00.000Z",
 			events: [],
 		});
@@ -152,6 +249,7 @@ describe("DialogueTraversalService", () => {
 			npcId: "training-broker",
 			currentNodeId: "training-broker-opening",
 			optionId: "training-broker-option-bargain",
+			mentalHpCurrent: 8,
 			selectedAt: "2026-05-21T12:00:00.000Z",
 			events: [],
 		});

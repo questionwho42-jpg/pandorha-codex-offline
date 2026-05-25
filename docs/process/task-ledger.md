@@ -13,6 +13,156 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260525-200647-t60-social-dialogue-qa-refresh -->
+### T60 Social Dialogue QA Refresh
+- id: 20260525-200647-t60-social-dialogue-qa-refresh
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-25T20:06:47-03:00
+- finished_at: 2026-05-25T20:14:16-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-25T20:14:16-03:00
+- branch: task-dialogue-option-availability
+- commit_at_start: 4a80ecd docs(dialogue): atualiza qa da arvore social
+- summary: Atualizar guia, QA vertical e smoke para cobrir Informante de Treino, opção Pressionar bloqueada por HP mental, apelo e save/load.
+- last_change: T60 atualizou guia de usuário, QA vertical, smoke contratual, teste do smoke e memória social para cobrir Informante de Treino, Pressionar bloqueado por HP mental 7, Barganhar liberado, apelo e save/load.
+#### Files At Start
+- docs/process/task-ledger.md
+- src/entities/dialogue-tree/.context/plain-english.md
+- src/entities/dialogue-tree/.context/scaling-roadmap.md
+- src/entities/dialogue-tree/.context/tech-memory.md
+- src/entities/dialogue-tree/__tests__/DialogueTreeCatalogService.spec.ts
+- src/entities/dialogue-tree/model/dialogueTreeCatalog.ts
+- src/entities/dialogue-tree/model/dialogueTreeSchema.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/__tests__/DialogueTraversalService.spec.ts
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/domain/DialogueTraversalService.ts
+- src/features/social-encounter/model/dialogueTraversalSchemas.ts
+- src/features/social-encounter/model/dialogueTraversalTypes.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-25T20:06:47-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-25T20:09:04-03:00
+- Done: Atualizados guia de usuário, QA vertical, smoke contratual e memória tripla social para cobrir Informante de Treino, Pressionar bloqueado por HP mental 7, Barganhar liberado, apelo e save/load.
+- Next: Rodar gates completos do projeto e concluir T60.
+- Risks: output/ permanece não rastreado como evidência local e não deve entrar no commit sem decisão explícita.
+- Improvements: Automação de navegador futura deve validar dinamicamente o mesmo fluxo quando o runner estiver estável.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-25T20:14:16-03:00
+- Done: T60 atualizou guia de usuário, QA vertical, smoke contratual, teste do smoke e memória social para cobrir Informante de Treino, Pressionar bloqueado por HP mental 7, Barganhar liberado, apelo e save/load.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260525-200647-t60-social-dialogue-qa-refresh -->
+<!-- pandorha-task:20260524-045613-t59-training-informant-dialogue-tree -->
+### T59 Training Informant Dialogue Tree
+- id: 20260524-045613-t59-training-informant-dialogue-tree
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-24T04:56:13-03:00
+- finished_at: 2026-05-25T19:50:56-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-25T19:50:56-03:00
+- branch: task-dialogue-option-availability
+- commit_at_start: 4a80ecd docs(dialogue): atualiza qa da arvore social
+- summary: Adicionar segunda arvore curta de dialogo para o Informante de Treino reutilizando opcoes bloqueaveis por HP mental.
+- last_change: T59 adicionou o NPC Informante de Treino com arvore curta read-only e opcao Pressionar bloqueada por HP mental minimo 7, coberta por testes de catalogo, travessia e view, sem migration e sem save version novo.
+#### Files At Start
+- docs/process/task-ledger.md
+- src/entities/dialogue-tree/.context/plain-english.md
+- src/entities/dialogue-tree/.context/scaling-roadmap.md
+- src/entities/dialogue-tree/.context/tech-memory.md
+- src/entities/dialogue-tree/__tests__/DialogueTreeCatalogService.spec.ts
+- src/entities/dialogue-tree/model/dialogueTreeCatalog.ts
+- src/entities/dialogue-tree/model/dialogueTreeSchema.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/__tests__/DialogueTraversalService.spec.ts
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/domain/DialogueTraversalService.ts
+- src/features/social-encounter/model/dialogueTraversalSchemas.ts
+- src/features/social-encounter/model/dialogueTraversalTypes.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+#### Checkpoints
+#### Checkpoint 2026-05-24T04:56:13-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-25T19:50:51-03:00
+- Done: T59 implementou a arvore curta training-informant, testes de catalogo/servico/view, memorias .context e validacao UI em Relacoes com Pressionar bloqueado por HP mental 7.
+- Next: Concluir ledger, snapshot e revisao final da branch task-dialogue-option-availability.
+- Risks: Sem migration e sem save v5 por escopo; validacao de navegador usou Chrome headless via CDP porque o plugin browser nao foi exposto como ferramenta callable nesta sessao.
+- Improvements: T60 deve cobrir guia de usuario, QA vertical e smoke para opcao bloqueada/liberada, apelo e save/load.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-25T19:50:56-03:00
+- Done: T59 adicionou o NPC Informante de Treino com arvore curta read-only e opcao Pressionar bloqueada por HP mental minimo 7, coberta por testes de catalogo, travessia e view, sem migration e sem save version novo.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260524-045613-t59-training-informant-dialogue-tree -->
+<!-- pandorha-task:20260524-043142-t58-dialogue-option-availability -->
+### T58 Dialogue Option Availability
+- id: 20260524-043142-t58-dialogue-option-availability
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-24T04:31:42-03:00
+- finished_at: 2026-05-24T04:51:13-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-24T04:51:13-03:00
+- branch: task-dialogue-option-availability
+- commit_at_start: 4a80ecd docs(dialogue): atualiza qa da arvore social
+- summary: Adicionar disponibilidade de opcoes de dialogo por HP mental sem migration ou save v5.
+- last_change: T58 concluiu opcoes de dialogo bloqueaveis por HP mental sem migration ou save v5, com testes, memoria tripla, arch guard, quality gate e validacao Playwright.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-24T04:31:42-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-24T04:51:06-03:00
+- Done: T58 implementou disponibilidade de opcoes de dialogo por HP mental, com Result DIALOGUE_OPTION_BLOCKED, UI desabilitada e memoria tripla atualizada.
+- Next: T59 pode adicionar segundo NPC de treino reutilizando minimumMentalHp e blockedReason.
+- Risks: A branch com barra falhou por permissao de lock em .git; foi usado fallback task-dialogue-option-availability. Opcao bloqueada foi coberta por testes; no browser a vertical atual inicia com HP mental suficiente.
+- Improvements: T60 deve atualizar guia e smoke para cobrir visualmente uma opcao bloqueada quando houver cenario navegavel com HP mental abaixo do requisito.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-24T04:51:13-03:00
+- Done: T58 concluiu opcoes de dialogo bloqueaveis por HP mental sem migration ou save v5, com testes, memoria tripla, arch guard, quality gate e validacao Playwright.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260524-043142-t58-dialogue-option-availability -->
 <!-- pandorha-task:20260524-000001-t57-dialogue-tree-qa-docs -->
 ### T57 - Guia E QA De Dialogo
 - id: 20260524-000001-t57-dialogue-tree-qa-docs
@@ -2970,6 +3120,92 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-25T20:14:21-03:00 - t60-social-dialogue-qa-refresh
+- branch: task-dialogue-option-availability
+- commit: 4a80ecd docs(dialogue): atualiza qa da arvore social
+- changed_files_count: 22
+#### Changed Files
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/social-encounter.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/entities/dialogue-tree/.context/plain-english.md
+- src/entities/dialogue-tree/.context/scaling-roadmap.md
+- src/entities/dialogue-tree/.context/tech-memory.md
+- src/entities/dialogue-tree/__tests__/DialogueTreeCatalogService.spec.ts
+- src/entities/dialogue-tree/model/dialogueTreeCatalog.ts
+- src/entities/dialogue-tree/model/dialogueTreeSchema.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/__tests__/DialogueTraversalService.spec.ts
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/domain/DialogueTraversalService.ts
+- src/features/social-encounter/model/dialogueTraversalSchemas.ts
+- src/features/social-encounter/model/dialogueTraversalTypes.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-25T19:50:59-03:00 - t59-training-informant-dialogue-tree
+- branch: task-dialogue-option-availability
+- commit: 4a80ecd docs(dialogue): atualiza qa da arvore social
+- changed_files_count: 17
+#### Changed Files
+- docs/process/task-ledger.md
+- src/entities/dialogue-tree/.context/plain-english.md
+- src/entities/dialogue-tree/.context/scaling-roadmap.md
+- src/entities/dialogue-tree/.context/tech-memory.md
+- src/entities/dialogue-tree/__tests__/DialogueTreeCatalogService.spec.ts
+- src/entities/dialogue-tree/model/dialogueTreeCatalog.ts
+- src/entities/dialogue-tree/model/dialogueTreeSchema.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/__tests__/DialogueTraversalService.spec.ts
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/domain/DialogueTraversalService.ts
+- src/features/social-encounter/model/dialogueTraversalSchemas.ts
+- src/features/social-encounter/model/dialogueTraversalTypes.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-24T04:51:17-03:00 - dialogue-option-availability
+- branch: task-dialogue-option-availability
+- commit: 4a80ecd docs(dialogue): atualiza qa da arvore social
+- changed_files_count: 17
+#### Changed Files
+- docs/process/task-ledger.md
+- src/entities/dialogue-tree/.context/plain-english.md
+- src/entities/dialogue-tree/.context/scaling-roadmap.md
+- src/entities/dialogue-tree/.context/tech-memory.md
+- src/entities/dialogue-tree/__tests__/DialogueTreeCatalogService.spec.ts
+- src/entities/dialogue-tree/model/dialogueTreeCatalog.ts
+- src/entities/dialogue-tree/model/dialogueTreeSchema.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/__tests__/DialogueTraversalService.spec.ts
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/domain/DialogueTraversalService.ts
+- src/features/social-encounter/model/dialogueTraversalSchemas.ts
+- src/features/social-encounter/model/dialogueTraversalTypes.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-24T04:13:48-03:00 - dialogue-tree-qa-docs
 - branch: task/dialogue-tree-qa-docs
 - commit: e7223d8 feat(dialogue): mostra arvore na ui social

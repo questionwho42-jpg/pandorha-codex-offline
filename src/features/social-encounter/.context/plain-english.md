@@ -1,3 +1,5 @@
+# Plain English
+
 # SocialEncounterService Para Usuario
 
 Este modulo calcula uma negociacao social simples sem mostrar tela ainda.
@@ -23,3 +25,33 @@ T52 melhora o registro da conversa. Quando o usuario usa Barganhar, o log passa 
 T55 registra tambem qual opcao de dialogo foi escolhida. Assim, a conversa pode voltar para a fala certa depois de salvar e carregar, sem criar um novo formato de save.
 
 T56 mostra essa conversa na aba Relacoes. O usuario ve a fala da Corretora de Treino, escolhe uma resposta e essa escolha prepara o argumento usado no apelo social.
+
+## 2026-05-24T07:37:58.933Z
+
+### What This Module Does
+A conversa agora consegue mostrar falas que existem, mas ainda nao podem ser escolhidas. O jogador ve o motivo do bloqueio e o botao fica desativado ate a negociacao ter HP mental suficiente. Isso evita esconder opcoes e impede que uma escolha bloqueada seja enviada diretamente para o motor.
+
+### Alternatives
+- Keep notes manually: lower setup cost, higher chance of drift.
+- Store notes centrally: easier search, weaker module ownership.
+- Use this bridge: consistent local memory with controlled write scope.
+
+## 2026-05-24T07:59:50.343Z
+
+### What This Module Does
+A tela de Relacoes agora consegue usar uma segunda conversa de treino. Quando o jogador escolhe o Informante de Treino e inicia a negociacao, ele ve falas proprias daquele NPC; pressionar aparece bloqueado porque o informante nao aguenta esse tipo de abordagem no estado inicial.
+
+### Alternatives
+- Keep notes manually: lower setup cost, higher chance of drift.
+- Store notes centrally: easier search, weaker module ownership.
+- Use this bridge: consistent local memory with controlled write scope.
+
+## 2026-05-25T23:08:57.238Z
+
+### What This Module Does
+A negociação social agora tem um roteiro de teste mais claro. Além da Corretora de Treino, o guia explica como testar o Informante de Treino: a opção Pressionar aparece bloqueada quando o personagem não tem HP mental suficiente, enquanto Barganhar continua liberada para seguir a conversa, fazer o apelo e salvar/carregar a sessão.
+
+### Alternatives
+- Keep notes manually: lower setup cost, higher chance of drift.
+- Store notes centrally: easier search, weaker module ownership.
+- Use this bridge: consistent local memory with controlled write scope.

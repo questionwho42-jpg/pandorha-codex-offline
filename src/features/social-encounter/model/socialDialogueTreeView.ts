@@ -9,6 +9,8 @@ export interface SocialDialogueOptionView {
 	readonly label: string;
 	readonly visibleText: string;
 	readonly choiceId: string;
+	readonly isAvailable: boolean;
+	readonly blockedReason: string | null;
 }
 
 export interface SocialDialogueTreeView {
@@ -45,25 +47,42 @@ export function createSocialDialogueTreeView(
 	const currentNode = input.state
 		? replayCurrentNode(startNode, input.nodes, input.options, input.state)
 		: startNode;
-	const availableOptions = input.state
+	const currentState = input.state;
+	const availableOptions = currentState
 		? input.options
 				.filter((option) => option.nodeId === currentNode.id)
 				.sort((left, right) => left.sortOrder - right.sortOrder)
-				.map((option) => ({
-					id: option.id,
-					label: option.label,
-					visibleText: option.visibleText,
-					choiceId: option.choiceId,
-				}))
+				.map((option) =>
+					createDialogueOptionView(option, currentState.mentalHpCurrent),
+				)
 		: [];
 
 	return {
 		canChooseOption:
-			input.state?.status === "active" && availableOptions.length > 0,
+			input.state?.status === "active" &&
+			availableOptions.some((option) => option.isAvailable),
 		currentNodeId: currentNode.id,
 		currentNodeText: currentNode.bodyText,
 		options: availableOptions,
 		stateLabel: createStateLabel(input.state, availableOptions.length),
+	};
+}
+
+function createDialogueOptionView(
+	option: DialogueOptionRecord,
+	mentalHpCurrent: number,
+): SocialDialogueOptionView {
+	const isAvailable =
+		option.minimumMentalHp === undefined ||
+		mentalHpCurrent >= option.minimumMentalHp;
+
+	return {
+		id: option.id,
+		label: option.label,
+		visibleText: option.visibleText,
+		choiceId: option.choiceId,
+		isAvailable,
+		blockedReason: isAvailable ? null : (option.blockedReason ?? null),
 	};
 }
 

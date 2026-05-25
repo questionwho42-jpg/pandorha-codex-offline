@@ -59,6 +59,21 @@ export class DialogueTraversalService {
 				details: { optionId: parsed.data.optionId },
 			});
 		}
+		if (
+			selectedOption.minimumMentalHp !== undefined &&
+			parsed.data.mentalHpCurrent < selectedOption.minimumMentalHp
+		) {
+			return fail({
+				code: "DIALOGUE_OPTION_BLOCKED",
+				message: "Selected dialogue option is blocked by current mental HP.",
+				details: {
+					optionId: selectedOption.id,
+					minimumMentalHp: selectedOption.minimumMentalHp,
+					mentalHpCurrent: parsed.data.mentalHpCurrent,
+					blockedReason: selectedOption.blockedReason,
+				},
+			});
+		}
 
 		const nextNode = await this.findNodeForNpc(
 			selectedOption.nextNodeId,

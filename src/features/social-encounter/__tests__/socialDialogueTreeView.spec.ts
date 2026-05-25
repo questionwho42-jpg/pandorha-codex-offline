@@ -38,8 +38,95 @@ describe("createSocialDialogueTreeView", () => {
 			"Barganhar",
 			"Pressionar",
 		]);
+		expect(view.options.map((option) => option.isAvailable)).toEqual([
+			true,
+			true,
+			true,
+		]);
 		expect(view.canChooseOption).toBe(true);
 		expect(view.stateLabel).toBe("Escolha uma fala antes de fazer o apelo.");
+	});
+
+	it("marks HP-gated options as blocked without hiding them", () => {
+		const view = createSocialDialogueTreeView({
+			nodes: DIALOGUE_NODE_CATALOG,
+			options: DIALOGUE_OPTION_CATALOG,
+			selectedNpcId: "training-broker",
+			state: buildState([], { mentalHpCurrent: 5 }),
+		});
+
+		expect(view.canChooseOption).toBe(true);
+		expect(view.options).toEqual([
+			expect.objectContaining({
+				label: "Persuadir",
+				isAvailable: true,
+				blockedReason: null,
+			}),
+			expect.objectContaining({
+				label: "Barganhar",
+				isAvailable: true,
+				blockedReason: null,
+			}),
+			expect.objectContaining({
+				label: "Pressionar",
+				isAvailable: false,
+				blockedReason:
+					"Exige HP mental 6 ou maior para sustentar a pressão social.",
+			}),
+		]);
+	});
+
+	it("shows the informant tree with a blocked pressure option at starting HP", () => {
+		const view = createSocialDialogueTreeView({
+			nodes: DIALOGUE_NODE_CATALOG,
+			options: DIALOGUE_OPTION_CATALOG,
+			selectedNpcId: "training-informant",
+			state: buildState([], {
+				npcId: "training-informant",
+				mentalHpCurrent: 6,
+				mentalHpMax: 6,
+			}),
+		});
+
+		expect(view.currentNodeId).toBe("training-informant-opening");
+		expect(view.currentNodeText).toContain("garantia");
+		expect(view.options).toEqual([
+			expect.objectContaining({
+				label: "Persuadir",
+				isAvailable: true,
+			}),
+			expect.objectContaining({
+				label: "Barganhar",
+				isAvailable: true,
+			}),
+			expect.objectContaining({
+				label: "Pressionar",
+				isAvailable: false,
+				blockedReason:
+					"Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.",
+			}),
+		]);
+	});
+
+	it("keeps blocked reason empty when a gated option has no user-facing copy", () => {
+		const optionsWithoutBlockedCopy = DIALOGUE_OPTION_CATALOG.map((option) =>
+			option.id === "training-broker-option-threaten"
+				? { ...option, blockedReason: undefined }
+				: option,
+		);
+
+		const view = createSocialDialogueTreeView({
+			nodes: DIALOGUE_NODE_CATALOG,
+			options: optionsWithoutBlockedCopy,
+			selectedNpcId: "training-broker",
+			state: buildState([], { mentalHpCurrent: 5 }),
+		});
+
+		expect(view.options.at(2)).toMatchObject({
+			label: "Pressionar",
+			isAvailable: false,
+			blockedReason: null,
+		});
 	});
 
 	it("replays a selected option and shows the response node", () => {

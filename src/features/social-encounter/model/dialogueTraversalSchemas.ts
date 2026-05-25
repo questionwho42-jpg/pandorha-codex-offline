@@ -8,11 +8,13 @@ const slug = z
 	.regex(/^[a-z][a-z0-9-]*$/)
 	.max(120);
 const isoTimestamp = z.iso.datetime();
+const mentalHp = z.number().int().min(0).max(999);
 
 export const dialogueTraversalSelectInputSchema = z.object({
 	npcId: slug,
 	currentNodeId: slug,
 	optionId: slug,
+	mentalHpCurrent: mentalHp,
 	selectedAt: isoTimestamp,
 	events: z.array(socialEncounterEventSchema),
 });
