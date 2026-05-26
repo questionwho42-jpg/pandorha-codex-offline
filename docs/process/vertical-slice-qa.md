@@ -57,6 +57,18 @@ Esse comando executa `scripts/social_browser_smoke.mjs`. Ele valida o contrato r
 
 O smoke T62 continua sendo contratual/headless. Mudanças visuais em `.svelte` ainda exigem Browser Use ou Playwright CLI para confirmar o fluxo renderizado.
 
+## Automação Da T65
+
+Use:
+
+```powershell
+npm.cmd run qa:dialogue-seeds
+```
+
+Esse comando executa `scripts/dialogue_seed_smoke.mjs`. Ele valida o contrato recorrente das árvores sociais curtas: cada NPC de treino precisa ter 4 nós, 3 opções, uma abertura, escolhas `Persuadir`, `Barganhar` e `Pressionar` em ordem estável, ponteiros válidos, `sourceFile` coerente com o NPC e `blockedReason` para opções bloqueadas por HP mental.
+
+O smoke T65 é estático e não substitui Browser Use quando uma mudança visual em `.svelte` altera a aba `Relações`.
+
 ## O Que Funciona Hoje
 
 - Criação e listagem de personagens básicos.
@@ -95,6 +107,7 @@ npm.cmd run build
 npm.cmd run quality:gate
 npm.cmd run qa:vertical-slice
 npm.cmd run qa:social-browser-smoke
+npm.cmd run qa:dialogue-seeds
 ```
 
 Quando houver UI alterada, valide também no Browser Use com o fluxo principal acima.

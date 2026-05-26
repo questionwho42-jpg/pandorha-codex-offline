@@ -79,3 +79,12 @@ T64 adds one official seed without new feature orchestration. The next dialogue 
 ### Follow-Up
 - Avoid adding Infamy, individual NPC relationship damage, or retaliation clocks in the same task as new dialogue content.
 - Promote a real browser smoke only when the team accepts the dependency and artifact policy.
+
+## 2026-05-26T15:45:00.000Z
+
+### Scaling Notes
+T65 makes catalog completeness a recurring gate. Future social dialogue tasks can add one NPC seed at a time and rely on `qa:dialogue-seeds` to catch missing starts, options, source mismatches, and broken response pointers before UI work.
+
+### Follow-Up
+- Keep `qa:social-browser-smoke` focused on user flows and `qa:dialogue-seeds` focused on static catalog invariants.
+- Add rendered browser automation only if the project settles dependency and artifact policy.

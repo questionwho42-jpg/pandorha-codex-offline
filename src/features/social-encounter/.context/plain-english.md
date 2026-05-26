@@ -95,3 +95,13 @@ A aba Relações agora consegue mostrar uma conversa curta para o Capitão de Tr
 - Criar uma consequência nova para o capitão: seria mais dramático, mas misturaria conteúdo com regra social nova.
 - Criar outro NPC: aumentaria o catálogo sem aproveitar o capitão já existente.
 - Usar a árvore curta atual: entrega uma cena testável e mantém o save igual.
+
+## 2026-05-26T15:45:00.000Z
+
+### What This Module Does
+Agora existe um teste automático para avisar se algum NPC de treino ficou sem conversa completa. Isso ajuda a aba Relações a receber dados consistentes antes de alguém abrir o navegador para testar.
+
+### Alternatives
+- Testar só no navegador: mostra a tela real, mas encontra erros tarde.
+- Colocar mais regras dentro da UI: deixaria a tela mais pesada.
+- Validar o catálogo antes: mantém a UI simples e evita dados incompletos.

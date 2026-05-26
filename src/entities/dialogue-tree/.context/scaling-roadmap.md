@@ -32,3 +32,12 @@ T64 proves that one official-adjacent NPC seed can be added by catalog expansion
 ### Follow-Up
 - Add the next official seed only after deciding whether it belongs in static catalog data or a content pipeline.
 - Keep `minimumMentalHp` and blocked reasons colocated with the option until requirements grow beyond HP mental.
+
+## 2026-05-26T15:45:00.000Z
+
+### Scaling Notes
+T65 turns the seed shape into a quality gate. Future official-adjacent NPC trees should first satisfy `qa:dialogue-seeds`; only after that should they add Browser/UI acceptance or deeper narrative consequences.
+
+### Follow-Up
+- Keep the seed smoke focused on catalog invariants, not authored AST/i18n generation.
+- Add flag/fame requirement validation only when the runtime view supports those requirements explicitly.

@@ -35,3 +35,13 @@ A conversa agora tambem existe para o Capitão de Treino. Ele comenta dever, mor
 - Criar um NPC novo: daria mais liberdade, mas exigiria mais catálogo e risco de escopo.
 - Alterar facções ou Infâmia: seria uma consequência mais forte, mas cruzaria outros módulos.
 - Expandir só a árvore do capitão: entrega conteúdo visível com baixo risco e sem mudar o save.
+
+## 2026-05-26T15:45:00.000Z
+
+### What This Module Does
+Agora existe um teste rápido para conferir se todas as conversas curtas de treino seguem o mesmo formato. Ele verifica se cada NPC de treino tem uma abertura, três respostas e as três escolhas principais em ordem, sem ponteiros quebrados.
+
+### Alternatives
+- Conferir manualmente cada nova árvore: mais simples no começo, mas fácil de esquecer.
+- Criar uma pipeline completa de autoria: mais poderosa, mas pesada para o momento.
+- Usar este smoke estático: barato, repetível e suficiente para proteger os seeds atuais.

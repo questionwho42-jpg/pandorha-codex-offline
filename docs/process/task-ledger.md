@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:T65 -->
+### Social Dialogue Seed Pipeline V1
+- id: T65
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-26T15:24:02-03:00
+- finished_at: 2026-05-26T15:33:13-03:00
+- model_started: gpt-5.5 high reasoning
+- model_finished: gpt-5.5 high reasoning
+- last_modified_at: 2026-05-26T15:33:13-03:00
+- branch: task/social-dialogue-seed-pipeline
+- commit_at_start: 74dc9ba chore(process): record t64 post-commit snapshot
+- summary: Criar smoke estatico recorrente para validar o contrato de arvores sociais curtas dos NPCs de treino existentes, sem novo NPC, schema, migration, save v5, RPC ou consequencia social nova.
+- last_change: Social Dialogue Seed Pipeline V1 concluida: qa:dialogue-seeds valida arvores curtas dos NPCs de treino com 4 nodes, 3 options, escolhas em ordem, ponteiros, sourceFile e blockedReason para HP mental.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-26T15:24:02-03:00
+- Done: task record created
+- Next: Escrever testes TDD do dialogue_seed_smoke com fixtures positivas e negativas.
+- Risks: Manter a validacao como contrato estatico; nao transformar isto em pipeline AST/i18n completa nesta tarefa.
+- Improvements: Integrar qa:dialogue-seeds ao quality gate e documentar como pre-requisito para seeds futuros.
+- Model/config: gpt-5.5 high reasoning
+
+#### Checkpoint 2026-05-26T15:33:06-03:00
+- Done: Smoke qa:dialogue-seeds implementado com parser AST TypeScript, fixtures negativas, comando npm, integracao no quality gate, docs e memorias atualizadas; gates finais passaram.
+- Next: Commitar T65 localmente sem incluir output/; nao fazer push/PR sem pedido explicito.
+- Risks: Smoke e estatico e nao substitui Browser Use quando houver mudanca visual; nao cobre pipeline AST/i18n completa.
+- Improvements: Adicionar validacao de flags/fama somente quando o runtime suportar esses requisitos no catalogo.
+- Model/config: gpt-5.5 high reasoning
+
+#### Checkpoint 2026-05-26T15:33:13-03:00
+- Done: Social Dialogue Seed Pipeline V1 concluida: qa:dialogue-seeds valida arvores curtas dos NPCs de treino com 4 nodes, 3 options, escolhas em ordem, ponteiros, sourceFile e blockedReason para HP mental.
+- Next: Preparar PR somente sob pedido explicito; depois do merge, promover notas de processo para changelog/docs oficiais.
+- Risks: output/ permanece local e nao rastreado; Browser nao foi necessario porque nao houve mudanca visual.
+- Improvements: Considerar pipeline AST/i18n apenas quando houver autoria dinamica de dialogos.
+- Model/config: gpt-5.5 high reasoning
+<!-- /pandorha-task:T65 -->
 <!-- pandorha-task:T64 -->
 ### Social Dialogue Official Seed V1
 - id: T64

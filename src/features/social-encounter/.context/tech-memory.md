@@ -104,3 +104,15 @@ T64 does not change SocialEncounter runtime behavior. `createSocialDialogueTreeV
 ### Patterns And Decisions
 - Prefer catalog expansion and view coverage over feature code changes when adding a static NPC tree.
 - Keep social consequences generic for this task; official seed dialogue must not create hidden faction or save side effects.
+
+## 2026-05-26T15:45:00.000Z
+
+### Error Log
+T65 did not require SocialEncounter runtime changes. The risk was future drift between NPC catalog data and dialogue-tree catalog data, so the fix was a static automation rather than another UI or service change.
+
+### Technical Summary
+`qa:dialogue-seeds` now checks that every training NPC has a complete short dialogue tree before the UI consumes it. This protects `createSocialDialogueTreeView` from missing seed data while keeping the feature layer unchanged and compatible with save v4.
+
+### Patterns And Decisions
+- Treat missing or malformed seed data as a QA contract failure before Browser validation.
+- Keep Browser Use reserved for visible `.svelte` behavior, not static catalog structure.

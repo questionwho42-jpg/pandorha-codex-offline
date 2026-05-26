@@ -42,3 +42,15 @@ T64 expands the read-only dialogue catalog with `training-captain`. The tree has
 ### Patterns And Decisions
 - Keep official seed trees as catalog data until dialogue becomes user-authored or dynamically loaded.
 - Keep user-visible copy used by smokes literal in UTF-8 so static contracts remain readable.
+
+## 2026-05-26T15:45:00.000Z
+
+### Error Log
+T65 started with a red script fixture run because `scripts/dialogue_seed_smoke.mjs` did not exist yet. After adding the AST-based static smoke, fixture tests and the real catalog smoke passed.
+
+### Technical Summary
+T65 adds `qa:dialogue-seeds` as a recurring static contract for short training dialogue trees. The script parses `NPC_CATALOG`, `rawDialogueNodeCatalog`, and `rawDialogueOptionCatalog` with the TypeScript compiler API, resolves simple string constants, and validates 4 nodes, 3 opening options, stable `persuade/bargain/threaten` ordering, valid `nextNodeId`, matching `sourceFile`, and `blockedReason` on HP-gated options.
+
+### Patterns And Decisions
+- Validate seed structure through automation before adding more catalog content.
+- Keep the smoke static and dependency-free beyond existing TypeScript; do not execute app code or add runtime APIs.

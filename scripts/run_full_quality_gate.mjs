@@ -120,6 +120,12 @@ async function runAutomationGate() {
 	await runStep("automation:social-browser-smoke", "node", [
 		"scripts/social_browser_smoke.mjs",
 	]);
+	await runStep("automation:dialogue-seed-smoke-tests", "node", [
+		"scripts/test_dialogue_seed_smoke.mjs",
+	]);
+	await runStep("automation:dialogue-seed-smoke", "node", [
+		"scripts/dialogue_seed_smoke.mjs",
+	]);
 	await runStep("automation:coverage-registration", "node", [
 		"scripts/validate_coverage_registration.mjs",
 	]);
