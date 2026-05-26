@@ -55,3 +55,15 @@ T60 updates the social encounter QA contract without production behavior changes
 ### Patterns And Decisions
 - Keep implementation details tied to local module boundaries.
 - Preserve previous entries and append new findings instead of overwriting memory.
+
+## 2026-05-25T23:41:44.155Z
+
+### Error Log
+Focused T61 test first failed because consequences still emitted only the generic summary and parseConsequenceValue accepted corrupted optional choice metadata. The fix added optional metadata derivation and optional-string validation while preserving the generic fallback when no matching dialogue option exists.
+
+### Technical Summary
+T61 enriches terminal SocialEncounter WorldState consequences without changing save v4, Drizzle schema, or RPC contracts. createSocialEncounterConsequenceFlag now accepts optional dialogueOptions, replays the latest dialogue-option-selected event by commandId, and stores dialogueOptionId, dialogueChoiceId, and dialogueChoiceLabel when the selected option is known. SocialEncounterPanel passes its dialogueOptions into the consequence flag writer so restored WorldState summaries can explain whether Persuadir, Barganhar, or Pressionar ended the scene.
+
+### Patterns And Decisions
+- Keep implementation details tied to local module boundaries.
+- Preserve previous entries and append new findings instead of overwriting memory.

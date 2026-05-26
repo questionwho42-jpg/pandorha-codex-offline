@@ -71,6 +71,8 @@ async function runVerticalSliceSmoke(root) {
 			"dialogueOptions",
 			"selectDialogueTreeOption",
 			"chooseDialogueOption",
+			"createSocialEncounterConsequenceFlag({",
+			"dialogueOptions,",
 			'data-testid="social-choice-select"',
 			'data-testid="social-choice-summary"',
 			'data-testid="social-dialogue-tree"',
@@ -79,6 +81,20 @@ async function runVerticalSliceSmoke(root) {
 			"option.isAvailable",
 			"option.blockedReason",
 			"Fala do NPC",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/social-encounter/model/socialEncounterConsequences.ts",
+		[
+			"dialogueOptionId",
+			"dialogueChoiceId",
+			"dialogueChoiceLabel",
+			"findLatestSelectedDialogueOption",
+			"O NPC aceitou a troca proposta",
+			"O NPC cedeu à pressão social",
 		],
 		errors,
 	);

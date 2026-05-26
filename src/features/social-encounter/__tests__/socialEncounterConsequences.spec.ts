@@ -1,4 +1,8 @@
 import { describe, expect, it } from "vitest";
+import {
+	DIALOGUE_OPTION_CATALOG,
+	type DialogueOptionRecord,
+} from "$lib/entities/dialogue-tree";
 import type { WorldStateFlagView } from "$lib/entities/world-state";
 import {
 	createSocialEncounterConsequenceFlag,
@@ -51,6 +55,200 @@ describe("social encounter WorldState consequences", () => {
 		});
 	});
 
+	it("stores bargain metadata from the latest selected dialogue option", () => {
+		const flag = createSocialEncounterConsequenceFlag({
+			state: buildState({
+				status: "convinced",
+				events: [
+					buildDialogueEvent("training-broker-option-persuade"),
+					buildDialogueEvent("training-broker-option-bargain"),
+				],
+			}),
+			dialogueOptions: DIALOGUE_OPTION_CATALOG,
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+
+		expect(flag?.value).toMatchObject({
+			dialogueOptionId: "training-broker-option-bargain",
+			dialogueChoiceId: "bargain",
+			dialogueChoiceLabel: "Barganhar",
+			summary:
+				"O NPC aceitou a troca proposta e esta consequência foi registrada no estado do mundo.",
+		});
+	});
+
+	it("creates explicit consequence summaries for each social dialogue choice", () => {
+		const cases: readonly {
+			readonly optionId: string;
+			readonly expectedChoiceId: string;
+			readonly expectedChoiceLabel: string;
+			readonly expectedSummary: string;
+		}[] = [
+			{
+				optionId: "training-broker-option-persuade",
+				expectedChoiceId: "persuade",
+				expectedChoiceLabel: "Persuadir",
+				expectedSummary:
+					"O NPC aceitou a proposta pela via da confiança e esta consequência foi registrada no estado do mundo.",
+			},
+			{
+				optionId: "training-broker-option-bargain",
+				expectedChoiceId: "bargain",
+				expectedChoiceLabel: "Barganhar",
+				expectedSummary:
+					"O NPC aceitou a troca proposta e esta consequência foi registrada no estado do mundo.",
+			},
+			{
+				optionId: "training-broker-option-threaten",
+				expectedChoiceId: "threaten",
+				expectedChoiceLabel: "Pressionar",
+				expectedSummary:
+					"O NPC cedeu à pressão social e esta consequência foi registrada no estado do mundo.",
+			},
+		];
+
+		for (const testCase of cases) {
+			const flag = createSocialEncounterConsequenceFlag({
+				state: buildState({
+					status: "convinced",
+					events: [buildDialogueEvent(testCase.optionId)],
+				}),
+				dialogueOptions: DIALOGUE_OPTION_CATALOG,
+				updatedAt: "2026-05-21T00:00:00.000Z",
+			});
+
+			expect(flag?.value).toMatchObject({
+				dialogueOptionId: testCase.optionId,
+				dialogueChoiceId: testCase.expectedChoiceId,
+				dialogueChoiceLabel: testCase.expectedChoiceLabel,
+				summary: testCase.expectedSummary,
+			});
+		}
+	});
+
+	it("creates explicit walked-away summaries for each social dialogue choice", () => {
+		const cases: readonly {
+			readonly option: DialogueOptionRecord;
+			readonly expectedSummary: string;
+		}[] = [
+			{
+				option: findRequiredDialogueOption("training-broker-option-persuade"),
+				expectedSummary:
+					"A proposta de confiança não sustentou a conversa e esta consequência foi registrada no estado do mundo.",
+			},
+			{
+				option: findRequiredDialogueOption("training-broker-option-bargain"),
+				expectedSummary:
+					"A troca proposta não foi suficiente para manter o NPC na conversa e esta consequência foi registrada no estado do mundo.",
+			},
+			{
+				option: findRequiredDialogueOption("training-broker-option-threaten"),
+				expectedSummary:
+					"A pressão social esgotou a paciência do NPC e esta consequência foi registrada no estado do mundo.",
+			},
+			{
+				option: buildDialogueOption({
+					choiceId: "custom-pressure",
+					id: "training-broker-option-custom",
+					label: "Improvisar",
+				}),
+				expectedSummary:
+					"O NPC encerrou a conversa sem aceitar o pedido e esta consequência foi registrada no estado do mundo.",
+			},
+		];
+
+		for (const testCase of cases) {
+			const flag = createSocialEncounterConsequenceFlag({
+				state: buildState({
+					status: "walked-away",
+					events: [buildDialogueEvent(testCase.option.id)],
+				}),
+				dialogueOptions: [testCase.option],
+				updatedAt: "2026-05-21T00:00:00.000Z",
+			});
+
+			expect(flag?.value).toMatchObject({
+				dialogueChoiceId: testCase.option.choiceId,
+				dialogueChoiceLabel: testCase.option.label,
+				dialogueOptionId: testCase.option.id,
+				summary: testCase.expectedSummary,
+			});
+		}
+	});
+
+	it("uses generic convinced copy for unknown dialogue choice ids", () => {
+		const option = buildDialogueOption({
+			choiceId: "custom-offer",
+			id: "training-broker-option-custom",
+			label: "Improvisar",
+		});
+
+		const flag = createSocialEncounterConsequenceFlag({
+			state: buildState({
+				status: "convinced",
+				events: [buildDialogueEvent(option.id)],
+			}),
+			dialogueOptions: [option],
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+
+		expect(flag?.value).toMatchObject({
+			dialogueChoiceId: "custom-offer",
+			dialogueChoiceLabel: "Improvisar",
+			dialogueOptionId: "training-broker-option-custom",
+			summary:
+				"O NPC aceitou o argumento principal e esta consequência foi registrada no estado do mundo.",
+		});
+	});
+
+	it("keeps the generic summary when dialogue option metadata is unavailable", () => {
+		const missingOption: readonly DialogueOptionRecord[] = [];
+
+		const flag = createSocialEncounterConsequenceFlag({
+			state: buildState({
+				status: "convinced",
+				events: [buildDialogueEvent("training-broker-option-bargain")],
+			}),
+			dialogueOptions: missingOption,
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+
+		expect(flag?.value).toEqual({
+			actorId: "character-lia",
+			encounterId: "social-encounter-primary",
+			npcId: "training-broker",
+			outcome: "convinced",
+			summary:
+				"O NPC aceitou o argumento principal e esta consequência foi registrada no estado do mundo.",
+		});
+	});
+
+	it("keeps the generic summary when selected dialogue event has no command id", () => {
+		const flag = createSocialEncounterConsequenceFlag({
+			state: buildState({
+				status: "convinced",
+				events: [
+					{
+						type: "dialogue-option-selected",
+						message: "Opção de diálogo escolhida sem id.",
+						createdAt: "2026-05-21T00:00:00.000Z",
+					},
+				],
+			}),
+			dialogueOptions: DIALOGUE_OPTION_CATALOG,
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+
+		expect(flag?.value).toEqual({
+			actorId: "character-lia",
+			encounterId: "social-encounter-primary",
+			npcId: "training-broker",
+			outcome: "convinced",
+			summary:
+				"O NPC aceitou o argumento principal e esta consequência foi registrada no estado do mundo.",
+		});
+	});
+
 	it("upserts consequence flags without duplicating keys", () => {
 		const first = createRequiredFlag("convinced", "2026-05-21T00:00:00.000Z");
 		const second = createRequiredFlag("convinced", "2026-05-21T00:01:00.000Z");
@@ -85,6 +283,29 @@ describe("social encounter WorldState consequences", () => {
 			label: "Consequência: NPC convencido",
 			summary:
 				"O NPC aceitou o argumento principal e esta consequência foi registrada no estado do mundo.",
+		});
+	});
+
+	it("creates a consequence view from saved WorldState flags with dialogue metadata", () => {
+		const flag = createSocialEncounterConsequenceFlag({
+			state: buildState({
+				status: "convinced",
+				events: [buildDialogueEvent("training-broker-option-bargain")],
+			}),
+			dialogueOptions: DIALOGUE_OPTION_CATALOG,
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+
+		const view = createSocialEncounterConsequenceView({
+			state: buildState({ status: "convinced" }),
+			worldState: flag ? [flag] : [],
+		});
+
+		expect(view).toEqual({
+			key: "npc:training-broker:convinced",
+			label: "Consequência: NPC convencido",
+			summary:
+				"O NPC aceitou a troca proposta e esta consequência foi registrada no estado do mundo.",
 		});
 	});
 
@@ -137,6 +358,30 @@ describe("social encounter WorldState consequences", () => {
 				outcome: "convinced",
 				summary: 42,
 			},
+			{
+				actorId: "character-lia",
+				encounterId: "social-encounter-primary",
+				npcId: "training-broker",
+				outcome: "convinced",
+				summary: "Valor corrompido.",
+				dialogueChoiceId: 42,
+			},
+			{
+				actorId: "character-lia",
+				encounterId: "social-encounter-primary",
+				npcId: "training-broker",
+				outcome: "convinced",
+				summary: "Valor corrompido.",
+				dialogueChoiceLabel: 42,
+			},
+			{
+				actorId: "character-lia",
+				encounterId: "social-encounter-primary",
+				npcId: "training-broker",
+				outcome: "convinced",
+				summary: "Valor corrompido.",
+				dialogueOptionId: 42,
+			},
 		];
 
 		expect(
@@ -167,6 +412,45 @@ describe("social encounter WorldState consequences", () => {
 		}
 	});
 });
+
+function buildDialogueEvent(
+	commandId: string,
+): SocialEncounterState["events"][number] {
+	return {
+		type: "dialogue-option-selected",
+		message: `OpÃ§Ã£o de diÃ¡logo escolhida: ${commandId}.`,
+		createdAt: "2026-05-21T00:00:00.000Z",
+		commandId,
+	};
+}
+
+function findRequiredDialogueOption(id: string): DialogueOptionRecord {
+	const option = DIALOGUE_OPTION_CATALOG.find(
+		(candidate) => candidate.id === id,
+	);
+	expect(option).toBeDefined();
+	if (!option) {
+		expect.fail(`Missing dialogue option fixture: ${id}`);
+	}
+
+	return option;
+}
+
+function buildDialogueOption(
+	patch: Pick<DialogueOptionRecord, "choiceId" | "id" | "label">,
+): DialogueOptionRecord {
+	return {
+		id: patch.id,
+		nodeId: "training-broker-opening",
+		label: patch.label,
+		visibleText: "Improvisa uma abordagem fora do catÃ¡logo principal.",
+		choiceId: patch.choiceId,
+		nextNodeId: "training-broker-bargain-response",
+		sortOrder: 99,
+		sourceFile: "docs/system/survival/regras-negociacao.md",
+		summary: "OpÃ§Ã£o de teste para escolhas sociais desconhecidas.",
+	};
+}
 
 function createRequiredFlag(
 	status: Extract<SocialEncounterState["status"], "convinced" | "walked-away">,

@@ -130,6 +130,28 @@ test("vertical slice smoke fails when informant gated option contract is missing
 	}
 });
 
+test("vertical slice smoke fails when social consequence metadata contract is missing", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/social-encounter/model/socialEncounterConsequences.ts":
+				"const summary = 'generic consequence';",
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(
+			result.stderr,
+			/src\/features\/social-encounter\/model\/socialEncounterConsequences\.ts/,
+		);
+		assert.match(result.stderr, /dialogueChoiceLabel/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 async function createFixtureRoot({
 	navigationText = renderNavigation(),
 	docOverrides = {},
@@ -147,6 +169,8 @@ async function createFixtureRoot({
 			renderDialogueTraversalService(),
 		"src/features/social-encounter/model/socialDialogueTreeView.ts":
 			renderSocialDialogueTreeView(),
+		"src/features/social-encounter/model/socialEncounterConsequences.ts":
+			renderSocialEncounterConsequences(),
 		"src/features/social-encounter/domain/SocialEncounterService.ts":
 			renderSocialEncounterService(),
 		"public/pandorha-sw.js": renderServiceWorker(),
@@ -211,6 +235,10 @@ export let dialogueNodes = [];
 export let dialogueOptions = [];
 export let selectDialogueTreeOption = () => undefined;
 function chooseDialogueOption() {}
+function createSocialEncounterConsequenceFlag() {}
+createSocialEncounterConsequenceFlag({
+  dialogueOptions,
+});
 const disabled = !option.isAvailable;
 const reason = option.blockedReason;
 </script>
@@ -221,6 +249,17 @@ const reason = option.blockedReason;
   <p data-testid="social-dialogue-current-text">A corretora pede uma proposta concreta.</p>
   <button data-testid="social-dialogue-option">Barganhar</button>
 </div>
+`;
+}
+
+function renderSocialEncounterConsequences() {
+	return `
+const dialogueOptionId = "training-broker-option-bargain";
+const dialogueChoiceId = "bargain";
+const dialogueChoiceLabel = "Barganhar";
+const summary = "O NPC aceitou a troca proposta e esta consequência foi registrada no estado do mundo.";
+const pressure = "O NPC cedeu à pressão social e esta consequência foi registrada no estado do mundo.";
+function findLatestSelectedDialogueOption() {}
 `;
 }
 

@@ -42,3 +42,12 @@ Keep extending vertical_slice_smoke.mjs whenever a new social encounter contract
 ### Follow-Up
 - Revisit after the next feature change or failed validation run.
 - Convert durable lessons into tests or automation where practical.
+
+## 2026-05-25T23:41:44.155Z
+
+### Scaling Notes
+T62 should automate the browser walkthrough that validates Barganhar through save/load. Future faction or relationship penalties should read this consequence metadata instead of inferring from log text, but should remain in a separate task because it crosses social-relations, world-state, and likely save acceptance criteria.
+
+### Follow-Up
+- Revisit after the next feature change or failed validation run.
+- Convert durable lessons into tests or automation where practical.

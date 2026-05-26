@@ -13,6 +13,46 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260525-203610-t61-social-consequences-v1 -->
+### T61 Social Consequences V1
+- id: 20260525-203610-t61-social-consequences-v1
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-25T20:36:10-03:00
+- finished_at: 2026-05-26T03:28:15-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-26T03:28:15-03:00
+- branch: task-dialogue-option-availability
+- commit_at_start: 5593b32 feat(dialogue): cobre informante e opcoes bloqueadas
+- summary: Tornar consequencias sociais mais explicitas usando a ultima escolha de dialogo sem migration ou save v5.
+- last_change: T61 concluiu consequencias sociais explicitas com metadados de ultima opcao de dialogo, resumos por Persuadir/Barganhar/Pressionar, UI, smoke contratual, guia/QA e memoria tripla, sem migration ou save v5.
+#### Files At Start
+- docs/process/task-ledger.md
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-25T20:36:10-03:00
+- Done: task record created
+- Next: Escrever testes TDD para metadados de escolha social nas consequencias.
+- Risks: Escopo deve preservar save v4 e nao alterar FactionStanding.
+- Improvements: Automatizar smoke de navegador social completo em T62 se o fluxo continuar repetitivo.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-25T20:47:16-03:00
+- Done: T61 implementou consequencias sociais explicitas com metadados de ultima opcao de dialogo, testes TDD, UI, smoke contratual, guia/QA e memoria tripla.
+- Next: Reexecutar npm.cmd run test:coverage e npm.cmd run quality:gate quando a execucao escalada estiver disponivel novamente; depois completar a T61.
+- Risks: test:coverage ficou pendente porque a aprovacao escalada foi bloqueada pelo limite de uso do ambiente; output/ permanece nao rastreado e nao deve entrar no commit.
+- Improvements: T62 deve automatizar o fluxo de navegador Barganhar -> consequencia -> save/load se a validacao visual continuar recorrente.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-26T03:28:15-03:00
+- Done: T61 concluiu consequencias sociais explicitas com metadados de ultima opcao de dialogo, resumos por Persuadir/Barganhar/Pressionar, UI, smoke contratual, guia/QA e memoria tripla, sem migration ou save v5.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260525-203610-t61-social-consequences-v1 -->
 <!-- pandorha-task:20260525-200647-t60-social-dialogue-qa-refresh -->
 ### T60 Social Dialogue QA Refresh
 - id: 20260525-200647-t60-social-dialogue-qa-refresh
@@ -3120,6 +3160,39 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-26T03:28:31-03:00 - t61-social-consequences-v1
+- branch: task-dialogue-option-availability
+- commit: 5593b32 feat(dialogue): cobre informante e opcoes bloqueadas
+- changed_files_count: 12
+#### Changed Files
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/social-encounter.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/__tests__/socialEncounterConsequences.spec.ts
+- src/features/social-encounter/model/socialEncounterConsequences.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-25T20:15:11-03:00 - post-commit
+- branch: task-dialogue-option-availability
+- commit: 5593b32 feat(dialogue): cobre informante e opcoes bloqueadas
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-25T20:14:21-03:00 - t60-social-dialogue-qa-refresh
 - branch: task-dialogue-option-availability
 - commit: 4a80ecd docs(dialogue): atualiza qa da arvore social

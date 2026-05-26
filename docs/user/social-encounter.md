@@ -15,7 +15,8 @@ Este guia explica como testar a negociação social visível do Pandorha Engine.
 - `Barganhar` seleciona o campo `Argumento` correspondente, mostra `Modificador do argumento: +1` e adiciona esse bônus ao apelo social.
 - A tela mostra rolagem, DC, HP mental, paciência, persuasão, atitude, status e log.
 - O log registra `Opção de diálogo escolhida: Barganhar`.
-- Quando a negociação termina, a consequência é registrada em `WorldState`.
+- Quando a negociação termina, a consequência é registrada em `WorldState` com a última escolha de diálogo usada.
+- Consequências de `Persuadir`, `Barganhar` e `Pressionar` têm resumos diferentes para deixar claro qual abordagem encerrou a cena.
 - O save local v4 preserva estado da negociação, opção de diálogo escolhida, eventos, log e consequência.
 
 ## Como Testar No Navegador
@@ -32,7 +33,7 @@ Este guia explica como testar a negociação social visível do Pandorha Engine.
 10. Confirme que o argumento selecionado virou `Barganhar` e que aparece `Modificador do argumento: +1`.
 11. Clique em `Fazer apelo`.
 12. Confirme que a rolagem mostra `Bônus 1` e que o log cita `Barganhar`.
-13. Repita `Fazer apelo` até convencer o NPC, se quiser validar a consequência.
+13. Repita `Fazer apelo` até convencer o NPC e confirme que a consequência cita a troca proposta de `Barganhar`.
 14. Para validar bloqueio de opção, selecione `Informante de Treino` e clique em `Reiniciar negociação`.
 15. Confirme que aparecem `HP mental 6/6`, `Fala do NPC` e a fala inicial sobre exigir uma garantia antes de falar.
 16. Confirme que a opção `Pressionar` aparece desabilitada com o texto `Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.`.
@@ -44,7 +45,7 @@ Este guia explica como testar a negociação social visível do Pandorha Engine.
 22. Clique em `Salvar sessão`.
 23. Recarregue a página.
 24. Clique em `Carregar save`.
-25. Volte para `Relações` e confirme que a resposta da árvore, negociação, log e consequência voltaram.
+25. Volte para `Relações` e confirme que a resposta da árvore, negociação, log e consequência com a escolha de diálogo voltaram.
 
 ## Limitações Atuais
 

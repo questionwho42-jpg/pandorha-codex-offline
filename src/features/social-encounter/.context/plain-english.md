@@ -55,3 +55,13 @@ A negociação social agora tem um roteiro de teste mais claro. Além da Correto
 - Keep notes manually: lower setup cost, higher chance of drift.
 - Store notes centrally: easier search, weaker module ownership.
 - Use this bridge: consistent local memory with controlled write scope.
+
+## 2026-05-25T23:41:44.155Z
+
+### What This Module Does
+Quando a negociação social termina, o jogo agora guarda qual fala ajudou a encerrar a cena. Se o jogador usou Persuadir, Barganhar ou Pressionar, a consequência em WorldState usa um resumo diferente, então o jogador entende qual abordagem funcionou ou quebrou a conversa. O save continua no mesmo formato v4; a mudança aproveita os eventos de diálogo que já eram salvos.
+
+### Alternatives
+- Keep notes manually: lower setup cost, higher chance of drift.
+- Store notes centrally: easier search, weaker module ownership.
+- Use this bridge: consistent local memory with controlled write scope.

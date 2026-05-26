@@ -332,6 +332,7 @@ function applyState(nextState: SocialEncounterState): void {
 
 	const consequence = createSocialEncounterConsequenceFlag({
 		state: nextState,
+		dialogueOptions,
 		updatedAt: nextState.updatedAt,
 	});
 	if (consequence) {
