@@ -17,6 +17,7 @@ Este guia explica como testar a negociação social visível do Pandorha Engine.
 - O log registra `Opção de diálogo escolhida: Barganhar`.
 - Quando a negociação termina, a consequência é registrada em `WorldState` com a última escolha de diálogo usada.
 - Consequências de `Persuadir`, `Barganhar` e `Pressionar` têm resumos diferentes para deixar claro qual abordagem encerrou a cena.
+- Quando uma negociação terminal usa `Pressionar`, a facção associada ao NPC perde 1 nível de `Fama` uma única vez por encontro.
 - O save local v4 preserva estado da negociação, opção de diálogo escolhida, eventos, log e consequência.
 
 ## Como Testar No Navegador
@@ -42,15 +43,18 @@ Este guia explica como testar a negociação social visível do Pandorha Engine.
 19. Confirme que o argumento selecionado virou `Barganhar` e que aparece `Modificador do argumento: +1`.
 20. Clique em `Fazer apelo`.
 21. Confirme que a rolagem mostra `Bônus 1` e que o log cita `Opção de diálogo escolhida: Barganhar`.
-22. Clique em `Salvar sessão`.
-23. Recarregue a página.
-24. Clique em `Carregar save`.
-25. Volte para `Relações` e confirme que a resposta da árvore, negociação, log e consequência com a escolha de diálogo voltaram.
+22. Para validar a consequência de pressão, volte para `Corretora de Treino`, reinicie a negociação, escolha `Pressionar` e faça apelos até encerrar a conversa.
+23. Confirme que a consequência em `WorldState` cita `Pressionar` e `perda de 1 nível de Fama`.
+24. Confirme que a `Liga Mercante de Treino` mostra a `Fama` reduzida.
+25. Clique em `Salvar sessão`.
+26. Recarregue a página.
+27. Clique em `Carregar save`.
+28. Volte para `Relações` e confirme que a resposta da árvore, negociação, log, consequência com a escolha de diálogo e `Fama` reduzida voltaram.
 
 ## Limitações Atuais
 
 - As árvores atuais são curtas e existem apenas para a `Corretora de Treino` e o `Informante de Treino`.
-- `Pressionar` usa apenas modificador `-1`; piora de relação fica para tarefa futura.
+- `Pressionar` reduz `Fama` da facção do NPC, mas ainda não altera `Infâmia`, relação individual do NPC ou contratos de facção mais profundos.
 - O bloqueio por HP mental só impede a opção de diálogo; ele não consome HP mental por conta própria.
 - A negociação usa NPCs de treino, não NPCs finais de lore.
 - O save continua usando apenas o slot `primary`.

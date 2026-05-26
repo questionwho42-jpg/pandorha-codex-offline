@@ -79,3 +79,16 @@ T61 enriches terminal SocialEncounter WorldState consequences without changing s
 ### Patterns And Decisions
 - Keep implementation details tied to local module boundaries.
 - Preserve previous entries and append new findings instead of overwriting memory.
+
+## 2026-05-26T05:00:00.000Z
+
+### Error Log
+The first T63 focused run failed as expected because pressure penalty helpers, app orchestration, and the social relations wrapper did not exist. A later focused run failed because the app helper imported the social-encounter barrel and pulled the Svelte component into a model-only test; the fix was to import from `social-encounter/model-api` for pure model contracts.
+
+### Technical Summary
+T63 adds `createSocialPressurePenaltyIntent` beside the existing terminal consequence helpers. The feature still does not import social-standing; it only emits a typed intent and a `npc:<npc-id>:social-pressure-penalty:<encounter-id>` WorldState flag when the latest terminal dialogue option is `threaten`. `SocialEncounterPanel` exposes optional `onSocialPressurePenalty` so the app layer can coordinate faction Fame loss without crossing feature boundaries.
+
+### Patterns And Decisions
+- Use a separate WorldState flag for idempotency by encounter id.
+- Keep social-standing mutation in `app` orchestration, not inside `features/social-encounter`.
+- Import pure feature contracts through `model-api` from app models to avoid loading Svelte UI during model tests.

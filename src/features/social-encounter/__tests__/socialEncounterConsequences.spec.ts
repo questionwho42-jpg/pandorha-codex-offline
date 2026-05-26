@@ -7,6 +7,8 @@ import type { WorldStateFlagView } from "$lib/entities/world-state";
 import {
 	createSocialEncounterConsequenceFlag,
 	createSocialEncounterConsequenceView,
+	createSocialPressurePenaltyIntent,
+	hasSocialPressurePenaltyFlag,
 	upsertSocialEncounterConsequenceFlag,
 } from "../model/socialEncounterConsequences";
 import type { SocialEncounterState } from "../model/socialEncounterTypes";
@@ -103,7 +105,7 @@ describe("social encounter WorldState consequences", () => {
 				expectedChoiceId: "threaten",
 				expectedChoiceLabel: "Pressionar",
 				expectedSummary:
-					"O NPC cedeu à pressão social e esta consequência foi registrada no estado do mundo.",
+					"O NPC cedeu à pressão social, e a reputação com a facção do NPC perdeu Fama no estado do mundo.",
 			},
 		];
 
@@ -144,7 +146,7 @@ describe("social encounter WorldState consequences", () => {
 			{
 				option: findRequiredDialogueOption("training-broker-option-threaten"),
 				expectedSummary:
-					"A pressão social esgotou a paciência do NPC e esta consequência foi registrada no estado do mundo.",
+					"A pressão social esgotou a paciência do NPC, e a reputação com a facção dele perdeu Fama no estado do mundo.",
 			},
 			{
 				option: buildDialogueOption({
@@ -307,6 +309,246 @@ describe("social encounter WorldState consequences", () => {
 			summary:
 				"O NPC aceitou a troca proposta e esta consequência foi registrada no estado do mundo.",
 		});
+	});
+
+	it("creates a pressure penalty intent for terminal Pressionar outcomes", () => {
+		const intent = createSocialPressurePenaltyIntent({
+			state: buildState({
+				status: "convinced",
+				events: [buildDialogueEvent("training-broker-option-threaten")],
+			}),
+			dialogueOptions: DIALOGUE_OPTION_CATALOG,
+			worldState: [],
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+
+		expect(intent).toEqual({
+			actorId: "character-lia",
+			dialogueChoiceId: "threaten",
+			dialogueChoiceLabel: "Pressionar",
+			dialogueOptionId: "training-broker-option-threaten",
+			encounterId: "social-encounter-primary",
+			npcId: "training-broker",
+			worldStateFlag: {
+				key: "npc:training-broker:social-pressure-penalty:social-encounter-primary",
+				value: {
+					actorId: "character-lia",
+					dialogueChoiceId: "threaten",
+					dialogueChoiceLabel: "Pressionar",
+					dialogueOptionId: "training-broker-option-threaten",
+					encounterId: "social-encounter-primary",
+					kind: "social-pressure-fame-penalty",
+					npcId: "training-broker",
+					summary:
+						"Pressionar este NPC aplicou perda de 1 nível de Fama à facção associada.",
+				},
+				updatedAt: "2026-05-21T00:00:00.000Z",
+			},
+		});
+	});
+
+	it("does not create pressure penalty intents for Persuadir, Barganhar or active states", () => {
+		const persuade = createSocialPressurePenaltyIntent({
+			state: buildState({
+				status: "convinced",
+				events: [buildDialogueEvent("training-broker-option-persuade")],
+			}),
+			dialogueOptions: DIALOGUE_OPTION_CATALOG,
+			worldState: [],
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+		const bargain = createSocialPressurePenaltyIntent({
+			state: buildState({
+				status: "convinced",
+				events: [buildDialogueEvent("training-broker-option-bargain")],
+			}),
+			dialogueOptions: DIALOGUE_OPTION_CATALOG,
+			worldState: [],
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+		const activePressure = createSocialPressurePenaltyIntent({
+			state: buildState({
+				status: "active",
+				events: [buildDialogueEvent("training-broker-option-threaten")],
+			}),
+			dialogueOptions: DIALOGUE_OPTION_CATALOG,
+			worldState: [],
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+
+		expect(persuade).toBeNull();
+		expect(bargain).toBeNull();
+		expect(activePressure).toBeNull();
+	});
+
+	it("keeps pressure penalty intents idempotent by encounter id", () => {
+		const firstIntent = createSocialPressurePenaltyIntent({
+			state: buildState({
+				status: "walked-away",
+				events: [buildDialogueEvent("training-broker-option-threaten")],
+			}),
+			dialogueOptions: DIALOGUE_OPTION_CATALOG,
+			worldState: [],
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+		expect(firstIntent).not.toBeNull();
+		if (!firstIntent) {
+			expect.fail("Expected pressure penalty intent.");
+		}
+
+		const worldState = [firstIntent.worldStateFlag];
+		const repeatedIntent = createSocialPressurePenaltyIntent({
+			state: buildState({
+				status: "walked-away",
+				events: [buildDialogueEvent("training-broker-option-threaten")],
+			}),
+			dialogueOptions: DIALOGUE_OPTION_CATALOG,
+			worldState,
+			updatedAt: "2026-05-21T00:01:00.000Z",
+		});
+
+		expect(
+			hasSocialPressurePenaltyFlag(worldState, firstIntent.encounterId),
+		).toBe(true);
+		expect(repeatedIntent).toBeNull();
+	});
+
+	it("does not create pressure penalty intents when option metadata is unavailable", () => {
+		const intent = createSocialPressurePenaltyIntent({
+			state: buildState({
+				status: "convinced",
+				events: [buildDialogueEvent("training-broker-option-threaten")],
+			}),
+			dialogueOptions: [],
+			worldState: [],
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+
+		expect(intent).toBeNull();
+	});
+
+	it("does not create pressure penalty intents when dialogue options are omitted", () => {
+		const intent = createSocialPressurePenaltyIntent({
+			state: buildState({
+				status: "convinced",
+				events: [buildDialogueEvent("training-broker-option-threaten")],
+			}),
+			worldState: [],
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+
+		expect(intent).toBeNull();
+	});
+
+	it("detects saved pressure penalty flags and ignores corrupted values", () => {
+		const validMinimalFlag: WorldStateFlagView = {
+			key: "npc:training-broker:social-pressure-penalty:social-encounter-primary",
+			value: {
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-fame-penalty",
+				npcId: "training-broker",
+				summary:
+					"Pressionar este NPC aplicou perda de 1 nível de Fama à facção associada.",
+			},
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		};
+		const corruptedValues: readonly WorldStateFlagView["value"][] = [
+			null,
+			"corrupted",
+			[],
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				encounterId: "social-encounter-primary",
+				kind: "unknown-pressure-penalty",
+				npcId: "training-broker",
+				summary: "Valor corrompido.",
+			},
+			{
+				actorId: 42,
+				dialogueChoiceId: "threaten",
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-fame-penalty",
+				npcId: "training-broker",
+				summary: "Valor corrompido.",
+			},
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "bargain",
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-fame-penalty",
+				npcId: "training-broker",
+				summary: "Valor corrompido.",
+			},
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				encounterId: 42,
+				kind: "social-pressure-fame-penalty",
+				npcId: "training-broker",
+				summary: "Valor corrompido.",
+			},
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-fame-penalty",
+				npcId: 42,
+				summary: "Valor corrompido.",
+			},
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-fame-penalty",
+				npcId: "training-broker",
+				summary: 42,
+			},
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				dialogueChoiceLabel: 42,
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-fame-penalty",
+				npcId: "training-broker",
+				summary: "Valor corrompido.",
+			},
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				dialogueOptionId: 42,
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-fame-penalty",
+				npcId: "training-broker",
+				summary: "Valor corrompido.",
+			},
+		];
+
+		expect(
+			hasSocialPressurePenaltyFlag(
+				[validMinimalFlag],
+				"social-encounter-primary",
+			),
+		).toBe(true);
+		expect(
+			hasSocialPressurePenaltyFlag([validMinimalFlag], "another-encounter"),
+		).toBe(false);
+		for (const value of corruptedValues) {
+			expect(
+				hasSocialPressurePenaltyFlag(
+					[
+						{
+							key: "npc:training-broker:social-pressure-penalty:social-encounter-primary",
+							value,
+							updatedAt: "2026-05-21T00:00:00.000Z",
+						},
+					],
+					"social-encounter-primary",
+				),
+			).toBe(false);
+		}
 	});
 
 	it("creates the walked-away consequence view from saved WorldState flags", () => {

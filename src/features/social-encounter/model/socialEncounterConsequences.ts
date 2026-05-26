@@ -27,6 +27,27 @@ export interface SocialEncounterConsequenceValue {
 	readonly summary: string;
 }
 
+export interface SocialPressurePenaltyValue {
+	readonly actorId: string;
+	readonly dialogueChoiceId: "threaten";
+	readonly dialogueChoiceLabel?: string;
+	readonly dialogueOptionId?: string;
+	readonly encounterId: string;
+	readonly kind: "social-pressure-fame-penalty";
+	readonly npcId: string;
+	readonly summary: string;
+}
+
+export interface SocialPressurePenaltyIntent {
+	readonly actorId: string;
+	readonly dialogueChoiceId: "threaten";
+	readonly dialogueChoiceLabel?: string;
+	readonly dialogueOptionId?: string;
+	readonly encounterId: string;
+	readonly npcId: string;
+	readonly worldStateFlag: WorldStateFlagView;
+}
+
 export function createSocialEncounterConsequenceFlag(input: {
 	readonly state: SocialEncounterState;
 	readonly dialogueOptions?: readonly DialogueOptionRecord[];
@@ -63,6 +84,55 @@ export function createSocialEncounterConsequenceFlag(input: {
 	};
 }
 
+export function createSocialPressurePenaltyIntent(input: {
+	readonly state: SocialEncounterState;
+	readonly dialogueOptions?: readonly DialogueOptionRecord[];
+	readonly worldState: readonly WorldStateFlagView[];
+	readonly updatedAt: string;
+}): SocialPressurePenaltyIntent | null {
+	if (
+		!isTerminalSocialEncounter(input.state.status) ||
+		hasSocialPressurePenaltyFlag(input.worldState, input.state.id)
+	) {
+		return null;
+	}
+
+	const selectedOption = findLatestSelectedDialogueOption(
+		input.state,
+		input.dialogueOptions ?? [],
+	);
+	if (selectedOption?.choiceId !== "threaten") {
+		return null;
+	}
+
+	const value = {
+		actorId: input.state.actorId,
+		dialogueChoiceId: "threaten",
+		dialogueChoiceLabel: selectedOption.label,
+		dialogueOptionId: selectedOption.id,
+		encounterId: input.state.id,
+		kind: "social-pressure-fame-penalty",
+		npcId: input.state.npcId,
+		summary:
+			"Pressionar este NPC aplicou perda de 1 nível de Fama à facção associada.",
+	} satisfies SocialPressurePenaltyValue;
+	const worldStateFlag = {
+		key: createSocialPressurePenaltyKey(input.state),
+		value,
+		updatedAt: input.updatedAt,
+	};
+
+	return {
+		actorId: input.state.actorId,
+		dialogueChoiceId: "threaten",
+		dialogueChoiceLabel: selectedOption.label,
+		dialogueOptionId: selectedOption.id,
+		encounterId: input.state.id,
+		npcId: input.state.npcId,
+		worldStateFlag,
+	};
+}
+
 export function upsertSocialEncounterConsequenceFlag(
 	flags: readonly WorldStateFlagView[],
 	flag: WorldStateFlagView,
@@ -71,6 +141,26 @@ export function upsertSocialEncounterConsequenceFlag(
 		(candidate) => candidate.key !== flag.key,
 	);
 	return [...withoutCurrent, flag];
+}
+
+export function upsertSocialPressurePenaltyFlag(
+	flags: readonly WorldStateFlagView[],
+	flag: WorldStateFlagView,
+): readonly WorldStateFlagView[] {
+	const withoutCurrent = flags.filter(
+		(candidate) => candidate.key !== flag.key,
+	);
+	return [...withoutCurrent, flag];
+}
+
+export function hasSocialPressurePenaltyFlag(
+	flags: readonly WorldStateFlagView[],
+	encounterId: string,
+): boolean {
+	return flags.some(
+		(flag) =>
+			parseSocialPressurePenaltyValue(flag.value)?.encounterId === encounterId,
+	);
 }
 
 export function createSocialEncounterConsequenceView(input: {
@@ -104,6 +194,12 @@ function createSocialEncounterConsequenceKey(
 	return `npc:${state.npcId}:${state.status}`;
 }
 
+function createSocialPressurePenaltyKey(
+	state: Pick<SocialEncounterState, "id" | "npcId">,
+): string {
+	return `npc:${state.npcId}:social-pressure-penalty:${state.id}`;
+}
+
 function createConsequenceSummary(
 	status: SocialEncounterTerminalStatus,
 	selectedOption: DialogueOptionRecord | null,
@@ -121,7 +217,7 @@ function createConsequenceSummary(
 			case "bargain":
 				return "A troca proposta não foi suficiente para manter o NPC na conversa e esta consequência foi registrada no estado do mundo.";
 			case "threaten":
-				return "A pressão social esgotou a paciência do NPC e esta consequência foi registrada no estado do mundo.";
+				return "A pressão social esgotou a paciência do NPC, e a reputação com a facção dele perdeu Fama no estado do mundo.";
 			default:
 				return "O NPC encerrou a conversa sem aceitar o pedido e esta consequência foi registrada no estado do mundo.";
 		}
@@ -133,7 +229,7 @@ function createConsequenceSummary(
 		case "bargain":
 			return "O NPC aceitou a troca proposta e esta consequência foi registrada no estado do mundo.";
 		case "threaten":
-			return "O NPC cedeu à pressão social e esta consequência foi registrada no estado do mundo.";
+			return "O NPC cedeu à pressão social, e a reputação com a facção do NPC perdeu Fama no estado do mundo.";
 		default:
 			return "O NPC aceitou o argumento principal e esta consequência foi registrada no estado do mundo.";
 	}
@@ -182,6 +278,45 @@ function parseConsequenceValue(
 		encounterId: candidate.encounterId,
 		npcId: candidate.npcId,
 		outcome: candidate.outcome,
+		summary: candidate.summary,
+	};
+}
+
+function parseSocialPressurePenaltyValue(
+	value: WorldStateValue | undefined,
+): SocialPressurePenaltyValue | null {
+	if (!value || typeof value !== "object" || Array.isArray(value)) {
+		return null;
+	}
+
+	const candidate = value as Partial<
+		Record<keyof SocialPressurePenaltyValue, unknown>
+	>;
+	if (
+		candidate.kind !== "social-pressure-fame-penalty" ||
+		typeof candidate.actorId !== "string" ||
+		candidate.dialogueChoiceId !== "threaten" ||
+		typeof candidate.encounterId !== "string" ||
+		typeof candidate.npcId !== "string" ||
+		typeof candidate.summary !== "string" ||
+		!isOptionalString(candidate.dialogueChoiceLabel) ||
+		!isOptionalString(candidate.dialogueOptionId)
+	) {
+		return null;
+	}
+
+	return {
+		actorId: candidate.actorId,
+		dialogueChoiceId: "threaten",
+		...(candidate.dialogueChoiceLabel
+			? { dialogueChoiceLabel: candidate.dialogueChoiceLabel }
+			: {}),
+		...(candidate.dialogueOptionId
+			? { dialogueOptionId: candidate.dialogueOptionId }
+			: {}),
+		encounterId: candidate.encounterId,
+		kind: "social-pressure-fame-penalty",
+		npcId: candidate.npcId,
 		summary: candidate.summary,
 	};
 }

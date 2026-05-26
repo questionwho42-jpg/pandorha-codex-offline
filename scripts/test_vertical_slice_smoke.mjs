@@ -219,6 +219,8 @@ HexcrawlMapPanel;
 CampHourPanel;
 SocialRelationsPanel;
 SocialEncounterPanel;
+applySocialPressurePenaltyIntent;
+applySocialPressurePenalty;
 SpellCastPanel;
 InventoryReadOnlyPanel;
 CompendiumBrowser;
@@ -236,9 +238,14 @@ export let dialogueOptions = [];
 export let selectDialogueTreeOption = () => undefined;
 function chooseDialogueOption() {}
 function createSocialEncounterConsequenceFlag() {}
+function createSocialPressurePenaltyIntent() {}
 createSocialEncounterConsequenceFlag({
   dialogueOptions,
 });
+createSocialPressurePenaltyIntent({
+  dialogueOptions,
+});
+onSocialPressurePenalty();
 const disabled = !option.isAvailable;
 const reason = option.blockedReason;
 </script>
@@ -259,6 +266,8 @@ const dialogueChoiceId = "bargain";
 const dialogueChoiceLabel = "Barganhar";
 const summary = "O NPC aceitou a troca proposta e esta consequência foi registrada no estado do mundo.";
 const pressure = "O NPC cedeu à pressão social e esta consequência foi registrada no estado do mundo.";
+const kind = "social-pressure-fame-penalty";
+const penalty = "Pressionar este NPC aplicou perda de 1 nível de Fama";
 function findLatestSelectedDialogueOption() {}
 `;
 }
@@ -341,6 +350,7 @@ Escolha o campo Argumento, selecione Barganhar e confirme Modificador do argumen
 Leia Fala do NPC, escolha Barganhar, confirme a troca proposta e o log Opção de diálogo escolhida: Barganhar.
 Selecione Informante de Treino, confirme HP mental 6/6 e a opção bloqueada: Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.
 Depois valide WorldState ao encerrar a negociação.
+Ao escolher Pressionar, confirme a perda de 1 nível de Fama.
 `;
 }
 

@@ -119,7 +119,10 @@ async function createFixtureRoot({
 function renderApp() {
 	return `
 <SaveLoadControls onLoad={loadSession} onSave={saveSession} />
-<SocialEncounterPanel />
+<SocialEncounterPanel onSocialPressurePenalty={applySocialPressurePenalty} />
+import { applySocialPressurePenaltyIntent } from "./model/socialPressurePenaltySession";
+const input = { loseFame: socialRelationsSession.loseFame };
+async function applySocialPressurePenalty() {}
 const snapshot = {
   worldState: worldStateRecords,
   socialEncounters: socialEncounterRecords,
@@ -141,6 +144,10 @@ function renderSocialEncounterPanel() {
 createSocialEncounterConsequenceFlag({
   dialogueOptions,
 });
+createSocialPressurePenaltyIntent({
+  dialogueOptions,
+});
+onSocialPressurePenalty();
 upsertSocialEncounterConsequenceFlag(worldState, consequence);
 `;
 }
@@ -152,6 +159,8 @@ const dialogueChoiceId = "bargain";
 const dialogueChoiceLabel = "Barganhar";
 function findLatestSelectedDialogueOption() {}
 const summary = "O NPC aceitou a troca proposta";
+const kind = "social-pressure-fame-penalty";
+const pressure = "Pressionar este NPC aplicou perda de 1 nível de Fama";
 `;
 }
 
@@ -162,6 +171,7 @@ it("stores bargain metadata", () => {
     dialogueChoiceLabel: "Barganhar",
   });
 });
+it("creates a pressure penalty intent", () => {});
 createSocialEncounterConsequenceView();
 `;
 }

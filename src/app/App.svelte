@@ -38,8 +38,11 @@ import {
 	SaveLoadControls,
 	type SaveLoadUiState,
 } from "$lib/features/save-load";
-// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
-import { SocialEncounterPanel } from "$lib/features/social-encounter";
+import {
+	// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+	SocialEncounterPanel,
+	type SocialPressurePenaltyIntent,
+} from "$lib/features/social-encounter";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SocialRelationsPanel } from "$lib/features/social-relations";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
@@ -60,6 +63,7 @@ import {
 } from "./model/pwaStatusView";
 import { createSaveLoadSession } from "./model/saveLoadSession";
 import { createSocialEncounterSession } from "./model/socialEncounterSession";
+import { applySocialPressurePenaltyIntent } from "./model/socialPressurePenaltySession";
 import { createSocialRelationsSession } from "./model/socialRelationsSession";
 import { createSpellCastSession } from "./model/spellCastSession";
 
@@ -77,7 +81,6 @@ const inventorySession = createInventorySession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const spellCastSession = createSpellCastSession();
 const saveLoadSession = createSaveLoadSession();
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const socialEncounterSession = createSocialEncounterSession();
 const socialRelationsSession = createSocialRelationsSession();
 
@@ -214,6 +217,25 @@ async function loadSession(): Promise<void> {
 	socialEncounterRecords = [...result.data.socialEncounters];
 	socialEncounterEventRecords = [...result.data.socialEncounterEvents];
 	saveLoadState = { kind: "loaded" };
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function applySocialPressurePenalty(
+	intent: SocialPressurePenaltyIntent,
+): Promise<void> {
+	const result = await applySocialPressurePenaltyIntent({
+		intent,
+		factionStandings: factionStandingRecords,
+		loseFame: socialRelationsSession.loseFame,
+		npcs: socialEncounterSession.npcs,
+		worldState: worldStateRecords,
+	});
+	if (!result.success) {
+		return;
+	}
+
+	factionStandingRecords = [...result.data.factionStandings];
+	worldStateRecords = [...result.data.worldState];
 }
 
 onMount(() => {
@@ -367,6 +389,7 @@ onMount(() => {
 								...records.socialEncounterEvents,
 							];
 						}}
+						onSocialPressurePenalty={applySocialPressurePenalty}
 						onWorldStateChange={(records) => {
 							worldStateRecords = [...records];
 						}}

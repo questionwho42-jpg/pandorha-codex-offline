@@ -31,6 +31,8 @@ import {
 import {
 	createSocialEncounterConsequenceFlag,
 	createSocialEncounterConsequenceView,
+	createSocialPressurePenaltyIntent,
+	type SocialPressurePenaltyIntent,
 	upsertSocialEncounterConsequenceFlag,
 } from "../model/socialEncounterConsequences";
 import {
@@ -90,6 +92,9 @@ type Props = {
 	readonly encounters: readonly SocialEncounterRecord[];
 	readonly npcs: readonly NpcRecord[];
 	readonly onRecordsChange: (records: PersistedRecords) => void;
+	readonly onSocialPressurePenalty?: (
+		intent: SocialPressurePenaltyIntent,
+	) => Promise<void> | void;
 	readonly onWorldStateChange: (records: readonly WorldStateFlagView[]) => void;
 	readonly resolveAppeal: (
 		input: unknown,
@@ -118,6 +123,7 @@ let {
 	encounters,
 	npcs,
 	onRecordsChange,
+	onSocialPressurePenalty,
 	onWorldStateChange,
 	resolveAppeal,
 	resolveAppealOutcome,
@@ -339,6 +345,16 @@ function applyState(nextState: SocialEncounterState): void {
 		onWorldStateChange(
 			upsertSocialEncounterConsequenceFlag(worldState, consequence),
 		);
+	}
+
+	const pressurePenaltyIntent = createSocialPressurePenaltyIntent({
+		state: nextState,
+		dialogueOptions,
+		worldState,
+		updatedAt: nextState.updatedAt,
+	});
+	if (pressurePenaltyIntent) {
+		void onSocialPressurePenalty?.(pressurePenaltyIntent);
 	}
 }
 

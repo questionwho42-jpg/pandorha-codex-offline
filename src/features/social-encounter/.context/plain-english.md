@@ -75,3 +75,13 @@ Quando a negociação social termina, o jogo agora guarda qual fala ajudou a enc
 - Keep notes manually: lower setup cost, higher chance of drift.
 - Store notes centrally: easier search, weaker module ownership.
 - Use this bridge: consistent local memory with controlled write scope.
+
+## 2026-05-26T05:00:00.000Z
+
+### What This Module Does
+Quando o jogador encerra uma negociação usando Pressionar, o jogo agora avisa a camada principal que essa pressão deve custar reputação. A conversa não muda facções diretamente; ela apenas registra a intenção e uma marca em WorldState para a penalidade não acontecer duas vezes no mesmo encontro.
+
+### Alternatives
+- Colocar a perda de Fama direto no painel: seria mais rápido, mas misturaria negociação com facções.
+- Criar uma migration nova: seria pesado demais para uma penalidade simples.
+- Usar intenção + coordenação no App: mantém os módulos separados e aproveita o save atual.

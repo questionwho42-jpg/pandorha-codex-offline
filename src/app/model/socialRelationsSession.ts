@@ -18,6 +18,10 @@ export interface SocialRelationsSession {
 	invokeTierOneFavor(
 		standing: FactionStandingRecord,
 	): Promise<Result<SocialStandingChangeResult, SocialStandingFailure>>;
+	loseFame(
+		standing: FactionStandingRecord,
+		levels?: number,
+	): Promise<Result<SocialStandingChangeResult, SocialStandingFailure>>;
 	normalizeStandings(
 		standings: readonly FactionStandingRecord[],
 	): FactionStandingRecord[];
@@ -38,6 +42,7 @@ export function createSocialRelationsSession(): SocialRelationsSession {
 		createInitialStandings,
 		invokeTierOneFavor: (standing) =>
 			service.invokeFavor({ standing, tier: 1 }),
+		loseFame: (standing, levels = 1) => service.loseFame({ standing, levels }),
 		normalizeStandings,
 		redeemTierOneDebt: (standing) => service.redeemDebt({ standing, tier: 1 }),
 	};

@@ -60,3 +60,13 @@ T62 should automate the browser walkthrough that validates Barganhar through sav
 ### Follow-Up
 - Revisit after the next feature change or failed validation run.
 - Convert durable lessons into tests or automation where practical.
+
+## 2026-05-26T05:00:00.000Z
+
+### Scaling Notes
+T63 proves the consequence-metadata path for one conservative penalty: `Pressionar` can reduce faction Fame without changing save v4 or adding cross-feature imports. Future social consequences should add small, explicit intents first, then let the app layer coordinate social-standing, world-state, clocks, and save acceptance.
+
+### Follow-Up
+- Keep pressure consequences idempotent by encounter id.
+- Add real browser automation only after the team settles the dependency/artifact policy.
+- Do not add Infamy, NPC relationship damage, or retaliation clocks until social-relations/world-state contracts are planned together.

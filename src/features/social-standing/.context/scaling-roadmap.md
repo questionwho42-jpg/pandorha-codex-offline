@@ -4,3 +4,5 @@
 - Add prestige checks through `ResolutionService` later.
 - Add social dialogue wrappers after the `dialogue-architect` flow is available.
 - Persist standings in save v3 before exposing UI.
+- After T63, keep faction-standing mutations behind app-level orchestration when another feature triggers them. Do not let sibling features import `features/social-standing` directly.
+- Future pressure fallout can add Infamy, faction clocks, or NPC relationship damage only after those contracts are planned with world-state and save acceptance.

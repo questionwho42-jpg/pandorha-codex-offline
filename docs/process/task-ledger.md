@@ -13,6 +13,59 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:T63 -->
+### Social Pressure Consequences V1
+- id: T63
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-26T04:45:24-03:00
+- finished_at: 2026-05-26T08:42:57-03:00
+- model_started: gpt-5.5 high reasoning
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-26T08:42:57-03:00
+- branch: task-dialogue-option-availability
+- commit_at_start: b454de2 chore(process): record t62 post-commit snapshot
+- summary: Aplicar perda idempotente de Fama quando a negociacao terminal usar Pressionar, sem migration nem save v5.
+- last_change: Social Pressure Consequences V1 implementada: Pressionar em negociacao terminal emite intencao desacoplada, App aplica perda idempotente de 1 Fama na faccao do NPC, WorldState preserva flag, UI pt-BR mostra consequencia e save/load restaura o estado.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-26T04:45:24-03:00
+- Done: task record created
+- Next: Escrever testes TDD para intencao de penalidade, idempotencia, UI e smokes.
+- Risks: Acoplamento ilegal entre social-encounter e social-standing; reaplicacao apos save/load se a flag WorldState nao for suficiente.
+- Improvements: Automatizar smoke real de navegador se o fluxo social completo continuar repetitivo.
+- Model/config: gpt-5.5 high reasoning
+
+#### Checkpoint 2026-05-26T05:01:47-03:00
+- Done: Implementados intent de penalidade por Pressionar, orquestracao app-level de loseFame, WorldState idempotente, testes focados e smokes contratuais atualizados.
+- Next: Executar gates finais completos, Browser Use e fechamento da tarefa.
+- Risks: Browser Use ainda precisa validar o fluxo renderizado; smokes continuam contratuais/headless.
+- Improvements: Promover para Playwright real se a validacao social continuar repetitiva.
+- Model/config: gpt-5.5 high reasoning
+
+#### Checkpoint 2026-05-26T05:07:37-03:00
+- Done: Lint/TypeScript passou, validações core-conventions e pandorha-arch-guard passaram, testes focados T63 passaram, qa:vertical-slice, qa:social-browser-smoke, quality:automation e validate passaram.
+- Next: Reexecutar npm.cmd test, test:coverage, build, quality:gate e Browser Use quando a aprovacao fora do sandbox estiver disponivel.
+- Risks: Sandbox bloqueia Vitest/build com Access is denied e a aprovacao escalada foi rejeitada por limite de uso ate 08:26; Browser Use nao esta exposto nesta sessao.
+- Improvements: Adicionar runner de navegador real aprovado ou Playwright quando a politica de dependencia/artifacts estiver definida.
+- Model/config: gpt-5.5 high reasoning
+
+#### Checkpoint 2026-05-26T08:42:49-03:00
+- Done: Browser do Codex validou Pressionar -> WorldState -> Fama 0 -> save/load; gates locais e smokes ja passaram.
+- Next: Fechar diff/status local sem commitar output/.
+- Risks: output/ permanece nao rastreado; Browser in-app nao suportou screenshot/export, entao a evidencia visual ficou em DOM snapshot validado.
+- Improvements: Manter qa:social-browser-smoke como contrato e avaliar Playwright real caso screenshots voltem a ser obrigatorios.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-26T08:42:57-03:00
+- Done: Social Pressure Consequences V1 implementada: Pressionar em negociacao terminal emite intencao desacoplada, App aplica perda idempotente de 1 Fama na faccao do NPC, WorldState preserva flag, UI pt-BR mostra consequencia e save/load restaura o estado.
+- Next: Preparar entrega/PR apenas se solicitado explicitamente.
+- Risks: output/ continua local e nao rastreado; nao houve migration, save v5, RPC ou push/PR.
+- Improvements: Proxima fase pode promover Playwright real para smoke visual completo e revisar roadmaps pos-T63.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:T63 -->
 <!-- pandorha-task:20260526-040147-t62-social-browser-smoke-automation -->
 ### T62 Social Browser Smoke Automation
 - id: 20260526-040147-t62-social-browser-smoke-automation
