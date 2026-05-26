@@ -3193,6 +3193,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-26T04:09:24-03:00 - post-commit
+- branch: task-dialogue-option-availability
+- commit: 5d1b3ef test(social): add social browser smoke
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-26T04:01:22-03:00 - post-t61-commit
 - branch: task-dialogue-option-availability
 - commit: e83ed47 feat(social): record dialogue consequence metadata
