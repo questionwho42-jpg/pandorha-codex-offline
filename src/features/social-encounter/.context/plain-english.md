@@ -105,3 +105,13 @@ Agora existe um teste automático para avisar se algum NPC de treino ficou sem c
 - Testar só no navegador: mostra a tela real, mas encontra erros tarde.
 - Colocar mais regras dentro da UI: deixaria a tela mais pesada.
 - Validar o catálogo antes: mantém a UI simples e evita dados incompletos.
+
+## 2026-05-26T18:55:00.000Z
+
+### What This Module Does
+A tela de negociação agora sabe bloquear falas por HP mental, flags de mundo ou Fama da facção. Se o jogador pressionar quando a Fama já está em 0, a consequência vira Infâmia e pode gerar um clock de retaliação mostrado em Relações.
+
+### Alternatives
+- Fazer tudo dentro da tela: simples, mas acoplaria diálogo, facção e relógio.
+- Criar migration nova: desnecessário, porque WorldState, Fama, Infâmia e clocks já existem.
+- Coordenar no App: mantém cada feature com uma responsabilidade pequena.

@@ -236,6 +236,9 @@ const rawDialogueOptionCatalog = [
 		visibleText: "Ofereça suprimentos ou pagamento pelo custo da escolta.",
 		choiceId: "bargain",
 		nextNodeId: "training-captain-bargain-response",
+		minimumFactionFame: 1,
+		factionFameBlockedReason:
+			"Exige Fama 1 com a facção do capitão para negociar custo de escolta.",
 		sortOrder: 1,
 		sourceFile: CAPTAIN_SOURCE_FILE,
 		summary: "Opção de diálogo que prepara barganha por escolta militar.",

@@ -108,6 +108,24 @@ test("dialogue seed smoke fails when a gated option has no blocked reason", asyn
 	}
 });
 
+test("dialogue seed smoke fails when a Fame-gated option has no blocked reason", async () => {
+	const root = await createFixtureRoot({
+		dialogueTreeText: renderDialogueTreeCatalog({
+			omitCaptainFameBlockedReason: true,
+		}),
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /training-captain-option-bargain/);
+		assert.match(result.stderr, /factionFameBlockedReason/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 async function createFixtureRoot({
 	npcCatalogText = renderNpcCatalog(),
 	dialogueTreeText = renderDialogueTreeCatalog(),
@@ -157,6 +175,7 @@ function renderDialogueTreeCatalog({
 	omitCaptainThreaten = false,
 	brokenCaptainBargainTarget = false,
 	divergentCaptainSourceFile = false,
+	omitCaptainFameBlockedReason = false,
 	omitCaptainBlockedReason = false,
 } = {}) {
 	const captainSource = divergentCaptainSourceFile
@@ -170,6 +189,7 @@ function renderDialogueTreeCatalog({
 		: renderSeedOptions("training-captain", captainSource, {
 				omitThreaten: omitCaptainThreaten,
 				brokenBargainTarget: brokenCaptainBargainTarget,
+				omitFameBlockedReason: omitCaptainFameBlockedReason,
 				omitBlockedReason: omitCaptainBlockedReason,
 			});
 
@@ -226,6 +246,7 @@ function renderSeedOptions(
 	{
 		omitThreaten = false,
 		brokenBargainTarget = false,
+		omitFameBlockedReason = false,
 		omitBlockedReason = false,
 	} = {},
 ) {
@@ -235,6 +256,10 @@ function renderSeedOptions(
 	const blockedReason = omitBlockedReason
 		? ""
 		: `blockedReason: "Exige HP mental 8 ou maior para pressionar sem quebrar a cena.",`;
+	const fameRequirement = omitFameBlockedReason
+		? `
+    minimumFactionFame: 1,`
+		: "";
 	const threatenOption = omitThreaten
 		? ""
 		: `
@@ -264,6 +289,7 @@ function renderSeedOptions(
     nodeId: "${npcId}-opening",
     choiceId: "bargain",
     nextNodeId: "${bargainTarget}",
+${fameRequirement}
     sortOrder: 1,
     sourceFile: ${sourceFileExpression},
   },

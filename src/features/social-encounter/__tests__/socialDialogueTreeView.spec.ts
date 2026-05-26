@@ -110,6 +110,7 @@ describe("createSocialDialogueTreeView", () => {
 
 	it("shows the captain tree with duty and escort options", () => {
 		const view = createSocialDialogueTreeView({
+			factionFameLevel: 1,
 			nodes: DIALOGUE_NODE_CATALOG,
 			options: DIALOGUE_OPTION_CATALOG,
 			selectedNpcId: "training-captain",
@@ -143,6 +144,7 @@ describe("createSocialDialogueTreeView", () => {
 
 	it("blocks the captain pressure option when mental HP is too low", () => {
 		const view = createSocialDialogueTreeView({
+			factionFameLevel: 1,
 			nodes: DIALOGUE_NODE_CATALOG,
 			options: DIALOGUE_OPTION_CATALOG,
 			selectedNpcId: "training-captain",
@@ -158,6 +160,89 @@ describe("createSocialDialogueTreeView", () => {
 			isAvailable: false,
 			blockedReason:
 				"Exige HP mental 8 ou maior para pressionar o capitão sem quebrar a moral da tropa.",
+		});
+	});
+
+	it("blocks an option when required WorldState is missing", () => {
+		const options = DIALOGUE_OPTION_CATALOG.map((option) =>
+			option.id === "training-broker-option-bargain"
+				? {
+						...option,
+						requiredWorldStateKey: "npc:training-broker:trusted",
+						requiredWorldStateValue: true,
+						worldStateBlockedReason:
+							"Exige confiança registrada com a Corretora de Treino.",
+					}
+				: option,
+		);
+
+		const view = createSocialDialogueTreeView({
+			nodes: DIALOGUE_NODE_CATALOG,
+			options,
+			selectedNpcId: "training-broker",
+			state: buildState([]),
+			worldState: [],
+		});
+
+		expect(view.options.at(1)).toMatchObject({
+			label: "Barganhar",
+			isAvailable: false,
+			blockedReason: "Exige confiança registrada com a Corretora de Treino.",
+		});
+	});
+
+	it("allows an option when required WorldState matches", () => {
+		const options = DIALOGUE_OPTION_CATALOG.map((option) =>
+			option.id === "training-broker-option-bargain"
+				? {
+						...option,
+						requiredWorldStateKey: "npc:training-broker:trusted",
+						requiredWorldStateValue: true,
+						worldStateBlockedReason:
+							"Exige confiança registrada com a Corretora de Treino.",
+					}
+				: option,
+		);
+
+		const view = createSocialDialogueTreeView({
+			nodes: DIALOGUE_NODE_CATALOG,
+			options,
+			selectedNpcId: "training-broker",
+			state: buildState([]),
+			worldState: [
+				{
+					key: "npc:training-broker:trusted",
+					value: true,
+					updatedAt: "2026-05-26T18:40:00.000Z",
+				},
+			],
+		});
+
+		expect(view.options.at(1)).toMatchObject({
+			label: "Barganhar",
+			isAvailable: true,
+			blockedReason: null,
+		});
+	});
+
+	it("blocks the captain bargain option when faction Fame is below the requirement", () => {
+		const view = createSocialDialogueTreeView({
+			factionFameLevel: 0,
+			nodes: DIALOGUE_NODE_CATALOG,
+			options: DIALOGUE_OPTION_CATALOG,
+			selectedNpcId: "training-captain",
+			state: buildState([], {
+				npcId: "training-captain",
+				mentalHpCurrent: 10,
+				mentalHpMax: 10,
+			}),
+		});
+
+		expect(view.options.at(1)).toMatchObject({
+			label: "Barganhar",
+			isAvailable: false,
+			blockedReason:
+				"Exige Fama 1 com a facção do capitão para negociar custo de escolta.",
 		});
 	});
 

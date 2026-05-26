@@ -38,6 +38,17 @@ export interface SocialPressurePenaltyValue {
 	readonly summary: string;
 }
 
+export interface SocialPressureInfamyValue {
+	readonly actorId: string;
+	readonly dialogueChoiceId: "threaten";
+	readonly dialogueChoiceLabel?: string;
+	readonly dialogueOptionId?: string;
+	readonly encounterId: string;
+	readonly kind: "social-pressure-infamy";
+	readonly npcId: string;
+	readonly summary: string;
+}
+
 export interface SocialPressurePenaltyIntent {
 	readonly actorId: string;
 	readonly dialogueChoiceId: "threaten";
@@ -153,6 +164,16 @@ export function upsertSocialPressurePenaltyFlag(
 	return [...withoutCurrent, flag];
 }
 
+export function upsertSocialPressureInfamyFlag(
+	flags: readonly WorldStateFlagView[],
+	flag: WorldStateFlagView,
+): readonly WorldStateFlagView[] {
+	const withoutCurrent = flags.filter(
+		(candidate) => candidate.key !== flag.key,
+	);
+	return [...withoutCurrent, flag];
+}
+
 export function hasSocialPressurePenaltyFlag(
 	flags: readonly WorldStateFlagView[],
 	encounterId: string,
@@ -163,6 +184,43 @@ export function hasSocialPressurePenaltyFlag(
 	);
 }
 
+export function hasSocialPressureInfamyFlag(
+	flags: readonly WorldStateFlagView[],
+	encounterId: string,
+): boolean {
+	return flags.some(
+		(flag) =>
+			parseSocialPressureInfamyValue(flag.value)?.encounterId === encounterId,
+	);
+}
+
+export function createSocialPressureInfamyFlag(input: {
+	readonly intent: SocialPressurePenaltyIntent;
+	readonly updatedAt: string;
+}): WorldStateFlagView {
+	const value = {
+		actorId: input.intent.actorId,
+		dialogueChoiceId: "threaten",
+		...(input.intent.dialogueChoiceLabel
+			? { dialogueChoiceLabel: input.intent.dialogueChoiceLabel }
+			: {}),
+		...(input.intent.dialogueOptionId
+			? { dialogueOptionId: input.intent.dialogueOptionId }
+			: {}),
+		encounterId: input.intent.encounterId,
+		kind: "social-pressure-infamy",
+		npcId: input.intent.npcId,
+		summary:
+			"A coerção manchou a reputação do grupo: a facção do NPC ganhou 1 nível de Infâmia.",
+	} satisfies SocialPressureInfamyValue;
+
+	return {
+		key: `npc:${input.intent.npcId}:pressure-infamy:${input.intent.encounterId}`,
+		value,
+		updatedAt: input.updatedAt,
+	};
+}
+
 export function createSocialEncounterConsequenceView(input: {
 	readonly state: SocialEncounterState | null;
 	readonly worldState: readonly WorldStateFlagView[];
@@ -171,20 +229,30 @@ export function createSocialEncounterConsequenceView(input: {
 		return null;
 	}
 
-	const key = createSocialEncounterConsequenceKey(input.state);
+	const currentState = input.state;
+	const key = createSocialEncounterConsequenceKey(currentState);
 	const flag = input.worldState.find((candidate) => candidate.key === key);
 	const value = parseConsequenceValue(flag?.value);
 	if (!value) {
 		return null;
 	}
+	const pressureInfamyValue = input.worldState
+		.map((candidate) => parseSocialPressureInfamyValue(candidate.value))
+		.find(
+			(candidate): candidate is SocialPressureInfamyValue =>
+				candidate !== null &&
+				candidate.encounterId === currentState.id &&
+				candidate.npcId === currentState.npcId,
+		);
 
 	return {
 		key,
-		label:
-			value.outcome === "convinced"
+		label: pressureInfamyValue
+			? "Consequência: pressão social"
+			: value.outcome === "convinced"
 				? "Consequência: NPC convencido"
 				: "Consequência: negociação perdida",
-		summary: value.summary,
+		summary: pressureInfamyValue?.summary ?? value.summary,
 	};
 }
 
@@ -316,6 +384,45 @@ function parseSocialPressurePenaltyValue(
 			: {}),
 		encounterId: candidate.encounterId,
 		kind: "social-pressure-fame-penalty",
+		npcId: candidate.npcId,
+		summary: candidate.summary,
+	};
+}
+
+function parseSocialPressureInfamyValue(
+	value: WorldStateValue | undefined,
+): SocialPressureInfamyValue | null {
+	if (!value || typeof value !== "object" || Array.isArray(value)) {
+		return null;
+	}
+
+	const candidate = value as Partial<
+		Record<keyof SocialPressureInfamyValue, unknown>
+	>;
+	if (
+		candidate.kind !== "social-pressure-infamy" ||
+		typeof candidate.actorId !== "string" ||
+		candidate.dialogueChoiceId !== "threaten" ||
+		typeof candidate.encounterId !== "string" ||
+		typeof candidate.npcId !== "string" ||
+		typeof candidate.summary !== "string" ||
+		!isOptionalString(candidate.dialogueChoiceLabel) ||
+		!isOptionalString(candidate.dialogueOptionId)
+	) {
+		return null;
+	}
+
+	return {
+		actorId: candidate.actorId,
+		dialogueChoiceId: "threaten",
+		...(candidate.dialogueChoiceLabel
+			? { dialogueChoiceLabel: candidate.dialogueChoiceLabel }
+			: {}),
+		...(candidate.dialogueOptionId
+			? { dialogueOptionId: candidate.dialogueOptionId }
+			: {}),
+		encounterId: candidate.encounterId,
+		kind: "social-pressure-infamy",
 		npcId: candidate.npcId,
 		summary: candidate.summary,
 	};

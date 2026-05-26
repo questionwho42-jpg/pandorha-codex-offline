@@ -108,6 +108,13 @@ let isCreatingCharacter = $state(false);
 let activeItem = $derived(getAppNavigationItem(activeView));
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let pwaStatusView = $derived(createPwaStatusView(pwaOfflineStatus));
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let factionFameLevelsByNpcId = $derived(
+	createFactionFameLevelsByNpcId(
+		socialEncounterSession.npcs,
+		factionStandingRecords,
+	),
+);
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 async function createCharacter(
@@ -224,8 +231,11 @@ async function applySocialPressurePenalty(
 	intent: SocialPressurePenaltyIntent,
 ): Promise<void> {
 	const result = await applySocialPressurePenaltyIntent({
+		clocks: clockRecords,
+		factions: socialRelationsSession.factions,
 		intent,
 		factionStandings: factionStandingRecords,
+		gainInfamy: socialRelationsSession.gainInfamy,
 		loseFame: socialRelationsSession.loseFame,
 		npcs: socialEncounterSession.npcs,
 		worldState: worldStateRecords,
@@ -234,8 +244,21 @@ async function applySocialPressurePenalty(
 		return;
 	}
 
+	clockRecords = [...result.data.clocks];
 	factionStandingRecords = [...result.data.factionStandings];
 	worldStateRecords = [...result.data.worldState];
+}
+
+function createFactionFameLevelsByNpcId(
+	npcs: readonly { readonly id: string; readonly factionId: string }[],
+	standings: readonly FactionStandingRecord[],
+): Readonly<Record<string, number>> {
+	const fameByFactionId = new Map(
+		standings.map((standing) => [standing.factionId, standing.fameLevel]),
+	);
+	return Object.fromEntries(
+		npcs.map((npc) => [npc.id, fameByFactionId.get(npc.factionId) ?? 0]),
+	);
 }
 
 onMount(() => {
@@ -364,6 +387,7 @@ onMount(() => {
 						state={saveLoadState}
 					/>
 					<SocialRelationsPanel
+						clocks={clockRecords}
 						factions={socialRelationsSession.factions}
 						invokeTierOneFavor={socialRelationsSession.invokeTierOneFavor}
 						onStandingsChange={(standings) => {
@@ -382,6 +406,7 @@ onMount(() => {
 						dialogueOptions={socialEncounterSession.dialogueOptions}
 						encounterEvents={socialEncounterEventRecords}
 						encounters={socialEncounterRecords}
+						factionFameLevelsByNpcId={factionFameLevelsByNpcId}
 						npcs={socialEncounterSession.npcs}
 						onRecordsChange={(records) => {
 							socialEncounterRecords = [...records.socialEncounters];

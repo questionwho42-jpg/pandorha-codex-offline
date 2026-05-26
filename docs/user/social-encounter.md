@@ -12,6 +12,7 @@ Este guia explica como testar a negociação social visível do Pandorha Engine.
 - Algumas falas de `Pressionar` aparecem bloqueadas quando o personagem não tem HP mental suficiente.
 - No `Informante de Treino`, `Pressionar` exige HP mental 7; com HP mental 6/6, a opção fica visível, mas desabilitada.
 - No `Capitão de Treino`, a árvore mostra dever, moral da tropa e custo da escolta; `Pressionar` mostra `Exige HP mental 8 ou maior para pressionar o capitão sem quebrar a moral da tropa.` quando bloqueado.
+- No `Capitão de Treino`, `Barganhar` exige `Fama 1` com a facção dele; no estado inicial de treino, essa opção fica disponível.
 - Ao escolher `Barganhar`, a resposta do NPC muda para uma fala de troca proposta.
 - `Barganhar` seleciona o campo `Argumento` correspondente, mostra `Modificador do argumento: +1` e adiciona esse bônus ao apelo social.
 - A tela mostra rolagem, DC, HP mental, paciência, persuasão, atitude, status e log.
@@ -19,6 +20,7 @@ Este guia explica como testar a negociação social visível do Pandorha Engine.
 - Quando a negociação termina, a consequência é registrada em `WorldState` com a última escolha de diálogo usada.
 - Consequências de `Persuadir`, `Barganhar` e `Pressionar` têm resumos diferentes para deixar claro qual abordagem encerrou a cena.
 - Quando uma negociação terminal usa `Pressionar`, a facção associada ao NPC perde 1 nível de `Fama` uma única vez por encontro.
+- Quando `Pressionar` é usado com a `Fama` da facção já em 0, a facção ganha 1 nível de `Infâmia` e um clock de `Retaliação` aparece em `Relações`.
 - O save local v4 preserva estado da negociação, opção de diálogo escolhida, eventos, log e consequência.
 
 ## Como Testar No Navegador
@@ -47,21 +49,23 @@ Este guia explica como testar a negociação social visível do Pandorha Engine.
 22. Para validar a árvore do capitão, selecione `Capitão de Treino` e clique em `Reiniciar negociação`.
 23. Confirme que a fala inicial cita `moral da tropa`.
 24. Confirme que aparecem as opções `Persuadir`, `Barganhar` e `Pressionar`.
-25. Clique na opção de diálogo `Barganhar`.
+25. Confirme que `Barganhar` está disponível porque a facção do capitão começa com `Fama 1` e clique nessa opção.
 26. Confirme que a resposta do NPC cita `custo da escolta`.
 27. Confirme que `Pressionar` exige `HP mental 8` quando a negociação estiver abaixo desse limite.
 28. Para validar a consequência de pressão, volte para `Corretora de Treino`, reinicie a negociação, escolha `Pressionar` e faça apelos até encerrar a conversa.
 29. Confirme que a consequência em `WorldState` cita `Pressionar` e `perda de 1 nível de Fama`.
 30. Confirme que a `Liga Mercante de Treino` mostra a `Fama` reduzida.
-31. Clique em `Salvar sessão`.
-32. Recarregue a página.
-33. Clique em `Carregar save`.
-34. Volte para `Relações` e confirme que a resposta da árvore, negociação, log, consequência com a escolha de diálogo e `Fama` reduzida voltaram.
+31. Repita a pressão quando a `Fama` estiver em 0 e confirme que a consequência cita `Infâmia`.
+32. Confirme que `Relações` mostra `Retaliação: Liga Mercante de Treino - 0/4 fatias`.
+33. Clique em `Salvar sessão`.
+34. Recarregue a página.
+35. Clique em `Carregar save`.
+36. Volte para `Relações` e confirme que a resposta da árvore, negociação, log, consequência com a escolha de diálogo, `Fama`, `Infâmia` e clock de retaliação voltaram.
 
 ## Limitações Atuais
 
 - As árvores atuais são curtas e existem para a `Corretora de Treino`, o `Informante de Treino` e o `Capitão de Treino`.
-- `Pressionar` reduz `Fama` da facção do NPC, mas ainda não altera `Infâmia`, relação individual do NPC ou contratos de facção mais profundos.
+- `Pressionar` ainda não altera relação individual do NPC nem avança clocks de retaliação automaticamente.
 - O bloqueio por HP mental só impede a opção de diálogo; ele não consome HP mental por conta própria.
 - A negociação usa NPCs de treino, não NPCs finais de lore.
 - O save continua usando apenas o slot `primary`.

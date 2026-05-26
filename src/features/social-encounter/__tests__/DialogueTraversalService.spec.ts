@@ -88,6 +88,130 @@ describe("DialogueTraversalService", () => {
 		});
 	});
 
+	it("rejects a dialogue option blocked by missing WorldState", async () => {
+		const service = createService({
+			options: DIALOGUE_OPTION_CATALOG.map((option) =>
+				option.id === "training-broker-option-bargain"
+					? {
+							...option,
+							requiredWorldStateKey: "npc:training-broker:trusted",
+							requiredWorldStateValue: true,
+							worldStateBlockedReason:
+								"Exige confiança registrada com a Corretora de Treino.",
+						}
+					: option,
+			),
+		});
+
+		const result = await service.selectOption({
+			npcId: "training-broker",
+			currentNodeId: "training-broker-opening",
+			optionId: "training-broker-option-bargain",
+			mentalHpCurrent: 8,
+			worldState: [],
+			selectedAt: "2026-05-21T12:00:00.000Z",
+			events: [],
+		});
+
+		expect(result).toMatchObject({
+			success: false,
+			error: {
+				code: "DIALOGUE_OPTION_BLOCKED",
+				details: {
+					blockKind: "world-state",
+					requiredWorldStateKey: "npc:training-broker:trusted",
+				},
+			},
+		});
+	});
+
+	it("selects a WorldState-gated option when the flag matches", async () => {
+		const service = createService({
+			options: DIALOGUE_OPTION_CATALOG.map((option) =>
+				option.id === "training-broker-option-bargain"
+					? {
+							...option,
+							requiredWorldStateKey: "npc:training-broker:trusted",
+							requiredWorldStateValue: true,
+							worldStateBlockedReason:
+								"Exige confiança registrada com a Corretora de Treino.",
+						}
+					: option,
+			),
+		});
+
+		const result = await service.selectOption({
+			npcId: "training-broker",
+			currentNodeId: "training-broker-opening",
+			optionId: "training-broker-option-bargain",
+			mentalHpCurrent: 8,
+			worldState: [
+				{
+					key: "npc:training-broker:trusted",
+					value: true,
+					updatedAt: "2026-05-26T18:45:00.000Z",
+				},
+			],
+			selectedAt: "2026-05-21T12:00:00.000Z",
+			events: [],
+		});
+
+		expect(result).toMatchObject({
+			success: true,
+			data: {
+				selectedChoiceId: "bargain",
+			},
+		});
+	});
+
+	it("rejects a faction Fame-gated option below the required level", async () => {
+		const service = createService();
+
+		const result = await service.selectOption({
+			npcId: "training-captain",
+			currentNodeId: "training-captain-opening",
+			optionId: "training-captain-option-bargain",
+			mentalHpCurrent: 10,
+			factionFameLevel: 0,
+			selectedAt: "2026-05-26T18:45:00.000Z",
+			events: [],
+		});
+
+		expect(result).toMatchObject({
+			success: false,
+			error: {
+				code: "DIALOGUE_OPTION_BLOCKED",
+				details: {
+					blockKind: "faction-fame",
+					minimumFactionFame: 1,
+					factionFameLevel: 0,
+				},
+			},
+		});
+	});
+
+	it("selects a faction Fame-gated option when Fame is high enough", async () => {
+		const service = createService();
+
+		const result = await service.selectOption({
+			npcId: "training-captain",
+			currentNodeId: "training-captain-opening",
+			optionId: "training-captain-option-bargain",
+			mentalHpCurrent: 10,
+			factionFameLevel: 1,
+			selectedAt: "2026-05-26T18:45:00.000Z",
+			events: [],
+		});
+
+		expect(result).toMatchObject({
+			success: true,
+			data: {
+				selectedChoiceId: "bargain",
+				nextNode: { id: "training-captain-bargain-response" },
+			},
+		});
+	});
+
 	it("rejects the informant pressure option at starting mental HP", async () => {
 		const service = createService();
 
@@ -415,13 +539,14 @@ describe("DialogueTraversalService", () => {
 	});
 });
 
-function createService(): DialogueTraversalService {
+function createService({
+	options = DIALOGUE_OPTION_CATALOG,
+}: {
+	readonly options?: readonly DialogueOptionRecord[];
+} = {}): DialogueTraversalService {
 	return new DialogueTraversalService(
 		new DialogueTreeCatalogService(
-			new InMemoryDialogueTreeCatalogRepository(
-				DIALOGUE_NODE_CATALOG,
-				DIALOGUE_OPTION_CATALOG,
-			),
+			new InMemoryDialogueTreeCatalogRepository(DIALOGUE_NODE_CATALOG, options),
 		),
 	);
 }

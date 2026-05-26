@@ -2,6 +2,8 @@ import type {
 	DialogueNodeRecord,
 	DialogueOptionRecord,
 } from "$lib/entities/dialogue-tree";
+import type { WorldStateFlagView } from "$lib/entities/world-state";
+import { evaluateDialogueOptionAvailability } from "./dialogueOptionAvailability";
 import type { SocialEncounterState } from "./socialEncounterTypes";
 
 export interface SocialDialogueOptionView {
@@ -22,10 +24,12 @@ export interface SocialDialogueTreeView {
 }
 
 export interface SocialDialogueTreeViewInput {
+	readonly factionFameLevel?: number | undefined;
 	readonly nodes: readonly DialogueNodeRecord[];
 	readonly options: readonly DialogueOptionRecord[];
 	readonly selectedNpcId: string;
 	readonly state: SocialEncounterState | null;
+	readonly worldState?: readonly WorldStateFlagView[] | undefined;
 }
 
 export function createSocialDialogueTreeView(
@@ -53,7 +57,12 @@ export function createSocialDialogueTreeView(
 				.filter((option) => option.nodeId === currentNode.id)
 				.sort((left, right) => left.sortOrder - right.sortOrder)
 				.map((option) =>
-					createDialogueOptionView(option, currentState.mentalHpCurrent),
+					createDialogueOptionView({
+						factionFameLevel: input.factionFameLevel,
+						mentalHpCurrent: currentState.mentalHpCurrent,
+						option,
+						worldState: input.worldState,
+					}),
 				)
 		: [];
 
@@ -68,21 +77,21 @@ export function createSocialDialogueTreeView(
 	};
 }
 
-function createDialogueOptionView(
-	option: DialogueOptionRecord,
-	mentalHpCurrent: number,
-): SocialDialogueOptionView {
-	const isAvailable =
-		option.minimumMentalHp === undefined ||
-		mentalHpCurrent >= option.minimumMentalHp;
+function createDialogueOptionView(input: {
+	readonly factionFameLevel?: number | undefined;
+	readonly mentalHpCurrent: number;
+	readonly option: DialogueOptionRecord;
+	readonly worldState?: readonly WorldStateFlagView[] | undefined;
+}): SocialDialogueOptionView {
+	const availability = evaluateDialogueOptionAvailability(input);
 
 	return {
-		id: option.id,
-		label: option.label,
-		visibleText: option.visibleText,
-		choiceId: option.choiceId,
-		isAvailable,
-		blockedReason: isAvailable ? null : (option.blockedReason ?? null),
+		id: input.option.id,
+		label: input.option.label,
+		visibleText: input.option.visibleText,
+		choiceId: input.option.choiceId,
+		isAvailable: availability.isAvailable,
+		blockedReason: availability.block?.blockedReason ?? null,
 	};
 }
 

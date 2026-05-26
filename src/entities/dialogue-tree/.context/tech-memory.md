@@ -54,3 +54,15 @@ T65 adds `qa:dialogue-seeds` as a recurring static contract for short training d
 ### Patterns And Decisions
 - Validate seed structure through automation before adding more catalog content.
 - Keep the smoke static and dependency-free beyond existing TypeScript; do not execute app code or add runtime APIs.
+
+## 2026-05-26T18:55:00.000Z
+
+### Error Log
+T67/T68 required optional requirement fields on `DialogueOptionRecord` without adding Drizzle columns. The schema extension stayed optional and catalog-only so existing persisted data remains compatible.
+
+### Technical Summary
+Dialogue options now support optional WorldState and Fama gates: `requiredWorldStateKey`, `requiredWorldStateValue`, `worldStateBlockedReason`, `minimumFactionFame`, and `factionFameBlockedReason`. The captain `Barganhar` seed uses `minimumFactionFame: 1`; `qa:dialogue-seeds` now rejects requirement metadata without user-facing blocked copy.
+
+### Patterns And Decisions
+- Keep requirement metadata flat and static until authored dialogue AST/i18n exists.
+- Use writable WorldState namespaces only (`location`, `npc`, `plot`) for dialogue option requirements.

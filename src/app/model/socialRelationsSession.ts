@@ -18,6 +18,10 @@ export interface SocialRelationsSession {
 	invokeTierOneFavor(
 		standing: FactionStandingRecord,
 	): Promise<Result<SocialStandingChangeResult, SocialStandingFailure>>;
+	gainInfamy(
+		standing: FactionStandingRecord,
+		levels?: number,
+	): Promise<Result<SocialStandingChangeResult, SocialStandingFailure>>;
 	loseFame(
 		standing: FactionStandingRecord,
 		levels?: number,
@@ -40,6 +44,8 @@ export function createSocialRelationsSession(): SocialRelationsSession {
 	return {
 		factions: TRAINING_FACTIONS,
 		createInitialStandings,
+		gainInfamy: (standing, levels = 1) =>
+			service.gainInfamy({ standing, levels }),
 		invokeTierOneFavor: (standing) =>
 			service.invokeFavor({ standing, tier: 1 }),
 		loseFame: (standing, levels = 1) => service.loseFame({ standing, levels }),

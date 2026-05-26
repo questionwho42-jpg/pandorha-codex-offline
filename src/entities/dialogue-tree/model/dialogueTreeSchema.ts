@@ -14,6 +14,17 @@ const sourceFile = z.string().trim().min(1).max(180);
 const ruleText = z.string().trim().min(1).max(1000);
 const sortOrder = z.number().int().min(0).max(99);
 const minimumMentalHp = z.number().int().min(0).max(999);
+const requiredWorldStateKey = z
+	.string()
+	.trim()
+	.regex(/^(location|npc|plot):[a-z0-9][a-z0-9:_-]*$/)
+	.max(180);
+const requiredWorldStateValue = z.union([
+	z.string().trim().min(1).max(320),
+	z.number().finite(),
+	z.boolean(),
+]);
+const minimumFactionFame = z.number().int().min(0).max(5);
 
 export const dialogueNodeKindSchema = z.enum(["start", "response"]);
 
@@ -65,9 +76,7 @@ export const dialogueNodeSelectSchema = createSelectSchema(
 	summary: ruleText,
 });
 
-export const dialogueOptionInsertSchema = createInsertSchema(
-	dialogueOptions,
-).extend({
+const dialogueOptionRecordSchema = {
 	id: technicalId,
 	nodeId: technicalId,
 	label: visibleLabel,
@@ -76,26 +85,57 @@ export const dialogueOptionInsertSchema = createInsertSchema(
 	nextNodeId: technicalId,
 	minimumMentalHp: minimumMentalHp.optional(),
 	blockedReason: blockedReason.optional(),
+	requiredWorldStateKey: requiredWorldStateKey.optional(),
+	requiredWorldStateValue: requiredWorldStateValue.optional(),
+	worldStateBlockedReason: blockedReason.optional(),
+	minimumFactionFame: minimumFactionFame.optional(),
+	factionFameBlockedReason: blockedReason.optional(),
 	sortOrder,
 	sourceFile,
 	summary: ruleText,
-});
+};
 
-export const dialogueOptionSelectSchema = createSelectSchema(
-	dialogueOptions,
-).extend({
-	id: technicalId,
-	nodeId: technicalId,
-	label: visibleLabel,
-	visibleText,
-	choiceId: technicalId,
-	nextNodeId: technicalId,
-	minimumMentalHp: minimumMentalHp.optional(),
-	blockedReason: blockedReason.optional(),
-	sortOrder,
-	sourceFile,
-	summary: ruleText,
-});
+export const dialogueOptionInsertSchema = createInsertSchema(dialogueOptions)
+	.extend(dialogueOptionRecordSchema)
+	.refine(hasWorldStateKeyForMetadata, {
+		message: "WorldState requirement values require requiredWorldStateKey.",
+		path: ["requiredWorldStateKey"],
+	})
+	.refine(hasWorldStateBlockedReasonForRequirement, {
+		message:
+			"WorldState-gated dialogue options require worldStateBlockedReason.",
+		path: ["worldStateBlockedReason"],
+	})
+	.refine(hasFactionFameRequirementForReason, {
+		message: "Faction fame blocked reason requires minimumFactionFame.",
+		path: ["minimumFactionFame"],
+	})
+	.refine(hasFactionFameBlockedReasonForRequirement, {
+		message:
+			"Faction fame-gated dialogue options require factionFameBlockedReason.",
+		path: ["factionFameBlockedReason"],
+	});
+
+export const dialogueOptionSelectSchema = createSelectSchema(dialogueOptions)
+	.extend(dialogueOptionRecordSchema)
+	.refine(hasWorldStateKeyForMetadata, {
+		message: "WorldState requirement values require requiredWorldStateKey.",
+		path: ["requiredWorldStateKey"],
+	})
+	.refine(hasWorldStateBlockedReasonForRequirement, {
+		message:
+			"WorldState-gated dialogue options require worldStateBlockedReason.",
+		path: ["worldStateBlockedReason"],
+	})
+	.refine(hasFactionFameRequirementForReason, {
+		message: "Faction fame blocked reason requires minimumFactionFame.",
+		path: ["minimumFactionFame"],
+	})
+	.refine(hasFactionFameBlockedReasonForRequirement, {
+		message:
+			"Faction fame-gated dialogue options require factionFameBlockedReason.",
+		path: ["factionFameBlockedReason"],
+	});
 
 export const dialogueNodeIdSchema = technicalId;
 export const dialogueOptionIdSchema = technicalId;
@@ -110,3 +150,48 @@ export type NewDialogueOptionRecord = z.infer<
 	typeof dialogueOptionInsertSchema
 >;
 export type DialogueOptionRecord = z.infer<typeof dialogueOptionSelectSchema>;
+
+interface DialogueOptionRequirementMetadata {
+	readonly requiredWorldStateKey?: string | undefined;
+	readonly requiredWorldStateValue?: string | number | boolean | undefined;
+	readonly worldStateBlockedReason?: string | undefined;
+	readonly minimumFactionFame?: number | undefined;
+	readonly factionFameBlockedReason?: string | undefined;
+}
+
+function hasWorldStateKeyForMetadata(
+	option: DialogueOptionRequirementMetadata,
+): boolean {
+	return (
+		option.requiredWorldStateKey !== undefined ||
+		(option.requiredWorldStateValue === undefined &&
+			option.worldStateBlockedReason === undefined)
+	);
+}
+
+function hasWorldStateBlockedReasonForRequirement(
+	option: DialogueOptionRequirementMetadata,
+): boolean {
+	return (
+		option.requiredWorldStateKey === undefined ||
+		option.worldStateBlockedReason !== undefined
+	);
+}
+
+function hasFactionFameRequirementForReason(
+	option: DialogueOptionRequirementMetadata,
+): boolean {
+	return (
+		option.minimumFactionFame !== undefined ||
+		option.factionFameBlockedReason === undefined
+	);
+}
+
+function hasFactionFameBlockedReasonForRequirement(
+	option: DialogueOptionRequirementMetadata,
+): boolean {
+	return (
+		option.minimumFactionFame === undefined ||
+		option.factionFameBlockedReason !== undefined
+	);
+}

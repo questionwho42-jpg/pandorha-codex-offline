@@ -90,6 +90,7 @@ type Props = {
 	readonly dialogueOptions: readonly DialogueOptionRecord[];
 	readonly encounterEvents: readonly SocialEncounterEventRecord[];
 	readonly encounters: readonly SocialEncounterRecord[];
+	readonly factionFameLevelsByNpcId: Readonly<Record<string, number>>;
 	readonly npcs: readonly NpcRecord[];
 	readonly onRecordsChange: (records: PersistedRecords) => void;
 	readonly onSocialPressurePenalty?: (
@@ -121,6 +122,7 @@ let {
 	dialogueOptions,
 	encounterEvents,
 	encounters,
+	factionFameLevelsByNpcId,
 	npcs,
 	onRecordsChange,
 	onSocialPressurePenalty,
@@ -209,10 +211,12 @@ let consequenceView = $derived(
 
 let dialogueTreeView = $derived(
 	createSocialDialogueTreeView({
+		factionFameLevel: factionFameLevelsByNpcId[selectedNpcId],
 		nodes: dialogueNodes,
 		options: dialogueOptions,
 		selectedNpcId,
 		state,
+		worldState,
 	}),
 );
 
@@ -306,6 +310,8 @@ async function chooseDialogueOption(optionId: string): Promise<void> {
 		currentNodeId: dialogueTreeView.currentNodeId,
 		optionId,
 		mentalHpCurrent: state.mentalHpCurrent,
+		factionFameLevel: factionFameLevelsByNpcId[state.npcId],
+		worldState,
 		selectedAt: new Date().toISOString(),
 		events: state.events,
 	});
@@ -405,7 +411,7 @@ function mapDialogueTraversalFailureToMessage(
 		case "DIALOGUE_OPTION_MISSING":
 			return "Esta opção de diálogo não está disponível nesta fala.";
 		case "DIALOGUE_OPTION_BLOCKED":
-			return "Esta opção exige mais HP mental antes de ser usada.";
+			return "Esta opção de diálogo está bloqueada pelas condições atuais.";
 	}
 }
 </script>

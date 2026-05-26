@@ -42,4 +42,20 @@ describe("createSocialRelationsSession", () => {
 		});
 		expect(result.data.debtLimit).toBe(3);
 	});
+
+	it("wraps infamy gain and clamps Infâmia at five", async () => {
+		const session = createSocialRelationsSession();
+		const result = await session.gainInfamy(
+			{ ...TRAINING_FACTION_STANDINGS[0], infamyLevel: 4 },
+			2,
+		);
+
+		expect(result.success).toBe(true);
+		if (!result.success) {
+			expect.fail(`Expected success, received ${result.error.code}`);
+		}
+
+		expect(result.data.standing.infamyLevel).toBe(5);
+		expect(result.data.event.type).toBe("faction-infamy-gained");
+	});
 });

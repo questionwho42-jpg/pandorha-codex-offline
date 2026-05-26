@@ -29,6 +29,10 @@ async function runSocialBrowserSmoke(root) {
 			"<SocialEncounterPanel",
 			"applySocialPressurePenalty",
 			"applySocialPressurePenaltyIntent",
+			"clockRecords = [...result.data.clocks]",
+			"clocks={clockRecords}",
+			"factionFameLevelsByNpcId",
+			"gainInfamy: socialRelationsSession.gainInfamy",
 			"loseFame: socialRelationsSession.loseFame",
 			"onSocialPressurePenalty={applySocialPressurePenalty}",
 			"worldState: worldStateRecords",
@@ -50,6 +54,7 @@ async function runSocialBrowserSmoke(root) {
 			'data-testid="social-dialogue-option"',
 			'data-testid="social-resolve-appeal"',
 			'data-testid="social-worldstate-consequence"',
+			"factionFameLevelsByNpcId",
 			"createSocialEncounterConsequenceFlag({",
 			"createSocialPressurePenaltyIntent({",
 			"dialogueOptions,",
@@ -69,8 +74,17 @@ async function runSocialBrowserSmoke(root) {
 			"findLatestSelectedDialogueOption",
 			"O NPC aceitou a troca proposta",
 			"social-pressure-fame-penalty",
+			"social-pressure-infamy",
+			"createSocialPressureInfamyFlag",
 			"Pressionar este NPC aplicou perda de 1 nível de Fama",
 		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/social-relations/ui/SocialRelationsPanel.svelte",
+		['data-testid="social-retaliation-clock"', "clocks"],
 		errors,
 	);
 
@@ -89,7 +103,12 @@ async function runSocialBrowserSmoke(root) {
 	await validateFileContains(
 		root,
 		"src/features/save-load/model/saveLoadSchemas.ts",
-		["CURRENT_SAVE_VERSION = 4", "socialEncounters", "socialEncounterEvents"],
+		[
+			"CURRENT_SAVE_VERSION = 4",
+			"clocks",
+			"socialEncounters",
+			"socialEncounterEvents",
+		],
 		errors,
 	);
 
@@ -101,6 +120,8 @@ async function runSocialBrowserSmoke(root) {
 			"Barganhar",
 			"Fazer apelo",
 			"WorldState",
+			"Infâmia",
+			"Retaliação",
 			"Salvar sessao",
 			"recarregue",
 			"Carregar save",
@@ -116,6 +137,8 @@ async function runSocialBrowserSmoke(root) {
 			"Barganhar",
 			"Fazer apelo",
 			"WorldState",
+			"Infâmia",
+			"Retaliação",
 			"Salvar sessao",
 			"recarregue",
 			"Carregar save",

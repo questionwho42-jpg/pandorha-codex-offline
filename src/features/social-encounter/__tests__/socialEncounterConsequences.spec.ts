@@ -7,9 +7,14 @@ import type { WorldStateFlagView } from "$lib/entities/world-state";
 import {
 	createSocialEncounterConsequenceFlag,
 	createSocialEncounterConsequenceView,
+	createSocialPressureInfamyFlag,
 	createSocialPressurePenaltyIntent,
+	hasSocialPressureInfamyFlag,
 	hasSocialPressurePenaltyFlag,
+	type SocialPressurePenaltyIntent,
 	upsertSocialEncounterConsequenceFlag,
+	upsertSocialPressureInfamyFlag,
+	upsertSocialPressurePenaltyFlag,
 } from "../model/socialEncounterConsequences";
 import type { SocialEncounterState } from "../model/socialEncounterTypes";
 
@@ -311,6 +316,72 @@ describe("social encounter WorldState consequences", () => {
 		});
 	});
 
+	it("shows pressure Infâmia copy when the terminal consequence has an Infâmia flag", () => {
+		const state = buildState({
+			status: "convinced",
+			events: [buildDialogueEvent("training-broker-option-threaten")],
+		});
+		const consequence = createSocialEncounterConsequenceFlag({
+			state,
+			dialogueOptions: DIALOGUE_OPTION_CATALOG,
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+		const intent = createSocialPressurePenaltyIntent({
+			state,
+			dialogueOptions: DIALOGUE_OPTION_CATALOG,
+			worldState: [],
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+		if (!consequence || !intent) {
+			expect.fail("Expected pressure consequence and intent.");
+		}
+		const infamyFlag = createSocialPressureInfamyFlag({
+			intent,
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+
+		const view = createSocialEncounterConsequenceView({
+			state,
+			worldState: upsertSocialPressureInfamyFlag([consequence], infamyFlag),
+		});
+
+		expect(view).toEqual({
+			key: "npc:training-broker:convinced",
+			label: "Consequência: pressão social",
+			summary:
+				"A coerção manchou a reputação do grupo: a facção do NPC ganhou 1 nível de Infâmia.",
+		});
+	});
+
+	it("creates a pressure Infamy flag without optional dialogue metadata", () => {
+		const intent: SocialPressurePenaltyIntent = {
+			actorId: "character-lia",
+			dialogueChoiceId: "threaten",
+			encounterId: "social-encounter-primary",
+			npcId: "training-broker",
+			worldStateFlag: {
+				key: "npc:training-broker:social-pressure-penalty:social-encounter-primary",
+				value: true,
+				updatedAt: "2026-05-21T00:00:00.000Z",
+			},
+		};
+
+		const flag = createSocialPressureInfamyFlag({
+			intent,
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+
+		expect(flag.value).toMatchObject({
+			actorId: "character-lia",
+			dialogueChoiceId: "threaten",
+			encounterId: "social-encounter-primary",
+			kind: "social-pressure-infamy",
+			npcId: "training-broker",
+		});
+		expect(flag.value).not.toHaveProperty("dialogueChoiceLabel");
+		expect(flag.value).not.toHaveProperty("dialogueOptionId");
+	});
+
 	it("creates a pressure penalty intent for terminal Pressionar outcomes", () => {
 		const intent = createSocialPressurePenaltyIntent({
 			state: buildState({
@@ -411,6 +482,41 @@ describe("social encounter WorldState consequences", () => {
 			hasSocialPressurePenaltyFlag(worldState, firstIntent.encounterId),
 		).toBe(true);
 		expect(repeatedIntent).toBeNull();
+	});
+
+	it("upserts pressure penalty flags without duplicating keys", () => {
+		const intent = createSocialPressurePenaltyIntent({
+			state: buildState({
+				status: "convinced",
+				events: [buildDialogueEvent("training-broker-option-threaten")],
+			}),
+			dialogueOptions: DIALOGUE_OPTION_CATALOG,
+			worldState: [],
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		});
+		if (!intent) {
+			expect.fail("Expected pressure penalty intent.");
+		}
+		const updatedFlag = {
+			...intent.worldStateFlag,
+			updatedAt: "2026-05-21T00:01:00.000Z",
+		};
+		const unrelated: WorldStateFlagView = {
+			key: "plot:training:opened",
+			value: true,
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		};
+
+		const flags = upsertSocialPressurePenaltyFlag(
+			upsertSocialPressurePenaltyFlag([unrelated], intent.worldStateFlag),
+			updatedFlag,
+		);
+
+		expect(flags).toHaveLength(2);
+		expect(flags).toContain(unrelated);
+		expect(
+			flags.find((flag) => flag.key === intent.worldStateFlag.key),
+		).toEqual(updatedFlag);
 	});
 
 	it("does not create pressure penalty intents when option metadata is unavailable", () => {
@@ -541,6 +647,116 @@ describe("social encounter WorldState consequences", () => {
 					[
 						{
 							key: "npc:training-broker:social-pressure-penalty:social-encounter-primary",
+							value,
+							updatedAt: "2026-05-21T00:00:00.000Z",
+						},
+					],
+					"social-encounter-primary",
+				),
+			).toBe(false);
+		}
+	});
+
+	it("detects saved pressure Infamy flags and ignores corrupted values", () => {
+		const validMinimalFlag: WorldStateFlagView = {
+			key: "npc:training-broker:pressure-infamy:social-encounter-primary",
+			value: {
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-infamy",
+				npcId: "training-broker",
+				summary: "Infamy increased.",
+			},
+			updatedAt: "2026-05-21T00:00:00.000Z",
+		};
+		const corruptedValues: readonly WorldStateFlagView["value"][] = [
+			null,
+			"corrupted",
+			[],
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				encounterId: "social-encounter-primary",
+				kind: "unknown-pressure-infamy",
+				npcId: "training-broker",
+				summary: "Valor corrompido.",
+			},
+			{
+				actorId: 42,
+				dialogueChoiceId: "threaten",
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-infamy",
+				npcId: "training-broker",
+				summary: "Valor corrompido.",
+			},
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "bargain",
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-infamy",
+				npcId: "training-broker",
+				summary: "Valor corrompido.",
+			},
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				encounterId: 42,
+				kind: "social-pressure-infamy",
+				npcId: "training-broker",
+				summary: "Valor corrompido.",
+			},
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-infamy",
+				npcId: 42,
+				summary: "Valor corrompido.",
+			},
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-infamy",
+				npcId: "training-broker",
+				summary: 42,
+			},
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				dialogueChoiceLabel: 42,
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-infamy",
+				npcId: "training-broker",
+				summary: "Valor corrompido.",
+			},
+			{
+				actorId: "character-lia",
+				dialogueChoiceId: "threaten",
+				dialogueOptionId: 42,
+				encounterId: "social-encounter-primary",
+				kind: "social-pressure-infamy",
+				npcId: "training-broker",
+				summary: "Valor corrompido.",
+			},
+		];
+
+		expect(
+			hasSocialPressureInfamyFlag(
+				[validMinimalFlag],
+				"social-encounter-primary",
+			),
+		).toBe(true);
+		expect(
+			hasSocialPressureInfamyFlag([validMinimalFlag], "another-encounter"),
+		).toBe(false);
+		for (const value of corruptedValues) {
+			expect(
+				hasSocialPressureInfamyFlag(
+					[
+						{
+							key: "npc:training-broker:pressure-infamy:social-encounter-primary",
 							value,
 							updatedAt: "2026-05-21T00:00:00.000Z",
 						},

@@ -23,3 +23,8 @@ export const socialFameLossInputSchema = z.object({
 	standing: factionStandingSelectSchema,
 	levels: positiveLevelDelta,
 });
+
+export const socialInfamyGainInputSchema = z.object({
+	standing: factionStandingSelectSchema,
+	levels: positiveLevelDelta,
+});

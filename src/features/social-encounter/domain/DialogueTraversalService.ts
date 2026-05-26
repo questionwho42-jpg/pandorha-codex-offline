@@ -1,5 +1,6 @@
 import type { DialogueNodeRecord } from "$lib/entities/dialogue-tree";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
+import { evaluateDialogueOptionAvailability } from "../model/dialogueOptionAvailability";
 import {
 	dialogueTraversalCurrentNodeInputSchema,
 	dialogueTraversalSelectInputSchema,
@@ -59,18 +60,20 @@ export class DialogueTraversalService {
 				details: { optionId: parsed.data.optionId },
 			});
 		}
-		if (
-			selectedOption.minimumMentalHp !== undefined &&
-			parsed.data.mentalHpCurrent < selectedOption.minimumMentalHp
-		) {
+		const availability = evaluateDialogueOptionAvailability({
+			factionFameLevel: parsed.data.factionFameLevel,
+			mentalHpCurrent: parsed.data.mentalHpCurrent,
+			option: selectedOption,
+			worldState: parsed.data.worldState,
+		});
+		if (!availability.isAvailable) {
 			return fail({
 				code: "DIALOGUE_OPTION_BLOCKED",
-				message: "Selected dialogue option is blocked by current mental HP.",
+				message: "Selected dialogue option is blocked by current conditions.",
 				details: {
-					optionId: selectedOption.id,
-					minimumMentalHp: selectedOption.minimumMentalHp,
-					mentalHpCurrent: parsed.data.mentalHpCurrent,
-					blockedReason: selectedOption.blockedReason,
+					...availability.block.details,
+					blockKind: availability.block.kind,
+					blockedReason: availability.block.blockedReason,
 				},
 			});
 		}

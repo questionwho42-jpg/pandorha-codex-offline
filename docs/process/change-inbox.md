@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260526-183035-t66-t70-social-roadmap-implementation -->
+### T66-T70 Social Roadmap Implementation
+- id: 20260526-183035-t66-t70-social-roadmap-implementation
+- status: open
+- created_at: 2026-05-26T18:30:35-03:00
+- source: task-ledger
+- summary: Implementar readiness local, requisitos de dialogo por WorldState/Fama, Infamia por pressao e clocks de retaliacao sem migration, RPC novo ou save v5.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260526-183035-t66-t70-social-roadmap-implementation -->
 <!-- pandorha-inbox:20260520-182802-t46-social-appeal-resolution -->
 ### T46 Social Appeal Resolution
 - id: 20260520-182802-t46-social-appeal-resolution

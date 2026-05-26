@@ -88,3 +88,12 @@ T65 makes catalog completeness a recurring gate. Future social dialogue tasks ca
 ### Follow-Up
 - Keep `qa:social-browser-smoke` focused on user flows and `qa:dialogue-seeds` focused on static catalog invariants.
 - Add rendered browser automation only if the project settles dependency and artifact policy.
+
+## 2026-05-26T18:55:00.000Z
+
+### Scaling Notes
+T67-T70 prove the app can coordinate dialogue availability, faction consequences, WorldState flags and clocks without save v5. Future work should define when retaliation clocks advance before adding automated clock ticks.
+
+### Follow-Up
+- Add authored requirement AST only when flat fields become insufficient.
+- Keep individual NPC relationship damage out until it has its own persistence contract.

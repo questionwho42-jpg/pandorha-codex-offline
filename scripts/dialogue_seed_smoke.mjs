@@ -169,6 +169,43 @@ function validateDialogueSeedOption({
 		);
 	}
 
+	if (
+		option.requiredWorldStateKey !== undefined &&
+		!isNonEmptyString(option.worldStateBlockedReason)
+	) {
+		errors.push(
+			`${npcId}: option ${option.id} has requiredWorldStateKey without worldStateBlockedReason.`,
+		);
+	}
+
+	if (
+		(option.requiredWorldStateValue !== undefined ||
+			option.worldStateBlockedReason !== undefined) &&
+		option.requiredWorldStateKey === undefined
+	) {
+		errors.push(
+			`${npcId}: option ${option.id} has WorldState requirement metadata without requiredWorldStateKey.`,
+		);
+	}
+
+	if (
+		option.minimumFactionFame !== undefined &&
+		!isNonEmptyString(option.factionFameBlockedReason)
+	) {
+		errors.push(
+			`${npcId}: option ${option.id} has minimumFactionFame without factionFameBlockedReason.`,
+		);
+	}
+
+	if (
+		option.factionFameBlockedReason !== undefined &&
+		option.minimumFactionFame === undefined
+	) {
+		errors.push(
+			`${npcId}: option ${option.id} has factionFameBlockedReason without minimumFactionFame.`,
+		);
+	}
+
 	if (option.choiceId === "threaten" && option.minimumMentalHp === undefined) {
 		errors.push(
 			`${npcId}: option ${option.id} must define minimumMentalHp for Pressionar.`,
@@ -351,6 +388,14 @@ function parseExpressionValue(expression, stringConstants) {
 
 	if (ts.isNumericLiteral(expression)) {
 		return Number(expression.text);
+	}
+
+	if (expression.kind === ts.SyntaxKind.TrueKeyword) {
+		return true;
+	}
+
+	if (expression.kind === ts.SyntaxKind.FalseKeyword) {
+		return false;
 	}
 
 	if (ts.isIdentifier(expression)) {

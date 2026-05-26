@@ -45,3 +45,13 @@ Agora existe um teste rápido para conferir se todas as conversas curtas de trei
 - Conferir manualmente cada nova árvore: mais simples no começo, mas fácil de esquecer.
 - Criar uma pipeline completa de autoria: mais poderosa, mas pesada para o momento.
 - Usar este smoke estático: barato, repetível e suficiente para proteger os seeds atuais.
+
+## 2026-05-26T18:55:00.000Z
+
+### What This Module Does
+As opções de diálogo agora podem exigir uma flag de mundo ou Fama mínima com a facção do NPC. A barganha do capitão usa essa regra de Fama, mas o save e o banco continuam iguais.
+
+### Alternatives
+- Criar uma linguagem completa de requisitos: mais flexível, mas cedo demais.
+- Deixar só em testes: mais simples, mas não protegeria a UI.
+- Campos opcionais planos: suficientes para a próxima fase e fáceis de validar.

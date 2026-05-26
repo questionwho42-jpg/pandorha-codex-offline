@@ -56,6 +56,8 @@ async function runVerticalSliceSmoke(root) {
 			"SocialEncounterPanel",
 			"applySocialPressurePenaltyIntent",
 			"applySocialPressurePenalty",
+			"clockRecords = [...result.data.clocks]",
+			"gainInfamy: socialRelationsSession.gainInfamy",
 			"SpellCastPanel",
 			"InventoryReadOnlyPanel",
 			"CompendiumBrowser",
@@ -71,6 +73,7 @@ async function runVerticalSliceSmoke(root) {
 			"dialogueChoices",
 			"dialogueNodes",
 			"dialogueOptions",
+			"factionFameLevelsByNpcId",
 			"selectDialogueTreeOption",
 			"chooseDialogueOption",
 			"createSocialEncounterConsequenceFlag({",
@@ -100,6 +103,7 @@ async function runVerticalSliceSmoke(root) {
 			"O NPC aceitou a troca proposta",
 			"O NPC cedeu à pressão social",
 			"social-pressure-fame-penalty",
+			"social-pressure-infamy",
 			"Pressionar este NPC aplicou perda de 1 nível de Fama",
 		],
 		errors,
@@ -115,6 +119,8 @@ async function runVerticalSliceSmoke(root) {
 			"blockedReason",
 			"Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.",
 			"training-captain",
+			"training-captain-option-bargain",
+			"minimumFactionFame: 1",
 			"training-captain-option-threaten",
 			"minimumMentalHp: 8",
 			"Exige HP mental 8 ou maior para pressionar o capitão sem quebrar a moral da tropa.",
@@ -125,7 +131,7 @@ async function runVerticalSliceSmoke(root) {
 	await validateFileContains(
 		root,
 		"src/features/social-encounter/model/socialDialogueTreeView.ts",
-		["isAvailable", "blockedReason", "minimumMentalHp"],
+		["isAvailable", "blockedReason", "evaluateDialogueOptionAvailability"],
 		errors,
 	);
 
@@ -138,7 +144,7 @@ async function runVerticalSliceSmoke(root) {
 			"nextNode",
 			"DIALOGUE_OPTION_BLOCKED",
 			"mentalHpCurrent",
-			"minimumMentalHp",
+			"evaluateDialogueOptionAvailability",
 			"blockedReason",
 		],
 		errors,
@@ -168,7 +174,12 @@ async function runVerticalSliceSmoke(root) {
 	await validateFileContains(
 		root,
 		"src/features/save-load/model/saveLoadSchemas.ts",
-		["CURRENT_SAVE_VERSION = 4", "socialEncounters", "socialEncounterEvents"],
+		[
+			"CURRENT_SAVE_VERSION = 4",
+			"clocks",
+			"socialEncounters",
+			"socialEncounterEvents",
+		],
 		errors,
 	);
 
@@ -202,12 +213,15 @@ async function runVerticalSliceSmoke(root) {
 			"Capitão de Treino",
 			"moral da tropa",
 			"custo da escolta",
+			"Fama 1",
 			"Exige HP mental 8 ou maior para pressionar o capitão sem quebrar a moral da tropa.",
 			"Modificador do argumento: +1",
 			"Opção de diálogo escolhida: Barganhar",
 			"WorldState",
 			"Pressionar",
 			"perda de 1 nível de Fama",
+			"Infâmia",
+			"Retaliação",
 		],
 		errors,
 	);

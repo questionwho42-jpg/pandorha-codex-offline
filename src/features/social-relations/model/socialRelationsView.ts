@@ -1,3 +1,4 @@
+import type { ClockRecord } from "$lib/entities/clock";
 import type {
 	FactionRecord,
 	FactionStandingRecord,
@@ -17,6 +18,7 @@ export interface SocialRelationRowView {
 	readonly debtLabel: string;
 	readonly favorLabel: string;
 	readonly intrigueLabel: string;
+	readonly retaliationClockLabel: string | null;
 	readonly statusLabel: string;
 	readonly canInvokeTierOneFavor: boolean;
 	readonly canRedeemTierOneDebt: boolean;
@@ -31,6 +33,7 @@ export interface SocialRelationsView {
 }
 
 export interface SocialRelationsViewInput {
+	readonly clocks?: readonly ClockRecord[];
 	readonly errorMessage: string | null;
 	readonly events: readonly SocialStandingEvent[];
 	readonly factions: readonly FactionRecord[];
@@ -45,7 +48,7 @@ export function createSocialRelationsView(
 	);
 	const rows = input.factions.flatMap((faction) => {
 		const standing = standingsByFaction.get(faction.id);
-		return standing ? [createRow(faction, standing)] : [];
+		return standing ? [createRow(faction, standing, input.clocks ?? [])] : [];
 	});
 
 	return {
@@ -86,9 +89,11 @@ export function mapSocialStandingFailureToMessage(
 function createRow(
 	faction: FactionRecord,
 	standing: FactionStandingRecord,
+	clocks: readonly ClockRecord[],
 ): SocialRelationRowView {
 	const debtLimit = calculateDebtLimit(standing);
 	const nextTierOneDebt = standing.bloodDebt + 1;
+	const retaliationClock = findRetaliationClock(faction, clocks);
 
 	return {
 		factionId: faction.id,
@@ -100,11 +105,28 @@ function createRow(
 		debtLabel: `Dívida ${standing.bloodDebt}/${debtLimit}`,
 		favorLabel: `Favores ${standing.favorPoints}`,
 		intrigueLabel: `Intriga ${standing.intriguePoints}`,
+		retaliationClockLabel: retaliationClock
+			? `${retaliationClock.label} - ${retaliationClock.currentSlices}/${retaliationClock.maxSlices} fatias`
+			: null,
 		statusLabel: mapStandingStatus(standing.status),
 		canInvokeTierOneFavor:
 			standing.status === "sponsored" && nextTierOneDebt < debtLimit,
 		canRedeemTierOneDebt: standing.bloodDebt > 0,
 	};
+}
+
+function findRetaliationClock(
+	faction: FactionRecord,
+	clocks: readonly ClockRecord[],
+): ClockRecord | null {
+	return (
+		clocks.find(
+			(clock) =>
+				clock.source === "social-pressure" &&
+				clock.status === "active" &&
+				clock.id.startsWith(`retaliation-${faction.id}-`),
+		) ?? null
+	);
 }
 
 function calculateDebtLimit(standing: FactionStandingRecord): number {

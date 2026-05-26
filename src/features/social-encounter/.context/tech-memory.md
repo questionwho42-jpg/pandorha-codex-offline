@@ -116,3 +116,15 @@ T65 did not require SocialEncounter runtime changes. The risk was future drift b
 ### Patterns And Decisions
 - Treat missing or malformed seed data as a QA contract failure before Browser validation.
 - Keep Browser Use reserved for visible `.svelte` behavior, not static catalog structure.
+
+## 2026-05-26T18:55:00.000Z
+
+### Error Log
+T67/T68 would have duplicated availability checks between view and traversal. The fix was to extract `evaluateDialogueOptionAvailability` so disabled UI options and service-level rejection share the same precedence.
+
+### Technical Summary
+Dialogue availability now checks HP mental, then WorldState, then Fama. `SocialEncounterPanel` receives a per-NPC Fame map from `App.svelte`, passes WorldState and Fame into view/traversal, and stays isolated from `social-standing`. T69 adds `social-pressure-infamy` flags when `Pressionar` happens at Fama 0. T70 keeps retaliation clock creation in app orchestration and exposes the result through relations.
+
+### Patterns And Decisions
+- Keep option availability pure and reusable across UI and traversal.
+- Keep social-standing and clock mutations in `app/model`, not inside the social-encounter feature.

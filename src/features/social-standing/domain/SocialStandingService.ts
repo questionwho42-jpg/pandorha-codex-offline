@@ -5,6 +5,7 @@ import {
 	socialDebtLimitInputSchema,
 	socialFameGainInputSchema,
 	socialFameLossInputSchema,
+	socialInfamyGainInputSchema,
 	socialStandingActionInputSchema,
 } from "../model/socialStandingSchemas";
 import type {
@@ -16,6 +17,7 @@ import type {
 const BLOOD_DEBT_PER_FAME_LEVEL = 3;
 const MAX_FAME_LEVEL = 5;
 const MIN_FAME_LEVEL = 0;
+const MAX_INFAMY_LEVEL = 5;
 
 /**
  * @description Applies party-level social standing operations without persistence, UI, dialogue, or prestige checks.
@@ -203,6 +205,41 @@ export class SocialStandingService {
 			event: {
 				type: "faction-fame-lost",
 				message: `Fama com a facção caiu para ${standing.fameLevel}. Limite de Dívida ${debtLimit}.`,
+			},
+		});
+	}
+
+	public async gainInfamy(
+		input: unknown,
+	): Promise<Result<SocialStandingChangeResult, SocialStandingFailure>> {
+		const parsed = socialInfamyGainInputSchema.safeParse(input);
+		if (!parsed.success) {
+			return fail(invalidInput(parsed.error.issues));
+		}
+
+		const factionCheck = await this.ensureFactionExists(
+			parsed.data.standing.factionId,
+		);
+		if (!factionCheck.success) {
+			return fail(factionCheck.error);
+		}
+
+		const infamyLevel = Math.min(
+			MAX_INFAMY_LEVEL,
+			parsed.data.standing.infamyLevel + parsed.data.levels,
+		);
+		const debtLimit = calculateDebtLimitForFame(parsed.data.standing.fameLevel);
+		const standing = {
+			...parsed.data.standing,
+			infamyLevel,
+		};
+
+		return ok({
+			standing,
+			debtLimit,
+			event: {
+				type: "faction-infamy-gained",
+				message: `Infâmia com a facção aumentou para ${standing.infamyLevel}.`,
 			},
 		});
 	}

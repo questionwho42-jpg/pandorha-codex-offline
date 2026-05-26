@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260526-183035-t66-t70-social-roadmap-implementation -->
+### T66-T70 Social Roadmap Implementation
+- id: 20260526-183035-t66-t70-social-roadmap-implementation
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-26T18:30:35-03:00
+- finished_at: 2026-05-26T20:32:55-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-26T20:32:55-03:00
+- branch: task/t66-t70-social-roadmap
+- commit_at_start: 4e60a42 chore(process): record t65 post-commit snapshot
+- summary: Implementar readiness local, requisitos de dialogo por WorldState/Fama, Infamia por pressao e clocks de retaliacao sem migration, RPC novo ou save v5.
+- last_change: T66-T70 implementadas e validadas: readiness gate, requisitos de dialogo por WorldState/Fama, Infamia por pressao, clocks de retaliacao, encounterId unico, docs, memoria tripla, smokes e Browser save/load.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-26T18:30:35-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-26T19:01:34-03:00
+- Done: Implementados T66-T70 no working tree: qa:next-phase-readiness, requisitos de dialogo por WorldState/Fama, Infamia por pressao, clocks de retaliacao, docs, memoria tripla e smokes estaticos.
+- Next: Fechar validacao pesada fora do bloqueio de sandbox, executar Browser do Codex se ambiente permitir, revisar diff e commitar quando solicitado.
+- Risks: npm.cmd test, test:coverage, build, arch guard MCP e Browser real ficaram bloqueados por acesso do sandbox/limite de aprovacao; output permanece nao rastreado.
+- Improvements: Executar gates pesados e qa:next-phase-readiness apos commit limpo; considerar separar T66-T70 em commits atomicos se a revisao pedir.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-26T20:32:55-03:00
+- Done: T66-T70 implementadas e validadas: readiness gate, requisitos de dialogo por WorldState/Fama, Infamia por pressao, clocks de retaliacao, encounterId unico, docs, memoria tripla, smokes e Browser save/load.
+- Next: Revisar diff e commitar quando solicitado; apos commit limpo rodar npm.cmd run qa:next-phase-readiness.
+- Risks: output permanece evidencia local fora do Git; build mantem aviso antigo de chunk acima de 500 kB.
+- Improvements: Considerar teste browser automatizado real para o fluxo Pressionar -> Infamia -> Retaliacao -> save/load.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260526-183035-t66-t70-social-roadmap-implementation -->
 <!-- pandorha-task:T65 -->
 ### Social Dialogue Seed Pipeline V1
 - id: T65
@@ -3324,6 +3363,57 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-26T19:12:14-03:00 - post-commit
+- branch: task/t66-t70-social-roadmap
+- commit: 4e60a42 chore(process): record t65 post-commit snapshot
+- changed_files_count: 55
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/social-encounter.md
+- docs/user/social-relations.md
+- package.json
+- scripts/dialogue_seed_smoke.mjs
+- scripts/run_full_quality_gate.mjs
+- scripts/social_browser_smoke.mjs
+- scripts/test_dialogue_seed_smoke.mjs
+- scripts/test_social_browser_smoke.mjs
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/App.svelte
+- src/app/model/socialPressurePenaltySession.spec.ts
+- src/app/model/socialPressurePenaltySession.ts
+- src/app/model/socialRelationsSession.spec.ts
+- src/app/model/socialRelationsSession.ts
+- src/entities/clock/.context/plain-english.md
+- src/entities/clock/.context/scaling-roadmap.md
+- src/entities/clock/.context/tech-memory.md
+- src/entities/dialogue-tree/.context/plain-english.md
+- src/entities/dialogue-tree/.context/scaling-roadmap.md
+- src/entities/dialogue-tree/.context/tech-memory.md
+- src/entities/dialogue-tree/__tests__/DialogueTreeCatalogService.spec.ts
+- src/entities/dialogue-tree/model/dialogueTreeCatalog.ts
+- src/entities/dialogue-tree/model/dialogueTreeSchema.ts
+- src/features/social-encounter/.context/plain-english.md
+- src/features/social-encounter/.context/scaling-roadmap.md
+- src/features/social-encounter/.context/tech-memory.md
+- src/features/social-encounter/__tests__/DialogueTraversalService.spec.ts
+- src/features/social-encounter/__tests__/socialDialogueTreeView.spec.ts
+- src/features/social-encounter/__tests__/socialEncounterConsequences.spec.ts
+- src/features/social-encounter/domain/DialogueTraversalService.ts
+- src/features/social-encounter/model/dialogueTraversalSchemas.ts
+- src/features/social-encounter/model/socialDialogueTreeView.ts
+- src/features/social-encounter/model/socialEncounterConsequences.ts
+- src/features/social-encounter/ui/SocialEncounterPanel.svelte
+- src/features/social-relations/.context/plain-english.md
+- src/features/social-relations/.context/scaling-roadmap.md
+- ... 15 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-26T15:34:28-03:00 - post-commit
 - branch: task/social-dialogue-seed-pipeline
 - commit: a8a2a4d test(dialogue): add seed contract smoke

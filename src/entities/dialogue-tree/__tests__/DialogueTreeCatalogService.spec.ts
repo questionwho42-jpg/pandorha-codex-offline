@@ -9,6 +9,7 @@ import type {
 	DialogueNodeRecord,
 	DialogueOptionRecord,
 } from "../model/dialogueTreeSchema";
+import { dialogueOptionSelectSchema } from "../model/dialogueTreeSchema";
 import { InMemoryDialogueTreeCatalogRepository } from "../testing/InMemoryDialogueTreeCatalogRepository";
 
 describe("DialogueTreeCatalogService", () => {
@@ -104,6 +105,9 @@ describe("DialogueTreeCatalogService", () => {
 			expect.objectContaining({
 				id: "training-captain-option-bargain",
 				choiceId: "bargain",
+				minimumFactionFame: 1,
+				factionFameBlockedReason:
+					"Exige Fama 1 com a facção do capitão para negociar custo de escolta.",
 			}),
 			expect.objectContaining({
 				id: "training-captain-option-threaten",
@@ -196,6 +200,29 @@ describe("DialogueTreeCatalogService", () => {
 			blockedReason:
 				"Exige HP mental 6 ou maior para sustentar a pressão social.",
 		});
+	});
+
+	it("validates optional WorldState and Fame dialogue requirements", () => {
+		const validWorldStateRequirement = dialogueOptionSelectSchema.safeParse({
+			...DIALOGUE_OPTION_CATALOG[0],
+			requiredWorldStateKey: "npc:training-broker:trusted",
+			requiredWorldStateValue: true,
+			worldStateBlockedReason: "Exige confiança registrada com este NPC.",
+		});
+		const invalidWorldStateNamespace = dialogueOptionSelectSchema.safeParse({
+			...DIALOGUE_OPTION_CATALOG[0],
+			requiredWorldStateKey: "system:training-broker:trusted",
+			requiredWorldStateValue: true,
+			worldStateBlockedReason: "Exige confiança registrada com este NPC.",
+		});
+		const missingFameReason = dialogueOptionSelectSchema.safeParse({
+			...DIALOGUE_OPTION_CATALOG[0],
+			minimumFactionFame: 1,
+		});
+
+		expect(validWorldStateRequirement.success).toBe(true);
+		expect(invalidWorldStateNamespace.success).toBe(false);
+		expect(missingFameReason.success).toBe(false);
 	});
 
 	it("rejects invalid ids without calling the repository", async () => {

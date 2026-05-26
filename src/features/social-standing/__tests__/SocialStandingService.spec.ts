@@ -87,6 +87,10 @@ describe("SocialStandingService", () => {
 			expectFailure(await service.gainFame({ standing: buildStanding() })).code,
 		).toBe("INVALID_SOCIAL_STANDING_INPUT");
 		expect(
+			expectFailure(await service.gainInfamy({ standing: buildStanding() }))
+				.code,
+		).toBe("INVALID_SOCIAL_STANDING_INPUT");
+		expect(
 			expectFailure(await service.loseFame(undefined)).details,
 		).toMatchObject({
 			issues: ["root: Invalid input: expected object, received undefined"],
@@ -271,6 +275,25 @@ describe("SocialStandingService", () => {
 		expect(change.debtLimit).toBe(3);
 	});
 
+	it("gains infamy and clamps at infamy level five", async () => {
+		const standing = buildStanding({ fameLevel: 0, infamyLevel: 4 });
+
+		const result = await createService().gainInfamy({
+			standing,
+			levels: 3,
+		});
+		const change = expectChangeSuccess(result);
+
+		expect(change.standing.infamyLevel).toBe(5);
+		expect(change.standing.fameLevel).toBe(0);
+		expect(change.debtLimit).toBe(0);
+		expect(change.event).toEqual({
+			type: "faction-infamy-gained",
+			message: "Infâmia com a facção aumentou para 5.",
+		});
+		expect(standing.infamyLevel).toBe(4);
+	});
+
 	it("returns typed failures when faction is missing or lookup fails", async () => {
 		const emptyRepository = new InMemoryFactionCatalogRepository({
 			factions: [],
@@ -307,6 +330,7 @@ describe("SocialStandingService", () => {
 	it("returns typed lookup failures even when repository details are absent", async () => {
 		const missingRepository = createRepository();
 		const failingRepository = createRepository();
+		const infamyMissingRepository = createRepository();
 		missingRepository.failNextFactionFind({
 			code: "FACTION_NOT_FOUND",
 			message: "Injected missing faction.",
@@ -314,6 +338,10 @@ describe("SocialStandingService", () => {
 		failingRepository.failNextFactionFind({
 			code: "FACTION_REPOSITORY_READ_FAILED",
 			message: "Injected faction lookup failure.",
+		});
+		infamyMissingRepository.failNextFactionFind({
+			code: "FACTION_NOT_FOUND",
+			message: "Injected missing faction.",
 		});
 
 		expect(
@@ -337,6 +365,17 @@ describe("SocialStandingService", () => {
 		).toEqual({
 			code: "FACTION_LOOKUP_FAILED",
 			message: "Faction lookup failed before social standing operation.",
+		});
+		expect(
+			expectFailure(
+				await new SocialStandingService(infamyMissingRepository).gainInfamy({
+					standing: buildStanding(),
+					levels: 1,
+				}),
+			),
+		).toEqual({
+			code: "FACTION_NOT_FOUND",
+			message: "Faction was not found for social standing operation.",
 		});
 	});
 });

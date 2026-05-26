@@ -7,3 +7,4 @@
 - All fallible operations return `Result`; the initial fake repository is the only adapter in T34A.
 - T34B adds `DrizzleClockRepository` with upsert semantics so the same repository call persists both newly created clocks and later progress updates.
 - `clocks` is now part of the versioned SQLite migration chain via `0002_true_cable`.
+- T70 reuses existing clock records for social retaliation. App orchestration creates `retaliation-<factionId>-<encounterId>` clocks with source `social-pressure`, max 4 slices, and no automatic advancement.

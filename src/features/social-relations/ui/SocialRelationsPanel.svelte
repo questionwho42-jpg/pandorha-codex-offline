@@ -1,4 +1,5 @@
 <script lang="ts">
+import type { ClockRecord } from "$lib/entities/clock";
 import type {
 	FactionRecord,
 	FactionStandingRecord,
@@ -14,6 +15,7 @@ import {
 } from "../model/socialRelationsView";
 
 type Props = {
+	readonly clocks: readonly ClockRecord[];
 	readonly factions: readonly FactionRecord[];
 	readonly invokeTierOneFavor: (
 		standing: FactionStandingRecord,
@@ -28,6 +30,7 @@ type Props = {
 };
 
 let {
+	clocks,
 	factions,
 	invokeTierOneFavor,
 	onStandingsChange,
@@ -59,6 +62,7 @@ let view = $derived(
 	createSocialRelationsView({
 		errorMessage,
 		events,
+		clocks,
 		factions,
 		standings: localStandings,
 	}),
@@ -112,6 +116,7 @@ function createHydrationKey(
 			standing.factionId,
 			standing.fameLevel,
 			standing.bloodDebt,
+			standing.infamyLevel,
 			standing.intriguePoints,
 			standing.status,
 		]),
@@ -203,6 +208,11 @@ function replaceStanding(
 								Abater dívida Tier 1
 							</button>
 						</div>
+						{#if row.retaliationClockLabel}
+							<p class="mt-4 border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-ether" data-testid="social-retaliation-clock">
+								{row.retaliationClockLabel}
+							</p>
+						{/if}
 					</article>
 				{/each}
 			</div>

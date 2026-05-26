@@ -89,6 +89,7 @@ export function createSocialEncounterSession(): SocialEncounterSession {
 	const service = new SocialEncounterService(
 		new InMemoryNpcCatalogRepository(),
 	);
+	let nextEncounterSequence = 1;
 	const dialogueTreeService = new DialogueTreeCatalogService(
 		new InMemoryDialogueTreeCatalogRepository(),
 	);
@@ -110,13 +111,14 @@ export function createSocialEncounterSession(): SocialEncounterSession {
 		service,
 		createAppealInput,
 		createAppealResolutionInput,
-		createStartInput,
+		createStartInput: (npcId, actorId) =>
+			createStartInput(npcId, actorId, nextEncounterSequence++),
 	};
 }
 
-function createStartInput(npcId: string, actorId: string) {
+function createStartInput(npcId: string, actorId: string, sequence: number) {
 	return {
-		id: "social-encounter-primary",
+		id: `social-encounter-${npcId}-${actorId}-${sequence}`,
 		actorId,
 		npcId,
 		requestComplexity: REQUEST_COMPLEXITY,

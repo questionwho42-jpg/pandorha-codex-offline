@@ -14,6 +14,10 @@ describe("createSocialEncounterSession", () => {
 			"training-broker",
 			character.id,
 		);
+		const nextStartInput = session.createStartInput(
+			"training-broker",
+			character.id,
+		);
 		const bargain = session.dialogueChoices.find(
 			(choice) => choice.id === "bargain",
 		);
@@ -61,12 +65,15 @@ describe("createSocialEncounterSession", () => {
 			"training-broker-option-bargain",
 		);
 		expect(startInput).toEqual({
-			id: "social-encounter-primary",
+			id: "social-encounter-training-broker-character-lia-1",
 			actorId: "character-lia",
 			npcId: "training-broker",
 			requestComplexity: 2,
 			createdAt: "2026-05-20T14:00:00.000Z",
 		});
+		expect(nextStartInput.id).toBe(
+			"social-encounter-training-broker-character-lia-2",
+		);
 		expect(appealResolutionInput).toEqual({
 			reason: "Apelo social de Lia com Barganhar contra training-broker",
 			level: 1,

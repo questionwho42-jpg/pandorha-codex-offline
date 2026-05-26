@@ -41,3 +41,12 @@ T65 turns the seed shape into a quality gate. Future official-adjacent NPC trees
 ### Follow-Up
 - Keep the seed smoke focused on catalog invariants, not authored AST/i18n generation.
 - Add flag/fame requirement validation only when the runtime view supports those requirements explicitly.
+
+## 2026-05-26T18:55:00.000Z
+
+### Scaling Notes
+T67/T68 add the first non-HP requirement metadata. Keep the flat fields until a second real content need proves that nested AND/OR requirement trees are worth the complexity.
+
+### Follow-Up
+- Extend `qa:dialogue-seeds` before adding new requirement kinds.
+- Keep catalog requirements optional so old records and tests stay compatible.

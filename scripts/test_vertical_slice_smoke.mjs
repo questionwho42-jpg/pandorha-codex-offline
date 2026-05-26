@@ -246,6 +246,8 @@ SocialRelationsPanel;
 SocialEncounterPanel;
 applySocialPressurePenaltyIntent;
 applySocialPressurePenalty;
+clockRecords = [...result.data.clocks];
+gainInfamy: socialRelationsSession.gainInfamy;
 SpellCastPanel;
 InventoryReadOnlyPanel;
 CompendiumBrowser;
@@ -260,6 +262,7 @@ function renderSocialEncounterPanel() {
 export let dialogueChoices = [];
 export let dialogueNodes = [];
 export let dialogueOptions = [];
+export let factionFameLevelsByNpcId = {};
 export let selectDialogueTreeOption = () => undefined;
 function chooseDialogueOption() {}
 function createSocialEncounterConsequenceFlag() {}
@@ -292,6 +295,7 @@ const dialogueChoiceLabel = "Barganhar";
 const summary = "O NPC aceitou a troca proposta e esta consequência foi registrada no estado do mundo.";
 const pressure = "O NPC cedeu à pressão social e esta consequência foi registrada no estado do mundo.";
 const kind = "social-pressure-fame-penalty";
+const infamy = "social-pressure-infamy";
 const penalty = "Pressionar este NPC aplicou perda de 1 nível de Fama";
 function findLatestSelectedDialogueOption() {}
 `;
@@ -306,6 +310,12 @@ export const DIALOGUE_OPTION_CATALOG = [
     choiceId: "threaten",
     minimumMentalHp: 7,
     blockedReason: "Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.",
+  },
+  {
+    id: "training-captain-option-bargain",
+    nodeId: "training-captain-opening",
+    choiceId: "bargain",
+    minimumFactionFame: 1,
   },
   {
     id: "training-captain-option-threaten",
@@ -325,7 +335,7 @@ const message = "Opção de diálogo escolhida: Barganhar.";
 const nextNode = "training-broker-bargain-response";
 const failureCode = "DIALOGUE_OPTION_BLOCKED";
 const mentalHpCurrent = 6;
-const minimumMentalHp = 7;
+const availability = evaluateDialogueOptionAvailability();
 const blockedReason = "Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.";
 `;
 }
@@ -335,8 +345,8 @@ function renderSocialDialogueTreeView() {
 const option = {
   isAvailable: false,
   blockedReason: "Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.",
-  minimumMentalHp: 7,
 };
+evaluateDialogueOptionAvailability(option);
 `;
 }
 
@@ -363,6 +373,7 @@ function renderSaveSchemas() {
 	return `
 export const CURRENT_SAVE_VERSION = 4;
 const save = {
+  clocks: [],
   socialEncounters: [],
   socialEncounterEvents: [],
 };
@@ -382,6 +393,7 @@ Escolha o campo Argumento, selecione Barganhar e confirme Modificador do argumen
 Leia Fala do NPC, escolha Barganhar, confirme a troca proposta e o log Opção de diálogo escolhida: Barganhar.
 Selecione Informante de Treino, confirme HP mental 6/6 e a opção bloqueada: Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.
 Selecione Capitão de Treino, confirme moral da tropa, escolha Barganhar e confirme custo da escolta. Pressionar exige: Exige HP mental 8 ou maior para pressionar o capitão sem quebrar a moral da tropa.
+Confirme Fama 1, Infâmia e Retaliação.
 Depois valide WorldState ao encerrar a negociação.
 Ao escolher Pressionar, confirme a perda de 1 nível de Fama.
 `;

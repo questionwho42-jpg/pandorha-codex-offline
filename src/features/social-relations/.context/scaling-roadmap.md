@@ -5,3 +5,5 @@
 - Add richer favor tiers only after Tier 1 is validated in browser and save/load.
 - Consider a dedicated faction-history ledger once relation changes become more than a single current standing snapshot.
 - Keep faction records static until catalog versioning is designed.
+- After T70, support multiple clocks per faction only when the UI has a compact list pattern.
+- Keep clock advancement outside this UI until faction-retaliation rules are defined.

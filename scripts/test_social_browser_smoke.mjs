@@ -50,6 +50,7 @@ test("social browser smoke fails when the guide drops the save/load restoration 
 # Negociacao Social
 
 Escolha Barganhar, clique em Fazer apelo e confirme WorldState.
+Confirme Infâmia e Retaliação.
 `,
 		},
 	});
@@ -98,6 +99,8 @@ async function createFixtureRoot({
 			renderSocialEncounterPanel(),
 		"src/features/social-encounter/model/socialEncounterConsequences.ts":
 			renderSocialEncounterConsequences(),
+		"src/features/social-relations/ui/SocialRelationsPanel.svelte":
+			renderSocialRelationsPanel(),
 		"src/features/social-encounter/__tests__/socialEncounterConsequences.spec.ts":
 			renderSocialEncounterConsequencesSpec(),
 		"src/features/save-load/model/saveLoadSchemas.ts": renderSaveSchemas(),
@@ -119,10 +122,18 @@ async function createFixtureRoot({
 function renderApp() {
 	return `
 <SaveLoadControls onLoad={loadSession} onSave={saveSession} />
-<SocialEncounterPanel onSocialPressurePenalty={applySocialPressurePenalty} />
+<SocialRelationsPanel clocks={clockRecords} />
+<SocialEncounterPanel
+  factionFameLevelsByNpcId={factionFameLevelsByNpcId}
+  onSocialPressurePenalty={applySocialPressurePenalty}
+/>
 import { applySocialPressurePenaltyIntent } from "./model/socialPressurePenaltySession";
-const input = { loseFame: socialRelationsSession.loseFame };
+const input = {
+  gainInfamy: socialRelationsSession.gainInfamy,
+  loseFame: socialRelationsSession.loseFame,
+};
 async function applySocialPressurePenalty() {}
+clockRecords = [...result.data.clocks];
 const snapshot = {
   worldState: worldStateRecords,
   socialEncounters: socialEncounterRecords,
@@ -141,6 +152,7 @@ function renderSocialEncounterPanel() {
 <button data-testid="social-dialogue-option">Barganhar</button>
 <button data-testid="social-resolve-appeal">Fazer apelo</button>
 <div data-testid="social-worldstate-consequence"></div>
+const fame = factionFameLevelsByNpcId;
 createSocialEncounterConsequenceFlag({
   dialogueOptions,
 });
@@ -160,6 +172,8 @@ const dialogueChoiceLabel = "Barganhar";
 function findLatestSelectedDialogueOption() {}
 const summary = "O NPC aceitou a troca proposta";
 const kind = "social-pressure-fame-penalty";
+const infamy = "social-pressure-infamy";
+function createSocialPressureInfamyFlag() {}
 const pressure = "Pressionar este NPC aplicou perda de 1 nível de Fama";
 `;
 }
@@ -176,10 +190,17 @@ createSocialEncounterConsequenceView();
 `;
 }
 
+function renderSocialRelationsPanel() {
+	return `
+const clocks = [];
+<p data-testid="social-retaliation-clock">Retaliação: Liga Mercante de Treino - 0/4 fatias</p>
+`;
+}
+
 function renderSaveSchemas() {
 	return `
 export const CURRENT_SAVE_VERSION = 4;
-const fields = ["socialEncounters", "socialEncounterEvents"];
+const fields = ["clocks", "socialEncounters", "socialEncounterEvents"];
 `;
 }
 
@@ -189,6 +210,8 @@ Corretora de Treino
 Barganhar
 Fazer apelo
 WorldState
+Infâmia
+Retaliação
 Salvar sessao
 recarregue
 Carregar save
@@ -201,6 +224,8 @@ function renderSocialEncounterGuide() {
 Barganhar
 Fazer apelo
 WorldState
+Infâmia
+Retaliação
 Salvar sessao
 recarregue
 Carregar save

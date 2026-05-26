@@ -34,6 +34,7 @@ export interface SocialStandingEvent {
 		| "faction-favor-invoked"
 		| "faction-debt-redeemed"
 		| "faction-fame-gained"
-		| "faction-fame-lost";
+		| "faction-fame-lost"
+		| "faction-infamy-gained";
 	readonly message: string;
 }
