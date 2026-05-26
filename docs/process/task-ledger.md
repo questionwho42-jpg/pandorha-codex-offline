@@ -8,21 +8,170 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## In Progress
 <!-- pandorha-ledger:in-progress -->
+
+<!-- /pandorha-ledger:in-progress -->
+
+## Completed
+<!-- pandorha-ledger:completed -->
+<!-- pandorha-task:fase-23-integracao-final-loop-gameplay -->
+### Integracao Final do Loop de Gameplay
+- id: fase-23-integracao-final-loop-gameplay
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-26T19:10:16-03:00
+- finished_at: 2026-05-26T19:10:23-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-26T19:10:23-03:00
+- branch: task/gameplay-loop-integration
+- commit_at_start: 6372584 feat: implement and validate factions and companions features (Fases 21 and 22) - 2026-05-24T06:08
+- summary: Integracao final do loop de gameplay ligando Hexcrawl e Dialogos no App.svelte
+- last_change: Concluida a fiacao reativa do DialoguePanel e a interceptacao de movimento de Hexcrawl no App.svelte
+#### Files At Start
+- AGENTS.md
+- docs/process/task-ledger.md
+- drizzle/meta/0007_snapshot.json
+- drizzle/meta/0008_snapshot.json
+- drizzle/meta/0009_snapshot.json
+- drizzle/meta/0010_snapshot.json
+- drizzle/meta/0011_snapshot.json
+- drizzle/meta/0012_snapshot.json
+- drizzle/meta/_journal.json
+- llms.txt
+- pandorha-sistema-28-04-backup/App.svelte
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/styles.css
+- src/entities/bastion/__tests__/BastionService.spec.ts
+- src/entities/bastion/infrastructure/DrizzleBastionRepository.ts
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/CharacterService.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/companions/__tests__/CompanionService.spec.ts
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/equipment/__tests__/InventoryService.spec.ts
+- src/entities/social/__tests__/FactionService.spec.ts
+- src/entities/social/infrastructure/DrizzleFactionRepository.ts
+- src/entities/synergy/__tests__/SynergyService.spec.ts
+- src/entities/traps/__tests__/TrapService.spec.ts
+- src/entities/world-tile/__tests__/EncounterService.spec.ts
+- src/entities/world-tile/domain/EncounterService.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/BastionStructureCard.svelte
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/character-list/__tests__/characterListView.spec.ts
+- ... 53 more
+#### Checkpoints
+#### Checkpoint 2026-05-26T19:10:16-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-26T19:10:23-03:00
+- Done: Concluida a fiacao reativa do DialoguePanel e a interceptacao de movimento de Hexcrawl no App.svelte
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:fase-23-integracao-final-loop-gameplay -->
+<!-- pandorha-task:fases-15-e-16-estabilizacao-combate-dialogos -->
+### Estabilizacao de Combate e Sistema de Dialogos
+- id: fases-15-e-16-estabilizacao-combate-dialogos
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-26T18:58:04-03:00
+- finished_at: 2026-05-26T18:58:08-03:00
+- model_started: Gemini 1.5 Pro
+- model_finished: Gemini 1.5 Pro
+- last_modified_at: 2026-05-26T18:58:08-03:00
+- branch: task/gameplay-loop-integration
+- commit_at_start: 6372584 feat: implement and validate factions and companions features (Fases 21 and 22) - 2026-05-24T06:08
+- summary: Conclusao da Fase 15 (Estabilizacao de Combate) com 100% de cobertura nos testes de combate e integracao da Fase 16 (Sistema de Dialogos)
+- last_change: Estabilizacao completa de combate com 100% de cobertura nos testes unitarios de combate e linter 100% livre de erros.
+#### Files At Start
+- AGENTS.md
+- docs/process/task-ledger.md
+- drizzle/meta/0007_snapshot.json
+- drizzle/meta/0008_snapshot.json
+- drizzle/meta/0009_snapshot.json
+- drizzle/meta/0010_snapshot.json
+- drizzle/meta/0011_snapshot.json
+- drizzle/meta/0012_snapshot.json
+- drizzle/meta/_journal.json
+- llms.txt
+- pandorha-sistema-28-04-backup/App.svelte
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/styles.css
+- src/entities/bastion/__tests__/BastionService.spec.ts
+- src/entities/bastion/infrastructure/DrizzleBastionRepository.ts
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/CharacterService.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/companions/__tests__/CompanionService.spec.ts
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/equipment/__tests__/InventoryService.spec.ts
+- src/entities/social/__tests__/FactionService.spec.ts
+- src/entities/social/infrastructure/DrizzleFactionRepository.ts
+- src/entities/synergy/__tests__/SynergyService.spec.ts
+- src/entities/traps/__tests__/TrapService.spec.ts
+- src/entities/world-tile/__tests__/EncounterService.spec.ts
+- src/entities/world-tile/domain/EncounterService.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/BastionStructureCard.svelte
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/character-list/__tests__/characterListView.spec.ts
+- ... 53 more
+#### Checkpoints
+#### Checkpoint 2026-05-26T18:58:04-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: Gemini 1.5 Pro
+
+#### Checkpoint 2026-05-26T18:58:08-03:00
+- Done: Estabilizacao completa de combate com 100% de cobertura nos testes unitarios de combate e linter 100% livre de erros.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: Gemini 1.5 Pro
+<!-- /pandorha-task:fases-15-e-16-estabilizacao-combate-dialogos -->
 <!-- pandorha-task:20260523-133802-fase-19-sinergia-de-combate-e-forja-tatica -->
 ### Fase 19: Sinergia de Combate e Forja Tatica
 - id: 20260523-133802-fase-19-sinergia-de-combate-e-forja-tatica
-- status: in-progress
+- status: completed
 - kind: feature
 - planned: yes
 - started_at: 2026-05-23T13:38:02-03:00
-- finished_at: pending
+- finished_at: 2026-05-26T12:18:34-03:00
 - model_started: gpt-5.5 high-reasoning final review; local automation zero-token
-- model_finished: pending
-- last_modified_at: 2026-05-23T13:38:02-03:00
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-26T12:18:34-03:00
 - branch: task/combat-synergy
 - commit_at_start: 6998459 feat(bastion-quest): conclui integracao do bastiao e diario de missoes
 - summary: Implementacao do modulo de Coesao, reserva compartilhada, ciclo de combo de Sinergia e persistencia RPC no SQLite
-- last_change: created task record
+- last_change: Concluida a integracao do loop de combate real no Hexcrawl, com IA tatica, regra de 0 HP (Moribundo), acoes de primeiros socorros, manobra de fuga e distribuicao de recompensas/loot persistida no banco local
 #### Files At Start
 - pandorha-sistema-28-04-backup/
 - planejamento_etapas.md
@@ -33,12 +182,14 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - Risks: unknown until implementation begins
 - Improvements: automate repeated manual steps where practical
 - Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-26T12:18:34-03:00
+- Done: Concluida a integracao do loop de combate real no Hexcrawl, com IA tatica, regra de 0 HP (Moribundo), acoes de primeiros socorros, manobra de fuga e distribuicao de recompensas/loot persistida no banco local
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
 <!-- /pandorha-task:20260523-133802-fase-19-sinergia-de-combate-e-forja-tatica -->
-
-<!-- /pandorha-ledger:in-progress -->
-
-## Completed
-<!-- pandorha-ledger:completed -->
 <!-- pandorha-task:20260523-132712-fases-17-e-18-bastiao-diario-de-missoes -->
 ### Fases 17 e 18: Bastiao & Diario de Missoes
 - id: 20260523-132712-fases-17-e-18-bastiao-diario-de-missoes

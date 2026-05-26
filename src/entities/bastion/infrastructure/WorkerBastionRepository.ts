@@ -133,6 +133,7 @@ export class WorkerBastionRepository implements BastionRepository {
 		// biome-ignore lint/suspicious/noExplicitAny: response structure contains snapshot
 		const data = res.data as any;
 		if (data?.snapshot?.bastionModules) {
+			// biome-ignore lint/suspicious/noExplicitAny: mod structure is untyped dynamic snapshot
 			const m = data.snapshot.bastionModules.find((mod: any) => mod.id === id);
 			if (m) {
 				return ok(m as BastionModuleRecord);

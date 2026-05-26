@@ -16,6 +16,7 @@ export const characters = sqliteTable("characters", {
 	classId: text("class_id").notNull(),
 	backgroundId: text("background_id").notNull(),
 	level: integer("level").notNull(),
+	experiencePoints: integer("experience_points").notNull().default(0),
 	physical: integer("physical").notNull(),
 	mental: integer("mental").notNull(),
 	social: integer("social").notNull(),
@@ -34,6 +35,7 @@ export const characterInsertSchema = createInsertSchema(characters).extend({
 	classId: notBlankText,
 	backgroundId: notBlankText,
 	level,
+	experiencePoints: z.number().int().min(0).default(0),
 	physical: aptitudeValue,
 	mental: aptitudeValue,
 	social: aptitudeValue,
@@ -52,6 +54,7 @@ export const characterSelectSchema = createSelectSchema(characters).extend({
 	classId: notBlankText,
 	backgroundId: notBlankText,
 	level,
+	experiencePoints: z.number().int().min(0),
 	physical: aptitudeValue,
 	mental: aptitudeValue,
 	social: aptitudeValue,
@@ -64,6 +67,7 @@ export const characterSelectSchema = createSelectSchema(characters).extend({
 
 export const characterCreateInputSchema = characterInsertSchema.omit({
 	id: true,
+	experiencePoints: true,
 	createdAt: true,
 	updatedAt: true,
 });

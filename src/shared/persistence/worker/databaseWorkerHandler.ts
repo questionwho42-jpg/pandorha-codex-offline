@@ -549,7 +549,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -565,7 +565,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -581,7 +581,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -616,7 +616,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -634,7 +634,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -652,7 +652,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -670,7 +670,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -686,7 +686,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -721,7 +721,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -737,7 +737,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -755,7 +755,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -826,7 +826,7 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: result.data as any,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 

@@ -520,6 +520,4 @@ async function handleReduceThreat() {
 	{/if}
 </div>
 
-<style>
-	@import "./bastion.css";
-</style>
+

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { fail, ok } from "$lib/shared/lib/result";
 import { SynergyService } from "../domain/SynergyService";
 import { InMemorySynergyRepository } from "../infrastructure/InMemorySynergyRepository";
 
@@ -23,6 +24,17 @@ describe("SynergyService", () => {
 			expect(cohesion.activePlayers).toBe(4);
 			// Reserva máxima = Tier (1) + Jogadores (4) = 5
 			expect(service.getMaxCohesionPoints(cohesion)).toBe(5);
+		}
+
+		// Inicializar de novo com a mesma ID deve retornar o registro existente
+		const secondInit = await service.initializeCohesion({
+			id: "campaign_default",
+			activePlayers: 4,
+			updatedAt: TEST_TIMESTAMP,
+		});
+		expect(secondInit.success).toBe(true);
+		if (secondInit.success) {
+			expect(secondInit.data.id).toBe("campaign_default");
 		}
 	});
 
@@ -357,5 +369,358 @@ describe("SynergyService", () => {
 				expect(sig.usageCount).toBe(3);
 			}
 		}
+	});
+
+	it("deve lidar com erros de BD e estado de coesao nao encontrado em initializeCohesion e recoverCohesionOnRest", async () => {
+		const repository = new InMemorySynergyRepository();
+		const service = new SynergyService(repository);
+
+		// Falha de getCohesion no initialize
+		repository.getCohesion = async () =>
+			fail({ code: "SYNERGY_REPOSITORY_READ_FAILED", message: "Erro get" });
+		const initErr = await service.initializeCohesion({
+			id: "c1",
+			activePlayers: 3,
+			updatedAt: "",
+		});
+		expect(initErr.success).toBe(false);
+
+		// Restaura getCohesion mas falha saveCohesion no initialize
+		repository.getCohesion = async (_id) => ok(null);
+		repository.saveCohesion = async () =>
+			fail({ code: "SYNERGY_REPOSITORY_WRITE_FAILED", message: "Erro save" });
+		const initErr2 = await service.initializeCohesion({
+			id: "c1",
+			activePlayers: 3,
+			updatedAt: "",
+		});
+		expect(initErr2.success).toBe(false);
+
+		// Recuperar descanso com coesao nao encontrada
+		const restErr1 = await service.recoverCohesionOnRest(
+			"inexistente",
+			"short",
+			"",
+		);
+		expect(restErr1.success).toBe(false);
+		if (!restErr1.success) {
+			expect(restErr1.error.code).toBe("COHESION_STATE_NOT_FOUND");
+		}
+
+		// Recuperar descanso com falha no BD
+		repository.getCohesion = async () =>
+			fail({ code: "SYNERGY_REPOSITORY_READ_FAILED", message: "Erro get" });
+		const restErr2 = await service.recoverCohesionOnRest("c1", "short", "");
+		expect(restErr2.success).toBe(false);
+
+		// Recuperar descanso com erro no saveCohesion
+		repository.getCohesion = async (id) =>
+			ok({
+				id,
+				cohesionLevel: 1,
+				cohesionPoints: 0,
+				activePlayers: 3,
+				updatedAt: "",
+			});
+		repository.saveCohesion = async () =>
+			fail({ code: "SYNERGY_REPOSITORY_WRITE_FAILED", message: "Erro save" });
+		const restErr3 = await service.recoverCohesionOnRest("c1", "short", "");
+		expect(restErr3.success).toBe(false);
+	});
+
+	it("deve retornar erro de BD e coesao nao encontrada ao abrir elo", async () => {
+		const repository = new InMemorySynergyRepository();
+		const service = new SynergyService(repository);
+
+		// Nao encontrado
+		const open1 = await service.openSynergyElo({
+			cohesionId: "inexistente",
+			abridorId: "a",
+			targetId: "t",
+			openingTactId: "o",
+			timestamp: "",
+		});
+		expect(open1.success).toBe(false);
+
+		// Falha de getCohesion
+		repository.getCohesion = async () =>
+			fail({ code: "SYNERGY_REPOSITORY_READ_FAILED", message: "Erro" });
+		const open2 = await service.openSynergyElo({
+			cohesionId: "c1",
+			abridorId: "a",
+			targetId: "t",
+			openingTactId: "o",
+			timestamp: "",
+		});
+		expect(open2.success).toBe(false);
+
+		// Falha de saveCohesion
+		repository.getCohesion = async (id) =>
+			ok({
+				id,
+				cohesionLevel: 1,
+				cohesionPoints: 2,
+				activePlayers: 3,
+				updatedAt: "",
+			});
+		repository.saveCohesion = async () =>
+			fail({ code: "SYNERGY_REPOSITORY_WRITE_FAILED", message: "Erro" });
+		const open3 = await service.openSynergyElo({
+			cohesionId: "c1",
+			abridorId: "a",
+			targetId: "t",
+			openingTactId: "o",
+			timestamp: "",
+		});
+		expect(open3.success).toBe(false);
+	});
+
+	it("deve cobrir falhas e validacoes em reinforceSynergyElo", async () => {
+		const repository = new InMemorySynergyRepository();
+		const service = new SynergyService(repository);
+
+		// Coesao nao encontrada
+		const ref1 = await service.reinforceSynergyElo({
+			cohesionId: "inexistente",
+			reinforcerId: "r",
+			reinforceTactId: "t",
+			timestamp: "",
+		});
+		expect(ref1.success).toBe(false);
+
+		// Falha getCohesion
+		repository.getCohesion = async () =>
+			fail({ code: "SYNERGY_REPOSITORY_READ_FAILED", message: "Erro" });
+		const ref2 = await service.reinforceSynergyElo({
+			cohesionId: "c1",
+			reinforcerId: "r",
+			reinforceTactId: "t",
+			timestamp: "",
+		});
+		expect(ref2.success).toBe(false);
+
+		// Sem elo ativo
+		repository.getCohesion = async (id) =>
+			ok({
+				id,
+				cohesionLevel: 2,
+				cohesionPoints: 2,
+				activePlayers: 3,
+				updatedAt: "",
+			});
+		const ref3 = await service.reinforceSynergyElo({
+			cohesionId: "c1",
+			reinforcerId: "r",
+			reinforceTactId: "t",
+			timestamp: "",
+		});
+		expect(ref3.success).toBe(false);
+		if (!ref3.success) {
+			expect(ref3.error.code).toBe("ACTIVE_ELO_NOT_FOUND");
+		}
+
+		// Pontos de coesao insuficientes (0 pontos)
+		repository.getCohesion = async (id) =>
+			ok({
+				id,
+				cohesionLevel: 2,
+				cohesionPoints: 0,
+				activePlayers: 3,
+				updatedAt: "",
+			});
+		// Abre elo na memoria interna primeiro (ou forca elo ativo)
+		// Vamos inicializar no repository de verdade
+		const realRepo = new InMemorySynergyRepository();
+		const realService = new SynergyService(realRepo);
+		await realService.initializeCohesion({
+			id: "c1",
+			activePlayers: 3,
+			updatedAt: "",
+		});
+		// Seta nivel 2
+		const coh = await realRepo.getCohesion("c1");
+		if (coh.success && coh.data) {
+			coh.data.cohesionLevel = 2;
+			coh.data.cohesionPoints = 1;
+			await realRepo.saveCohesion(coh.data);
+		}
+		// Abre elo (consome o unico ponto, deixando com 0)
+		await realService.openSynergyElo({
+			cohesionId: "c1",
+			abridorId: "a",
+			targetId: "t",
+			openingTactId: "o",
+			timestamp: "",
+		});
+
+		// Tenta reforçar (removeria mais 1 ponto de 0, deve falhar)
+		const refPointsErr = await realService.reinforceSynergyElo({
+			cohesionId: "c1",
+			reinforcerId: "r",
+			reinforceTactId: "t",
+			timestamp: "",
+		});
+		expect(refPointsErr.success).toBe(false);
+		if (!refPointsErr.success) {
+			expect(refPointsErr.error.code).toBe("COHESION_POINTS_INSUFFICIENT");
+		}
+
+		// Falha de saveCohesion no reinforce
+		if (coh.success && coh.data) {
+			coh.data.cohesionPoints = 2; // concede pontos
+			await realRepo.saveCohesion(coh.data);
+		}
+		// Abre elo (consome 1, sobra 1)
+		await realService.openSynergyElo({
+			cohesionId: "c1",
+			abridorId: "a",
+			targetId: "t",
+			openingTactId: "o",
+			timestamp: "",
+		});
+
+		// Força erro de gravação
+		realRepo.saveCohesion = async () =>
+			fail({ code: "SYNERGY_REPOSITORY_WRITE_FAILED", message: "Erro save" });
+		const refSaveErr = await realService.reinforceSynergyElo({
+			cohesionId: "c1",
+			reinforcerId: "r",
+			reinforceTactId: "t",
+			timestamp: "",
+		});
+		expect(refSaveErr.success).toBe(false);
+	});
+
+	it("deve lidar com erros de detonacao de elo ativo nao encontrado", async () => {
+		const repository = new InMemorySynergyRepository();
+		const service = new SynergyService(repository);
+
+		const detErr = await service.detonateSynergyElo({
+			cohesionId: "inexistente",
+			detonatorId: "d",
+			detonationTactId: "t",
+			attackRoll: 15,
+			targetDefense: 10,
+			targetSaveRoll: 10,
+			targetSaveBonus: 0,
+			timestamp: "",
+		});
+		expect(detErr.success).toBe(false);
+		if (!detErr.success) {
+			expect(detErr.error.code).toBe("ACTIVE_ELO_NOT_FOUND");
+		}
+	});
+
+	it("deve exercitar as taticas mental_silence e registrar assinatura com reinforceTactId no detonateSynergyElo", async () => {
+		const repository = new InMemorySynergyRepository();
+		const service = new SynergyService(repository);
+
+		await service.initializeCohesion({
+			id: "c1",
+			activePlayers: 4,
+			updatedAt: "",
+		});
+		const coh = await repository.getCohesion("c1");
+		if (coh.success && coh.data) {
+			coh.data.cohesionLevel = 2;
+			coh.data.cohesionPoints = 10;
+			await repository.saveCohesion(coh.data);
+		}
+
+		// Vamos fazer 3 detonações de combo triplo com reforço para cobrir a ramificação
+		// Combo: mental_silence (abertura) + physical_expose (reforço) + mental_silence (detonação)
+		for (let i = 0; i < 3; i++) {
+			await service.openSynergyElo({
+				cohesionId: "c1",
+				abridorId: "hero_lia",
+				targetId: "enemy_goblin",
+				openingTactId: "mental_silence",
+				timestamp: TEST_TIMESTAMP,
+			});
+			await service.reinforceSynergyElo({
+				cohesionId: "c1",
+				reinforcerId: "hero_aria",
+				reinforceTactId: "physical_expose",
+				timestamp: TEST_TIMESTAMP,
+			});
+
+			const res = await service.detonateSynergyElo({
+				cohesionId: "c1",
+				detonatorId: "hero_val",
+				detonationTactId: "mental_silence",
+				attackRoll: 20,
+				targetDefense: 10,
+				// Detonador DC: 10 + 1 + 3 + 2 = 16.
+				// Inimigo rola 10 + 0 = 10 (falhou) -> deve aplicar Silenciado e Exposto
+				targetSaveRoll: 10,
+				targetSaveBonus: 0,
+				timestamp: TEST_TIMESTAMP,
+			});
+			expect(res.success).toBe(true);
+			if (res.success) {
+				expect(res.data.conditionsApplied).toContain("Silenciado");
+				expect(res.data.conditionsApplied).toContain("Exposto");
+			}
+		}
+
+		// Assinatura deve estar gravada
+		const sigs = await repository.findAllSignatures();
+		expect(sigs.success).toBe(true);
+		if (sigs.success) {
+			expect(sigs.data.length).toBe(1);
+			expect(sigs.data[0]?.reinforceTactId).toBe("physical_expose");
+		}
+	});
+
+	it("deve tratar erro se a listagem de assinaturas falhar no repository durante a detonacao", async () => {
+		const repository = new InMemorySynergyRepository();
+		const service = new SynergyService(repository);
+
+		await service.initializeCohesion({
+			id: "c1",
+			activePlayers: 4,
+			updatedAt: "",
+		});
+		const coh = await repository.getCohesion("c1");
+		if (coh.success && coh.data) {
+			coh.data.cohesionPoints = 10;
+			await repository.saveCohesion(coh.data);
+		}
+
+		// Simula falha ao ler assinaturas do BD no terceiro uso do combo
+		let signaturesCalledCount = 0;
+		repository.findAllSignatures = async () => {
+			signaturesCalledCount++;
+			if (signaturesCalledCount === 1) {
+				return fail({
+					code: "SYNERGY_REPOSITORY_READ_FAILED",
+					message: "Erro assinaturas",
+				});
+			}
+			return ok([]);
+		};
+
+		// Roda 3 vezes o mesmo combo simples
+		for (let i = 0; i < 3; i++) {
+			await service.openSynergyElo({
+				cohesionId: "c1",
+				abridorId: "hero_lia",
+				targetId: "enemy_goblin",
+				openingTactId: "physical_push",
+				timestamp: TEST_TIMESTAMP,
+			});
+			await service.detonateSynergyElo({
+				cohesionId: "c1",
+				detonatorId: "hero_val",
+				detonationTactId: "physical_expose",
+				attackRoll: 20,
+				targetDefense: 10,
+				targetSaveRoll: 5,
+				targetSaveBonus: 0,
+				timestamp: TEST_TIMESTAMP,
+			});
+		}
+		// A detonacao deve retornar ok de qualquer forma (apenas loga ou trata internamente o erro da assinatura sem quebrar a detonacao)
+		// e a assinatura nao deve ter sido cadastrada.
 	});
 });

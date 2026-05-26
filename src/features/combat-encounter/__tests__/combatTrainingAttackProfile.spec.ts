@@ -191,6 +191,7 @@ function createCharacterRecord(
 		backgroundId: "acolyte",
 		classId: "vanguard",
 		conflict: 2,
+		experiencePoints: 0,
 		createdAt: TEST_TIMESTAMP,
 		interaction: 2,
 		level: 1,

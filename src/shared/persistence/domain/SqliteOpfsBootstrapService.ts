@@ -185,6 +185,7 @@ export class SqliteOpfsBootstrapService {
 					classId: "guerreiro",
 					backgroundId: "plebeu",
 					level: 1,
+					experiencePoints: 0,
 					physical: 1,
 					mental: 1,
 					social: 1,
@@ -209,6 +210,10 @@ export class SqliteOpfsBootstrapService {
 							typeof char.level === "number"
 								? char.level
 								: defaultCharacter.level,
+						experiencePoints:
+							typeof char.experiencePoints === "number"
+								? char.experiencePoints
+								: defaultCharacter.experiencePoints,
 						physical:
 							typeof char.physical === "number"
 								? char.physical

@@ -266,6 +266,4 @@ function getRequirements(reqJson: string): string[] {
 	</div>
 </div>
 
-<style>
-	@import "./questLog.css";
-</style>
+

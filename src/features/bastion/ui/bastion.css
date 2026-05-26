@@ -462,3 +462,89 @@ input:focus {
 		transform: translateY(0);
 	}
 }
+
+/* Estilos de Projetos de Obra e Cartões de Estrutura do Bastião */
+.active-modules-list {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+}
+
+.module-card-active {
+	background: rgba(15, 10, 30, 0.4);
+	border: 1px solid rgba(139, 92, 246, 0.2);
+	border-radius: 8px;
+	padding: 1rem;
+	transition:
+		transform 0.2s,
+		border-color 0.2s;
+}
+
+.module-card-active:hover {
+	border-color: rgba(139, 92, 246, 0.4);
+}
+
+.module-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 1rem;
+}
+
+.module-header h3 {
+	margin: 0;
+	font-size: 1.1rem;
+	color: #e2e8f0;
+}
+
+.tier-label {
+	font-size: 0.75rem;
+	color: #a78bfa;
+}
+
+.status-done {
+	color: #10b981;
+	font-weight: 700;
+	font-size: 0.75rem;
+	background: rgba(16, 185, 129, 0.1);
+	padding: 0.125rem 0.5rem;
+	border-radius: 4px;
+}
+
+.status-building {
+	color: #3b82f6;
+	font-weight: 700;
+	font-size: 0.75rem;
+	background: rgba(59, 130, 246, 0.1);
+	padding: 0.125rem 0.5rem;
+	border-radius: 4px;
+}
+
+.module-progress {
+	margin-bottom: 1rem;
+}
+
+.work-fill {
+	background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+}
+
+.work-action-row {
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 1rem;
+}
+
+.bastion-container select {
+	background: rgba(15, 10, 30, 0.8);
+	border: 1px solid rgba(139, 92, 246, 0.4);
+	color: #e2e8f0;
+	padding: 0.5rem;
+	border-radius: 6px;
+	flex-grow: 1;
+	font-size: 0.875rem;
+	outline: none;
+}
+
+.bastion-container select:focus {
+	border-color: #8b5cf6;
+}

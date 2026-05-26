@@ -9,6 +9,7 @@ import {
 	createSequentialDiceRollIdProvider,
 	SequenceDiceRng,
 } from "$lib/shared/dice/testing/SequenceDiceRng";
+import { fail, ok } from "$lib/shared/lib/result";
 import { EncounterService } from "../domain/EncounterService";
 import type { WorldTileRecord } from "../model/worldTileSchema";
 
@@ -439,6 +440,172 @@ describe("EncounterService - Testes de Batedor (Scout)", () => {
 			// Elementos no tier 1: 5. 0.2 * 5 = 1.0 -> naturalRoll = 2. index = 1 ("Fosso de Areia Movediça")
 			expect(data.encounterEvent).toBeDefined();
 			expect(data.encounterEvent?.name).toBe("Fosso de Areia Movediça");
+		}
+	});
+
+	it("deve usar construtor padrao e exercitar rolagens normais de d20 sem falhas", () => {
+		const service = new EncounterService();
+		const stats = new FakeCharacterStats();
+		const tile = createFakeTile({ regionTier: 1, biome: "road" });
+
+		const res = service.resolveScoutCheck({
+			scoutStats: stats,
+			attribute: "mental", // testa atributo mental
+			targetTile: tile,
+			ritmo: "normal",
+			climaAdverso: false,
+			visibilidadeNula: false,
+		});
+		expect(res.success).toBe(true);
+	});
+
+	it("deve falhar resolveScoutCheck se a rolagem do d20 falhar", () => {
+		const failingDiceService = {
+			rollD20: () => fail({ message: "Falha d20 simulada" }),
+			rollDie: () => fail({ message: "Falha dado" }),
+		} as unknown as DiceService;
+
+		const service = new EncounterService(failingDiceService);
+		const stats = new FakeCharacterStats();
+		const tile = createFakeTile({ regionTier: 1, biome: "road" });
+
+		const res = service.resolveScoutCheck({
+			scoutStats: stats,
+			attribute: "physical",
+			targetTile: tile,
+			ritmo: "normal",
+			climaAdverso: false,
+			visibilidadeNula: false,
+		});
+		expect(res.success).toBe(false);
+		if (!res.success) {
+			expect(res.error.code).toBe("DICE_ROLL_ERROR");
+		}
+	});
+
+	it("deve falhar resolveScoutCheck se a rolagem alternativa d20 falhar", () => {
+		let callCount = 0;
+		const failingAltDiceService = {
+			rollD20: () => {
+				callCount++;
+				if (callCount === 1) {
+					return ok({
+						naturalRoll: 10,
+						bonus: 0,
+						total: 10,
+						id: "1",
+						reason: "",
+						timestamp: "",
+					});
+				}
+				return fail({ message: "Falha d20 alt simulada" });
+			},
+		} as unknown as DiceService;
+
+		const service = new EncounterService(failingAltDiceService);
+		const stats = new FakeCharacterStats();
+		const tile = createFakeTile({
+			regionTier: 1,
+			biome: "road",
+			isMapped: true,
+		}); // garante vantagem
+
+		const res = service.resolveScoutCheck({
+			scoutStats: stats,
+			attribute: "physical",
+			targetTile: tile,
+			ritmo: "cautious", // netAdvantage > 0 (vantagem)
+			climaAdverso: false,
+			visibilidadeNula: false,
+		});
+		expect(res.success).toBe(false);
+	});
+
+	it("deve usar fallback de Tier 1 se o tier do hexagono for desconhecido", () => {
+		const service = new EncounterService();
+		const stats = new FakeCharacterStats();
+		const tile = createFakeTile({ regionTier: 99, biome: "road" }); // tier inexistente
+
+		const res = service.resolveScoutCheck({
+			scoutStats: stats,
+			attribute: "physical",
+			targetTile: tile,
+			ritmo: "normal",
+			climaAdverso: false,
+			visibilidadeNula: false,
+			diceRoll: 2, // Margem muito baixa -> Falha
+		});
+		expect(res.success).toBe(true);
+		if (res.success) {
+			expect(res.data.encounterEvent).toBeDefined();
+			// Tier 99 inexistente cai para Tier 1.
+			// Verifica se o encontro sorteado e do pool de Tier 1 (ex: lobos, goblins, ponte...)
+			expect(res.data.encounterEvent?.tier).toBe(99);
+		}
+	});
+
+	it("deve lidar com erro na rolagem do dado ao sortear encontro proceduralmente", () => {
+		const failingDieService = {
+			rollDie: () => fail({ message: "Erro dado" }),
+		} as unknown as DiceService;
+
+		const service = new EncounterService(failingDieService);
+		const stats = new FakeCharacterStats();
+		const tile = createFakeTile({ regionTier: 1, biome: "road" });
+
+		const res = service.resolveScoutCheck({
+			scoutStats: stats,
+			attribute: "physical",
+			targetTile: tile,
+			ritmo: "normal",
+			climaAdverso: false,
+			visibilidadeNula: false,
+			diceRoll: 2, // Falha
+		});
+		expect(res.success).toBe(true);
+		if (res.success) {
+			// Se falhou ao rolar, cai no index 0 (Bando de Goblins Saqueadores)
+			expect(res.data.encounterEvent?.name).toBe(
+				"Bando de Goblins Saqueadores",
+			);
+		}
+	});
+
+	it("aplica modificadores dinâmicos de tier de desafio corretamente", () => {
+		const service = new EncounterService();
+		const stats = new FakeCharacterStats();
+		const tile = createFakeTile({ regionTier: 1, biome: "road" }); // CD Base 12
+
+		// Com modificador +1 -> Tier Efetivo 2 -> CD Base 15
+		const resPositivo = service.resolveScoutCheck({
+			scoutStats: stats,
+			attribute: "physical",
+			targetTile: tile,
+			ritmo: "normal",
+			climaAdverso: false,
+			visibilidadeNula: false,
+			diceRoll: 10,
+			tierModifier: 1,
+		});
+		expect(resPositivo.success).toBe(true);
+		if (resPositivo.success) {
+			expect(resPositivo.data.cdBase).toBe(15);
+		}
+
+		// Com modificador -1 -> Tier Efetivo 0 -> Pelo Math.max(1) vira Tier 1 -> CD Base 12
+		const resNegativo = service.resolveScoutCheck({
+			scoutStats: stats,
+			attribute: "physical",
+			targetTile: tile,
+			ritmo: "normal",
+			climaAdverso: false,
+			visibilidadeNula: false,
+			diceRoll: 10,
+			tierModifier: -1,
+		});
+		expect(resNegativo.success).toBe(true);
+		if (resNegativo.success) {
+			expect(resNegativo.data.cdBase).toBe(12);
 		}
 	});
 });

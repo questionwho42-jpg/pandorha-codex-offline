@@ -154,6 +154,7 @@ export class DrizzleBastionRepository implements BastionRepository {
 				.from(bastionModules)
 				.where(eq(bastionModules.bastionId, bastionId))
 				.all();
+			// biome-ignore lint/suspicious/noExplicitAny: database row mapped dynamically
 			const mapped = rows.map((r: any) => {
 				return bastionModuleSelectSchema.parse({
 					...r,
@@ -209,6 +210,7 @@ export class DrizzleBastionRepository implements BastionRepository {
 				.where(eq(bastionModules.bastionId, bastion.id))
 				.all();
 
+			// biome-ignore lint/suspicious/noExplicitAny: database row mapped dynamically
 			const modules = mRows.map((r: any) => {
 				return bastionModuleSelectSchema.parse({
 					...r,

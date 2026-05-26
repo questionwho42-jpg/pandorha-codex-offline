@@ -504,5 +504,76 @@ describe("DialogueService", () => {
 				expect(result.error.code).toBe("SAVE_ERROR");
 			}
 		});
+
+		it("deve bloquear avanço se requiredMinEe estiver ativo mas characterStats for undefined", async () => {
+			const result = await service.advance(
+				testCharacterId,
+				testNpcId,
+				mockTree,
+				"opt-magic-meditate",
+				undefined,
+				undefined, // characterStats undefined
+			);
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.code).toBe("INSUFFICIENT_EFFORT");
+			}
+		});
+
+		it("deve processar Desafio Social sem characterStats (considerando atributo como 0)", async () => {
+			// CD é 15. Se d20 for 15, com atributo 0 (já que characterStats é undefined), totaliza 15 >= CD 15 (Sucesso)
+			const resSuccess = await service.advance(
+				testCharacterId,
+				testNpcId,
+				mockTree,
+				"opt-bargain",
+				15,
+				undefined, // characterStats undefined
+			);
+			expect(resSuccess.success).toBe(true);
+			if (resSuccess.success) {
+				expect(resSuccess.data.nextNodeId).toBe("node-bargain-success");
+			}
+
+			// Reinicia repositório e serviço para limpar o estado de progresso de root para node-bargain-success
+			repository = new InMemoryDialogueRepository();
+			service = new DialogueService(repository);
+
+			// Se d20 for 14, totaliza 14 < CD 15 (Falha)
+			const resFailure = await service.advance(
+				testCharacterId,
+				testNpcId,
+				mockTree,
+				"opt-bargain",
+				14,
+				undefined,
+			);
+			expect(resFailure.success).toBe(true);
+			if (resFailure.success) {
+				expect(resFailure.data.nextNodeId).toBe("node-bargain-failure");
+			}
+		});
+
+		it("deve falhar se a rolagem for invalida (menor que 1 ou maior que 20)", async () => {
+			const resLow = await service.advance(
+				testCharacterId,
+				testNpcId,
+				mockTree,
+				"opt-bargain",
+				0, // invalido
+				{ ee: 5, social: 3, mental: 1 },
+			);
+			expect(resLow.success).toBe(false);
+
+			const resHigh = await service.advance(
+				testCharacterId,
+				testNpcId,
+				mockTree,
+				"opt-bargain",
+				21, // invalido
+				{ ee: 5, social: 3, mental: 1 },
+			);
+			expect(resHigh.success).toBe(false);
+		});
 	});
 });

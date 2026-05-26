@@ -140,6 +140,7 @@ const inventorySession = createInventorySession();
 const spellCastSession = createSpellCastSession();
 
 let activeView = $state<AppNavigationId>("home");
+let activeDialogueTreeId = $state<string | undefined>(undefined);
 let campRations = $state(3);
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -536,6 +537,18 @@ async function handleHexcrawlMoveSuccess(biome: string, toTileId?: string) {
 		console.log(
 			`⚠️ Perigo Ambiental! ${targetChar.name} falhou no teste de Vigor (d20: ${roll} vs CD: ${dc}) e contraiu ${effectType === "eter_fever" ? "Febre de Éter" : "Veneno de Víbora"} no bioma ${biome}!`,
 		);
+	}
+
+	// Interceptar movimentação para tiles com eventos de diálogo narrativo
+	if (toTileId === "northeast-watch") {
+		activeDialogueTreeId = "tree-scribe-lore";
+		activeView = "dialogue";
+	} else if (toTileId === "southeast-ruins") {
+		activeDialogueTreeId = "tree-alchemist-secrets";
+		activeView = "dialogue";
+	} else if (toTileId === "camp-road") {
+		activeDialogueTreeId = "tree-merchant-bargain";
+		activeView = "dialogue";
 	}
 }
 
@@ -1003,6 +1016,10 @@ async function createCharacter(
 					characters={characterRecords}
 					characterClasses={characterSession.characterClasses}
 					activeStatusEffects={activeStatusEffects}
+					initialTreeId={activeDialogueTreeId}
+					onClose={() => {
+						activeView = "exploration";
+					}}
 				/>
 			{:else if activeView === "bastion"}
 				<BastionPanel

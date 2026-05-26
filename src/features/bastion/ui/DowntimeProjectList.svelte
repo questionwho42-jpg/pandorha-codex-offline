@@ -42,36 +42,4 @@ let { modules, characters, moduleCatalog, onAdvance }: Props = $props();
 	</div>
 </div>
 
-<style>
-	.panel {
-		background: rgba(30, 27, 75, 0.4);
-		backdrop-filter: blur(12px);
-		border: 1px solid rgba(139, 92, 246, 0.2);
-		border-radius: 12px;
-		padding: 1.5rem;
-		margin-bottom: 1.5rem;
-		box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-	}
 
-	h2 {
-		color: #a78bfa;
-		font-size: 1.5rem;
-		margin-top: 0;
-		margin-bottom: 1rem;
-		border-bottom: 1px solid rgba(139, 92, 246, 0.1);
-		padding-bottom: 0.5rem;
-	}
-
-	.active-modules-list {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 1rem;
-	}
-
-	.empty {
-		color: #94a3b8;
-		font-style: italic;
-		text-align: center;
-		padding: 1.5rem;
-	}
-</style>

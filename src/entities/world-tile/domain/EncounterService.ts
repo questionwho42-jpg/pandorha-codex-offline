@@ -208,6 +208,7 @@ export class EncounterService {
 		readonly diceRoll?: number;
 		readonly diceRollAlt?: number;
 		readonly encounterIndex?: number;
+		readonly tierModifier?: number;
 	}): Result<ScoutCheckResult, EncounterFailure> {
 		const attributeValue =
 			params.attribute === "physical"
@@ -216,7 +217,11 @@ export class EncounterService {
 
 		// 1. Calcular CD Base e Modificadores
 		// CD = 9 + (Tier * 3)
-		const cdBase = 9 + params.targetTile.regionTier * 3;
+		const effectiveTier = Math.max(
+			1,
+			params.targetTile.regionTier + (params.tierModifier ?? 0),
+		);
+		const cdBase = 9 + effectiveTier * 3;
 
 		// Terreno dificultoso: biomas forest, marsh ou ridge são considerados difíceis.
 		// O bioma road anula terrenos difíceis.
@@ -308,7 +313,7 @@ export class EncounterService {
 		let encounterEvent: EncounterEvent | undefined;
 		if (outcome === "failure" || outcome === "critical_failure") {
 			encounterEvent = this.generateEncounter({
-				tier: params.targetTile.regionTier,
+				tier: effectiveTier,
 				isCriticalFailure: outcome === "critical_failure",
 				encounterIndex: params.encounterIndex,
 			});
@@ -319,7 +324,7 @@ export class EncounterService {
 				name: "Efeito do Sucesso Crítico",
 				description:
 					"O Batedor detectou qualquer ameaça antecipadamente. O grupo pode contorná-la ou emboscar os inimigos com um turno de surpresa.",
-				tier: params.targetTile.regionTier,
+				tier: effectiveTier,
 				isSurpriseForParty: false,
 				isSurpriseForEnemies: true,
 			};
@@ -351,17 +356,7 @@ export class EncounterService {
 		readonly isCriticalFailure: boolean;
 		readonly encounterIndex?: number | undefined;
 	}): EncounterEvent {
-		const list = TIER_ENCOUNTERS[params.tier] ?? TIER_ENCOUNTERS[1];
-		if (!list || list.length === 0) {
-			return {
-				type: "hazard",
-				name: "Perigo Indefinido",
-				description: "O ambiente se comporta de forma imprevisível.",
-				tier: params.tier,
-				isSurpriseForParty: params.isCriticalFailure,
-				isSurpriseForEnemies: false,
-			};
-		}
+		const list = TIER_ENCOUNTERS[params.tier] ?? TIER_ENCOUNTERS[1]!;
 
 		let index: number;
 		if (params.encounterIndex !== undefined) {
@@ -378,17 +373,7 @@ export class EncounterService {
 			}
 		}
 
-		const encounter = list[index] ?? list[0];
-		if (!encounter) {
-			return {
-				type: "hazard",
-				name: "Perigo Indefinido",
-				description: "O ambiente se comporta de forma imprevisível.",
-				tier: params.tier,
-				isSurpriseForParty: params.isCriticalFailure,
-				isSurpriseForEnemies: false,
-			};
-		}
+		const encounter = list[index]!;
 
 		return {
 			type: encounter.type,

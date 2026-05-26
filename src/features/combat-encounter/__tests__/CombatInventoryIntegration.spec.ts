@@ -60,6 +60,7 @@ describe("Combat Inventory & Damage Decorators Integration", () => {
 			backgroundId: "soldier",
 			classId: "vanguard",
 			conflict: 2,
+			experiencePoints: 0,
 			createdAt: "2026-05-17T00:00:00Z",
 			interaction: 2,
 			level: 1,

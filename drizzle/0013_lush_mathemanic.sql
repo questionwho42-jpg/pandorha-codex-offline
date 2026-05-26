@@ -1,0 +1,1 @@
+ALTER TABLE `characters` ADD `experience_points` integer DEFAULT 0 NOT NULL;

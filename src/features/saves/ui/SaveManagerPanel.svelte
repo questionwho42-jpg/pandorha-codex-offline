@@ -122,9 +122,9 @@ async function handleImport(event: Event) {
 
 	{#if statusMessage}
 		<div class="p-4 rounded border text-sm leading-relaxed transition-all duration-300
-			{statusType === 'success' ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-300' : ''}
-			{statusType === 'error' ? 'bg-red-950/40 border-red-500/50 text-red-300' : ''}
-			{statusType === 'info' ? 'bg-sky-950/40 border-sky-500/50 text-sky-300 animate-pulse' : ''}"
+			{statusType === 'success' ? 'bg-emerald-poison/10 border-emerald-poison/30 text-emerald-poison' : ''}
+			{statusType === 'error' ? 'bg-blood-shadow/40 border-blood/50 text-bone' : ''}
+			{statusType === 'info' ? 'bg-sky-runic/10 border-sky-runic/30 text-sky-runic animate-pulse' : ''}"
 		>
 			<div class="flex items-center gap-2 font-bold uppercase tracking-wider text-xs mb-1">
 				{#if statusType === 'success'}

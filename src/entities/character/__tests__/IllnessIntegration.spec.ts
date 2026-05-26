@@ -38,6 +38,7 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 			classId: "vanguard",
 			backgroundId: "solitary",
 			level: 2,
+			experiencePoints: 0,
 			physical: 3,
 			mental: 2,
 			social: 1,

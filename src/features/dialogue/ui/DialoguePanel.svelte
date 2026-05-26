@@ -28,6 +28,8 @@ interface Props {
 	characters: readonly CharacterRecord[];
 	characterClasses: readonly CharacterClassRecord[];
 	activeStatusEffects: readonly CharacterStatusEffectRecord[];
+	initialTreeId?: string;
+	onClose?: () => void;
 }
 
 let props: Props = $props();
@@ -39,8 +41,14 @@ const repository = new WorkerDialogueRepository();
 const service = new DialogueService(repository);
 
 let selectedCharacterId = $state("");
-let selectedTreeId = $state(DIALOGUE_TREES[0].id);
+let selectedTreeId = $state(props.initialTreeId || DIALOGUE_TREES[0].id);
 let activeState = $state<DialogueStateData | null>(null);
+
+$effect(() => {
+	if (props.initialTreeId) {
+		selectedTreeId = props.initialTreeId;
+	}
+});
 let dialogueLogs = $state<string[]>([]);
 let globalUnlockedClues = $state<string[]>([]);
 let charactersEe = $state<Record<string, number>>({});
@@ -53,7 +61,7 @@ let selectedTree = $derived(
 	DIALOGUE_TREES.find((t) => t.id === selectedTreeId) || DIALOGUE_TREES[0],
 );
 
-let _currentNode = $derived(
+let currentNode = $derived(
 	activeState
 		? selectedTree.nodes[activeState.currentConversationNodeId]
 		: null,
@@ -93,7 +101,7 @@ let activeCharacterStats = $derived.by<ICharacterStats | null>(() => {
 });
 
 const rawFormatter = new BaseDialogueLogFormatter();
-const _decoratedFormatter = new ClueHighlightDecorator(
+const decoratedFormatter = new ClueHighlightDecorator(
 	new ChallengeHighlightDecorator(new EeHighlightDecorator(rawFormatter)),
 );
 
@@ -169,7 +177,7 @@ $effect(() => {
 	}
 });
 
-async function _selectOption(optionId: string) {
+async function selectOption(optionId: string) {
 	if (!selectedCharacterId || !activeState || isRolling) return;
 
 	const node = selectedTree.nodes[activeState.currentConversationNodeId];
@@ -252,7 +260,7 @@ async function executeAdvance(optionId: string, rollVal?: number) {
 	}
 }
 
-async function _resetDialogue() {
+async function resetDialogue() {
 	if (!selectedCharacterId || !activeState) return;
 
 	const res = await repository.delete(activeState.id);
@@ -265,7 +273,7 @@ async function _resetDialogue() {
 	}
 }
 
-function _restParty() {
+function restParty() {
 	for (const c of characters) {
 		charactersEe[c.id] = 5;
 	}
@@ -337,7 +345,7 @@ function _restParty() {
 				<div class="flex items-center gap-4">
 					<div class="flex items-center gap-1.5 bg-ruin px-2.5 py-1 rounded border border-bronze/30">
 						<span class="text-[10px] text-bronze font-bold uppercase tracking-wider">Esforço (EE):</span>
-						<span class="font-mono font-bold text-emerald-400">
+						<span class="font-mono font-bold text-emerald-poison">
 							{charactersEe[selectedCharacterId] ?? 5} / 5
 						</span>
 					</div>
@@ -345,7 +353,7 @@ function _restParty() {
 					{#if activeStatusEffects.filter(e => e.characterId === selectedCharacterId).length > 0}
 						<div class="flex gap-1">
 							{#each activeStatusEffects.filter(e => e.characterId === selectedCharacterId) as eff}
-								<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-950/40 border border-rose-500/50 text-rose-300 uppercase tracking-wider">
+								<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blood-shadow border border-blood/50 text-bone uppercase tracking-wider">
 									{eff.type === 'eter_fever' ? 'Febre Éter' : eff.type === 'viper_poison' ? 'Veneno' : eff.type === 'hungry' ? 'Fome' : 'Infecção'}
 								</span>
 							{/each}
@@ -354,7 +362,7 @@ function _restParty() {
 				</div>
 			</div>
 		{:else}
-			<div class="p-3 bg-red-950/20 border border-red-500/30 rounded text-center text-xs text-red-300">
+			<div class="p-3 bg-blood-shadow/20 border border-blood/30 rounded text-center text-xs text-bone/70">
 				Nenhum herói ativo. Crie um personagem na aba "Personagens" para iniciar a conversa!
 			</div>
 		{/if}
@@ -396,18 +404,18 @@ function _restParty() {
 								<div class="flex gap-1 shrink-0">
 									{#if opt.conditions?.requiredMinEe}
 										<span class="px-1.5 py-0.5 rounded text-[8px] font-mono
-											{isEeBlocked ? 'bg-rose-950/50 text-rose-400 border border-rose-500/35' : 'bg-bronze/20 text-bronze border border-bronze/40'}">
+											{isEeBlocked ? 'bg-blood-shadow/50 text-blood border border-blood/35' : 'bg-bronze/20 text-bronze border border-bronze/40'}">
 											{opt.conditions.requiredMinEe} EE
 										</span>
 									{/if}
 									{#if opt.conditions?.requiredClues}
 										<span class="px-1.5 py-0.5 rounded text-[8px] font-mono
-											{isClueBlocked ? 'bg-rose-950/50 text-rose-400 border border-rose-500/35' : 'bg-sky-950/50 text-sky-300 border border-sky-500/30'}">
+											{isClueBlocked ? 'bg-blood-shadow/50 text-blood border border-blood/35' : 'bg-sky-runic/10 text-sky-runic border border-sky-runic/30'}">
 											Requer Pista
 										</span>
 									{/if}
 									{#if opt.socialChallenge}
-										<span class="px-1.5 py-0.5 rounded text-[8px] font-mono bg-purple-950/50 text-purple-300 border border-purple-500/30">
+										<span class="px-1.5 py-0.5 rounded text-[8px] font-mono bg-purple-runic/10 text-purple-runic border border-purple-runic/30">
 											Teste {opt.socialChallenge.matrix.toUpperCase()} CD {opt.socialChallenge.difficultyClass}
 										</span>
 									{/if}
@@ -431,10 +439,10 @@ function _restParty() {
 
 			{#if isRolling}
 				<div class="absolute inset-0 bg-void/90 flex flex-col items-center justify-center gap-3 rounded transition-all duration-300">
-					<div class="w-16 h-16 border-2 border-purple-500 rounded-full flex items-center justify-center animate-spin bg-purple-950/40 shadow-[0_0_15px_rgba(147,51,234,0.4)]">
-						<span class="text-xl font-bold font-mono text-purple-300">{d20NaturalRoll ?? '?'}</span>
+					<div class="w-16 h-16 border-2 border-purple-runic rounded-full flex items-center justify-center animate-spin bg-purple-runic/10 shadow-[0_0_15px_rgba(192,132,252,0.4)]">
+						<span class="text-xl font-bold font-mono text-purple-runic">{d20NaturalRoll ?? '?'}</span>
 					</div>
-					<p class="text-xs text-purple-300 font-bold uppercase tracking-wider animate-pulse">
+					<p class="text-xs text-purple-runic font-bold uppercase tracking-wider animate-pulse">
 						Rolando d20 contra CD...
 					</p>
 				</div>
@@ -443,6 +451,15 @@ function _restParty() {
 
 		<!-- Footer de Ações Rápidas -->
 		<div class="flex gap-3 justify-end border-t border-bronze/10 pt-4 text-xs">
+			{#if props.onClose}
+				<button
+					type="button"
+					onclick={props.onClose}
+					class="bg-void border border-ether/40 hover:bg-ether/10 text-ether px-3 py-1.5 rounded transition-all font-semibold uppercase tracking-wider text-[10px]"
+				>
+					🧭 Retornar ao Mapa
+				</button>
+			{/if}
 			<button
 				type="button"
 				onclick={restParty}
@@ -453,7 +470,7 @@ function _restParty() {
 			<button
 				type="button"
 				onclick={resetDialogue}
-				class="bg-void border border-rose-950 hover:bg-rose-950/20 text-rose-400 px-3 py-1.5 rounded transition-all font-semibold uppercase tracking-wider text-[10px]"
+				class="bg-void border border-blood/50 hover:bg-blood/10 text-blood px-3 py-1.5 rounded transition-all font-semibold uppercase tracking-wider text-[10px]"
 			>
 				⟲ Rebobinar Conversa
 			</button>

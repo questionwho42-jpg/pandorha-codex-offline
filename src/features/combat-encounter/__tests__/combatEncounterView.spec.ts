@@ -313,6 +313,7 @@ function createCharacterRecord(): CharacterRecord {
 		classId: "vanguard",
 		backgroundId: "acolyte",
 		level: 1,
+		experiencePoints: 0,
 		physical: 2,
 		mental: 2,
 		social: 2,

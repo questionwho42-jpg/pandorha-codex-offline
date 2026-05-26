@@ -301,3 +301,22 @@ export class HungryDecorator extends StatusEffectDecorator {
 		return false;
 	}
 }
+
+/**
+ * 🧅 DECORADOR CONCRETO 6: Exausto (ExhaustedDecorator)
+ * Condição de exaustão física e mental temporária após fuga de combate sob estresse.
+ * Reduz: physical -1, mental -1, social -1.
+ */
+export class ExhaustedDecorator extends StatusEffectDecorator {
+	public override get physical(): number {
+		return Math.max(0, this.wrapped.physical - 1);
+	}
+
+	public override get mental(): number {
+		return Math.max(0, this.wrapped.mental - 1);
+	}
+
+	public override get social(): number {
+		return Math.max(0, this.wrapped.social - 1);
+	}
+}

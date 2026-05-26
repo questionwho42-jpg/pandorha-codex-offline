@@ -49,11 +49,17 @@ let {
 	statusEffects = [],
 	onApplyStatusEffect,
 	onClearStatusEffects,
+	// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 	companions = [],
+	// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 	onSummonCompanion,
+	// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 	onShareSensory,
+	// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 	onCompanionDamage,
+	// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 	onStabilizeMaster,
+	// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 	onUpdateCompanionTraits,
 }: Props = $props();
 
@@ -71,15 +77,22 @@ let view = $derived(
 let activeGmPanels = $state<Record<string, boolean>>({});
 
 // Estados reativos locais para criação e gerenciamento de companheiros (Fase 22)
+// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 let newCompanionName = $state<Record<string, string>>({});
+// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 let newCompanionType = $state<
 	Record<string, "aggressor" | "protector" | "scout" | "familiar">
 >({});
+// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 let newCompanionSub = $state<Record<string, string>>({});
+// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 let newCompanionTier = $state<Record<string, number>>({});
 
+// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 let companionDamageInput = $state<Record<string, number>>({});
+// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 let activeTraitEditor = $state<Record<string, boolean>>({});
+// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 let selectedTraitsTemp = $state<Record<string, string[]>>({});
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.

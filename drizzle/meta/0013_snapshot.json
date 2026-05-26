@@ -1,8 +1,8 @@
 {
 	"version": "6",
 	"dialect": "sqlite",
-	"id": "54d41dee-6ee5-428d-9c18-6716d3602b78",
-	"prevId": "1c579517-43af-4818-a200-92f2c4f87dce",
+	"id": "12c9729c-f77c-425b-9ad3-f4c1cc58a11c",
+	"prevId": "54d41dee-6ee5-428d-9c18-6716d3602b78",
 	"tables": {
 		"character_status_effects": {
 			"name": "character_status_effects",
@@ -141,6 +141,14 @@
 					"primaryKey": false,
 					"notNull": true,
 					"autoincrement": false
+				},
+				"experience_points": {
+					"name": "experience_points",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
 				},
 				"physical": {
 					"name": "physical",

@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "../features/bastion/ui/bastion.css";
+@import "../features/quests/ui/questLog.css";
 
 @theme {
 	--color-void: #1c1917;

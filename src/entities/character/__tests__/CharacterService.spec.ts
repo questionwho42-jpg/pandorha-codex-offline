@@ -286,6 +286,7 @@ class CorruptOutputCharacterRepository implements CharacterRepository {
 		return ok({
 			...CharacterBuilder.valid().buildCreateInput(),
 			id: "character-1",
+			experiencePoints: 0,
 			createdAt: TEST_TIMESTAMP,
 			updatedAt: TEST_TIMESTAMP,
 		});

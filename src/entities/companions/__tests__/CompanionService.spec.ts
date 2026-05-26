@@ -1,8 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { CharacterRecord } from "../../character/model/characterSchema";
-import { CompanionService } from "../domain/CompanionService";
+import {
+	BaseCompanionStats,
+	CompanionService,
+	CompanionStatsDecorator,
+	SensorySharingStatsDecorator,
+} from "../domain/CompanionService";
 import { InMemoryCompanionRepository } from "../infrastructure/InMemoryCompanionRepository";
+import type { CompanionRecord } from "../model/companionSchema";
 
 // Stub do repositório de personagem para os testes unitários
 class StubCharacterRepository {
@@ -33,15 +39,19 @@ class StubCharacterRepository {
 	}
 }
 
+// Decorador concreto de testes para exercitar a classe abstrata CompanionStatsDecorator
+class TestStatsDecorator extends CompanionStatsDecorator {
+	// Apenas herda e passa chamadas adiante
+}
+
 const TEST_TIMESTAMP = "2026-05-23T14:30:00.000Z";
 
 describe("CompanionService", () => {
-	it("invoca um novo familiar calculando o HP máximo a partir da Matriz Mental do mestre", async () => {
+	it("invoca um novo familiar calculando o HP maximo a partir da Matriz Mental do mestre", async () => {
 		const repository = new InMemoryCompanionRepository();
 		const charRepo = new StubCharacterRepository();
 		const service = new CompanionService(repository, charRepo);
 
-		// Cria mestre Tecelão de Nível 3 (Tier 1) com Mental = 3
 		const master: CharacterRecord = {
 			id: "master_val",
 			name: "Val",
@@ -50,8 +60,9 @@ describe("CompanionService", () => {
 			classId: "weaver",
 			backgroundId: "sage",
 			level: 3,
+			experiencePoints: 0,
 			physical: 2,
-			mental: 3, // Matriz Mental
+			mental: 3,
 			social: 2,
 			conflict: 1,
 			interaction: 2,
@@ -63,23 +74,42 @@ describe("CompanionService", () => {
 
 		const res = await service.summonCompanion(
 			"master_val",
-			"Faísca",
+			"Faisca",
 			"familiar",
 			"Esquilo Alado",
-			1, // Tier 1
+			1,
 			TEST_TIMESTAMP,
 		);
 
 		expect(res.success).toBe(true);
 		if (res.success) {
 			const companion = res.data;
-			expect(companion.name).toBe("Faísca");
+			expect(companion.name).toBe("Faisca");
 			expect(companion.type).toBe("familiar");
 			expect(companion.tier).toBe(1);
-			// HP Max = (Mental 3 * 5) * Tier 1 = 15
 			expect(companion.hpMax).toBe(15);
 			expect(companion.hpCurrent).toBe(15);
 			expect(companion.isDissipated).toBe(false);
+		}
+	});
+
+	it("deve retornar erro se tentar summonar para mestre inexistente", async () => {
+		const repository = new InMemoryCompanionRepository();
+		const charRepo = new StubCharacterRepository();
+		const service = new CompanionService(repository, charRepo);
+
+		const res = await service.summonCompanion(
+			"mestre_inexistente",
+			"Faisca",
+			"familiar",
+			"Esquilo Alado",
+			1,
+			TEST_TIMESTAMP,
+		);
+
+		expect(res.success).toBe(false);
+		if (!res.success) {
+			expect(res.error.code).toBe("CHARACTER_NOT_FOUND");
 		}
 	});
 
@@ -88,11 +118,11 @@ describe("CompanionService", () => {
 		const charRepo = new StubCharacterRepository();
 		const service = new CompanionService(repository, charRepo);
 
-		const companionRecord = {
+		const companionRecord: CompanionRecord = {
 			id: "comp_1",
 			characterId: "master_val",
-			name: "Faísca",
-			type: "familiar" as const,
+			name: "Faisca",
+			type: "familiar",
 			subModel: "Esquilo Alado",
 			tier: 1,
 			hpCurrent: 15,
@@ -112,6 +142,28 @@ describe("CompanionService", () => {
 		}
 	});
 
+	it("deve falhar shareSensory se o companheiro nao existir ou se o repositorio falhar", async () => {
+		const repository = new InMemoryCompanionRepository();
+		const charRepo = new StubCharacterRepository();
+		const service = new CompanionService(repository, charRepo);
+
+		const res1 = await service.shareSensory(
+			"id_inexistente",
+			true,
+			TEST_TIMESTAMP,
+		);
+		expect(res1.success).toBe(false);
+		if (!res1.success) {
+			expect(res1.error.code).toBe("COMPANION_NOT_FOUND");
+		}
+
+		// Simula erro de repositorio
+		repository.getCompanion = async () =>
+			fail({ code: "REPOSITORY_READ_FAILED", message: "Erro" });
+		const res2 = await service.shareSensory("comp_1", true, TEST_TIMESTAMP);
+		expect(res2.success).toBe(false);
+	});
+
 	it("transfere 50% do dano do familiar como dano mental no mestre em transe sensorial", async () => {
 		const repository = new InMemoryCompanionRepository();
 		const charRepo = new StubCharacterRepository();
@@ -125,6 +177,7 @@ describe("CompanionService", () => {
 			classId: "weaver",
 			backgroundId: "sage",
 			level: 3,
+			experiencePoints: 0,
 			physical: 2,
 			mental: 3,
 			social: 2,
@@ -136,16 +189,16 @@ describe("CompanionService", () => {
 		};
 		charRepo.setCharacter(master);
 
-		const companionRecord = {
+		const companionRecord: CompanionRecord = {
 			id: "comp_1",
 			characterId: "master_val",
-			name: "Faísca",
-			type: "familiar" as const,
+			name: "Faisca",
+			type: "familiar",
 			subModel: "Esquilo Alado",
 			tier: 1,
 			hpCurrent: 15,
 			hpMax: 15,
-			isShareSensory: true, // Partilha de sentidos ATIVA
+			isShareSensory: true,
 			isDissipated: false,
 			selectedTraitsJson: "[]",
 			createdAt: TEST_TIMESTAMP,
@@ -153,7 +206,6 @@ describe("CompanionService", () => {
 		};
 		await repository.saveCompanion(companionRecord);
 
-		// Aplica 6 de dano no familiar. 50% de 6 = 3 de dano mental no mestre.
 		const res = await service.applyDamageToCompanion(
 			"comp_1",
 			6,
@@ -161,23 +213,36 @@ describe("CompanionService", () => {
 		);
 		expect(res.success).toBe(true);
 		if (res.success) {
-			expect(res.data.hpCurrent).toBe(9); // 15 - 6 = 9
+			expect(res.data.hpCurrent).toBe(9);
 		}
 
-		// Verifica se o mestre perdeu 3 de mental (Matriz Mental temporária/recuperável sofre debuff ou simula redução no mental)
-		// Espera! O dano mental do mestre é aplicado de qual forma?
-		// A regra de RPG de transe diz: "50% do dano sofrido em transe como dano mental no mestre".
-		// No stub de personagem, podemos verificar se o personagem sofreu uma redução ou se registramos o dano mental nele.
-		// Vamos ver: no teste, podemos verificar se o mental do mestre ou sua saúde sofreu redução?
-		// Se aplicamos redução no atributo mental do mestre!
 		const updatedMaster = await charRepo.findById("master_val");
 		expect(updatedMaster.success).toBe(true);
 		if (updatedMaster.success) {
-			// Atributo mental caiu de 3 para 1? (ou seja, sofreu 2 de dano mental? 3 - 2 = 1? Espera, o dano mental foi de 3. Se reduzir mental abaixo de 0, fica 0)
-			// Sim, o dano mental reduz a aptidão Mental do mestre em 50% do dano do familiar.
-			// Como o dano foi 6, 50% é 3. O Mental cai em 3 pontos. 3 - 3 = 0.
 			expect(updatedMaster.data.mental).toBe(0);
 		}
+	});
+
+	it("deve lidar com falhas de repositorio e companheiro nao encontrado no applyDamageToCompanion", async () => {
+		const repository = new InMemoryCompanionRepository();
+		const charRepo = new StubCharacterRepository();
+		const service = new CompanionService(repository, charRepo);
+
+		const res1 = await service.applyDamageToCompanion(
+			"inexistente",
+			5,
+			TEST_TIMESTAMP,
+		);
+		expect(res1.success).toBe(false);
+
+		repository.getCompanion = async () =>
+			fail({ code: "REPOSITORY_READ_FAILED", message: "Erro" });
+		const res2 = await service.applyDamageToCompanion(
+			"comp_1",
+			5,
+			TEST_TIMESTAMP,
+		);
+		expect(res2.success).toBe(false);
 	});
 
 	it("dissipa o familiar se o HP dele chegar a 0", async () => {
@@ -185,11 +250,11 @@ describe("CompanionService", () => {
 		const charRepo = new StubCharacterRepository();
 		const service = new CompanionService(repository, charRepo);
 
-		const companionRecord = {
+		const companionRecord: CompanionRecord = {
 			id: "comp_1",
 			characterId: "master_val",
-			name: "Faísca",
-			type: "familiar" as const,
+			name: "Faisca",
+			type: "familiar",
 			subModel: "Esquilo Alado",
 			tier: 1,
 			hpCurrent: 5,
@@ -219,11 +284,11 @@ describe("CompanionService", () => {
 		const charRepo = new StubCharacterRepository();
 		const service = new CompanionService(repository, charRepo);
 
-		const companionRecord = {
+		const companionRecord: CompanionRecord = {
 			id: "comp_1",
 			characterId: "master_val",
-			name: "Faísca",
-			type: "familiar" as const,
+			name: "Faisca",
+			type: "familiar",
 			subModel: "Esquilo Alado",
 			tier: 1,
 			hpCurrent: 15,
@@ -239,10 +304,9 @@ describe("CompanionService", () => {
 		const res = await service.stabilizeMaster("master_val", TEST_TIMESTAMP);
 		expect(res.success).toBe(true);
 		if (res.success) {
-			expect(res.data).toBe(true); // Estabilizou com sucesso
+			expect(res.data).toBe(true);
 		}
 
-		// Familiar deve ter sido dissipado como sacrifício
 		const compResult = await repository.getCompanion("comp_1");
 		expect(compResult.success).toBe(true);
 		if (compResult.success && compResult.data) {
@@ -250,18 +314,37 @@ describe("CompanionService", () => {
 		}
 	});
 
-	it("valida limite de traços/truques selecionados com base no Tier", async () => {
+	it("deve falhar stabilizeMaster se o repositorio falhar ou nao houver familiares ativos", async () => {
 		const repository = new InMemoryCompanionRepository();
 		const charRepo = new StubCharacterRepository();
 		const service = new CompanionService(repository, charRepo);
 
-		const companionRecord = {
+		// Nao ha familiares sumonados
+		const res1 = await service.stabilizeMaster("master_val", TEST_TIMESTAMP);
+		expect(res1.success).toBe(true);
+		if (res1.success) {
+			expect(res1.data).toBe(false);
+		}
+
+		// Repositorio falha
+		repository.findCompanionsByCharacter = async () =>
+			fail({ code: "REPOSITORY_READ_FAILED", message: "Erro" });
+		const res2 = await service.stabilizeMaster("master_val", TEST_TIMESTAMP);
+		expect(res2.success).toBe(false);
+	});
+
+	it("valida limite de tracos/truques selecionados com base no Tier", async () => {
+		const repository = new InMemoryCompanionRepository();
+		const charRepo = new StubCharacterRepository();
+		const service = new CompanionService(repository, charRepo);
+
+		const companionRecord: CompanionRecord = {
 			id: "comp_1",
 			characterId: "master_val",
-			name: "Faísca",
-			type: "familiar" as const,
+			name: "Faisca",
+			type: "familiar",
 			subModel: "Esquilo Alado",
-			tier: 1, // Tier 1 permite 2 truques/traços (Tier + 1)
+			tier: 1,
 			hpCurrent: 15,
 			hpMax: 15,
 			isShareSensory: false,
@@ -272,7 +355,6 @@ describe("CompanionService", () => {
 		};
 		await repository.saveCompanion(companionRecord);
 
-		// Selecionar 2 traços -> Sucesso
 		const okTraits = await service.updateSelectedTraits(
 			"comp_1",
 			["truque_1", "truque_2"],
@@ -280,7 +362,6 @@ describe("CompanionService", () => {
 		);
 		expect(okTraits.success).toBe(true);
 
-		// Selecionar 3 traços -> Falha (Excede limite de 2)
 		const failTraits = await service.updateSelectedTraits(
 			"comp_1",
 			["truque_1", "truque_2", "truque_3"],
@@ -290,5 +371,83 @@ describe("CompanionService", () => {
 		if (!failTraits.success) {
 			expect(failTraits.error.code).toBe("EXCEEDS_TIER_LIMIT");
 		}
+	});
+
+	it("deve lidar com erros no updateSelectedTraits se companheiro nao existir ou se o repositorio falhar", async () => {
+		const repository = new InMemoryCompanionRepository();
+		const charRepo = new StubCharacterRepository();
+		const service = new CompanionService(repository, charRepo);
+
+		const res1 = await service.updateSelectedTraits(
+			"inexistente",
+			[],
+			TEST_TIMESTAMP,
+		);
+		expect(res1.success).toBe(false);
+
+		repository.getCompanion = async () =>
+			fail({ code: "REPOSITORY_READ_FAILED", message: "Erro" });
+		const res2 = await service.updateSelectedTraits(
+			"comp_1",
+			[],
+			TEST_TIMESTAMP,
+		);
+		expect(res2.success).toBe(false);
+	});
+
+	it("exercita BaseCompanionStats, SensorySharingStatsDecorator e a classe abstrata CompanionStatsDecorator", () => {
+		const record: CompanionRecord = {
+			id: "comp_id",
+			characterId: "master_id",
+			name: "Familiar Concreto",
+			type: "familiar",
+			subModel: "Sombra",
+			tier: 2,
+			hpCurrent: 20,
+			hpMax: 30,
+			isShareSensory: false,
+			isDissipated: false,
+			selectedTraitsJson: `["voo", "furtividade"]`,
+			createdAt: TEST_TIMESTAMP,
+			updatedAt: TEST_TIMESTAMP,
+		};
+
+		const base = new BaseCompanionStats(record, 4); // mestre com Mental 4
+
+		// Valida getters do concrete component
+		expect(base.id).toBe("comp_id");
+		expect(base.characterId).toBe("master_id");
+		expect(base.name).toBe("Familiar Concreto");
+		expect(base.type).toBe("familiar");
+		expect(base.subModel).toBe("Sombra");
+		expect(base.tier).toBe(2);
+		expect(base.hpMax).toBe(40); // 4 * 5 * 2 = 40
+		expect(base.hpCurrent).toBe(20);
+		expect(base.isShareSensory).toBe(false);
+		expect(base.isDissipated).toBe(false);
+		expect(base.selectedTraits).toEqual(["voo", "furtividade"]);
+
+		// Testa o catch do JSON.parse na classe BaseCompanionStats
+		const brokenRecord = { ...record, selectedTraitsJson: "{" }; // json invalido
+		const brokenBase = new BaseCompanionStats(brokenRecord, 4);
+		expect(brokenBase.selectedTraits).toEqual([]);
+
+		// Valida decorador abstrato
+		const abstractDec = new TestStatsDecorator(base);
+		expect(abstractDec.id).toBe("comp_id");
+		expect(abstractDec.characterId).toBe("master_id");
+		expect(abstractDec.name).toBe("Familiar Concreto");
+		expect(abstractDec.type).toBe("familiar");
+		expect(abstractDec.subModel).toBe("Sombra");
+		expect(abstractDec.tier).toBe(2);
+		expect(abstractDec.hpMax).toBe(40);
+		expect(abstractDec.hpCurrent).toBe(20);
+		expect(abstractDec.isShareSensory).toBe(false);
+		expect(abstractDec.isDissipated).toBe(false);
+		expect(abstractDec.selectedTraits).toEqual(["voo", "furtividade"]);
+
+		// Valida SensorySharingStatsDecorator
+		const shareDec = new SensorySharingStatsDecorator(base);
+		expect(shareDec.isShareSensory).toBe(true);
 	});
 });

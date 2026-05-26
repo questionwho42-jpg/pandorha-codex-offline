@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { fail } from "$lib/shared/lib/result";
 import { FactionService } from "../domain/FactionService";
 import { InMemoryFactionRepository } from "../infrastructure/InMemoryFactionRepository";
 
@@ -204,5 +205,107 @@ describe("FactionService", () => {
 			expect(payFinal.data.debtValue).toBe(0);
 			expect(payFinal.data.isPaid).toBe(true);
 		}
+	});
+
+	it("deve retornar o ledger existente ao inicializar se ja criado e falhar se a busca falhar", async () => {
+		const repository = new InMemoryFactionRepository();
+		const service = new FactionService(repository);
+
+		const first = await service.initializeSocialLedger("c1", TEST_TIMESTAMP);
+		expect(first.success).toBe(true);
+
+		// Inicializar de novo deve retornar o mesmo ledger sem recriar
+		const second = await service.initializeSocialLedger("c1", TEST_TIMESTAMP);
+		expect(second.success).toBe(true);
+
+		// Simula falha no BD
+		repository.getLedger = async () =>
+			fail({ code: "SOCIAL_REPOSITORY_READ_FAILED", message: "Erro" });
+		const third = await service.initializeSocialLedger("c1", TEST_TIMESTAMP);
+		expect(third.success).toBe(false);
+	});
+
+	it("deve falhar addFameXp se ledger nao for encontrado ou BD falhar", async () => {
+		const repository = new InMemoryFactionRepository();
+		const service = new FactionService(repository);
+
+		const res1 = await service.addFameXp("inexistente", 50, TEST_TIMESTAMP);
+		expect(res1.success).toBe(false);
+
+		repository.getLedger = async () =>
+			fail({ code: "SOCIAL_REPOSITORY_READ_FAILED", message: "Erro" });
+		const res2 = await service.addFameXp("c1", 50, TEST_TIMESTAMP);
+		expect(res2.success).toBe(false);
+	});
+
+	it("deve falhar adjustReputation se BD falhar", async () => {
+		const repository = new InMemoryFactionRepository();
+		const service = new FactionService(repository);
+
+		repository.findReputation = async () =>
+			fail({ code: "SOCIAL_REPOSITORY_READ_FAILED", message: "Erro" });
+		const res = await service.adjustReputation(
+			"hero",
+			"faction",
+			10,
+			TEST_TIMESTAMP,
+		);
+		expect(res.success).toBe(false);
+	});
+
+	it("deve lidar com divida nao encontrada, divida ja paga e erro de busca no payBloodDebt", async () => {
+		const repository = new InMemoryFactionRepository();
+		const service = new FactionService(repository);
+
+		const resNotFound = await service.payBloodDebt(
+			"id_inexistente",
+			1000,
+			TEST_TIMESTAMP,
+		);
+		expect(resNotFound.success).toBe(false);
+		if (!resNotFound.success) {
+			expect(resNotFound.error.code).toBe("BLOOD_DEBT_NOT_FOUND");
+		}
+
+		// Adiciona divida
+		const debtRes = await service.addBloodDebt(
+			"hero",
+			"Ratos",
+			1,
+			TEST_TIMESTAMP,
+		);
+		const dId = debtRes.success ? debtRes.data.id : "";
+
+		// Quita divida
+		await service.payBloodDebt(dId, 1000, TEST_TIMESTAMP);
+
+		// Tenta pagar divida ja quitada (deve retornar a divida quitada com sucesso)
+		const payPaid = await service.payBloodDebt(dId, 500, TEST_TIMESTAMP);
+		expect(payPaid.success).toBe(true);
+
+		// Erro de BD ao buscar divida
+		repository.findBloodDebtById = async () =>
+			fail({ code: "SOCIAL_REPOSITORY_READ_FAILED", message: "Erro" });
+		const resDbErr = await service.payBloodDebt(dId, 500, TEST_TIMESTAMP);
+		expect(resDbErr.success).toBe(false);
+	});
+
+	it("deve falhar checkRestBlock se a reputacao ou as dividas nao puderem ser buscadas no BD", async () => {
+		const repository = new InMemoryFactionRepository();
+		const service = new FactionService(repository);
+
+		const originalFindRep = repository.findReputation.bind(repository);
+
+		repository.findReputation = async () =>
+			fail({ code: "SOCIAL_REPOSITORY_READ_FAILED", message: "Erro" });
+		const res1 = await service.checkRestBlock("hero", "faction");
+		expect(res1.success).toBe(false);
+
+		// Restaura e faz falhar dividas
+		repository.findReputation = originalFindRep;
+		repository.findBloodDebtsByCharacter = async () =>
+			fail({ code: "SOCIAL_REPOSITORY_READ_FAILED", message: "Erro" });
+		const res2 = await service.checkRestBlock("hero", "faction");
+		expect(res2.success).toBe(false);
 	});
 });

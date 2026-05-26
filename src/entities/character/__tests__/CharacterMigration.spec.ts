@@ -46,6 +46,12 @@ const expectedColumns = [
 	{ name: "resistance", type: "INTEGER", notNull: true, primaryKey: false },
 	{ name: "created_at", type: "TEXT", notNull: true, primaryKey: false },
 	{ name: "updated_at", type: "TEXT", notNull: true, primaryKey: false },
+	{
+		name: "experience_points",
+		type: "INTEGER",
+		notNull: true,
+		primaryKey: false,
+	},
 ];
 
 const expectedStatusEffectsColumns = [

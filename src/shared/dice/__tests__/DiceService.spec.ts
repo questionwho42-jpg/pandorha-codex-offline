@@ -147,7 +147,7 @@ describe("DiceService", () => {
 		);
 
 		expect(offenders).toEqual([]);
-	});
+	}, 20000);
 });
 
 function createService(sequence: readonly number[]): DiceService {

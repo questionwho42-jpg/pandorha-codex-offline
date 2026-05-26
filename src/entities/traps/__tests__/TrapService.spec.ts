@@ -51,6 +51,7 @@ const fakeHero: CharacterRecord = {
 	classId: "warrior",
 	backgroundId: "noble",
 	level: 3,
+	experiencePoints: 0,
 	physical: 4,
 	mental: 3,
 	social: 2,

@@ -223,13 +223,400 @@ describe("CombatEncounterService", () => {
 			"2026-05-06T12:00:02.000Z",
 		]);
 	});
+
+	it("resolves death saves correctly for dying actors", () => {
+		const service = createService([0.45]); // naturalRoll = 10
+		const actor = {
+			id: "aria",
+			name: "Aria",
+			maxHp: 20,
+			currentHp: 0,
+			armorClass: 15,
+			level: 1,
+			physical: 1,
+			resistance: 2,
+			mental: 1,
+			isDying: true,
+			deathSuccesses: 0,
+			deathFailures: 0,
+		};
+
+		const result = service.resolveDeathSaves([actor]);
+		expect(result.success).toBe(true);
+		if (result.success) {
+			expect(result.data.updatedParty[0]?.deathSuccesses).toBe(1);
+			expect(result.data.updatedParty[0]?.isDying).toBe(true);
+			expect(result.data.logs[1]).toContain("Sucesso no teste");
+		}
+
+		// 2. Caso de Sucesso Crítico: 20 Natural (0.95 -> naturalRoll = 20) -> Reanima com 1 HP
+		const serviceCrit = createService([0.95]);
+		const resultCrit = serviceCrit.resolveDeathSaves([actor]);
+		expect(resultCrit.success).toBe(true);
+		if (resultCrit.success) {
+			expect(resultCrit.data.updatedParty[0]?.currentHp).toBe(1);
+			expect(resultCrit.data.updatedParty[0]?.isDying).toBe(false);
+			expect(resultCrit.data.logs[1]).toContain("SUCESSO CRÍTICO");
+		}
+
+		// 3. Caso de Falha Crítica: 1 Natural (0.0 -> naturalRoll = 1) -> Acumula 2 falhas
+		const serviceFumble = createService([0.0]);
+		const resultFumble = serviceFumble.resolveDeathSaves([actor]);
+		expect(resultFumble.success).toBe(true);
+		if (resultFumble.success) {
+			expect(resultFumble.data.updatedParty[0]?.deathFailures).toBe(2);
+			expect(resultFumble.data.logs[1]).toContain("FALHA CRÍTICA");
+		}
+
+		// 4. Acúmulo de 3 Sucessos -> Estabiliza
+		const serviceEstabiliza = createService([0.45]);
+		const actorQuaseEstabilizado = { ...actor, deathSuccesses: 2 };
+		const resultEst = serviceEstabiliza.resolveDeathSaves([
+			actorQuaseEstabilizado,
+		]);
+		expect(resultEst.success).toBe(true);
+		if (resultEst.success) {
+			expect(resultEst.data.updatedParty[0]?.isDying).toBe(false);
+			expect(resultEst.data.logs.some((l) => l.includes("ESTABILIZOU"))).toBe(
+				true,
+			);
+		}
+
+		// 5. Acúmulo de 3 Falhas -> Morte Definitiva
+		const serviceMorte = createService([0.1]); // d20 = 3 -> Falha
+		const actorQuaseMorto = { ...actor, deathFailures: 2 };
+		const resultMorte = serviceMorte.resolveDeathSaves([actorQuaseMorto]);
+		expect(resultMorte.success).toBe(true);
+		if (resultMorte.success) {
+			expect(
+				resultMorte.data.logs.some((l) => l.includes("MORTE DEFINITIVA")),
+			).toBe(true);
+		}
+	});
+
+	it("resolves first aid correctly", () => {
+		const service = createService([0.45, 0.45]); // d20 = 10
+		const helper = {
+			id: "aria",
+			name: "Aria",
+			maxHp: 20,
+			currentHp: 15,
+			armorClass: 15,
+			level: 1,
+			physical: 1,
+			resistance: 1,
+			mental: 3,
+			isDying: false,
+			deathSuccesses: 0,
+			deathFailures: 0,
+		};
+		const target = {
+			id: "boris",
+			name: "Boris",
+			maxHp: 20,
+			currentHp: 0,
+			armorClass: 12,
+			level: 1,
+			physical: 1,
+			resistance: 1,
+			mental: 1,
+			isDying: true,
+			deathSuccesses: 0,
+			deathFailures: 0,
+		};
+
+		// 1. Sucesso: 10 + level 1 + mental 3 = 14 vs CD 13 (10 + level 1 + physical 1 + resistance 1)
+		const result = service.resolveFirstAid({
+			helper,
+			target,
+			hasFirstAidKit: false,
+		});
+		expect(result.success).toBe(true);
+		if (result.success) {
+			expect(result.data.updatedTarget.isDying).toBe(false);
+			expect(result.data.logs[1]).toContain("SUCESSO");
+		}
+
+		// 2. Falha: target com HP > 0 é inválido
+		const targetInvalido = { ...target, currentHp: 5 };
+		const resultFalhaTarget = service.resolveFirstAid({
+			helper,
+			target: targetInvalido,
+			hasFirstAidKit: false,
+		});
+		expect(resultFalhaTarget.success).toBe(false);
+		if (!resultFalhaTarget.success) {
+			expect(resultFalhaTarget.error.code).toBe("INVALID_TARGET_FOR_FIRST_AID");
+		}
+
+		// 3. Falha: usando kit de primeiros socorros (CD 15), totalRoll = 14 (10 + 1 + 3).
+		const resultFalhaKit = service.resolveFirstAid({
+			helper,
+			target,
+			hasFirstAidKit: true,
+		});
+		expect(resultFalhaKit.success).toBe(true);
+		if (resultFalhaKit.success) {
+			expect(resultFalhaKit.data.updatedTarget.isDying).toBe(true);
+			expect(resultFalhaKit.data.logs[1]).toContain("FALHA");
+		}
+	});
+
+	it("resolves retreat correctly", () => {
+		const service = createService([0.7]); // d20 = 15
+		const party = [
+			{
+				id: "aria",
+				name: "Aria",
+				maxHp: 20,
+				currentHp: 15,
+				armorClass: 15,
+				level: 1,
+				physical: 2,
+				resistance: 1,
+				mental: 1,
+				isDying: false,
+				deathSuccesses: 0,
+				deathFailures: 0,
+			},
+		];
+		const monsters = [
+			{
+				id: "goblin-1",
+				label: "Goblin",
+				description: "Goblin",
+				maxHitPoints: 10,
+				currentHitPoints: 10,
+				armorClass: 11,
+				level: 1,
+				attackBonus: 1,
+				damageDice: "1d6",
+				damageBonus: 1,
+				initiativeBase: 2,
+				xpValue: 25,
+			},
+		];
+
+		// 1. Fuga bem-sucedida: d20 = 15 + physical 2 = 17 vs CD 12 (10 + iniciativa do monstro 2)
+		const result = service.resolveRetreat({ party, monsters });
+		expect(result.success).toBe(true);
+		if (result.success) {
+			expect(result.data.success).toBe(true);
+			expect(result.data.logs[1]).toContain("FUGA BEM-SUCEDIDA");
+		}
+
+		// 2. Fuga falha: d20 = 1 (0.0 -> naturalRoll = 1) -> Total 3 vs CD 12 -> Falha
+		const serviceFalha = createService([0.0]);
+		const resultFalha = serviceFalha.resolveRetreat({ party, monsters });
+		expect(resultFalha.success).toBe(true);
+		if (resultFalha.success) {
+			expect(resultFalha.data.success).toBe(false);
+			expect(resultFalha.data.logs[1]).toContain("FALHA NA FUGA");
+		}
+	});
+
+	it("retorna falha de missing dice service nos metodos que exigem dados", () => {
+		const serviceNoDice = new CombatEncounterService(
+			createResolutionService([0.5]),
+			new DamagePipelineService(),
+			createDeterministicCombatClock("2026-05-06T12:00:00.000Z"),
+			undefined, // sem diceService
+		);
+
+		const party = [
+			{
+				id: "aria",
+				name: "Aria",
+				maxHp: 20,
+				currentHp: 0,
+				armorClass: 15,
+				level: 1,
+				physical: 1,
+				resistance: 1,
+				mental: 1,
+				isDying: true,
+				deathSuccesses: 0,
+				deathFailures: 0,
+			},
+		];
+
+		const resDeath = serviceNoDice.resolveDeathSaves(party);
+		expect(resDeath.success).toBe(false);
+		if (!resDeath.success) {
+			expect(resDeath.error.code).toBe("MISSING_DICE_SERVICE");
+		}
+
+		const resFirstAid = serviceNoDice.resolveFirstAid({
+			helper: { ...party[0]!, currentHp: 10, isDying: false },
+			target: party[0]!,
+			hasFirstAidKit: false,
+		});
+		expect(resFirstAid.success).toBe(false);
+		if (!resFirstAid.success) {
+			expect(resFirstAid.error.code).toBe("MISSING_DICE_SERVICE");
+		}
+
+		const resRetreat = serviceNoDice.resolveRetreat({
+			party: [{ ...party[0]!, currentHp: 10, isDying: false }],
+			monsters: [],
+		});
+		expect(resRetreat.success).toBe(false);
+		if (!resRetreat.success) {
+			expect(resRetreat.error.code).toBe("MISSING_DICE_SERVICE");
+		}
+	});
+
+	it("retorna falha se o d20/dado falhar nos metodos correspondentes", () => {
+		class FailingDiceService extends DiceService {
+			public constructor() {
+				super(
+					new SequenceDiceRng([0.5]),
+					createSequentialDiceRollIdProvider("fail-roll"),
+					createDeterministicDiceClock("2026-05-06T12:00:00.000Z"),
+				);
+			}
+			public override rollD20() {
+				return fail({ message: "Erro no d20" }) as any;
+			}
+			public override rollDie() {
+				return fail({ message: "Erro no die" }) as any;
+			}
+		}
+
+		const failingDice = new FailingDiceService();
+		const serviceFailingDice = new CombatEncounterService(
+			createResolutionService([0.5]),
+			new DamagePipelineService(),
+			createDeterministicCombatClock("2026-05-06T12:00:00.000Z"),
+			failingDice,
+		);
+
+		const party = [
+			{
+				id: "aria",
+				name: "Aria",
+				maxHp: 20,
+				currentHp: 0,
+				armorClass: 15,
+				level: 1,
+				physical: 1,
+				resistance: 1,
+				mental: 1,
+				isDying: true,
+				deathSuccesses: 0,
+				deathFailures: 0,
+			},
+		];
+
+		const resDeath = serviceFailingDice.resolveDeathSaves(party);
+		expect(resDeath.success).toBe(false);
+		if (!resDeath.success) {
+			expect(resDeath.error.code).toBe("DICE_ROLL_ERROR");
+		}
+
+		const resFirstAid = serviceFailingDice.resolveFirstAid({
+			helper: { ...party[0]!, currentHp: 10, isDying: false },
+			target: party[0]!,
+			hasFirstAidKit: false,
+		});
+		expect(resFirstAid.success).toBe(false);
+		if (!resFirstAid.success) {
+			expect(resFirstAid.error.code).toBe("DICE_ROLL_ERROR");
+		}
+
+		const resRetreat = serviceFailingDice.resolveRetreat({
+			party: [{ ...party[0]!, currentHp: 10, isDying: false }],
+			monsters: [
+				{
+					id: "goblin-1",
+					label: "Goblin",
+					description: "Goblin",
+					maxHitPoints: 10,
+					currentHitPoints: 10,
+					armorClass: 11,
+					level: 1,
+					attackBonus: 1,
+					damageDice: "1d6",
+					damageBonus: 1,
+					initiativeBase: 2,
+					xpValue: 25,
+				},
+			],
+		});
+		expect(resRetreat.success).toBe(false);
+		if (!resRetreat.success) {
+			expect(resRetreat.error.code).toBe("DICE_ROLL_ERROR");
+		}
+	});
+
+	it("retorna falha se tentar fazer fuga sem herois ativos", () => {
+		const service = createService([0.5]);
+		const party = [
+			{
+				id: "aria",
+				name: "Aria",
+				maxHp: 20,
+				currentHp: 0, // Inativo
+				armorClass: 15,
+				level: 1,
+				physical: 1,
+				resistance: 1,
+				mental: 1,
+				isDying: true,
+				deathSuccesses: 0,
+				deathFailures: 0,
+			},
+		];
+
+		const res = service.resolveRetreat({ party, monsters: [] });
+		expect(res.success).toBe(false);
+		if (!res.success) {
+			expect(res.error.code).toBe("NO_ACTIVE_HEROES_TO_RETREAT");
+		}
+	});
+
+	it("retorna sucesso de fuga automatica se nao houver monstros vivos", () => {
+		const service = createService([0.5]);
+		const party = [
+			{
+				id: "aria",
+				name: "Aria",
+				maxHp: 20,
+				currentHp: 10,
+				armorClass: 15,
+				level: 1,
+				physical: 1,
+				resistance: 1,
+				mental: 1,
+				isDying: false,
+				deathSuccesses: 0,
+				deathFailures: 0,
+			},
+		];
+
+		const res = service.resolveRetreat({ party, monsters: [] });
+		expect(res.success).toBe(true);
+		if (res.success) {
+			expect(res.data.success).toBe(true);
+			expect(res.data.logs[0]).toContain(
+				"Nenhum inimigo ativo. Fuga automática bem-sucedida!",
+			);
+		}
+	});
 });
 
 function createService(sequence: readonly number[]): CombatEncounterService {
+	const diceService = new DiceService(
+		new SequenceDiceRng(sequence),
+		createSequentialDiceRollIdProvider("combat-roll"),
+		createDeterministicDiceClock("2026-05-06T11:59:00.000Z"),
+	);
+
 	return new CombatEncounterService(
-		createResolutionService(sequence),
+		new ResolutionService(diceService),
 		new DamagePipelineService(),
 		createDeterministicCombatClock("2026-05-06T12:00:00.000Z"),
+		diceService,
 	);
 }
 

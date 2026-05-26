@@ -26,7 +26,11 @@ type Props = {
 		input: unknown,
 	) => Promise<Result<HexcrawlMovementResult, HexcrawlMovementFailure>>;
 	tiles: readonly WorldTileRecord[];
-	onMoveSuccess?: (toTileBiome: string) => void | Promise<void>;
+	onMoveSuccess?: (
+		toTileBiome: string,
+		toTileId?: string,
+		encounterEvent?: EncounterEvent,
+	) => void | Promise<void>;
 	// Propriedades de perigos integrados
 	currentTraps?: readonly TrapRecord[];
 	characters?: readonly CharacterRecord[];
@@ -114,37 +118,37 @@ function getBiomeClass(
 		case "road":
 			return (
 				baseClass +
-				"border-stone-700 bg-stone-900/60 text-bone hover:border-ether/40 hover:bg-stone-900"
+				"border-bronze/35 bg-ruin/60 text-bone hover:border-ether/40 hover:bg-ruin"
 			);
 		case "forest":
 			return (
 				baseClass +
-				"border-emerald-900/40 bg-emerald-950/20 text-bone hover:border-emerald-500/40 hover:bg-emerald-950/40"
+				"border-emerald-poison/40 bg-emerald-poison/10 text-bone hover:border-emerald-poison/70 hover:bg-emerald-poison/20"
 			);
 		case "watch":
 			return (
 				baseClass +
-				"border-sky-900/40 bg-sky-950/20 text-bone hover:border-sky-500/40 hover:bg-sky-950/40"
+				"border-sky-runic/40 bg-sky-runic/10 text-bone hover:border-sky-runic/70 hover:bg-sky-runic/20"
 			);
 		case "ruins":
 			return (
 				baseClass +
-				"border-purple-900/40 bg-purple-950/20 text-bone hover:border-purple-500/40 hover:bg-purple-950/40"
+				"border-purple-runic/40 bg-purple-runic/10 text-bone hover:border-purple-runic/70 hover:bg-purple-runic/20"
 			);
 		case "marsh":
 			return (
 				baseClass +
-				"border-amber-950/40 bg-amber-950/15 text-bone hover:border-amber-600/40 hover:bg-amber-950/30"
+				"border-orange-hungry/40 bg-orange-hungry/10 text-bone hover:border-orange-hungry/70 hover:bg-orange-hungry/20"
 			);
 		case "barrow":
 			return (
 				baseClass +
-				"border-zinc-800 bg-zinc-950/40 text-bone hover:border-zinc-600 hover:bg-zinc-900"
+				"border-bronze/20 bg-ruin/30 text-bone hover:border-bronze/50 hover:bg-ruin/50"
 			);
 		case "ridge":
 			return (
 				baseClass +
-				"border-stone-800 bg-stone-950/40 text-bone hover:border-stone-600 hover:bg-stone-900"
+				"border-bronze/20 bg-ruin/30 text-bone hover:border-bronze/50 hover:bg-ruin/50"
 			);
 		default:
 			return (
@@ -249,6 +253,7 @@ async function moveToTile(targetTileId: string): Promise<void> {
 		await (onMoveSuccess as any)(
 			result.data.toTile.biome,
 			result.data.toTile.id,
+			data.encounterEvent,
 		);
 	}
 

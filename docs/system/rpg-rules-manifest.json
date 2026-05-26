@@ -1,0 +1,79 @@
+{
+	"system": "Pandorha Engine",
+	"rules": {
+		"scout_check": {
+			"formula": "1d20 + Atributo (Físico ou Mental) + Bônus do Andarilho vs CD Final",
+			"cd_base_formula": "9 + (Tier * 3)",
+			"modifiers": {
+				"difficult_terrain": 3,
+				"adverse_weather": 3,
+				"zero_visibility": 5
+			},
+			"advantages": {
+				"is_mapped": 1,
+				"cautious_pace": 1
+			},
+			"disadvantages": {
+				"fast_pace": 1,
+				"adverse_weather_forced_march": 1
+			}
+		},
+		"dying_state": {
+			"condition": "Ficar com 0 HP",
+			"stabilization_test": {
+				"formula": "1d20 + Físico + Resistência + Nível",
+				"cd_target_formula": "10 + Nível + Físico + Resistência",
+				"critical_success_natural_20": "Estabiliza imediatamente e recupera 1 HP",
+				"critical_failure_natural_1": "Registra 2 falhas no teste",
+				"max_successes_to_stabilize": 3,
+				"max_failures_to_die": 3
+			},
+			"first_aid": {
+				"formula": "1d20 + Mental + Interação vs CD Moribundo",
+				"kit_bonus_cd": 15
+			}
+		},
+		"combat_retreat": {
+			"cost": "Retornar ao hexágono anterior",
+			"pursuit_check": "Teste físico de perseguição/fuga contra o monstro de maior iniciativa",
+			"penalties": {
+				"condition_applied": "Exhausted"
+			}
+		},
+		"progression": {
+			"xp_multiplier": 100,
+			"loot_chance_by_tier": {
+				"1": 0.5,
+				"2": 0.7,
+				"3": 0.9,
+				"4": 1.0
+			}
+		},
+		"monster_tier_balancing": {
+			"1": {
+				"level_range": [1, 3],
+				"hp_range": [10, 25],
+				"ac_range": [10, 13],
+				"attack_bonus_range": [1, 3]
+			},
+			"2": {
+				"level_range": [4, 6],
+				"hp_range": [30, 60],
+				"ac_range": [14, 16],
+				"attack_bonus_range": [4, 6]
+			},
+			"3": {
+				"level_range": [7, 9],
+				"hp_range": [70, 110],
+				"ac_range": [17, 19],
+				"attack_bonus_range": [7, 9]
+			},
+			"4": {
+				"level_range": [10, 12],
+				"hp_range": [120, 200],
+				"ac_range": [20, 24],
+				"attack_bonus_range": [10, 12]
+			}
+		}
+	}
+}

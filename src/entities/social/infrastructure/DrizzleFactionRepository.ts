@@ -37,6 +37,7 @@ export class DrizzleFactionRepository implements FactionRepository {
 				.from(campaignSocialLedger)
 				.where(eq(campaignSocialLedger.id, record.id));
 
+			// biome-ignore lint/suspicious/noExplicitAny: rows returned dynamically by Drizzle
 			let rows: any[];
 			if (existing.length > 0) {
 				rows = await this.db
@@ -110,6 +111,7 @@ export class DrizzleFactionRepository implements FactionRepository {
 				.from(characterReputation)
 				.where(eq(characterReputation.id, record.id));
 
+			// biome-ignore lint/suspicious/noExplicitAny: rows returned dynamically by Drizzle
 			let rows: any[];
 			if (existing.length > 0) {
 				rows = await this.db
@@ -187,6 +189,7 @@ export class DrizzleFactionRepository implements FactionRepository {
 				.from(bloodDebts)
 				.where(eq(bloodDebts.id, record.id));
 
+			// biome-ignore lint/suspicious/noExplicitAny: rows returned dynamically by Drizzle
 			let rows: any[];
 			if (existing.length > 0) {
 				rows = await this.db
