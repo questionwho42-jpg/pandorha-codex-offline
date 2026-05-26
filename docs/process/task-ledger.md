@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:T64 -->
+### Social Dialogue Official Seed V1
+- id: T64
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-05-26T09:15:19-03:00
+- finished_at: 2026-05-26T09:31:33-03:00
+- model_started: gpt-5.5 high reasoning
+- model_finished: gpt-5.5 high reasoning
+- last_modified_at: 2026-05-26T09:31:33-03:00
+- branch: task/social-dialogue-official-seed
+- commit_at_start: 8e40350 chore(process): record final t63 snapshot
+- summary: Adicionar arvore curta para o Capitao de Treino usando regras oficiais de NPCs/aliados e negociacao, sem schema novo, migration, save v5 ou consequencia social real nova.
+- last_change: Social Dialogue Official Seed V1 concluida: training-captain agora possui arvore curta oficial-adjacente com abertura, respostas para Persuadir/Barganhar/Pressionar, bloqueio de Pressionar por HP mental 8, docs, memoria tripla, smoke contratual e validacao no Browser do Codex.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-26T09:15:19-03:00
+- Done: task record created
+- Next: Escrever testes TDD para catalogo e view da arvore do Capitao de Treino.
+- Risks: Nao cruzar para faccoes, Infamia, relacao individual, clocks ou save v5 nesta tarefa.
+- Improvements: Promover Browser/Playwright real somente se a politica de dependencia e artifacts for definida.
+- Model/config: gpt-5.5 high reasoning
+
+#### Checkpoint 2026-05-26T09:31:25-03:00
+- Done: Catalogo read-only do Capitao de Treino adicionado com 4 nodes, 3 options e Pressionar bloqueavel por HP mental 8; docs, memoria tripla, smoke contratual e Browser do Codex validados.
+- Next: Commitar a T64 localmente sem incluir output/; nao iniciar T65 antes da entrega.
+- Risks: Browser validado no in-app sem exportar screenshot; nao houve schema, migration, save v5, RPC ou consequencia social real nova.
+- Improvements: Promover Browser/Playwright real apenas quando a politica de dependencia e artifacts for definida.
+- Model/config: gpt-5.5 high reasoning
+
+#### Checkpoint 2026-05-26T09:31:33-03:00
+- Done: Social Dialogue Official Seed V1 concluida: training-captain agora possui arvore curta oficial-adjacente com abertura, respostas para Persuadir/Barganhar/Pressionar, bloqueio de Pressionar por HP mental 8, docs, memoria tripla, smoke contratual e validacao no Browser do Codex.
+- Next: Preparar entrega local da T64; depois planejar T65 sem misturar Infamia, relacao individual, clocks ou save v5.
+- Risks: Sem push/PR; output/ permanece nao rastreado; Browser in-app foi usado sem screenshot/export.
+- Improvements: Considerar smoke de navegador real quando dependencias e artifacts estiverem definidos.
+- Model/config: gpt-5.5 high reasoning
+<!-- /pandorha-task:T64 -->
 <!-- pandorha-task:T63 -->
 ### Social Pressure Consequences V1
 - id: T63

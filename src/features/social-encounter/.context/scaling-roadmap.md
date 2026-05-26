@@ -70,3 +70,12 @@ T63 proves the consequence-metadata path for one conservative penalty: `Pression
 - Keep pressure consequences idempotent by encounter id.
 - Add real browser automation only after the team settles the dependency/artifact policy.
 - Do not add Infamy, NPC relationship damage, or retaliation clocks until social-relations/world-state contracts are planned together.
+
+## 2026-05-26T09:21:25.000Z
+
+### Scaling Notes
+T64 adds one official seed without new feature orchestration. The next dialogue expansion should decide whether more official NPCs remain catalog-only or whether a content-authoring pipeline is needed; either way, keep Browser Use for visible `.svelte` behavior and static smoke checks for mandatory copy.
+
+### Follow-Up
+- Avoid adding Infamy, individual NPC relationship damage, or retaliation clocks in the same task as new dialogue content.
+- Promote a real browser smoke only when the team accepts the dependency and artifact policy.

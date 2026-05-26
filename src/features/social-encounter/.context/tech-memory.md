@@ -92,3 +92,15 @@ T63 adds `createSocialPressurePenaltyIntent` beside the existing terminal conseq
 - Use a separate WorldState flag for idempotency by encounter id.
 - Keep social-standing mutation in `app` orchestration, not inside `features/social-encounter`.
 - Import pure feature contracts through `model-api` from app models to avoid loading Svelte UI during model tests.
+
+## 2026-05-26T09:21:25.000Z
+
+### Error Log
+The T64 view contract caught wording drift in the new captain opening node. The catalog was corrected to say `moral da tropa`, keeping the visible copy, docs, and vertical smoke aligned.
+
+### Technical Summary
+T64 does not change SocialEncounter runtime behavior. `createSocialDialogueTreeView` already supports multiple NPC trees through `selectedNpcId`, so the feature only needed view tests proving that `training-captain` renders its opening, exposes the three existing choices at HP mental 10/10, and blocks `Pressionar` below HP mental 8.
+
+### Patterns And Decisions
+- Prefer catalog expansion and view coverage over feature code changes when adding a static NPC tree.
+- Keep social consequences generic for this task; official seed dialogue must not create hidden faction or save side effects.

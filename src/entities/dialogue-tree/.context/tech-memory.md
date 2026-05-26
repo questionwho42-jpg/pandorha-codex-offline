@@ -30,3 +30,15 @@ T59 expands the read-only dialogue catalog with a second training tree for train
 ### Patterns And Decisions
 - Keep implementation details tied to local module boundaries.
 - Preserve previous entries and append new findings instead of overwriting memory.
+
+## 2026-05-26T09:21:25.000Z
+
+### Error Log
+The first T64 focused run failed after the catalog was added because the opening copy said `a moral` instead of the contracted phrase `moral da tropa`. The fix was to make the catalog text explicit rather than weakening the view test.
+
+### Technical Summary
+T64 expands the read-only dialogue catalog with `training-captain`. The tree has four nodes and three options, reuses the existing `persuade`, `bargain`, and `threaten` choice ids, and points to `docs/system/survival/06-npcs-e-aliados.md` as the official source. `Pressionar` is gated by `minimumMentalHp: 8` with pt-BR blocked copy; no schema, migration, save v5, faction, Infamy, or NPC relationship contract changed.
+
+### Patterns And Decisions
+- Keep official seed trees as catalog data until dialogue becomes user-authored or dynamically loaded.
+- Keep user-visible copy used by smokes literal in UTF-8 so static contracts remain readable.

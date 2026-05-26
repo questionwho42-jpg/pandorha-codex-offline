@@ -6,10 +6,13 @@ import {
 } from "./dialogueTreeSchema";
 
 const SOURCE_FILE = "docs/system/survival/regras-negociacao.md";
+const CAPTAIN_SOURCE_FILE = "docs/system/survival/06-npcs-e-aliados.md";
 const BROKER_NPC_ID = "training-broker";
 const OPENING_NODE_ID = "training-broker-opening";
 const INFORMANT_NPC_ID = "training-informant";
 const INFORMANT_OPENING_NODE_ID = "training-informant-opening";
+const CAPTAIN_NPC_ID = "training-captain";
+const CAPTAIN_OPENING_NODE_ID = "training-captain-opening";
 
 const rawDialogueNodeCatalog = [
 	{
@@ -93,6 +96,49 @@ const rawDialogueNodeCatalog = [
 		summary:
 			"Resposta de treino para pressão contra informante antes do apelo social.",
 	},
+	{
+		id: CAPTAIN_OPENING_NODE_ID,
+		npcId: CAPTAIN_NPC_ID,
+		label: "Abertura do capitão",
+		bodyText:
+			"O capitão mede o dever, o risco da escolta e a moral da tropa antes de responder.",
+		kind: "start",
+		sourceFile: CAPTAIN_SOURCE_FILE,
+		summary: "Nó inicial da negociação de treino com o Capitão de Treino.",
+	},
+	{
+		id: "training-captain-persuade-response",
+		npcId: CAPTAIN_NPC_ID,
+		label: "Resposta ao dever",
+		bodyText:
+			"Ele pesa o argumento contra o dever de manter a linha e proteger os seus.",
+		kind: "response",
+		sourceFile: CAPTAIN_SOURCE_FILE,
+		summary:
+			"Resposta de treino para persuasão baseada em dever e moral de tropa.",
+	},
+	{
+		id: "training-captain-bargain-response",
+		npcId: CAPTAIN_NPC_ID,
+		label: "Resposta ao custo de escolta",
+		bodyText:
+			"Ele calcula o custo da escolta, as baixas prováveis e o que a tropa receberá em troca.",
+		kind: "response",
+		sourceFile: CAPTAIN_SOURCE_FILE,
+		summary:
+			"Resposta de treino para barganha envolvendo custo de escolta e suprimentos.",
+	},
+	{
+		id: "training-captain-threaten-response",
+		npcId: CAPTAIN_NPC_ID,
+		label: "Resposta à coerção",
+		bodyText:
+			"A ameaça atinge a hierarquia da unidade, e ele observa se a moral da tropa vai quebrar.",
+		kind: "response",
+		sourceFile: CAPTAIN_SOURCE_FILE,
+		summary:
+			"Resposta de treino para pressão social contra autoridade militar.",
+	},
 ] satisfies readonly DialogueNodeRecord[];
 
 const rawDialogueOptionCatalog = [
@@ -171,6 +217,44 @@ const rawDialogueOptionCatalog = [
 		sourceFile: SOURCE_FILE,
 		summary:
 			"Opção de diálogo bloqueável que prepara pressão social contra o informante.",
+	},
+	{
+		id: "training-captain-option-persuade",
+		nodeId: CAPTAIN_OPENING_NODE_ID,
+		label: "Persuadir",
+		visibleText: "Apele ao dever do capitão e à proteção da tropa.",
+		choiceId: "persuade",
+		nextNodeId: "training-captain-persuade-response",
+		sortOrder: 0,
+		sourceFile: CAPTAIN_SOURCE_FILE,
+		summary: "Opção de diálogo que prepara persuasão por dever militar.",
+	},
+	{
+		id: "training-captain-option-bargain",
+		nodeId: CAPTAIN_OPENING_NODE_ID,
+		label: "Barganhar",
+		visibleText: "Ofereça suprimentos ou pagamento pelo custo da escolta.",
+		choiceId: "bargain",
+		nextNodeId: "training-captain-bargain-response",
+		sortOrder: 1,
+		sourceFile: CAPTAIN_SOURCE_FILE,
+		summary: "Opção de diálogo que prepara barganha por escolta militar.",
+	},
+	{
+		id: "training-captain-option-threaten",
+		nodeId: CAPTAIN_OPENING_NODE_ID,
+		label: "Pressionar",
+		visibleText:
+			"Force uma decisão, assumindo risco de quebrar a moral da tropa.",
+		choiceId: "threaten",
+		nextNodeId: "training-captain-threaten-response",
+		minimumMentalHp: 8,
+		blockedReason:
+			"Exige HP mental 8 ou maior para pressionar o capitão sem quebrar a moral da tropa.",
+		sortOrder: 2,
+		sourceFile: CAPTAIN_SOURCE_FILE,
+		summary:
+			"Opção de diálogo bloqueável que prepara pressão contra autoridade militar.",
 	},
 ] satisfies readonly DialogueOptionRecord[];
 

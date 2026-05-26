@@ -130,6 +130,31 @@ test("vertical slice smoke fails when informant gated option contract is missing
 	}
 });
 
+test("vertical slice smoke fails when captain official tree contract is missing", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/entities/dialogue-tree/model/dialogueTreeCatalog.ts":
+				renderDialogueTreeCatalog().replace(
+					"training-captain-option-threaten",
+					"training-captain-option-pressure",
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(
+			result.stderr,
+			/src\/entities\/dialogue-tree\/model\/dialogueTreeCatalog\.ts/,
+		);
+		assert.match(result.stderr, /training-captain-option-threaten/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("vertical slice smoke fails when social consequence metadata contract is missing", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -282,6 +307,13 @@ export const DIALOGUE_OPTION_CATALOG = [
     minimumMentalHp: 7,
     blockedReason: "Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.",
   },
+  {
+    id: "training-captain-option-threaten",
+    nodeId: "training-captain-opening",
+    choiceId: "threaten",
+    minimumMentalHp: 8,
+    blockedReason: "Exige HP mental 8 ou maior para pressionar o capitão sem quebrar a moral da tropa.",
+  },
 ];
 `;
 }
@@ -349,6 +381,7 @@ Abra http://127.0.0.1:5173/ para testar.
 Escolha o campo Argumento, selecione Barganhar e confirme Modificador do argumento: +1.
 Leia Fala do NPC, escolha Barganhar, confirme a troca proposta e o log Opção de diálogo escolhida: Barganhar.
 Selecione Informante de Treino, confirme HP mental 6/6 e a opção bloqueada: Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.
+Selecione Capitão de Treino, confirme moral da tropa, escolha Barganhar e confirme custo da escolta. Pressionar exige: Exige HP mental 8 ou maior para pressionar o capitão sem quebrar a moral da tropa.
 Depois valide WorldState ao encerrar a negociação.
 Ao escolher Pressionar, confirme a perda de 1 nível de Fama.
 `;

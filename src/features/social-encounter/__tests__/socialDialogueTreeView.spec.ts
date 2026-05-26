@@ -108,6 +108,59 @@ describe("createSocialDialogueTreeView", () => {
 		]);
 	});
 
+	it("shows the captain tree with duty and escort options", () => {
+		const view = createSocialDialogueTreeView({
+			nodes: DIALOGUE_NODE_CATALOG,
+			options: DIALOGUE_OPTION_CATALOG,
+			selectedNpcId: "training-captain",
+			state: buildState([], {
+				npcId: "training-captain",
+				mentalHpCurrent: 10,
+				mentalHpMax: 10,
+			}),
+		});
+
+		expect(view.currentNodeId).toBe("training-captain-opening");
+		expect(view.currentNodeText).toContain("moral da tropa");
+		expect(view.options).toEqual([
+			expect.objectContaining({
+				label: "Persuadir",
+				isAvailable: true,
+				blockedReason: null,
+			}),
+			expect.objectContaining({
+				label: "Barganhar",
+				isAvailable: true,
+				blockedReason: null,
+			}),
+			expect.objectContaining({
+				label: "Pressionar",
+				isAvailable: true,
+				blockedReason: null,
+			}),
+		]);
+	});
+
+	it("blocks the captain pressure option when mental HP is too low", () => {
+		const view = createSocialDialogueTreeView({
+			nodes: DIALOGUE_NODE_CATALOG,
+			options: DIALOGUE_OPTION_CATALOG,
+			selectedNpcId: "training-captain",
+			state: buildState([], {
+				npcId: "training-captain",
+				mentalHpCurrent: 7,
+				mentalHpMax: 10,
+			}),
+		});
+
+		expect(view.options.at(2)).toMatchObject({
+			label: "Pressionar",
+			isAvailable: false,
+			blockedReason:
+				"Exige HP mental 8 ou maior para pressionar o capitão sem quebrar a moral da tropa.",
+		});
+	});
+
 	it("keeps blocked reason empty when a gated option has no user-facing copy", () => {
 		const optionsWithoutBlockedCopy = DIALOGUE_OPTION_CATALOG.map((option) =>
 			option.id === "training-broker-option-threaten"
@@ -204,7 +257,7 @@ describe("createSocialDialogueTreeView", () => {
 		const view = createSocialDialogueTreeView({
 			nodes: DIALOGUE_NODE_CATALOG,
 			options: DIALOGUE_OPTION_CATALOG,
-			selectedNpcId: "training-captain",
+			selectedNpcId: "training-missing",
 			state: null,
 		});
 

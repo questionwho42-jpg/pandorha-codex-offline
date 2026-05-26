@@ -25,3 +25,13 @@ A conversa agora existe para o Informante de Treino. Ele oferece tres caminhos: 
 - Keep notes manually: lower setup cost, higher chance of drift.
 - Store notes centrally: easier search, weaker module ownership.
 - Use this bridge: consistent local memory with controlled write scope.
+
+## 2026-05-26T09:21:25.000Z
+
+### What This Module Does
+A conversa agora tambem existe para o Capitão de Treino. Ele comenta dever, moral da tropa e custo de escolta. O jogador pode persuadir, barganhar ou pressionar, mas pressionar exige HP mental 8 para evitar uma coerção que quebre a moral da tropa.
+
+### Alternatives
+- Criar um NPC novo: daria mais liberdade, mas exigiria mais catálogo e risco de escopo.
+- Alterar facções ou Infâmia: seria uma consequência mais forte, mas cruzaria outros módulos.
+- Expandir só a árvore do capitão: entrega conteúdo visível com baixo risco e sem mudar o save.

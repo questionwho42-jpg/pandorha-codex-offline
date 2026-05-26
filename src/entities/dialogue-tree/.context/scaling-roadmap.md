@@ -23,3 +23,12 @@ Future NPC trees should reuse the same node/option catalog shape and avoid addin
 ### Follow-Up
 - Revisit after the next feature change or failed validation run.
 - Convert durable lessons into tests or automation where practical.
+
+## 2026-05-26T09:21:25.000Z
+
+### Scaling Notes
+T64 proves that one official-adjacent NPC seed can be added by catalog expansion only. Future official dialogue should keep each NPC tree small, sourced, and covered by catalog/view tests before adding deeper consequences or dynamic persistence.
+
+### Follow-Up
+- Add the next official seed only after deciding whether it belongs in static catalog data or a content pipeline.
+- Keep `minimumMentalHp` and blocked reasons colocated with the option until requirements grow beyond HP mental.

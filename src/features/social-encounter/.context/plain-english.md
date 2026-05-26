@@ -85,3 +85,13 @@ Quando o jogador encerra uma negociação usando Pressionar, o jogo agora avisa 
 - Colocar a perda de Fama direto no painel: seria mais rápido, mas misturaria negociação com facções.
 - Criar uma migration nova: seria pesado demais para uma penalidade simples.
 - Usar intenção + coordenação no App: mantém os módulos separados e aproveita o save atual.
+
+## 2026-05-26T09:21:25.000Z
+
+### What This Module Does
+A aba Relações agora consegue mostrar uma conversa curta para o Capitão de Treino. O jogador vê uma abertura sobre dever e moral da tropa, pode escolher Persuadir, Barganhar ou Pressionar, e a resposta muda para dever, custo de escolta ou coerção.
+
+### Alternatives
+- Criar uma consequência nova para o capitão: seria mais dramático, mas misturaria conteúdo com regra social nova.
+- Criar outro NPC: aumentaria o catálogo sem aproveitar o capitão já existente.
+- Usar a árvore curta atual: entrega uma cena testável e mantém o save igual.

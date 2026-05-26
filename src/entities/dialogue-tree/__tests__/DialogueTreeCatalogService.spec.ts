@@ -71,6 +71,50 @@ describe("DialogueTreeCatalogService", () => {
 		]);
 	});
 
+	it("exposes the training captain tree with duty, escort cost, and pressure options", async () => {
+		const service = createService();
+
+		const nodes = await service.listNodesByNpcId("training-captain");
+		const options = await service.listOptionsByNodeId(
+			"training-captain-opening",
+		);
+
+		expect(nodes.success).toBe(true);
+		expect(options.success).toBe(true);
+		if (!nodes.success || !options.success) {
+			return;
+		}
+		expect(nodes.data.map((node) => node.id)).toEqual([
+			"training-captain-opening",
+			"training-captain-persuade-response",
+			"training-captain-bargain-response",
+			"training-captain-threaten-response",
+		]);
+		expect(
+			nodes.data.every(
+				(node) =>
+					node.sourceFile === "docs/system/survival/06-npcs-e-aliados.md",
+			),
+		).toBe(true);
+		expect(options.data).toEqual([
+			expect.objectContaining({
+				id: "training-captain-option-persuade",
+				choiceId: "persuade",
+			}),
+			expect.objectContaining({
+				id: "training-captain-option-bargain",
+				choiceId: "bargain",
+			}),
+			expect.objectContaining({
+				id: "training-captain-option-threaten",
+				choiceId: "threaten",
+				minimumMentalHp: 8,
+				blockedReason:
+					"Exige HP mental 8 ou maior para pressionar o capitão sem quebrar a moral da tropa.",
+			}),
+		]);
+	});
+
 	it("keeps technical ids in English ASCII", () => {
 		const technicalId = /^[a-z][a-z0-9-]*$/;
 
