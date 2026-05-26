@@ -36,6 +36,16 @@ A conversa agora consegue mostrar falas que existem, mas ainda nao podem ser esc
 - Store notes centrally: easier search, weaker module ownership.
 - Use this bridge: consistent local memory with controlled write scope.
 
+## 2026-05-26T04:08:00.000Z
+
+### What This Module Does
+Agora existe um teste rapido para avisar se o roteiro social principal deixou de estar coberto. Ele confere que Barganhar leva ate uma consequencia em WorldState e que o save/load continua conectado aos dados da negociacao.
+
+### Alternatives
+- Testar tudo manualmente no navegador: mais fiel, mas repetitivo.
+- Instalar Playwright no projeto: mais completo, mas aumenta dependencia e custo.
+- Usar este smoke contratual: mais rapido e barato, mas ainda precisa de Browser Use quando a aparencia da tela muda.
+
 ## 2026-05-24T07:59:50.343Z
 
 ### What This Module Does

@@ -114,6 +114,12 @@ async function runAutomationGate() {
 	await runStep("automation:vertical-slice-smoke", "node", [
 		"scripts/vertical_slice_smoke.mjs",
 	]);
+	await runStep("automation:social-browser-smoke-tests", "node", [
+		"scripts/test_social_browser_smoke.mjs",
+	]);
+	await runStep("automation:social-browser-smoke", "node", [
+		"scripts/social_browser_smoke.mjs",
+	]);
 	await runStep("automation:coverage-registration", "node", [
 		"scripts/validate_coverage_registration.mjs",
 	]);

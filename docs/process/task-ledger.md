@@ -13,6 +13,39 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260526-040147-t62-social-browser-smoke-automation -->
+### T62 Social Browser Smoke Automation
+- id: 20260526-040147-t62-social-browser-smoke-automation
+- status: completed
+- kind: qa
+- planned: yes
+- started_at: 2026-05-26T04:01:47-03:00
+- finished_at: 2026-05-26T04:08:45-03:00
+- model_started: gpt-5.5 high-reasoning
+- model_finished: gpt-5.5 high-reasoning
+- last_modified_at: 2026-05-26T04:08:45-03:00
+- branch: task-dialogue-option-availability
+- commit_at_start: e83ed47 feat(social): record dialogue consequence metadata
+- summary: Automatizar a validacao recorrente do fluxo social Barganhar -> consequencia -> save/load sem alterar schema, save version ou regras sociais.
+- last_change: T62 adicionou smoke social headless para o roteiro Barganhar -> WorldState -> save/load, com teste Node, comando npm, integracao ao quality gate, docs de QA e memoria tripla atualizada sem nova dependencia de browser.
+#### Files At Start
+- docs/process/task-ledger.md
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-26T04:01:47-03:00
+- Done: task record created
+- Next: Criar smoke automatizado reutilizando scripts Node e validar contratos do fluxo social completo.
+- Risks: Sem dependencia Playwright no projeto; evitar adicionar pacote novo sem necessidade explicita.
+- Improvements: Se browser real for adotado no futuro, promover esta base para um runner Playwright dedicado.
+- Model/config: gpt-5.5 high-reasoning
+
+#### Checkpoint 2026-05-26T04:08:45-03:00
+- Done: T62 adicionou smoke social headless para o roteiro Barganhar -> WorldState -> save/load, com teste Node, comando npm, integracao ao quality gate, docs de QA e memoria tripla atualizada sem nova dependencia de browser.
+- Next: T63 pode tratar consequencias sociais reais para Pressionar em tarefa separada.
+- Risks: O smoke T62 e contratual/headless; mudancas visuais ainda precisam de Browser Use ou Playwright CLI.
+- Improvements: Promover para runner de navegador real quando o projeto aceitar dependencia Playwright ou CLI local estavel.
+- Model/config: gpt-5.5 high-reasoning
+<!-- /pandorha-task:20260526-040147-t62-social-browser-smoke-automation -->
 <!-- pandorha-task:20260525-203610-t61-social-consequences-v1 -->
 ### T61 Social Consequences V1
 - id: 20260525-203610-t61-social-consequences-v1
@@ -3160,6 +3193,29 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-26T04:01:22-03:00 - post-t61-commit
+- branch: task-dialogue-option-availability
+- commit: e83ed47 feat(social): record dialogue consequence metadata
+- changed_files_count: 2
+#### Changed Files
+- docs/process/task-ledger.md
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-05-26T04:01:12-03:00 - post-commit
+- branch: task-dialogue-option-availability
+- commit: e83ed47 feat(social): record dialogue consequence metadata
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-26T03:28:31-03:00 - t61-social-consequences-v1
 - branch: task-dialogue-option-availability
 - commit: 5593b32 feat(dialogue): cobre informante e opcoes bloqueadas

@@ -25,6 +25,15 @@ T59 can add another NPC with gated options using the same fields. Future work ca
 - Revisit after the next feature change or failed validation run.
 - Convert durable lessons into tests or automation where practical.
 
+## 2026-05-26T04:08:00.000Z
+
+### Scaling Notes
+T62 now covers the recurring Barganhar -> WorldState -> save/load walkthrough with a headless contract smoke. Future work can promote this to a real browser runner once the project accepts a Playwright dependency or stable local browser CLI; until then, Browser Use remains the visual gate for `.svelte` changes.
+
+### Follow-Up
+- Keep `social_browser_smoke.mjs` focused on user-visible social contracts.
+- Add a slower rendered browser smoke only when the dependency and artifact policy are settled.
+
 ## 2026-05-24T07:59:50.343Z
 
 ### Scaling Notes

@@ -33,7 +33,7 @@ Este guia explica como testar a negociação social visível do Pandorha Engine.
 10. Confirme que o argumento selecionado virou `Barganhar` e que aparece `Modificador do argumento: +1`.
 11. Clique em `Fazer apelo`.
 12. Confirme que a rolagem mostra `Bônus 1` e que o log cita `Barganhar`.
-13. Repita `Fazer apelo` até convencer o NPC e confirme que a consequência cita a troca proposta de `Barganhar`.
+13. Repita `Fazer apelo` até convencer o NPC e confirme que a consequência em `WorldState` cita a troca proposta de `Barganhar`.
 14. Para validar bloqueio de opção, selecione `Informante de Treino` e clique em `Reiniciar negociação`.
 15. Confirme que aparecem `HP mental 6/6`, `Fala do NPC` e a fala inicial sobre exigir uma garantia antes de falar.
 16. Confirme que a opção `Pressionar` aparece desabilitada com o texto `Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.`.

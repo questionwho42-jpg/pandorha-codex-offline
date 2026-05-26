@@ -32,6 +32,18 @@ T58 adds dialogue option availability to social encounter traversal. DialogueTra
 - Keep implementation details tied to local module boundaries.
 - Preserve previous entries and append new findings instead of overwriting memory.
 
+## 2026-05-26T04:08:00.000Z
+
+### Error Log
+The first T62 script test passed on fixtures, but the real smoke failed because the user guide did not name `WorldState` in the ordered Barganhar -> save/load path. The guide was updated so the automated contract matches the human QA flow.
+
+### Technical Summary
+T62 adds `scripts/social_browser_smoke.mjs` and `scripts/test_social_browser_smoke.mjs` as a recurring QA guard for the social browser walkthrough. The project has no Playwright dependency, so this smoke validates stable source and guide contracts for Barganhar, WorldState consequence metadata, and save/load wiring without changing schema, save version, or runtime social rules.
+
+### Patterns And Decisions
+- Keep the T62 smoke headless and dependency-free until the project explicitly adopts Playwright or another browser runner.
+- Wire recurring QA into `quality:gate` so future drift is caught by automation, not manual review.
+
 ## 2026-05-24T07:59:50.343Z
 
 ### Error Log

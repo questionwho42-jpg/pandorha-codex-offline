@@ -41,6 +41,18 @@ Esse comando executa `scripts/vertical_slice_smoke.mjs`. Ele valida contratos m�
 
 O script é um smoke estático/contratual, não substitui o Browser Use. Ele existe para falhar cedo quando uma aba, guia ou peça central do MVP desaparecer sem intenção.
 
+## Automação Da T62
+
+Use:
+
+```powershell
+npm.cmd run qa:social-browser-smoke
+```
+
+Esse comando executa `scripts/social_browser_smoke.mjs`. Ele valida o contrato recorrente do roteiro de navegador social sem instalar dependência nova: controles de save/load na aba `Relações`, seletores e botões com `data-testid`, consequência em `WorldState` com metadados de `Barganhar`, save v4 com eventos de negociação e guia em ordem `Barganhar -> Fazer apelo -> WorldState -> Salvar sessão -> recarregue -> Carregar save`.
+
+O smoke T62 continua sendo contratual/headless. Mudanças visuais em `.svelte` ainda exigem Browser Use ou Playwright CLI para confirmar o fluxo renderizado.
+
 ## O Que Funciona Hoje
 
 - Criação e listagem de personagens básicos.
@@ -77,6 +89,7 @@ npm.cmd run test:coverage
 npm.cmd run build
 npm.cmd run quality:gate
 npm.cmd run qa:vertical-slice
+npm.cmd run qa:social-browser-smoke
 ```
 
 Quando houver UI alterada, valide também no Browser Use com o fluxo principal acima.
