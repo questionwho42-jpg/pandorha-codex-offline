@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260527-125851-t72-npc-relationship-core -->
+### T72 NPC Relationship Core
+- id: 20260527-125851-t72-npc-relationship-core
+- status: open
+- created_at: 2026-05-27T12:58:51-03:00
+- source: task-ledger
+- summary: Criar nucleo modular de relacao individual por NPC com schema validado, repository contract, fake em memoria e service puro sem UI, save v5, migration ou WorldState.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260527-125851-t72-npc-relationship-core -->
 <!-- pandorha-inbox:20260526-205714-t71-social-retaliation-clock-advance -->
 ### T71 Social Retaliation Clock Advance
 - id: 20260526-205714-t71-social-retaliation-clock-advance

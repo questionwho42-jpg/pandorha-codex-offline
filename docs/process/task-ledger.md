@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260527-125851-t72-npc-relationship-core -->
+### T72 NPC Relationship Core
+- id: 20260527-125851-t72-npc-relationship-core
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-27T12:58:51-03:00
+- finished_at: 2026-05-27T13:16:17-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-27T13:16:17-03:00
+- branch: task/t72-npc-relationship-core
+- commit_at_start: 4f57630 chore(process): record t71 post-commit snapshot
+- summary: Criar nucleo modular de relacao individual por NPC com schema validado, repository contract, fake em memoria e service puro sem UI, save v5, migration ou WorldState.
+- last_change: T72 entregou o nucleo modular de relacao individual por NPC com schema Drizzle-Zod nao migrado, contrato de repositorio, fake em memoria, servico Result Pattern idempotente e cobertura 100%, sem save v5, UI, RPC publica ou WorldState.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-27T12:58:51-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-27T13:16:17-03:00
+- Done: T72 entregou o nucleo modular de relacao individual por NPC com schema Drizzle-Zod nao migrado, contrato de repositorio, fake em memoria, servico Result Pattern idempotente e cobertura 100%, sem save v5, UI, RPC publica ou WorldState.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260527-125851-t72-npc-relationship-core -->
 <!-- pandorha-task:20260526-205714-t71-social-retaliation-clock-advance -->
 ### T71 Social Retaliation Clock Advance
 - id: 20260526-205714-t71-social-retaliation-clock-advance
