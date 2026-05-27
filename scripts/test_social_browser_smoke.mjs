@@ -88,6 +88,31 @@ test("social browser smoke fails when Barganhar metadata is no longer tested", a
 	}
 });
 
+test("social browser smoke fails when the pressure infamy clock contract is not tested", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/app/model/socialPressurePenaltySession.spec.ts":
+				renderSocialPressurePenaltySessionSpec().replace(
+					'source: "social-pressure"',
+					'source: "manual"',
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(
+			result.stderr,
+			/src\/app\/model\/socialPressurePenaltySession\.spec\.ts/,
+		);
+		assert.match(result.stderr, /source: "social-pressure"/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 async function createFixtureRoot({
 	fileOverrides = {},
 	docOverrides = {},
@@ -103,6 +128,8 @@ async function createFixtureRoot({
 			renderSocialRelationsPanel(),
 		"src/features/social-encounter/__tests__/socialEncounterConsequences.spec.ts":
 			renderSocialEncounterConsequencesSpec(),
+		"src/app/model/socialPressurePenaltySession.spec.ts":
+			renderSocialPressurePenaltySessionSpec(),
 		"src/features/save-load/model/saveLoadSchemas.ts": renderSaveSchemas(),
 		"docs/process/vertical-slice-qa.md": renderVerticalSliceQa(),
 		"docs/user/social-encounter.md": renderSocialEncounterGuide(),
@@ -187,6 +214,22 @@ it("stores bargain metadata", () => {
 });
 it("creates a pressure penalty intent", () => {});
 createSocialEncounterConsequenceView();
+`;
+}
+
+function renderSocialPressurePenaltySessionSpec() {
+	return `
+it("applies Infamia and creates a retaliation clock when Fame is already zero", async () => {
+  expect(result.data.infamyApplied).toBe(true);
+  expect(result.data.retaliationClockCreated).toBe(true);
+  expect(result.data.clocks).toEqual([
+    expect.objectContaining({
+      id: "retaliation-training-merchant-league-social-encounter-primary",
+      source: "social-pressure",
+    }),
+  ]);
+  expect(fakeGainInfamy.calls).toBe(1);
+});
 `;
 }
 

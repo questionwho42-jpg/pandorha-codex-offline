@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260526-205714-t71-social-retaliation-clock-advance -->
+### T71 Social Retaliation Clock Advance
+- id: 20260526-205714-t71-social-retaliation-clock-advance
+- status: open
+- created_at: 2026-05-26T20:57:14-03:00
+- source: task-ledger
+- summary: Automatizar smoke social pos-T70 e criar servico puro para avancar clocks de retaliacao por gatilho explicito sem migration, save v5 ou RPC novo.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260526-205714-t71-social-retaliation-clock-advance -->
 <!-- pandorha-inbox:20260526-183035-t66-t70-social-roadmap-implementation -->
 ### T66-T70 Social Roadmap Implementation
 - id: 20260526-183035-t66-t70-social-roadmap-implementation

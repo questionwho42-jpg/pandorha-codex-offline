@@ -102,6 +102,20 @@ async function runSocialBrowserSmoke(root) {
 
 	await validateFileContains(
 		root,
+		"src/app/model/socialPressurePenaltySession.spec.ts",
+		[
+			"creates a retaliation clock when Fame is already zero",
+			"infamyApplied",
+			"retaliationClockCreated",
+			"retaliation-training-merchant-league-social-encounter-primary",
+			'source: "social-pressure"',
+			"expect(fakeGainInfamy.calls).toBe(1)",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
 		"src/features/save-load/model/saveLoadSchemas.ts",
 		[
 			"CURRENT_SAVE_VERSION = 4",

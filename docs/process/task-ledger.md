@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260526-205714-t71-social-retaliation-clock-advance -->
+### T71 Social Retaliation Clock Advance
+- id: 20260526-205714-t71-social-retaliation-clock-advance
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-26T20:57:14-03:00
+- finished_at: 2026-05-26T21:09:32-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-26T21:09:32-03:00
+- branch: task/t71-social-retaliation-clock-advance
+- commit_at_start: bcb06e4 chore(process): record T66-T70 post-commit snapshot
+- summary: Automatizar smoke social pos-T70 e criar servico puro para avancar clocks de retaliacao por gatilho explicito sem migration, save v5 ou RPC novo.
+- last_change: T71 concluida: smoke social pos-T70 reforcado, SocialRetaliationClockService criado com gatilhos explicitos idempotentes para clocks source social-pressure, memoria tripla adicionada e contrato T72 documentado sem migration, save v5, RPC novo ou UI.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-26T20:57:14-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-26T21:03:38-03:00
+- Done: Servico T71, smoke social reforcado, memoria tripla e contrato T72 adicionados; lint e core-conventions passaram.
+- Next: Executar testes, cobertura, build, quality gate, smokes sociais e readiness final.
+- Risks: Vitest e Vite exigem execucao fora do sandbox por Access is denied no esbuild; T71 ainda nao esta ligada a UI ou save persistido.
+- Improvements: Futuro wiring de UI deve definir persistencia de trigger ids antes de avancar clocks automaticamente.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-26T21:09:32-03:00
+- Done: T71 concluida: smoke social pos-T70 reforcado, SocialRetaliationClockService criado com gatilhos explicitos idempotentes para clocks source social-pressure, memoria tripla adicionada e contrato T72 documentado sem migration, save v5, RPC novo ou UI.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260526-205714-t71-social-retaliation-clock-advance -->
 <!-- pandorha-task:20260526-183035-t66-t70-social-roadmap-implementation -->
 ### T66-T70 Social Roadmap Implementation
 - id: 20260526-183035-t66-t70-social-roadmap-implementation

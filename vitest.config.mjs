@@ -49,6 +49,7 @@ export default defineConfig({
 				"src/features/social-standing/domain/SocialStandingService.ts",
 				"src/features/social-encounter/domain/SocialAppealResolutionService.ts",
 				"src/features/social-encounter/domain/SocialEncounterService.ts",
+				"src/features/social-retaliation/domain/SocialRetaliationClockService.ts",
 				"src/features/spell-cast/domain/SpellCastBuilderService.ts",
 				"src/features/character-create/model/characterCreateView.ts",
 				"src/features/character-list/model/characterListView.ts",
