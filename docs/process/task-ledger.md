@@ -13,6 +13,67 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:fase-24-validacao-matematica-e-skills -->
+### Validacao Matematica e de Skills
+- id: fase-24-validacao-matematica-e-skills
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-26T19:17:05-03:00
+- finished_at: 2026-05-26T19:17:11-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-26T19:17:11-03:00
+- branch: task/gameplay-loop-integration
+- commit_at_start: 36d4a73 feat: integrate dialogue system with hexcrawl exploration loop
+- summary: Execucao de simulacao Monte Carlo de letalidade e integracao do simulador ao Quality Gate
+- last_change: Completada a integracao da simulacao Monte Carlo ao script run_full_quality_gate.mjs e o comando npm test:mechanics no package.json
+#### Files At Start
+- AGENTS.md
+- llms.txt
+- package.json
+- pandorha-sistema-28-04-backup/App.svelte
+- scripts/run_full_quality_gate.mjs
+- .agents/skills/rpg-mechanics-validator/
+- .agents/skills/svelte-runes-validator/
+- pandorha-sistema-28-04-backup/BastionPanel.svelte.bak
+- pandorha-sistema-28-04-backup/BastionService.spec.ts
+- pandorha-sistema-28-04-backup/BastionStructureCard.svelte.bak
+- pandorha-sistema-28-04-backup/CombatEncounterService.ts
+- pandorha-sistema-28-04-backup/CompanionService.spec.ts
+- pandorha-sistema-28-04-backup/DialoguePanel.svelte.bak
+- pandorha-sistema-28-04-backup/DowntimeProjectList.svelte.bak
+- pandorha-sistema-28-04-backup/EncounterService.ts
+- pandorha-sistema-28-04-backup/FactionService.spec.ts
+- pandorha-sistema-28-04-backup/HexcrawlMapPanel.svelte.bak
+- pandorha-sistema-28-04-backup/QuestLogPanel.svelte.bak
+- pandorha-sistema-28-04-backup/SaveManagerPanel.svelte.bak
+- pandorha-sistema-28-04-backup/SynergyService.spec.ts
+- pandorha-sistema-28-04-backup/bastion.css.bak
+- pandorha-sistema-28-04-backup/llms.txt
+- pandorha-sistema-28-04-backup/src/
+- pandorha-sistema-28-04-backup/styles.css
+- pandorha-sistema-28-04-backup/styles.css.bak
+- pandorha-sistema-28-04-backup/vitest.config.mjs
+- pandorha-sistema-28-04-backup/vitest.config.mjs.bak
+- planejamento_loop_gameplay.md
+- scripts/run_portable_command.mjs
+- scripts/validate_svelte_syntax.mjs
+#### Checkpoints
+#### Checkpoint 2026-05-26T19:17:05-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-26T19:17:11-03:00
+- Done: Completada a integracao da simulacao Monte Carlo ao script run_full_quality_gate.mjs e o comando npm test:mechanics no package.json
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:fase-24-validacao-matematica-e-skills -->
 <!-- pandorha-task:fase-23-integracao-final-loop-gameplay -->
 ### Integracao Final do Loop de Gameplay
 - id: fase-23-integracao-final-loop-gameplay

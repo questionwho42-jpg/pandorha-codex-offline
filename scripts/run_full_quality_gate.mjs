@@ -115,6 +115,9 @@ async function runAutomationGate() {
 		"scripts/pandorha_process_automation.py",
 		"validate",
 	]);
+	await runStep("automation:mechanics-balance", pythonCommand, [
+		".agents/skills/rpg-mechanics-validator/scripts/simulate_mechanics.py",
+	]);
 }
 
 async function runMcpGate() {

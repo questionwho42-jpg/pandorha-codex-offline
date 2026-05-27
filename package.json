@@ -12,6 +12,7 @@
 		"test": "vitest run",
 		"test:unit": "vitest run",
 		"test:coverage": "vitest run --coverage.enabled true --coverage.reporter=json-summary",
+		"test:mechanics": "python .agents/skills/rpg-mechanics-validator/scripts/simulate_mechanics.py",
 		"lint": "biome check biome.json drizzle.config.mjs index.html src package.json tsconfig.json vite.config.mjs vitest.config.mjs scripts/install_process_hooks.mjs scripts/process_hook_runner.mjs scripts/run_full_quality_gate.mjs scripts/scaffold_catalog_entity.mjs scripts/test_scaffold_catalog_entity.mjs scripts/scaffold_domain_service.mjs scripts/test_scaffold_domain_service.mjs scripts/validate_coverage_registration.mjs scripts/test_validate_coverage_registration.mjs scripts/test_skill_validators.mjs .agents/skills/core-conventions/scripts/validate.mjs .agents/skills/self-review-checklist/scripts/hard_stop.mjs .agents/skills/self-review-checklist/scripts/run_json_tests.mjs && tsc --noEmit",
 		"quality:gate": "node scripts/run_full_quality_gate.mjs",
 		"quality:root": "node scripts/run_full_quality_gate.mjs --only=root",
