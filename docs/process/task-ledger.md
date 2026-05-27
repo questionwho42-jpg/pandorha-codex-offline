@@ -3402,6 +3402,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-26T21:10:45-03:00 - post-commit
+- branch: task/t71-social-retaliation-clock-advance
+- commit: 0759766 feat(social): add retaliation clock advance service
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-26T20:42:07-03:00 - post-commit
 - branch: task/t66-t70-social-roadmap
 - commit: 0038419 feat(social): implement T66-T70 social roadmap
