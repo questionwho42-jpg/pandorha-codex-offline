@@ -66,14 +66,14 @@ export function createAuditor(db: SQLiteDatabase) {
 	return {
 		getActorStats(selector: ActorSelector) {
 			const schema = inspectActorsSchema(db);
-			const actor = findActor(db, schema.columns, schema.map, selector);
+			const actor = findActor(db, schema.table, schema.columns, schema.map, selector);
 			const stats = normalizeActorStats(actor, schema.map);
 
 			return {
 				actor,
 				stats,
 				schema: {
-					table: "actors",
+					table: schema.table,
 					columns: schema.columns,
 					mappedColumns: schema.map,
 				},
@@ -82,7 +82,7 @@ export function createAuditor(db: SQLiteDatabase) {
 
 		verifyMath(actorId: string | number) {
 			const schema = inspectActorsSchema(db);
-			const actor = findActor(db, schema.columns, schema.map, {
+			const actor = findActor(db, schema.table, schema.columns, schema.map, {
 				actor_id: actorId,
 			});
 			const stats = normalizeActorStats(actor, schema.map);
@@ -176,21 +176,31 @@ export function createAuditor(db: SQLiteDatabase) {
 }
 
 export function inspectActorsSchema(db: SQLiteDatabase) {
-	const table = db
+	let tableName = "characters";
+	let table = db
 		.prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?")
-		.get("actors");
+		.get(tableName);
+
+	if (!table) {
+		tableName = "actors";
+		table = db
+			.prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?")
+			.get(tableName);
+	}
+
 	if (!table) {
 		throw new Error(
-			"Table 'actors' was not found in the configured SQLite database",
+			"Neither 'characters' nor 'actors' table was found in the configured SQLite database",
 		);
 	}
 
 	const columns = db
-		.prepare("PRAGMA table_info(actors)")
+		.prepare(`PRAGMA table_info(${quoteIdentifier(tableName)})`)
 		.all()
 		.map((row) => String((row as { name: string }).name));
 
 	return {
+		table: tableName,
 		columns,
 		map: buildColumnMap(columns),
 	};
@@ -296,6 +306,7 @@ function normalizeActorStats(actor: Record<string, unknown>, map: ColumnMap) {
 
 function findActor(
 	db: SQLiteDatabase,
+	tableName: string,
 	columns: string[],
 	map: ColumnMap,
 	selector: ActorSelector,
@@ -304,6 +315,8 @@ function findActor(
 		throw new Error("Provide actor_id or actor_name");
 	}
 
+	const quotedTable = quoteIdentifier(tableName);
+
 	if (selector.actor_id !== undefined) {
 		const idColumn = map.id && quoteIdentifier(map.id);
 		const clauses = idColumn ? [`${idColumn} = ?`, "rowid = ?"] : ["rowid = ?"];
@@ -311,7 +324,7 @@ function findActor(
 			? [selector.actor_id, selector.actor_id]
 			: [selector.actor_id];
 		const row = db
-			.prepare(`SELECT * FROM actors WHERE ${clauses.join(" OR ")} LIMIT 1`)
+			.prepare(`SELECT * FROM ${quotedTable} WHERE ${clauses.join(" OR ")} LIMIT 1`)
 			.get(...params);
 		if (row) return row as Record<string, unknown>;
 	}
@@ -323,14 +336,14 @@ function findActor(
 			);
 		const row = db
 			.prepare(
-				`SELECT * FROM actors WHERE ${quoteIdentifier(map.name)} = ? LIMIT 1`,
+				`SELECT * FROM ${quotedTable} WHERE ${quoteIdentifier(map.name)} = ? LIMIT 1`,
 			)
 			.get(selector.actor_name);
 		if (row) return row as Record<string, unknown>;
 	}
 
 	throw new Error(
-		`Actor not found in actors table. Available columns: ${columns.join(", ")}`,
+		`Actor not found in ${tableName} table. Available columns: ${columns.join(", ")}`,
 	);
 }
 

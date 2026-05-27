@@ -73,7 +73,9 @@ O projeto segue o padrão FSD para garantir escalabilidade e desacoplamento.
 Ao trabalhar no projeto, o agente DEVE validar seu trabalho com:
 1. **Validar Lógica:** `npm test`
 2. **Validar Estilo:** `npm run lint` (Biome/ESLint)
-3. **Check-out de Tarefa:** Ao finalizar qualquer modificação, rode obrigatoriamente o script de automação:
+3. **Validar Sintaxe UI:** `node scripts/validate_svelte_syntax.mjs src` (Impede misturas Svelte 4 / Svelte 5 e imports hallucinados)
+4. **Execução Portátil:** Para comandos de shell Unix genéricos (ex: `rm`, `cat`), use o wrapper portátil `node scripts/run_portable_command.mjs "<comando>"`
+5. **Check-out de Tarefa:** Ao finalizar qualquer modificação, rode obrigatoriamente o script de automação:
    ```bash
    python scripts/pandorha_process_automation.py
    ```

@@ -13,6 +13,67 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260527-063531-alinhamento-de-tabelas-no-db-auditor -->
+### Alinhamento de Tabelas no DB Auditor
+- id: 20260527-063531-alinhamento-de-tabelas-no-db-auditor
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-27T06:35:31-03:00
+- finished_at: 2026-05-27T06:35:34-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-27T06:35:34-03:00
+- branch: task/gameplay-loop-integration
+- commit_at_start: 1a05075 test: integrate Monte Carlo simulation into CI quality gate
+- summary: Fazer o pandorha-db-auditor detectar dinamicamente as tabelas characters e actors no SQLite
+- last_change: Mapeamento dinâmico de characters/actors e suporte para colunas em inglês do Drizzle concluídos com 100% de cobertura nos testes do pandorha-db-auditor.
+#### Files At Start
+- AGENTS.md
+- llms.txt
+- mcp/pandorha-db-auditor/src/index.ts
+- mcp/pandorha-db-auditor/test/auditor.test.js
+- pandorha-sistema-28-04-backup/App.svelte
+- .agents/skills/rpg-mechanics-validator/
+- .agents/skills/svelte-runes-validator/
+- pandorha-sistema-28-04-backup/BastionPanel.svelte.bak
+- pandorha-sistema-28-04-backup/BastionService.spec.ts
+- pandorha-sistema-28-04-backup/BastionStructureCard.svelte.bak
+- pandorha-sistema-28-04-backup/CombatEncounterService.ts
+- pandorha-sistema-28-04-backup/CompanionService.spec.ts
+- pandorha-sistema-28-04-backup/DialoguePanel.svelte.bak
+- pandorha-sistema-28-04-backup/DowntimeProjectList.svelte.bak
+- pandorha-sistema-28-04-backup/EncounterService.ts
+- pandorha-sistema-28-04-backup/FactionService.spec.ts
+- pandorha-sistema-28-04-backup/HexcrawlMapPanel.svelte.bak
+- pandorha-sistema-28-04-backup/QuestLogPanel.svelte.bak
+- pandorha-sistema-28-04-backup/SaveManagerPanel.svelte.bak
+- pandorha-sistema-28-04-backup/SynergyService.spec.ts
+- pandorha-sistema-28-04-backup/bastion.css.bak
+- pandorha-sistema-28-04-backup/llms.txt
+- pandorha-sistema-28-04-backup/src/
+- pandorha-sistema-28-04-backup/styles.css
+- pandorha-sistema-28-04-backup/styles.css.bak
+- pandorha-sistema-28-04-backup/vitest.config.mjs
+- pandorha-sistema-28-04-backup/vitest.config.mjs.bak
+- planejamento_loop_gameplay.md
+- scripts/run_portable_command.mjs
+- scripts/validate_svelte_syntax.mjs
+#### Checkpoints
+#### Checkpoint 2026-05-27T06:35:31-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-27T06:35:34-03:00
+- Done: Mapeamento dinâmico de characters/actors e suporte para colunas em inglês do Drizzle concluídos com 100% de cobertura nos testes do pandorha-db-auditor.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260527-063531-alinhamento-de-tabelas-no-db-auditor -->
 <!-- pandorha-task:fase-24-validacao-matematica-e-skills -->
 ### Validacao Matematica e de Skills
 - id: fase-24-validacao-matematica-e-skills

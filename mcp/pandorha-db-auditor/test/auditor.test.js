@@ -266,3 +266,59 @@ test("missing actor returns a clear error", () => {
 	assert.throws(() => createAuditor(db).getActorStats({}), /Provide actor_id/);
 	db.close();
 });
+
+test("detects characters table dynamically and normalizes columns in English", () => {
+	const dbPath = path.join(
+		fs.mkdtempSync(path.join(os.tmpdir(), "pandorha-db-auditor-")),
+		"test_chars.db",
+	);
+	const db = new Database(dbPath);
+
+	db.exec(`
+		CREATE TABLE characters (
+			id TEXT PRIMARY KEY,
+			name TEXT NOT NULL,
+			concept TEXT NOT NULL,
+			ancestry_id TEXT NOT NULL,
+			class_id TEXT NOT NULL,
+			background_id TEXT NOT NULL,
+			level INTEGER NOT NULL,
+			experience_points INTEGER NOT NULL,
+			physical INTEGER NOT NULL,
+			mental INTEGER NOT NULL,
+			social INTEGER NOT NULL,
+			conflict INTEGER NOT NULL,
+			interaction INTEGER NOT NULL,
+			resistance INTEGER NOT NULL,
+			created_at TEXT NOT NULL,
+			updated_at TEXT NOT NULL
+		);
+	`);
+
+	db.prepare(`
+		INSERT INTO characters (
+			id, name, concept, ancestry_id, class_id, background_id, level,
+			experience_points, physical, mental, social, conflict, interaction, resistance,
+			created_at, updated_at
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	`).run(
+		"char-uuid-123", "Kaelen", "Warrior", "human", "soldier", "soldier_bg",
+		3, 300, 4, 2, 1, 2, 1, 3, "2026-05-27", "2026-05-27"
+	);
+
+	const auditor = createAuditor(db);
+	const result = auditor.getActorStats({ actor_name: "Kaelen" });
+
+	assert.equal(result.schema.table, "characters");
+	assert.equal(result.stats.identity.name, "Kaelen");
+	assert.equal(result.stats.identity.id, "char-uuid-123");
+	assert.equal(result.stats.axes.fisico, 4);
+	assert.equal(result.stats.axes.mental, 2);
+	assert.equal(result.stats.axes.social, 1);
+	assert.equal(result.stats.applications.conflito, 2);
+	assert.equal(result.stats.applications.interacao, 1);
+	assert.equal(result.stats.applications.resistencia, 3);
+	assert.equal(result.stats.derived.level, 3);
+
+	db.close();
+});
