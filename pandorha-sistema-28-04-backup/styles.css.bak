@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+	--color-void: #1c1917;
+	--color-ruin: #2a2622;
+	--color-ether: #dab973;
+	--color-bone: #dcd7cd;
+	--color-bronze: #a87832;
+	--color-blood-shadow: #1a0f0f;
+	--color-blood: #991b1b;
+	--color-sky-runic: #38bdf8;
+	--color-purple-runic: #c084fc;
+	--color-emerald-poison: #34d399;
+	--color-orange-hungry: #fb923c;
+}
+
+:root {
+	font-family:
+		Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+		"Segoe UI", sans-serif;
+	color: var(--color-bone);
+	background: var(--color-void);
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	min-width: 320px;
+	min-height: 100vh;
+	margin: 0;
+	background: var(--color-void);
+}
+
+button {
+	font: inherit;
+}
+
+/* Animações CSS Customizadas e Premium para Oficina/Forja de Pandorha */
+@keyframes wiggling {
+	0%,
+	100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.02) rotate(1deg);
+	}
+}
+.animate-wiggle {
+	animation: wiggling 0.3s ease-in-out infinite;
+}
+
+@keyframes strike-anvil {
+	0%,
+	100% {
+		transform: translateY(0) rotate(0deg);
+	}
+	20% {
+		transform: translateY(-16px) rotate(-35deg);
+	}
+	40% {
+		transform: translateY(4px) rotate(15deg);
+	}
+	50% {
+		transform: translateY(0) rotate(0deg);
+	}
+}
+.animate-strike {
+	animation: strike-anvil 0.7s ease-in-out infinite;
+}
+
+/* Animação para a rolagem de dados na Farmácia / Diagnóstico de Doenças */
+@keyframes die-rotation {
+	0% {
+		transform: rotate(0deg) scale(1);
+	}
+	50% {
+		transform: rotate(180deg) scale(1.1);
+	}
+	100% {
+		transform: rotate(360deg) scale(1);
+	}
+}
+.animate-die-spin {
+	animation: die-rotation 0.8s ease-in-out infinite;
+}

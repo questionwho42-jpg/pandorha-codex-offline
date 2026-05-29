@@ -3,7 +3,9 @@ import { onMount } from "svelte";
 import type {
 	CharacterCreateInput,
 	CharacterRecord,
+	CharacterRepository,
 } from "$lib/entities/character";
+import { IllnessService } from "$lib/entities/character/domain/IllnessService";
 import {
 	BaseCharacterStats,
 	EterFeverDecorator,
@@ -24,6 +26,8 @@ import type {
 	TrapRecord,
 } from "$lib/entities/traps";
 import { TrapService, WorkerTrapRepository } from "$lib/entities/traps";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { BastionPanel } from "$lib/features/bastion";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CampPanel } from "$lib/features/camp";
 import {
@@ -51,9 +55,15 @@ import {
 	IllnessWorkshopPanel,
 } from "$lib/features/crafting";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { DomainCouncilPanel } from "$lib/features/domain-regional";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import EspionageManagementPanel from "$lib/features/espionage/ui/EspionageManagementPanel.svelte";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { MercenaryCompanyPanel } from "$lib/features/mercenary";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { QuestLogPanel } from "$lib/features/quests";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
@@ -62,6 +72,8 @@ import { SocialStandingService } from "$lib/features/social/domain/SocialStandin
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SpellCastPanel } from "$lib/features/spell-cast";
 import { createCharacterListView } from "../features/character-list/model/characterListView";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import TrapDeploymentPanel from "../features/traps/ui/TrapDeploymentPanel.svelte";
 import { createCharacterSession } from "./model/characterSession";
 import { createCombatEncounterSession } from "./model/combatEncounterSession";
 import { createCompendiumSession } from "./model/compendiumSession";
@@ -140,6 +152,7 @@ const inventorySession = createInventorySession();
 const spellCastSession = createSpellCastSession();
 
 let activeView = $state<AppNavigationId>("home");
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let activeDialogueTreeId = $state<string | undefined>(undefined);
 let campRations = $state(3);
 
@@ -163,7 +176,7 @@ const socialStandingService = new SocialStandingService(socialRepository);
 const companionRepository = new WorkerCompanionRepository();
 const companionService = new CompanionService(
 	companionRepository,
-	characterSession.repository as any,
+	characterSession.repository as unknown as CharacterRepository,
 );
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -172,7 +185,6 @@ let isRestBlocked = $state(false);
 let fame = $state(0);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let bloodDebt = $state(0);
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let dangerCounter = $state(15);
 let companions = $state<CompanionRecord[]>([]);
 
@@ -345,6 +357,43 @@ async function _handleUpdateCompanionTraits(
 	} else {
 		alert(`Erro ao atualizar traços: ${res.error.message}`);
 	}
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleGlobalEndRecess() {
+	const illnessService = new IllnessService(
+		characterSession.repository,
+		characterSession.service.idProvider,
+		characterSession.service.clock,
+	);
+
+	for (const char of characterRecords) {
+		const res = await illnessService.processWeeklyIllnessProgress(char.id);
+		if (res.success && res.data.length > 0) {
+			for (const prog of res.data) {
+				if (prog.curated) {
+					console.log(
+						`[Recesso] ${char.name} superou e curou a patologia ${prog.diseaseType}!`,
+					);
+				} else {
+					console.log(
+						`[Recesso] A patologia ${prog.diseaseType} de ${char.name} progrediu para gravidade ${prog.newSeverity}.`,
+					);
+				}
+			}
+		}
+	}
+
+	// Recarrega todos os status effects e atualiza o estado reativo global
+	const nextEffects: CharacterStatusEffectRecord[] = [];
+	for (const char of characterRecords) {
+		const effectsRes =
+			await characterSession.repository.findStatusEffectsByCharacterId(char.id);
+		if (effectsRes.success) {
+			nextEffects.push(...effectsRes.data);
+		}
+	}
+	activeStatusEffects = nextEffects;
 }
 
 async function reloadCompanions() {
@@ -605,6 +654,12 @@ async function handleManualDetectTrap(
 			);
 			if (triggerRes.success) {
 				console.log(triggerRes.data.log);
+				if (triggerRes.data.tensionIncreased) {
+					dangerCounter = Math.min(
+						20,
+						dangerCounter + triggerRes.data.tensionIncreased,
+					);
+				}
 				await persistTrapUpdate({
 					...trap,
 					isDetected: true,
@@ -662,6 +717,9 @@ async function handleManualDisarmTrap(
 		if (res.data.isDisarmed) {
 			await persistTrapUpdate({ ...trap, isDisarmed: true });
 		} else {
+			if (res.data.tensionIncreased) {
+				dangerCounter = Math.min(20, dangerCounter + res.data.tensionIncreased);
+			}
 			await persistTrapUpdate({ ...trap, isTriggered: true });
 		}
 	}
@@ -1024,6 +1082,7 @@ async function createCharacter(
 			{:else if activeView === "bastion"}
 				<BastionPanel
 					characters={characterRecords}
+					onEndRecess={handleGlobalEndRecess}
 				/>
 			{:else if activeView === "quests"}
 				<QuestLogPanel />
@@ -1078,9 +1137,48 @@ async function createCharacter(
 					{:else}
 						<IllnessWorkshopPanel 
 							characters={characterRecords}
+							characterSession={characterSession}
+							bind:activeStatusEffects={activeStatusEffects}
 						/>
 					{/if}
 				</div>
+			{:else if activeView === "domain_council"}
+				<DomainCouncilPanel
+					guildGold={guildGold}
+					onUpdateGuildGold={(val) => guildGold = val}
+				/>
+			{:else if activeView === "mercenary"}
+				<MercenaryCompanyPanel
+					guildGold={guildGold}
+					onUpdateGuildGold={(val) => guildGold = val}
+				/>
+			{:else if activeView === "espionage"}
+				<EspionageManagementPanel
+					bind:guildGold={guildGold}
+					onUpdateGuildGold={(val) => guildGold = val}
+					characters={characterRecords}
+					characterSession={characterSession}
+				/>
+			{:else if activeView === "traps"}
+				<TrapDeploymentPanel
+					characters={characterRecords}
+					currentTileId={activeTileId}
+					trapRepository={trapRepository}
+					characterSession={characterSession}
+					onDeploySuccess={async () => {
+						const res = await trapRepository.findByTileId(activeTileId);
+						if (res.success) {
+							const allTraps: TrapRecord[] = [];
+							for (const tile of hexcrawlSession.tiles) {
+								const tRes = await trapRepository.findByTileId(tile.id);
+								if (tRes.success) {
+									allTraps.push(...tRes.data);
+								}
+							}
+							trapsList = allTraps;
+						}
+					}}
+				/>
 			{:else}
 				<p class="max-w-3xl text-lg leading-8 text-bone">
 					{activeItem.description}

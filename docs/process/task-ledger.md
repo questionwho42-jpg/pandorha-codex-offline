@@ -13,6 +13,220 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:fase-29-companhias-mercenarias -->
+### Fase 29: Sistema de Companhias Mercenarias
+- id: fase-29-companhias-mercenarias
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-28T18:25:55-03:00
+- finished_at: 2026-05-28T18:26:00-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-28T18:26:00-03:00
+- branch: task/gameplay-loop-integration
+- commit_at_start: d32f8ba feat(db-auditor): detecta dinamicamente as tabelas characters/actors e mapeia colunas em ingles do Drizzle
+- summary: Implementacao do modulo de Companhias Mercenarias (Gestao de Peoes) no motor e interface visual
+- last_change: Finalizada a Fase 29 (Companhias Mercenarias), com correcao de importacao no WorkerRegionalDomainRepository e extensao de schemas para tipo literal de uniao
+#### Files At Start
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- pandorha-sistema-28-04-backup/App.svelte
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/app/styles.css
+- src/features/camp/domain/CampService.ts
+- src/features/camp/domain/__tests__/CampService.spec.ts
+- src/features/camp/ui/CampPanel.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/__tests__/RpcContract.spec.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- vitest.config.mjs
+- .agents/skills/rpg-mechanics-validator/
+- .agents/skills/svelte-runes-validator/
+- drizzle/0014_slippery_proemial_gods.sql
+- drizzle/0015_gray_texas_twister.sql
+- drizzle/0016_spotty_shiver_man.sql
+- drizzle/meta/0014_snapshot.json
+- drizzle/meta/0015_snapshot.json
+- drizzle/meta/0016_snapshot.json
+- pandorha-sistema-28-04-backup/BastionPanel.svelte.bak
+- pandorha-sistema-28-04-backup/BastionService.spec.ts
+- pandorha-sistema-28-04-backup/BastionStructureCard.svelte.bak
+- pandorha-sistema-28-04-backup/CombatEncounterService.ts
+- pandorha-sistema-28-04-backup/CompanionService.spec.ts
+- pandorha-sistema-28-04-backup/DialoguePanel.svelte.bak
+- pandorha-sistema-28-04-backup/DowntimeProjectList.svelte.bak
+- pandorha-sistema-28-04-backup/EncounterService.ts
+- pandorha-sistema-28-04-backup/FactionService.spec.ts
+- pandorha-sistema-28-04-backup/HexcrawlMapPanel.svelte.bak
+- pandorha-sistema-28-04-backup/QuestLogPanel.svelte.bak
+- pandorha-sistema-28-04-backup/SaveManagerPanel.svelte.bak
+- pandorha-sistema-28-04-backup/SynergyService.spec.ts
+- pandorha-sistema-28-04-backup/bastion.css.bak
+- pandorha-sistema-28-04-backup/llms.txt
+- ... 15 more
+#### Checkpoints
+#### Checkpoint 2026-05-28T18:25:55-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-28T18:26:00-03:00
+- Done: Finalizada a Fase 29 (Companhias Mercenarias), com correcao de importacao no WorkerRegionalDomainRepository e extensao de schemas para tipo literal de uniao
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:fase-29-companhias-mercenarias -->
+<!-- pandorha-task:fase-27-e-28-fiacao-rpc-e-ui -->
+### Fase 27 e 28: Fiacao RPC e UI
+- id: fase-27-e-28-fiacao-rpc-e-ui
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-27T12:00:31-03:00
+- finished_at: 2026-05-27T12:00:36-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-27T12:00:36-03:00
+- branch: task/gameplay-loop-integration
+- commit_at_start: d32f8ba feat(db-auditor): detecta dinamicamente as tabelas characters/actors e mapeia colunas em ingles do Drizzle
+- summary: Conclusao da fiacao RPC e desenvolvimento das UIs reativas Svelte 5 para as Fases 27 e 28 (Dominio Regional e Acampamento)
+- last_change: Fiacao RPC concluida criando os repositorios Worker regional domain e camp, adicionado LIST_REGIONAL_DOMAINS e criada a nova UI Svelte 5 DomainCouncilPanel e reformulada a CampPanel com suporte total ao banco SQLite WASM via worker
+#### Files At Start
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- pandorha-sistema-28-04-backup/App.svelte
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/app/styles.css
+- src/features/camp/domain/CampService.ts
+- src/features/camp/domain/__tests__/CampService.spec.ts
+- src/features/camp/ui/CampPanel.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/__tests__/RpcContract.spec.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- vitest.config.mjs
+- .agents/skills/rpg-mechanics-validator/
+- .agents/skills/svelte-runes-validator/
+- drizzle/0014_slippery_proemial_gods.sql
+- drizzle/0015_gray_texas_twister.sql
+- drizzle/meta/0014_snapshot.json
+- drizzle/meta/0015_snapshot.json
+- pandorha-sistema-28-04-backup/BastionPanel.svelte.bak
+- pandorha-sistema-28-04-backup/BastionService.spec.ts
+- pandorha-sistema-28-04-backup/BastionStructureCard.svelte.bak
+- pandorha-sistema-28-04-backup/CombatEncounterService.ts
+- pandorha-sistema-28-04-backup/CompanionService.spec.ts
+- pandorha-sistema-28-04-backup/DialoguePanel.svelte.bak
+- pandorha-sistema-28-04-backup/DowntimeProjectList.svelte.bak
+- pandorha-sistema-28-04-backup/EncounterService.ts
+- pandorha-sistema-28-04-backup/FactionService.spec.ts
+- pandorha-sistema-28-04-backup/HexcrawlMapPanel.svelte.bak
+- pandorha-sistema-28-04-backup/QuestLogPanel.svelte.bak
+- pandorha-sistema-28-04-backup/SaveManagerPanel.svelte.bak
+- pandorha-sistema-28-04-backup/SynergyService.spec.ts
+- pandorha-sistema-28-04-backup/bastion.css.bak
+- pandorha-sistema-28-04-backup/llms.txt
+- pandorha-sistema-28-04-backup/src/
+- pandorha-sistema-28-04-backup/styles.css
+- ... 11 more
+#### Checkpoints
+#### Checkpoint 2026-05-27T12:00:31-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-27T12:00:36-03:00
+- Done: Fiacao RPC concluida criando os repositorios Worker regional domain e camp, adicionado LIST_REGIONAL_DOMAINS e criada a nova UI Svelte 5 DomainCouncilPanel e reformulada a CampPanel com suporte total ao banco SQLite WASM via worker
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:fase-27-e-28-fiacao-rpc-e-ui -->
+<!-- pandorha-task:fase-26-investigacao-e-descoberta -->
+### Fase 26: Sistema de Investigacao e Descoberta
+- id: fase-26-investigacao-e-descoberta
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-27T09:37:21-03:00
+- finished_at: 2026-05-27T09:55:00-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gemini
+- last_modified_at: 2026-05-27T09:55:00-03:00
+- branch: task/gameplay-loop-integration
+- commit_at_start: d32f8ba feat(db-auditor): detecta dinamicamente as tabelas characters/actors e mapeia colunas em ingles do Drizzle
+- summary: Implementacao da Fase 26 de Investigacao e Descoberta no motor Pandorha com UI reativa Svelte 5 e persistencia no SQLite local-first
+- last_change: Finalizada a Fase 26 (Investigacao e Descoberta) com cobertura estrita de 100% de testes e Quality Gate totalmente aprovado
+#### Files At Start
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- pandorha-sistema-28-04-backup/App.svelte
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- .agents/skills/rpg-mechanics-validator/
+- .agents/skills/svelte-runes-validator/
+- drizzle/0014_slippery_proemial_gods.sql
+- drizzle/meta/0014_snapshot.json
+- pandorha-sistema-28-04-backup/BastionPanel.svelte.bak
+- pandorha-sistema-28-04-backup/BastionService.spec.ts
+- pandorha-sistema-28-04-backup/BastionStructureCard.svelte.bak
+- pandorha-sistema-28-04-backup/CombatEncounterService.ts
+- pandorha-sistema-28-04-backup/CompanionService.spec.ts
+- pandorha-sistema-28-04-backup/DialoguePanel.svelte.bak
+- pandorha-sistema-28-04-backup/DowntimeProjectList.svelte.bak
+- pandorha-sistema-28-04-backup/EncounterService.ts
+- pandorha-sistema-28-04-backup/FactionService.spec.ts
+- pandorha-sistema-28-04-backup/HexcrawlMapPanel.svelte.bak
+- pandorha-sistema-28-04-backup/QuestLogPanel.svelte.bak
+- pandorha-sistema-28-04-backup/SaveManagerPanel.svelte.bak
+- pandorha-sistema-28-04-backup/SynergyService.spec.ts
+- pandorha-sistema-28-04-backup/bastion.css.bak
+- pandorha-sistema-28-04-backup/llms.txt
+- pandorha-sistema-28-04-backup/src/
+- pandorha-sistema-28-04-backup/styles.css
+- pandorha-sistema-28-04-backup/styles.css.bak
+- pandorha-sistema-28-04-backup/vitest.config.mjs
+- pandorha-sistema-28-04-backup/vitest.config.mjs.bak
+- planejamento_loop_gameplay.md
+- scripts/run_portable_command.mjs
+- scripts/validate_svelte_syntax.mjs
+- src/entities/investigation/
+- src/features/investigation/
+#### Checkpoints
+#### Checkpoint 2026-05-27T09:37:21-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-27T09:55:00-03:00
+- Done: Finalizada a Fase 26 (Investigacao e Descoberta) com cobertura estrita de 100% de testes e Quality Gate totalmente aprovado
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gemini
+<!-- /pandorha-task:fase-26-investigacao-e-descoberta -->
 <!-- pandorha-task:20260527-063531-alinhamento-de-tabelas-no-db-auditor -->
 ### Alinhamento de Tabelas no DB Auditor
 - id: 20260527-063531-alinhamento-de-tabelas-no-db-auditor
@@ -2996,6 +3210,57 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-29T09:37:06-03:00 - complete traps feature
+- branch: task/gameplay-loop-integration
+- commit: d32f8ba feat(db-auditor): detecta dinamicamente as tabelas characters/actors e mapeia colunas em ingles do Drizzle
+- changed_files_count: 90
+#### Changed Files
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- pandorha-sistema-28-04-backup/App.svelte
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/app/styles.css
+- src/entities/bastion/__tests__/BastionService.spec.ts
+- src/entities/bastion/domain/BastionService.ts
+- src/entities/character/__tests__/CharacterService.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/CharacterService.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/model/characterTypes.ts
+- src/entities/social/domain/FactionRepository.ts
+- src/entities/social/infrastructure/DrizzleFactionRepository.ts
+- src/entities/social/infrastructure/InMemoryFactionRepository.ts
+- src/entities/social/model/socialSchema.ts
+- src/entities/traps/__tests__/TrapService.spec.ts
+- src/entities/traps/domain/TrapDecorators.ts
+- src/entities/traps/domain/TrapService.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/BastionStructureCard.svelte
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/camp/domain/CampService.ts
+- src/features/camp/domain/__tests__/CampService.spec.ts
+- src/features/camp/ui/CampPanel.svelte
+- src/features/character-list/model/characterListView.ts
+- src/features/combat-encounter/__tests__/CombatTurnService.spec.ts
+- src/features/combat-encounter/domain/CombatTurnService.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatTurnSchemas.ts
+- src/features/combat-encounter/model/combatTurnTypes.ts
+- src/features/crafting/ui/IllnessWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- ... 50 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-23T08:45:09-03:00 - manual
 - branch: master
 - commit: 97b167b chore(maintenance): ajuste do script de automacao e consolidacao da etapa 2 [2026-05-22 18:15]

@@ -5,6 +5,8 @@ import {
 	bastionModules,
 	bastions,
 } from "$lib/entities/bastion/model/bastionSchema";
+import { DrizzleCampRepository } from "$lib/entities/camp/infrastructure/DrizzleCampRepository";
+import { campaignCampSessions } from "$lib/entities/camp/model/campSchema";
 import { DrizzleCharacterRepository } from "$lib/entities/character/infrastructure/DrizzleCharacterRepository";
 import { characters } from "$lib/entities/character/model/characterSchema";
 import { DrizzleClockRepository } from "$lib/entities/clocks/infrastructure/DrizzleClockRepository";
@@ -12,6 +14,17 @@ import { progressClocks } from "$lib/entities/clocks/model/clockSchema";
 import { DrizzleCompanionRepository } from "$lib/entities/companions/infrastructure/DrizzleCompanionRepository";
 import { DrizzleDialogueRepository } from "$lib/entities/dialogue/infrastructure/DrizzleDialogueRepository";
 import { campaignDialogueStates } from "$lib/entities/dialogue/model/dialogueSchema";
+import { DrizzleRegionalDomainRepository } from "$lib/entities/domain-regional/infrastructure/DrizzleRegionalDomainRepository";
+import { campaignRegionalDomains } from "$lib/entities/domain-regional/model/regionalDomainSchema";
+import { DrizzleEspionageRepository } from "$lib/entities/espionage/infrastructure/DrizzleEspionageRepository";
+import { espionageCells } from "$lib/entities/espionage/model/espionageSchema";
+import { DrizzleInvestigationRepository } from "$lib/entities/investigation/infrastructure/DrizzleInvestigationRepository";
+import { campaignInvestigations } from "$lib/entities/investigation/model/investigationSchema";
+import { DrizzleMercenaryRepository } from "$lib/entities/mercenary/infrastructure/DrizzleMercenaryRepository";
+import {
+	mercenaryCompanies,
+	mercenarySquads,
+} from "$lib/entities/mercenary/model/mercenarySchema";
 import { DrizzleQuestRepository } from "$lib/entities/quest/infrastructure/DrizzleQuestRepository";
 import { campaignQuests } from "$lib/entities/quest/model/questSchema";
 import { DrizzleSocialRepository } from "$lib/entities/social/infrastructure/DrizzleSocialRepository";
@@ -255,6 +268,12 @@ export class SqliteOpfsBootstrapService {
 			database.data.run("DELETE FROM progress_clocks;");
 			database.data.run("DELETE FROM campaign_dialogue_states;");
 			database.data.run("DELETE FROM campaign_quests;");
+			database.data.run("DELETE FROM campaign_investigations;");
+			database.data.run("DELETE FROM campaign_regional_domains;");
+			database.data.run("DELETE FROM campaign_camp_sessions;");
+			database.data.run("DELETE FROM mercenary_companies;");
+			database.data.run("DELETE FROM mercenary_squads;");
+			database.data.run("DELETE FROM espionage_cells;");
 
 			if (snapshot.worldState && snapshot.worldState.length > 0) {
 				for (const state of snapshot.worldState) {
@@ -398,6 +417,139 @@ export class SqliteOpfsBootstrapService {
 				}
 			}
 
+			// biome-ignore lint/suspicious/noExplicitAny: response snapshot investigations typing
+			const snapshotInvestigations = (snapshot as any).investigations;
+			if (snapshotInvestigations && snapshotInvestigations.length > 0) {
+				for (const inv of snapshotInvestigations) {
+					const mappedInv = {
+						id: String(inv.id),
+						targetId: String(inv.targetId),
+						targetName: String(inv.targetName),
+						type: String(inv.type),
+						tier: Number(inv.tier),
+						dc: Number(inv.dc),
+						successesRequired: Number(inv.successesRequired),
+						successesAccumulated: Number(inv.successesAccumulated ?? 0),
+						failuresMax: Number(inv.failuresMax),
+						failuresAccumulated: Number(inv.failuresAccumulated ?? 0),
+						status: String(inv.status ?? "active"),
+						goldCostPerTest: Number(inv.goldCostPerTest ?? 0),
+						createdAt: String(inv.createdAt),
+						updatedAt: String(inv.updatedAt),
+					};
+					db.insert(campaignInvestigations).values(mappedInv).run();
+				}
+			}
+
+			// biome-ignore lint/suspicious/noExplicitAny: response snapshot regionalDomains typing
+			const snapshotRegionalDomains = (snapshot as any).regionalDomains;
+			if (snapshotRegionalDomains && snapshotRegionalDomains.length > 0) {
+				for (const rd of snapshotRegionalDomains) {
+					const mappedRd = {
+						id: String(rd.id),
+						tier: Number(rd.tier ?? 1),
+						physicalLevel: Number(
+							rd.physicalLevel ?? rd.matrixPhysicalLevel ?? 0,
+						),
+						mentalLevel: Number(rd.mentalLevel ?? rd.matrixMentalLevel ?? 0),
+						socialLevel: Number(rd.socialLevel ?? rd.matrixSocialLevel ?? 0),
+						regentId: rd.regentId ? String(rd.regentId) : null,
+						weeksAway: Number(rd.weeksAway ?? 0),
+						createdAt: String(rd.createdAt),
+						updatedAt: String(rd.updatedAt),
+					};
+					db.insert(campaignRegionalDomains).values(mappedRd).run();
+				}
+			}
+
+			// biome-ignore lint/suspicious/noExplicitAny: response snapshot campSessions typing
+			const snapshotCampSessions = (snapshot as any).campSessions;
+			if (snapshotCampSessions && snapshotCampSessions.length > 0) {
+				for (const cs of snapshotCampSessions) {
+					const mappedCs = {
+						id: String(cs.id),
+						totalTime: Number(cs.totalTime),
+						sleepHours: Number(cs.sleepHours),
+						availableActions: Number(cs.availableActions),
+						dangerCounter: Number(cs.dangerCounter),
+						activeActivitiesJson: String(cs.activeActivitiesJson),
+						createdAt: String(cs.createdAt),
+						updatedAt: String(cs.updatedAt),
+					};
+					db.insert(campaignCampSessions).values(mappedCs).run();
+				}
+			}
+
+			if (
+				snapshot.mercenaryCompanies &&
+				snapshot.mercenaryCompanies.length > 0
+			) {
+				for (const mc of snapshot.mercenaryCompanies) {
+					const mappedMc = {
+						id: String(mc.id),
+						bastionId: mc.bastionId ? String(mc.bastionId) : null,
+						tier: Number(mc.tier ?? 1),
+						reputation: Number(mc.reputation ?? 0),
+						hqName: String(mc.hqName),
+						createdAt: String(mc.createdAt),
+						updatedAt: String(mc.updatedAt),
+					};
+					db.insert(mercenaryCompanies).values(mappedMc).run();
+				}
+			}
+
+			if (snapshot.mercenarySquads && snapshot.mercenarySquads.length > 0) {
+				for (const ms of snapshot.mercenarySquads) {
+					const mappedMs = {
+						id: String(ms.id),
+						companyId: String(ms.companyId),
+						name: String(ms.name),
+						physical: Number(ms.physical ?? 0),
+						mental: Number(ms.mental ?? 0),
+						social: Number(ms.social ?? 0),
+						cohesionMax: Number(ms.cohesionMax ?? 10),
+						cohesionCurrent: Number(ms.cohesionCurrent ?? 10),
+						tagsJson: String(ms.tagsJson ?? "[]"),
+						commandTactic: String(ms.commandTactic ?? "honorable"),
+						status: String(ms.status ?? "available"),
+						assignedMissionId: ms.assignedMissionId
+							? String(ms.assignedMissionId)
+							: null,
+						createdAt: String(ms.createdAt),
+						updatedAt: String(ms.updatedAt),
+					};
+					db.insert(mercenarySquads).values(mappedMs).run();
+				}
+			}
+
+			// biome-ignore lint/suspicious/noExplicitAny: response snapshot espionageCells typing
+			const snapshotEspionageCells = (snapshot as any).espionageCells;
+			if (snapshotEspionageCells && snapshotEspionageCells.length > 0) {
+				for (const ec of snapshotEspionageCells) {
+					const mappedEc = {
+						id: String(ec.id),
+						campaignId: String(ec.campaignId),
+						factionId: String(ec.factionId),
+						regionId: String(ec.regionId),
+						tenenteCompanionId: String(ec.tenenteCompanionId),
+						specializedAxis: String(ec.specializedAxis),
+						tier: Number(ec.tier ?? 1),
+						isLockdown:
+							ec.isLockdown === true ||
+							ec.isLockdown === 1 ||
+							ec.isLockdown === "1",
+						lockdownWeeksRemaining: Number(ec.lockdownWeeksRemaining ?? 0),
+						vigilanceHeat: Number(ec.vigilanceHeat ?? 0),
+						methodOfControl: ec.methodOfControl
+							? String(ec.methodOfControl)
+							: null,
+						createdAt: String(ec.createdAt),
+						updatedAt: String(ec.updatedAt),
+					};
+					db.insert(espionageCells).values(mappedEc).run();
+				}
+			}
+
 			const exported = this.exportDatabase(database.data);
 			if (!exported.success) {
 				database.data.close();
@@ -483,6 +635,21 @@ export class SqliteOpfsBootstrapService {
 				.from(campaignDialogueStates)
 				.all();
 			const loadedQuests = db.select().from(campaignQuests).all();
+			const loadedInvestigations = db
+				.select()
+				.from(campaignInvestigations)
+				.all();
+			const loadedRegionalDomains = db
+				.select()
+				.from(campaignRegionalDomains)
+				.all();
+			const loadedCampSessions = db.select().from(campaignCampSessions).all();
+			const loadedMercenaryCompanies = db
+				.select()
+				.from(mercenaryCompanies)
+				.all();
+			const loadedMercenarySquads = db.select().from(mercenarySquads).all();
+			const loadedEspionageCells = db.select().from(espionageCells).all();
 
 			const mappedBastionModules = loadedBastionModules.map((m: any) => ({
 				...m,
@@ -504,6 +671,10 @@ export class SqliteOpfsBootstrapService {
 				triggerEvent: c.triggerEvent ?? undefined,
 			}));
 
+			const mappedRegionalDomains = loadedRegionalDomains.map((rd: any) => ({
+				...rd,
+			}));
+
 			database.data.close();
 
 			return ok({
@@ -519,6 +690,15 @@ export class SqliteOpfsBootstrapService {
 				progressClocks: mappedClocks,
 				dialogueStates: loadedDialogueStates,
 				quests: loadedQuests,
+				investigations: loadedInvestigations,
+				regionalDomains: mappedRegionalDomains,
+				campSessions: loadedCampSessions,
+				mercenaryCompanies: loadedMercenaryCompanies,
+				mercenarySquads: loadedMercenarySquads,
+				espionageCells: loadedEspionageCells.map((ec: any) => ({
+					...ec,
+					isLockdown: ec.isLockdown === 1 || ec.isLockdown === true,
+				})),
 			});
 		} catch (error: unknown) {
 			database.data.close();
@@ -2641,6 +2821,1005 @@ export class SqliteOpfsBootstrapService {
 			return fail({
 				code: "DATABASE_FILE_READ_FAILED",
 				message: "Could not list companions in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveInvestigation(
+		investigation: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleInvestigationRepository(db as any);
+
+			const result = await repository.save(investigation);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save investigation to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findInvestigation(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleInvestigationRepository(db as any);
+
+			const result = await repository.findById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not find investigation in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listInvestigationsByTarget(
+		targetId: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleInvestigationRepository(db as any);
+
+			const result = await repository.findByTargetId(targetId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list investigations by target in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listActiveInvestigations(): Promise<
+		Result<any, SqliteBootstrapFailure>
+	> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleInvestigationRepository(db as any);
+
+			const result = await repository.listActive();
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list active investigations in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveRegionalDomain(
+		record: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleRegionalDomainRepository(db as any);
+
+			const result = await repository.save(record);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save regional domain to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findRegionalDomain(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleRegionalDomainRepository(db as any);
+
+			const result = await repository.findById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load regional domain from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listRegionalDomains(): Promise<
+		Result<any, SqliteBootstrapFailure>
+	> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleRegionalDomainRepository(db as any);
+
+			const result = await repository.listAll();
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list regional domains from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveCampSession(
+		record: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCampRepository(db as any);
+
+			const result = await repository.save(record);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save camp session to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findCampSession(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCampRepository(db as any);
+
+			const result = await repository.findById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load camp session from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listCampSessions(): Promise<
+		Result<any[], SqliteBootstrapFailure>
+	> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCampRepository(db as any);
+
+			const result = await repository.listAll();
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data as any[]);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list camp sessions from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveMercenaryCompany(
+		company: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleMercenaryRepository(db as any);
+
+			const result = await repository.saveCompany(company);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save mercenary company to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findMercenaryCompany(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleMercenaryRepository(db as any);
+
+			const result = await repository.findCompanyById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load mercenary company from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listMercenaryCompanies(): Promise<
+		Result<any[], SqliteBootstrapFailure>
+	> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleMercenaryRepository(db as any);
+
+			const result = await repository.listCompanies();
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data as any[]);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list mercenary companies from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveMercenarySquad(
+		squad: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleMercenaryRepository(db as any);
+
+			const result = await repository.saveSquad(squad);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save mercenary squad to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findMercenarySquad(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleMercenaryRepository(db as any);
+
+			const result = await repository.findSquadById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load mercenary squad from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listMercenarySquadsByCompany(
+		companyId: string,
+	): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleMercenaryRepository(db as any);
+
+			const result = await repository.listSquadsByCompany(companyId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data as any[]);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list mercenary squads from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async deleteCampSession(
+		id: string,
+	): Promise<Result<void, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const { eq } = await import("drizzle-orm");
+
+			db.delete(campaignCampSessions)
+				.where(eq(campaignCampSessions.id, id))
+				.run();
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(undefined);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not delete camp session from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveEspionageCell(
+		// biome-ignore lint/suspicious/noExplicitAny: Drizzle model is generic
+		cell: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle mock mapping
+			const repository = new DrizzleEspionageRepository(db as any);
+
+			const result = await repository.save(cell);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save espionage cell to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findEspionageCell(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle mock mapping
+			const repository = new DrizzleEspionageRepository(db as any);
+
+			const result = await repository.findById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load espionage cell from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listEspionageCells(
+		campaignId: string,
+	): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle mock mapping
+			const repository = new DrizzleEspionageRepository(db as any);
+
+			const result = await repository.listByCampaign(campaignId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data as any[]);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list espionage cells from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async deleteEspionageCell(
+		id: string,
+	): Promise<Result<void, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle mock mapping
+			const repository = new DrizzleEspionageRepository(db as any);
+
+			const result = await repository.deleteCell(id);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(undefined);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not delete espionage cell from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
 		}

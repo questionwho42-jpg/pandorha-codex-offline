@@ -18,14 +18,24 @@ import { SessionCharacterRepository } from "$lib/entities/character/infrastructu
 
 interface Props {
 	characters: readonly CharacterRecord[];
+	characterSession: any;
+	activeStatusEffects: CharacterStatusEffectRecord[];
 }
 
-let { characters = [] }: Props = $props();
+let {
+	characters = [],
+	characterSession,
+	activeStatusEffects = $bindable([]),
+}: Props = $props();
 
-// Inicialização de repositório local na memória e serviço de doenças
-const localRepo = new SessionCharacterRepository();
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-const illnessService = new IllnessService(localRepo);
+// Inicialização de repositório real e serviço de doenças
+const illnessService = $derived(
+	new IllnessService(
+		characterSession.repository,
+		characterSession.service.idProvider,
+		characterSession.service.clock,
+	),
+);
 
 // Estados Reativos do Svelte 5
 let selectedCharId = $state("manual-artisan");
@@ -36,7 +46,7 @@ $effect(() => {
 	}
 });
 
-let activeEffects = $state<CharacterStatusEffectRecord[]>([]);
+let activeEffects = $derived(activeStatusEffects);
 let isRolling = $state(false);
 let currentD20Value = $state(20);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -66,31 +76,6 @@ let activeChar = $derived(
 		updatedAt: new Date().toISOString(),
 	},
 );
-
-// Carregar status effects do localStorage para persistência visual robusta
-onMount(() => {
-	loadEffects();
-});
-
-function loadEffects() {
-	if (typeof window !== "undefined") {
-		const stored = localStorage.getItem("pandorha_status_effects");
-		if (stored) {
-			try {
-				activeEffects = JSON.parse(stored);
-			} catch (e) {
-				console.error("Erro ao carregar status effects", e);
-			}
-		}
-	}
-}
-
-function saveEffects(list: CharacterStatusEffectRecord[]) {
-	if (typeof window !== "undefined") {
-		localStorage.setItem("pandorha_status_effects", JSON.stringify(list));
-		activeEffects = list;
-	}
-}
 
 // Filtra os efeitos ativos do personagem atual
 let charActiveEffects = $derived(
@@ -155,33 +140,24 @@ const ILLNESSES = [
 
 // Infecta o personagem com um status effect
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-function infect(type: string) {
-	const exists = charActiveEffects.some((e) => e.type === type);
-	if (exists) return;
-
-	const newEffect = {
-		id: `effect-${type}-${Date.now()}`,
-		characterId: selectedCharId,
-		type,
-		createdAt: new Date().toISOString(),
-		updatedAt: new Date().toISOString(),
-		severity: 1,
-		severityMax: 3,
-		isAggravated: false,
-	};
-
-	saveEffects([...activeEffects, newEffect]);
+async function infect(type: "eter_fever" | "wound_infection" | "viper_poison") {
+	const res = await illnessService.infectCharacter(selectedCharId, type);
+	if (res.success) {
+		activeStatusEffects = [...activeStatusEffects, res.data];
+	}
 	rollMessage = null;
 	rollDetail = null;
 	rollSuccess = null;
 }
 
 // Cura o personagem de um status effect
-function cure(type: string) {
-	const nextList = activeEffects.filter(
-		(e) => !(e.characterId === selectedCharId && e.type === type),
-	);
-	saveEffects(nextList);
+async function cure(type: "eter_fever" | "wound_infection" | "viper_poison") {
+	const res = await illnessService.cureCharacter(selectedCharId, type);
+	if (res.success) {
+		activeStatusEffects = activeStatusEffects.filter(
+			(e) => !(e.characterId === selectedCharId && e.type === type),
+		);
+	}
 	rollMessage = null;
 	rollDetail = null;
 	rollSuccess = null;
@@ -195,7 +171,10 @@ function getSecureRandom(): number {
 
 // Simula a rolagem de Vigor (d20 + Nível + Físico + Resistência) com animação
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-async function rollResistance(type: string, dc: number) {
+async function rollResistance(
+	type: "eter_fever" | "wound_infection" | "viper_poison",
+	dc: number,
+) {
 	if (isRolling) return;
 
 	isRolling = true;
@@ -217,22 +196,44 @@ async function rollResistance(type: string, dc: number) {
 	isRolling = false;
 
 	const naturalRoll = currentD20Value;
-	// Modificador = Nível + Físico final decorado + Resistência final decorada
-	const modifier =
-		decoratedStats.level + decoratedStats.physical + decoratedStats.resistance;
-	const total = naturalRoll + modifier;
-	const passed = total >= dc;
+	// Executa a progressão da doença para este personagem passando o dado fixado d20
+	const progressRes = await illnessService.processWeeklyIllnessProgress(
+		selectedCharId,
+		naturalRoll,
+	);
+	if (progressRes.success && progressRes.data.length > 0) {
+		const prog = progressRes.data[0];
+		rollSuccess = prog.rollResult.success;
 
-	rollSuccess = passed;
+		// Atualiza a lista global de status effects do repositório
+		const reloadRes =
+			await characterSession.repository.findStatusEffectsByCharacterId(
+				selectedCharId,
+			);
+		if (reloadRes.success) {
+			activeStatusEffects = [
+				...activeStatusEffects.filter((e) => e.characterId !== selectedCharId),
+				...reloadRes.data,
+			];
+		}
 
-	if (passed) {
-		rollMessage = "🎉 SUCESSO! Corpo fortalecido superou a patologia!";
-		rollDetail = `Você rolou ${naturalRoll} natural (Total: ${total} vs DC ${dc}). O sistema imunológico e o vigor físico de ${activeChar.name} expulsaram a aflição com glória. A doença foi curada!`;
-		// Curar a doença
-		cure(type);
+		if (rollSuccess) {
+			rollMessage = "🎉 SUCESSO! Corpo superou a patologia!";
+			if (prog.curated) {
+				rollDetail = `Você rolou ${naturalRoll} natural (Total: ${prog.rollResult.total} vs DC ${dc}). O vigor de ${activeChar.name} curou a enfermidade!`;
+			} else {
+				rollDetail = `Você rolou ${naturalRoll} natural (Total: ${prog.rollResult.total} vs DC ${dc}). A gravidade diminuiu de ${prog.oldSeverity} para ${prog.newSeverity}!`;
+			}
+		} else {
+			rollMessage = "💀 FALHA! A infecção se alastra pelo corpo.";
+			if (prog.isAggravated) {
+				rollDetail = `Você rolou ${naturalRoll} natural (Total: ${prog.rollResult.total} vs DC ${dc}). A gravidade subiu para o limite ${prog.newSeverity} e está AGRAVADA!`;
+			} else {
+				rollDetail = `Você rolou ${naturalRoll} natural (Total: ${prog.rollResult.total} vs DC ${dc}). A gravidade subiu para ${prog.newSeverity}.`;
+			}
+		}
 	} else {
-		rollMessage = "💀 FALHA! A infecção resiste e se alastra pelo corpo.";
-		rollDetail = `Você rolou ${naturalRoll} natural (Total: ${total} vs DC ${dc}). Os anticorpos de ${activeChar.name} foram suprimidos pela toxina. A enfermidade permanece ativa sob o efeito do Decorator.`;
+		rollMessage = "❌ Erro ao processar teste de resistência.";
 	}
 }
 </script>

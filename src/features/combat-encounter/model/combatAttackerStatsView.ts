@@ -4,10 +4,13 @@ import {
 } from "$lib/entities/character";
 import {
 	BaseCharacterStats,
+	BleedingDecorator,
 	EncumberedStatusDecorator,
 	EterFeverDecorator,
 	HungryDecorator,
 	type ICharacterStats,
+	ImmobilizedDecorator,
+	SilencedDecorator,
 	ViperPoisonDecorator,
 	WoundInfectionDecorator,
 } from "$lib/entities/character/domain/StatusEffectDecorator";
@@ -108,6 +111,27 @@ export function createCombatAttackerStatsView(
 					type: "hungry",
 					label: "🍗 Faminto (-1 Físico, -1 Mente, Sem Cura Natural)",
 					color: "#f97316", // Laranja vibrante para aviso alimentar
+				});
+			} else if (effect.type === "bleeding") {
+				decoratedStats = new BleedingDecorator(decoratedStats);
+				activeEffectsLabels.push({
+					type: "bleeding",
+					label: "🩸 Sangramento (-1 Físico, Sem Cura Natural)",
+					color: "#f43f5e", // Rosa avermelhado
+				});
+			} else if (effect.type === "silenced") {
+				decoratedStats = new SilencedDecorator(decoratedStats);
+				activeEffectsLabels.push({
+					type: "silenced",
+					label: "🔇 Silenciado (-1 Mente, -1 Interação)",
+					color: "#3b82f6", // Azul místico
+				});
+			} else if (effect.type === "immobilized") {
+				decoratedStats = new ImmobilizedDecorator(decoratedStats);
+				activeEffectsLabels.push({
+					type: "immobilized",
+					label: "🕸️ Imobilizado (Velocidade 0, -2 Conflito, -2 Iniciativa)",
+					color: "#6b7280", // Cinza ferro / Preso
 				});
 			}
 		}

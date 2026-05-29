@@ -10,6 +10,7 @@ import type {
 } from "../model/characterTypes";
 import type { CharacterRepository } from "./CharacterRepository";
 import {
+	BaseCharacterStats,
 	EterFeverDecorator,
 	type ICharacterStats,
 	ViperPoisonDecorator,
@@ -182,5 +183,154 @@ export class IllnessService {
 			total,
 			success,
 		};
+	}
+
+	/**
+	 * 🦠 PROCESSAR PROGRESSÃO SEMANAL DE ENFERMIDADES
+	 * Executa o teste de vigor físico contra a DC de cada patologia ativa no recesso.
+	 * d20Roll é opcional para permitir testes automatizados determinísticos.
+	 */
+	public async processWeeklyIllnessProgress(
+		characterId: string,
+		d20Roll?: number,
+	): Promise<
+		Result<
+			{
+				diseaseType: string;
+				rollResult: {
+					roll: number;
+					modifier: number;
+					total: number;
+					success: boolean;
+				};
+				oldSeverity: number;
+				newSeverity: number;
+				curated: boolean;
+				isAggravated: boolean;
+			}[],
+			CharacterFailure
+		>
+	> {
+		const charRes = await this.repository.findById(characterId);
+		if (!charRes.success) {
+			return fail({
+				code: "REPOSITORY_READ_FAILED",
+				message: charRes.error.message,
+			});
+		}
+
+		const effectsRes =
+			await this.repository.findStatusEffectsByCharacterId(characterId);
+		if (!effectsRes.success) {
+			return fail({
+				code: "FETCH_STATUS_EFFECTS_FAILED",
+				message:
+					"Não foi possível carregar os efeitos de status do personagem.",
+			});
+		}
+
+		const baseStats = new BaseCharacterStats(charRes.data, {
+			id: charRes.data.classId,
+			baseHp: 10,
+		});
+		const decoratedStats = this.applyStatusDecorators(
+			baseStats,
+			effectsRes.data,
+		);
+
+		const results: {
+			diseaseType: string;
+			rollResult: {
+				roll: number;
+				modifier: number;
+				total: number;
+				success: boolean;
+			};
+			oldSeverity: number;
+			newSeverity: number;
+			curated: boolean;
+			isAggravated: boolean;
+		}[] = [];
+
+		const illnesses = effectsRes.data.filter(
+			(e) =>
+				e.type === "eter_fever" ||
+				e.type === "wound_infection" ||
+				e.type === "viper_poison",
+		);
+
+		for (const effect of illnesses) {
+			let dc = 12;
+			if (effect.type === "eter_fever") dc = 14;
+			else if (effect.type === "viper_poison") dc = 15;
+
+			let roll = d20Roll;
+			if (roll === undefined) {
+				const arr = new Uint32Array(1);
+				if (typeof window !== "undefined" && window.crypto) {
+					window.crypto.getRandomValues(arr);
+				} else {
+					// Fallback seguro em Node.js se global.crypto estiver disponível
+					const cryptoLib = await import("node:crypto");
+					cryptoLib.getRandomValues(arr);
+				}
+				const val = arr[0];
+				roll = val !== undefined ? (val % 20) + 1 : 10;
+			}
+
+			const rollRes = this.rollResistanceTest(decoratedStats, dc, roll);
+			const oldSeverity = effect.severity;
+			let newSeverity = oldSeverity;
+			let curated = false;
+			let isAggravated = effect.isAggravated;
+
+			if (rollRes.success) {
+				newSeverity = Math.max(0, oldSeverity - 1);
+				if (newSeverity === 0) {
+					const delRes = await this.repository.deleteStatusEffect(effect.id);
+					if (!delRes.success) {
+						return fail({
+							code: "DELETE_STATUS_EFFECT_FAILED",
+							message: delRes.error.message,
+						});
+					}
+					curated = true;
+				} else {
+					effect.severity = newSeverity;
+					const saveRes = await this.repository.saveStatusEffect(effect);
+					if (!saveRes.success) {
+						return fail({
+							code: "PERSIST_STATUS_EFFECT_FAILED",
+							message: saveRes.error.message,
+						});
+					}
+				}
+			} else {
+				newSeverity = Math.min(effect.severityMax, oldSeverity + 1);
+				if (newSeverity === effect.severityMax) {
+					isAggravated = true;
+				}
+				effect.severity = newSeverity;
+				effect.isAggravated = isAggravated;
+				const saveRes = await this.repository.saveStatusEffect(effect);
+				if (!saveRes.success) {
+					return fail({
+						code: "PERSIST_STATUS_EFFECT_FAILED",
+						message: saveRes.error.message,
+					});
+				}
+			}
+
+			results.push({
+				diseaseType: effect.type,
+				rollResult: rollRes,
+				oldSeverity,
+				newSeverity,
+				curated,
+				isAggravated,
+			});
+		}
+
+		return ok(results);
 	}
 }

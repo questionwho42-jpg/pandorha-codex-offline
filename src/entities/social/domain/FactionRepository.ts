@@ -2,6 +2,7 @@ import type { Result } from "$lib/shared/lib/result";
 import type {
 	BloodDebtRecord,
 	CampaignSocialLedgerRecord,
+	FactionPatronageRecord,
 	ReputationRecord,
 } from "../model/socialSchema";
 
@@ -12,10 +13,12 @@ export interface FactionRepositoryFailure {
 		| "SOCIAL_LEDGER_EXISTS"
 		| "BLOOD_DEBT_NOT_FOUND"
 		| "REPUTATION_NOT_FOUND"
+		| "PATRONAGE_NOT_FOUND"
 		| "SOCIAL_REPOSITORY_WRITE_FAILED"
 		| "SOCIAL_REPOSITORY_READ_FAILED"
 		| "REST_BLOCKED_BY_DEBT"
-		| "GOLD_INSUFFICIENT";
+		| "GOLD_INSUFFICIENT"
+		| "RESURRECTION_BLOCKED_BY_DEBT";
 	message: string;
 	details?: unknown;
 }
@@ -51,4 +54,20 @@ export interface FactionRepository {
 	findBloodDebtById(
 		id: string,
 	): Promise<Result<BloodDebtRecord | null, FactionRepositoryFailure>>;
+
+	savePatronage(
+		record: FactionPatronageRecord,
+	): Promise<Result<FactionPatronageRecord, FactionRepositoryFailure>>;
+
+	findPatronage(
+		id: string,
+	): Promise<Result<FactionPatronageRecord | null, FactionRepositoryFailure>>;
+
+	findPatronageByFaction(
+		factionId: string,
+	): Promise<Result<FactionPatronageRecord | null, FactionRepositoryFailure>>;
+
+	listPatronages(): Promise<
+		Result<readonly FactionPatronageRecord[], FactionRepositoryFailure>
+	>;
 }

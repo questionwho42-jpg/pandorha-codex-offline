@@ -41,6 +41,20 @@ export const campaignSocialLedger = sqliteTable("campaign_social_ledger", {
 	updatedAt: text("updated_at").notNull(),
 });
 
+export const factionPatronages = sqliteTable("faction_patronages", {
+	id: text("id").primaryKey(),
+	factionId: text("faction_id")
+		.notNull()
+		.references(() => factions.id, { onDelete: "cascade" }),
+	famaLevel: integer("fama_level").notNull().default(1),
+	bloodDebt: integer("blood_debt").notNull().default(0),
+	relicsCount: integer("relics_count").notNull().default(0),
+	ultimatumWeeksRemaining: integer("ultimatum_weeks_remaining"), // null se inativo
+	isAlmaPledged: integer("is_alma_pledged", { mode: "boolean" })
+		.notNull()
+		.default(false),
+});
+
 // Zod Schemas
 export const factionInsertSchema = createInsertSchema(factions);
 export const factionSelectSchema = createSelectSchema(factions);
@@ -56,6 +70,11 @@ export const campaignSocialLedgerInsertSchema =
 export const campaignSocialLedgerSelectSchema =
 	createSelectSchema(campaignSocialLedger);
 
+export const factionPatronageInsertSchema =
+	createInsertSchema(factionPatronages);
+export const factionPatronageSelectSchema =
+	createSelectSchema(factionPatronages);
+
 export type FactionRecord = z.infer<typeof factionSelectSchema>;
 export type ReputationRecord = z.infer<typeof reputationSelectSchema>;
 export type BloodDebtRecord = z.infer<typeof bloodDebtSelectSchema>;
@@ -64,4 +83,10 @@ export type CampaignSocialLedgerRecord = z.infer<
 >;
 export type NewCampaignSocialLedgerRecord = z.infer<
 	typeof campaignSocialLedgerInsertSchema
+>;
+export type FactionPatronageRecord = z.infer<
+	typeof factionPatronageSelectSchema
+>;
+export type NewFactionPatronageRecord = z.infer<
+	typeof factionPatronageInsertSchema
 >;

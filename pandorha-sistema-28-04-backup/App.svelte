@@ -19,6 +19,7 @@ import type {
 	TrapRecord,
 } from "$lib/entities/traps";
 import { SessionTrapRepository, TrapService } from "$lib/entities/traps";
+import { BastionPanel } from "$lib/features/bastion";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CampPanel } from "$lib/features/camp";
 import {
@@ -46,7 +47,6 @@ import {
 	IllnessWorkshopPanel,
 } from "$lib/features/crafting";
 import { DialoguePanel } from "$lib/features/dialogue";
-import { BastionPanel } from "$lib/features/bastion";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.

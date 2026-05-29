@@ -19,6 +19,12 @@ export interface IBastionStats {
 	getLogistics(): number;
 }
 
+function getRandomValue(): number {
+	const array = new Uint32Array(1);
+	crypto.getRandomValues(array);
+	return array[0]!;
+}
+
 /**
  * Componente Concreto com os atributos base de persistência.
  */
@@ -363,11 +369,19 @@ export class BastionService {
 		return ok(decoratedStats.getMaintenanceCost());
 	}
 
-	public async processRecessEnd(
-		bastionId: string,
-	): Promise<
+	public async processRecessEnd(bastionId: string): Promise<
 		Result<
-			{ maintenanceCost: number; threatGained: number },
+			{
+				maintenanceCost: number;
+				threatGained: number;
+				cercoResult?:
+					| {
+							status: "repelled" | "breached";
+							integrityLost: number;
+							brokenModuleIds: string[];
+					  }
+					| undefined;
+			},
 			BastionRepositoryFailure
 		>
 	> {
@@ -421,14 +435,194 @@ export class BastionService {
 			bastion.integrityCurrent = maxHp;
 		}
 
-		const saveRes = await this.repository.save(bastion);
-		if (!saveRes.success) {
-			return fail(saveRes.error);
+		let cercoResult:
+			| {
+					status: "repelled" | "breached";
+					integrityLost: number;
+					brokenModuleIds: string[];
+			  }
+			| undefined;
+
+		// Se a ameaça atingir 10, dispara o cerco frontal automaticamente
+		if (bastion.threatCurrent >= 10) {
+			const cercoRes = await this.resolveCercoFrontal(bastionId, 15);
+			if (!cercoRes.success) {
+				return fail(cercoRes.error);
+			}
+			cercoResult = cercoRes.data;
+		} else {
+			const saveRes = await this.repository.save(bastion);
+			if (!saveRes.success) {
+				return fail(saveRes.error);
+			}
 		}
 
 		return ok({
 			maintenanceCost,
 			threatGained,
+			cercoResult,
 		});
+	}
+
+	public async resolveCercoFrontal(
+		bastionId: string,
+		hordaCd: number,
+		d20Roll?: number,
+		vigilanceRoll?: number,
+	): Promise<
+		Result<
+			{
+				status: "repelled" | "breached";
+				integrityLost: number;
+				brokenModuleIds: string[];
+			},
+			BastionRepositoryFailure
+		>
+	> {
+		const bastionRes = await this.repository.findById(bastionId);
+		if (!bastionRes.success) {
+			return fail(bastionRes.error);
+		}
+
+		const modulesRes = await this.repository.findModulesByBastionId(bastionId);
+		if (!modulesRes.success) {
+			return fail(modulesRes.error);
+		}
+
+		const bastion = bastionRes.data;
+		const modules = modulesRes.data;
+
+		const baseStats = new BaseBastionStats(bastion, modules);
+		const decorated = new LogisticsDiscountDecorator(
+			new ReinforcedVaultDecorator(
+				new WatchPostDecorator(
+					new WoodenWallDecorator(
+						new StoneWallDecorator(baseStats, modules),
+						modules,
+					),
+					modules,
+				),
+				modules,
+			),
+		);
+
+		const roll = d20Roll ?? (getRandomValue() % 20) + 1;
+		const totalRoll = roll + decorated.getStructure();
+
+		let status: "repelled" | "breached" = "repelled";
+		let integrityLost = 0;
+		const brokenModuleIds: string[] = [];
+
+		if (totalRoll >= hordaCd) {
+			status = "repelled";
+			bastion.threatCurrent = 0;
+		} else {
+			status = "breached";
+			bastion.threatCurrent = 0;
+			integrityLost = (hordaCd - totalRoll) * 5;
+			bastion.integrityCurrent = Math.max(
+				0,
+				bastion.integrityCurrent - integrityLost,
+			);
+
+			const maxHp = decorated.getStructure() * 10 + bastion.tier * 20;
+			if (bastion.integrityCurrent < maxHp * 0.5) {
+				const completedModules = modules.filter(
+					(m) => m.progressCurrent >= m.progressMax && !m.isBroken,
+				);
+				if (completedModules.length > 0) {
+					const vigRoll = vigilanceRoll ?? (getRandomValue() % 20) + 1;
+					const vigilanceTotal = vigRoll + decorated.getVigilance();
+					if (vigilanceTotal < 12) {
+						const randomModule =
+							completedModules[getRandomValue() % completedModules.length];
+						if (randomModule) {
+							randomModule.isBroken = true;
+							randomModule.updatedAt = new Date().toISOString();
+							const saveModRes = await this.repository.saveModule(randomModule);
+							if (saveModRes.success) {
+								brokenModuleIds.push(randomModule.id);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		bastion.updatedAt = new Date().toISOString();
+		const saveBastionRes = await this.repository.save(bastion);
+		if (!saveBastionRes.success) {
+			return fail(saveBastionRes.error);
+		}
+
+		return ok({
+			status,
+			integrityLost,
+			brokenModuleIds,
+		});
+	}
+
+	public async upgradeModuleWithTrophy(
+		bastionId: string,
+		moduleId: string,
+		goldCost: number,
+		trophyItemId?: string,
+	): Promise<Result<BastionModuleRecord, BastionRepositoryFailure>> {
+		const bastionRes = await this.repository.findById(bastionId);
+		if (!bastionRes.success) {
+			return fail(bastionRes.error);
+		}
+		const bastion = bastionRes.data;
+
+		if (bastion.vaultGold < goldCost) {
+			return fail({
+				code: "BASTION_REPOSITORY_WRITE_FAILED",
+				message: "Ouro insuficiente no cofre do bastião.",
+			});
+		}
+
+		const modulesRes = await this.repository.findModulesByBastionId(bastionId);
+		if (!modulesRes.success) {
+			return fail(modulesRes.error);
+		}
+		const mod = modulesRes.data.find((m) => m.id === moduleId);
+		if (!mod) {
+			return fail({
+				code: "BASTION_MODULE_NOT_FOUND",
+				message: "Módulo não encontrado no bastião.",
+			});
+		}
+
+		if (mod.tier >= 4) {
+			return fail({
+				code: "BASTION_REPOSITORY_WRITE_FAILED",
+				message: "O módulo já atingiu o nível máximo (Tier 4).",
+			});
+		}
+
+		const nextTier = mod.tier + 1;
+		if ((nextTier === 3 || nextTier === 4) && !trophyItemId) {
+			return fail({
+				code: "BASTION_REPOSITORY_WRITE_FAILED",
+				message: `Evolução para Tier ${nextTier} exige um Troféu de Criatura.`,
+			});
+		}
+
+		// Deduz custo em ouro
+		bastion.vaultGold -= goldCost;
+		bastion.updatedAt = new Date().toISOString();
+		const saveBastionRes = await this.repository.save(bastion);
+		if (!saveBastionRes.success) {
+			return fail(saveBastionRes.error);
+		}
+
+		mod.tier = nextTier;
+		mod.progressCurrent = 0;
+		if (nextTier === 2) mod.progressMax = 20;
+		else if (nextTier === 3) mod.progressMax = 30;
+		else if (nextTier === 4) mod.progressMax = 40;
+
+		mod.updatedAt = new Date().toISOString();
+		return this.repository.saveModule(mod);
 	}
 }

@@ -12,6 +12,9 @@ import {
 	campaignSocialLedger,
 	campaignSocialLedgerSelectSchema,
 	characterReputation,
+	type FactionPatronageRecord,
+	factionPatronageSelectSchema,
+	factionPatronages,
 	type ReputationRecord,
 	reputationSelectSchema,
 } from "../model/socialSchema";
@@ -272,6 +275,131 @@ export class DrizzleFactionRepository implements FactionRepository {
 			return fail({
 				code: "SOCIAL_REPOSITORY_READ_FAILED",
 				message: `Falha ao buscar dívida de sangue no SQLite: ${error instanceof Error ? error.message : String(error)}`,
+			});
+		}
+	}
+
+	public async savePatronage(
+		record: FactionPatronageRecord,
+	): Promise<Result<FactionPatronageRecord, FactionRepositoryFailure>> {
+		try {
+			const existing = await this.db
+				.select()
+				.from(factionPatronages)
+				.where(eq(factionPatronages.id, record.id));
+
+			let rows: any[];
+			if (existing.length > 0) {
+				rows = await this.db
+					.update(factionPatronages)
+					.set(record)
+					.where(eq(factionPatronages.id, record.id))
+					.returning();
+			} else {
+				rows = await this.db
+					.insert(factionPatronages)
+					.values(record)
+					.returning();
+			}
+
+			const parsed = factionPatronageSelectSchema.safeParse(rows[0]);
+			if (!parsed.success) {
+				return fail({
+					code: "SOCIAL_REPOSITORY_WRITE_FAILED",
+					message: "Drizzle retornou um patrocínio inválido após salvar.",
+				});
+			}
+
+			return ok(parsed.data);
+		} catch (error: unknown) {
+			return fail({
+				code: "SOCIAL_REPOSITORY_WRITE_FAILED",
+				message: `Falha ao salvar patrocínio no SQLite: ${error instanceof Error ? error.message : String(error)}`,
+			});
+		}
+	}
+
+	public async findPatronage(
+		id: string,
+	): Promise<Result<FactionPatronageRecord | null, FactionRepositoryFailure>> {
+		try {
+			const rows = await this.db
+				.select()
+				.from(factionPatronages)
+				.where(eq(factionPatronages.id, id));
+
+			if (rows.length === 0) {
+				return ok(null);
+			}
+
+			const parsed = factionPatronageSelectSchema.safeParse(rows[0]);
+			if (!parsed.success) {
+				return fail({
+					code: "SOCIAL_REPOSITORY_READ_FAILED",
+					message:
+						"Registro do patrocínio de facção está corrompido no banco de dados.",
+				});
+			}
+
+			return ok(parsed.data);
+		} catch (error: unknown) {
+			return fail({
+				code: "SOCIAL_REPOSITORY_READ_FAILED",
+				message: `Falha ao buscar patrocínio no SQLite: ${error instanceof Error ? error.message : String(error)}`,
+			});
+		}
+	}
+
+	public async findPatronageByFaction(
+		factionId: string,
+	): Promise<Result<FactionPatronageRecord | null, FactionRepositoryFailure>> {
+		try {
+			const rows = await this.db
+				.select()
+				.from(factionPatronages)
+				.where(eq(factionPatronages.factionId, factionId));
+
+			if (rows.length === 0) {
+				return ok(null);
+			}
+
+			const parsed = factionPatronageSelectSchema.safeParse(rows[0]);
+			if (!parsed.success) {
+				return fail({
+					code: "SOCIAL_REPOSITORY_READ_FAILED",
+					message:
+						"Registro do patrocínio de facção por facção está corrompido no banco de dados.",
+				});
+			}
+
+			return ok(parsed.data);
+		} catch (error: unknown) {
+			return fail({
+				code: "SOCIAL_REPOSITORY_READ_FAILED",
+				message: `Falha ao buscar patrocínio por facção no SQLite: ${error instanceof Error ? error.message : String(error)}`,
+			});
+		}
+	}
+
+	public async listPatronages(): Promise<
+		Result<readonly FactionPatronageRecord[], FactionRepositoryFailure>
+	> {
+		try {
+			const rows = await this.db.select().from(factionPatronages);
+
+			const list: FactionPatronageRecord[] = [];
+			for (const row of rows) {
+				const parsed = factionPatronageSelectSchema.safeParse(row);
+				if (parsed.success) {
+					list.push(parsed.data);
+				}
+			}
+
+			return ok(list);
+		} catch (error: unknown) {
+			return fail({
+				code: "SOCIAL_REPOSITORY_READ_FAILED",
+				message: `Falha ao listar patrocínios no SQLite: ${error instanceof Error ? error.message : String(error)}`,
 			});
 		}
 	}

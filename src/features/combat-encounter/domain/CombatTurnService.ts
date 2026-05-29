@@ -117,7 +117,7 @@ export class CombatTurnService {
 			nextEventIndex: parsed.data.state.events.length + 2,
 		});
 
-		return ok({
+		const nextState: any = {
 			round: nextRound,
 			activeActorId: nextActorId,
 			activeActorIndex: nextActorIndex,
@@ -125,14 +125,68 @@ export class CombatTurnService {
 			actionPointsRemaining: parsed.data.state.maxActionPoints,
 			maxActionPoints: parsed.data.state.maxActionPoints,
 			events: [...parsed.data.state.events, turnEndedEvent, turnStartedEvent],
+		};
+
+		if (parsed.data.state.tensionClockSegmentsMax !== undefined) {
+			nextState.tensionClockSegmentsMax =
+				parsed.data.state.tensionClockSegmentsMax;
+		}
+		if (parsed.data.state.tensionClockSegmentsFilled !== undefined) {
+			nextState.tensionClockSegmentsFilled =
+				parsed.data.state.tensionClockSegmentsFilled;
+		}
+		if (parsed.data.state.isAlarmTriggered !== undefined) {
+			nextState.isAlarmTriggered = parsed.data.state.isAlarmTriggered;
+		}
+
+		return ok(nextState);
+	}
+
+	public increaseTensionClock(
+		state: CombatTurnState,
+		segments: number,
+		actorId: string,
+		details?: string,
+	): Result<CombatTurnState, CombatTurnFailure> {
+		const copied = copyState(state);
+		const max = copied.tensionClockSegmentsMax ?? 8;
+		const current = copied.tensionClockSegmentsFilled ?? 0;
+
+		const nextFilled = Math.min(max, current + segments);
+		const isAlarmTriggered = nextFilled >= max;
+
+		const nextEventIndex = copied.events.length + 1;
+		const event = createTurnEvent({
+			type: "tensionIncreased",
+			actorId,
+			round: copied.round,
+			actionCost: 0,
+			nextEventIndex,
 		});
+
+		if (details !== undefined) {
+			(event as any).details = details;
+		} else {
+			(event as any).details = `Tensão aumentada em +${segments} fatias.`;
+		}
+
+		const nextState: any = {
+			...copied,
+			tensionClockSegmentsMax: max,
+			tensionClockSegmentsFilled: nextFilled,
+			isAlarmTriggered: copied.isAlarmTriggered || isAlarmTriggered,
+			events: [...copied.events, event],
+		};
+
+		return ok(nextState);
 	}
 }
 
 function createInitialState(input: CombatTurnStartInput): CombatTurnState {
 	const activeActorId = input.actorOrder[0] as string;
+	const tensionClockSegmentsMax = (input as any).tensionClockSegmentsMax;
 
-	return {
+	const state: any = {
 		round: 1,
 		activeActorId,
 		activeActorIndex: 0,
@@ -149,6 +203,14 @@ function createInitialState(input: CombatTurnStartInput): CombatTurnState {
 			}),
 		],
 	};
+
+	if (typeof tensionClockSegmentsMax === "number") {
+		state.tensionClockSegmentsMax = tensionClockSegmentsMax;
+		state.tensionClockSegmentsFilled = 0;
+		state.isAlarmTriggered = false;
+	}
+
+	return state;
 }
 
 function validateActiveActor(
@@ -203,13 +265,37 @@ function createInvalidInputFailure(
 }
 
 function copyState(state: CombatTurnState): CombatTurnState {
-	return {
+	const copied: any = {
 		round: state.round,
 		activeActorId: state.activeActorId,
 		activeActorIndex: state.activeActorIndex,
 		actorOrder: [...state.actorOrder],
 		actionPointsRemaining: state.actionPointsRemaining,
 		maxActionPoints: state.maxActionPoints,
-		events: state.events.map((event) => ({ ...event })),
+		events: state.events.map((event) => {
+			const evt: any = {
+				id: event.id,
+				type: event.type,
+				actorId: event.actorId,
+				round: event.round,
+				actionCost: event.actionCost,
+			};
+			if (event.details !== undefined) {
+				evt.details = event.details;
+			}
+			return evt;
+		}),
 	};
+
+	if (state.tensionClockSegmentsMax !== undefined) {
+		copied.tensionClockSegmentsMax = state.tensionClockSegmentsMax;
+	}
+	if (state.tensionClockSegmentsFilled !== undefined) {
+		copied.tensionClockSegmentsFilled = state.tensionClockSegmentsFilled;
+	}
+	if (state.isAlarmTriggered !== undefined) {
+		copied.isAlarmTriggered = state.isAlarmTriggered;
+	}
+
+	return copied;
 }

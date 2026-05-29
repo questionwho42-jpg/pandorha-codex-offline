@@ -22,8 +22,9 @@ import { moduleCatalog } from "./moduleCatalog";
 // Props do Svelte 5 usando Runes
 interface Props {
 	characters: CharacterRecord[];
+	onEndRecess?: () => void;
 }
-let { characters }: Props = $props();
+let { characters, onEndRecess }: Props = $props();
 
 // Repositório e Serviço Concretos via RPC/Worker
 const repository = new WorkerBastionRepository();
@@ -268,8 +269,17 @@ async function handleEndRecess() {
 			bastion = updated.data;
 		}
 
+		// Atualiza lista de módulos localmente caso algum tenha quebrado
+		const list = await repository.findModulesByBastionId(bastion.id);
+		if (list.success) {
+			modules = [...list.data];
+		}
+
+		onEndRecess?.();
+
 		const cost = res.data.maintenanceCost;
 		const threat = res.data.threatGained;
+		const cerco = res.data.cercoResult;
 
 		log(
 			`[Passagem de Turno] Recesso finalizado. Taxa de Manutenção cobrada: ${cost} PO.`,
@@ -280,12 +290,15 @@ async function handleEndRecess() {
 			);
 		}
 
-		if (bastion.threatCurrent >= 10) {
-			triggerError(
-				"CRITICAL EVENT: Ameaça atingiu nível 10! A base está sob cerco ou crise!",
-			);
+		if (cerco) {
 			log(
-				`[Alerta Vermelho] A ameaça atingiu nível máximo (10/10). Um evento de cerco militar ou motim foi disparado!`,
+				`[Cerco Frontal] Ameaça atingiu 10! Resultado do cerco: ${cerco.status.toUpperCase()}. Dano de integridade: ${cerco.integrityLost} HP.`,
+			);
+			if (cerco.brokenModuleIds.length > 0) {
+				log(`[Dano Crítico] Módulo quebrado durante o cerco!`);
+			}
+			triggerError(
+				`CRITICAL EVENT: Base atacada! Status: ${cerco.status.toUpperCase()}. HP perdido: ${cerco.integrityLost}`,
 			);
 		} else {
 			triggerSuccess("Recesso processado e salvo!");
@@ -311,6 +324,61 @@ async function handleReduceThreat() {
 	log(
 		`[Segurança] Ameaça reduzida manualmente para: ${bastion.threatCurrent}.`,
 	);
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+async function handleRepairModule(mRecord: BastionModuleRecord) {
+	if (!bastion) return;
+	const goldCost = mRecord.tier * 100;
+	if (bastion.vaultGold < goldCost) {
+		triggerError("Ouro insuficiente no cofre para reparos!");
+		return;
+	}
+	bastion.vaultGold -= goldCost;
+	mRecord.isBroken = false;
+	const saveBastionRes = await repository.save(bastion);
+	const saveModRes = await repository.saveModule(mRecord);
+	if (saveBastionRes.success && saveModRes.success) {
+		triggerSuccess("Módulo reparado com sucesso!");
+		log(
+			`[Reparos] Módulo ${moduleCatalog.find((i) => i.id === mRecord.moduleId)?.name} reparado por ${goldCost} PO.`,
+		);
+		const list = await repository.findModulesByBastionId(bastion.id);
+		if (list.success) {
+			modules = [...list.data];
+		}
+	} else {
+		triggerError("Erro ao salvar reparos.");
+	}
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+async function handleUpgradeModule(
+	mRecord: BastionModuleRecord,
+	trophyId?: string,
+) {
+	if (!bastion) return;
+	const nextTier = mRecord.tier + 1;
+	const goldCost = nextTier * 150;
+
+	const res = await service.upgradeModuleWithTrophy(
+		bastion.id,
+		mRecord.id,
+		goldCost,
+		trophyId,
+	);
+	if (res.success) {
+		triggerSuccess(`Módulo evoluído para Tier ${nextTier}!`);
+		log(
+			`[Evolução] Módulo ${moduleCatalog.find((i) => i.id === mRecord.moduleId)?.name} evoluído para Tier ${nextTier}. Custo: ${goldCost} PO.`,
+		);
+		const list = await repository.findModulesByBastionId(bastion.id);
+		if (list.success) {
+			modules = [...list.data];
+		}
+	} else {
+		triggerError(res.error.message);
+	}
 }
 </script>
 
@@ -481,6 +549,8 @@ async function handleReduceThreat() {
 					characters={characters}
 					moduleCatalog={moduleCatalog}
 					onAdvance={handleAdvanceObra}
+					onRepair={handleRepairModule}
+					onUpgrade={handleUpgradeModule}
 				/>
 
 				<!-- Catálogo de Obras -->

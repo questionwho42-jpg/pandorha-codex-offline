@@ -3,9 +3,12 @@ import type { BackgroundRecord } from "$lib/entities/background";
 import type { CharacterRecord } from "$lib/entities/character";
 import {
 	BaseCharacterStats,
+	BleedingDecorator,
 	EterFeverDecorator,
 	HungryDecorator,
 	type ICharacterStats,
+	ImmobilizedDecorator,
+	SilencedDecorator,
 	ViperPoisonDecorator,
 	WoundInfectionDecorator,
 } from "$lib/entities/character/domain/StatusEffectDecorator";
@@ -99,6 +102,9 @@ const STATUS_EFFECT_LABELS: Record<string, string> = {
 	wound_infection: "Infecção de Ferida",
 	viper_poison: "Veneno de Víbora",
 	hungry: "Faminto",
+	bleeding: "Sangramento",
+	silenced: "Silenciado",
+	immobilized: "Imobilizado",
 };
 
 function toCharacterListItem(
@@ -135,6 +141,12 @@ function toCharacterListItem(
 			stats = new ViperPoisonDecorator(stats);
 		} else if (effect.type === "hungry") {
 			stats = new HungryDecorator(stats);
+		} else if (effect.type === "bleeding") {
+			stats = new BleedingDecorator(stats);
+		} else if (effect.type === "silenced") {
+			stats = new SilencedDecorator(stats);
+		} else if (effect.type === "immobilized") {
+			stats = new ImmobilizedDecorator(stats);
 		}
 	}
 

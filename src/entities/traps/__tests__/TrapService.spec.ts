@@ -467,5 +467,117 @@ describe("TrapService & Decorators Test Suite", () => {
 				expect(res.data.appliedEffects).toHaveLength(0);
 			}
 		});
+
+		it("should apply bleeding effect on failed saving throw", async () => {
+			const fakeCharService = new InMemoryFakeCharacterService();
+			const bleedingTrap: TrapRecord = {
+				...fakeMechanicalTrap,
+				id: "trap-bleeding",
+				effects: JSON.stringify(["bleeding"]),
+			};
+			const res = await trapService.resolveTriggeredTrap(
+				fakeHero,
+				bleedingTrap,
+				5,
+				fakeCharService,
+			);
+			expect(res.success).toBe(true);
+			if (res.success) {
+				expect(res.data.appliedEffects).toEqual([
+					{ type: "bleeding", severity: 2 },
+				]);
+				expect(res.data.log).toContain("Sangramento (Severidade 2)");
+			}
+			expect(fakeCharService.effects[0]?.type).toBe("bleeding");
+		});
+
+		it("should apply silenced effect on failed saving throw", async () => {
+			const fakeCharService = new InMemoryFakeCharacterService();
+			const silencedTrap: TrapRecord = {
+				...fakeMechanicalTrap,
+				id: "trap-silenced",
+				effects: JSON.stringify(["silenced"]),
+			};
+			const res = await trapService.resolveTriggeredTrap(
+				fakeHero,
+				silencedTrap,
+				5,
+				fakeCharService,
+			);
+			expect(res.success).toBe(true);
+			if (res.success) {
+				expect(res.data.appliedEffects).toEqual([
+					{ type: "silenced", severity: 2 },
+				]);
+				expect(res.data.log).toContain("Silenciamento (Severidade 2)");
+			}
+			expect(fakeCharService.effects[0]?.type).toBe("silenced");
+		});
+
+		it("should apply immobilized effect on failed saving throw", async () => {
+			const fakeCharService = new InMemoryFakeCharacterService();
+			const immobilizedTrap: TrapRecord = {
+				...fakeMechanicalTrap,
+				id: "trap-immobilized",
+				effects: JSON.stringify(["immobilized"]),
+			};
+			const res = await trapService.resolveTriggeredTrap(
+				fakeHero,
+				immobilizedTrap,
+				5,
+				fakeCharService,
+			);
+			expect(res.success).toBe(true);
+			if (res.success) {
+				expect(res.data.appliedEffects).toEqual([
+					{ type: "immobilized", severity: 2 },
+				]);
+				expect(res.data.log).toContain("Imobilização (Severidade 2)");
+			}
+			expect(fakeCharService.effects[0]?.type).toBe("immobilized");
+		});
+
+		it("should return tensionIncreased = 3 when trigger res is noisy_rune", async () => {
+			const fakeCharService = new InMemoryFakeCharacterService();
+			const noisyTrap: TrapRecord = {
+				...fakeMechanicalTrap,
+				id: "trap-noisy",
+				effects: JSON.stringify(["noisy_rune"]),
+			};
+			const res = await trapService.resolveTriggeredTrap(
+				fakeHero,
+				noisyTrap,
+				5,
+				fakeCharService,
+			);
+			expect(res.success).toBe(true);
+			if (res.success) {
+				expect(res.data.tensionIncreased).toBe(3);
+				expect(res.data.log).toContain("+3 fatias de Tensão");
+			}
+		});
+
+		it("should bubble tensionIncreased on disarm ugly failure", async () => {
+			const fakeCharService = new InMemoryFakeCharacterService();
+			const noisyTrap: TrapRecord = {
+				...fakeMechanicalTrap,
+				id: "trap-noisy",
+				effects: JSON.stringify(["noisy_rune"]),
+			};
+			// DC = 16. Total = 2 (roll) + 3 (lvl) + 4 (physical) + 2 (interaction) = 11 (Falha Feia por 5 pontos)
+			const res = await trapService.disarmTrap(
+				fakeHero,
+				noisyTrap,
+				2,
+				true,
+				fakeCharService,
+			);
+			expect(res.success).toBe(true);
+			if (res.success) {
+				expect(res.data.isDisarmed).toBe(false);
+				expect(res.data.tensionIncreased).toBe(3);
+				expect(res.data.log).toContain("+3 fatias de Tensão");
+			}
+		});
 	});
 });

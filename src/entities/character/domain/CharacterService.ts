@@ -83,6 +83,41 @@ export class CharacterService {
 
 		return ok(output.data);
 	}
+
+	public async resurrectCharacter(
+		characterId: string,
+		isResurrectionBlockedFn: () => Promise<Result<boolean, any>>,
+	): Promise<Result<{ status: "resurrected" }, CharacterFailure>> {
+		const blockRes = await isResurrectionBlockedFn();
+		if (blockRes.success && blockRes.data) {
+			return fail({
+				code: "RESURRECTION_BLOCKED",
+				message:
+					"Ressurreição bloqueada por dívidas de sangue ou alma penhorada.",
+			});
+		}
+
+		const charRes = await this.repository.findById(characterId);
+		if (!charRes.success) {
+			return fail({
+				code: "REPOSITORY_READ_FAILED",
+				message: charRes.error.message,
+			});
+		}
+
+		const char = charRes.data;
+		char.updatedAt = this.clock.now();
+
+		const saveRes = await this.repository.save(char);
+		if (!saveRes.success) {
+			return fail({
+				code: "REPOSITORY_WRITE_FAILED",
+				message: saveRes.error.message,
+			});
+		}
+
+		return ok({ status: "resurrected" });
+	}
 }
 
 function formatIssues(issues: readonly ZodIssue[]): readonly string[] {

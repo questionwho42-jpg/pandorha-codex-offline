@@ -67,11 +67,24 @@ export const APP_NAVIGATION_ITEMS = [
 		description: "Gestão de tempo, vigília e recuperação do grupo.",
 	},
 	{
+		id: "domain_council",
+		label: "Conselho",
+		heading: "Conselho Regional",
+		description: "Governança regional e evolução de matrizes de influência.",
+	},
+	{
 		id: "crafting",
 		label: "Oficina e Forja",
 		heading: "Forja Tática",
 		description:
 			"Forja de itens base e decorações de qualidade (Afiado, Reforçado, Rúnico).",
+	},
+	{
+		id: "traps",
+		label: "Armadilhas",
+		heading: "Códice de Armadilhas",
+		description:
+			"Fabricação e instalação de armadilhas táticas no hexcrawl regional.",
 	},
 	{
 		id: "bastion",
@@ -98,6 +111,25 @@ export const APP_NAVIGATION_ITEMS = [
 		heading: "Diálogos e Investigação",
 		description:
 			"Conduza investigações, interrogue NPCs e desvende pistas consumindo seu Esforço Extra.",
+	},
+	{
+		id: "investigation",
+		label: "Investigação",
+		heading: "Sistema de Investigação e Descoberta",
+		description:
+			"Pesquise sobre monstros de Pandorha e acumule Tokens de Insight para manobras táticas em combate e narrativa.",
+	},
+	{
+		id: "mercenary",
+		label: "Mercenários",
+		heading: "Guarnição Mercenária",
+		description: "Gestão de companhias mercenárias, peões e missões táticas.",
+	},
+	{
+		id: "espionage",
+		label: "Espionagem",
+		heading: "Teia de Espionagem",
+		description: "Células de informantes e operações de downtime táticas.",
 	},
 ] as const;
 

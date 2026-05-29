@@ -830,6 +830,374 @@ export async function handleDatabaseWorkerRequest(
 			});
 		}
 
+		case "SAVE_INVESTIGATION": {
+			const result = await input.bootstrapService.saveInvestigation(
+				command.payload.investigation,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_INVESTIGATION": {
+			const result = await input.bootstrapService.findInvestigation(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "LIST_INVESTIGATIONS_BY_TARGET": {
+			const result = await input.bootstrapService.listInvestigationsByTarget(
+				command.payload.targetId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "LIST_ACTIVE_INVESTIGATIONS": {
+			const result = await input.bootstrapService.listActiveInvestigations();
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "SAVE_REGIONAL_DOMAIN": {
+			const result = await input.bootstrapService.saveRegionalDomain(
+				command.payload.regionalDomain,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_REGIONAL_DOMAIN": {
+			const result = await input.bootstrapService.findRegionalDomain(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "LIST_REGIONAL_DOMAINS": {
+			const result = await input.bootstrapService.listRegionalDomains();
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "SAVE_CAMP_SESSION": {
+			const result = await input.bootstrapService.saveCampSession(
+				command.payload.campSession,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_CAMP_SESSION": {
+			const result = await input.bootstrapService.findCampSession(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "LIST_CAMP_SESSIONS": {
+			const result = await input.bootstrapService.listCampSessions();
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "DELETE_CAMP_SESSION": {
+			const result = await input.bootstrapService.deleteCampSession(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+			});
+		}
+
+		case "SAVE_MERCENARY_COMPANY": {
+			const result = await input.bootstrapService.saveMercenaryCompany(
+				command.payload.company,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_MERCENARY_COMPANY": {
+			const result = await input.bootstrapService.findMercenaryCompany(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "LIST_MERCENARY_COMPANIES": {
+			const result = await input.bootstrapService.listMercenaryCompanies();
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "SAVE_MERCENARY_SQUAD": {
+			const result = await input.bootstrapService.saveMercenarySquad(
+				command.payload.squad,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_MERCENARY_SQUAD": {
+			const result = await input.bootstrapService.findMercenarySquad(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "LIST_MERCENARY_SQUADS_BY_COMPANY": {
+			const result = await input.bootstrapService.listMercenarySquadsByCompany(
+				command.payload.companyId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "SAVE_ESPIONAGE_CELL": {
+			const result = await input.bootstrapService.saveEspionageCell(
+				command.payload.cell,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_ESPIONAGE_CELL": {
+			const result = await input.bootstrapService.findEspionageCell(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "LIST_ESPIONAGE_CELLS": {
+			const result = await input.bootstrapService.listEspionageCells(
+				command.payload.campaignId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "DELETE_ESPIONAGE_CELL": {
+			const result = await input.bootstrapService.deleteEspionageCell(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+			});
+		}
+
 		default: {
 			const _exhaustiveCheck: never = command;
 			return createRpcFailureResponse({

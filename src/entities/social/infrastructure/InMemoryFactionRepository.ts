@@ -6,6 +6,7 @@ import type {
 import type {
 	BloodDebtRecord,
 	CampaignSocialLedgerRecord,
+	FactionPatronageRecord,
 	ReputationRecord,
 } from "../model/socialSchema";
 
@@ -13,6 +14,7 @@ export class InMemoryFactionRepository implements FactionRepository {
 	private ledgers = new Map<string, CampaignSocialLedgerRecord>();
 	private reputations = new Map<string, ReputationRecord>();
 	private bloodDebts = new Map<string, BloodDebtRecord>();
+	private patronages = new Map<string, FactionPatronageRecord>();
 
 	public async saveLedger(
 		record: CampaignSocialLedgerRecord,
@@ -73,5 +75,36 @@ export class InMemoryFactionRepository implements FactionRepository {
 	): Promise<Result<BloodDebtRecord | null, FactionRepositoryFailure>> {
 		const debt = this.bloodDebts.get(id) || null;
 		return ok(debt);
+	}
+
+	public async savePatronage(
+		record: FactionPatronageRecord,
+	): Promise<Result<FactionPatronageRecord, FactionRepositoryFailure>> {
+		this.patronages.set(record.id, record);
+		return ok(record);
+	}
+
+	public async findPatronage(
+		id: string,
+	): Promise<Result<FactionPatronageRecord | null, FactionRepositoryFailure>> {
+		const pat = this.patronages.get(id) || null;
+		return ok(pat);
+	}
+
+	public async findPatronageByFaction(
+		factionId: string,
+	): Promise<Result<FactionPatronageRecord | null, FactionRepositoryFailure>> {
+		for (const pat of this.patronages.values()) {
+			if (pat.factionId === factionId) {
+				return ok(pat);
+			}
+		}
+		return ok(null);
+	}
+
+	public async listPatronages(): Promise<
+		Result<readonly FactionPatronageRecord[], FactionRepositoryFailure>
+	> {
+		return ok(Array.from(this.patronages.values()));
 	}
 }

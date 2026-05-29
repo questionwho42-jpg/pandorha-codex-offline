@@ -454,4 +454,155 @@ describe("BastionService", () => {
 			expect(updated.data.threatCurrent).toBe(5); // 2 base + 3 de ameaça por excesso
 		}
 	});
+
+	it("deve repelir o cerco frontal se a rolagem de estrutura vencer a CD da horda", async () => {
+		const repository = new InMemoryBastionRepository();
+		const service = new BastionService(repository);
+
+		const bRes = await service.foundBastion("Guarida", "fortaleza_pedra");
+		expect(bRes.success).toBe(true);
+		const b = bRes.success ? bRes.data : ({} as BastionRecord);
+
+		b.threatCurrent = 10;
+		await repository.save(b);
+
+		// Horda CD = 12. fortaleza_pedra tem structure = 3.
+		// Rola d20 = 10. Total = 10 + 3 = 13 >= 12. Sucesso!
+		const cercoRes = await service.resolveCercoFrontal(b.id, 12, 10);
+		expect(cercoRes.success).toBe(true);
+		if (cercoRes.success) {
+			expect(cercoRes.data.status).toBe("repelled");
+			expect(cercoRes.data.integrityLost).toBe(0);
+			expect(cercoRes.data.brokenModuleIds.length).toBe(0);
+		}
+
+		const updated = await repository.findById(b.id);
+		expect(updated.success).toBe(true);
+		if (updated.success) {
+			expect(updated.data.threatCurrent).toBe(0);
+		}
+	});
+
+	it("deve sofrer invasao (breached) e dano no cerco se a rolagem falhar", async () => {
+		const repository = new InMemoryBastionRepository();
+		const service = new BastionService(repository);
+
+		const bRes = await service.foundBastion("Guarida", "fortaleza_pedra");
+		expect(bRes.success).toBe(true);
+		const b = bRes.success ? bRes.data : ({} as BastionRecord);
+
+		// Horda CD = 15. fortaleza_pedra tem structure = 3.
+		// Rola d20 = 5. Total = 5 + 3 = 8 < 15. Falha!
+		// Dano = (15 - 8) * 5 = 35.
+		const cercoRes = await service.resolveCercoFrontal(b.id, 15, 5);
+		expect(cercoRes.success).toBe(true);
+		if (cercoRes.success) {
+			expect(cercoRes.data.status).toBe("breached");
+			expect(cercoRes.data.integrityLost).toBe(35);
+		}
+	});
+
+	it("deve quebrar um modulo completo se integridade cair abaixo de 50% e falhar no teste de vigilancia", async () => {
+		const repository = new InMemoryBastionRepository();
+		const service = new BastionService(repository);
+
+		const bRes = await service.foundBastion("Guarida", "fortaleza_pedra");
+		expect(bRes.success).toBe(true);
+		const b = bRes.success ? bRes.data : ({} as BastionRecord);
+
+		// Cria e completa um modulo
+		const startMod = await service.startModule(b.id, "posto_vigia", 1);
+		expect(startMod.success).toBe(true);
+		const modId = startMod.success ? startMod.data.id : "";
+		await service.advanceModuleObra(modId, 3, 20, 15);
+		await service.advanceModuleObra(modId, 3, 20, 15);
+		await service.advanceModuleObra(modId, 3, 20, 15);
+		await service.advanceModuleObra(modId, 3, 13, 15);
+
+		// Reduz integridade para que fique abaixo de 50% de HP Max (HP Max = 3*10 = 30)
+		// Horda CD = 20. Total = 1 + 3 = 4. Dano = 16 * 5 = 80.
+		// Vigilância total = 1 + 3 (watchpost) = 4 < 12. Modulo deve quebrar!
+		const cercoRes = await service.resolveCercoFrontal(b.id, 20, 1, 1);
+		expect(cercoRes.success).toBe(true);
+		if (cercoRes.success) {
+			expect(cercoRes.data.status).toBe("breached");
+			expect(cercoRes.data.brokenModuleIds.length).toBe(1);
+			expect(cercoRes.data.brokenModuleIds[0]).toBe(modId);
+		}
+
+		const modCheck = await repository.findModuleById(modId);
+		expect(modCheck.success).toBe(true);
+		if (modCheck.success) {
+			expect(modCheck.data.isBroken).toBe(true);
+		}
+	});
+
+	it("deve disparar cerco frontal automaticamente no processRecessEnd se a ameaca atingir 10", async () => {
+		const repository = new InMemoryBastionRepository();
+		const service = new BastionService(repository);
+
+		const bRes = await service.foundBastion("Guarida", "fortaleza_pedra");
+		expect(bRes.success).toBe(true);
+		const b = bRes.success ? bRes.data : ({} as BastionRecord);
+
+		// Configura ouro no cofre para estourar o limite e atingir ameaca 10
+		b.threatCurrent = 9;
+		b.vaultGold = 5000; // capacidade = 1 * 1000 = 1000. Excesso = 4000. Ameaca ganha = 8.
+		await repository.save(b);
+
+		const recessRes = await service.processRecessEnd(b.id);
+		expect(recessRes.success).toBe(true);
+		if (recessRes.success) {
+			expect(recessRes.data.cercoResult).toBeDefined();
+			expect(["repelled", "breached"]).toContain(
+				recessRes.data.cercoResult?.status,
+			);
+		}
+	});
+
+	it("deve validar a evolucao de modulos com trofeus e ouro", async () => {
+		const repository = new InMemoryBastionRepository();
+		const service = new BastionService(repository);
+
+		const bRes = await service.foundBastion("Guarida", "fortaleza_pedra");
+		expect(bRes.success).toBe(true);
+		const b = bRes.success ? bRes.data : ({} as BastionRecord);
+
+		const startMod = await service.startModule(b.id, "horta_alquimia", 1);
+		expect(startMod.success).toBe(true);
+		const modId = startMod.success ? startMod.data.id : "";
+
+		// 1. Falha por falta de ouro
+		const upFail1 = await service.upgradeModuleWithTrophy(b.id, modId, 500);
+		expect(upFail1.success).toBe(false);
+
+		// Adiciona ouro ao cofre
+		b.vaultGold = 1000;
+		await repository.save(b);
+
+		// 2. Up para Tier 2 (Não exige troféu)
+		const upTier2 = await service.upgradeModuleWithTrophy(b.id, modId, 200);
+		expect(upTier2.success).toBe(true);
+		if (upTier2.success) {
+			expect(upTier2.data.tier).toBe(2);
+			expect(upTier2.data.progressMax).toBe(20);
+		}
+
+		// 3. Falha no Up para Tier 3 por falta de troféu
+		const upFail2 = await service.upgradeModuleWithTrophy(b.id, modId, 300);
+		expect(upFail2.success).toBe(false);
+
+		// 4. Up para Tier 3 com troféu com sucesso
+		const upTier3 = await service.upgradeModuleWithTrophy(
+			b.id,
+			modId,
+			300,
+			"trofeu_wyrm_id",
+		);
+		expect(upTier3.success).toBe(true);
+		if (upTier3.success) {
+			expect(upTier3.data.tier).toBe(3);
+			expect(upTier3.data.progressMax).toBe(30);
+		}
+	});
 });

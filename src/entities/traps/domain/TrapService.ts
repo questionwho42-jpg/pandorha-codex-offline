@@ -3,9 +3,13 @@ import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { TrapRecord } from "../model/trapSchema";
 import {
 	BaseTrapEffect,
+	BleedingTrapDecorator,
 	EterFeverTrapDecorator,
+	ImmobilizedTrapDecorator,
 	type ITrapEffect,
+	NoisyRuneTrapDecorator,
 	PoisonedTrapDecorator,
+	SilencedTrapDecorator,
 	type TrapDowntimeCharacterService,
 	type TrapResolution,
 	WoundInfectionTrapDecorator,
@@ -67,6 +71,7 @@ export class TrapService {
 				damageTaken: number;
 				effects: { type: string; severity: number }[];
 				log: string;
+				tensionIncreased?: number;
 			},
 			Error
 		>
@@ -133,13 +138,26 @@ export class TrapService {
 			return fail(triggerResult.error);
 		}
 
-		return ok({
+		const finalResult: {
+			isDisarmed: boolean;
+			gatheredComponents: boolean;
+			damageTaken: number;
+			effects: { type: string; severity: number }[];
+			log: string;
+			tensionIncreased?: number;
+		} = {
 			isDisarmed: false,
 			gatheredComponents: false,
 			damageTaken: triggerResult.data.damageTaken,
 			effects: triggerResult.data.appliedEffects,
 			log: `[Desarme] Falha Feia (${total} vs DC ${dc}) de ${character.name}! A armadilha disparou com força total! ${triggerResult.data.log}`,
-		});
+		};
+
+		if (triggerResult.data.tensionIncreased !== undefined) {
+			finalResult.tensionIncreased = triggerResult.data.tensionIncreased;
+		}
+
+		return ok(finalResult);
 	}
 
 	public async resolveTriggeredTrap(
@@ -183,6 +201,14 @@ export class TrapService {
 				effectPipeline = new EterFeverTrapDecorator(effectPipeline);
 			} else if (effectType === "wound_infection") {
 				effectPipeline = new WoundInfectionTrapDecorator(effectPipeline);
+			} else if (effectType === "bleeding") {
+				effectPipeline = new BleedingTrapDecorator(effectPipeline);
+			} else if (effectType === "silenced") {
+				effectPipeline = new SilencedTrapDecorator(effectPipeline);
+			} else if (effectType === "immobilized") {
+				effectPipeline = new ImmobilizedTrapDecorator(effectPipeline);
+			} else if (effectType === "noisy_rune") {
+				effectPipeline = new NoisyRuneTrapDecorator(effectPipeline);
 			}
 		}
 

@@ -1,4 +1,8 @@
-export type CombatTurnEventType = "turnStarted" | "actionSpent" | "turnEnded";
+export type CombatTurnEventType =
+	| "turnStarted"
+	| "actionSpent"
+	| "turnEnded"
+	| "tensionIncreased";
 
 export interface CombatTurnEvent {
 	readonly id: string;
@@ -6,6 +10,7 @@ export interface CombatTurnEvent {
 	readonly actorId: string;
 	readonly round: number;
 	readonly actionCost: number;
+	readonly details?: string | undefined;
 }
 
 export interface CombatTurnState {
@@ -16,6 +21,9 @@ export interface CombatTurnState {
 	readonly actionPointsRemaining: number;
 	readonly maxActionPoints: number;
 	readonly events: readonly CombatTurnEvent[];
+	readonly tensionClockSegmentsMax?: number | undefined;
+	readonly tensionClockSegmentsFilled?: number | undefined;
+	readonly isAlarmTriggered?: boolean | undefined;
 }
 
 export interface CombatTurnStartInput {

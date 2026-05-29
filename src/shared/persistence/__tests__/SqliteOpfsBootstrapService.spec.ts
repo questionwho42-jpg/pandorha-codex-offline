@@ -59,22 +59,33 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0011_petite_thor_girl",
 				"0012_reflective_sasquatch",
 				"0013_lush_mathemanic",
+				"0014_slippery_proemial_gods",
+				"0015_gray_texas_twister",
+				"0016_spotty_shiver_man",
+				"0017_dark_richard_fisk",
 			],
 			tableNames: [
 				"_pandorha_migrations",
 				"bastion_modules",
 				"bastions",
 				"blood_debts",
+				"campaign_camp_sessions",
 				"campaign_cohesion",
 				"campaign_dialogue_states",
+				"campaign_investigations",
 				"campaign_quests",
+				"campaign_regional_domains",
 				"campaign_social_ledger",
 				"character_crafted_items",
 				"character_reputation",
 				"character_status_effects",
 				"characters",
 				"crafting_recipes",
+				"espionage_cells",
+				"faction_patronages",
 				"factions",
+				"mercenary_companies",
+				"mercenary_squads",
 				"progress_clocks",
 				"registered_signatures",
 				"summon_companions",
@@ -134,6 +145,10 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0011_petite_thor_girl",
 			"0012_reflective_sasquatch",
 			"0013_lush_mathemanic",
+			"0014_slippery_proemial_gods",
+			"0015_gray_texas_twister",
+			"0016_spotty_shiver_man",
+			"0017_dark_richard_fisk",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -254,6 +269,10 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0011_petite_thor_girl",
 			"0012_reflective_sasquatch",
 			"0013_lush_mathemanic",
+			"0014_slippery_proemial_gods",
+			"0015_gray_texas_twister",
+			"0016_spotty_shiver_man",
+			"0017_dark_richard_fisk",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -348,6 +367,35 @@ describe("database worker request handler", () => {
 								updatedAt: REQUESTED_AT,
 							},
 						],
+						mercenaryCompanies: [
+							{
+								id: "company-123",
+								bastionId: "bastion-1",
+								tier: 1,
+								reputation: 0,
+								hqName: "Batalhão Dourado",
+								createdAt: REQUESTED_AT,
+								updatedAt: REQUESTED_AT,
+							},
+						],
+						mercenarySquads: [
+							{
+								id: "squad-123",
+								companyId: "company-123",
+								name: "Garras de Aço",
+								physical: 3,
+								mental: 1,
+								social: 1,
+								cohesionMax: 13,
+								cohesionCurrent: 13,
+								tagsJson: JSON.stringify(["heavy_infantry"]),
+								commandTactic: "stealthy",
+								status: "available",
+								assignedMissionId: null,
+								createdAt: REQUESTED_AT,
+								updatedAt: REQUESTED_AT,
+							},
+						],
 					},
 				},
 			},
@@ -408,6 +456,35 @@ describe("database worker request handler", () => {
 							dialogueTreeId: "tree-1",
 							historyJson: JSON.stringify(["root", "node-1"]),
 							unlockedCluesJson: JSON.stringify(["clue-1"]),
+							updatedAt: REQUESTED_AT,
+						},
+					],
+					mercenaryCompanies: [
+						{
+							id: "company-123",
+							bastionId: "bastion-1",
+							tier: 1,
+							reputation: 0,
+							hqName: "Batalhão Dourado",
+							createdAt: REQUESTED_AT,
+							updatedAt: REQUESTED_AT,
+						},
+					],
+					mercenarySquads: [
+						{
+							id: "squad-123",
+							companyId: "company-123",
+							name: "Garras de Aço",
+							physical: 3,
+							mental: 1,
+							social: 1,
+							cohesionMax: 13,
+							cohesionCurrent: 13,
+							tagsJson: JSON.stringify(["heavy_infantry"]),
+							commandTactic: "stealthy",
+							status: "available",
+							assignedMissionId: null,
+							createdAt: REQUESTED_AT,
 							updatedAt: REQUESTED_AT,
 						},
 					],
@@ -600,6 +677,277 @@ describe("database worker request handler", () => {
 			messageId: MESSAGE_ID,
 			success: true,
 			data: null,
+		});
+	});
+
+	it("handles Regional Domain RPC operations (save, find)", async () => {
+		const storage = new InMemoryDatabaseFileStorage();
+		const service = createService(storage);
+
+		await service.initializeDatabase({ requestedAt: REQUESTED_AT });
+
+		const domainId = "domain-123";
+		const regionalDomainObj = {
+			id: domainId,
+			tier: 1,
+			physicalLevel: 3,
+			mentalLevel: 1,
+			socialLevel: 1,
+			regentId: null,
+			weeksAway: 0,
+			createdAt: REQUESTED_AT,
+			updatedAt: REQUESTED_AT,
+		};
+
+		// 1. SAVE
+		const saveRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "SAVE_REGIONAL_DOMAIN",
+				payload: { regionalDomain: regionalDomainObj },
+			},
+			{ bootstrapService: service },
+		);
+		expect(saveRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: regionalDomainObj,
+		});
+
+		// 2. FIND
+		const findRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FIND_REGIONAL_DOMAIN",
+				payload: { id: domainId },
+			},
+			{ bootstrapService: service },
+		);
+		expect(findRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: regionalDomainObj,
+		});
+	});
+
+	it("handles Camp Session RPC operations (save, find, list, delete)", async () => {
+		const storage = new InMemoryDatabaseFileStorage();
+		const service = createService(storage);
+
+		await service.initializeDatabase({ requestedAt: REQUESTED_AT });
+
+		const campId = "camp-123";
+		const campSessionObj = {
+			id: campId,
+			totalTime: 12,
+			sleepHours: 8,
+			availableActions: 4,
+			dangerCounter: 0,
+			activeActivitiesJson: JSON.stringify([]),
+			createdAt: REQUESTED_AT,
+			updatedAt: REQUESTED_AT,
+		};
+
+		// 1. SAVE
+		const saveRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "SAVE_CAMP_SESSION",
+				payload: { campSession: campSessionObj },
+			},
+			{ bootstrapService: service },
+		);
+		expect(saveRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: campSessionObj,
+		});
+
+		// 2. FIND
+		const findRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FIND_CAMP_SESSION",
+				payload: { id: campId },
+			},
+			{ bootstrapService: service },
+		);
+		expect(findRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: campSessionObj,
+		});
+
+		// 3. LIST
+		const listRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "LIST_CAMP_SESSIONS",
+				payload: {},
+			},
+			{ bootstrapService: service },
+		);
+		expect(listRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: [campSessionObj],
+		});
+
+		// 4. DELETE
+		const delRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "DELETE_CAMP_SESSION",
+				payload: { id: campId },
+			},
+			{ bootstrapService: service },
+		);
+		expect(delRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+		});
+
+		// 5. FIND after delete (should return success: false with DATABASE_FILE_READ_FAILED)
+		const findAfterDel = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FIND_CAMP_SESSION",
+				payload: { id: campId },
+			},
+			{ bootstrapService: service },
+		);
+		expect(findAfterDel).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: false,
+			error: {
+				code: "DATABASE_FILE_READ_FAILED",
+			},
+		});
+	});
+
+	it("handles Mercenary Company and Squad RPC operations (save, find, list)", async () => {
+		const storage = new InMemoryDatabaseFileStorage();
+		const service = createService(storage);
+
+		await service.initializeDatabase({ requestedAt: REQUESTED_AT });
+
+		const companyId = "company-123";
+		const companyObj = {
+			id: companyId,
+			bastionId: "bastion-1",
+			tier: 1,
+			reputation: 0,
+			hqName: "Batalhão Dourado",
+			createdAt: REQUESTED_AT,
+			updatedAt: REQUESTED_AT,
+		};
+
+		// 1. SAVE COMPANY
+		const saveCompanyRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "SAVE_MERCENARY_COMPANY",
+				payload: { company: companyObj },
+			},
+			{ bootstrapService: service },
+		);
+		expect(saveCompanyRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: companyObj,
+		});
+
+		// 2. FIND COMPANY
+		const findCompanyRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FIND_MERCENARY_COMPANY",
+				payload: { id: companyId },
+			},
+			{ bootstrapService: service },
+		);
+		expect(findCompanyRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: companyObj,
+		});
+
+		// 3. LIST COMPANIES
+		const listCompaniesRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "LIST_MERCENARY_COMPANIES",
+				payload: {},
+			},
+			{ bootstrapService: service },
+		);
+		expect(listCompaniesRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: [companyObj],
+		});
+
+		const squadId = "squad-123";
+		const squadObj = {
+			id: squadId,
+			companyId: companyId,
+			name: "Garras de Aço",
+			physical: 3,
+			mental: 1,
+			social: 1,
+			cohesionMax: 13,
+			cohesionCurrent: 13,
+			tagsJson: JSON.stringify(["heavy_infantry"]),
+			commandTactic: "stealthy",
+			status: "available",
+			assignedMissionId: null,
+			createdAt: REQUESTED_AT,
+			updatedAt: REQUESTED_AT,
+		};
+
+		// 4. SAVE SQUAD
+		const saveSquadRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "SAVE_MERCENARY_SQUAD",
+				payload: { squad: squadObj },
+			},
+			{ bootstrapService: service },
+		);
+		expect(saveSquadRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: squadObj,
+		});
+
+		// 5. FIND SQUAD
+		const findSquadRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FIND_MERCENARY_SQUAD",
+				payload: { id: squadId },
+			},
+			{ bootstrapService: service },
+		);
+		expect(findSquadRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: squadObj,
+		});
+
+		// 6. LIST SQUADS BY COMPANY
+		const listSquadsRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "LIST_MERCENARY_SQUADS_BY_COMPANY",
+				payload: { companyId: companyId },
+			},
+			{ bootstrapService: service },
+		);
+		expect(listSquadsRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: [squadObj],
 		});
 	});
 });

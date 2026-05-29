@@ -517,4 +517,121 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 		);
 		expect(decoratedStats.physical).toBe(3);
 	});
+
+	describe("processWeeklyIllnessProgress", () => {
+		it("deve reduzir a gravidade da doença e curar se chegar a 0 após sucesso no vigor", async () => {
+			const repo = new SessionCharacterRepository();
+			const service = new IllnessService(repo, mockIdProvider, mockClock);
+
+			const character = createTestCharacter();
+			await repo.save(character);
+
+			// Infecta
+			const infectRes = await service.infectCharacter(
+				character.id,
+				"wound_infection",
+			);
+			expect(infectRes.success).toBe(true);
+
+			// Vigor do personagem = level (2) + physical (3 - 1 do decorator de wound_infection) + resistance (3) = 7
+			// DC = 12. Precisamos de sucesso -> d20: 10 + 7 = 17 >= 12
+			const progressRes = await service.processWeeklyIllnessProgress(
+				character.id,
+				10,
+			);
+			expect(progressRes.success).toBe(true);
+			if (progressRes.success) {
+				expect(progressRes.data.length).toBe(1);
+				const first = progressRes.data[0];
+				if (first) {
+					expect(first.diseaseType).toBe("wound_infection");
+					expect(first.rollResult.success).toBe(true);
+					expect(first.newSeverity).toBe(1);
+					expect(first.curated).toBe(false);
+				}
+			}
+
+			// Segundo turno de recesso -> rola 10 e passa novamente -> severity cai de 1 para 0 -> curado!
+			const progressRes2 = await service.processWeeklyIllnessProgress(
+				character.id,
+				10,
+			);
+			expect(progressRes2.success).toBe(true);
+			if (progressRes2.success) {
+				const first = progressRes2.data[0];
+				if (first) {
+					expect(first.newSeverity).toBe(0);
+					expect(first.curated).toBe(true);
+				}
+			}
+
+			// Garante que o status effect sumiu do repositório
+			const activeEffects = await repo.findStatusEffectsByCharacterId(
+				character.id,
+			);
+			expect(activeEffects.success).toBe(true);
+			if (activeEffects.success) {
+				expect(activeEffects.data.length).toBe(0);
+			}
+		});
+
+		it("deve aumentar a gravidade da doença e agravar se atingir o limite após falha no vigor", async () => {
+			const repo = new SessionCharacterRepository();
+			const service = new IllnessService(repo, mockIdProvider, mockClock);
+
+			const character = createTestCharacter();
+			await repo.save(character);
+
+			// Infecta -> Severidade inicial: 2, Max: 4 (no mock o max é 3? Vamos ver: severityMax no schema é 3 por padrão, no service é 4)
+			const infectRes = await service.infectCharacter(
+				character.id,
+				"eter_fever",
+			);
+			expect(infectRes.success).toBe(true);
+
+			// Vigor = lvl (2) + physical (3) + resistance (3 - 1 do eter_fever) = 7
+			// DC = 14. Precisamos de falha -> d20: 1 + 7 = 8 < 14
+			const progressRes = await service.processWeeklyIllnessProgress(
+				character.id,
+				1,
+			);
+			expect(progressRes.success).toBe(true);
+			if (progressRes.success) {
+				const first = progressRes.data[0];
+				if (first) {
+					expect(first.rollResult.success).toBe(false);
+					expect(first.newSeverity).toBe(3);
+					expect(first.isAggravated).toBe(false);
+				}
+			}
+
+			// Outra falha -> deve atingir o severityMax de 4 (pois eter_fever infectRecord define severityMax como 4 no IllnessService)
+			const progressRes2 = await service.processWeeklyIllnessProgress(
+				character.id,
+				1,
+			);
+			expect(progressRes2.success).toBe(true);
+			if (progressRes2.success) {
+				const first = progressRes2.data[0];
+				if (first) {
+					expect(first.newSeverity).toBe(4);
+					expect(first.isAggravated).toBe(true);
+				}
+			}
+		});
+
+		it("deve retornar erro se o personagem não for cadastrado", async () => {
+			const repo = new SessionCharacterRepository();
+			const service = new IllnessService(repo, mockIdProvider, mockClock);
+
+			const progressRes = await service.processWeeklyIllnessProgress(
+				"inexistente",
+				10,
+			);
+			expect(progressRes.success).toBe(false);
+			if (!progressRes.success) {
+				expect(progressRes.error.code).toBe("REPOSITORY_READ_FAILED");
+			}
+		});
+	});
 });

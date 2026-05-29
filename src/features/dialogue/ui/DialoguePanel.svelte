@@ -61,7 +61,7 @@ let selectedTree = $derived(
 	DIALOGUE_TREES.find((t) => t.id === selectedTreeId) || DIALOGUE_TREES[0],
 );
 
-let currentNode = $derived(
+let _currentNode = $derived(
 	activeState
 		? selectedTree.nodes[activeState.currentConversationNodeId]
 		: null,
@@ -101,7 +101,7 @@ let activeCharacterStats = $derived.by<ICharacterStats | null>(() => {
 });
 
 const rawFormatter = new BaseDialogueLogFormatter();
-const decoratedFormatter = new ClueHighlightDecorator(
+const _decoratedFormatter = new ClueHighlightDecorator(
 	new ChallengeHighlightDecorator(new EeHighlightDecorator(rawFormatter)),
 );
 
@@ -177,7 +177,7 @@ $effect(() => {
 	}
 });
 
-async function selectOption(optionId: string) {
+async function _selectOption(optionId: string) {
 	if (!selectedCharacterId || !activeState || isRolling) return;
 
 	const node = selectedTree.nodes[activeState.currentConversationNodeId];
@@ -260,7 +260,7 @@ async function executeAdvance(optionId: string, rollVal?: number) {
 	}
 }
 
-async function resetDialogue() {
+async function _resetDialogue() {
 	if (!selectedCharacterId || !activeState) return;
 
 	const res = await repository.delete(activeState.id);
@@ -273,7 +273,7 @@ async function resetDialogue() {
 	}
 }
 
-function restParty() {
+function _restParty() {
 	for (const c of characters) {
 		charactersEe[c.id] = 5;
 	}

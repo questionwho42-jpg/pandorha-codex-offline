@@ -320,3 +320,52 @@ export class ExhaustedDecorator extends StatusEffectDecorator {
 		return Math.max(0, this.wrapped.social - 1);
 	}
 }
+
+/**
+ * 🧅 DECORADOR CONCRETO 7: Sangramento (BleedingDecorator)
+ * Condição de ferimento com perda contínua de sangue.
+ * Reduz: physical -1, impede cura natural.
+ */
+export class BleedingDecorator extends StatusEffectDecorator {
+	public override get physical(): number {
+		return Math.max(0, this.wrapped.physical - 1);
+	}
+
+	public override get allowsNaturalRecovery(): boolean {
+		return false;
+	}
+}
+
+/**
+ * 🧅 DECORADOR CONCRETO 8: Silenciado (SilencedDecorator)
+ * Condição mística ou química que impede a fala e a conjuração mágica.
+ * Reduz: mental -1, interaction -1.
+ */
+export class SilencedDecorator extends StatusEffectDecorator {
+	public override get mental(): number {
+		return Math.max(0, this.wrapped.mental - 1);
+	}
+
+	public override get interaction(): number {
+		return Math.max(0, this.wrapped.interaction - 1);
+	}
+}
+
+/**
+ * 🧅 DECORADOR CONCRETO 9: Imobilizado (ImmobilizedDecorator)
+ * Condição física extrema provocada por presas ou garras que impede locomoção.
+ * Reduz: movementSpeedBase para 0, conflict -2, e initiativeBase -2.
+ */
+export class ImmobilizedDecorator extends StatusEffectDecorator {
+	public override get movementSpeedBase(): number {
+		return 0;
+	}
+
+	public override get conflict(): number {
+		return Math.max(0, this.wrapped.conflict - 2);
+	}
+
+	public override get initiativeBase(): number {
+		return Math.max(0, super.initiativeBase - 2);
+	}
+}

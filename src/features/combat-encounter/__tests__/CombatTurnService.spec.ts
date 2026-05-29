@@ -237,6 +237,91 @@ describe("CombatTurnService", () => {
 			"actorOrder: Too small: expected array to have >=2 items",
 		);
 	});
+
+	it("inicializa o tension clock com segmentos max e preenchidos em 0", () => {
+		const service = new CombatTurnService();
+		const result = service.startTurnOrder({
+			actorOrder: ["aria", "training-guard"],
+			tensionClockSegmentsMax: 6,
+		} as any);
+
+		expect(result.success).toBe(true);
+		if (result.success) {
+			expect(result.data.tensionClockSegmentsMax).toBe(6);
+			expect(result.data.tensionClockSegmentsFilled).toBe(0);
+			expect(result.data.isAlarmTriggered).toBe(false);
+		}
+	});
+
+	it("incrementa fatias do relógio de tensão e dispara alarme quando cheio", () => {
+		const service = new CombatTurnService();
+		const startState = service.startTurnOrder({
+			actorOrder: ["aria", "training-guard"],
+			tensionClockSegmentsMax: 4,
+		} as any);
+		expectSuccess(startState);
+
+		// Incrementa +2 fatias
+		const res1 = service.increaseTensionClock(
+			startState.data,
+			2,
+			"aria",
+			"Passos pesados no corredor",
+		);
+		expectSuccess(res1);
+		expect(res1.data.tensionClockSegmentsFilled).toBe(2);
+		expect(res1.data.isAlarmTriggered).toBe(false);
+		expect(res1.data.events.at(-1)?.type).toBe("tensionIncreased");
+		expect((res1.data.events.at(-1) as any).details).toBe(
+			"Passos pesados no corredor",
+		);
+
+		// Incrementa mais +2 fatias (atinge o limite de 4)
+		const res2 = service.increaseTensionClock(res1.data, 2, "aria");
+		expectSuccess(res2);
+		expect(res2.data.tensionClockSegmentsFilled).toBe(4);
+		expect(res2.data.isAlarmTriggered).toBe(true); // Alarme disparado!
+	});
+
+	it("incrementa tensão com valores do relógio de tensão nulos ou indefinidos no estado", () => {
+		const service = new CombatTurnService();
+		const state: any = {
+			round: 1,
+			actorOrder: ["aria"],
+			activeActorId: "aria",
+			turnIndex: 0,
+			events: [],
+		};
+		const res = service.increaseTensionClock(state, 3, "aria");
+		expectSuccess(res);
+		expect(res.data.tensionClockSegmentsMax).toBe(8); // fallback 8
+		expect(res.data.tensionClockSegmentsFilled).toBe(3); // fallback 0 + 3
+	});
+
+	it("preserva os dados do tension clock na transição de turnos", () => {
+		const service = new CombatTurnService();
+		const startState = service.startTurnOrder({
+			actorOrder: ["aria", "training-guard"],
+			tensionClockSegmentsMax: 8,
+		} as any);
+		expectSuccess(startState);
+
+		const stateWithTension = service.increaseTensionClock(
+			startState.data,
+			3,
+			"aria",
+		);
+		expectSuccess(stateWithTension);
+
+		const endTurnRes = service.endTurn({
+			state: stateWithTension.data,
+			actorId: "aria",
+		});
+		expectSuccess(endTurnRes);
+		expect(endTurnRes.data.tensionClockSegmentsMax).toBe(8);
+		expect(endTurnRes.data.tensionClockSegmentsFilled).toBe(3);
+		expect(endTurnRes.data.isAlarmTriggered).toBe(false);
+	});
 });
 
 function createState(): CombatTurnState {

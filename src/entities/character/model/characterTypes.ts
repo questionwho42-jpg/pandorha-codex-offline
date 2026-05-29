@@ -9,7 +9,9 @@ export type CharacterFailureCode =
 	| "ALREADY_INFECTED"
 	| "PERSIST_STATUS_EFFECT_FAILED"
 	| "EFFECT_NOT_FOUND"
-	| "DELETE_STATUS_EFFECT_FAILED";
+	| "DELETE_STATUS_EFFECT_FAILED"
+	| "RESURRECTION_BLOCKED"
+	| "REPOSITORY_READ_FAILED";
 
 export type CharacterFailureDetails = Readonly<
 	Record<string, string | number | boolean | readonly string[]>

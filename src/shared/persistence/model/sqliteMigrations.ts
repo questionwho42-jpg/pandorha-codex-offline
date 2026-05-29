@@ -12,6 +12,10 @@ import questMigrationSql from "../../../../drizzle/0010_windy_wither.sql?raw";
 import synergyMigrationSql from "../../../../drizzle/0011_petite_thor_girl.sql?raw";
 import factionsCompanionsMigrationSql from "../../../../drizzle/0012_reflective_sasquatch.sql?raw";
 import experiencePointsMigrationSql from "../../../../drizzle/0013_lush_mathemanic.sql?raw";
+import investigationMigrationSql from "../../../../drizzle/0014_slippery_proemial_gods.sql?raw";
+import regionalCampMigrationSql from "../../../../drizzle/0015_gray_texas_twister.sql?raw";
+import mercenaryMigrationSql from "../../../../drizzle/0016_spotty_shiver_man.sql?raw";
+import espionageMigrationSql from "../../../../drizzle/0017_dark_richard_fisk.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -70,5 +74,21 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0013_lush_mathemanic",
 		sql: experiencePointsMigrationSql,
+	},
+	{
+		id: "0014_slippery_proemial_gods",
+		sql: investigationMigrationSql,
+	},
+	{
+		id: "0015_gray_texas_twister",
+		sql: regionalCampMigrationSql,
+	},
+	{
+		id: "0016_spotty_shiver_man",
+		sql: mercenaryMigrationSql,
+	},
+	{
+		id: "0017_dark_richard_fisk",
+		sql: espionageMigrationSql,
 	},
 ];

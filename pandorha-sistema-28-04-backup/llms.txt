@@ -1,0 +1,65 @@
+---
+title: "Pandorha Engine - AI Context Map"
+version: "2.0.0"
+stack: "Svelte 5 (Runes), Drizzle ORM, SQLite WASM, Web Workers"
+conventions: "Feature-Sliced Design, Strict TDD, RPC Bridge"
+maintenance_protocol: "Hybrid (Agent suggests LLMS_DIFF, Human approves)"
+---
+
+# 🗺️ PANDORHA ENGINE: AI ROOT MAP
+
+> **PRIME DIRECTIVE:** Follow the language contract below, use Svelte 5 Runes strictly, and keep Main/Worker communication on the RPC bridge.
+>
+> **LANGUAGE CONTRACT:** Use Brazilian Portuguese (`pt-BR`) for every user-facing artifact: chat responses, UI copy, product documentation, lore, RPG/business rules, acceptance criteria, and human-readable reports. Use English for Codex/AI-facing technical artifacts: identifiers, APIs, module and file names when idiomatic, implementation contracts, technical comments, tests, and agent operating instructions. When an artifact has both audiences, keep the user-facing layer in `pt-BR` and the implementation layer in English.
+
+> **TASK INTAKE CONTRACT:** Before every new feature or modification, the agent must inspect the relevant project context, decide the best implementation strategy, and report the execution profile to the user before changing files. The report must state: recommended model and reasoning effort, whether Plan mode should be enabled, whether IDE context should be used, which plugins/skills/MCPs are required, and which project commands, configuration files, and validation tools will be used. If the task is small and safe, this report may be concise; if the task is broad, architectural, or touches RPG rules/database behavior, it must be explicit and wait for user approval when required by `AGENTS.md`.
+
+> **TOOLING RELEVANCE CONTRACT:** Before every task, inspect available plugins, skills, MCPs, scripts, and auxiliary resources. Report useful tools in pt-BR using `Vou usar agora`, `Úteis, mas fora do escopo`, and `Não usadas e motivo`. Include one concrete reason per listed tool and avoid full inventories. Use `docs/conventions/tooling-relevance-map.md` as the canonical map.
+
+> **MANDATORY PLANNING CONTRACT:** The agent must create a detailed, repository-specific implementation plan before coding any new feature, implementation, or meaningful modification. The agent must not write code that violates project specifications. If a task appears to require an unplanned design pattern, convention, skill, MCP, plugin, automation, tool, function, method, dependency, or workflow, the agent must stop, explain the need, present multiple options with pros and cons, recommend the best option for Pandorha Engine, and ask the user how to proceed before adopting it.
+
+## 🧠 PROTOCOLO DE RACIOCÍNIO (Thinking Mode)
+**[CRÍTICO]** Para qualquer tarefa que envolva alteração no motor de regras, atributos globais ou banco de dados:
+O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança proposta cruzando os dados com o `blueprint.md` e as `core-conventions.md` **antes** de gerar qualquer código.
+**Ação mandatória:** O agente é expressamente instruído a **REJEITAR** pedidos ou implementações que violem a integridade dos Eixos 3x3 do sistema Pandorha, bem como sua lógica matemática fundamental. Sem exceções.
+
+## 🛠️ QUICK COMMANDS & TOOLING
+> **LOCAL ENVIRONMENT CONSTRAINT:** This repository is currently operated on Windows without Ubuntu/WSL installed. Do not assume Bash, `.sh` scripts, POSIX pipes, Linux-only commands, or Unix paths are available. Prefer PowerShell, `npm.cmd`, Node.js scripts, TypeScript/JavaScript tooling, and portable Python scripts. If a skill asks for Bash, record the limitation and use the nearest project gate available through PowerShell/Node/Python.
+
+| Action | Command | Purpose |
+| :--- | :--- | :--- |
+| **Test** | `npm run test:unit` | Run Vitest suite (100% coverage required) |
+| **Lint** | `npm run lint` | Verify architectural constraints |
+| **DB** | `npm run db:generate` | Generate Drizzle migrations |
+| **MCP** | `use mcp-sqlite-inspector` | Inspect real-time SQLite state |
+| **Maintenance** | `python scripts/pandorha_process_automation.py snapshot --reason manual` | Record zero-token project state and maintenance checkpoints |
+
+## 📜 TIER 1: ARCHITECTURE & CONSTITUTION [REF:TIER1]
+- [sdd.md](./docs/architecture/sdd.md): System Architecture & Worker RPC patterns.
+- [blueprint.md](./docs/architecture/blueprint.md): Master Data Schema & Reactivity Graph.
+- [core-conventions.md](./.agents/skills/core-conventions/SKILL.md): Named exports, Tailwind tokens, and $state rules.
+- [build-test-verify.md](./.agents/skills/build-test-verify.md): Execution laws and QA gates.
+- [gdd.md](./docs/architecture/gdd.md): Game Design Document.
+- [feature_state_machines.md](./docs/architecture/feature_state_machines.md): Feature state machines.
+- [automation-spec.md](./docs/process/automation-spec.md): Zero-token maintenance, task ledger, inbox, and promotion protocol.
+- [task-ledger.md](./docs/process/task-ledger.md): Active, completed, unfinished, and snapshot records.
+- [change-inbox.md](./docs/process/change-inbox.md): Unplanned requests awaiting documentation promotion.
+
+## 🧱 TIER 2: SKILLS & AGENTS [REF:TIER2]
+- [.agents/skills/](./.agents/skills/): Directory containing all skill definitions for AI agents.
+- [pandorha-maintenance](./.agents/skills/pandorha-maintenance/SKILL.md): Automation-first maintenance workflow for checkpoints and documentation promotion.
+
+## 🏰 TIER 3: REFERENCE DEEP DIVE [REF:TIER3]
+### System Rules
+- [docs/system/magic/](./docs/system/magic/): Magic and spell rules.
+- [docs/system/combat/](./docs/system/combat/): Combat, monsters, and conditions.
+- [docs/system/survival/](./docs/system/survival/): Survival, exploration, economy, and downtime.
+
+### Lore & Worldbuilding
+- [lore/](./lore/): World lore by region (morden, dungard, floresta-ecos, gorbax, etc.).
+
+## 🛡️ SECURITY & SAFETY PROTOCOLS
+- Prioritize system integrity and player safety in all implementations.
+- Consult GDD for math validation.
+- Use strict TDD for all changes.
+- Ensure all AI agents follow core conventions and build-test-verify protocols.

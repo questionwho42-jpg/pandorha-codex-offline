@@ -12,10 +12,16 @@ export const combatTurnEventSchema = z
 			.string()
 			.regex(/^turn-event-[1-9][0-9]*$/)
 			.max(80),
-		type: z.enum(["turnStarted", "actionSpent", "turnEnded"]),
+		type: z.enum([
+			"turnStarted",
+			"actionSpent",
+			"turnEnded",
+			"tensionIncreased",
+		]),
 		actorId: actorIdSchema,
 		round: z.number().int().min(1).max(10_000),
 		actionCost: z.number().int().min(0).max(4),
+		details: z.string().max(200).optional(),
 	})
 	.strict();
 
@@ -28,12 +34,16 @@ export const combatTurnStateSchema = z
 		actionPointsRemaining: z.number().int().min(0).max(4),
 		maxActionPoints: z.literal(3),
 		events: z.array(combatTurnEventSchema),
+		tensionClockSegmentsMax: z.number().int().min(2).max(12).optional(),
+		tensionClockSegmentsFilled: z.number().int().min(0).max(12).optional(),
+		isAlarmTriggered: z.boolean().optional(),
 	})
 	.strict();
 
 export const combatTurnStartInputSchema = z
 	.object({
 		actorOrder: z.array(actorIdSchema).min(2).max(100),
+		tensionClockSegmentsMax: z.number().int().min(2).max(12).optional(),
 	})
 	.strict();
 

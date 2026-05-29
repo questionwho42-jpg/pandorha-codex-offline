@@ -328,3 +328,64 @@ class CorruptOutputCharacterRepository implements CharacterRepository {
 		};
 	}
 }
+
+describe("CharacterService resurrection rules", () => {
+	it("deve ressuscitar personagem com sucesso quando ressurreição não estiver bloqueada", async () => {
+		const repository = new InMemoryCharacterRepository();
+		const service = createService(repository);
+
+		// Primeiro cria o personagem para existir no BD
+		await service.createCharacter(CharacterBuilder.valid().buildCreateInput());
+
+		const res = await service.resurrectCharacter("character-1", async () =>
+			ok(false),
+		);
+		expect(res.success).toBe(true);
+		if (res.success) {
+			expect(res.data.status).toBe("resurrected");
+		}
+	});
+
+	it("deve bloquear a ressurreição caso exista pendência de alma ou dívida de sangue", async () => {
+		const repository = new InMemoryCharacterRepository();
+		const service = createService(repository);
+
+		await service.createCharacter(CharacterBuilder.valid().buildCreateInput());
+
+		const res = await service.resurrectCharacter("character-1", async () =>
+			ok(true),
+		);
+		expect(res.success).toBe(false);
+		if (!res.success) {
+			expect(res.error.code).toBe("RESURRECTION_BLOCKED");
+		}
+	});
+
+	it("deve falhar a ressurreição se a leitura ou gravação do repositório falharem", async () => {
+		const repository = new InMemoryCharacterRepository();
+		const service = createService(repository);
+
+		// 1. Falha de leitura (não existe no BD)
+		const resRead = await service.resurrectCharacter("inexistente", async () =>
+			ok(false),
+		);
+		expect(resRead.success).toBe(false);
+		if (!resRead.success) {
+			expect(resRead.error.code).toBe("REPOSITORY_READ_FAILED");
+		}
+
+		// 2. Falha de escrita
+		await service.createCharacter(CharacterBuilder.valid().buildCreateInput());
+		repository.failNextSave({
+			code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+			message: "Erro de escrita",
+		});
+		const resWrite = await service.resurrectCharacter("character-1", async () =>
+			ok(false),
+		);
+		expect(resWrite.success).toBe(false);
+		if (!resWrite.success) {
+			expect(resWrite.error.code).toBe("REPOSITORY_WRITE_FAILED");
+		}
+	});
+});

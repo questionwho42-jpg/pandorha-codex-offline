@@ -57,6 +57,23 @@ export const rpcCommandTypeSchema = z.enum([
 	"SAVE_COMPANION",
 	"FIND_COMPANION",
 	"LIST_COMPANIONS",
+	"SAVE_INVESTIGATION",
+	"FIND_INVESTIGATION",
+	"LIST_INVESTIGATIONS_BY_TARGET",
+	"LIST_ACTIVE_INVESTIGATIONS",
+	"SAVE_REGIONAL_DOMAIN",
+	"FIND_REGIONAL_DOMAIN",
+	"LIST_REGIONAL_DOMAINS",
+	"SAVE_CAMP_SESSION",
+	"FIND_CAMP_SESSION",
+	"LIST_CAMP_SESSIONS",
+	"DELETE_CAMP_SESSION",
+	"SAVE_MERCENARY_COMPANY",
+	"FIND_MERCENARY_COMPANY",
+	"LIST_MERCENARY_COMPANIES",
+	"SAVE_MERCENARY_SQUAD",
+	"FIND_MERCENARY_SQUAD",
+	"LIST_MERCENARY_SQUADS_BY_COMPANY",
 ]);
 
 export const jsonSerializableValueSchema = z.custom<JsonValue>(
@@ -82,6 +99,11 @@ export const saveGameSnapshotSchema = z.object({
 	progressClocks: z.array(jsonSerializableObjectSchema).optional(),
 	dialogueStates: z.array(jsonSerializableObjectSchema).optional(),
 	quests: z.array(jsonSerializableObjectSchema).optional(),
+	investigations: z.array(jsonSerializableObjectSchema).optional(),
+	regionalDomains: z.array(jsonSerializableObjectSchema).optional(),
+	campSessions: z.array(jsonSerializableObjectSchema).optional(),
+	mercenaryCompanies: z.array(jsonSerializableObjectSchema).optional(),
+	mercenarySquads: z.array(jsonSerializableObjectSchema).optional(),
 });
 
 export const initDatabaseRequestSchema = z.object({
@@ -439,6 +461,166 @@ export const listCompanionsRequestSchema = z.object({
 	}),
 });
 
+export const saveInvestigationRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_INVESTIGATION"),
+	payload: z.object({
+		investigation: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findInvestigationRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_INVESTIGATION"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const listInvestigationsByTargetRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_INVESTIGATIONS_BY_TARGET"),
+	payload: z.object({
+		targetId: z.string().min(1),
+	}),
+});
+
+export const listActiveInvestigationsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_ACTIVE_INVESTIGATIONS"),
+	payload: z.object({}),
+});
+
+export const saveRegionalDomainRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_REGIONAL_DOMAIN"),
+	payload: z.object({
+		regionalDomain: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findRegionalDomainRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_REGIONAL_DOMAIN"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const listRegionalDomainsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_REGIONAL_DOMAINS"),
+	payload: z.object({}),
+});
+
+export const saveCampSessionRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_CAMP_SESSION"),
+	payload: z.object({
+		campSession: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findCampSessionRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_CAMP_SESSION"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const listCampSessionsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_CAMP_SESSIONS"),
+	payload: z.object({}),
+});
+
+export const deleteCampSessionRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("DELETE_CAMP_SESSION"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const saveMercenaryCompanyRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_MERCENARY_COMPANY"),
+	payload: z.object({
+		company: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findMercenaryCompanyRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_MERCENARY_COMPANY"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const listMercenaryCompaniesRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_MERCENARY_COMPANIES"),
+	payload: z.object({}),
+});
+
+export const saveMercenarySquadRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_MERCENARY_SQUAD"),
+	payload: z.object({
+		squad: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findMercenarySquadRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_MERCENARY_SQUAD"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const listMercenarySquadsByCompanyRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_MERCENARY_SQUADS_BY_COMPANY"),
+	payload: z.object({
+		companyId: z.string().min(1),
+	}),
+});
+
+export const saveEspionageCellRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_ESPIONAGE_CELL"),
+	payload: z.object({
+		cell: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findEspionageCellRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_ESPIONAGE_CELL"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const listEspionageCellsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_ESPIONAGE_CELLS"),
+	payload: z.object({
+		campaignId: z.string().min(1),
+	}),
+});
+
+export const deleteEspionageCellRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("DELETE_ESPIONAGE_CELL"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
 export const rpcRequestSchema = z.discriminatedUnion("type", [
 	initDatabaseRequestSchema,
 	saveGameSnapshotRequestSchema,
@@ -485,6 +667,27 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	saveCompanionRequestSchema,
 	findCompanionRequestSchema,
 	listCompanionsRequestSchema,
+	saveInvestigationRequestSchema,
+	findInvestigationRequestSchema,
+	listInvestigationsByTargetRequestSchema,
+	listActiveInvestigationsRequestSchema,
+	saveRegionalDomainRequestSchema,
+	findRegionalDomainRequestSchema,
+	listRegionalDomainsRequestSchema,
+	saveCampSessionRequestSchema,
+	findCampSessionRequestSchema,
+	listCampSessionsRequestSchema,
+	deleteCampSessionRequestSchema,
+	saveMercenaryCompanyRequestSchema,
+	findMercenaryCompanyRequestSchema,
+	listMercenaryCompaniesRequestSchema,
+	saveMercenarySquadRequestSchema,
+	findMercenarySquadRequestSchema,
+	listMercenarySquadsByCompanyRequestSchema,
+	saveEspionageCellRequestSchema,
+	findEspionageCellRequestSchema,
+	listEspionageCellsRequestSchema,
+	deleteEspionageCellRequestSchema,
 ]);
 
 const rpcErrorSchema = z.object({

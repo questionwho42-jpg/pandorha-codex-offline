@@ -59,6 +59,147 @@ describe("RPC save/load contract", () => {
 		expect(parsed.success).toBe(true);
 	});
 
+	it("accepts SAVE_REGIONAL_DOMAIN, FIND_REGIONAL_DOMAIN, and LIST_REGIONAL_DOMAINS requests", () => {
+		const saveParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "SAVE_REGIONAL_DOMAIN",
+			payload: {
+				regionalDomain: {
+					id: "domain-1",
+					matrixPhysicalLevel: 3,
+					matrixMentalLevel: 1,
+					matrixSocialLevel: 1,
+					regentId: null,
+					weeksAway: 0,
+					taxStabilityRollDisadvantage: false,
+					stabilityRollMinimumDc: 9,
+					createdAt: CREATED_AT,
+					updatedAt: CREATED_AT,
+				},
+			},
+		});
+		const findParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "FIND_REGIONAL_DOMAIN",
+			payload: { id: "domain-1" },
+		});
+		const listParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "LIST_REGIONAL_DOMAINS",
+			payload: {},
+		});
+
+		expect(saveParsed.success).toBe(true);
+		expect(findParsed.success).toBe(true);
+		expect(listParsed.success).toBe(true);
+	});
+
+	it("accepts camp session RPC requests (SAVE, FIND, LIST, DELETE)", () => {
+		const saveParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "SAVE_CAMP_SESSION",
+			payload: {
+				campSession: {
+					id: "camp-1",
+					totalTime: 12,
+					sleepHours: 8,
+					availableActions: 4,
+					dangerCounter: 2,
+					activeActivitiesJson: "[]",
+					createdAt: CREATED_AT,
+					updatedAt: CREATED_AT,
+				},
+			},
+		});
+		const findParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "FIND_CAMP_SESSION",
+			payload: { id: "camp-1" },
+		});
+		const listParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "LIST_CAMP_SESSIONS",
+			payload: {},
+		});
+		const deleteParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "DELETE_CAMP_SESSION",
+			payload: { id: "camp-1" },
+		});
+
+		expect(saveParsed.success).toBe(true);
+		expect(findParsed.success).toBe(true);
+		expect(listParsed.success).toBe(true);
+		expect(deleteParsed.success).toBe(true);
+	});
+
+	it("accepts mercenary RPC requests (SAVE_COMPANY, FIND_COMPANY, LIST_COMPANIES, SAVE_SQUAD, FIND_SQUAD, LIST_SQUADS)", () => {
+		const saveCompanyParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "SAVE_MERCENARY_COMPANY",
+			payload: {
+				company: {
+					id: "company-1",
+					bastionId: "bastion-1",
+					tier: 2,
+					reputation: 15,
+					hqName: "Batalhão Dourado",
+					createdAt: CREATED_AT,
+					updatedAt: CREATED_AT,
+				},
+			},
+		});
+		const findCompanyParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "FIND_MERCENARY_COMPANY",
+			payload: { id: "company-1" },
+		});
+		const listCompaniesParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "LIST_MERCENARY_COMPANIES",
+			payload: {},
+		});
+		const saveSquadParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "SAVE_MERCENARY_SQUAD",
+			payload: {
+				squad: {
+					id: "squad-1",
+					companyId: "company-1",
+					name: "Garras de Aço",
+					physical: 3,
+					mental: 1,
+					social: 1,
+					cohesionMax: 13,
+					cohesionCurrent: 13,
+					tagsJson: '["elite", "heavy_infantry"]',
+					commandTactic: "stealthy",
+					status: "available",
+					assignedMissionId: null,
+					createdAt: CREATED_AT,
+					updatedAt: CREATED_AT,
+				},
+			},
+		});
+		const findSquadParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "FIND_MERCENARY_SQUAD",
+			payload: { id: "squad-1" },
+		});
+		const listSquadsParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "LIST_MERCENARY_SQUADS_BY_COMPANY",
+			payload: { companyId: "company-1" },
+		});
+
+		expect(saveCompanyParsed.success).toBe(true);
+		expect(findCompanyParsed.success).toBe(true);
+		expect(listCompaniesParsed.success).toBe(true);
+		expect(saveSquadParsed.success).toBe(true);
+		expect(findSquadParsed.success).toBe(true);
+		expect(listSquadsParsed.success).toBe(true);
+	});
+
 	it("rejects non-serializable request payload values", () => {
 		const parsed = rpcRequestSchema.safeParse({
 			messageId: MESSAGE_ID,

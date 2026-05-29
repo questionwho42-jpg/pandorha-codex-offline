@@ -98,7 +98,15 @@ export const characterStatusEffectInsertSchema = createInsertSchema(
 ).extend({
 	id: notBlankText,
 	characterId: notBlankText,
-	type: z.enum(["eter_fever", "wound_infection", "viper_poison"]),
+	type: z.enum([
+		"eter_fever",
+		"wound_infection",
+		"viper_poison",
+		"bleeding",
+		"silenced",
+		"immobilized",
+		"hungry",
+	]),
 	severity: z.number().int().min(1).max(20).default(1),
 	severityMax: z.number().int().min(1).max(20).default(3),
 	isAggravated: z.boolean().default(false),
@@ -112,7 +120,15 @@ export const characterStatusEffectSelectSchema = createSelectSchema(
 ).extend({
 	id: notBlankText,
 	characterId: notBlankText,
-	type: z.enum(["eter_fever", "wound_infection", "viper_poison"]),
+	type: z.enum([
+		"eter_fever",
+		"wound_infection",
+		"viper_poison",
+		"bleeding",
+		"silenced",
+		"immobilized",
+		"hungry",
+	]),
 	severity: z.number().int(),
 	severityMax: z.number().int(),
 	isAggravated: z.boolean(),

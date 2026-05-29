@@ -17,10 +17,19 @@ interface Props {
 		desc: string;
 	}>;
 	onAdvance: (m: BastionModuleRecord, characterId: string) => Promise<void>;
+	onRepair: (m: BastionModuleRecord) => Promise<void>;
+	onUpgrade: (m: BastionModuleRecord, trophyId?: string) => Promise<void>;
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
-let { modules, characters, moduleCatalog, onAdvance }: Props = $props();
+let {
+	modules,
+	characters,
+	moduleCatalog,
+	onAdvance,
+	onRepair,
+	onUpgrade,
+}: Props = $props();
 </script>
 
 <div class="panel build-panel glass">
@@ -37,6 +46,8 @@ let { modules, characters, moduleCatalog, onAdvance }: Props = $props();
 				catalogItem={cat}
 				characters={characters}
 				onAdvance={onAdvance}
+				onRepair={onRepair}
+				onUpgrade={onUpgrade}
 			/>
 		{/each}
 	</div>

@@ -1,72 +1,429 @@
 import { beforeEach, describe, expect, it } from "vitest";
+import { fail } from "$lib/shared/lib/result";
+import { InMemoryCampRepository } from "../../../../entities/camp/infrastructure/InMemoryCampRepository";
 import { CampService } from "../CampService";
-
-describe("CampService", () => {
-	let service: CampService;
-
-	beforeEach(() => {
-		service = new CampService();
-	});
-
-	it("should create a camp session with correct default hours", () => {
-		const session = service.createSession({ totalTime: 12 });
-
-		expect(session.totalTime).toBe(12);
-		expect(session.sleepHours).toBe(8);
-		expect(session.availableActions).toBe(4); // 12 - 8
-		expect(session.dangerCounter).toBe(0);
-	});
-
-	it("should calculate actions correctly for characters needing less sleep", () => {
-		// Ex: Construto ou Elfo que precisa de apenas 4h de sono
-		const session = service.createSession({ totalTime: 12, sleepHours: 4 });
-
-		expect(session.availableActions).toBe(8); // 12 - 4
-	});
-
-	// Bastião Avançado: Regras de Dívida de Sangue & Acúmulo de Perigo
-	it("should determine that blood debt blocks rest when it exceeds fame * 3", () => {
-		const fame = 2;
-		const blockingDebt = 7; // 7 > 2 * 3 (6)
-		const safeDebt = 5; // 5 <= 2 * 3 (6)
-
-		const isBlocked = blockingDebt > fame * 3;
-		const isSafe = safeDebt > fame * 3;
-
-		expect(isBlocked).toBe(true);
-		expect(isSafe).toBe(false);
-	});
-
-	it("should calculate correct danger increment based on guard active tasks", () => {
-		const baseDangerAccumulation = 25;
-
-		// Sem guardas (0)
-		const guards0 = 0;
-		const increment0 = Math.max(5, baseDangerAccumulation - guards0 * 10);
-		expect(increment0).toBe(25);
-
-		// Com 1 guarda
-		const guards1 = 1;
-		const increment1 = Math.max(5, baseDangerAccumulation - guards1 * 10);
-		expect(increment1).toBe(15);
-
-		// Com 2 guardas
-		const guards2 = 2;
-		const increment2 = Math.max(5, baseDangerAccumulation - guards2 * 10);
-		expect(increment2).toBe(5);
-
-		// Com 3 guardas (respeita o limite mínimo de 5%)
-		const guards3 = 3;
-		const increment3 = Math.max(5, baseDangerAccumulation - guards3 * 10);
-		expect(increment3).toBe(5);
-	});
-});
-
 import {
 	AbrigoTermicoDecorator,
 	BanqueteDecorator,
 	StandardRecovery,
 } from "../recoveryDecorators";
+
+describe("CampService", () => {
+	let repository: InMemoryCampRepository;
+	let service: CampService;
+
+	beforeEach(() => {
+		repository = new InMemoryCampRepository();
+		service = new CampService(repository);
+	});
+
+	it("should create a camp session and persist it in the repository", async () => {
+		const result = await service.createSession("camp-1", {
+			totalTime: 12,
+			sleepHours: 8,
+		});
+		expect(result.success).toBe(true);
+		if (result.success) {
+			const session = result.data;
+			expect(session.id).toBe("camp-1");
+			expect(session.totalTime).toBe(12);
+			expect(session.sleepHours).toBe(8);
+			expect(session.availableActions).toBe(4); // 12 - 8
+			expect(session.dangerCounter).toBe(0);
+
+			const found = await repository.findById("camp-1");
+			expect(found.success).toBe(true);
+		}
+	});
+
+	it("should fallback to 8 sleep hours if not specified", async () => {
+		const result = await service.createSession("camp-2", { totalTime: 10 });
+		expect(result.success).toBe(true);
+		if (result.success) {
+			expect(result.data.sleepHours).toBe(8);
+			expect(result.data.availableActions).toBe(2);
+		}
+	});
+
+	it("should support custom sleep hours for non-human ancestries", async () => {
+		const result = await service.createSession("camp-3", {
+			totalTime: 12,
+			sleepHours: 4,
+		});
+		expect(result.success).toBe(true);
+		if (result.success) {
+			expect(result.data.availableActions).toBe(8); // 12 - 4
+		}
+	});
+
+	it("should toggle fire correctly adding/removing +3 danger and active fire activity", async () => {
+		const createRes = await service.createSession("camp-fire", {
+			totalTime: 10,
+		});
+		expect(createRes.success).toBe(true);
+
+		// Ativa Fogueira
+		const activeRes = await service.toggleFogueira("camp-fire", true);
+		expect(activeRes.success).toBe(true);
+		if (activeRes.success) {
+			expect(activeRes.data.dangerCounter).toBe(3);
+			const activities = JSON.parse(activeRes.data.activeActivitiesJson);
+			expect(activities.some((act: any) => act.id === "fogueira_ativa")).toBe(
+				true,
+			);
+		}
+
+		// Ativar novamente não duplica
+		const activeRes2 = await service.toggleFogueira("camp-fire", true);
+		expect(activeRes2.success).toBe(true);
+		if (activeRes2.success) {
+			expect(activeRes2.data.dangerCounter).toBe(3);
+			const activities = JSON.parse(activeRes2.data.activeActivitiesJson);
+			expect(
+				activities.filter((act: any) => act.id === "fogueira_ativa").length,
+			).toBe(1);
+		}
+
+		// Desativa Fogueira
+		const deactiveRes = await service.toggleFogueira("camp-fire", false);
+		expect(deactiveRes.success).toBe(true);
+		if (deactiveRes.success) {
+			expect(deactiveRes.data.dangerCounter).toBe(0);
+			const activities = JSON.parse(deactiveRes.data.activeActivitiesJson);
+			expect(activities.some((act: any) => act.id === "fogueira_ativa")).toBe(
+				false,
+			);
+		}
+
+		// Desativar novamente não quebra
+		const deactiveRes2 = await service.toggleFogueira("camp-fire", false);
+		expect(deactiveRes2.success).toBe(true);
+		if (deactiveRes2.success) {
+			expect(deactiveRes2.data.dangerCounter).toBe(0);
+		}
+	});
+
+	it("should return failure when toggling fire in a missing session", async () => {
+		const res = await service.toggleFogueira("missing-session", true);
+		expect(res.success).toBe(false);
+		if (!res.success) {
+			expect(res.error.code).toBe("CAMP_SESSION_NOT_FOUND");
+		}
+	});
+
+	it("should fail to execute activity in a missing session", async () => {
+		const res = await service.executeActivity(
+			"missing",
+			{
+				id: "cacar",
+				name: "Caçar",
+				performerId: "char1",
+				matrix: "Physical",
+				difficulty: 12,
+			},
+			2,
+			10,
+		);
+		expect(res.success).toBe(false);
+		if (!res.success) {
+			expect(res.error.code).toBe("CAMP_SESSION_NOT_FOUND");
+		}
+	});
+
+	it("should fail when availableActions is 0", async () => {
+		await service.createSession("camp-limit", { totalTime: 8, sleepHours: 8 }); // 0 ações
+		const res = await service.executeActivity(
+			"camp-limit",
+			{
+				id: "cacar",
+				name: "Caçar",
+				performerId: "char1",
+				matrix: "Physical",
+				difficulty: 12,
+			},
+			2,
+			10,
+		);
+		expect(res.success).toBe(false);
+		if (!res.success) {
+			expect(res.error.code).toBe("CAMP_REPOSITORY_WRITE_FAILED");
+		}
+	});
+
+	it("should process normal activity success (+1 danger) and failure (+3 danger)", async () => {
+		await service.createSession("camp-act", { totalTime: 12, sleepHours: 8 }); // 4 ações
+
+		// Sucesso: 12 (rolagem) + 2 (mod) >= 12 (diff). Deve gastar 1 ação, somar +1 perigo
+		const act1 = await service.executeActivity(
+			"camp-act",
+			{
+				id: "cacar",
+				name: "Caçar",
+				performerId: "char1",
+				matrix: "Physical",
+				difficulty: 12,
+			},
+			2,
+			10,
+		);
+		expect(act1.success).toBe(true);
+		if (act1.success) {
+			expect(act1.data.success).toBe(true);
+			expect(act1.data.dangerAdded).toBe(1);
+			expect(act1.data.session.dangerCounter).toBe(1);
+			expect(act1.data.session.availableActions).toBe(3);
+		}
+
+		// Falha: 5 (rolagem) + 2 (mod) < 12 (diff). Deve gastar 1 ação, somar +3 perigo (total 4)
+		const act2 = await service.executeActivity(
+			"camp-act",
+			{
+				id: "cacar",
+				name: "Caçar",
+				performerId: "char1",
+				matrix: "Physical",
+				difficulty: 12,
+			},
+			2,
+			5,
+		);
+		expect(act2.success).toBe(true);
+		if (act2.success) {
+			expect(act2.data.success).toBe(false);
+			expect(act2.data.dangerAdded).toBe(3);
+			expect(act2.data.session.dangerCounter).toBe(4);
+			expect(act2.data.session.availableActions).toBe(2);
+		}
+	});
+
+	it("should reduce danger by 2 when Vigília Ativa is successful", async () => {
+		await service.createSession("camp-vigilia", {
+			totalTime: 12,
+			sleepHours: 8,
+		});
+
+		// Forçamos o perigo para 5
+		const mockSessionRes = await repository.findById("camp-vigilia");
+		expect(mockSessionRes.success).toBe(true);
+		if (mockSessionRes.success) {
+			const s = mockSessionRes.data;
+			s.dangerCounter = 5;
+			await repository.save(s);
+		}
+
+		// Vigília Ativa com Sucesso: 10 + 2 >= 10.
+		// Adiciona +1 perigo da hora de atividade e remove -2 por vigília bem-sucedida.
+		// Custo final: 5 + 1 - 2 = 4
+		const act = await service.executeActivity(
+			"camp-vigilia",
+			{
+				id: "vigilia_ativa",
+				name: "Vigília Ativa",
+				performerId: "char1",
+				matrix: "Physical",
+				difficulty: 10,
+			},
+			2,
+			10,
+		);
+		expect(act.success).toBe(true);
+		if (act.success) {
+			expect(act.data.success).toBe(true);
+			expect(act.data.session.dangerCounter).toBe(4);
+		}
+	});
+
+	it("should handle collective effort clocks correctly on success and failure", async () => {
+		await service.createSession("camp-clock", { totalTime: 12, sleepHours: 8 });
+
+		// Sucesso: 10 + 2 >= 10. Incrementa relógio para 1/3.
+		// Esforço coletivo de sucesso adiciona +1 perigo.
+		const act1 = await service.executeActivity(
+			"camp-clock",
+			{
+				id: "fortificar_perimetro",
+				name: "Fortificar Perímetro",
+				performerId: "char1",
+				matrix: "Physical",
+				difficulty: 10,
+			},
+			2,
+			10,
+			true,
+			3,
+		);
+		expect(act1.success).toBe(true);
+		if (act1.success) {
+			expect(act1.data.success).toBe(true);
+			expect(act1.data.dangerAdded).toBe(1);
+			expect(act1.data.clockProgress).toEqual({
+				current: 1,
+				max: 3,
+				completed: false,
+			});
+		}
+
+		// Falha: 5 + 2 < 10. Não incrementa relógio (mantém 1/3).
+		// Esforço coletivo falho adiciona +2 perigo.
+		const act2 = await service.executeActivity(
+			"camp-clock",
+			{
+				id: "fortificar_perimetro",
+				name: "Fortificar Perímetro",
+				performerId: "char1",
+				matrix: "Physical",
+				difficulty: 10,
+			},
+			2,
+			5,
+			true,
+			3,
+		);
+		expect(act2.success).toBe(true);
+		if (act2.success) {
+			expect(act2.data.success).toBe(false);
+			expect(act2.data.dangerAdded).toBe(2);
+			expect(act2.data.clockProgress).toEqual({
+				current: 1,
+				max: 3,
+				completed: false,
+			});
+		}
+
+		// Sucesso (total 2/3)
+		await service.executeActivity(
+			"camp-clock",
+			{
+				id: "fortificar_perimetro",
+				name: "Fortificar Perímetro",
+				performerId: "char1",
+				matrix: "Physical",
+				difficulty: 10,
+			},
+			2,
+			10,
+			true,
+			3,
+		);
+
+		// Sucesso (total 3/3 -> Concluído). Deve remover o relógio do array.
+		const actFinal = await service.executeActivity(
+			"camp-clock",
+			{
+				id: "fortificar_perimetro",
+				name: "Fortificar Perímetro",
+				performerId: "char1",
+				matrix: "Physical",
+				difficulty: 10,
+			},
+			2,
+			10,
+			true,
+			3,
+		);
+		expect(actFinal.success).toBe(true);
+		if (actFinal.success) {
+			expect(actFinal.data.clockProgress).toEqual({
+				current: 3,
+				max: 3,
+				completed: true,
+			});
+			const activities = JSON.parse(actFinal.data.session.activeActivitiesJson);
+			expect(
+				activities.some((act: any) =>
+					act.id.startsWith("relogio:fortificar_perimetro"),
+				),
+			).toBe(false);
+		}
+	});
+
+	it("should process rollEncounter triggering events and resetting danger", async () => {
+		await service.createSession("camp-enc", { totalTime: 12, sleepHours: 8 });
+
+		// Forçamos o perigo para 12
+		const mockSessionRes = await repository.findById("camp-enc");
+		expect(mockSessionRes.success).toBe(true);
+		if (mockSessionRes.success) {
+			const s = mockSessionRes.data;
+			s.dangerCounter = 12;
+			await repository.save(s);
+		}
+
+		// Rolagem d20 = 10 (menor ou igual a 12). Deve disparar o encontro 10 e resetar o perigo para 0.
+		const encRes1 = await service.rollEncounter("camp-enc", 10);
+		expect(encRes1.success).toBe(true);
+		if (encRes1.success) {
+			expect(encRes1.data.eventTriggered).toBe(true);
+			expect(encRes1.data.eventNumber).toBe(10);
+			expect(encRes1.data.eventDescription).toContain("Mercador Ambulante");
+			expect(encRes1.data.session.dangerCounter).toBe(0);
+		}
+
+		// Rolagem d20 = 15 (maior que 0). Não dispara.
+		const encRes2 = await service.rollEncounter("camp-enc", 15);
+		expect(encRes2.success).toBe(true);
+		if (encRes2.success) {
+			expect(encRes2.data.eventTriggered).toBe(false);
+			expect(encRes2.data.session.dangerCounter).toBe(0);
+		}
+	});
+
+	it("should map default event description if out of d20 range", async () => {
+		await service.createSession("camp-out", { totalTime: 12, sleepHours: 8 });
+		const mockSessionRes = await repository.findById("camp-out");
+		expect(mockSessionRes.success).toBe(true);
+		if (mockSessionRes.success) {
+			const s = mockSessionRes.data;
+			s.dangerCounter = 100;
+			await repository.save(s);
+		}
+
+		const encRes = await service.rollEncounter("camp-out", 99);
+		expect(encRes.success).toBe(true);
+		if (encRes.success) {
+			expect(encRes.data.eventDescription).toBe(
+				"Evento desconhecido nas sombras do ermo.",
+			);
+		}
+	});
+
+	it("should fail rollEncounter in a missing session", async () => {
+		const res = await service.rollEncounter("missing", 10);
+		expect(res.success).toBe(false);
+		if (!res.success) {
+			expect(res.error.code).toBe("CAMP_SESSION_NOT_FOUND");
+		}
+	});
+
+	it("should fail rollEncounter if save failure occurs", async () => {
+		await service.createSession("camp-fail", { totalTime: 12, sleepHours: 8 });
+		repository.save = async () =>
+			fail({ code: "CAMP_REPOSITORY_WRITE_FAILED", message: "Erro" });
+
+		const res = await service.rollEncounter("camp-fail", 10);
+		expect(res.success).toBe(false);
+	});
+
+	it("should fail executeActivity if save failure occurs", async () => {
+		await service.createSession("camp-fail2", { totalTime: 12, sleepHours: 8 });
+		repository.save = async () =>
+			fail({ code: "CAMP_REPOSITORY_WRITE_FAILED", message: "Erro" });
+
+		const res = await service.executeActivity(
+			"camp-fail2",
+			{
+				id: "cacar",
+				name: "Caçar",
+				performerId: "char1",
+				matrix: "Physical",
+				difficulty: 10,
+			},
+			2,
+			10,
+		);
+		expect(res.success).toBe(false);
+	});
+});
 
 describe("Camp Recovery Decorators", () => {
 	it("should apply simple recovery without decorators", () => {
@@ -80,7 +437,6 @@ describe("Camp Recovery Decorators", () => {
 	});
 
 	it("should combine banquet and thermal shelter bonuses", () => {
-		// (100 * 1.25) + 5 = 130
 		const recovery = new AbrigoTermicoDecorator(
 			new BanqueteDecorator(new StandardRecovery()),
 		);
@@ -88,7 +444,6 @@ describe("Camp Recovery Decorators", () => {
 	});
 
 	it("should respect decorator order (effect onion)", () => {
-		// (100 + 5) * 1.25 = 131.25
 		const recovery = new BanqueteDecorator(
 			new AbrigoTermicoDecorator(new StandardRecovery()),
 		);

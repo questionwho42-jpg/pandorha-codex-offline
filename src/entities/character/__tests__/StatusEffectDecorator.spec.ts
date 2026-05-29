@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
 	BaseCharacterStats,
+	BleedingDecorator,
 	EncumberedStatusDecorator,
 	EterFeverDecorator,
+	ImmobilizedDecorator,
+	SilencedDecorator,
 	ViperPoisonDecorator,
 	WoundInfectionDecorator,
 } from "../domain/StatusEffectDecorator";
@@ -117,6 +120,57 @@ describe("StatusEffectDecorator - Efeitos de Status do RPG Pandorha", () => {
 		expect(complexStats.maxHp).toBe(30);
 
 		expect(complexStats.allowsNaturalRecovery).toBe(false); // A infecção interna continua impedindo a cura!
+	});
+
+	it("deve aplicar Sangramento (BleedingDecorator) reduzindo physical e impedindo cura natural", () => {
+		const character = createCharacter({
+			physical: 3,
+			resistance: 3,
+			level: 1,
+		});
+		const baseStats = new BaseCharacterStats(character, {
+			id: "vanguard",
+			baseHp: 10,
+		});
+		const bleedingStats = new BleedingDecorator(baseStats);
+
+		expect(bleedingStats.physical).toBe(2); // physical -1
+		expect(bleedingStats.allowsNaturalRecovery).toBe(false);
+	});
+
+	it("deve aplicar Silenciado (SilencedDecorator) reduzindo mental e interaction", () => {
+		const character = createCharacter({
+			mental: 3,
+			interaction: 3,
+			level: 1,
+		});
+		const baseStats = new BaseCharacterStats(character, {
+			id: "vanguard",
+			baseHp: 10,
+		});
+		const silencedStats = new SilencedDecorator(baseStats);
+
+		expect(silencedStats.mental).toBe(2); // mental -1
+		expect(silencedStats.interaction).toBe(2); // interaction -1
+	});
+
+	it("deve aplicar Imobilizado (ImmobilizedDecorator) reduzindo movementSpeedBase para 0, conflict e initiative", () => {
+		const character = createCharacter({
+			physical: 3,
+			mental: 3,
+			interaction: 3,
+			conflict: 3,
+			level: 1,
+		});
+		const baseStats = new BaseCharacterStats(character, {
+			id: "vanguard",
+			baseHp: 10,
+		});
+		const immobilizedStats = new ImmobilizedDecorator(baseStats);
+
+		expect(immobilizedStats.movementSpeedBase).toBe(0);
+		expect(immobilizedStats.conflict).toBe(1); // conflict -2
+		expect(immobilizedStats.initiativeBase).toBe(5); // original: lvl 1 + mental 3 + interaction 3 = 7. Penalizado: 7 - 2 = 5
 	});
 
 	describe("Logística de Carga e Sobrecarga (EncumberedStatusDecorator)", () => {
