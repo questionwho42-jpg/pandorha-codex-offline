@@ -21,7 +21,7 @@ import { InMemoryEquipmentCatalogRepository } from "../testing/InMemoryEquipment
 
 describe("Official equipment catalog", () => {
 	it("contains the minimum validated equipment and consumable records", () => {
-		expect(OFFICIAL_EQUIPMENT).toHaveLength(6);
+		expect(OFFICIAL_EQUIPMENT).toHaveLength(7);
 		expect(OFFICIAL_CONSUMABLES).toHaveLength(5);
 		expect(OFFICIAL_EQUIPMENT.map((item) => item.id)).toEqual([
 			"longsword",
@@ -30,6 +30,7 @@ describe("Official equipment catalog", () => {
 			"leather-armor",
 			"plate-armor",
 			"round-shield",
+			"magic-ring",
 		]);
 		expect(OFFICIAL_CONSUMABLES.map((item) => item.id)).toEqual([
 			"rope-stack",
@@ -58,7 +59,7 @@ describe("EquipmentCatalogService", () => {
 		const result = await service.listEquipment();
 		const equipment = expectEquipmentSuccess(result);
 
-		expect(equipment).toHaveLength(6);
+		expect(equipment).toHaveLength(7);
 		expect(equipment[0]).toMatchObject({
 			id: "longsword",
 			label: "Espada Longa",

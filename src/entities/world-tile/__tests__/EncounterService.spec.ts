@@ -61,6 +61,24 @@ class FakeCharacterStats implements ICharacterStats {
 	public get stealthPenalty() {
 		return 0;
 	}
+	public get size(): "medium" | "large" {
+		return "medium";
+	}
+	public get weaponDamageBonus() {
+		return 0;
+	}
+	public get extraActions() {
+		return 0;
+	}
+	public get attackBonus() {
+		return 0;
+	}
+	public get ignoresDifficultTerrain() {
+		return false;
+	}
+	public get automaticDefenseFailure() {
+		return false;
+	}
 }
 
 function createFakeTile(

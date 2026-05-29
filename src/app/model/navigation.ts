@@ -55,6 +55,12 @@ export const APP_NAVIGATION_ITEMS = [
 		description: "Interações e negociações sociais.",
 	},
 	{
+		id: "negotiation",
+		label: "Negociação",
+		heading: "Negociação & Reciclagem",
+		description: "Sistema Avançado de Negociação e Economia de Quebra.",
+	},
+	{
 		id: "clocks",
 		label: "Relógios",
 		heading: "Relógios de Progresso",

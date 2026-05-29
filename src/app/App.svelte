@@ -68,7 +68,7 @@ import { MercenaryCompanyPanel } from "$lib/features/mercenary";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { QuestLogPanel } from "$lib/features/quests";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
-import { SocialDemo } from "$lib/features/social";
+import { NegotiationPanel, SocialDemo } from "$lib/features/social";
 import { SocialStandingService } from "$lib/features/social/domain/SocialStandingService";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SpellCastPanel } from "$lib/features/spell-cast";
@@ -1092,6 +1092,13 @@ async function createCharacter(
 					characters={characterRecords}
 					activeEffects={activeStatusEffects}
 					characterClasses={characterSession.characterClasses}
+				/>
+			{:else if activeView === "negotiation"}
+				<NegotiationPanel
+					characters={characterRecords}
+					onClose={() => {
+						activeView = "home";
+					}}
 				/>
 			{:else if activeView === "clocks"}
 				<ClockDemo />

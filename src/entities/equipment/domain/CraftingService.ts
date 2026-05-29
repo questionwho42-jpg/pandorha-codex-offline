@@ -232,4 +232,111 @@ export class CraftingService {
 			margin: roll.margin,
 		});
 	}
+
+	/**
+	 * Dismantles a custom crafted item, deleting it from the database and recovering 50% of its recipe materials.
+	 */
+	public async dismantleCraftedItem(
+		characterId: string,
+		itemId: string,
+	): Promise<
+		Result<{ materialsRecovered: Record<string, number> }, CraftingFailure>
+	> {
+		const itemsResult =
+			await this.repository.findCraftedItemsByCharacterId(characterId);
+		if (!itemsResult.success) {
+			return fail(itemsResult.error);
+		}
+
+		const item = itemsResult.data.find((it) => it.id === itemId);
+		if (!item) {
+			return fail({
+				code: "ITEM_NOT_FOUND",
+				message: `Item artesanal com ID ${itemId} nao foi localizado para o personagem ${characterId}.`,
+			});
+		}
+
+		const recipesResult = await this.repository.findAllRecipes();
+		if (!recipesResult.success) {
+			return fail(recipesResult.error);
+		}
+
+		const recipe = recipesResult.data.find(
+			(r) => r.targetEquipmentId === item.equipmentId,
+		);
+		if (!recipe) {
+			return fail({
+				code: "RECIPE_NOT_FOUND",
+				message: `Nao foi encontrada nenhuma receita de forja para o equipamento ${item.equipmentId}.`,
+			});
+		}
+
+		let requiredMaterials: readonly CraftingMaterialInput[] = [];
+		try {
+			requiredMaterials = JSON.parse(recipe.materialsRequiredJson);
+		} catch (_error) {
+			return fail({
+				code: "CORRUPTED_CRAFTING_RECORD",
+				message:
+					"As materias-primas da receita estao no formato JSON invalido.",
+			});
+		}
+
+		const materialsRecovered: Record<string, number> = {};
+		for (const mat of requiredMaterials) {
+			materialsRecovered[mat.materialId] = Math.max(
+				1,
+				Math.floor(mat.quantity / 2),
+			);
+		}
+
+		const deleteResult = await this.repository.deleteCraftedItem(itemId);
+		if (!deleteResult.success) {
+			return fail(deleteResult.error);
+		}
+
+		return ok({ materialsRecovered });
+	}
+
+	/**
+	 * Recycles/Scraps a standard non-crafted equipment item to recover 1 unit of its base material.
+	 */
+	public scrapEquipment(
+		equipmentId: string,
+	): Result<{ materialRecovered: string }, CraftingFailure> {
+		const baseEquipment = OFFICIAL_EQUIPMENT.find(
+			(eq) => eq.id === equipmentId,
+		);
+		if (!baseEquipment) {
+			return fail({
+				code: "RECIPE_NOT_FOUND",
+				message: `O equipamento ${equipmentId} nao existe no catalogo oficial.`,
+			});
+		}
+
+		// Determine base material: wood for staves/bows, metal for swords/axes/shields/armors, essence/ore for magical items
+		let material = "metal-ore";
+		const idLower = baseEquipment.id.toLowerCase();
+		if (
+			idLower.includes("cajado") ||
+			idLower.includes("staff") ||
+			idLower.includes("arco") ||
+			idLower.includes("bow") ||
+			idLower.includes("bastao") ||
+			idLower.includes("club")
+		) {
+			material = "ironwood";
+		} else if (
+			idLower.includes("anel") ||
+			idLower.includes("ring") ||
+			idLower.includes("relic") ||
+			idLower.includes("gema") ||
+			idLower.includes("tomo") ||
+			idLower.includes("scroll")
+		) {
+			material = "mystic-essence";
+		}
+
+		return ok({ materialRecovered: material });
+	}
 }

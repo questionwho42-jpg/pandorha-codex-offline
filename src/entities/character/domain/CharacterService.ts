@@ -86,7 +86,7 @@ export class CharacterService {
 
 	public async resurrectCharacter(
 		characterId: string,
-		isResurrectionBlockedFn: () => Promise<Result<boolean, any>>,
+		isResurrectionBlockedFn: () => Promise<Result<boolean, unknown>>,
 	): Promise<Result<{ status: "resurrected" }, CharacterFailure>> {
 		const blockRes = await isResurrectionBlockedFn();
 		if (blockRes.success && blockRes.data) {

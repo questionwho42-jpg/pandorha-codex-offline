@@ -1,6 +1,7 @@
 import type { CharacterRecord } from "$lib/entities/character";
 import {
 	BasicSocialAttack,
+	EtherContractDecorator,
 	GroupSenseDecorator,
 	type ISocialAttack,
 	MysticCharmDecorator,
@@ -20,7 +21,8 @@ export type SocialManeuverType =
 	| "none"
 	| "group_sense"
 	| "venomous_flattery"
-	| "mystic_charm";
+	| "mystic_charm"
+	| "ether_contract";
 
 export type SocialSession = Readonly<{
 	playerCharacter: CharacterRecord;
@@ -68,6 +70,8 @@ export function createSocialSession(
 			attackChain = new VenomousFlatteryDecorator(attackChain);
 		} else if (maneuver === "mystic_charm") {
 			attackChain = new MysticCharmDecorator(attackChain);
+		} else if (maneuver === "ether_contract") {
+			attackChain = new EtherContractDecorator(attackChain);
 		}
 
 		// O Bônus da Barganha aplica-se à margem inicial
@@ -83,6 +87,21 @@ export function createSocialSession(
 			generatedFavors: 0,
 			log: [],
 		});
+
+		// Aplicar dano de recuo caso o pacto do éter tenha sido quebrado
+		if (attackContext.recoilDamage) {
+			try {
+				const playerWithHp = player as CharacterRecord & {
+					currentHp?: number;
+					maxHp?: number;
+				};
+				playerWithHp.currentHp = Math.max(
+					1,
+					(playerWithHp.currentHp ?? 20) -
+						Math.floor((playerWithHp.maxHp ?? 20) / 2),
+				);
+			} catch (_) {}
+		}
 
 		// 2. Aplicar favores gerados automaticamente pela manobra
 		if (attackContext.generatedFavors > 0) {

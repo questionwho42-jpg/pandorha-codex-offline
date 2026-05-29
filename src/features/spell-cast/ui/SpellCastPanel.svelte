@@ -166,6 +166,55 @@ async function prepareCast(): Promise<void> {
 		</div>
 	</div>
 
+	<!-- Seleção de Metamagias (As Quebras) -->
+	<div class="mt-6 border border-bronze bg-blood-shadow px-5 py-4">
+		<p class="text-sm font-semibold text-ether">Metamagias Aplicadas (As Quebras)</p>
+		<p class="text-xs text-bone/70 mt-1 mb-4 leading-relaxed font-semibold">
+			Selecione uma metamagia universal para alterar as propriedades físicas e o custo etérico da conjuração (limite de 1 ativa):
+		</p>
+		<div class="grid gap-3 sm:grid-cols-3">
+			<label class="flex items-start gap-3 rounded border border-bronze/40 bg-void/30 p-3 hover:border-ether/60 cursor-pointer transition-all">
+				<input
+					type="checkbox"
+					value="distant-spell"
+					checked={selectedMetamagics.includes("distant-spell")}
+					onchange={(e) => toggleMetamagic("distant-spell", e.currentTarget.checked)}
+					class="mt-1 accent-ether"
+				/>
+				<div>
+					<p class="text-sm font-semibold text-bone">Extensa (Sniper)</p>
+					<p class="text-xs text-bone/60 mt-0.5 font-medium">+1 EE · Duplica alcance</p>
+				</div>
+			</label>
+			<label class="flex items-start gap-3 rounded border border-bronze/40 bg-void/30 p-3 hover:border-ether/60 cursor-pointer transition-all">
+				<input
+					type="checkbox"
+					value="resonant-spell"
+					checked={selectedMetamagics.includes("resonant-spell")}
+					onchange={(e) => toggleMetamagic("resonant-spell", e.currentTarget.checked)}
+					class="mt-1 accent-ether"
+				/>
+				<div>
+					<p class="text-sm font-semibold text-bone">Ressonante (Multiplicadora)</p>
+					<p class="text-xs text-bone/60 mt-0.5 font-medium">+2 EE · Multiplica cura</p>
+				</div>
+			</label>
+			<label class="flex items-start gap-3 rounded border border-bronze/40 bg-void/30 p-3 hover:border-ether/60 cursor-pointer transition-all">
+				<input
+					type="checkbox"
+					value="echoing-spell"
+					checked={selectedMetamagics.includes("echoing-spell")}
+					onchange={(e) => toggleMetamagic("echoing-spell", e.currentTarget.checked)}
+					class="mt-1 accent-ether"
+				/>
+				<div>
+					<p class="text-sm font-semibold text-bone">Ecoante (Repetição)</p>
+					<p class="text-xs text-bone/60 mt-0.5 font-medium">+4 EE · Repete feitiço</p>
+				</div>
+			</label>
+		</div>
+	</div>
+
 	<div class="mt-6 border border-bronze bg-blood-shadow px-5 py-5">
 		<h3
 			class="text-lg font-semibold text-bone"

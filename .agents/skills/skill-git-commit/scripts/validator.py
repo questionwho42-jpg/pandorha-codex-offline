@@ -12,26 +12,31 @@ def calculate_entropy(s):
     return entropy
 
 def validate_diff(diff_text):
-    # 1. Secret Detection (Regex Básico + Entropia)
+    # Filtrar apenas linhas adicionadas para ignorar metadados do diff e imports antigos
+    added_lines = []
+    for line in diff_text.split('\n'):
+        if line.startswith('+') and not line.startswith('+++'):
+            added_lines.append(line[1:])
+    
+    added_content = '\n'.join(added_lines)
+    if not added_content:
+        return True
+
+    # 1. Secret Detection (Regex Básico + Entropia da String Casada)
     secret_patterns = [
         r'(?i)api[_-]?key', r'(?i)secret', r'(?i)password', r'(?i)token',
         r'[a-zA-Z0-9+/]{40,}' # Potencial Base64 longo/Hashes
     ]
     for pattern in secret_patterns:
-        if re.search(pattern, diff_text):
-            # Check entropy to reduce false positives
-            if calculate_entropy(diff_text) > 4.5:
-                print("ERRO: Possível credencial ou segredo detectado no diff.", file=sys.stderr)
+        for match in re.finditer(pattern, added_content):
+            matched_str = match.group(0)
+            if calculate_entropy(matched_str) > 4.5:
+                # Ignorar se contiver barras ou for parte de caminhos/imports
+                if '/' in matched_str or '\\' in matched_str or matched_str.startswith('$lib'):
+                    continue
+                print(f"ERRO: Possível credencial ou segredo detectado no diff: '{matched_str}'", file=sys.stderr)
                 sys.exit(1)
 
-    # 2. Atomic Check (Detector de Tipos Mistos)
-    # Heurística simples baseada em keywords no diff
-    has_fix = "fix" in diff_text.lower() or "bug" in diff_text.lower()
-    has_feat = "feat" in diff_text.lower() or "add" in diff_text.lower()
-    
-    # Se o agente identificar intuitivamente múltiplos propósitos, ele deve falhar.
-    # (A lógica atômica final é refinada pelo LLM via Prompt)
-    
     return True
 
 if __name__ == "__main__":

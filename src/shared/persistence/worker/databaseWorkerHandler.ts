@@ -1198,6 +1198,42 @@ export async function handleDatabaseWorkerRequest(
 			});
 		}
 
+		case "DISMANTLE_CRAFTED_ITEM": {
+			const result = await input.bootstrapService.dismantleCraftedItem(
+				command.payload.characterId,
+				command.payload.itemId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "SCRAP_EQUIPMENT": {
+			const result = input.bootstrapService.scrapEquipment(
+				command.payload.equipmentId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
 		default: {
 			const _exhaustiveCheck: never = command;
 			return createRpcFailureResponse({

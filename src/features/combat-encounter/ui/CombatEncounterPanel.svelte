@@ -2,6 +2,7 @@
 import { onMount } from "svelte";
 import type { CharacterRecord } from "$lib/entities/character";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
+import type { CompanionRecord } from "$lib/entities/companions";
 import { OFFICIAL_EQUIPMENT } from "$lib/entities/equipment/model/equipmentCatalog";
 import { SynergyService } from "$lib/entities/synergy/domain/SynergyService";
 import { WorkerSynergyRepository } from "$lib/entities/synergy/infrastructure/WorkerSynergyRepository";
@@ -40,6 +41,9 @@ type Props = {
 	attacker: CombatEncounterActorRef;
 	characterClasses: readonly CharacterClassRecord[];
 	characters: readonly CharacterRecord[];
+	companions?: readonly CompanionRecord[];
+	onCompanionDamage?: (companionId: string, damage: number) => void;
+	onShareSensory?: (companionId: string, isShare: boolean) => void;
 	createAttackInput: (
 		attacker: CombatEncounterActorRef,
 		target: CombatTrainingTarget,
@@ -61,10 +65,25 @@ type CombatEncounterStateResolver = (
 
 const turnService = new CombatTurnService();
 
+const randRoll = () => {
+	const arr = new Uint32Array(1);
+	crypto.getRandomValues(arr);
+	return (arr[0] % 20) + 1;
+};
+
+const randD6 = () => {
+	const arr = new Uint32Array(1);
+	crypto.getRandomValues(arr);
+	return (arr[0] % 6) + 1;
+};
+
 let {
 	attacker,
 	characterClasses,
 	characters,
+	companions = [],
+	onCompanionDamage,
+	onShareSensory,
 	createAttackInput,
 	initialTarget,
 	resolveAttack,
@@ -85,6 +104,373 @@ let log = $state<readonly string[]>([]);
 let turnState = $state<CombatTurnState>(
 	createInitialTurnState(attacker.id, initialTarget.id),
 );
+
+let attackerHp = $state(15);
+let attackerTension = $state(0);
+let attackerDeathSuccesses = $state(0);
+let attackerDeathFailures = $state(0);
+let attackerIsDying = $state(false);
+let limitBreakActive = $state(false);
+
+let selectedTrickId = $state("marca_presa");
+let masterEeSpent = $state(0);
+let familiarReactionUsed = $state(false);
+let familiarFlickered = $state(false);
+
+let activeCompanions = $derived(
+	companions.filter((c) => c.characterId === selectedAttackerId),
+);
+
+let activeCompanionStats = $derived(
+	activeCompanions.map((comp) => {
+		const char = characters.find((c) => c.id === selectedAttackerId);
+		if (!char) {
+			return {
+				record: comp,
+				hpMax: comp.hpMax,
+				armorClass: 10,
+				canAttack: false,
+			};
+		}
+
+		const masterMatrix = Math.max(char.physical, char.mental, char.social);
+		const masterTier = Math.floor((char.level - 1) / 5) + 1;
+
+		let hpMax = comp.hpMax;
+		let armorClass = 10;
+		let canAttack = false;
+
+		if (comp.type === "aggressor") {
+			hpMax = 6 * char.level + masterMatrix;
+			armorClass = 12 + masterMatrix + masterTier;
+			canAttack = true;
+		} else if (comp.type === "protector") {
+			hpMax = 10 * char.level + masterMatrix;
+			armorClass = 14 + masterMatrix + masterTier;
+			canAttack = true;
+		} else if (comp.type === "scout") {
+			hpMax = 4 * char.level + masterMatrix;
+			armorClass = 13 + masterMatrix + masterTier;
+			canAttack = true;
+		} else if (comp.type === "familiar") {
+			hpMax = char.mental * 5 * comp.tier;
+			armorClass = 10 + char.mental + comp.tier;
+			canAttack = false;
+		}
+
+		if (comp.isShareSensory) {
+			armorClass = Math.max(0, armorClass - 2);
+		}
+
+		return {
+			record: comp,
+			hpMax,
+			armorClass,
+			canAttack,
+		};
+	}),
+);
+
+let attackerChar = $derived(
+	characters.find((c) => c.id === selectedAttackerId),
+);
+let hasActiveFamiliar = $derived(
+	companions.some(
+		(comp) =>
+			comp.characterId === selectedAttackerId &&
+			comp.type === "familiar" &&
+			!comp.isDissipated,
+	),
+);
+let masterBaseEe = $derived(
+	attackerChar ? attackerChar.level + attackerChar.mental : 0,
+);
+let masterMaxEe = $derived(
+	hasActiveFamiliar ? Math.max(0, masterBaseEe - 1) : masterBaseEe,
+);
+let masterAvailableEe = $derived(Math.max(0, masterMaxEe - masterEeSpent));
+
+let canCommandCompanion = $derived(
+	turnState.activeActorId === selectedAttackerId &&
+		turnState.actionPointsRemaining >= 1 &&
+		!attackerIsDying,
+);
+
+$effect(() => {
+	if (selectedAttackerId) {
+		const char = characters.find((c) => c.id === selectedAttackerId);
+		if (char) {
+			const realClass = characterClasses.find((c) => c.id === char.classId);
+			const maxHp =
+				((realClass ? realClass.baseHp : 10) +
+					char.physical +
+					char.resistance) *
+				char.level;
+			attackerHp = maxHp;
+		} else {
+			attackerHp = 15;
+		}
+		attackerTension = 0;
+		attackerDeathSuccesses = 0;
+		attackerDeathFailures = 0;
+		attackerIsDying = false;
+		limitBreakActive = false;
+	}
+});
+
+$effect(() => {
+	if (turnState.activeActorId === selectedAttackerId) {
+		if (attackerHp === 0 && attackerIsDying) {
+			runAutomaticDeathSave();
+		}
+	}
+});
+
+function addStatusEffect(characterId: string, type: string) {
+	const alreadyHas = activeEffects.some(
+		(e) => e.characterId === characterId && e.type === type,
+	);
+	if (alreadyHas) return;
+	const newEffect = {
+		id: crypto.randomUUID(),
+		characterId,
+		type,
+		severity: 2,
+		severityMax: 4,
+		isAggravated: false,
+		createdAt: new Date().toISOString(),
+	};
+	activeEffects = [...activeEffects, newEffect];
+	localStorage.setItem(
+		"pandorha_status_effects",
+		JSON.stringify(activeEffects),
+	);
+	window.dispatchEvent(new CustomEvent("pandorha:crafted-items-changed"));
+}
+
+function removeStatusEffect(characterId: string, type: string) {
+	activeEffects = activeEffects.filter(
+		(e) => !(e.characterId === characterId && e.type === type),
+	);
+	localStorage.setItem(
+		"pandorha_status_effects",
+		JSON.stringify(activeEffects),
+	);
+	window.dispatchEvent(new CustomEvent("pandorha:crafted-items-changed"));
+}
+
+function runAutomaticDeathSave() {
+	const char = characters.find((c) => c.id === selectedAttackerId);
+	if (!char) return;
+
+	const naturalRoll = randRoll();
+	const level = char.level;
+	const physical = char.physical;
+	const resistance = char.resistance;
+
+	const cdTarget = 10 + level + physical + resistance;
+	const totalRoll = naturalRoll + physical + resistance + level;
+
+	log = [
+		...log,
+		`🩸 Teste de Morte automático de ${char.name}: Rolou d20=${naturalRoll} + mod=${physical + resistance + level} | Total ${totalRoll} vs CD ${cdTarget}.`,
+	];
+
+	if (naturalRoll === 20) {
+		attackerHp = 1;
+		attackerIsDying = false;
+		attackerDeathSuccesses = 0;
+		attackerDeathFailures = 0;
+		removeStatusEffect(char.id, "moribund");
+		removeStatusEffect(char.id, "unconscious");
+		log = [
+			...log,
+			`🌟 SUCESSO CRÍTICO! ${char.name} estabilizou e recuperou a consciência com 1 HP!`,
+		];
+	} else if (naturalRoll === 1) {
+		attackerDeathFailures += 2;
+		log = [
+			...log,
+			`💀 FALHA CRÍTICA! ${char.name} acumulou mais 2 falhas de morte. (${attackerDeathFailures}/3 falhas).`,
+		];
+	} else if (totalRoll >= cdTarget) {
+		attackerDeathSuccesses += 1;
+		log = [
+			...log,
+			`👍 Sucesso no teste de morte. (${attackerDeathSuccesses}/3 sucessos).`,
+		];
+	} else {
+		attackerDeathFailures += 1;
+		log = [
+			...log,
+			`👎 Falha no teste de morte. (${attackerDeathFailures}/3 falhas).`,
+		];
+	}
+
+	if (attackerDeathSuccesses >= 3) {
+		attackerIsDying = false;
+		attackerDeathSuccesses = 0;
+		attackerDeathFailures = 0;
+		removeStatusEffect(char.id, "moribund");
+		log = [
+			...log,
+			`🩹 ${char.name} ESTABILIZOU! Ele permanece inconsciente com 0 HP, mas não corre mais risco de morte.`,
+		];
+	} else if (attackerDeathFailures >= 3) {
+		log = [
+			...log,
+			`🪦 MORTE DEFINITIVA: ${char.name} sucumbiu aos ferimentos e faleceu.`,
+		];
+	}
+}
+
+function addTension(amount: number) {
+	if (attackerHp === 0) return;
+	attackerTension = Math.min(10, attackerTension + amount);
+	if (attackerTension === 10) {
+		log = [
+			...log,
+			`🔥 LIMIT BREAK ATIVO para ${selectedAttacker.label}! A habilidade Ultimate da classe está disponível.`,
+		];
+	}
+}
+
+function activateLimitBreak() {
+	if (attackerTension < 10) return;
+	const char = characters.find((c) => c.id === selectedAttackerId);
+	if (!char) return;
+
+	let ultimateType = "avatar_guerra";
+	let ultimateLabel = "Avatar da Guerra (Vanguarda)";
+	if (char.classId === "weaver") {
+		ultimateType = "surto_tempo";
+		ultimateLabel = "Surto de Tempo (Tecelão)";
+	} else if (char.classId === "hunter") {
+		ultimateType = "cacada_selvagem";
+		ultimateLabel = "Caçada Selvagem (Caçador)";
+	} else if (char.classId === "emissary") {
+		ultimateType = "rede_intrigas";
+		ultimateLabel = "Rede de Intrigas (Emissário)";
+	}
+
+	addStatusEffect(char.id, ultimateType);
+	attackerTension = 0;
+	limitBreakActive = true;
+	log = [
+		...log,
+		`💥 LIMIT BREAK CONJURADO! ${char.name} ativou a Ultimate: ${ultimateLabel}!`,
+	];
+}
+
+function damageHero(amount: number) {
+	if (attackerHp === 0) return;
+	attackerHp = Math.max(0, attackerHp - amount);
+	log = [
+		...log,
+		`💥 ${selectedAttacker.label} sofreu ${amount} de dano! (HP atual: ${attackerHp})`,
+	];
+
+	if (amount >= 5) {
+		addTension(2);
+		log = [
+			...log,
+			`⚠️ Crise! ${selectedAttacker.label} sofreu dano massivo e acumulou +2 de Tensão.`,
+		];
+	}
+
+	if (attackerHp === 0) {
+		attackerIsDying = true;
+		attackerDeathSuccesses = 0;
+		attackerDeathFailures = 0;
+		log = [
+			...log,
+			`🚨 ${selectedAttacker.label} caiu a 0 HP e está Moribundo!`,
+		];
+		addStatusEffect(selectedAttacker.id, "unconscious");
+		addStatusEffect(selectedAttacker.id, "moribund");
+
+		const familiar = companions.find(
+			(c) =>
+				c.characterId === selectedAttackerId &&
+				c.type === "familiar" &&
+				!c.isDissipated,
+		);
+		if (familiar && !familiarReactionUsed) {
+			if (onCompanionDamage) {
+				onCompanionDamage(familiar.id, familiar.hpCurrent);
+			}
+			attackerIsDying = false;
+			attackerDeathSuccesses = 0;
+			attackerDeathFailures = 0;
+			removeStatusEffect(selectedAttackerId, "moribund");
+			removeStatusEffect(selectedAttackerId, "unconscious");
+			attackerHp = 1;
+			log = [
+				...log,
+				`🧚 PROTOCOLO DE SACRIFÍCIO: Familiar ${familiar.name} sacrificou sua essência vital para reanimar o mestre! ${selectedAttacker.label} estabilizado com 1 HP. O familiar foi desestabilizado.`,
+			];
+		}
+	}
+}
+
+function healHero(amount: number) {
+	const char = characters.find((c) => c.id === selectedAttackerId);
+	if (!char) return;
+	const realClass = characterClasses.find((c) => c.id === char.classId);
+	const maxHp =
+		((realClass ? realClass.baseHp : 10) + char.physical + char.resistance) *
+		char.level;
+
+	if (attackerHp === 0) {
+		removeStatusEffect(char.id, "moribund");
+		removeStatusEffect(char.id, "unconscious");
+		attackerIsDying = false;
+		attackerDeathSuccesses = 0;
+		attackerDeathFailures = 0;
+	}
+
+	attackerHp = Math.min(maxHp, attackerHp + amount);
+	log = [
+		...log,
+		`💖 ${char.name} foi curado em ${amount} HP! (HP atual: ${attackerHp}/${maxHp})`,
+	];
+}
+
+function helpHero() {
+	if (attackerHp > 0 || !attackerIsDying) return;
+	const helper = characters.find((c) => c.id !== selectedAttackerId) || {
+		name: "Aliado",
+		level: 1,
+		mental: 1,
+	};
+	const naturalRoll = randRoll();
+	const totalRoll = naturalRoll + helper.level + (helper.mental ?? 1);
+
+	const char = characters.find((c) => c.id === selectedAttackerId);
+	if (!char) return;
+	const cdTarget = 10 + char.level + char.physical + char.resistance;
+
+	log = [
+		...log,
+		`🩹 Primeiros Socorros: ${helper.name} tenta estabilizar ${char.name}. Rolou d20=${naturalRoll} + mod=${helper.level + (helper.mental ?? 1)} | Total ${totalRoll} vs CD ${cdTarget}.`,
+	];
+
+	if (totalRoll >= cdTarget) {
+		attackerIsDying = false;
+		attackerDeathSuccesses = 0;
+		attackerDeathFailures = 0;
+		removeStatusEffect(char.id, "moribund");
+		log = [
+			...log,
+			`💖 SUCESSO! ${char.name} foi estabilizado por ${helper.name}!`,
+		];
+	} else {
+		log = [
+			...log,
+			`❌ FALHA! ${helper.name} não conseguiu estabilizar ${char.name}.`,
+		];
+	}
+}
 
 // Estado de itens artesanais carregados do localStorage
 let craftedItems = $state<CharacterCraftedItemRecord[]>([]);
@@ -548,6 +934,9 @@ function resetEncounter(): void {
 	errorMessage = null;
 	log = [];
 	turnState = createInitialTurnState(selectedAttacker.id, selectedTarget.id);
+	masterEeSpent = 0;
+	familiarReactionUsed = false;
+	familiarFlickered = false;
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -562,6 +951,9 @@ function selectAttacker(event: Event): void {
 	errorMessage = null;
 	log = [];
 	turnState = createInitialTurnState(selectedAttackerId, selectedTarget.id);
+	masterEeSpent = 0;
+	familiarReactionUsed = false;
+	familiarFlickered = false;
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -577,6 +969,9 @@ function selectTarget(event: Event): void {
 	errorMessage = null;
 	log = [];
 	turnState = createInitialTurnState(selectedAttacker.id, nextTarget.id);
+	masterEeSpent = 0;
+	familiarReactionUsed = false;
+	familiarFlickered = false;
 }
 
 function mapCombatEncounterFailure(failure: CombatEncounterFailure): string {
@@ -636,6 +1031,130 @@ function createInitialTurnState(
 				maxActionPoints: 3,
 				events: [],
 			};
+}
+
+function getTrickCost(id: string): number {
+	if (id === "marca_presa") return 1;
+	if (id === "uivo_encorajador") return 2;
+	if (id === "mordida_astral") return 3;
+	return 1;
+}
+
+function commandCompanionAttack(comp: CompanionRecord) {
+	if (!canCommandCompanion) return;
+
+	const spentAction = turnService.spendAction({
+		state: turnState,
+		actorId: selectedAttackerId,
+		actionCost: 1,
+	});
+	if (!spentAction.success) {
+		errorMessage = mapCombatTurnFailure(spentAction.error);
+		return;
+	}
+	turnState = spentAction.data;
+
+	const char = characters.find((c) => c.id === selectedAttackerId);
+	const masterMatrix = char
+		? Math.max(char.physical, char.mental, char.social)
+		: 1;
+	const attackMod =
+		masterMatrix + (char ? Math.floor((char.level - 1) / 4) + 2 : 2);
+	const attackRollValue = randRoll() + attackMod;
+
+	let damage = 0;
+	for (let i = 0; i < comp.tier; i++) {
+		damage += randD6();
+	}
+	damage += masterMatrix;
+
+	if (attackRollValue >= selectedTarget.armorClass) {
+		targetHitPoints = Math.max(0, targetHitPoints - damage);
+		log = [
+			...log,
+			`🐾 Companheiro Animal ${comp.name} atacou ${selectedTarget.label}! Rolou d20+mod: ${attackRollValue} vs CA ${selectedTarget.armorClass} (ACERTO). Dano: ${damage} físico.`,
+		];
+	} else {
+		log = [
+			...log,
+			`🐾 Companheiro Animal ${comp.name} tentou atacar ${selectedTarget.label}, mas errou! Rolou d20+mod: ${attackRollValue} vs CA ${selectedTarget.armorClass}.`,
+		];
+	}
+}
+
+function castFamiliarTrick(comp: CompanionRecord) {
+	if (familiarReactionUsed) return;
+	const cost = getTrickCost(selectedTrickId);
+	if (masterAvailableEe < cost) return;
+	if (turnState.activeActorId !== selectedAttackerId || attackerIsDying) return;
+
+	masterEeSpent += cost;
+	familiarReactionUsed = true;
+	familiarFlickered = true;
+
+	const char = characters.find((c) => c.id === selectedAttackerId);
+	const mental = char ? char.mental : 1;
+	const level = char ? char.level : 1;
+	const cdTarget = 10 + level + mental;
+
+	if (selectedTrickId === "marca_presa") {
+		log = [
+			...log,
+			`✨ Familiar ${comp.name} conjurou Marca da Presa! (Custo: 1 EE). O próximo ataque contra ${selectedTarget.label} terá Vantagem. Familiar está TANGÍVEL e visível.`,
+		];
+	} else if (selectedTrickId === "uivo_encorajador") {
+		log = [
+			...log,
+			`✨ Familiar ${comp.name} conjurou Uivo Encorajador! (Custo: 2 EE). Aliados ganham +3m de deslocamento. Familiar está TANGÍVEL e visível.`,
+		];
+	} else if (selectedTrickId === "mordida_astral") {
+		const targetRoll = randRoll();
+		const targetBonus = selectedTarget.saveBonus ?? 2;
+		const totalSave = targetRoll + targetBonus;
+		if (totalSave >= cdTarget) {
+			log = [
+				...log,
+				`✨ Familiar ${comp.name} conjurou Mordida Astral! (Custo: 3 EE). ${selectedTarget.label} resistiu com Fortitude ${totalSave} vs CD ${cdTarget}. Familiar está TANGÍVEL e visível.`,
+			];
+		} else {
+			log = [
+				...log,
+				`✨ Familiar ${comp.name} conjurou Mordida Astral! (Custo: 3 EE). ${selectedTarget.label} falhou na salvaguarda (Fortitude ${totalSave} vs CD ${cdTarget}). Seu deslocamento foi reduzido a 0 até o próximo turno! Familiar está TANGÍVEL e visível.`,
+			];
+		}
+	}
+}
+
+function toggleSensorySharing(comp: CompanionRecord) {
+	if (onShareSensory) {
+		onShareSensory(comp.id, !comp.isShareSensory);
+		log = [
+			...log,
+			comp.isShareSensory
+				? `👁️ Transe Sensorial desativado para o familiar ${comp.name}.`
+				: `👁️ Transe Sensorial ativado para o familiar ${comp.name}. Sentidos partilhados!`,
+		];
+	}
+}
+
+function damageCompanion(comp: CompanionRecord, amount: number) {
+	if (onCompanionDamage) {
+		onCompanionDamage(comp.id, amount);
+		log = [
+			...log,
+			`💥 Companheiro ${comp.name} sofreu ${amount} de dano no simulador!`,
+		];
+	}
+}
+
+function healCompanion(comp: CompanionRecord, amount: number) {
+	if (onCompanionDamage) {
+		onCompanionDamage(comp.id, -amount);
+		log = [
+			...log,
+			`💖 Companheiro ${comp.name} foi curado em ${amount} PV no simulador!`,
+		];
+	}
 }
 </script>
 
@@ -910,6 +1429,285 @@ function createInitialTurnState(
 		<div class="border border-bronze bg-blood-shadow px-5 py-4">
 			<p class="text-sm font-semibold text-ether">Atacante</p>
 			<h3 class="mt-2 text-xl font-semibold text-bone">{view.attackerLabel}</h3>
+
+			<!-- Barra de HP do Aventureiro (Fase 40) -->
+			{#if selectedAttackerId !== attacker.id}
+				{@const char = characters.find(c => c.id === selectedAttackerId)}
+				{#if char}
+					{@const realClass = characterClasses.find(c => c.id === char.classId)}
+					{@const maxHp = ((realClass ? realClass.baseHp : 10) + char.physical + char.resistance) * char.level}
+					
+					<div class="mt-3 bg-void/50 border border-bronze/20 p-3 rounded flex flex-col gap-2">
+						<div class="flex justify-between items-center text-xs">
+							<span class="text-bone/70 uppercase tracking-wider font-semibold">Integridade Física (HP)</span>
+							<span class="font-mono font-bold {attackerHp === 0 ? 'text-blood animate-pulse' : 'text-bone'}">
+								{attackerHp} / {maxHp} HP
+							</span>
+						</div>
+						<div class="w-full bg-void rounded-full h-2.5 overflow-hidden border border-bronze/30">
+							<div class="bg-blood h-full transition-all duration-300" style="width: {(attackerHp / maxHp) * 100}%"></div>
+						</div>
+
+						<!-- Tokens de Morte se estiver caído a 0 HP -->
+						{#if attackerHp === 0}
+							<div class="mt-2 flex flex-col gap-1.5 p-2 bg-blood-shadow/20 border border-blood/20 rounded">
+								<div class="flex justify-between items-center text-[10px]">
+									<span class="text-blood font-bold uppercase tracking-widest animate-pulse">⚠️ Estado Moribundo ⚠️</span>
+									<span class="text-bone/60">Turno de Morte Ativo</span>
+								</div>
+								
+								<div class="flex gap-4 text-xs mt-1">
+									<div class="flex items-center gap-1.5">
+										<span class="text-ether font-bold">🩹 Sucessos:</span>
+										<div class="flex gap-1">
+											{#each Array(3) as _, i}
+												<span class="text-base {i < attackerDeathSuccesses ? 'text-[#38bdf8]' : 'text-bone/20'}">💙</span>
+											{/each}
+										</div>
+									</div>
+									<div class="flex items-center gap-1.5">
+										<span class="text-blood font-bold">☠️ Falhas:</span>
+										<div class="flex gap-1">
+											{#each Array(3) as _, i}
+												<span class="text-base {i < attackerDeathFailures ? 'text-[#ef4444]' : 'text-bone/20'}">💀</span>
+											{/each}
+										</div>
+									</div>
+								</div>
+
+								{#if attackerIsDying}
+									<button
+										type="button"
+										onclick={runAutomaticDeathSave}
+										class="mt-2 bg-blood hover:bg-blood-shadow text-bone font-bold text-[10px] py-1 rounded transition-colors uppercase tracking-wider"
+									>
+										🎲 Rolar Teste de Morte Manual
+									</button>
+								{/if}
+							</div>
+						{/if}
+					</div>
+
+					<!-- Medidor de Tensão e Limit Break (Fase 39) -->
+					{#if attackerHp > 0}
+						<div class="mt-3 bg-void/50 border border-bronze/20 p-3 rounded flex flex-col gap-2">
+							<div class="flex justify-between items-center text-xs">
+								<span class="text-bone/70 uppercase tracking-wider font-semibold">Medidor de Tensão</span>
+								<span class="font-mono font-bold text-[#f59e0b]">
+									{attackerTension} / 10 fatias
+								</span>
+							</div>
+							<div class="w-full bg-void rounded-full h-2.5 overflow-hidden border border-bronze/30 relative">
+								<div class="bg-[#f59e0b] h-full transition-all duration-300 {attackerTension === 10 ? 'animate-pulse bg-[#dab973] shadow-[0_0_10px_#f59e0b]' : ''}" style="width: {attackerTension * 10}%"></div>
+							</div>
+
+							{#if attackerTension === 10}
+								<button
+									type="button"
+									onclick={activateLimitBreak}
+									class="mt-2 bg-[#ef4444] border border-[#f59e0b] hover:bg-[#f59e0b] text-bone font-black text-xs py-1.5 rounded transition-all uppercase tracking-widest shadow-[0_0_15px_#f59e0b] animate-bounce"
+								>
+									⚡ LIMIT BREAK DISPONÍVEL! ⚡
+								</button>
+							{/if}
+						</div>
+					{/if}
+
+					<!-- Painel de Simulação de Crises de Combate -->
+					<div class="mt-3 p-3 bg-ruin/50 border border-bronze/20 rounded flex flex-col gap-2">
+						<p class="text-[10px] uppercase font-bold text-ether tracking-widest">Laboratório de Crise (Simulador)</p>
+						<div class="grid grid-cols-2 gap-2 text-[9px] font-bold uppercase tracking-wider">
+							<button
+								type="button"
+								onclick={() => damageHero(2)}
+								disabled={attackerHp === 0}
+								class="py-1 px-1.5 bg-blood-shadow/20 border border-blood/20 text-blood hover:bg-blood-shadow/40 transition-colors disabled:opacity-50"
+							>
+								💥 Dano Leve (-2)
+							</button>
+							<button
+								type="button"
+								onclick={() => damageHero(5)}
+								disabled={attackerHp === 0}
+								class="py-1 px-1.5 bg-blood-shadow/30 border border-blood/30 text-blood hover:bg-blood-shadow/60 transition-colors disabled:opacity-50"
+							>
+								🚨 Dano Massivo (-5)
+							</button>
+							<button
+								type="button"
+								onclick={() => healHero(5)}
+								class="py-1 px-1.5 bg-[#10b981]/10 border border-[#10b981]/30 text-[#10b981] hover:bg-[#10b981]/25 transition-colors"
+							>
+								💖 Curar (+5 HP)
+							</button>
+							<button
+								type="button"
+								onclick={() => addTension(2)}
+								disabled={attackerHp === 0}
+								class="py-1 px-1.5 bg-[#f59e0b]/10 border border-[#f59e0b]/30 text-[#f59e0b] hover:bg-[#f59e0b]/25 transition-colors disabled:opacity-50"
+							>
+								⚡ Tensão (+2)
+							</button>
+						</div>
+						{#if attackerHp === 0 && attackerIsDying}
+							<button
+								type="button"
+								onclick={helpHero}
+								class="w-full mt-1 py-1.5 bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8] hover:bg-[#38bdf8]/25 transition-colors text-[9px] font-bold uppercase tracking-wider"
+							>
+								🩹 Ajudar Companheiro (Primeiros Socorros)
+							</button>
+						{/if}
+					</div>
+
+					<!-- Seção de Companheiros e Familiares (Fase 42 & 45) -->
+					{#if activeCompanionStats.length > 0}
+						<div class="mt-4 border-t border-bronze/40 pt-4" data-testid="combat-companions-block">
+							<h4 class="text-xs font-bold text-ether uppercase tracking-wider mb-3">
+								🐾 Companheiros & Familiares Vinculados
+							</h4>
+							
+							{#each activeCompanionStats as comp}
+								{@const isFamiliar = comp.record.type === "familiar"}
+								{@const isAnimal = !isFamiliar}
+								<div class="bg-void/40 border border-bronze/30 p-3 rounded mb-3 flex flex-col gap-2">
+									<div class="flex justify-between items-center">
+										<div>
+											<span class="font-bold text-bone">{comp.record.name}</span>
+											<span class="text-[10px] text-bone/60 ml-2">
+												({comp.record.subModel} · {comp.record.type === 'aggressor' ? 'Agressor' : comp.record.type === 'protector' ? 'Protetor' : comp.record.type === 'scout' ? 'Batedor' : 'Familiar'})
+											</span>
+										</div>
+										<div class="flex items-center gap-1.5">
+											{#if isFamiliar}
+												{#if familiarFlickered}
+													<span class="text-[9px] bg-blood-shadow border border-blood text-blood px-1.5 py-0.5 rounded font-bold uppercase tracking-wider animate-pulse">
+														Tangível (Cintilando)
+													</span>
+												{:else}
+													<span class="text-[9px] bg-[#1e293b] border border-[#38bdf8]/30 text-[#38bdf8] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+														Intangível
+													</span>
+												{/if}
+											{/if}
+											<span class="text-[10px] bg-bronze/20 text-[#dab973] px-1.5 py-0.5 rounded font-mono">
+												CA: {comp.armorClass}
+											</span>
+										</div>
+									</div>
+
+									<!-- HP do Companheiro -->
+									<div class="flex flex-col gap-1.5">
+										<div class="flex justify-between items-center text-[10px]">
+											<span class="text-bone/70 uppercase">Pontos de Vida</span>
+											<span class="font-mono font-bold {comp.record.hpCurrent === 0 ? 'text-blood' : 'text-bone'}">
+												{comp.record.hpCurrent} / {comp.hpMax} PV
+											</span>
+										</div>
+										<div class="w-full bg-void rounded-full h-1.5 overflow-hidden border border-bronze/20">
+											<div class="bg-blood h-full transition-all duration-300" style="width: {(comp.record.hpCurrent / comp.hpMax) * 100}%"></div>
+										</div>
+									</div>
+
+									<!-- Ações do Companheiro Animal -->
+									{#if isAnimal && comp.record.hpCurrent > 0}
+										<div class="mt-1 flex gap-2">
+											<button
+												type="button"
+												disabled={!canCommandCompanion}
+												onclick={() => commandCompanionAttack(comp.record)}
+												class="flex-1 bg-ether hover:bg-bone text-void text-xs font-bold py-1.5 px-2 rounded transition-colors uppercase tracking-wider disabled:opacity-50"
+											>
+												⚔️ Comandar Ataque [A]
+											</button>
+										</div>
+									{/if}
+
+									<!-- Ações do Familiar Místico -->
+									{#if isFamiliar && comp.record.hpCurrent > 0}
+										<div class="mt-1 flex flex-col gap-2">
+											<div class="flex justify-between items-center">
+												<span class="text-[10px] font-semibold text-ether">Reação do Familiar:</span>
+												<span class="text-[10px] font-bold {familiarReactionUsed ? 'text-blood' : 'text-[#10b981]'}">
+													{familiarReactionUsed ? '🚫 Exaurida' : '✅ Disponível'}
+												</span>
+											</div>
+											<div class="flex justify-between items-center">
+												<span class="text-[10px] font-semibold text-ether">Energia do Mestre:</span>
+												<span class="text-[10px] font-mono font-bold text-bone">
+													{masterAvailableEe} / {masterMaxEe} EE
+												</span>
+											</div>
+											
+											<div class="grid grid-cols-1 gap-2 mt-1">
+												<label class="block">
+													<span class="text-[9px] uppercase font-bold text-bone/60">Selecionar Truque:</span>
+													<select
+														bind:value={selectedTrickId}
+														class="w-full text-xs border border-bronze bg-blood-shadow px-2 py-1 text-bone outline-none focus:border-ether mt-1"
+													>
+														<option value="marca_presa">Marca da Presa (1 EE - Vantagem no ataque)</option>
+														<option value="uivo_encorajador">Uivo Encorajador (2 EE - Deslocamento +3m)</option>
+														<option value="mordida_astral">Mordida Astral (3 EE - Fortitude ou Imobilizado)</option>
+													</select>
+												</label>
+												<button
+													type="button"
+													disabled={familiarReactionUsed || masterAvailableEe < getTrickCost(selectedTrickId) || turnState.activeActorId !== selectedAttackerId || attackerIsDying}
+													onclick={() => castFamiliarTrick(comp.record)}
+													class="bg-[#38bdf8] hover:bg-[#38bdf8]/80 text-void text-xs font-bold py-1.5 px-2 rounded transition-colors uppercase tracking-wider disabled:opacity-50"
+												>
+													✨ Conjurar Truque [R]
+												</button>
+											</div>
+
+											<!-- Transe Sensorial -->
+											<div class="mt-1 pt-1.5 border-t border-bronze/20 flex justify-between items-center">
+												<span class="text-[10px] text-bone/80">Transe Sensorial (Sentidos Partilhados):</span>
+												<button
+													type="button"
+													onclick={() => toggleSensorySharing(comp.record)}
+													class="text-[9px] border px-2 py-1 font-bold uppercase tracking-wider rounded transition-colors {comp.record.isShareSensory ? 'bg-[#ef4444]/15 border-[#ef4444] text-[#ef4444]' : 'bg-[#38bdf8]/15 border-[#38bdf8] text-[#38bdf8]'}"
+												>
+													{comp.record.isShareSensory ? 'Desativar' : 'Ativar'}
+												</button>
+											</div>
+										</div>
+									{/if}
+
+									<!-- Simulador de Danos do Companheiro (Crisis Simulator) -->
+									<div class="mt-2 pt-2 border-t border-bronze/20 flex flex-col gap-1.5">
+										<p class="text-[9px] font-bold text-bone/60 uppercase">Simulador de Dano no Companheiro</p>
+										<div class="flex gap-2">
+											<button
+												type="button"
+												disabled={comp.record.hpCurrent === 0 || (isFamiliar && !familiarFlickered)}
+												onclick={() => damageCompanion(comp.record, 5)}
+												class="flex-1 text-[9px] font-bold py-1 px-1.5 bg-blood-shadow/30 border border-blood/30 text-blood hover:bg-blood-shadow/60 transition-colors disabled:opacity-30"
+											>
+												💥 Sofrer Dano (-5)
+											</button>
+											<button
+												type="button"
+												disabled={comp.record.hpCurrent === comp.hpMax}
+												onclick={() => healCompanion(comp.record, 5)}
+												class="flex-1 text-[9px] font-bold py-1 px-1.5 bg-[#10b981]/10 border border-[#10b981]/30 text-[#10b981] hover:bg-[#10b981]/25 transition-colors"
+											>
+												💖 Curar (+5)
+											</button>
+										</div>
+										{#if isFamiliar && !familiarFlickered && comp.record.hpCurrent > 0}
+											<p class="text-[8px] text-[#dab973] font-semibold">
+												⚠️ Familiar intangível não pode sofrer dano. Use um truque primeiro.
+											</p>
+										{/if}
+									</div>
+								</div>
+							{/each}
+						</div>
+					{/if}
+				{/if}
+			{/if}
 			<div
 				class="mt-4 border-t border-bronze pt-4"
 				data-testid="combat-attacker-stats"

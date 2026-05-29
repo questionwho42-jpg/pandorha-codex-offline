@@ -5,6 +5,7 @@ export interface SocialAttackContext {
 	target: SocialTarget;
 	generatedFavors: number; // 1 = Favor Menor, 5 = Favor Maior
 	log: string[];
+	recoilDamage?: boolean;
 }
 
 /**
@@ -83,6 +84,28 @@ export class MysticCharmDecorator extends SocialAttackDecorator {
 		result.log.push(
 			"Manobra [Charme Místico]: O alvo subitamente age de forma Amigável sob sua influência!",
 		);
+		return result;
+	}
+}
+
+/**
+ * Decorador Concreto: Contrato de Éter
+ * Vincula a energia etérea do orador para ganhar um bônus massivo (+4 de margem).
+ * Se o teste final falhar (margem < 0), o contrato colapsa e causa 50% de dano do HP Máximo.
+ */
+export class EtherContractDecorator extends SocialAttackDecorator {
+	override execute(context: SocialAttackContext): SocialAttackContext {
+		const result = super.execute(context);
+		result.margin += 4;
+		result.log.push(
+			"Manobra [Contrato de Éter]: Você vinculou sua energia etérea ao diálogo (+4 de margem).",
+		);
+		if (result.margin < 0) {
+			result.log.push(
+				"💥 VIOLAÇÃO DE PACTO! O Contrato de Éter foi rompido, infligindo dano místico massivo (50% de HP Máximo)!",
+			);
+			result.recoilDamage = true;
+		}
 		return result;
 	}
 }

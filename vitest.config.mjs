@@ -59,6 +59,8 @@ export default defineConfig({
 				"src/entities/world-tile/domain/EncounterService.ts",
 				"src/entities/investigation/domain/InvestigationService.ts",
 				"src/entities/domain-regional/domain/RegionalDomainService.ts",
+				"src/features/social/domain/NegotiationService.ts",
+				"src/features/spell-cast/domain/CountermagicService.ts",
 				// "src/features/character-list/model/characterListView.ts",
 				// "src/features/combat-encounter/model/combatAttackerStatsView.ts",
 				// "src/entities/character/domain/IllnessService.ts",

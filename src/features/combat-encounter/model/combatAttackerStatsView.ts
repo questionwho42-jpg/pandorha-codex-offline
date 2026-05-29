@@ -4,16 +4,10 @@ import {
 } from "$lib/entities/character";
 import { ArmorStatsDecorator } from "$lib/entities/character/domain/ArmorStatsDecorator";
 import {
+	applyStatusEffects,
 	BaseCharacterStats,
-	BleedingDecorator,
 	EncumberedStatusDecorator,
-	EterFeverDecorator,
-	HungryDecorator,
 	type ICharacterStats,
-	ImmobilizedDecorator,
-	SilencedDecorator,
-	ViperPoisonDecorator,
-	WoundInfectionDecorator,
 } from "$lib/entities/character/domain/StatusEffectDecorator";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import type { CombatEncounterActorRef } from "./combatEncounterTypes";
@@ -84,61 +78,79 @@ export function createCombatAttackerStatsView(
 		baseHp: selectedClass.baseHp,
 	});
 
-	// Aplicação recursiva do Decorator (Efeito Cebola 🧅) para Doenças/Debuffs
+	// Aplicação de Decoradores via Cebola de Efeitos Reativos Centralizada
 	let decoratedStats: ICharacterStats = baseStats;
 	const activeEffectsLabels: { type: string; label: string; color: string }[] =
 		[];
 
+	const EFFECT_INFO: Record<string, { label: string; color: string }> = {
+		eter_fever: {
+			label: "🤒 Febre de Éter (-1 Mente, -1 Resistência)",
+			color: "#c084fc",
+		},
+		wound_infection: {
+			label: "🩸 Infecção de Ferida (-1 Físico, Sem Cura Natural)",
+			color: "#ef4444",
+		},
+		viper_poison: {
+			label: "🤢 Veneno de Víbora (-2 Físico, -1 Iniciativa)",
+			color: "#22c55e",
+		},
+		hungry: {
+			label: "🍗 Faminto (-1 Físico, -1 Mente, Sem Cura Natural)",
+			color: "#f97316",
+		},
+		exhausted: {
+			label: "💤 Exausto (-1 Físico, -1 Mente, -1 Social)",
+			color: "#fbbf24",
+		},
+		bleeding: {
+			label: "🩸 Sangramento (-1 Físico, Sem Cura Natural)",
+			color: "#f43f5e",
+		},
+		silenced: {
+			label: "🔇 Silenciado (-1 Mente, -1 Interação)",
+			color: "#3b82f6",
+		},
+		immobilized: {
+			label: "🕸️ Imobilizado (Velocidade 0, -2 Conflito, -2 Iniciativa)",
+			color: "#6b7280",
+		},
+		unconscious: {
+			label: "💤 Inconsciente (Ações 0, Velocidade 0, Falha em Defesas)",
+			color: "#9ca3af",
+		},
+		moribund: {
+			label: "💀 Moribundo (0 HP, Testes de Morte Necessários)",
+			color: "#dc2626",
+		},
+		avatar_guerra: {
+			label: "🔥 Avatar da Guerra (+20 HP Temp, Tamanho G, +2 Dano)",
+			color: "#f97316",
+		},
+		surto_tempo: {
+			label: "⏳ Surto de Tempo (+1 Ação, +2 Resistência Física)",
+			color: "#06b6d4",
+		},
+		cacada_selvagem: {
+			label: "🏹 Caçada Selvagem (+5 Ataque, Ignora Terreno Difícil)",
+			color: "#10b981",
+		},
+		rede_intrigas: {
+			label: "🕸️ Rede de Intrigas (Ações Sociais/Cena Retroativas)",
+			color: "#8b5cf6",
+		},
+	};
+
 	if (input.activeEffects) {
+		decoratedStats = applyStatusEffects(baseStats, input.activeEffects);
 		for (const effect of input.activeEffects) {
-			if (effect.type === "eter_fever") {
-				decoratedStats = new EterFeverDecorator(decoratedStats);
+			const info = EFFECT_INFO[effect.type];
+			if (info) {
 				activeEffectsLabels.push({
-					type: "eter_fever",
-					label: "🤒 Febre de Éter (-1 Mente, -1 Resistência)",
-					color: "#c084fc", // Violeta elegante
-				});
-			} else if (effect.type === "wound_infection") {
-				decoratedStats = new WoundInfectionDecorator(decoratedStats);
-				activeEffectsLabels.push({
-					type: "wound_infection",
-					label: "🩸 Infecção de Ferida (-1 Físico, Sem Cura Natural)",
-					color: "#ef4444", // Vermelho sangue
-				});
-			} else if (effect.type === "viper_poison") {
-				decoratedStats = new ViperPoisonDecorator(decoratedStats);
-				activeEffectsLabels.push({
-					type: "viper_poison",
-					label: "🤢 Veneno de Víbora (-2 Físico, -1 Iniciativa)",
-					color: "#22c55e", // Verde-ácido / Toxina
-				});
-			} else if (effect.type === "hungry") {
-				decoratedStats = new HungryDecorator(decoratedStats);
-				activeEffectsLabels.push({
-					type: "hungry",
-					label: "🍗 Faminto (-1 Físico, -1 Mente, Sem Cura Natural)",
-					color: "#f97316", // Laranja vibrante para aviso alimentar
-				});
-			} else if (effect.type === "bleeding") {
-				decoratedStats = new BleedingDecorator(decoratedStats);
-				activeEffectsLabels.push({
-					type: "bleeding",
-					label: "🩸 Sangramento (-1 Físico, Sem Cura Natural)",
-					color: "#f43f5e", // Rosa avermelhado
-				});
-			} else if (effect.type === "silenced") {
-				decoratedStats = new SilencedDecorator(decoratedStats);
-				activeEffectsLabels.push({
-					type: "silenced",
-					label: "🔇 Silenciado (-1 Mente, -1 Interação)",
-					color: "#3b82f6", // Azul místico
-				});
-			} else if (effect.type === "immobilized") {
-				decoratedStats = new ImmobilizedDecorator(decoratedStats);
-				activeEffectsLabels.push({
-					type: "immobilized",
-					label: "🕸️ Imobilizado (Velocidade 0, -2 Conflito, -2 Iniciativa)",
-					color: "#6b7280", // Cinza ferro / Preso
+					type: effect.type,
+					label: info.label,
+					color: info.color,
 				});
 			}
 		}

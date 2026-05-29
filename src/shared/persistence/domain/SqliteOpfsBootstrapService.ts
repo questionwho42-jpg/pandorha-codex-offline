@@ -16,6 +16,8 @@ import { DrizzleDialogueRepository } from "$lib/entities/dialogue/infrastructure
 import { campaignDialogueStates } from "$lib/entities/dialogue/model/dialogueSchema";
 import { DrizzleRegionalDomainRepository } from "$lib/entities/domain-regional/infrastructure/DrizzleRegionalDomainRepository";
 import { campaignRegionalDomains } from "$lib/entities/domain-regional/model/regionalDomainSchema";
+import { CraftingService } from "$lib/entities/equipment/domain/CraftingService";
+import { DrizzleCraftingRepository } from "$lib/entities/equipment/infrastructure/DrizzleCraftingRepository";
 import { DrizzleEspionageRepository } from "$lib/entities/espionage/infrastructure/DrizzleEspionageRepository";
 import { espionageCells } from "$lib/entities/espionage/model/espionageSchema";
 import { DrizzleInvestigationRepository } from "$lib/entities/investigation/infrastructure/DrizzleInvestigationRepository";
@@ -3823,6 +3825,82 @@ export class SqliteOpfsBootstrapService {
 				details: { cause: stringifyCause(error) },
 			});
 		}
+	}
+
+	public async dismantleCraftedItem(
+		characterId: string,
+		itemId: string,
+	): Promise<
+		Result<
+			{ materialsRecovered: Record<string, number> },
+			SqliteBootstrapFailure
+		>
+	> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCraftingRepository(db as any);
+			const service = new CraftingService(repository, null as any);
+
+			const result = await service.dismantleCraftedItem(characterId, itemId);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not dismantle crafted item in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public scrapEquipment(
+		equipmentId: string,
+	): Result<{ materialRecovered: string }, SqliteBootstrapFailure> {
+		const service = new CraftingService(null as any, null as any);
+		const result = service.scrapEquipment(equipmentId);
+		if (!result.success) {
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: result.error.message,
+			});
+		}
+		return ok(result.data);
 	}
 
 	private applyPendingMigrations(

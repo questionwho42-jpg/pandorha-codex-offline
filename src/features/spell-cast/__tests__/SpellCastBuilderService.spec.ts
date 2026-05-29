@@ -145,17 +145,26 @@ describe("SpellCastBuilderService", () => {
 		expect(catalog.lookupCount).toBe(0);
 	});
 
-	it("rejects metamagic until the dedicated metamagic task exists", async () => {
-		const failure = expectSpellCastFailure(
-			await createService().buildCastCommand(
-				createCastInput({ metamagicIds: ["distant-spell"] }),
+	it("calculates metamagic ether cost incremental increase", async () => {
+		const service = createService([PAID_TEST_SPELL]);
+
+		const built = expectSpellCastSuccess(
+			await service.buildCastCommand(
+				createCastInput({
+					availableEther: 10,
+					spellId: "paid-light",
+					metamagicIds: ["distant-spell", "resonant-spell"],
+				}),
 			),
 		);
 
-		expect(failure).toMatchObject({
-			code: "UNSUPPORTED_METAMAGIC",
-			details: { metamagicIds: ["distant-spell"] },
-		});
+		expect(built.audit.baseEtherCost).toBe(1);
+		expect(built.audit.metamagicEtherCost).toBe(3); // 1 (distant-spell) + 2 (resonant-spell) = 3
+		expect(built.audit.totalEtherCost).toBe(4);
+		expect(built.command.payload?.totalEtherCost).toBe(4);
+		expect(built.command.payload?.metamagicIdsCsv).toBe(
+			"distant-spell,resonant-spell",
+		);
 	});
 
 	it("returns invalid command failure when the command validator rejects output", async () => {
@@ -217,6 +226,73 @@ describe("SpellCastBuilderService", () => {
 					typeof value === "boolean",
 			),
 		).toBe(true);
+	});
+
+	it("calculates metamagic cost using a function for twinned/twin/gemea spells", async () => {
+		const service = createService([
+			{
+				...BASE_LIGHT_SPELL,
+				id: "paid-light-2",
+				label: "Luz Forte",
+				circle: 2,
+				etherCost: 2,
+				tags: ["utility", "light"],
+				summary: "Versao de teste com custo de EE de 2.",
+			},
+		]);
+
+		const builtTwin = expectSpellCastSuccess(
+			await service.buildCastCommand(
+				createCastInput({
+					availableEther: 10,
+					spellId: "paid-light-2",
+					metamagicIds: ["twin-spell"],
+				}),
+			),
+		);
+		expect(builtTwin.audit.baseEtherCost).toBe(2);
+		expect(builtTwin.audit.metamagicEtherCost).toBe(2); // twin-spell(2) = 2
+		expect(builtTwin.audit.totalEtherCost).toBe(4);
+
+		const builtTwinned = expectSpellCastSuccess(
+			await service.buildCastCommand(
+				createCastInput({
+					availableEther: 10,
+					spellId: "paid-light-2",
+					metamagicIds: ["twinned-spell"],
+				}),
+			),
+		);
+		expect(builtTwinned.audit.metamagicEtherCost).toBe(2); // twinned-spell(2) = 2
+
+		const builtGemea = expectSpellCastSuccess(
+			await service.buildCastCommand(
+				createCastInput({
+					availableEther: 10,
+					spellId: "paid-light-2",
+					metamagicIds: ["gemea"],
+				}),
+			),
+		);
+		expect(builtGemea.audit.metamagicEtherCost).toBe(2); // gemea(2) = 2
+	});
+
+	it("applies a fallback cost of 1 for unknown metamagics", async () => {
+		const service = createService([PAID_TEST_SPELL]);
+
+		const built = expectSpellCastSuccess(
+			await service.buildCastCommand(
+				createCastInput({
+					availableEther: 10,
+					spellId: "paid-light",
+					metamagicIds: ["non-existent-metamagic"],
+				}),
+			),
+		);
+
+		expect(built.audit.baseEtherCost).toBe(1);
+		expect(built.audit.metamagicEtherCost).toBe(1); // fallback
+		expect(built.audit.totalEtherCost).toBe(2);
 	});
 });
 

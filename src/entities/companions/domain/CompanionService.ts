@@ -47,6 +47,7 @@ export interface ICompanionStats {
 	readonly tier: number;
 	readonly hpMax: number;
 	readonly hpCurrent: number;
+	readonly armorClass: number;
 	readonly isShareSensory: boolean;
 	readonly isDissipated: boolean;
 	readonly selectedTraits: readonly string[];
@@ -57,10 +58,35 @@ export interface ICompanionStats {
  * Implementação base e limpa das estatísticas do companheiro persistidas.
  */
 export class BaseCompanionStats implements ICompanionStats {
+	private readonly master: {
+		readonly level: number;
+		readonly physical: number;
+		readonly mental: number;
+		readonly social: number;
+	};
+
 	public constructor(
 		private readonly record: CompanionRecord,
-		private readonly masterMental: number,
-	) {}
+		masterOrMental:
+			| number
+			| {
+					readonly level: number;
+					readonly physical: number;
+					readonly mental: number;
+					readonly social: number;
+			  },
+	) {
+		if (typeof masterOrMental === "number") {
+			this.master = {
+				level: 1,
+				physical: 1,
+				mental: masterOrMental,
+				social: 1,
+			};
+		} else {
+			this.master = masterOrMental;
+		}
+	}
 
 	public get id(): string {
 		return this.record.id;
@@ -86,13 +112,55 @@ export class BaseCompanionStats implements ICompanionStats {
 		return this.record.tier;
 	}
 
-	// Regra de RPG: PV do familiar = (Matriz Mental × 5) × Tier do companheiro
+	// Regras de RPG:
+	// Agressor: HP = (6 * nivelMestre) + matrizMestre
+	// Protetor: HP = (10 * nivelMestre) + matrizMestre
+	// Batedor: HP = (4 * nivelMestre) + matrizMestre
+	// Familiar: HP = (Mental * 5) * Tier
 	public get hpMax(): number {
-		return this.masterMental * 5 * this.tier;
+		const masterMatrix = Math.max(
+			this.master.physical,
+			this.master.mental,
+			this.master.social,
+		);
+		if (this.record.type === "aggressor") {
+			return 6 * this.master.level + masterMatrix;
+		}
+		if (this.record.type === "protector") {
+			return 10 * this.master.level + masterMatrix;
+		}
+		if (this.record.type === "scout") {
+			return 4 * this.master.level + masterMatrix;
+		}
+		return this.master.mental * 5 * this.tier;
 	}
 
 	public get hpCurrent(): number {
 		return this.record.hpCurrent;
+	}
+
+	// Regras de CA RPG:
+	// Agressor: CA = 12 + matrizMestre + tierMestre
+	// Protetor: CA = 14 + matrizMestre + tierMestre
+	// Batedor: CA = 13 + matrizMestre + tierMestre
+	// Familiar: CA = 10 + Mental + Tier
+	public get armorClass(): number {
+		const masterMatrix = Math.max(
+			this.master.physical,
+			this.master.mental,
+			this.master.social,
+		);
+		const masterTier = Math.floor((this.master.level - 1) / 5) + 1;
+		if (this.record.type === "aggressor") {
+			return 12 + masterMatrix + masterTier;
+		}
+		if (this.record.type === "protector") {
+			return 14 + masterMatrix + masterTier;
+		}
+		if (this.record.type === "scout") {
+			return 13 + masterMatrix + masterTier;
+		}
+		return 10 + this.master.mental + this.tier;
 	}
 
 	public get isShareSensory(): boolean {
@@ -151,6 +219,10 @@ export abstract class CompanionStatsDecorator implements ICompanionStats {
 		return this.wrapped.hpCurrent;
 	}
 
+	public get armorClass(): number {
+		return this.wrapped.armorClass;
+	}
+
 	public get isShareSensory(): boolean {
 		return this.wrapped.isShareSensory;
 	}
@@ -171,6 +243,11 @@ export abstract class CompanionStatsDecorator implements ICompanionStats {
 export class SensorySharingStatsDecorator extends CompanionStatsDecorator {
 	public override get isShareSensory(): boolean {
 		return true;
+	}
+
+	public override get armorClass(): number {
+		// Reduz a CA do companheiro em -2 quando em transe sensorial materializado
+		return Math.max(0, this.wrapped.armorClass - 2);
 	}
 }
 
@@ -209,8 +286,20 @@ export class CompanionService {
 		}
 
 		const master = masterResult.data;
-		// HP Max = (Mental * 5) * Tier
-		const hpMax = master.mental * 5 * tier;
+
+		let hpMax = master.mental * 5 * tier;
+		const masterMatrix = Math.max(
+			master.physical,
+			master.mental,
+			master.social,
+		);
+		if (type === "aggressor") {
+			hpMax = 6 * master.level + masterMatrix;
+		} else if (type === "protector") {
+			hpMax = 10 * master.level + masterMatrix;
+		} else if (type === "scout") {
+			hpMax = 4 * master.level + masterMatrix;
+		}
 
 		const newCompanion: CompanionRecord = {
 			id: crypto.randomUUID(),

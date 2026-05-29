@@ -13,6 +13,160 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:fases-43-e-44-negociacao-e-contramagia -->
+### Fases 43 & 44: Negociacao, Economia de Quebra e Contramagia
+- id: fases-43-e-44-negociacao-e-contramagia
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-29T18:41:25-03:00
+- finished_at: 2026-05-29T18:41:28-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-29T18:41:28-03:00
+- branch: task/tension-limit-break
+- commit_at_start: 456e064 feat(armor-pwa): reactive armor modifiers and pwa offline support for phases 36 to 38
+- summary: Homologacao, implementacao de testes de cobertura e integracao visual do painel de negociacao e contramagia
+- last_change: Homologacao e estabilizacao do painel de negociacao e regras de contramagia com 100% de cobertura de branches
+#### Files At Start
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/app/model/socialSession.ts
+- src/entities/bastion/domain/BastionService.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/CharacterService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/index.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/companions/__tests__/CompanionService.spec.ts
+- src/entities/companions/domain/CompanionService.ts
+- src/entities/equipment/__tests__/CraftingService.spec.ts
+- src/entities/equipment/__tests__/EquipmentCatalogService.spec.ts
+- src/entities/equipment/domain/CraftingService.ts
+- src/entities/equipment/model/equipmentCatalog.ts
+- src/entities/world-tile/__tests__/EncounterService.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatTrainingAttackProfile.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/IllnessWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/social/domain/SocialManeuvers.ts
+- src/features/social/index.ts
+- src/features/social/ui/SocialDemo.svelte
+- src/features/spell-cast/__tests__/SpellCastBuilderService.spec.ts
+- src/features/spell-cast/domain/SpellCastBuilderService.ts
+- src/features/spell-cast/ui/SpellCastPanel.svelte
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- vitest.config.mjs
+- src/entities/character/domain/UltimateStatsDecorators.ts
+- src/entities/equipment/infrastructure/WorkerCraftingRepository.ts
+- src/features/social/domain/NegotiationService.ts
+- src/features/social/domain/__tests__/NegotiationService.spec.ts
+- src/features/social/ui/NegotiationPanel.svelte
+- src/features/spell-cast/__tests__/CountermagicService.spec.ts
+- src/features/spell-cast/domain/CountermagicService.ts
+#### Checkpoints
+#### Checkpoint 2026-05-29T18:41:25-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-29T18:41:28-03:00
+- Done: Homologacao e estabilizacao do painel de negociacao e regras de contramagia com 100% de cobertura de branches
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:fases-43-e-44-negociacao-e-contramagia -->
+<!-- pandorha-task:fases-42-e-45-companheiros-e-familiar -->
+### Fases 42 & 45: Companheiros Animais e Familiar Mistico
+- id: fases-42-e-45-companheiros-e-familiar
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-29T13:17:13-03:00
+- finished_at: 2026-05-29T13:17:17-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-29T13:17:17-03:00
+- branch: task/tension-limit-break
+- commit_at_start: 456e064 feat(armor-pwa): reactive armor modifiers and pwa offline support for phases 36 to 38
+- summary: Consolidacao de Companheiros Animais e Familiar Mistico no combate, remocao de Math.random e 100% de cobertura nos testes globais
+- last_change: Consolidacao de Companheiros Animais e Familiar Mistico no combate, remocao de Math.random e 100% de cobertura nos testes globais
+#### Files At Start
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/index.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/companions/__tests__/CompanionService.spec.ts
+- src/entities/companions/domain/CompanionService.ts
+- src/entities/world-tile/__tests__/EncounterService.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatTrainingAttackProfile.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/IllnessWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/social/ui/SocialDemo.svelte
+- src/features/spell-cast/__tests__/SpellCastBuilderService.spec.ts
+- src/features/spell-cast/domain/SpellCastBuilderService.ts
+- src/features/spell-cast/ui/SpellCastPanel.svelte
+- src/entities/character/domain/UltimateStatsDecorators.ts
+#### Checkpoints
+#### Checkpoint 2026-05-29T13:17:13-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-29T13:17:17-03:00
+- Done: Consolidacao de Companheiros Animais e Familiar Mistico no combate, remocao de Math.random e 100% de cobertura nos testes globais
+- Next: Fases 43 & 44 (Negociacao e Contramagia)
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:fases-42-e-45-companheiros-e-familiar -->
+<!-- pandorha-task:fases-39-41-tension-limit-death-saves -->
+### Fases 39 a 41: Medidor de Tensao, 0 HP e Metamagias
+- id: fases-39-41-tension-limit-death-saves
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-29T12:00:27-03:00
+- finished_at: 2026-05-29T12:58:34-03:00
+- model_started: gpt-5.5 high-reasoning final review
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-29T12:58:34-03:00
+- branch: task/tension-limit-break
+- commit_at_start: 456e064 feat(armor-pwa): reactive armor modifiers and pwa offline support for phases 36 to 38
+- summary: Implementacao do medidor de tensao, limit break e ultimates, regras de 0 HP e moribundo, e grimorio de metamagias
+- last_change: Implementacao completa de Metamagias com calculo reativo de custos de EE e controles visuais na UI
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-29T12:00:27-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review
+
+#### Checkpoint 2026-05-29T12:58:34-03:00
+- Done: Implementacao completa de Metamagias com calculo reativo de custos de EE e controles visuais na UI
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:fases-39-41-tension-limit-death-saves -->
 <!-- pandorha-task:20260529-094248-fase-36-integracao-de-equipamentos-e-atributos-f -->
 ### Fase 36: Integracao de Equipamentos e Atributos Fisicos
 - id: 20260529-094248-fase-36-integracao-de-equipamentos-e-atributos-f
@@ -3242,6 +3396,30 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-29T12:12:01-03:00 - planeje-proximas-fases
+- branch: task/tension-limit-break
+- commit: 456e064 feat(armor-pwa): reactive armor modifiers and pwa offline support for phases 36 to 38
+- changed_files_count: 14
+#### Changed Files
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/index.ts
+- src/entities/character/model/characterSchema.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatTrainingAttackProfile.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/IllnessWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/social/ui/SocialDemo.svelte
+- src/entities/character/domain/UltimateStatsDecorators.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-29T09:37:06-03:00 - complete traps feature
 - branch: task/gameplay-loop-integration
 - commit: d32f8ba feat(db-auditor): detecta dinamicamente as tabelas characters/actors e mapeia colunas em ingles do Drizzle

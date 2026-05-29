@@ -8,11 +8,9 @@ import type {
 } from "$lib/entities/character";
 import { IllnessService } from "$lib/entities/character/domain/IllnessService";
 import {
+	applyStatusEffects,
 	BaseCharacterStats,
 	EncumberedStatusDecorator,
-	EterFeverDecorator,
-	ViperPoisonDecorator,
-	WoundInfectionDecorator,
 } from "$lib/entities/character/domain/StatusEffectDecorator";
 import { SessionCharacterRepository } from "$lib/entities/character/infrastructure/SessionCharacterRepository";
 
@@ -88,16 +86,7 @@ let baseStats = $derived(
 );
 
 let decoratedStats = $derived.by(() => {
-	let stats = baseStats;
-	for (const effect of charActiveEffects) {
-		if (effect.type === "eter_fever") {
-			stats = new EterFeverDecorator(stats);
-		} else if (effect.type === "wound_infection") {
-			stats = new WoundInfectionDecorator(stats);
-		} else if (effect.type === "viper_poison") {
-			stats = new ViperPoisonDecorator(stats);
-		}
-	}
+	const stats = applyStatusEffects(baseStats, charActiveEffects);
 	// Aplica também o peso do guerreiro padrão (0 de peso para simplicidade no diagnóstico)
 	return new EncumberedStatusDecorator(stats, 0);
 });

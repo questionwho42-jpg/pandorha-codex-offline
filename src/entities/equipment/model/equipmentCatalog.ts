@@ -79,6 +79,19 @@ export const OFFICIAL_EQUIPMENT = [
 		durabilityMax: 100,
 		mechanicalSummary: "+1 CA, Leve, permite interagir com a mao. Item unico.",
 	},
+	{
+		id: "magic-ring",
+		label: "Anel Magico",
+		kind: "weapon",
+		sourceFile: "docs/system/survival/04-arsenal-e-economia.md",
+		slotCost: 1,
+		priceCopper: 10000,
+		qualityTier: "mundane",
+		runeSlots: 1,
+		durabilityCurrent: 100,
+		durabilityMax: 100,
+		mechanicalSummary: "Um anel de treino.",
+	},
 ] as const satisfies readonly EquipmentRecord[];
 
 export const OFFICIAL_CONSUMABLES = [

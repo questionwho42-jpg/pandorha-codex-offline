@@ -1,11 +1,8 @@
 import type { CharacterRecord } from "$lib/entities/character";
 import {
+	applyStatusEffects,
 	BaseCharacterStats,
-	EterFeverDecorator,
-	HungryDecorator,
 	type ICharacterStats,
-	ViperPoisonDecorator,
-	WoundInfectionDecorator,
 } from "$lib/entities/character/domain/StatusEffectDecorator";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import type { DamageAffinity } from "$lib/shared/damage";
@@ -102,17 +99,7 @@ export function createCombatTrainingAttackProfile(
 	});
 
 	if (input.activeEffects) {
-		for (const effect of input.activeEffects) {
-			if (effect.type === "eter_fever") {
-				stats = new EterFeverDecorator(stats);
-			} else if (effect.type === "wound_infection") {
-				stats = new WoundInfectionDecorator(stats);
-			} else if (effect.type === "viper_poison") {
-				stats = new ViperPoisonDecorator(stats);
-			} else if (effect.type === "hungry") {
-				stats = new HungryDecorator(stats);
-			}
-		}
+		stats = applyStatusEffects(stats, input.activeEffects);
 	}
 
 	return {

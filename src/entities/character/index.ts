@@ -3,6 +3,7 @@ export * from "./domain/CharacterDerivedStatsService";
 export * from "./domain/CharacterRepository";
 export * from "./domain/CharacterService";
 export * from "./domain/StatusEffectDecorator";
+export * from "./domain/UltimateStatsDecorators";
 export * from "./infrastructure/DrizzleCharacterRepository";
 export * from "./infrastructure/SessionCharacterRepository";
 export * from "./model/characterDerivedStatsTypes";

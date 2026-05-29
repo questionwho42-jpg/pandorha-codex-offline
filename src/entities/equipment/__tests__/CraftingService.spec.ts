@@ -381,4 +381,257 @@ describe("CraftingService (TDD - Forja Tática e Economia de Artífice)", () => 
 			expect(result.error.message).toContain("Erro simulado de gravação");
 		}
 	});
+
+	describe("dismantleCraftedItem & scrapEquipment (Fase 43 - Economia de Quebra)", () => {
+		it("deve desmanchar um item artesanal, exclui-lo do banco e devolver 50% dos recursos", async () => {
+			setupDiceService([0.5]);
+
+			// 1. Forjar um item artesanal com sucesso
+			const craftResult = await service.craftItem({
+				characterId: "char-123",
+				recipeId: "recipe-longsword",
+				characterLevel: 2,
+				mentalAptitude: 3,
+				artificeTalentBonus: 1,
+				itemBonus: 0,
+				characterGoldCopper: 1000,
+				characterMaterials: { "metal-ore": 5, ironwood: 2 },
+			});
+
+			expect(craftResult.success).toBe(true);
+			const itemId = craftResult.success
+				? craftResult.data.craftedItemRecord?.id
+				: "";
+			expect(itemId).toBeDefined();
+
+			// 2. Desmanchar o item
+			const dismantleResult = await service.dismantleCraftedItem(
+				"char-123",
+				itemId!,
+			);
+			expect(dismantleResult.success).toBe(true);
+			if (dismantleResult.success) {
+				// Receita da espada longa precisa de 3 metal-ore e 1 ironwood.
+				// Devolve 50%: 3/2 = 1.5 -> Floor = 1, e 1/2 = 0.5 -> Floor = 0 (min 1).
+				// Então deve devolver 1 metal-ore e 1 ironwood!
+				expect(dismantleResult.data.materialsRecovered).toEqual({
+					"metal-ore": 1,
+					ironwood: 1,
+				});
+			}
+
+			// 3. Validar exclusão do banco
+			const itemsAfter =
+				await repository.findCraftedItemsByCharacterId("char-123");
+			expect(itemsAfter.success).toBe(true);
+			if (itemsAfter.success) {
+				expect(itemsAfter.data.some((it) => it.id === itemId)).toBe(false);
+			}
+		});
+
+		it("deve retornar erro ao tentar desmanchar item inexistente", async () => {
+			setupDiceService([0.5]);
+			const result = await service.dismantleCraftedItem(
+				"char-123",
+				"non-existent-item",
+			);
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.code).toBe("ITEM_NOT_FOUND");
+			}
+		});
+
+		it("deve reciclar/quebrar equipamentos comuns retornando o material correto", () => {
+			setupDiceService([0.5]);
+			// longsword -> metal-ore
+			const swordResult = service.scrapEquipment("longsword");
+			expect(swordResult.success).toBe(true);
+			if (swordResult.success) {
+				expect(swordResult.data.materialRecovered).toBe("metal-ore");
+			}
+
+			// generic longbow -> ironwood
+			const bowResult = service.scrapEquipment("longbow");
+			expect(bowResult.success).toBe(true);
+			if (bowResult.success) {
+				expect(bowResult.data.materialRecovered).toBe("ironwood");
+			}
+
+			// magic-ring -> mystic-essence
+			const ringResult = service.scrapEquipment("magic-ring");
+			expect(ringResult.success).toBe(true);
+			if (ringResult.success) {
+				expect(ringResult.data.materialRecovered).toBe("mystic-essence");
+			}
+		});
+
+		it("deve retornar erro ao tentar reciclar equipamento nao existente", () => {
+			const result = service.scrapEquipment("non-existent-eq");
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.code).toBe("RECIPE_NOT_FOUND");
+			}
+		});
+
+		it("deve retornar erro em desmanche se findCraftedItemsByCharacterId falhar", async () => {
+			class FailFindItemsRepository extends InMemoryCraftingRepository {
+				public override async findCraftedItemsByCharacterId(
+					_characterId: string,
+				) {
+					return fail({
+						code: "CRAFTING_REPOSITORY_WRITE_FAILED" as const,
+						message: "Erro simulado ao buscar itens",
+					});
+				}
+			}
+			const localRepo = new FailFindItemsRepository();
+			const localService = new CraftingService(localRepo, resolutionService);
+			const result = await localService.dismantleCraftedItem(
+				"char-123",
+				"item-123",
+			);
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.code).toBe("CRAFTING_REPOSITORY_WRITE_FAILED");
+			}
+		});
+
+		it("deve retornar erro em desmanche se findAllRecipes falhar", async () => {
+			class FailFindRecipesRepository extends InMemoryCraftingRepository {
+				public override async findAllRecipes() {
+					return fail({
+						code: "CRAFTING_REPOSITORY_WRITE_FAILED" as const,
+						message: "Erro simulado ao buscar receitas",
+					});
+				}
+			}
+			const localRepo = new FailFindRecipesRepository();
+			await localRepo.saveCraftedItem({
+				id: "item-123",
+				characterId: "char-123",
+				equipmentId: "longsword",
+				label: "Espada",
+				isSharp: 0,
+				isReinforced: 0,
+				isRunic: 0,
+				durabilityCurrent: 10,
+				durabilityMax: 10,
+				isEquipped: 0,
+				createdAt: new Date().toISOString(),
+			});
+			const localService = new CraftingService(localRepo, resolutionService);
+			const result = await localService.dismantleCraftedItem(
+				"char-123",
+				"item-123",
+			);
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.code).toBe("CRAFTING_REPOSITORY_WRITE_FAILED");
+			}
+		});
+
+		it("deve retornar erro em desmanche se nenhuma receita for encontrada para o equipamento", async () => {
+			const localRepo = new InMemoryCraftingRepository();
+			await localRepo.saveCraftedItem({
+				id: "item-123",
+				characterId: "char-123",
+				equipmentId: "non-existent-recipe-eq",
+				label: "Espada",
+				isSharp: 0,
+				isReinforced: 0,
+				isRunic: 0,
+				durabilityCurrent: 10,
+				durabilityMax: 10,
+				isEquipped: 0,
+				createdAt: new Date().toISOString(),
+			});
+			const localService = new CraftingService(localRepo, resolutionService);
+			const result = await localService.dismantleCraftedItem(
+				"char-123",
+				"item-123",
+			);
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.code).toBe("RECIPE_NOT_FOUND");
+			}
+		});
+
+		it("deve retornar erro em desmanche se o JSON de materiais estiver corrompido", async () => {
+			const localRepo = new InMemoryCraftingRepository();
+			await localRepo.saveRecipe({
+				id: "recipe-corrupted-materials",
+				label: "Item Corrompido",
+				targetEquipmentId: "longsword",
+				difficultyClass: 12,
+				copperCost: 500,
+				materialsRequiredJson: "{ invalid json }",
+			});
+			await localRepo.saveCraftedItem({
+				id: "item-123",
+				characterId: "char-123",
+				equipmentId: "longsword",
+				label: "Espada",
+				isSharp: 0,
+				isReinforced: 0,
+				isRunic: 0,
+				durabilityCurrent: 10,
+				durabilityMax: 10,
+				isEquipped: 0,
+				createdAt: new Date().toISOString(),
+			});
+			const localService = new CraftingService(localRepo, resolutionService);
+			const result = await localService.dismantleCraftedItem(
+				"char-123",
+				"item-123",
+			);
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.code).toBe("CORRUPTED_CRAFTING_RECORD");
+			}
+		});
+
+		it("deve retornar erro em desmanche se deleteCraftedItem falhar", async () => {
+			class FailDeleteRepository extends InMemoryCraftingRepository {
+				public override async deleteCraftedItem(_id: string) {
+					return fail({
+						code: "CRAFTING_REPOSITORY_WRITE_FAILED" as const,
+						message: "Erro simulado ao deletar item",
+					});
+				}
+			}
+			const localRepo = new FailDeleteRepository();
+			await localRepo.saveRecipe({
+				id: "recipe-longsword",
+				label: "Espada Longa de Ferro-Árvore",
+				targetEquipmentId: "longsword",
+				difficultyClass: 12,
+				copperCost: 500,
+				materialsRequiredJson: JSON.stringify([
+					{ materialId: "metal-ore", quantity: 3 },
+				]),
+			});
+			await localRepo.saveCraftedItem({
+				id: "item-123",
+				characterId: "char-123",
+				equipmentId: "longsword",
+				label: "Espada",
+				isSharp: 0,
+				isReinforced: 0,
+				isRunic: 0,
+				durabilityCurrent: 10,
+				durabilityMax: 10,
+				isEquipped: 0,
+				createdAt: new Date().toISOString(),
+			});
+			const localService = new CraftingService(localRepo, resolutionService);
+			const result = await localService.dismantleCraftedItem(
+				"char-123",
+				"item-123",
+			);
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.code).toBe("CRAFTING_REPOSITORY_WRITE_FAILED");
+			}
+		});
+	});
 });

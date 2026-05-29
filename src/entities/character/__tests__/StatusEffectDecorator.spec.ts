@@ -6,10 +6,18 @@ import {
 	EncumberedStatusDecorator,
 	EterFeverDecorator,
 	ImmobilizedDecorator,
+	MoribundDecorator,
 	SilencedDecorator,
+	UnconsciousDecorator,
 	ViperPoisonDecorator,
 	WoundInfectionDecorator,
 } from "../domain/StatusEffectDecorator";
+import {
+	AvatarGuerraDecorator,
+	CacadaSelvagemDecorator,
+	RedeIntrigasDecorator,
+	SurtoTempoDecorator,
+} from "../domain/UltimateStatsDecorators";
 import type { CharacterRecord } from "../model/characterSchema";
 
 const TEST_TIMESTAMP = "2026-05-16T13:16:00.000Z";
@@ -356,6 +364,88 @@ describe("StatusEffectDecorator - Efeitos de Status do RPG Pandorha", () => {
 
 			// CA = 10 + Nível: 1 + Couro: 2 + Físico Decorado: 1 + Escudo: 0 = 14
 			expect(equippedStats.armorClass).toBe(14);
+		});
+	});
+
+	describe("Efeitos de Condições de Inconsciência e 0 HP", () => {
+		it("deve aplicar UnconsciousDecorator reduzindo ações e velocidade a zero, e ativando falha automática de defesa", () => {
+			const character = createCharacter();
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+			const unconsciousStats = new UnconsciousDecorator(baseStats);
+
+			expect(unconsciousStats.extraActions).toBe(0);
+			expect(unconsciousStats.movementSpeedBase).toBe(0);
+			expect(unconsciousStats.automaticDefenseFailure).toBe(true);
+		});
+
+		it("deve aplicar MoribundDecorator herdando comportamento inconsciente", () => {
+			const character = createCharacter();
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+			const moribundStats = new MoribundDecorator(baseStats);
+
+			expect(moribundStats.extraActions).toBe(0);
+			expect(moribundStats.movementSpeedBase).toBe(0);
+			expect(moribundStats.automaticDefenseFailure).toBe(true);
+		});
+	});
+
+	describe("Decoradores de Ultimates", () => {
+		it("deve aplicar AvatarGuerraDecorator com aumento de tamanho, HP máximo e dano com armas", () => {
+			const character = createCharacter({
+				physical: 3,
+				resistance: 3,
+				level: 1,
+			});
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+			const ultimateStats = new AvatarGuerraDecorator(baseStats);
+
+			expect(ultimateStats.size).toBe("large");
+			expect(ultimateStats.maxHp).toBe(36); // maxHp base seria 16 + 20 = 36
+			expect(ultimateStats.weaponDamageBonus).toBe(2);
+		});
+
+		it("deve aplicar SurtoTempoDecorator com aumento de ações e bônus no eixo físico", () => {
+			const character = createCharacter({ physical: 3, level: 1 });
+			const baseStats = new BaseCharacterStats(character, {
+				id: "weaver",
+				baseHp: 8,
+			});
+			const ultimateStats = new SurtoTempoDecorator(baseStats);
+
+			expect(ultimateStats.extraActions).toBe(1);
+			expect(ultimateStats.physical).toBe(5); // 3 + 2 = 5
+		});
+
+		it("deve aplicar CacadaSelvagemDecorator com bônus de ataque e imunidade a terreno difícil", () => {
+			const character = createCharacter({ level: 1 });
+			const baseStats = new BaseCharacterStats(character, {
+				id: "hunter",
+				baseHp: 10,
+			});
+			const ultimateStats = new CacadaSelvagemDecorator(baseStats);
+
+			expect(ultimateStats.attackBonus).toBe(5);
+			expect(ultimateStats.ignoresDifficultTerrain).toBe(true);
+		});
+
+		it("deve aplicar RedeIntrigasDecorator sem bônus numéricos específicos", () => {
+			const character = createCharacter({ level: 1 });
+			const baseStats = new BaseCharacterStats(character, {
+				id: "envoy",
+				baseHp: 10,
+			});
+			const ultimateStats = new RedeIntrigasDecorator(baseStats);
+
+			expect(ultimateStats.level).toBe(1);
 		});
 	});
 });

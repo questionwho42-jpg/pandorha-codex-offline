@@ -3,16 +3,10 @@ import type { BackgroundRecord } from "$lib/entities/background";
 import type { CharacterRecord } from "$lib/entities/character";
 import { ArmorStatsDecorator } from "$lib/entities/character/domain/ArmorStatsDecorator";
 import {
+	applyStatusEffects,
 	BaseCharacterStats,
-	BleedingDecorator,
 	EncumberedStatusDecorator,
-	EterFeverDecorator,
-	HungryDecorator,
 	type ICharacterStats,
-	ImmobilizedDecorator,
-	SilencedDecorator,
-	ViperPoisonDecorator,
-	WoundInfectionDecorator,
 } from "$lib/entities/character/domain/StatusEffectDecorator";
 import type { CharacterStatusEffectRecord } from "$lib/entities/character/model/characterSchema";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
@@ -114,6 +108,12 @@ const STATUS_EFFECT_LABELS: Record<string, string> = {
 	bleeding: "Sangramento",
 	silenced: "Silenciado",
 	immobilized: "Imobilizado",
+	unconscious: "Inconsciente",
+	moribund: "Moribundo",
+	avatar_guerra: "Avatar da Guerra",
+	surto_tempo: "Surto de Tempo",
+	cacada_selvagem: "Caçada Selvagem",
+	rede_intrigas: "Rede de Intrigas",
 };
 
 function toCharacterListItem(
@@ -142,23 +142,7 @@ function toCharacterListItem(
 				new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
 		);
 
-	for (const effect of characterEffects) {
-		if (effect.type === "eter_fever") {
-			stats = new EterFeverDecorator(stats);
-		} else if (effect.type === "wound_infection") {
-			stats = new WoundInfectionDecorator(stats);
-		} else if (effect.type === "viper_poison") {
-			stats = new ViperPoisonDecorator(stats);
-		} else if (effect.type === "hungry") {
-			stats = new HungryDecorator(stats);
-		} else if (effect.type === "bleeding") {
-			stats = new BleedingDecorator(stats);
-		} else if (effect.type === "silenced") {
-			stats = new SilencedDecorator(stats);
-		} else if (effect.type === "immobilized") {
-			stats = new ImmobilizedDecorator(stats);
-		}
-	}
+	stats = applyStatusEffects(stats, characterEffects);
 
 	const characterCraftedItems = craftedItems.filter(
 		(item) => item.characterId === character.id,

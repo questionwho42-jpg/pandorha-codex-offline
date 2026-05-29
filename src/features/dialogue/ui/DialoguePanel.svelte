@@ -1,12 +1,9 @@
 <script lang="ts">
 import { onMount } from "svelte";
 import {
+	applyStatusEffects,
 	BaseCharacterStats,
-	EterFeverDecorator,
-	HungryDecorator,
 	type ICharacterStats,
-	ViperPoisonDecorator,
-	WoundInfectionDecorator,
 } from "$lib/entities/character/domain/StatusEffectDecorator";
 import type {
 	CharacterRecord,
@@ -81,23 +78,7 @@ let activeCharacterStats = $derived.by<ICharacterStats | null>(() => {
 		baseHp: realClass ? realClass.baseHp : 10,
 	});
 
-	let decorated: ICharacterStats = base;
-	const charEffects = activeStatusEffects.filter(
-		(e) => e.characterId === activeCharacter.id,
-	);
-
-	for (const effect of charEffects) {
-		if (effect.type === "eter_fever") {
-			decorated = new EterFeverDecorator(decorated);
-		} else if (effect.type === "wound_infection") {
-			decorated = new WoundInfectionDecorator(decorated);
-		} else if (effect.type === "viper_poison") {
-			decorated = new ViperPoisonDecorator(decorated);
-		} else if (effect.type === "hungry") {
-			decorated = new HungryDecorator(decorated);
-		}
-	}
-	return decorated;
+	return applyStatusEffects(base, charEffects);
 });
 
 const rawFormatter = new BaseDialogueLogFormatter();

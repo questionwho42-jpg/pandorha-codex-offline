@@ -4,12 +4,9 @@ import {
 	type SocialManeuverType,
 } from "$lib/app/model/socialSession";
 import {
+	applyStatusEffects,
 	BaseCharacterStats,
-	EterFeverDecorator,
-	HungryDecorator,
 	type ICharacterStats,
-	ViperPoisonDecorator,
-	WoundInfectionDecorator,
 } from "$lib/entities/character/domain/StatusEffectDecorator";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { calculateOfferMarginBonus } from "../domain/BargainCalculator";
@@ -82,21 +79,10 @@ let oratorStats = $derived.by(() => {
 		baseHp: realClass ? realClass.baseHp : 10,
 	});
 
-	let decoratedStats: ICharacterStats = baseStats;
-	const charEffects = activeEffects.filter(
-		(e) => e.characterId === realChar.id,
+	let decoratedStats: ICharacterStats = applyStatusEffects(
+		baseStats,
+		charEffects,
 	);
-	for (const effect of charEffects) {
-		if (effect.type === "eter_fever") {
-			decoratedStats = new EterFeverDecorator(decoratedStats);
-		} else if (effect.type === "wound_infection") {
-			decoratedStats = new WoundInfectionDecorator(decoratedStats);
-		} else if (effect.type === "viper_poison") {
-			decoratedStats = new ViperPoisonDecorator(decoratedStats);
-		} else if (effect.type === "hungry") {
-			decoratedStats = new HungryDecorator(decoratedStats);
-		}
-	}
 
 	const effectsLabels: string[] = [];
 	for (const effect of charEffects) {

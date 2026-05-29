@@ -29,6 +29,14 @@ export interface ICharacterStats {
 
 	// Flags de Sobrevivência
 	readonly allowsNaturalRecovery: boolean;
+
+	// Novas propriedades de Combate, Ultimates e 0 HP
+	readonly size: "medium" | "large";
+	readonly weaponDamageBonus: number;
+	readonly extraActions: number;
+	readonly attackBonus: number;
+	readonly ignoresDifficultTerrain: boolean;
+	readonly automaticDefenseFailure: boolean;
 }
 
 /**
@@ -115,6 +123,30 @@ export class BaseCharacterStats implements ICharacterStats {
 	// Por padrão, um personagem saudável pode se recuperar normalmente no acampamento
 	public get allowsNaturalRecovery(): boolean {
 		return true;
+	}
+
+	public get size(): "medium" | "large" {
+		return "medium";
+	}
+
+	public get weaponDamageBonus(): number {
+		return 0;
+	}
+
+	public get extraActions(): number {
+		return 0;
+	}
+
+	public get attackBonus(): number {
+		return 0;
+	}
+
+	public get ignoresDifficultTerrain(): boolean {
+		return false;
+	}
+
+	public get automaticDefenseFailure(): boolean {
+		return false;
 	}
 }
 
@@ -212,6 +244,30 @@ export abstract class StatusEffectDecorator implements ICharacterStats {
 
 	public get allowsNaturalRecovery(): boolean {
 		return this.wrapped.allowsNaturalRecovery;
+	}
+
+	public get size(): "medium" | "large" {
+		return this.wrapped.size;
+	}
+
+	public get weaponDamageBonus(): number {
+		return this.wrapped.weaponDamageBonus;
+	}
+
+	public get extraActions(): number {
+		return this.wrapped.extraActions;
+	}
+
+	public get attackBonus(): number {
+		return this.wrapped.attackBonus;
+	}
+
+	public get ignoresDifficultTerrain(): boolean {
+		return this.wrapped.ignoresDifficultTerrain;
+	}
+
+	public get automaticDefenseFailure(): boolean {
+		return this.wrapped.automaticDefenseFailure;
 	}
 }
 
@@ -399,4 +455,139 @@ export class ImmobilizedDecorator extends StatusEffectDecorator {
 	public override get initiativeBase(): number {
 		return Math.max(0, super.initiativeBase - 2);
 	}
+}
+
+/**
+ * 🧅 DECORADOR CONCRETO 10: Inconsciente (UnconsciousDecorator)
+ * Condição de inconsciência que incapacita o personagem.
+ * Reduz: extraActions e velocidade para 0, e força falha automática em testes de defesa.
+ */
+export class UnconsciousDecorator extends StatusEffectDecorator {
+	public override get extraActions(): number {
+		return 0;
+	}
+
+	public override get movementSpeedBase(): number {
+		return 0;
+	}
+
+	public override get automaticDefenseFailure(): boolean {
+		return true;
+	}
+}
+
+/**
+ * 🧅 DECORADOR CONCRETO 11: Moribundo (MoribundDecorator)
+ * Condição crítica de 0 HP onde testes de morte são exigidos.
+ * Especializa o comportamento inconsciente.
+ */
+export class MoribundDecorator extends UnconsciousDecorator {}
+
+/**
+ * 🧅 DECORADOR CONCRETO: Avatar da Guerra (AvatarGuerraDecorator)
+ * Ultimate de Vanguarda: Aumenta o tamanho, concede HP temporário (+20) e adiciona +2 no dano com armas.
+ */
+export class AvatarGuerraDecorator extends StatusEffectDecorator {
+	public override get size(): "medium" | "large" {
+		return "large";
+	}
+
+	public override get maxHp(): number {
+		return this.wrapped.maxHp + 20;
+	}
+
+	public override get weaponDamageBonus(): number {
+		return this.wrapped.weaponDamageBonus + 2;
+	}
+}
+
+/**
+ * 🧅 DECORADOR CONCRETO: Surto de Tempo (SurtoTempoDecorator)
+ * Ultimate de Tecelão: +1 ação extra por turno, +2 em Resistência Física (eixo physical).
+ */
+export class SurtoTempoDecorator extends StatusEffectDecorator {
+	public override get extraActions(): number {
+		return this.wrapped.extraActions + 1;
+	}
+
+	public override get physical(): number {
+		return this.wrapped.physical + 2;
+	}
+}
+
+/**
+ * 🧅 DECORADOR CONCRETO: Caçada Selvagem (CacadaSelvagemDecorator)
+ * Ultimate de Caçador: +5 de bônus no ataque, ignora terreno difícil.
+ */
+export class CacadaSelvagemDecorator extends StatusEffectDecorator {
+	public override get attackBonus(): number {
+		return this.wrapped.attackBonus + 5;
+	}
+
+	public override get ignoresDifficultTerrain(): boolean {
+		return true;
+	}
+}
+
+/**
+ * 🧅 DECORADOR CONCRETO: Rede de Intrigas (RedeIntrigasDecorator)
+ * Ultimate de Emissário: Foco narrativo.
+ */
+export class RedeIntrigasDecorator extends StatusEffectDecorator {}
+
+/**
+ * 🧅 HELPER: Aplica todos os efeitos de status e ultimates ativos recursivamente
+ */
+export function applyStatusEffects(
+	baseStats: ICharacterStats,
+	effects: readonly { readonly type: string }[],
+): ICharacterStats {
+	let decorated = baseStats;
+	for (const effect of effects) {
+		switch (effect.type) {
+			case "eter_fever":
+				decorated = new EterFeverDecorator(decorated);
+				break;
+			case "wound_infection":
+				decorated = new WoundInfectionDecorator(decorated);
+				break;
+			case "viper_poison":
+				decorated = new ViperPoisonDecorator(decorated);
+				break;
+			case "hungry":
+				decorated = new HungryDecorator(decorated);
+				break;
+			case "exhausted":
+				decorated = new ExhaustedDecorator(decorated);
+				break;
+			case "bleeding":
+				decorated = new BleedingDecorator(decorated);
+				break;
+			case "silenced":
+				decorated = new SilencedDecorator(decorated);
+				break;
+			case "immobilized":
+				decorated = new ImmobilizedDecorator(decorated);
+				break;
+			case "unconscious":
+				decorated = new UnconsciousDecorator(decorated);
+				break;
+			case "moribund":
+				decorated = new MoribundDecorator(decorated);
+				break;
+			case "avatar_guerra":
+				decorated = new AvatarGuerraDecorator(decorated);
+				break;
+			case "surto_tempo":
+				decorated = new SurtoTempoDecorator(decorated);
+				break;
+			case "cacada_selvagem":
+				decorated = new CacadaSelvagemDecorator(decorated);
+				break;
+			case "rede_intrigas":
+				decorated = new RedeIntrigasDecorator(decorated);
+				break;
+		}
+	}
+	return decorated;
 }

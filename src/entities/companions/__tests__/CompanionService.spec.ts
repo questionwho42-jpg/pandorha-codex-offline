@@ -423,6 +423,7 @@ describe("CompanionService", () => {
 		expect(base.tier).toBe(2);
 		expect(base.hpMax).toBe(40); // 4 * 5 * 2 = 40
 		expect(base.hpCurrent).toBe(20);
+		expect(base.armorClass).toBe(16); // 10 + 4 + 2 = 16
 		expect(base.isShareSensory).toBe(false);
 		expect(base.isDissipated).toBe(false);
 		expect(base.selectedTraits).toEqual(["voo", "furtividade"]);
@@ -442,6 +443,7 @@ describe("CompanionService", () => {
 		expect(abstractDec.tier).toBe(2);
 		expect(abstractDec.hpMax).toBe(40);
 		expect(abstractDec.hpCurrent).toBe(20);
+		expect(abstractDec.armorClass).toBe(16);
 		expect(abstractDec.isShareSensory).toBe(false);
 		expect(abstractDec.isDissipated).toBe(false);
 		expect(abstractDec.selectedTraits).toEqual(["voo", "furtividade"]);
@@ -449,5 +451,149 @@ describe("CompanionService", () => {
 		// Valida SensorySharingStatsDecorator
 		const shareDec = new SensorySharingStatsDecorator(base);
 		expect(shareDec.isShareSensory).toBe(true);
+		expect(shareDec.armorClass).toBe(14); // 16 - 2 = 14
+	});
+
+	it("calcula corretamente HP e CA para os arquetipos de animal (agressor, protetor, batedor)", () => {
+		const master: CharacterRecord = {
+			id: "master_val",
+			name: "Val",
+			concept: "Cacador",
+			ancestryId: "human",
+			classId: "hunter",
+			backgroundId: "outlander",
+			level: 3,
+			experiencePoints: 0,
+			physical: 3,
+			mental: 2,
+			social: 1,
+			conflict: 2,
+			interaction: 2,
+			resistance: 2,
+			createdAt: TEST_TIMESTAMP,
+			updatedAt: TEST_TIMESTAMP,
+		};
+
+		const recordAgressor: CompanionRecord = {
+			id: "aggr_1",
+			characterId: "master_val",
+			name: "Rex",
+			type: "aggressor",
+			subModel: "Lobo",
+			tier: 1,
+			hpCurrent: 21,
+			hpMax: 21,
+			isShareSensory: false,
+			isDissipated: false,
+			selectedTraitsJson: "[]",
+			createdAt: TEST_TIMESTAMP,
+			updatedAt: TEST_TIMESTAMP,
+		};
+		const statsAgressor = new BaseCompanionStats(recordAgressor, master);
+		expect(statsAgressor.hpMax).toBe(21); // (6 * 3) + 3 = 21
+		expect(statsAgressor.armorClass).toBe(16); // 12 + 3 + 1 = 16
+
+		const recordProtetor: CompanionRecord = {
+			id: "prot_1",
+			characterId: "master_val",
+			name: "Balu",
+			type: "protector",
+			subModel: "Urso",
+			tier: 1,
+			hpCurrent: 33,
+			hpMax: 33,
+			isShareSensory: false,
+			isDissipated: false,
+			selectedTraitsJson: "[]",
+			createdAt: TEST_TIMESTAMP,
+			updatedAt: TEST_TIMESTAMP,
+		};
+		const statsProtetor = new BaseCompanionStats(recordProtetor, master);
+		expect(statsProtetor.hpMax).toBe(33); // (10 * 3) + 3 = 33
+		expect(statsProtetor.armorClass).toBe(18); // 14 + 3 + 1 = 18
+
+		const recordBatedor: CompanionRecord = {
+			id: "scout_1",
+			characterId: "master_val",
+			name: "Aero",
+			type: "scout",
+			subModel: "Falcao",
+			tier: 1,
+			hpCurrent: 15,
+			hpMax: 15,
+			isShareSensory: false,
+			isDissipated: false,
+			selectedTraitsJson: "[]",
+			createdAt: TEST_TIMESTAMP,
+			updatedAt: TEST_TIMESTAMP,
+		};
+		const statsBatedor = new BaseCompanionStats(recordBatedor, master);
+		expect(statsBatedor.hpMax).toBe(15); // (4 * 3) + 3 = 15
+		expect(statsBatedor.armorClass).toBe(17); // 13 + 3 + 1 = 17
+	});
+
+	it("summons animal companion archetypes calculating correct HP max", async () => {
+		const repository = new InMemoryCompanionRepository();
+		const charRepo = new StubCharacterRepository();
+		const service = new CompanionService(repository, charRepo);
+
+		const master: CharacterRecord = {
+			id: "master_val",
+			name: "Val",
+			concept: "Cacador",
+			ancestryId: "human",
+			classId: "hunter",
+			backgroundId: "sage",
+			level: 3,
+			experiencePoints: 0,
+			physical: 3,
+			mental: 2,
+			social: 1,
+			conflict: 1,
+			interaction: 2,
+			resistance: 2,
+			createdAt: TEST_TIMESTAMP,
+			updatedAt: TEST_TIMESTAMP,
+		};
+		charRepo.setCharacter(master);
+
+		const res1 = await service.summonCompanion(
+			"master_val",
+			"Rex",
+			"aggressor",
+			"Lobo",
+			1,
+			TEST_TIMESTAMP,
+		);
+		expect(res1.success).toBe(true);
+		if (res1.success) {
+			expect(res1.data.hpMax).toBe(21); // (6 * 3) + 3 = 21
+		}
+
+		const res2 = await service.summonCompanion(
+			"master_val",
+			"Balu",
+			"protector",
+			"Urso",
+			1,
+			TEST_TIMESTAMP,
+		);
+		expect(res2.success).toBe(true);
+		if (res2.success) {
+			expect(res2.data.hpMax).toBe(33); // (10 * 3) + 3 = 33
+		}
+
+		const res3 = await service.summonCompanion(
+			"master_val",
+			"Aero",
+			"scout",
+			"Falcao",
+			1,
+			TEST_TIMESTAMP,
+		);
+		expect(res3.success).toBe(true);
+		if (res3.success) {
+			expect(res3.data.hpMax).toBe(15); // (4 * 3) + 3 = 15
+		}
 	});
 });

@@ -74,6 +74,8 @@ export const rpcCommandTypeSchema = z.enum([
 	"SAVE_MERCENARY_SQUAD",
 	"FIND_MERCENARY_SQUAD",
 	"LIST_MERCENARY_SQUADS_BY_COMPANY",
+	"DISMANTLE_CRAFTED_ITEM",
+	"SCRAP_EQUIPMENT",
 ]);
 
 export const jsonSerializableValueSchema = z.custom<JsonValue>(
@@ -621,6 +623,23 @@ export const deleteEspionageCellRequestSchema = z.object({
 	}),
 });
 
+export const dismantleCraftedItemRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("DISMANTLE_CRAFTED_ITEM"),
+	payload: z.object({
+		characterId: z.string().min(1),
+		itemId: z.string().min(1),
+	}),
+});
+
+export const scrapEquipmentRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SCRAP_EQUIPMENT"),
+	payload: z.object({
+		equipmentId: z.string().min(1),
+	}),
+});
+
 export const rpcRequestSchema = z.discriminatedUnion("type", [
 	initDatabaseRequestSchema,
 	saveGameSnapshotRequestSchema,
@@ -688,6 +707,8 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	findEspionageCellRequestSchema,
 	listEspionageCellsRequestSchema,
 	deleteEspionageCellRequestSchema,
+	dismantleCraftedItemRequestSchema,
+	scrapEquipmentRequestSchema,
 ]);
 
 const rpcErrorSchema = z.object({
