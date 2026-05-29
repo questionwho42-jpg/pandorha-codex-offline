@@ -20,6 +20,8 @@ export interface ICharacterStats {
 	readonly initiativeBase: number;
 	readonly carrySlotLimit: number;
 	readonly movementSpeedBase: number;
+	readonly armorClass: number;
+	readonly stealthPenalty: number;
 
 	// Logística de Carga
 	readonly currentCarryWeight: number;
@@ -93,6 +95,15 @@ export class BaseCharacterStats implements ICharacterStats {
 		return 9;
 	}
 
+	// Regra de RPG: CA base sem armadura = 10 + Nível + Físico
+	public get armorClass(): number {
+		return 10 + this.level + this.physical;
+	}
+
+	public get stealthPenalty(): number {
+		return 0;
+	}
+
 	public get currentCarryWeight(): number {
 		return 0;
 	}
@@ -149,13 +160,25 @@ export abstract class StatusEffectDecorator implements ICharacterStats {
 		return this.wrapped.classBaseHp;
 	}
 
-	// Reatividade Cebola: usa as propriedades do decorador (this) em vez do embrulhado (wrapped)
+	// Reatividade Cebola: usa as propriedades do decorador (this) em vez do embrulhado (wrapped), somando os ajustes customizados do wrapped
 	public get maxHp(): number {
-		return (this.classBaseHp + this.physical + this.resistance) * this.level;
+		const baseFromAttributes =
+			(this.classBaseHp + this.physical + this.resistance) * this.level;
+		const wrappedFromAttributes =
+			(this.wrapped.classBaseHp +
+				this.wrapped.physical +
+				this.wrapped.resistance) *
+			this.wrapped.level;
+		const adjustment = this.wrapped.maxHp - wrappedFromAttributes;
+		return baseFromAttributes + adjustment;
 	}
 
 	public get initiativeBase(): number {
-		return this.level + this.mental + this.interaction;
+		const baseFromAttributes = this.level + this.mental + this.interaction;
+		const wrappedFromAttributes =
+			this.wrapped.level + this.wrapped.mental + this.wrapped.interaction;
+		const adjustment = this.wrapped.initiativeBase - wrappedFromAttributes;
+		return baseFromAttributes + adjustment;
 	}
 
 	// Reatividade de Carga: recalcula com os atributos flutuantes na cebola mas preserva o bônus de anão original do wrapped
@@ -169,6 +192,14 @@ export abstract class StatusEffectDecorator implements ICharacterStats {
 
 	public get movementSpeedBase(): number {
 		return this.wrapped.movementSpeedBase;
+	}
+
+	public get armorClass(): number {
+		return this.wrapped.armorClass;
+	}
+
+	public get stealthPenalty(): number {
+		return this.wrapped.stealthPenalty;
 	}
 
 	public get currentCarryWeight(): number {

@@ -69,6 +69,9 @@ describe("createCharacterListView", () => {
 				],
 				statusEffects: [],
 				allowsNaturalRecovery: true,
+				armorClass: 14,
+				movementSpeed: 9,
+				stealthPenalty: 0,
 			},
 		]);
 	});
@@ -265,5 +268,88 @@ describe("createCharacterListView", () => {
 		// Social permaneceu intacto (2)
 		const socialStat = item.axes.find((s) => s.label === "Social");
 		expect(socialStat).toEqual({ label: "Social", value: 2 });
+	});
+
+	it("recalculates CA, speed, and stealth penalty based on equipped items in craftedItems", () => {
+		const view = createCharacterListView([character], {
+			ancestries: [{ id: "human", label: "Humano" } as AncestryRecord],
+			backgrounds: [{ id: "acolyte", label: "Acólito" } as BackgroundRecord],
+			characterClasses: [
+				{ id: "vanguard", label: "Vanguarda" } as CharacterClassRecord,
+			],
+			craftedItems: [
+				{
+					id: "item-leather",
+					characterId: "character-kael",
+					equipmentId: "leather-armor",
+					label: "Armadura de Couro",
+					isSharp: 0,
+					isReinforced: 0,
+					isRunic: 0,
+					isEquipped: 1,
+					durabilityCurrent: 100,
+					durabilityMax: 100,
+					createdAt: "2026-05-03T13:14:25.000Z",
+				},
+				{
+					id: "item-shield",
+					characterId: "character-kael",
+					equipmentId: "round-shield",
+					label: "Escudo Redondo",
+					isSharp: 0,
+					isReinforced: 0,
+					isRunic: 0,
+					isEquipped: 1,
+					durabilityCurrent: 100,
+					durabilityMax: 100,
+					createdAt: "2026-05-03T13:14:25.000Z",
+				},
+			],
+		});
+
+		const item = view.items[0];
+		expect(item).toBeDefined();
+		if (!item) return;
+
+		// Sem armadura: CA = 10 + 1 (Nível) + 3 (Físico) = 14
+		// Com Couro (+2 CA) e Escudo Redondo (+1 CA):
+		// CA = 10 + 1 (Nível) + 2 (Bônus Couro) + 3 (Físico) + 1 (Escudo) = 17
+		expect(item.armorClass).toBe(17);
+		expect(item.movementSpeed).toBe(9); // Couro é leve, velocidade de movimento normal
+		expect(item.stealthPenalty).toBe(0);
+
+		// Agora testamos com armadura pesada de placas
+		const viewHeavy = createCharacterListView([character], {
+			ancestries: [{ id: "human", label: "Humano" } as AncestryRecord],
+			backgrounds: [{ id: "acolyte", label: "Acólito" } as BackgroundRecord],
+			characterClasses: [
+				{ id: "vanguard", label: "Vanguarda" } as CharacterClassRecord,
+			],
+			craftedItems: [
+				{
+					id: "item-plates",
+					characterId: "character-kael",
+					equipmentId: "plate-armor",
+					label: "Armadura de Placas",
+					isSharp: 0,
+					isReinforced: 0,
+					isRunic: 0,
+					isEquipped: 1,
+					durabilityCurrent: 100,
+					durabilityMax: 100,
+					createdAt: "2026-05-03T13:14:25.000Z",
+				},
+			],
+		});
+
+		const itemHeavy = viewHeavy.items[0];
+		expect(itemHeavy).toBeDefined();
+		if (!itemHeavy) return;
+
+		// Armadura de placas (+5 CA) limita Físico a 0
+		// CA = 10 + 1 (Nível) + 5 (Bônus Placas) + 0 (Físico limitado) = 16
+		expect(itemHeavy.armorClass).toBe(16);
+		expect(itemHeavy.movementSpeed).toBe(6); // -3m por armadura pesada
+		expect(itemHeavy.stealthPenalty).toBe(-2); // -2 por armadura ruidosa
 	});
 });

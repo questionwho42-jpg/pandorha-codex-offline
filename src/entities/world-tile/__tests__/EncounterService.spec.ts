@@ -55,6 +55,12 @@ class FakeCharacterStats implements ICharacterStats {
 	public get allowsNaturalRecovery() {
 		return true;
 	}
+	public get armorClass() {
+		return 10;
+	}
+	public get stealthPenalty() {
+		return 0;
+	}
 }
 
 function createFakeTile(

@@ -1,4 +1,5 @@
 import { fail, ok, type Result } from "$lib/shared/lib/result";
+import { ArmorStatsDecorator } from "../../character/domain/ArmorStatsDecorator";
 import type { ICharacterStats } from "../../character/domain/StatusEffectDecorator";
 import { EncumberedStatusDecorator } from "../../character/domain/StatusEffectDecorator";
 import type { CharacterCraftedItemRecord } from "../model/craftingSchema";
@@ -49,22 +50,51 @@ export class InventoryService {
 		const items = itemsResult.data;
 		let equippedWeight = 0;
 
+		let armorBonus = 0;
+		let isHeavy = false;
+		let isNoisy = false;
+		let shieldBonus = 0;
+
 		for (const item of items) {
 			if (item.isEquipped === 1) {
 				const equipmentInfo = OFFICIAL_EQUIPMENT.find(
 					(eq) => eq.id === item.equipmentId,
 				);
-				// Cada item equipado soma seu slotCost (peso)
+				// Cada item equipado soma seu slotCost (peso) ou 1 se for desconhecido
 				const weight = equipmentInfo ? equipmentInfo.slotCost : 1;
 				equippedWeight += weight;
+
+				if (equipmentInfo) {
+					if (equipmentInfo.kind === "armor") {
+						if (equipmentInfo.id === "leather-armor") {
+							armorBonus = 2;
+						} else if (equipmentInfo.id === "plate-armor") {
+							armorBonus = 5;
+							isHeavy = true;
+							isNoisy = true;
+						}
+					} else if (equipmentInfo.kind === "shield") {
+						if (equipmentInfo.id === "round-shield") {
+							shieldBonus = 1;
+						}
+					}
+				}
 			}
 		}
 
-		// Envelopa o personagem no decorador de Sobrecarga
-		const decoratedStats = new EncumberedStatusDecorator(
+		// Envelopa o personagem no decorador de Sobrecarga de peso
+		const encumberedStats = new EncumberedStatusDecorator(
 			baseStats,
 			equippedWeight,
 		);
+
+		// Envelopa no decorador de armaduras e escudos
+		const decoratedStats = new ArmorStatsDecorator(encumberedStats, {
+			armorBonus,
+			isHeavy,
+			isNoisy,
+			shieldBonus,
+		});
 
 		return ok({
 			equippedWeight,

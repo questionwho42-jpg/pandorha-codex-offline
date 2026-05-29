@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260529-094248-fase-36-integracao-de-equipamentos-e-atributos-f -->
+### Fase 36: Integracao de Equipamentos e Atributos Fisicos
+- id: 20260529-094248-fase-36-integracao-de-equipamentos-e-atributos-f
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-29T09:42:48-03:00
+- finished_at: 2026-05-29T09:57:13-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-29T09:57:13-03:00
+- branch: task/reactive-armor-integration
+- commit_at_start: 76ebbea feat(traps-codex): implementacao do codice de armadilhas taticas, decoradores de status e painel visual de engenharia
+- summary: Implementar calculo reativo de CA e Iniciativa sob a cebola de atributos com decoradores de armaduras e escudos
+- last_change: Implementacao reativa de equipamentos (armaduras/escudos) na cebola de atributos, suporte offline PWA e exibicao de CA e velocidade na UI de Combate e Listagem.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-29T09:42:48-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-29T09:57:13-03:00
+- Done: Implementacao reativa de equipamentos (armaduras/escudos) na cebola de atributos, suporte offline PWA e exibicao de CA e velocidade na UI de Combate e Listagem.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260529-094248-fase-36-integracao-de-equipamentos-e-atributos-f -->
 <!-- pandorha-task:fase-29-companhias-mercenarias -->
 ### Fase 29: Sistema de Companhias Mercenarias
 - id: fase-29-companhias-mercenarias

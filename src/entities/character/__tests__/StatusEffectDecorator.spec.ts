@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { ArmorStatsDecorator } from "../domain/ArmorStatsDecorator";
 import {
 	BaseCharacterStats,
 	BleedingDecorator,
@@ -32,6 +33,8 @@ describe("StatusEffectDecorator - Efeitos de Status do RPG Pandorha", () => {
 		expect(baseStats.maxHp).toBe(16); // (baseHp: 10 + physical: 3 + resistance: 3) * level: 1 = 16
 		expect(baseStats.initiativeBase).toBe(3); // level: 1 + mental: 1 + interaction: 1 = 3
 		expect(baseStats.carrySlotLimit).toBe(12); // physical: 3 + resistance: 3 + 6 = 12
+		expect(baseStats.armorClass).toBe(14); // sem armadura: 10 + level: 1 + physical: 3 = 14
+		expect(baseStats.stealthPenalty).toBe(0);
 	});
 
 	it("deve aplicar Febre de Éter (EterFeverDecorator) reduzindo mental e resistance e recalculando maxHp", () => {
@@ -266,6 +269,93 @@ describe("StatusEffectDecorator - Efeitos de Status do RPG Pandorha", () => {
 
 			// carrySlotLimit deve encolher de 14 para 13 slots de forma reativa na cebola!
 			expect(diseasedStats.carrySlotLimit).toBe(13); // physical: 3 + resistance: 2 + 6 + 2 = 13
+		});
+	});
+
+	describe("ArmorStatsDecorator & Classe de Armadura", () => {
+		it("deve calcular a CA com armadura leve de couro (+2 CA, Físico completo, sem penalidades)", () => {
+			const character = createCharacter({
+				physical: 3,
+				level: 1,
+			});
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+			const equippedStats = new ArmorStatsDecorator(baseStats, {
+				armorBonus: 2,
+				isHeavy: false,
+				isNoisy: false,
+				shieldBonus: 0,
+			});
+
+			// CA = 10 + Nível: 1 + Couro: 2 + Físico: 3 + Escudo: 0 = 16
+			expect(equippedStats.armorClass).toBe(16);
+			expect(equippedStats.movementSpeedBase).toBe(9); // velocidade original
+			expect(equippedStats.stealthPenalty).toBe(0);
+		});
+
+		it("deve calcular a CA com armadura pesada de placas (+5 CA, Físico zerado, -3m velocidade e -2 furtividade)", () => {
+			const character = createCharacter({
+				physical: 3,
+				level: 1,
+			});
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+			const equippedStats = new ArmorStatsDecorator(baseStats, {
+				armorBonus: 5,
+				isHeavy: true,
+				isNoisy: true,
+				shieldBonus: 0,
+			});
+
+			// CA = 10 + Nível: 1 + Placas: 5 + Físico Limitado: 0 + Escudo: 0 = 16
+			expect(equippedStats.armorClass).toBe(16);
+			expect(equippedStats.movementSpeedBase).toBe(6); // 9m - 3m = 6m
+			expect(equippedStats.stealthPenalty).toBe(-2); // barulhenta
+		});
+
+		it("deve somar o escudo redondo na CA (+1 CA)", () => {
+			const character = createCharacter({
+				physical: 3,
+				level: 1,
+			});
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+			const equippedStats = new ArmorStatsDecorator(baseStats, {
+				armorBonus: 2, // Couro
+				isHeavy: false,
+				isNoisy: false,
+				shieldBonus: 1, // Escudo Redondo
+			});
+
+			// CA = 10 + Nível: 1 + Couro: 2 + Físico: 3 + Escudo: 1 = 17
+			expect(equippedStats.armorClass).toBe(17);
+		});
+
+		it("deve propagar a redução de Físico reativamente na CA de armadura leve", () => {
+			const character = createCharacter({
+				physical: 3,
+				level: 1,
+			});
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+			const poisonedStats = new ViperPoisonDecorator(baseStats); // physical -2 -> Físico 1
+			const equippedStats = new ArmorStatsDecorator(poisonedStats, {
+				armorBonus: 2,
+				isHeavy: false,
+				isNoisy: false,
+				shieldBonus: 0,
+			});
+
+			// CA = 10 + Nível: 1 + Couro: 2 + Físico Decorado: 1 + Escudo: 0 = 14
+			expect(equippedStats.armorClass).toBe(14);
 		});
 	});
 });

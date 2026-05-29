@@ -17,14 +17,16 @@ describe("createCombatAttackerStatsView", () => {
 		expect(view).toEqual({
 			classLabel: "Classe: treino",
 			carrySlotLimit: null,
-			carrySlotLimitLabel: "Carga: n\u00e3o aplicada",
+			carrySlotLimitLabel: "Carga: não aplicada",
 			heading: "Ficha no combate",
 			helperText:
 				"Aria usa valores fixos de treino. Crie e selecione um personagem para ver atributos derivados da ficha.",
 			initiativeBase: null,
-			initiativeLabel: "Iniciativa: n\u00e3o aplicada",
+			initiativeLabel: "Iniciativa: não aplicada",
 			maxHp: null,
-			maxHpLabel: "HP m\u00e1ximo: n\u00e3o aplicado",
+			maxHpLabel: "HP máximo: não aplicado",
+			armorClassLabel: "CA: não aplicada",
+			movementSpeedLabel: "Velocidade: não aplicada",
 			sourceLabel: "Atacante de treino",
 			status: "training",
 			activeEffectsLabels: [],
@@ -49,6 +51,8 @@ describe("createCombatAttackerStatsView", () => {
 			initiativeLabel: "Iniciativa: 5",
 			maxHp: 14,
 			maxHpLabel: "HP máximo: 14",
+			armorClassLabel: "CA: 13",
+			movementSpeedLabel: "Velocidade: 9m",
 			sourceLabel: "Personagem da sessão",
 			status: "derived",
 			activeEffectsLabels: [],
@@ -134,6 +138,21 @@ describe("createCombatAttackerStatsView", () => {
 		expect(view.helperText).toContain(
 			"⚠️ PERSONAGEM IMOBILIZADO: Sobrecarga extrema!",
 		);
+	});
+
+	it("shows derived stats with equipped heavy armor (+5 CA, 0 physical bonus, -3m speed)", () => {
+		const view = createCombatAttackerStatsView({
+			attacker: { id: "session-character-1", label: "Lia" },
+			characterClasses: OFFICIAL_CHARACTER_CLASSES,
+			characters: [createCharacterRecord()],
+			armorBonus: 5,
+			isHeavy: true,
+			isNoisy: true,
+			shieldBonus: 1,
+		});
+
+		expect(view.armorClassLabel).toBe("CA: 17"); // 10 + level 1 + placas 5 + physical limit 0 + escudo 1 = 17
+		expect(view.movementSpeedLabel).toBe("Velocidade: 6m"); // 9m - 3m = 6m
 	});
 });
 

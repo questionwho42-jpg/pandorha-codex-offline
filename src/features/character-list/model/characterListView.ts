@@ -1,9 +1,11 @@
 import type { AncestryRecord } from "$lib/entities/ancestry";
 import type { BackgroundRecord } from "$lib/entities/background";
 import type { CharacterRecord } from "$lib/entities/character";
+import { ArmorStatsDecorator } from "$lib/entities/character/domain/ArmorStatsDecorator";
 import {
 	BaseCharacterStats,
 	BleedingDecorator,
+	EncumberedStatusDecorator,
 	EterFeverDecorator,
 	HungryDecorator,
 	type ICharacterStats,
@@ -14,6 +16,8 @@ import {
 } from "$lib/entities/character/domain/StatusEffectDecorator";
 import type { CharacterStatusEffectRecord } from "$lib/entities/character/model/characterSchema";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
+import type { CharacterCraftedItemRecord } from "$lib/entities/equipment/model/craftingSchema";
+import { OFFICIAL_EQUIPMENT } from "$lib/entities/equipment/model/equipmentCatalog";
 
 export type CharacterListStat = Readonly<{
 	label: string;
@@ -39,6 +43,9 @@ export type CharacterListItem = Readonly<{
 	applications: readonly CharacterListStat[];
 	statusEffects: readonly CharacterListStatusEffect[];
 	allowsNaturalRecovery: boolean;
+	armorClass: number;
+	movementSpeed: number;
+	stealthPenalty: number;
 }>;
 
 export type CharacterListCatalogs = Readonly<{
@@ -46,6 +53,7 @@ export type CharacterListCatalogs = Readonly<{
 	backgrounds?: readonly BackgroundRecord[];
 	characterClasses?: readonly CharacterClassRecord[];
 	statusEffects?: readonly CharacterStatusEffectRecord[];
+	craftedItems?: readonly CharacterCraftedItemRecord[];
 }>;
 
 export type CharacterListEmptyState = Readonly<{
@@ -70,6 +78,7 @@ export function createCharacterListView(
 			labelMaps,
 			catalogs.statusEffects ?? [],
 			catalogs.characterClasses ?? [],
+			catalogs.craftedItems ?? [],
 		),
 	);
 
@@ -112,6 +121,7 @@ function toCharacterListItem(
 	labelMaps: CharacterListLabelMaps,
 	statusEffects: readonly CharacterStatusEffectRecord[],
 	characterClasses: readonly CharacterClassRecord[],
+	craftedItems: readonly CharacterCraftedItemRecord[],
 ): CharacterListItem {
 	const characterClass = characterClasses.find(
 		(c) => c.id === character.classId,
@@ -150,6 +160,53 @@ function toCharacterListItem(
 		}
 	}
 
+	const characterCraftedItems = craftedItems.filter(
+		(item) => item.characterId === character.id,
+	);
+
+	let equippedWeight = 0;
+	let armorBonus = 0;
+	let isHeavy = false;
+	let isNoisy = false;
+	let shieldBonus = 0;
+
+	for (const item of characterCraftedItems) {
+		if (item.isEquipped === 1) {
+			const equipmentInfo = OFFICIAL_EQUIPMENT.find(
+				(eq) => eq.id === item.equipmentId,
+			);
+			let weight: number = equipmentInfo ? equipmentInfo.slotCost : 1;
+			if (item.isReinforced === 1) {
+				weight = Math.max(1, weight - 1);
+			}
+			equippedWeight += weight;
+
+			if (equipmentInfo) {
+				if (equipmentInfo.kind === "armor") {
+					if (equipmentInfo.id === "leather-armor") {
+						armorBonus = 2;
+					} else if (equipmentInfo.id === "plate-armor") {
+						armorBonus = 5;
+						isHeavy = true;
+						isNoisy = true;
+					}
+				} else if (equipmentInfo.kind === "shield") {
+					if (equipmentInfo.id === "round-shield") {
+						shieldBonus = 1;
+					}
+				}
+			}
+		}
+	}
+
+	const encumberedStats = new EncumberedStatusDecorator(stats, equippedWeight);
+	const finalStats = new ArmorStatsDecorator(encumberedStats, {
+		armorBonus,
+		isHeavy,
+		isNoisy,
+		shieldBonus,
+	});
+
 	const uiStatusEffects: CharacterListStatusEffect[] = characterEffects.map(
 		(effect) => ({
 			id: effect.id,
@@ -184,17 +241,20 @@ function toCharacterListItem(
 				character.backgroundId,
 		].join(" · "),
 		axes: [
-			makeStat("Físico", stats.physical, character.physical),
-			makeStat("Mental", stats.mental, character.mental),
-			makeStat("Social", stats.social, character.social),
+			makeStat("Físico", finalStats.physical, character.physical),
+			makeStat("Mental", finalStats.mental, character.mental),
+			makeStat("Social", finalStats.social, character.social),
 		],
 		applications: [
-			makeStat("Conflito", stats.conflict, character.conflict),
-			makeStat("Interação", stats.interaction, character.interaction),
-			makeStat("Resistência", stats.resistance, character.resistance),
+			makeStat("Conflito", finalStats.conflict, character.conflict),
+			makeStat("Interação", finalStats.interaction, character.interaction),
+			makeStat("Resistência", finalStats.resistance, character.resistance),
 		],
 		statusEffects: uiStatusEffects,
-		allowsNaturalRecovery: stats.allowsNaturalRecovery,
+		allowsNaturalRecovery: finalStats.allowsNaturalRecovery,
+		armorClass: finalStats.armorClass,
+		movementSpeed: finalStats.movementSpeedBase,
+		stealthPenalty: finalStats.stealthPenalty,
 	};
 }
 

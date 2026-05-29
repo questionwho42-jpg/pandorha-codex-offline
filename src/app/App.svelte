@@ -19,6 +19,7 @@ import {
 	CompanionService,
 	WorkerCompanionRepository,
 } from "$lib/entities/companions";
+import type { CharacterCraftedItemRecord } from "$lib/entities/equipment/model/craftingSchema";
 import { WorkerSocialRepository } from "$lib/entities/social";
 import type {
 	NewTrapRecord,
@@ -216,6 +217,7 @@ function handleSocialStandingChange(blocked: boolean) {
 }
 let characterRecords = $state<CharacterRecord[]>([]);
 let activeStatusEffects = $state<CharacterStatusEffectRecord[]>([]);
+let craftedItems = $state<CharacterCraftedItemRecord[]>([]);
 let trapsList = $state<TrapRecord[]>([]);
 let activeTileId = $state(hexcrawlSession.initialTileId);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -246,6 +248,7 @@ let viewItems = $derived(
 		backgrounds: characterSession.backgrounds,
 		characterClasses: characterSession.characterClasses,
 		statusEffects: activeStatusEffects,
+		craftedItems,
 	}).items,
 );
 
@@ -749,8 +752,27 @@ onMount(async () => {
 		isOnline = navigator.onLine;
 	};
 
+	const refreshCraftedItems = () => {
+		if (typeof window !== "undefined") {
+			const stored = localStorage.getItem("pandorha_crafted_items");
+			if (stored) {
+				try {
+					craftedItems = JSON.parse(stored);
+				} catch (e) {
+					console.error("Erro ao carregar itens artesanais no App", e);
+				}
+			}
+		}
+	};
+
 	window.addEventListener("online", updateOnlineStatus);
 	window.addEventListener("offline", updateOnlineStatus);
+	refreshCraftedItems();
+	window.addEventListener("storage", refreshCraftedItems);
+	window.addEventListener(
+		"pandorha:crafted-items-changed",
+		refreshCraftedItems,
+	);
 
 	// Carregar dados iniciais dos personagens da sessão
 	characterRecords = characterSession.repository.all();
@@ -881,6 +903,11 @@ onMount(async () => {
 	return () => {
 		window.removeEventListener("online", updateOnlineStatus);
 		window.removeEventListener("offline", updateOnlineStatus);
+		window.removeEventListener("storage", refreshCraftedItems);
+		window.removeEventListener(
+			"pandorha:crafted-items-changed",
+			refreshCraftedItems,
+		);
 	};
 });
 
@@ -1006,6 +1033,7 @@ async function createCharacter(
 						characterClasses={characterSession.characterClasses}
 						records={characterRecords}
 						statusEffects={activeStatusEffects}
+						craftedItems={craftedItems}
 						onApplyStatusEffect={handleApplyStatusEffect}
 						onClearStatusEffects={handleClearStatusEffects}
 						companions={companions}

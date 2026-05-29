@@ -20,6 +20,8 @@ export const characterDerivedStatsResultSchema = z.object({
 	maxHp: derivedStatValue,
 	initiativeBase: derivedStatValue,
 	carrySlotLimit: derivedStatValue,
+	armorClass: derivedStatValue,
+	stealthPenalty: z.number().int().max(0),
 });
 
 export type CharacterDerivedStatsClassSource = z.infer<

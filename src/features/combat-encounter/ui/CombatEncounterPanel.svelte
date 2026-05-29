@@ -265,6 +265,19 @@ async function _handleRecoverCohesion() {
 }
 
 onMount(async () => {
+	const refreshItems = () => {
+		if (typeof window !== "undefined") {
+			const stored = localStorage.getItem("pandorha_crafted_items");
+			if (stored) {
+				try {
+					craftedItems = JSON.parse(stored);
+				} catch (e) {
+					console.error("Erro ao ler itens do localStorage no combate", e);
+				}
+			}
+		}
+	};
+
 	if (typeof window !== "undefined") {
 		const stored = localStorage.getItem("pandorha_crafted_items");
 		if (stored) {
@@ -297,7 +310,18 @@ onMount(async () => {
 		if (sigsRes.success) {
 			_registeredSignaturesList = sigsRes.data;
 		}
+
+		window.addEventListener("pandorha:crafted-items-changed", refreshItems);
 	}
+
+	return () => {
+		if (typeof window !== "undefined") {
+			window.removeEventListener(
+				"pandorha:crafted-items-changed",
+				refreshItems,
+			);
+		}
+	};
 });
 
 // Sincronização reativa sempre que o atacante for alterado
@@ -353,6 +377,59 @@ let equippedWeight = $derived(
 	}, 0),
 );
 
+let armorBonus = $derived(
+	characterItems.reduce((acc, item) => {
+		if (item.isEquipped === 1) {
+			const eqInfo = OFFICIAL_EQUIPMENT.find(
+				(eq) => eq.id === item.equipmentId,
+			);
+			if (eqInfo?.kind === "armor") {
+				if (eqInfo.id === "leather-armor") return acc + 2;
+				if (eqInfo.id === "plate-armor") return acc + 5;
+			}
+		}
+		return acc;
+	}, 0),
+);
+
+let isHeavy = $derived(
+	characterItems.some((item) => {
+		if (item.isEquipped === 1) {
+			const eqInfo = OFFICIAL_EQUIPMENT.find(
+				(eq) => eq.id === item.equipmentId,
+			);
+			return eqInfo?.kind === "armor" && eqInfo.id === "plate-armor";
+		}
+		return false;
+	}),
+);
+
+let isNoisy = $derived(
+	characterItems.some((item) => {
+		if (item.isEquipped === 1) {
+			const eqInfo = OFFICIAL_EQUIPMENT.find(
+				(eq) => eq.id === item.equipmentId,
+			);
+			return eqInfo?.kind === "armor" && eqInfo.id === "plate-armor";
+		}
+		return false;
+	}),
+);
+
+let shieldBonus = $derived(
+	characterItems.reduce((acc, item) => {
+		if (item.isEquipped === 1) {
+			const eqInfo = OFFICIAL_EQUIPMENT.find(
+				(eq) => eq.id === item.equipmentId,
+			);
+			if (eqInfo?.kind === "shield") {
+				if (eqInfo.id === "round-shield") return acc + 1;
+			}
+		}
+		return acc;
+	}, 0),
+);
+
 let attackerOptions = $derived(createCombatAttackerOptions(characters));
 let selectedAttacker = $derived(getCombatAttacker(selectedAttackerId));
 
@@ -363,6 +440,10 @@ let attackerStatsView = $derived(
 		characters,
 		equippedWeight,
 		activeEffects: attackerActiveEffects,
+		armorBonus,
+		isHeavy,
+		isNoisy,
+		shieldBonus,
 	}),
 );
 
@@ -864,6 +945,24 @@ function createInitialTurnState(
 							data-testid="combat-attacker-initiative"
 						>
 							{attackerStatsView.initiativeLabel}
+						</dd>
+					</div>
+					<div class="flex items-center justify-between gap-3">
+						<dt class="text-ether">Defesa (CA)</dt>
+						<dd
+							class="text-right text-bone"
+							data-testid="combat-attacker-armor-class"
+						>
+							{attackerStatsView.armorClassLabel}
+						</dd>
+					</div>
+					<div class="flex items-center justify-between gap-3">
+						<dt class="text-ether">Velocidade</dt>
+						<dd
+							class="text-right text-bone"
+							data-testid="combat-attacker-speed"
+						>
+							{attackerStatsView.movementSpeedLabel}
 						</dd>
 					</div>
 					<div class="flex items-center justify-between gap-3">

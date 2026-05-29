@@ -5,6 +5,7 @@ import type { CharacterRecord } from "$lib/entities/character";
 import type { CharacterStatusEffectRecord } from "$lib/entities/character/model/characterSchema";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import type { CompanionRecord } from "$lib/entities/companions";
+import type { CharacterCraftedItemRecord } from "$lib/entities/equipment/model/craftingSchema";
 import { createCharacterListView } from "../model/characterListView";
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 	characterClasses?: readonly CharacterClassRecord[];
 	records?: readonly CharacterRecord[];
 	statusEffects?: readonly CharacterStatusEffectRecord[];
+	craftedItems?: readonly CharacterCraftedItemRecord[];
 	onApplyStatusEffect?: (
 		characterId: string,
 		type: string,
@@ -47,6 +49,7 @@ let {
 	characterClasses = [],
 	records = [],
 	statusEffects = [],
+	craftedItems = [],
 	onApplyStatusEffect,
 	onClearStatusEffects,
 	// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
@@ -70,6 +73,7 @@ let view = $derived(
 		backgrounds,
 		characterClasses,
 		statusEffects,
+		craftedItems,
 	}),
 );
 
@@ -254,7 +258,7 @@ async function handleClear(characterId: string) {
 							</div>
 						</div>
 
-						<div class="grid gap-3 sm:grid-cols-2 lg:min-w-96">
+						<div class="grid gap-3 sm:grid-cols-3 lg:min-w-[480px]">
 							<div>
 								<p class="text-sm font-semibold text-ether">Eixos</p>
 								<div class="mt-2 grid grid-cols-3 gap-2">
@@ -295,6 +299,25 @@ async function handleClear(characterId: string) {
 										</div>
 									{/each}
 								</div>
+							</div>
+
+							<div>
+								<p class="text-sm font-semibold text-ether">Combate</p>
+								<div class="mt-2 grid grid-cols-2 gap-2">
+									<div class="border border-bronze bg-void px-3 py-2 text-center flex flex-col justify-between">
+										<p class="text-xs text-ether">Defesa (CA)</p>
+										<p class="mt-1 text-lg font-semibold text-bone">{character.armorClass}</p>
+									</div>
+									<div class="border border-bronze bg-void px-3 py-2 text-center flex flex-col justify-between">
+										<p class="text-xs text-ether">Velocidade</p>
+										<p class="mt-1 text-lg font-semibold text-bone">{character.movementSpeed}m</p>
+									</div>
+								</div>
+								{#if character.stealthPenalty < 0}
+									<p class="text-[10px] text-blood bg-blood-shadow/20 border border-blood/30 px-1 py-0.5 mt-1 rounded-[2px] text-center font-semibold animate-pulse">
+										🔇 Ruído: {character.stealthPenalty} Furtividade
+									</p>
+								{/if}
 							</div>
 						</div>
 					</div>

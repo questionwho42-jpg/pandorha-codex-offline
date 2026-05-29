@@ -44,6 +44,8 @@ export class CharacterDerivedStatsService {
 			initiativeBase:
 				character.level + character.mental + character.interaction,
 			carrySlotLimit: character.physical + character.resistance + 6,
+			armorClass: 10 + character.level + character.physical,
+			stealthPenalty: 0,
 		});
 	}
 }

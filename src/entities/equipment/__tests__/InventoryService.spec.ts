@@ -128,7 +128,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			expect(state.equippedWeight).toBe(4);
 			expect(state.decoratedStats.currentCarryWeight).toBe(4);
 			expect(state.decoratedStats.encumbranceState).toBe("light"); // 4 <= limite 8
-			expect(state.decoratedStats.movementSpeedBase).toBe(9); // velocidade intacta
+			expect(state.decoratedStats.movementSpeedBase).toBe(6); // velocidade reduzida devido a Placas (-3m)
 		}
 	});
 
@@ -231,7 +231,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			const state = stateRes.data;
 			expect(state.equippedWeight).toBe(8);
 			expect(state.decoratedStats.encumbranceState).toBe("encumbered");
-			expect(state.decoratedStats.movementSpeedBase).toBe(6); // 9 - 3 = 6m
+			expect(state.decoratedStats.movementSpeedBase).toBe(3); // 9 - 3 (Placas) - 3 (Sobrecarga) = 3m
 		}
 	});
 
@@ -336,6 +336,77 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 		if (result.success) {
 			// Item desconhecido deve somar peso default = 1
 			expect(result.data.equippedWeight).toBe(1);
+		}
+	});
+
+	it("deve recalcular a CA e penalidades na cebola de atributos ao equipar armadura e escudo pelo InventoryService", async () => {
+		const repo = new InMemoryCraftingRepository();
+		const service = new InventoryService(repo);
+
+		// Armadura de Couro (slotCost: 1) -> Equipado
+		await repo.saveCraftedItem({
+			id: "crafted-leather-1",
+			characterId: "char-1",
+			equipmentId: "leather-armor",
+			label: "Couro Batido",
+			isSharp: 0,
+			isReinforced: 0,
+			isRunic: 0,
+			isEquipped: 1,
+			durabilityCurrent: 100,
+			durabilityMax: 100,
+			createdAt: new Date().toISOString(),
+		});
+
+		// Escudo Redondo (slotCost: 1) -> Equipado
+		await repo.saveCraftedItem({
+			id: "crafted-shield-1",
+			characterId: "char-1",
+			equipmentId: "round-shield",
+			label: "Broquel",
+			isSharp: 0,
+			isReinforced: 0,
+			isRunic: 0,
+			isEquipped: 1,
+			durabilityCurrent: 100,
+			durabilityMax: 100,
+			createdAt: new Date().toISOString(),
+		});
+
+		const character: CharacterRecord = {
+			id: "char-1",
+			name: "Aventureiro Defensivo",
+			concept: "Guerreiro",
+			ancestryId: "human",
+			classId: "vanguard",
+			backgroundId: "solitary",
+			level: 1,
+			experiencePoints: 0,
+			physical: 3,
+			mental: 1,
+			social: 1,
+			conflict: 1,
+			interaction: 1,
+			resistance: 1,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+		};
+		const baseStats = new BaseCharacterStats(character, {
+			id: "vanguard",
+			baseHp: 10,
+		});
+
+		const result = await service.getCharacterInventoryState(
+			"char-1",
+			baseStats,
+		);
+		expect(result.success).toBe(true);
+		if (result.success) {
+			const stats = result.data.decoratedStats;
+			// CA = 10 + Nível: 1 + Couro: 2 + Físico: 3 + Escudo: 1 = 17
+			expect(stats.armorClass).toBe(17);
+			expect(stats.movementSpeedBase).toBe(9); // sem penalidade
+			expect(stats.stealthPenalty).toBe(0);
 		}
 	});
 });

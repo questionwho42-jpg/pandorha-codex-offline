@@ -23,6 +23,8 @@ describe("CharacterDerivedStatsService", () => {
 			maxHp: 16,
 			initiativeBase: 3,
 			carrySlotLimit: 12,
+			armorClass: 14,
+			stealthPenalty: 0,
 		});
 	});
 
@@ -45,6 +47,8 @@ describe("CharacterDerivedStatsService", () => {
 			maxHp: 9,
 			initiativeBase: 6,
 			carrySlotLimit: 9,
+			armorClass: 13,
+			stealthPenalty: 0,
 		});
 	});
 

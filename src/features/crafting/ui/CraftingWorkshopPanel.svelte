@@ -101,6 +101,9 @@ onMount(() => {
 
 function saveItemsToStorage(list: CharacterCraftedItemRecord[]) {
 	localStorage.setItem("pandorha_crafted_items", JSON.stringify(list));
+	if (typeof window !== "undefined") {
+		window.dispatchEvent(new CustomEvent("pandorha:crafted-items-changed"));
+	}
 }
 
 // Encontra as estatísticas de um personagem da sessão

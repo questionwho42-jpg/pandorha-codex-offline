@@ -2,6 +2,7 @@ import {
 	type CharacterRecord,
 	characterSelectSchema,
 } from "$lib/entities/character";
+import { ArmorStatsDecorator } from "$lib/entities/character/domain/ArmorStatsDecorator";
 import {
 	BaseCharacterStats,
 	BleedingDecorator,
@@ -29,6 +30,8 @@ export interface CombatAttackerStatsView {
 	readonly initiativeLabel: string;
 	readonly maxHp: number | null;
 	readonly maxHpLabel: string;
+	readonly armorClassLabel: string;
+	readonly movementSpeedLabel: string;
 	readonly sourceLabel: string;
 	readonly status: CombatAttackerStatsStatus;
 	readonly activeEffectsLabels: readonly {
@@ -44,6 +47,10 @@ export interface CombatAttackerStatsViewInput {
 	readonly characters: readonly CharacterRecord[];
 	readonly equippedWeight?: number;
 	readonly activeEffects?: readonly { type: string }[];
+	readonly armorBonus?: number;
+	readonly isHeavy?: boolean;
+	readonly isNoisy?: boolean;
+	readonly shieldBonus?: number;
 }
 
 export function createCombatAttackerStatsView(
@@ -137,10 +144,17 @@ export function createCombatAttackerStatsView(
 		}
 	}
 
-	const finalStats = new EncumberedStatusDecorator(
+	const encumberedStats = new EncumberedStatusDecorator(
 		decoratedStats,
 		input.equippedWeight ?? 0,
 	);
+
+	const finalStats = new ArmorStatsDecorator(encumberedStats, {
+		armorBonus: input.armorBonus ?? 0,
+		isHeavy: input.isHeavy ?? false,
+		isNoisy: input.isNoisy ?? false,
+		shieldBonus: input.shieldBonus ?? 0,
+	});
 
 	const encumbState = finalStats.encumbranceState;
 	let helperText =
@@ -168,6 +182,8 @@ export function createCombatAttackerStatsView(
 		initiativeLabel: `Iniciativa: ${finalStats.initiativeBase}`,
 		maxHp: finalStats.maxHp,
 		maxHpLabel: `HP máximo: ${finalStats.maxHp}`,
+		armorClassLabel: `CA: ${finalStats.armorClass}`,
+		movementSpeedLabel: `Velocidade: ${finalStats.movementSpeedBase}m`,
 		sourceLabel: "Personagem da sessão",
 		status: "derived",
 		activeEffectsLabels,
@@ -186,6 +202,8 @@ function createTrainingStatsView(): CombatAttackerStatsView {
 		initiativeLabel: "Iniciativa: não aplicada",
 		maxHp: null,
 		maxHpLabel: "HP máximo: não aplicado",
+		armorClassLabel: "CA: não aplicada",
+		movementSpeedLabel: "Velocidade: não aplicada",
 		sourceLabel: "Atacante de treino",
 		status: "training",
 		activeEffectsLabels: [],
@@ -205,6 +223,8 @@ function createUnavailableStatsView(
 		initiativeLabel: "Iniciativa: indisponível",
 		maxHp: null,
 		maxHpLabel: "HP máximo: indisponível",
+		armorClassLabel: "CA: indisponível",
+		movementSpeedLabel: "Velocidade: indisponível",
 		sourceLabel: "Personagem da sessão",
 		status: "unavailable",
 		activeEffectsLabels: [],
