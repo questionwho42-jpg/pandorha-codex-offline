@@ -32,7 +32,7 @@ describe("RPC save/load contract", () => {
 			payload: {
 				saveId: "primary",
 				snapshot: {
-					version: 4,
+					version: 5,
 					savedAt: CREATED_AT,
 					characters: [{ id: "lia", name: "Lia", level: 1 }],
 					worldState: [
@@ -52,6 +52,7 @@ describe("RPC save/load contract", () => {
 					socialEncounterEvents: [
 						{ id: "social-encounter-one-event-one", sequence: 0 },
 					],
+					npcRelationships: [{ npcId: "training-broker", status: "stable" }],
 				},
 			},
 		});
@@ -76,7 +77,7 @@ describe("RPC save/load contract", () => {
 			payload: {
 				saveId: "primary",
 				snapshot: {
-					version: 4,
+					version: 5,
 					savedAt: CREATED_AT,
 					characters: [{ id: "lia", createdAt: new Date(CREATED_AT) }],
 					worldState: [],
@@ -86,6 +87,7 @@ describe("RPC save/load contract", () => {
 					factionStandings: [],
 					socialEncounters: [],
 					socialEncounterEvents: [],
+					npcRelationships: [],
 				},
 			},
 		});

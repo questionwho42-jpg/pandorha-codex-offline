@@ -41,3 +41,5 @@ Na T47, a aba Relacoes passou a usar personagens criados na sessao como negociad
 Na T49, quando uma negociacao termina, o app registra uma consequencia no estado do mundo. Essa consequencia aparece na aba Relacoes e tambem volta depois que o usuario salva, recarrega a pagina e carrega o save.
 
 Na T51, a aba Relacoes ganhou escolhas de argumento. Antes de fazer o apelo, o usuario pode escolher Persuadir, Barganhar ou Pressionar; a tela mostra o modificador e a rolagem passa a usar esse bonus.
+
+Na T73-T76, o app passou a guardar relacoes individuais com NPCs no save. Quando o usuario usa Pressionar numa negociacao, o app atualiza Fama/Infamia, registra a pressao na relacao daquele NPC, avanca o clock de retaliacao por um gatilho explicito e mostra o resumo em Relacoes por NPC.

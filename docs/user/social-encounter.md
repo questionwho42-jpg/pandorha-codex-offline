@@ -20,8 +20,8 @@ Este guia explica como testar a negociação social visível do Pandorha Engine.
 - Quando a negociação termina, a consequência é registrada em `WorldState` com a última escolha de diálogo usada.
 - Consequências de `Persuadir`, `Barganhar` e `Pressionar` têm resumos diferentes para deixar claro qual abordagem encerrou a cena.
 - Quando uma negociação terminal usa `Pressionar`, a facção associada ao NPC perde 1 nível de `Fama` uma única vez por encontro.
-- Quando `Pressionar` é usado com a `Fama` da facção já em 0, a facção ganha 1 nível de `Infâmia` e um clock de `Retaliação` aparece em `Relações`.
-- O save local v4 preserva estado da negociação, opção de diálogo escolhida, eventos, log e consequência.
+- Quando `Pressionar` é usado com a `Fama` da facção já em 0, a facção ganha 1 nível de `Infâmia`, um clock de `Retaliação` aparece em `Relações` e a relação individual do NPC registra a pressão.
+- O save local v5 preserva estado da negociação, opção de diálogo escolhida, eventos, log, consequência e relação individual por NPC.
 
 ## Como Testar No Navegador
 
@@ -56,16 +56,17 @@ Este guia explica como testar a negociação social visível do Pandorha Engine.
 29. Confirme que a consequência em `WorldState` cita `Pressionar` e `perda de 1 nível de Fama`.
 30. Confirme que a `Liga Mercante de Treino` mostra a `Fama` reduzida.
 31. Repita a pressão quando a `Fama` estiver em 0 e confirme que a consequência cita `Infâmia`.
-32. Confirme que `Relações` mostra `Retaliação: Liga Mercante de Treino - 0/4 fatias`.
-33. Clique em `Salvar sessão`.
-34. Recarregue a página.
-35. Clique em `Carregar save`.
-36. Volte para `Relações` e confirme que a resposta da árvore, negociação, log, consequência com a escolha de diálogo, `Fama`, `Infâmia` e clock de retaliação voltaram.
+32. Confirme que `Relações` mostra `Retaliação: Liga Mercante de Treino - 1/4 fatias`.
+33. Confirme que `Relações por NPC` mostra a `Corretora de Treino` com `Relação tensionada`.
+34. Clique em `Salvar sessão`.
+35. Recarregue a página.
+36. Clique em `Carregar save`.
+37. Volte para `Relações` e confirme que a resposta da árvore, negociação, log, consequência com a escolha de diálogo, `Fama`, `Infâmia`, relação individual por NPC e clock de retaliação voltaram.
 
 ## Limitações Atuais
 
 - As árvores atuais são curtas e existem para a `Corretora de Treino`, o `Informante de Treino` e o `Capitão de Treino`.
-- `Pressionar` ainda não altera relação individual do NPC nem avança clocks de retaliação automaticamente.
+- `Pressionar` altera relação individual do NPC e avança clocks de retaliação apenas por gatilho explícito `social-pressure`; não há avanço automático por tempo.
 - O bloqueio por HP mental só impede a opção de diálogo; ele não consome HP mental por conta própria.
 - A negociação usa NPCs de treino, não NPCs finais de lore.
 - O save continua usando apenas o slot `primary`.

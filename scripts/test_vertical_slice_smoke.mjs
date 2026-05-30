@@ -248,6 +248,8 @@ applySocialPressurePenaltyIntent;
 applySocialPressurePenalty;
 clockRecords = [...result.data.clocks];
 gainInfamy: socialRelationsSession.gainInfamy;
+npcRelationshipRecords = [...result.data.npcRelationships];
+npcRelationships={npcRelationshipRecords};
 SpellCastPanel;
 InventoryReadOnlyPanel;
 CompendiumBrowser;
@@ -371,11 +373,12 @@ function handleRuntimeRequest() {}
 
 function renderSaveSchemas() {
 	return `
-export const CURRENT_SAVE_VERSION = 4;
+export const CURRENT_SAVE_VERSION = 5;
 const save = {
   clocks: [],
   socialEncounters: [],
   socialEncounterEvents: [],
+  npcRelationships: [],
 };
 `;
 }
@@ -394,6 +397,7 @@ Leia Fala do NPC, escolha Barganhar, confirme a troca proposta e o log Opção d
 Selecione Informante de Treino, confirme HP mental 6/6 e a opção bloqueada: Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.
 Selecione Capitão de Treino, confirme moral da tropa, escolha Barganhar e confirme custo da escolta. Pressionar exige: Exige HP mental 8 ou maior para pressionar o capitão sem quebrar a moral da tropa.
 Confirme Fama 1, Infâmia e Retaliação.
+Confirme Relações por NPC.
 Depois valide WorldState ao encerrar a negociação.
 Ao escolher Pressionar, confirme a perda de 1 nível de Fama.
 `;

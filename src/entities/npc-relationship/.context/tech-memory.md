@@ -13,3 +13,10 @@
 - Reverse TDD was used for `NpcRelationshipService` before adding implementation files.
 - `vitest.config.mjs` includes `src/entities/npc-relationship/domain/NpcRelationshipService.ts` in the 100% coverage gate.
 - The service currently models only conservative relationship effects: attitude degradation, strained status, enemy status after mental break, pressure damage, and pressure key ledger updates.
+
+## T73-T76 Durable Persistence And Social Wiring
+
+- `npc_relationships` is now registered through Drizzle, migration `0006_bent_havok`, and `PANDORHA_SQLITE_MIGRATIONS`.
+- `DrizzleNpcRelationshipRepository` keeps the same repository port as the in-memory fake and validates write/read rows with Drizzle-Zod before returning domain records.
+- Save/load v5 persists `npcRelationships` as a dedicated snapshot section; individual NPC relationship state must not be hidden inside `WorldState`.
+- App-level social pressure uses `social-pressure-${encounterId}` as the idempotent key shared by NPC relationship pressure and explicit retaliation-clock trigger handling.

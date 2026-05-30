@@ -6,6 +6,7 @@ import {
 import { characterSelectSchema } from "$lib/entities/character";
 import { clockSelectSchema } from "$lib/entities/clock";
 import { factionStandingSelectSchema } from "$lib/entities/faction";
+import { npcRelationshipSelectSchema } from "$lib/entities/npc-relationship";
 import {
 	socialEncounterEventSelectSchema,
 	socialEncounterSelectSchema,
@@ -13,7 +14,7 @@ import {
 import { worldStateValueSchema } from "$lib/entities/world-state";
 
 const isoTimestamp = z.string().trim().datetime({ offset: true });
-export const CURRENT_SAVE_VERSION = 4;
+export const CURRENT_SAVE_VERSION = 5;
 
 export const worldStateFlagSchema = z.object({
 	key: z.string().trim().min(1),
@@ -37,6 +38,11 @@ export const saveMetadataV3Schema = z.object({
 });
 
 export const saveMetadataV4Schema = z.object({
+	version: z.literal(4),
+	savedAt: isoTimestamp,
+});
+
+export const saveMetadataV5Schema = z.object({
 	version: z.literal(CURRENT_SAVE_VERSION),
 	savedAt: isoTimestamp,
 });
@@ -46,6 +52,7 @@ export const saveMetadataAnySchema = z.union([
 	saveMetadataV2Schema,
 	saveMetadataV3Schema,
 	saveMetadataV4Schema,
+	saveMetadataV5Schema,
 ]);
 
 export const saveMetadataSchema = saveMetadataAnySchema;
@@ -59,6 +66,7 @@ export const saveSessionInputSchema = z.object({
 	factionStandings: z.array(factionStandingSelectSchema).default([]),
 	socialEncounters: z.array(socialEncounterSelectSchema).default([]),
 	socialEncounterEvents: z.array(socialEncounterEventSelectSchema).default([]),
+	npcRelationships: z.array(npcRelationshipSelectSchema).default([]),
 	savedAt: isoTimestamp,
 });
 
@@ -91,7 +99,7 @@ export const loadedSessionStateV3Schema = z.object({
 });
 
 export const loadedSessionStateV4Schema = z.object({
-	version: z.literal(CURRENT_SAVE_VERSION),
+	version: z.literal(4),
 	savedAt: isoTimestamp,
 	characters: z.array(characterSelectSchema),
 	worldState: z.array(worldStateFlagSchema),
@@ -103,11 +111,26 @@ export const loadedSessionStateV4Schema = z.object({
 	socialEncounterEvents: z.array(socialEncounterEventSelectSchema),
 });
 
+export const loadedSessionStateV5Schema = z.object({
+	version: z.literal(CURRENT_SAVE_VERSION),
+	savedAt: isoTimestamp,
+	characters: z.array(characterSelectSchema),
+	worldState: z.array(worldStateFlagSchema),
+	clocks: z.array(clockSelectSchema),
+	campSessions: z.array(campSessionSelectSchema),
+	campAssignments: z.array(campAssignmentSelectSchema),
+	factionStandings: z.array(factionStandingSelectSchema),
+	socialEncounters: z.array(socialEncounterSelectSchema),
+	socialEncounterEvents: z.array(socialEncounterEventSelectSchema),
+	npcRelationships: z.array(npcRelationshipSelectSchema),
+});
+
 export const loadedSessionStateSchema = z.union([
 	loadedSessionStateV1Schema,
 	loadedSessionStateV2Schema,
 	loadedSessionStateV3Schema,
 	loadedSessionStateV4Schema,
+	loadedSessionStateV5Schema,
 ]);
 
 export function migrateSaveV1ToV2(
@@ -143,7 +166,7 @@ export function migrateSaveV3ToV4(
 	snapshot: z.infer<typeof loadedSessionStateV3Schema>,
 ): z.infer<typeof loadedSessionStateV4Schema> {
 	return {
-		version: CURRENT_SAVE_VERSION,
+		version: 4,
 		savedAt: snapshot.savedAt,
 		characters: snapshot.characters,
 		worldState: snapshot.worldState,
@@ -156,19 +179,43 @@ export function migrateSaveV3ToV4(
 	};
 }
 
+export function migrateSaveV4ToV5(
+	snapshot: z.infer<typeof loadedSessionStateV4Schema>,
+): z.infer<typeof loadedSessionStateV5Schema> {
+	return {
+		version: CURRENT_SAVE_VERSION,
+		savedAt: snapshot.savedAt,
+		characters: snapshot.characters,
+		worldState: snapshot.worldState,
+		clocks: snapshot.clocks,
+		campSessions: snapshot.campSessions,
+		campAssignments: snapshot.campAssignments,
+		factionStandings: snapshot.factionStandings,
+		socialEncounters: snapshot.socialEncounters,
+		socialEncounterEvents: snapshot.socialEncounterEvents,
+		npcRelationships: [],
+	};
+}
+
 export function migrateLoadedSessionToCurrent(
 	snapshot: z.infer<typeof loadedSessionStateSchema>,
-): z.infer<typeof loadedSessionStateV4Schema> {
+): z.infer<typeof loadedSessionStateV5Schema> {
 	if (snapshot.version === 1) {
-		return migrateSaveV3ToV4(migrateSaveV2ToV3(migrateSaveV1ToV2(snapshot)));
+		return migrateSaveV4ToV5(
+			migrateSaveV3ToV4(migrateSaveV2ToV3(migrateSaveV1ToV2(snapshot))),
+		);
 	}
 
 	if (snapshot.version === 2) {
-		return migrateSaveV3ToV4(migrateSaveV2ToV3(snapshot));
+		return migrateSaveV4ToV5(migrateSaveV3ToV4(migrateSaveV2ToV3(snapshot)));
 	}
 
 	if (snapshot.version === 3) {
-		return migrateSaveV3ToV4(snapshot);
+		return migrateSaveV4ToV5(migrateSaveV3ToV4(snapshot));
+	}
+
+	if (snapshot.version === 4) {
+		return migrateSaveV4ToV5(snapshot);
 	}
 
 	return snapshot;

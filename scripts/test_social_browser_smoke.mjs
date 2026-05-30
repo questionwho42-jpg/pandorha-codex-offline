@@ -60,7 +60,7 @@ Confirme Infâmia e Retaliação.
 
 		assert.notEqual(result.status, 0);
 		assert.match(result.stderr, /docs\/user\/social-encounter\.md/);
-		assert.match(result.stderr, /Salvar sessao/);
+		assert.match(result.stderr, /Relações por NPC|Salvar sessao/);
 	} finally {
 		await rm(root, { recursive: true, force: true });
 	}
@@ -149,7 +149,11 @@ async function createFixtureRoot({
 function renderApp() {
 	return `
 <SaveLoadControls onLoad={loadSession} onSave={saveSession} />
-<SocialRelationsPanel clocks={clockRecords} />
+<SocialRelationsPanel
+  clocks={clockRecords}
+  npcRelationships={npcRelationshipRecords}
+  npcs={socialEncounterSession.npcs}
+/>
 <SocialEncounterPanel
   factionFameLevelsByNpcId={factionFameLevelsByNpcId}
   onSocialPressurePenalty={applySocialPressurePenalty}
@@ -158,6 +162,7 @@ import { applySocialPressurePenaltyIntent } from "./model/socialPressurePenaltyS
 const input = {
   gainInfamy: socialRelationsSession.gainInfamy,
   loseFame: socialRelationsSession.loseFame,
+  npcRelationships: npcRelationshipRecords,
 };
 async function applySocialPressurePenalty() {}
 clockRecords = [...result.data.clocks];
@@ -165,10 +170,12 @@ const snapshot = {
   worldState: worldStateRecords,
   socialEncounters: socialEncounterRecords,
   socialEncounterEvents: socialEncounterEventRecords,
+  npcRelationships: npcRelationshipRecords,
 };
 worldStateRecords = [...result.data.worldState];
 socialEncounterRecords = [...result.data.socialEncounters];
 socialEncounterEventRecords = [...result.data.socialEncounterEvents];
+npcRelationshipRecords = [...result.data.npcRelationships];
 `;
 }
 
@@ -221,7 +228,10 @@ function renderSocialPressurePenaltySessionSpec() {
 	return `
 it("applies Infamia and creates a retaliation clock when Fame is already zero", async () => {
   expect(result.data.infamyApplied).toBe(true);
+  expect(result.data.npcRelationshipApplied).toBe(true);
+  expect(result.data.retaliationClockAdvanced).toBe(true);
   expect(result.data.retaliationClockCreated).toBe(true);
+  expect(result.data.npcRelationships[0].appliedPressureKeysJson).toContain("social-pressure-social-encounter-primary");
   expect(result.data.clocks).toEqual([
     expect.objectContaining({
       id: "retaliation-training-merchant-league-social-encounter-primary",
@@ -236,14 +246,17 @@ it("applies Infamia and creates a retaliation clock when Fame is already zero", 
 function renderSocialRelationsPanel() {
 	return `
 const clocks = [];
+const npcRelationships = [];
+<div data-testid="npc-relationship-list">Relações por NPC</div>
+<div data-testid="npc-relationship-row">Corretora de Treino</div>
 <p data-testid="social-retaliation-clock">Retaliação: Liga Mercante de Treino - 0/4 fatias</p>
 `;
 }
 
 function renderSaveSchemas() {
 	return `
-export const CURRENT_SAVE_VERSION = 4;
-const fields = ["clocks", "socialEncounters", "socialEncounterEvents"];
+export const CURRENT_SAVE_VERSION = 5;
+const fields = ["clocks", "socialEncounters", "socialEncounterEvents", "npcRelationships"];
 `;
 }
 
@@ -255,6 +268,7 @@ Fazer apelo
 WorldState
 Infâmia
 Retaliação
+Relações por NPC
 Salvar sessao
 recarregue
 Carregar save
@@ -269,6 +283,7 @@ Fazer apelo
 WorldState
 Infâmia
 Retaliação
+Relações por NPC
 Salvar sessao
 recarregue
 Carregar save

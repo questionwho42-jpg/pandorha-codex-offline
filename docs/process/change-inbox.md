@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260530-002246-t73-t76-npc-relationship-save-ui -->
+### T73-T76 NPC Relationship Save UI
+- id: 20260530-002246-t73-t76-npc-relationship-save-ui
+- status: open
+- created_at: 2026-05-30T00:22:46-03:00
+- source: task-ledger
+- summary: Implementar save v5 minimo para relacao individual por NPC, wiring explicito de Pressionar com relacao NPC e clock social-pressure, UI em Relacoes e QA recorrente sem reaproveitar WorldState.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260530-002246-t73-t76-npc-relationship-save-ui -->
 <!-- pandorha-inbox:20260527-125851-t72-npc-relationship-core -->
 ### T72 NPC Relationship Core
 - id: 20260527-125851-t72-npc-relationship-core

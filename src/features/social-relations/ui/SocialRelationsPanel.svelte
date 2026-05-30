@@ -4,6 +4,8 @@ import type {
 	FactionRecord,
 	FactionStandingRecord,
 } from "$lib/entities/faction";
+import type { NpcRecord } from "$lib/entities/npc";
+import type { NpcRelationshipRecord } from "$lib/entities/npc-relationship";
 import type {
 	SocialStandingChangeResult,
 	SocialStandingFailure,
@@ -20,6 +22,8 @@ type Props = {
 	readonly invokeTierOneFavor: (
 		standing: FactionStandingRecord,
 	) => Promise<Result<SocialStandingChangeResult, SocialStandingFailure>>;
+	readonly npcRelationships?: readonly NpcRelationshipRecord[];
+	readonly npcs?: readonly NpcRecord[];
 	readonly onStandingsChange: (
 		standings: readonly FactionStandingRecord[],
 	) => void;
@@ -33,6 +37,8 @@ let {
 	clocks,
 	factions,
 	invokeTierOneFavor,
+	npcRelationships = [],
+	npcs = [],
 	onStandingsChange,
 	redeemTierOneDebt,
 	standings,
@@ -64,6 +70,8 @@ let view = $derived(
 		events,
 		clocks,
 		factions,
+		npcRelationships,
+		npcs,
 		standings: localStandings,
 	}),
 );
@@ -231,6 +239,30 @@ function replaceStanding(
 						</li>
 					{/each}
 				</ul>
+				{#if view.npcRows.length > 0}
+					<div class="mt-5 border-t border-bronze pt-4" data-testid="npc-relationship-list">
+						<h4 class="text-sm font-semibold text-ether">Relações por NPC</h4>
+						<ul class="mt-3 space-y-3">
+							{#each view.npcRows as npcRow (npcRow.npcId)}
+								<li class="border border-bronze bg-ruin px-4 py-3 text-sm leading-6 text-bone" data-testid="npc-relationship-row">
+									<p class="font-semibold text-bone">{npcRow.label}</p>
+									<p class="text-bone/85">{npcRow.factionLabel}</p>
+									<div class="mt-2 grid gap-2 sm:grid-cols-3">
+										<span class="border border-bronze bg-blood-shadow px-2 py-1 font-semibold text-bone">
+											{npcRow.attitudeLabel}
+										</span>
+										<span class="border border-bronze bg-blood-shadow px-2 py-1 font-semibold text-bone">
+											{npcRow.statusLabel}
+										</span>
+										<span class="border border-bronze bg-blood-shadow px-2 py-1 font-semibold text-bone">
+											{npcRow.pressureDamageLabel}
+										</span>
+									</div>
+								</li>
+							{/each}
+						</ul>
+					</div>
+				{/if}
 			</aside>
 		</div>
 	{/if}

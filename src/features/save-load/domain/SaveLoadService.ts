@@ -47,6 +47,7 @@ export class SaveLoadService {
 			factionStandings: parsedInput.data.factionStandings,
 			socialEncounters: parsedInput.data.socialEncounters,
 			socialEncounterEvents: parsedInput.data.socialEncounterEvents,
+			npcRelationships: parsedInput.data.npcRelationships,
 		};
 
 		const response = await this.workerBridge.send({
@@ -85,6 +86,7 @@ export class SaveLoadService {
 			factionStandingCount: parsedInput.data.factionStandings.length,
 			socialEncounterCount: parsedInput.data.socialEncounters.length,
 			socialEncounterEventCount: parsedInput.data.socialEncounterEvents.length,
+			npcRelationshipCount: parsedInput.data.npcRelationships.length,
 		});
 	}
 
@@ -152,6 +154,7 @@ export class SaveLoadService {
 			factionStandings: currentSnapshot.factionStandings,
 			socialEncounters: currentSnapshot.socialEncounters,
 			socialEncounterEvents: currentSnapshot.socialEncounterEvents,
+			npcRelationships: currentSnapshot.npcRelationships,
 		});
 	}
 }

@@ -40,6 +40,7 @@ const snapshotWorkerPort = {
 			factionStandingCount: saved.data.factionStandingCount,
 			socialEncounterCount: saved.data.socialEncounterCount,
 			socialEncounterEventCount: saved.data.socialEncounterEventCount,
+			npcRelationshipCount: saved.data.npcRelationshipCount,
 		});
 	},
 	loadSnapshot: async () => {
@@ -76,6 +77,9 @@ const snapshotWorkerPort = {
 			})),
 			socialEncounterEvents: loaded.data.socialEncounterEvents.map((event) => ({
 				...event,
+			})),
+			npcRelationships: loaded.data.npcRelationships.map((relationship) => ({
+				...relationship,
 			})),
 		});
 	},

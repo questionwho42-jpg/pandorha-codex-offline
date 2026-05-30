@@ -6,6 +6,8 @@ import {
 	TRAINING_FACTION_STANDINGS,
 	TRAINING_FACTIONS,
 } from "$lib/entities/faction";
+import { NPC_CATALOG } from "$lib/entities/npc";
+import type { NpcRelationshipRecord } from "$lib/entities/npc-relationship";
 import {
 	createSocialRelationsView,
 	mapSocialStandingFailureToMessage,
@@ -21,6 +23,7 @@ describe("createSocialRelationsView", () => {
 		});
 
 		expect(view.emptyStateLabel).toBeNull();
+		expect(view.npcRows).toEqual([]);
 		expect(view.titleLabel).toBe("Relações sociais");
 		expect(view.logLines).toEqual([
 			"Escolha uma facção de treino para invocar favores ou abater dívida.",
@@ -95,6 +98,115 @@ describe("createSocialRelationsView", () => {
 			retaliationClockLabel:
 				"Retaliação: Guilda dos Ladrões de Treino - 0/4 fatias",
 		});
+	});
+
+	it("shows individual NPC relationship rows after persistence exists", () => {
+		const view = createSocialRelationsView({
+			errorMessage: null,
+			events: [],
+			factions: TRAINING_FACTIONS,
+			npcRelationships: [
+				buildNpcRelationship({
+					attitude: "skeptical",
+					status: "strained",
+					pressureDamage: 1,
+				}),
+			],
+			npcs: NPC_CATALOG,
+			standings: TRAINING_FACTION_STANDINGS,
+		});
+
+		expect(view.npcRows).toEqual([
+			{
+				npcId: "training-broker",
+				label: "Corretora de Treino",
+				factionLabel: "Liga Mercante de Treino",
+				attitudeLabel: "Atitude cética",
+				statusLabel: "Relação tensionada",
+				pressureDamageLabel: "Pressão 1",
+			},
+		]);
+	});
+
+	it("maps every NPC relationship attitude, status, and fallback label", () => {
+		const view = createSocialRelationsView({
+			errorMessage: null,
+			events: [],
+			factions: TRAINING_FACTIONS,
+			npcRelationships: [
+				buildNpcRelationship({
+					npcId: "training-broker",
+					attitude: "friendly",
+					status: "stable",
+				}),
+				buildNpcRelationship({
+					npcId: "training-captain",
+					attitude: "neutral",
+					status: "ally",
+				}),
+				buildNpcRelationship({
+					npcId: "unknown-npc",
+					attitude: "hostile",
+					status: "enemy",
+				}),
+				buildNpcRelationship({
+					npcId: "guildless-npc",
+					attitude: "skeptical",
+					status: "strained",
+				}),
+			],
+			npcs: [
+				...NPC_CATALOG,
+				{
+					id: "guildless-npc",
+					label: "Contato sem Facção",
+					role: "informant",
+					factionId: "missing-faction",
+					tier: 1,
+					mentalHp: 4,
+					patience: 3,
+					attitude: "skeptical",
+					sourceFile: "tests",
+					summary: "NPC de teste sem facção catalogada.",
+				},
+			],
+			standings: TRAINING_FACTION_STANDINGS,
+		});
+
+		expect(view.npcRows).toEqual([
+			{
+				npcId: "training-broker",
+				label: "Corretora de Treino",
+				factionLabel: "Liga Mercante de Treino",
+				attitudeLabel: "Atitude amistosa",
+				statusLabel: "Relação estável",
+				pressureDamageLabel: "Pressão 0",
+			},
+			{
+				npcId: "training-captain",
+				label: "Capitão de Treino",
+				factionLabel: "Templo da Guerra de Treino",
+				attitudeLabel: "Atitude neutra",
+				statusLabel: "Aliado",
+				pressureDamageLabel: "Pressão 0",
+			},
+			{
+				npcId: "unknown-npc",
+				label: "unknown-npc",
+				factionLabel: "Facção desconhecida",
+				attitudeLabel: "Atitude hostil",
+				statusLabel: "Inimigo",
+				pressureDamageLabel: "Pressão 0",
+			},
+			{
+				npcId: "guildless-npc",
+				label: "Contato sem Facção",
+				factionLabel: "Facção desconhecida",
+				attitudeLabel: "Atitude cética",
+				statusLabel: "Relação tensionada",
+				pressureDamageLabel: "Pressão 0",
+			},
+		]);
 	});
 
 	it("maps every faction kind and standing status to visible pt-BR labels", () => {
@@ -201,6 +313,20 @@ function buildStanding(
 ): FactionStandingRecord {
 	return {
 		...TRAINING_FACTION_STANDINGS[0],
+		...patch,
+	};
+}
+
+function buildNpcRelationship(
+	patch: Partial<NpcRelationshipRecord> = {},
+): NpcRelationshipRecord {
+	return {
+		npcId: "training-broker",
+		attitude: "neutral",
+		status: "stable",
+		pressureDamage: 0,
+		appliedPressureKeysJson: "[]",
+		updatedAt: "2026-05-27T12:00:00.000Z",
 		...patch,
 	};
 }

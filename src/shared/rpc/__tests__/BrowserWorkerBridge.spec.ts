@@ -159,7 +159,7 @@ function buildSaveRequest() {
 		payload: {
 			saveId: "primary" as const,
 			snapshot: {
-				version: 4 as const,
+				version: 5 as const,
 				savedAt: "2026-05-15T20:14:00.000Z",
 				characters: [],
 				worldState: [],
@@ -169,6 +169,7 @@ function buildSaveRequest() {
 				factionStandings: [],
 				socialEncounters: [],
 				socialEncounterEvents: [],
+				npcRelationships: [],
 			},
 		},
 	};

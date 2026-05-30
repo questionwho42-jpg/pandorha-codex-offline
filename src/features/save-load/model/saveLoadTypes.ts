@@ -5,6 +5,7 @@ import type {
 import type { CharacterRecord } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
 import type { FactionStandingRecord } from "$lib/entities/faction";
+import type { NpcRelationshipRecord } from "$lib/entities/npc-relationship";
 import type {
 	SocialEncounterEventRecord,
 	SocialEncounterRecord,
@@ -17,7 +18,7 @@ export interface SaveLoadMessageIdProvider {
 
 export interface SaveSessionResult {
 	readonly saveId: "primary";
-	readonly version: 4;
+	readonly version: 5;
 	readonly savedAt: string;
 	readonly characterCount: number;
 	readonly worldStateCount: number;
@@ -27,10 +28,11 @@ export interface SaveSessionResult {
 	readonly factionStandingCount: number;
 	readonly socialEncounterCount: number;
 	readonly socialEncounterEventCount: number;
+	readonly npcRelationshipCount: number;
 }
 
 export interface LoadedSessionState {
-	readonly version: 4;
+	readonly version: 5;
 	readonly savedAt: string;
 	readonly characters: readonly CharacterRecord[];
 	readonly worldState: readonly WorldStateFlagView[];
@@ -40,6 +42,7 @@ export interface LoadedSessionState {
 	readonly factionStandings: readonly FactionStandingRecord[];
 	readonly socialEncounters: readonly SocialEncounterRecord[];
 	readonly socialEncounterEvents: readonly SocialEncounterEventRecord[];
+	readonly npcRelationships: readonly NpcRelationshipRecord[];
 }
 
 export type SaveLoadFailureCode =

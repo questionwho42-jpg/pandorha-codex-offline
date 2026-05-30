@@ -40,13 +40,14 @@ describe("SaveLoadService", () => {
 				factionStandings: [buildFactionStanding()],
 				socialEncounters: [buildSocialEncounter()],
 				socialEncounterEvents: [buildSocialEncounterEvent()],
+				npcRelationships: [buildNpcRelationship()],
 				savedAt: SAVED_AT,
 			}),
 		);
 
 		expect(saved).toEqual({
 			saveId: "primary",
-			version: 4,
+			version: 5,
 			savedAt: SAVED_AT,
 			characterCount: 1,
 			worldStateCount: 1,
@@ -56,6 +57,7 @@ describe("SaveLoadService", () => {
 			factionStandingCount: 1,
 			socialEncounterCount: 1,
 			socialEncounterEventCount: 1,
+			npcRelationshipCount: 1,
 		});
 		expect(bridge.requests).toEqual([
 			{
@@ -64,7 +66,7 @@ describe("SaveLoadService", () => {
 				payload: {
 					saveId: "primary",
 					snapshot: {
-						version: 4,
+						version: 5,
 						savedAt: SAVED_AT,
 						characters: [buildCharacter()],
 						worldState: [buildWorldStateFlag()],
@@ -74,6 +76,7 @@ describe("SaveLoadService", () => {
 						factionStandings: [buildFactionStanding()],
 						socialEncounters: [buildSocialEncounter()],
 						socialEncounterEvents: [buildSocialEncounterEvent()],
+						npcRelationships: [buildNpcRelationship()],
 					},
 				},
 			},
@@ -86,7 +89,7 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 4,
+					version: 5,
 					savedAt: SAVED_AT,
 					characters: [buildCharacter()],
 					worldState: [buildWorldStateFlag()],
@@ -96,6 +99,7 @@ describe("SaveLoadService", () => {
 					factionStandings: [buildFactionStanding()],
 					socialEncounters: [buildSocialEncounter()],
 					socialEncounterEvents: [buildSocialEncounterEvent()],
+					npcRelationships: [buildNpcRelationship()],
 				},
 			}),
 		);
@@ -104,7 +108,7 @@ describe("SaveLoadService", () => {
 		const loaded = expectLoadSuccess(await service.loadSession());
 
 		expect(loaded).toEqual({
-			version: 4,
+			version: 5,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
 			worldState: [buildWorldStateFlag()],
@@ -114,6 +118,7 @@ describe("SaveLoadService", () => {
 			factionStandings: [buildFactionStanding()],
 			socialEncounters: [buildSocialEncounter()],
 			socialEncounterEvents: [buildSocialEncounterEvent()],
+			npcRelationships: [buildNpcRelationship()],
 		});
 		expect(bridge.requests).toEqual([
 			{
@@ -205,7 +210,7 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 4,
+					version: 5,
 					savedAt: SAVED_AT,
 					characters: [{ ...buildCharacter(), level: 0 }],
 					worldState: [buildWorldStateFlag()],
@@ -215,6 +220,7 @@ describe("SaveLoadService", () => {
 					factionStandings: [],
 					socialEncounters: [],
 					socialEncounterEvents: [],
+					npcRelationships: [],
 				},
 			}),
 		);
@@ -233,6 +239,7 @@ describe("SaveLoadService", () => {
 					factionStandings: [],
 					socialEncounters: [],
 					socialEncounterEvents: [],
+					npcRelationships: [],
 				},
 			}),
 		);
@@ -241,7 +248,7 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 5,
+					version: 6,
 					savedAt: SAVED_AT,
 					characters: [buildCharacter()],
 					worldState: [buildWorldStateFlag()],
@@ -251,6 +258,7 @@ describe("SaveLoadService", () => {
 					factionStandings: [],
 					socialEncounters: [],
 					socialEncounterEvents: [],
+					npcRelationships: [],
 				},
 			}),
 		);
@@ -415,6 +423,17 @@ function buildSocialEncounterEvent() {
 	};
 }
 
+function buildNpcRelationship() {
+	return {
+		npcId: "training-broker",
+		attitude: "neutral",
+		status: "stable",
+		pressureDamage: 0,
+		appliedPressureKeysJson: "[]",
+		updatedAt: SAVED_AT,
+	};
+}
+
 function expectSaveSuccess(
 	result: Result<SaveSessionResult, SaveLoadFailure>,
 ): SaveSessionResult {
@@ -459,7 +478,7 @@ class SequenceMessageIdProvider implements SaveLoadMessageIdProvider {
 		return id;
 	}
 }
-it("migrates legacy v1 snapshots to v4 with empty structured data", async () => {
+it("migrates legacy v1 snapshots to v5 with empty structured data", async () => {
 	const bridge = new FakeWorkerBridge();
 	bridge.queueResponse(
 		createRpcSuccessResponse({
@@ -478,7 +497,7 @@ it("migrates legacy v1 snapshots to v4 with empty structured data", async () => 
 	);
 
 	expect(loaded).toEqual({
-		version: 4,
+		version: 5,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
 		worldState: [buildWorldStateFlag()],
@@ -488,10 +507,11 @@ it("migrates legacy v1 snapshots to v4 with empty structured data", async () => 
 		factionStandings: [],
 		socialEncounters: [],
 		socialEncounterEvents: [],
+		npcRelationships: [],
 	});
 });
 
-it("migrates legacy v2 snapshots to v4 with empty social data", async () => {
+it("migrates legacy v2 snapshots to v5 with empty social data", async () => {
 	const bridge = new FakeWorkerBridge();
 	bridge.queueResponse(
 		createRpcSuccessResponse({
@@ -513,7 +533,7 @@ it("migrates legacy v2 snapshots to v4 with empty social data", async () => {
 	);
 
 	expect(loaded).toEqual({
-		version: 4,
+		version: 5,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
 		worldState: [buildWorldStateFlag()],
@@ -523,10 +543,11 @@ it("migrates legacy v2 snapshots to v4 with empty social data", async () => {
 		factionStandings: [],
 		socialEncounters: [],
 		socialEncounterEvents: [],
+		npcRelationships: [],
 	});
 });
 
-it("migrates legacy v3 snapshots to v4 with empty social encounter state", async () => {
+it("migrates legacy v3 snapshots to v5 with empty social encounter state", async () => {
 	const bridge = new FakeWorkerBridge();
 	bridge.queueResponse(
 		createRpcSuccessResponse({
@@ -549,7 +570,7 @@ it("migrates legacy v3 snapshots to v4 with empty social encounter state", async
 	);
 
 	expect(loaded).toEqual({
-		version: 4,
+		version: 5,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
 		worldState: [buildWorldStateFlag()],
@@ -559,5 +580,45 @@ it("migrates legacy v3 snapshots to v4 with empty social encounter state", async
 		factionStandings: [buildFactionStanding()],
 		socialEncounters: [],
 		socialEncounterEvents: [],
+		npcRelationships: [],
+	});
+});
+
+it("migrates legacy v4 snapshots to v5 with empty NPC relationships", async () => {
+	const bridge = new FakeWorkerBridge();
+	bridge.queueResponse(
+		createRpcSuccessResponse({
+			messageId: LOAD_MESSAGE_ID,
+			data: {
+				version: 4,
+				savedAt: SAVED_AT,
+				characters: [buildCharacter()],
+				worldState: [buildWorldStateFlag()],
+				clocks: [buildClock()],
+				campSessions: [buildCampSession()],
+				campAssignments: [buildCampAssignment()],
+				factionStandings: [buildFactionStanding()],
+				socialEncounters: [buildSocialEncounter()],
+				socialEncounterEvents: [buildSocialEncounterEvent()],
+			},
+		}),
+	);
+
+	const loaded = expectLoadSuccess(
+		await createService(bridge, [LOAD_MESSAGE_ID]).loadSession(),
+	);
+
+	expect(loaded).toEqual({
+		version: 5,
+		savedAt: SAVED_AT,
+		characters: [buildCharacter()],
+		worldState: [buildWorldStateFlag()],
+		clocks: [buildClock()],
+		campSessions: [buildCampSession()],
+		campAssignments: [buildCampAssignment()],
+		factionStandings: [buildFactionStanding()],
+		socialEncounters: [buildSocialEncounter()],
+		socialEncounterEvents: [buildSocialEncounterEvent()],
+		npcRelationships: [],
 	});
 });

@@ -6,6 +6,7 @@ import {
 	TRAINING_FACTIONS,
 } from "$lib/entities/faction";
 import { NPC_CATALOG } from "$lib/entities/npc";
+import type { NpcRelationshipRecord } from "$lib/entities/npc-relationship";
 import type { WorldStateFlagView } from "$lib/entities/world-state";
 import type { SocialPressurePenaltyIntent } from "$lib/features/social-encounter/model-api";
 import type {
@@ -29,6 +30,7 @@ describe("applySocialPressurePenaltyIntent", () => {
 			factionStandings: [standing],
 			gainInfamy: fakeGainInfamy.gainInfamy,
 			loseFame: fakeLoseFame.loseFame,
+			npcRelationships: [],
 			npcs: NPC_CATALOG,
 			worldState: [],
 		});
@@ -40,7 +42,20 @@ describe("applySocialPressurePenaltyIntent", () => {
 		expect(first.data.applied).toBe(true);
 		expect(first.data.infamyApplied).toBe(false);
 		expect(first.data.retaliationClockCreated).toBe(false);
+		expect(first.data.retaliationClockAdvanced).toBe(false);
 		expect(first.data.clocks).toEqual([]);
+		expect(first.data.npcRelationshipApplied).toBe(true);
+		expect(first.data.npcRelationships).toEqual([
+			expect.objectContaining({
+				npcId: "training-broker",
+				attitude: "skeptical",
+				status: "strained",
+				pressureDamage: 1,
+				appliedPressureKeysJson: JSON.stringify([
+					"social-pressure-social-encounter-primary",
+				]),
+			}),
+		]);
 		expect(first.data.factionStandings[0]).toMatchObject({
 			factionId: "training-merchant-league",
 			fameLevel: 0,
@@ -55,6 +70,7 @@ describe("applySocialPressurePenaltyIntent", () => {
 			factionStandings: first.data.factionStandings,
 			gainInfamy: fakeGainInfamy.gainInfamy,
 			loseFame: fakeLoseFame.loseFame,
+			npcRelationships: first.data.npcRelationships,
 			npcs: NPC_CATALOG,
 			worldState: first.data.worldState,
 		});
@@ -65,6 +81,7 @@ describe("applySocialPressurePenaltyIntent", () => {
 
 		expect(repeated.data.applied).toBe(false);
 		expect(repeated.data.factionStandings[0]?.fameLevel).toBe(0);
+		expect(repeated.data.npcRelationships).toEqual(first.data.npcRelationships);
 		expect(repeated.data.worldState).toHaveLength(1);
 		expect(fakeLoseFame.calls).toBe(1);
 		expect(fakeGainInfamy.calls).toBe(0);
@@ -83,6 +100,7 @@ describe("applySocialPressurePenaltyIntent", () => {
 			factionStandings: [standing],
 			gainInfamy: fakeGainInfamy.gainInfamy,
 			loseFame: fakeLoseFame.loseFame,
+			npcRelationships: [],
 			npcs: NPC_CATALOG,
 			worldState: [],
 		});
@@ -94,6 +112,16 @@ describe("applySocialPressurePenaltyIntent", () => {
 
 		expect(result.data.infamyApplied).toBe(true);
 		expect(result.data.retaliationClockCreated).toBe(true);
+		expect(result.data.retaliationClockAdvanced).toBe(true);
+		expect(result.data.npcRelationshipApplied).toBe(true);
+		expect(result.data.npcRelationships).toEqual([
+			expect.objectContaining({
+				npcId: "training-broker",
+				attitude: "skeptical",
+				status: "strained",
+				pressureDamage: 1,
+			}),
+		]);
 		expect(result.data.factionStandings[0]).toMatchObject({
 			fameLevel: 0,
 			infamyLevel: 1,
@@ -106,7 +134,7 @@ describe("applySocialPressurePenaltyIntent", () => {
 			expect.objectContaining({
 				id: "retaliation-training-merchant-league-social-encounter-primary",
 				label: "Retaliação: Liga Mercante de Treino",
-				currentSlices: 0,
+				currentSlices: 1,
 				maxSlices: 4,
 				status: "active",
 				source: "social-pressure",
@@ -128,6 +156,7 @@ describe("applySocialPressurePenaltyIntent", () => {
 			factionStandings: [buildMerchantStanding({ bloodDebt: 4, fameLevel: 2 })],
 			gainInfamy: fakeGainInfamy.gainInfamy,
 			loseFame: fakeLoseFame.loseFame,
+			npcRelationships: [],
 			npcs: NPC_CATALOG,
 			worldState: [],
 		});
@@ -138,11 +167,53 @@ describe("applySocialPressurePenaltyIntent", () => {
 		}
 
 		expect(result.data.retaliationClockCreated).toBe(false);
-		expect(result.data.clocks).toEqual([existingClock]);
+		expect(result.data.retaliationClockAdvanced).toBe(true);
+		expect(result.data.clocks).toEqual([
+			{
+				...existingClock,
+				currentSlices: 1,
+				updatedAt: "2026-05-21T00:00:00.000Z",
+			},
+		]);
 		expect(result.data.factionStandings[0]).toMatchObject({
 			fameLevel: 1,
 			status: "ultimatum",
 		});
+	});
+
+	it("uses the NPC relationship pressure key as the social retaliation idempotency ledger", async () => {
+		const fakeLoseFame = createFakeLoseFame();
+		const fakeGainInfamy = createFakeGainInfamy();
+		const existingClock = buildRetaliationClock();
+		const relationship = buildRelationship({
+			appliedPressureKeysJson: JSON.stringify([
+				"social-pressure-social-encounter-primary",
+			]),
+			pressureDamage: 1,
+			status: "strained",
+		});
+
+		const result = await applySocialPressurePenaltyIntent({
+			clocks: [existingClock],
+			factions: TRAINING_FACTIONS,
+			intent: buildIntent(),
+			factionStandings: [buildMerchantStanding({ fameLevel: 0 })],
+			gainInfamy: fakeGainInfamy.gainInfamy,
+			loseFame: fakeLoseFame.loseFame,
+			npcRelationships: [relationship],
+			npcs: NPC_CATALOG,
+			worldState: [],
+		});
+
+		expect(result.success).toBe(true);
+		if (!result.success) {
+			expect.fail(`Expected success, received ${result.error.code}`);
+		}
+
+		expect(result.data.npcRelationshipApplied).toBe(false);
+		expect(result.data.retaliationClockAdvanced).toBe(false);
+		expect(result.data.clocks).toEqual([existingClock]);
+		expect(result.data.npcRelationships).toEqual([relationship]);
 	});
 
 	it("returns typed failures when the NPC or faction standing is missing", async () => {
@@ -155,6 +226,7 @@ describe("applySocialPressurePenaltyIntent", () => {
 			factionStandings: TRAINING_FACTION_STANDINGS,
 			gainInfamy: fakeGainInfamy.gainInfamy,
 			loseFame: fakeLoseFame.loseFame,
+			npcRelationships: [],
 			npcs: NPC_CATALOG,
 			worldState: [],
 		});
@@ -165,6 +237,7 @@ describe("applySocialPressurePenaltyIntent", () => {
 			factionStandings: [],
 			gainInfamy: fakeGainInfamy.gainInfamy,
 			loseFame: fakeLoseFame.loseFame,
+			npcRelationships: [],
 			npcs: NPC_CATALOG,
 			worldState: [],
 		});
@@ -309,5 +382,19 @@ function buildRetaliationClock(): ClockRecord {
 		source: "social-pressure",
 		createdAt: "2026-05-21T00:00:00.000Z",
 		updatedAt: "2026-05-21T00:00:00.000Z",
+	};
+}
+
+function buildRelationship(
+	patch: Partial<NpcRelationshipRecord> = {},
+): NpcRelationshipRecord {
+	return {
+		npcId: "training-broker",
+		attitude: "neutral",
+		status: "stable",
+		pressureDamage: 0,
+		appliedPressureKeysJson: "[]",
+		updatedAt: "2026-05-21T00:00:00.000Z",
+		...patch,
 	};
 }

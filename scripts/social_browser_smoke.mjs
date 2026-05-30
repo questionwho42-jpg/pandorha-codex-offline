@@ -34,6 +34,10 @@ async function runSocialBrowserSmoke(root) {
 			"factionFameLevelsByNpcId",
 			"gainInfamy: socialRelationsSession.gainInfamy",
 			"loseFame: socialRelationsSession.loseFame",
+			"npcRelationships: npcRelationshipRecords",
+			"npcRelationshipRecords = [...result.data.npcRelationships]",
+			"npcRelationships={npcRelationshipRecords}",
+			"npcs={socialEncounterSession.npcs}",
 			"onSocialPressurePenalty={applySocialPressurePenalty}",
 			"worldState: worldStateRecords",
 			"socialEncounters: socialEncounterRecords",
@@ -84,7 +88,14 @@ async function runSocialBrowserSmoke(root) {
 	await validateFileContains(
 		root,
 		"src/features/social-relations/ui/SocialRelationsPanel.svelte",
-		['data-testid="social-retaliation-clock"', "clocks"],
+		[
+			'data-testid="social-retaliation-clock"',
+			'data-testid="npc-relationship-list"',
+			'data-testid="npc-relationship-row"',
+			"npcRelationships",
+			"Relações por NPC",
+			"clocks",
+		],
 		errors,
 	);
 
@@ -106,7 +117,10 @@ async function runSocialBrowserSmoke(root) {
 		[
 			"creates a retaliation clock when Fame is already zero",
 			"infamyApplied",
+			"npcRelationshipApplied",
+			"retaliationClockAdvanced",
 			"retaliationClockCreated",
+			"social-pressure-social-encounter-primary",
 			"retaliation-training-merchant-league-social-encounter-primary",
 			'source: "social-pressure"',
 			"expect(fakeGainInfamy.calls).toBe(1)",
@@ -118,10 +132,11 @@ async function runSocialBrowserSmoke(root) {
 		root,
 		"src/features/save-load/model/saveLoadSchemas.ts",
 		[
-			"CURRENT_SAVE_VERSION = 4",
+			"CURRENT_SAVE_VERSION = 5",
 			"clocks",
 			"socialEncounters",
 			"socialEncounterEvents",
+			"npcRelationships",
 		],
 		errors,
 	);
@@ -136,6 +151,7 @@ async function runSocialBrowserSmoke(root) {
 			"WorldState",
 			"Infâmia",
 			"Retaliação",
+			"Relações por NPC",
 			"Salvar sessao",
 			"recarregue",
 			"Carregar save",
@@ -153,6 +169,7 @@ async function runSocialBrowserSmoke(root) {
 			"WorldState",
 			"Infâmia",
 			"Retaliação",
+			"Relações por NPC",
 			"Salvar sessao",
 			"recarregue",
 			"Carregar save",

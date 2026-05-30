@@ -10,6 +10,7 @@ import type {
 } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
 import type { FactionStandingRecord } from "$lib/entities/faction";
+import type { NpcRelationshipRecord } from "$lib/entities/npc-relationship";
 import type {
 	SocialEncounterEventRecord,
 	SocialEncounterRecord,
@@ -92,6 +93,7 @@ let clockRecords = $state<ClockRecord[]>([]);
 let factionStandingRecords = $state<FactionStandingRecord[]>(
 	socialRelationsSession.createInitialStandings(),
 );
+let npcRelationshipRecords = $state<NpcRelationshipRecord[]>([]);
 let socialEncounterRecords = $state<SocialEncounterRecord[]>([]);
 let socialEncounterEventRecords = $state<SocialEncounterEventRecord[]>([]);
 let worldStateRecords = $state<WorldStateFlagView[]>([]);
@@ -184,6 +186,7 @@ async function saveSession(): Promise<void> {
 		factionStandings: factionStandingRecords,
 		socialEncounters: socialEncounterRecords,
 		socialEncounterEvents: socialEncounterEventRecords,
+		npcRelationships: npcRelationshipRecords,
 		savedAt: new Date().toISOString(),
 	});
 
@@ -223,6 +226,7 @@ async function loadSession(): Promise<void> {
 	);
 	socialEncounterRecords = [...result.data.socialEncounters];
 	socialEncounterEventRecords = [...result.data.socialEncounterEvents];
+	npcRelationshipRecords = [...result.data.npcRelationships];
 	saveLoadState = { kind: "loaded" };
 }
 
@@ -237,6 +241,7 @@ async function applySocialPressurePenalty(
 		factionStandings: factionStandingRecords,
 		gainInfamy: socialRelationsSession.gainInfamy,
 		loseFame: socialRelationsSession.loseFame,
+		npcRelationships: npcRelationshipRecords,
 		npcs: socialEncounterSession.npcs,
 		worldState: worldStateRecords,
 	});
@@ -246,6 +251,7 @@ async function applySocialPressurePenalty(
 
 	clockRecords = [...result.data.clocks];
 	factionStandingRecords = [...result.data.factionStandings];
+	npcRelationshipRecords = [...result.data.npcRelationships];
 	worldStateRecords = [...result.data.worldState];
 }
 
@@ -390,6 +396,8 @@ onMount(() => {
 						clocks={clockRecords}
 						factions={socialRelationsSession.factions}
 						invokeTierOneFavor={socialRelationsSession.invokeTierOneFavor}
+						npcRelationships={npcRelationshipRecords}
+						npcs={socialEncounterSession.npcs}
 						onStandingsChange={(standings) => {
 							factionStandingRecords = [...standings];
 						}}

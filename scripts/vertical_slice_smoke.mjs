@@ -58,6 +58,8 @@ async function runVerticalSliceSmoke(root) {
 			"applySocialPressurePenalty",
 			"clockRecords = [...result.data.clocks]",
 			"gainInfamy: socialRelationsSession.gainInfamy",
+			"npcRelationshipRecords = [...result.data.npcRelationships]",
+			"npcRelationships={npcRelationshipRecords}",
 			"SpellCastPanel",
 			"InventoryReadOnlyPanel",
 			"CompendiumBrowser",
@@ -175,10 +177,11 @@ async function runVerticalSliceSmoke(root) {
 		root,
 		"src/features/save-load/model/saveLoadSchemas.ts",
 		[
-			"CURRENT_SAVE_VERSION = 4",
+			"CURRENT_SAVE_VERSION = 5",
 			"clocks",
 			"socialEncounters",
 			"socialEncounterEvents",
+			"npcRelationships",
 		],
 		errors,
 	);
@@ -222,6 +225,7 @@ async function runVerticalSliceSmoke(root) {
 			"perda de 1 nível de Fama",
 			"Infâmia",
 			"Retaliação",
+			"Relações por NPC",
 		],
 		errors,
 	);

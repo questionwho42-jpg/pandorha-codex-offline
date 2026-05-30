@@ -3,6 +3,8 @@ import type {
 	FactionRecord,
 	FactionStandingRecord,
 } from "$lib/entities/faction";
+import type { NpcRecord } from "$lib/entities/npc";
+import type { NpcRelationshipRecord } from "$lib/entities/npc-relationship";
 import type {
 	SocialStandingEvent,
 	SocialStandingFailure,
@@ -28,8 +30,18 @@ export interface SocialRelationsView {
 	readonly emptyStateLabel: string | null;
 	readonly errorMessage: string | null;
 	readonly logLines: readonly string[];
+	readonly npcRows: readonly SocialRelationNpcRowView[];
 	readonly rows: readonly SocialRelationRowView[];
 	readonly titleLabel: string;
+}
+
+export interface SocialRelationNpcRowView {
+	readonly npcId: string;
+	readonly label: string;
+	readonly factionLabel: string;
+	readonly attitudeLabel: string;
+	readonly statusLabel: string;
+	readonly pressureDamageLabel: string;
 }
 
 export interface SocialRelationsViewInput {
@@ -37,6 +49,8 @@ export interface SocialRelationsViewInput {
 	readonly errorMessage: string | null;
 	readonly events: readonly SocialStandingEvent[];
 	readonly factions: readonly FactionRecord[];
+	readonly npcRelationships?: readonly NpcRelationshipRecord[];
+	readonly npcs?: readonly NpcRecord[];
 	readonly standings: readonly FactionStandingRecord[];
 }
 
@@ -49,6 +63,11 @@ export function createSocialRelationsView(
 	const rows = input.factions.flatMap((faction) => {
 		const standing = standingsByFaction.get(faction.id);
 		return standing ? [createRow(faction, standing, input.clocks ?? [])] : [];
+	});
+	const npcRows = createNpcRows({
+		factions: input.factions,
+		npcRelationships: input.npcRelationships ?? [],
+		npcs: input.npcs ?? [],
 	});
 
 	return {
@@ -63,6 +82,7 @@ export function createSocialRelationsView(
 				: [
 						"Escolha uma facção de treino para invocar favores ou abater dívida.",
 					],
+		npcRows,
 		rows,
 		titleLabel: "Relações sociais",
 	};
@@ -129,6 +149,30 @@ function findRetaliationClock(
 	);
 }
 
+function createNpcRows(input: {
+	readonly factions: readonly FactionRecord[];
+	readonly npcRelationships: readonly NpcRelationshipRecord[];
+	readonly npcs: readonly NpcRecord[];
+}): readonly SocialRelationNpcRowView[] {
+	const npcsById = new Map(input.npcs.map((npc) => [npc.id, npc]));
+	const factionsById = new Map(
+		input.factions.map((faction) => [faction.id, faction]),
+	);
+
+	return input.npcRelationships.map((relationship) => {
+		const npc = npcsById.get(relationship.npcId);
+		const faction = npc ? factionsById.get(npc.factionId) : null;
+		return {
+			npcId: relationship.npcId,
+			label: npc?.label ?? relationship.npcId,
+			factionLabel: faction?.label ?? "Facção desconhecida",
+			attitudeLabel: `Atitude ${mapNpcAttitude(relationship.attitude)}`,
+			statusLabel: mapNpcRelationshipStatus(relationship.status),
+			pressureDamageLabel: `Pressão ${relationship.pressureDamage}`,
+		};
+	});
+}
+
 function calculateDebtLimit(standing: FactionStandingRecord): number {
 	return standing.fameLevel * 3;
 }
@@ -143,6 +187,34 @@ function mapFactionKind(kind: FactionRecord["kind"]): string {
 			return "Casa nobre";
 		case "company":
 			return "Companhia";
+	}
+}
+
+function mapNpcAttitude(attitude: NpcRelationshipRecord["attitude"]): string {
+	switch (attitude) {
+		case "friendly":
+			return "amistosa";
+		case "neutral":
+			return "neutra";
+		case "skeptical":
+			return "cética";
+		case "hostile":
+			return "hostil";
+	}
+}
+
+function mapNpcRelationshipStatus(
+	status: NpcRelationshipRecord["status"],
+): string {
+	switch (status) {
+		case "stable":
+			return "Relação estável";
+		case "strained":
+			return "Relação tensionada";
+		case "ally":
+			return "Aliado";
+		case "enemy":
+			return "Inimigo";
 	}
 }
 

@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260530-002246-t73-t76-npc-relationship-save-ui -->
+### T73-T76 NPC Relationship Save UI
+- id: 20260530-002246-t73-t76-npc-relationship-save-ui
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-30T00:22:46-03:00
+- finished_at: 2026-05-30T01:02:04-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-30T01:02:04-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: 7809a17 feat(npc-relationship): add individual NPC relationship core
+- summary: Implementar save v5 minimo para relacao individual por NPC, wiring explicito de Pressionar com relacao NPC e clock social-pressure, UI em Relacoes e QA recorrente sem reaproveitar WorldState.
+- last_change: Implementado save v5 minimo para npcRelationships, migracao SQLite npc_relationships, repositorio Drizzle, wiring explicito de Pressionar para relacao NPC e clock social-pressure, UI de Relacoes por NPC, smokes sociais e validacao Browser save/load.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-30T00:22:46-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-30T01:02:04-03:00
+- Done: Implementado save v5 minimo para npcRelationships, migracao SQLite npc_relationships, repositorio Drizzle, wiring explicito de Pressionar para relacao NPC e clock social-pressure, UI de Relacoes por NPC, smokes sociais e validacao Browser save/load.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260530-002246-t73-t76-npc-relationship-save-ui -->
 <!-- pandorha-task:20260527-125851-t72-npc-relationship-core -->
 ### T72 NPC Relationship Core
 - id: 20260527-125851-t72-npc-relationship-core

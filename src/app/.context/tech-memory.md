@@ -133,3 +133,10 @@
 - `socialEncounterSession` now exposes the read-only dialogue choice catalog to `App.svelte`.
 - `App.svelte` passes `dialogueChoices` into `SocialEncounterPanel`; the panel keeps the selected choice as local UI state and does not change save v4.
 - The selected choice modifies the audited social appeal through `createSocialDialogueChoiceProfile`; no migration, Worker change, or new persistence table was added.
+
+## 2026-05-30 - T73-T76 NPC Relationship Save UI
+
+- `App.svelte` now owns `npcRelationshipRecords` beside social encounter, faction standing, clock, and WorldState arrays.
+- Save/load passes `npcRelationships` through save v5 and restores them directly from the Worker response.
+- `applySocialPressurePenaltyIntent` now coordinates faction pressure, NPC relationship pressure, and explicit `social-pressure` retaliation-clock advancement in the app/session layer.
+- `SocialRelationsPanel` receives `npcRelationships` and `npcs` from the app and remains read-only for individual NPC relationship state.

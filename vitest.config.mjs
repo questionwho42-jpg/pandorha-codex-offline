@@ -28,6 +28,7 @@ export default defineConfig({
 				"src/entities/dialogue-choice/domain/DialogueChoiceCatalogService.ts",
 				"src/entities/dialogue-tree/domain/DialogueTreeCatalogService.ts",
 				"src/entities/npc/domain/NpcCatalogService.ts",
+				"src/entities/npc-relationship/infrastructure/DrizzleNpcRelationshipRepository.ts",
 				"src/entities/npc-relationship/domain/NpcRelationshipService.ts",
 				"src/entities/spell/domain/SpellCatalogService.ts",
 				"src/entities/world-tile/domain/WorldTileCatalogService.ts",

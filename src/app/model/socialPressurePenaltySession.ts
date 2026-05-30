@@ -8,6 +8,11 @@ import type {
 	FactionStandingRecord,
 } from "$lib/entities/faction";
 import type { NpcRecord } from "$lib/entities/npc";
+import {
+	InMemoryNpcRelationshipRepository,
+	type NpcRelationshipRecord,
+	NpcRelationshipService,
+} from "$lib/entities/npc-relationship";
 import type { WorldStateFlagView } from "$lib/entities/world-state";
 import {
 	createSocialPressureInfamyFlag,
@@ -17,6 +22,7 @@ import {
 	upsertSocialPressureInfamyFlag,
 	upsertSocialPressurePenaltyFlag,
 } from "$lib/features/social-encounter/model-api";
+import { SocialRetaliationClockService } from "$lib/features/social-retaliation";
 import type {
 	SocialStandingChangeResult,
 	SocialStandingFailure,
@@ -28,6 +34,9 @@ export interface SocialPressurePenaltySessionState {
 	readonly clocks: readonly ClockRecord[];
 	readonly factionStandings: readonly FactionStandingRecord[];
 	readonly infamyApplied: boolean;
+	readonly npcRelationshipApplied: boolean;
+	readonly npcRelationships: readonly NpcRelationshipRecord[];
+	readonly retaliationClockAdvanced: boolean;
 	readonly retaliationClockCreated: boolean;
 	readonly worldState: readonly WorldStateFlagView[];
 }
@@ -37,6 +46,8 @@ export type SocialPressurePenaltySessionFailureCode =
 	| "SOCIAL_PRESSURE_STANDING_NOT_FOUND"
 	| "SOCIAL_PRESSURE_FAME_LOSS_FAILED"
 	| "SOCIAL_PRESSURE_INFAMY_GAIN_FAILED"
+	| "SOCIAL_PRESSURE_NPC_RELATIONSHIP_FAILED"
+	| "SOCIAL_PRESSURE_RETALIATION_ADVANCE_FAILED"
 	| "SOCIAL_PRESSURE_RETALIATION_CLOCK_FAILED";
 
 export interface SocialPressurePenaltySessionFailure {
@@ -58,6 +69,7 @@ export async function applySocialPressurePenaltyIntent(input: {
 		standing: FactionStandingRecord,
 		levels?: number,
 	) => Promise<Result<SocialStandingChangeResult, SocialStandingFailure>>;
+	readonly npcRelationships: readonly NpcRelationshipRecord[];
 	readonly npcs: readonly NpcRecord[];
 	readonly worldState: readonly WorldStateFlagView[];
 }): Promise<
@@ -71,6 +83,9 @@ export async function applySocialPressurePenaltyIntent(input: {
 			clocks: input.clocks,
 			factionStandings: input.factionStandings,
 			infamyApplied: false,
+			npcRelationshipApplied: false,
+			npcRelationships: input.npcRelationships,
+			retaliationClockAdvanced: false,
 			retaliationClockCreated: false,
 			worldState: input.worldState,
 		});
@@ -137,12 +152,24 @@ export async function applySocialPressurePenaltyIntent(input: {
 		if (!clockResult.success) {
 			return fail(clockResult.error);
 		}
+		const finalized = await finalizeSocialPressureConsequence({
+			clocks: clockResult.data.clocks,
+			intent: input.intent,
+			npcRelationships: input.npcRelationships,
+			updatedAt: input.intent.worldStateFlag.updatedAt,
+		});
+		if (!finalized.success) {
+			return fail(finalized.error);
+		}
 
 		return ok({
 			applied: true,
-			clocks: clockResult.data.clocks,
+			clocks: finalized.data.clocks,
 			factionStandings,
 			infamyApplied: true,
+			npcRelationshipApplied: finalized.data.npcRelationshipApplied,
+			npcRelationships: finalized.data.npcRelationships,
+			retaliationClockAdvanced: finalized.data.retaliationClockAdvanced,
 			retaliationClockCreated: clockResult.data.created,
 			worldState,
 		});
@@ -179,12 +206,24 @@ export async function applySocialPressurePenaltyIntent(input: {
 	if (!clockResult.success) {
 		return fail(clockResult.error);
 	}
+	const finalized = await finalizeSocialPressureConsequence({
+		clocks: clockResult.data.clocks,
+		intent: input.intent,
+		npcRelationships: input.npcRelationships,
+		updatedAt: input.intent.worldStateFlag.updatedAt,
+	});
+	if (!finalized.success) {
+		return fail(finalized.error);
+	}
 
 	return ok({
 		applied: true,
-		clocks: clockResult.data.clocks,
+		clocks: finalized.data.clocks,
 		factionStandings,
 		infamyApplied: false,
+		npcRelationshipApplied: finalized.data.npcRelationshipApplied,
+		npcRelationships: finalized.data.npcRelationships,
+		retaliationClockAdvanced: finalized.data.retaliationClockAdvanced,
 		retaliationClockCreated: clockResult.data.created,
 		worldState,
 	});
@@ -197,6 +236,183 @@ function replaceFactionStanding(
 	return standings.map((standing) =>
 		standing.factionId === nextStanding.factionId ? nextStanding : standing,
 	);
+}
+
+async function finalizeSocialPressureConsequence(input: {
+	readonly clocks: readonly ClockRecord[];
+	readonly intent: SocialPressurePenaltyIntent;
+	readonly npcRelationships: readonly NpcRelationshipRecord[];
+	readonly updatedAt: string;
+}): Promise<
+	Result<
+		{
+			readonly clocks: readonly ClockRecord[];
+			readonly npcRelationshipApplied: boolean;
+			readonly npcRelationships: readonly NpcRelationshipRecord[];
+			readonly retaliationClockAdvanced: boolean;
+		},
+		SocialPressurePenaltySessionFailure
+	>
+> {
+	const pressureKey = createSocialPressureTriggerId(input.intent);
+	const relationshipResult = await recordNpcRelationshipPressure({
+		intent: input.intent,
+		npcRelationships: input.npcRelationships,
+		pressureKey,
+		updatedAt: input.updatedAt,
+	});
+	if (!relationshipResult.success) {
+		return fail(relationshipResult.error);
+	}
+
+	const advanced = await advanceRetaliationClocksFromPressure({
+		appliedTriggerIds: relationshipResult.data.wasAlreadyApplied
+			? [pressureKey]
+			: [],
+		clocks: input.clocks,
+		triggerId: pressureKey,
+		triggeredAt: input.updatedAt,
+	});
+	if (!advanced.success) {
+		return fail(advanced.error);
+	}
+
+	return ok({
+		clocks: advanced.data.clocks,
+		npcRelationshipApplied: relationshipResult.data.applied,
+		npcRelationships: relationshipResult.data.npcRelationships,
+		retaliationClockAdvanced: advanced.data.advanced,
+	});
+}
+
+async function recordNpcRelationshipPressure(input: {
+	readonly intent: SocialPressurePenaltyIntent;
+	readonly npcRelationships: readonly NpcRelationshipRecord[];
+	readonly pressureKey: string;
+	readonly updatedAt: string;
+}): Promise<
+	Result<
+		{
+			readonly applied: boolean;
+			readonly npcRelationships: readonly NpcRelationshipRecord[];
+			readonly wasAlreadyApplied: boolean;
+		},
+		SocialPressurePenaltySessionFailure
+	>
+> {
+	const repository = new InMemoryNpcRelationshipRepository({
+		records: input.npcRelationships,
+	});
+	const service = new NpcRelationshipService(repository);
+	const relationship = await findOrCreateRelationship({
+		npcId: input.intent.npcId,
+		service,
+		updatedAt: input.updatedAt,
+	});
+	if (!relationship.success) {
+		return fail(relationship.error);
+	}
+
+	const wasAlreadyApplied = hasPressureKey(
+		relationship.data,
+		input.pressureKey,
+	);
+	if (!wasAlreadyApplied.success) {
+		return fail(wasAlreadyApplied.error);
+	}
+
+	const recorded = await service.recordPressureConsequence({
+		pressureKey: input.pressureKey,
+		relationship: relationship.data,
+		severity: "pressure",
+		updatedAt: input.updatedAt,
+	});
+	if (!recorded.success) {
+		return fail({
+			code: "SOCIAL_PRESSURE_NPC_RELATIONSHIP_FAILED",
+			message: "NPC relationship could not record social pressure.",
+			details: recorded.error,
+		});
+	}
+
+	return ok({
+		applied: recorded.data.applied,
+		npcRelationships: repository.all(),
+		wasAlreadyApplied: wasAlreadyApplied.data,
+	});
+}
+
+async function findOrCreateRelationship(input: {
+	readonly npcId: string;
+	readonly service: NpcRelationshipService;
+	readonly updatedAt: string;
+}): Promise<
+	Result<NpcRelationshipRecord, SocialPressurePenaltySessionFailure>
+> {
+	const found = await input.service.findRelationshipByNpcId(input.npcId);
+	if (found.success) {
+		return ok(found.data);
+	}
+
+	if (found.error.code !== "NPC_RELATIONSHIP_NOT_FOUND") {
+		return fail({
+			code: "SOCIAL_PRESSURE_NPC_RELATIONSHIP_FAILED",
+			message: "NPC relationship lookup failed for social pressure.",
+			details: found.error,
+		});
+	}
+
+	const created = await input.service.createRelationship({
+		initialAttitude: "neutral",
+		npcId: input.npcId,
+		updatedAt: input.updatedAt,
+	});
+	if (!created.success) {
+		return fail({
+			code: "SOCIAL_PRESSURE_NPC_RELATIONSHIP_FAILED",
+			message: "NPC relationship could not be created for social pressure.",
+			details: created.error,
+		});
+	}
+
+	return ok(created.data.relationship);
+}
+
+async function advanceRetaliationClocksFromPressure(input: {
+	readonly appliedTriggerIds: readonly string[];
+	readonly clocks: readonly ClockRecord[];
+	readonly triggerId: string;
+	readonly triggeredAt: string;
+}): Promise<
+	Result<
+		{ readonly clocks: readonly ClockRecord[]; readonly advanced: boolean },
+		SocialPressurePenaltySessionFailure
+	>
+> {
+	const clockService = new ClockService(
+		new InMemoryClockRepository({ records: input.clocks }),
+	);
+	const advanced = await new SocialRetaliationClockService({
+		advanceClock: (command) => clockService.advanceClock(command),
+	}).advanceFromTrigger({
+		appliedTriggerIds: [...input.appliedTriggerIds],
+		clocks: input.clocks,
+		slices: 1,
+		triggerId: input.triggerId,
+		triggeredAt: input.triggeredAt,
+	});
+	if (!advanced.success) {
+		return fail({
+			code: "SOCIAL_PRESSURE_RETALIATION_ADVANCE_FAILED",
+			message: "Social-pressure retaliation clocks could not be advanced.",
+			details: advanced.error,
+		});
+	}
+
+	return ok({
+		clocks: advanced.data.clocks,
+		advanced: advanced.data.advancedClocks.length > 0,
+	});
 }
 
 async function createRetaliationClock(input: {
@@ -242,4 +458,41 @@ async function createRetaliationClock(input: {
 		clocks: [...input.clocks, created.data],
 		created: true,
 	});
+}
+
+function hasPressureKey(
+	relationship: NpcRelationshipRecord,
+	pressureKey: string,
+): Result<boolean, SocialPressurePenaltySessionFailure> {
+	try {
+		const parsed = JSON.parse(relationship.appliedPressureKeysJson) as unknown;
+		if (
+			!Array.isArray(parsed) ||
+			parsed.some((entry) => typeof entry !== "string")
+		) {
+			return fail({
+				code: "SOCIAL_PRESSURE_NPC_RELATIONSHIP_FAILED",
+				message: "NPC relationship pressure ledger is not valid.",
+				details: { npcId: relationship.npcId },
+			});
+		}
+
+		return ok(parsed.includes(pressureKey));
+	} catch (error: unknown) {
+		return fail({
+			code: "SOCIAL_PRESSURE_NPC_RELATIONSHIP_FAILED",
+			message: "NPC relationship pressure ledger could not be read.",
+			details: { cause: stringifyCause(error), npcId: relationship.npcId },
+		});
+	}
+}
+
+function createSocialPressureTriggerId(
+	intent: Pick<SocialPressurePenaltyIntent, "encounterId">,
+): string {
+	return `social-pressure-${intent.encounterId}`;
+}
+
+function stringifyCause(error: unknown): string {
+	return error instanceof Error ? error.message : String(error);
 }
