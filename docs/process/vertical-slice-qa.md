@@ -18,7 +18,7 @@ Este roteiro valida o MVP navegável atual do Pandorha Engine depois da T70. Ele
 12. Selecione `Capitão de Treino`, clique em `Reiniciar negociação`, confirme que a fala cita `moral da tropa`, confirme que `Barganhar` está disponível com `Fama 1` e escolha `Barganhar` para ver a resposta sobre `custo da escolta`.
 13. Repita o apelo até encerrar a negociação e confirme que a consequência aparece em `WorldState` citando a escolha de diálogo usada.
 14. Para validar T63-T70, reinicie a negociação com a `Corretora de Treino`, escolha `Pressionar`, faça apelos até encerrar a conversa e confirme consequência com `perda de 1 nível de Fama` e `Fama` reduzida na `Liga Mercante de Treino`.
-15. Repita `Pressionar` quando a `Fama` da facção já estiver em 0 e confirme que a consequência cita `Infâmia`, que `Relações` mostra `Retaliação: Liga Mercante de Treino - 1/4 fatias` e que `Relações por NPC` mostra a `Corretora de Treino` tensionada.
+15. Repita `Pressionar` quando a `Fama` da facção já estiver em 0 e confirme que a consequência cita `Infâmia`, que `Relações` mostra `Retaliação: Liga Mercante de Treino - 1/4 fatias` e que `Relações por NPC` mostra a `Corretora de Treino` tensionada dentro do grupo `Liga Mercante de Treino`.
 16. Clique em `Salvar sessão`, recarregue, clique em `Carregar save` e confirme que relações, negociação social, log com argumento, opção bloqueada, consequência, `Fama`, `Infâmia`, relação individual por NPC e clock de retaliação foram restaurados.
 
 ## Automação Da T66

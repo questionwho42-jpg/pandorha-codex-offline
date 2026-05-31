@@ -8,4 +8,4 @@
 - After T70, support multiple clocks per faction only when the UI has a compact list pattern.
 - Keep clock advancement outside this UI until faction-retaliation rules are defined.
 - Keep NPC relationship edits outside this UI until there is an official rule for manual relationship repair, gifts, apologies, or alliance progression.
-- If many NPC relationships are shown at once, group `npcRows` by faction and add compact filtering before adding per-row actions.
+- After T80, NPC relationship rows are grouped by faction. Add compact filtering before introducing per-row actions if the list grows beyond the training catalog.

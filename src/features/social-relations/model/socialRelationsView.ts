@@ -30,12 +30,20 @@ export interface SocialRelationsView {
 	readonly emptyStateLabel: string | null;
 	readonly errorMessage: string | null;
 	readonly logLines: readonly string[];
+	readonly npcGroups: readonly SocialRelationNpcGroupView[];
 	readonly npcRows: readonly SocialRelationNpcRowView[];
 	readonly rows: readonly SocialRelationRowView[];
 	readonly titleLabel: string;
 }
 
+export interface SocialRelationNpcGroupView {
+	readonly factionId: string;
+	readonly factionLabel: string;
+	readonly rows: readonly SocialRelationNpcRowView[];
+}
+
 export interface SocialRelationNpcRowView {
+	readonly factionId: string;
 	readonly npcId: string;
 	readonly label: string;
 	readonly factionLabel: string;
@@ -82,6 +90,7 @@ export function createSocialRelationsView(
 				: [
 						"Escolha uma facção de treino para invocar favores ou abater dívida.",
 					],
+		npcGroups: createNpcGroups(npcRows),
 		npcRows,
 		rows,
 		titleLabel: "Relações sociais",
@@ -163,6 +172,7 @@ function createNpcRows(input: {
 		const npc = npcsById.get(relationship.npcId);
 		const faction = npc ? factionsById.get(npc.factionId) : null;
 		return {
+			factionId: faction?.id ?? "unknown-faction",
 			npcId: relationship.npcId,
 			label: npc?.label ?? relationship.npcId,
 			factionLabel: faction?.label ?? "Facção desconhecida",
@@ -171,6 +181,31 @@ function createNpcRows(input: {
 			pressureDamageLabel: `Pressão ${relationship.pressureDamage}`,
 		};
 	});
+}
+
+function createNpcGroups(
+	npcRows: readonly SocialRelationNpcRowView[],
+): readonly SocialRelationNpcGroupView[] {
+	const groups = new Map<string, SocialRelationNpcGroupView>();
+
+	for (const row of npcRows) {
+		const existing = groups.get(row.factionId);
+		if (existing) {
+			groups.set(row.factionId, {
+				...existing,
+				rows: [...existing.rows, row],
+			});
+			continue;
+		}
+
+		groups.set(row.factionId, {
+			factionId: row.factionId,
+			factionLabel: row.factionLabel,
+			rows: [row],
+		});
+	}
+
+	return [...groups.values()];
 }
 
 function calculateDebtLimit(standing: FactionStandingRecord): number {

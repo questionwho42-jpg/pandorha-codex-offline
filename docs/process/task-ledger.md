@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260531-200121-t80-group-npc-relationships-by-faction -->
+### T80 Group NPC Relationships By Faction
+- id: 20260531-200121-t80-group-npc-relationships-by-faction
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-05-31T20:01:21-03:00
+- finished_at: 2026-05-31T20:16:58-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-31T20:16:58-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: fe6bed6 docs(process): add t79 relationship history gate
+- summary: Agrupar visualmente Relacoes por NPC por faccao na aba Relacoes, mantendo save v5, schema, RPC e regras mecanicas inalterados.
+- last_change: Agrupado Relacoes por NPC por faccao na aba Relacoes, com view-model npcGroups, UI agrupada, smoke social atualizado, memoria tripla e validacao Browser do grupo Liga Mercante de Treino.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-31T20:01:21-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-31T20:16:58-03:00
+- Done: Agrupado Relacoes por NPC por faccao na aba Relacoes, com view-model npcGroups, UI agrupada, smoke social atualizado, memoria tripla e validacao Browser do grupo Liga Mercante de Treino.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260531-200121-t80-group-npc-relationships-by-faction -->
 <!-- pandorha-task:20260531-195801-t79-npc-relationship-history-save-v6-gate -->
 ### T79 NPC Relationship History Save V6 Gate
 - id: 20260531-195801-t79-npc-relationship-history-save-v6-gate

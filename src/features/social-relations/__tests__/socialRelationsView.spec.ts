@@ -23,6 +23,7 @@ describe("createSocialRelationsView", () => {
 		});
 
 		expect(view.emptyStateLabel).toBeNull();
+		expect(view.npcGroups).toEqual([]);
 		expect(view.npcRows).toEqual([]);
 		expect(view.titleLabel).toBe("Relações sociais");
 		expect(view.logLines).toEqual([
@@ -118,6 +119,7 @@ describe("createSocialRelationsView", () => {
 
 		expect(view.npcRows).toEqual([
 			{
+				factionId: "training-merchant-league",
 				npcId: "training-broker",
 				label: "Corretora de Treino",
 				factionLabel: "Liga Mercante de Treino",
@@ -126,9 +128,16 @@ describe("createSocialRelationsView", () => {
 				pressureDamageLabel: "Pressão 1",
 			},
 		]);
+		expect(view.npcGroups).toEqual([
+			{
+				factionId: "training-merchant-league",
+				factionLabel: "Liga Mercante de Treino",
+				rows: view.npcRows,
+			},
+		]);
 	});
 
-	it("maps every NPC relationship attitude, status, and fallback label", () => {
+	it("groups NPC relationship rows by faction with fallback labels", () => {
 		const view = createSocialRelationsView({
 			errorMessage: null,
 			events: [],
@@ -175,6 +184,7 @@ describe("createSocialRelationsView", () => {
 
 		expect(view.npcRows).toEqual([
 			{
+				factionId: "training-merchant-league",
 				npcId: "training-broker",
 				label: "Corretora de Treino",
 				factionLabel: "Liga Mercante de Treino",
@@ -183,6 +193,7 @@ describe("createSocialRelationsView", () => {
 				pressureDamageLabel: "Pressão 0",
 			},
 			{
+				factionId: "training-war-temple",
 				npcId: "training-captain",
 				label: "Capitão de Treino",
 				factionLabel: "Templo da Guerra de Treino",
@@ -191,6 +202,7 @@ describe("createSocialRelationsView", () => {
 				pressureDamageLabel: "Pressão 0",
 			},
 			{
+				factionId: "unknown-faction",
 				npcId: "unknown-npc",
 				label: "unknown-npc",
 				factionLabel: "Facção desconhecida",
@@ -199,12 +211,30 @@ describe("createSocialRelationsView", () => {
 				pressureDamageLabel: "Pressão 0",
 			},
 			{
+				factionId: "unknown-faction",
 				npcId: "guildless-npc",
 				label: "Contato sem Facção",
 				factionLabel: "Facção desconhecida",
 				attitudeLabel: "Atitude cética",
 				statusLabel: "Relação tensionada",
 				pressureDamageLabel: "Pressão 0",
+			},
+		]);
+		expect(view.npcGroups).toEqual([
+			{
+				factionId: "training-merchant-league",
+				factionLabel: "Liga Mercante de Treino",
+				rows: [view.npcRows[0]],
+			},
+			{
+				factionId: "training-war-temple",
+				factionLabel: "Templo da Guerra de Treino",
+				rows: [view.npcRows[1]],
+			},
+			{
+				factionId: "unknown-faction",
+				factionLabel: "Facção desconhecida",
+				rows: [view.npcRows[2], view.npcRows[3]],
 			},
 		]);
 	});

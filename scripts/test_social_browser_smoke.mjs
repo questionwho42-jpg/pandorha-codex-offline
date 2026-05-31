@@ -248,6 +248,7 @@ function renderSocialRelationsPanel() {
 const clocks = [];
 const npcRelationships = [];
 <div data-testid="npc-relationship-list">Relações por NPC</div>
+<section data-testid="npc-relationship-group">Liga Mercante de Treino</section>
 <div data-testid="npc-relationship-row">Corretora de Treino</div>
 <p data-testid="social-retaliation-clock">Retaliação: Liga Mercante de Treino - 0/4 fatias</p>
 `;

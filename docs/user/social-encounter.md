@@ -57,7 +57,7 @@ Este guia explica como testar a negociação social visível do Pandorha Engine.
 30. Confirme que a `Liga Mercante de Treino` mostra a `Fama` reduzida.
 31. Repita a pressão quando a `Fama` estiver em 0 e confirme que a consequência cita `Infâmia`.
 32. Confirme que `Relações` mostra `Retaliação: Liga Mercante de Treino - 1/4 fatias`.
-33. Confirme que `Relações por NPC` mostra a `Corretora de Treino` com `Relação tensionada`.
+33. Confirme que `Relações por NPC` mostra a `Corretora de Treino` com `Relação tensionada` dentro do grupo `Liga Mercante de Treino`.
 34. Clique em `Salvar sessão`.
 35. Recarregue a página.
 36. Clique em `Carregar save`.

@@ -7,7 +7,7 @@ Este guia explica como testar a primeira versão da aba `Relações` no navegado
 - Ver facções de treino.
 - Ver `Fama`, `Infâmia`, `Dívida`, `Favores`, `Intriga` e `Status`.
 - Ver clocks ativos de `Retaliação` criados por pressão social.
-- Ver `Relações por NPC` depois que uma negociação com `Pressionar` registra pressão individual.
+- Ver `Relações por NPC` agrupadas por facção depois que uma negociação com `Pressionar` registra pressão individual.
 - Invocar um favor `Tier 1`.
 - Abater `Dívida Tier 1`.
 - Salvar e carregar o estado social pelo save local do navegador.
@@ -22,7 +22,7 @@ Este guia explica como testar a primeira versão da aba `Relações` no navegado
 6. Recarregue a página.
 7. Clique em `Carregar save`.
 8. Volte para `Relações` e confirme que dívida e intriga foram restauradas.
-9. Quando uma negociação social criar retaliação, confirme que a facção correspondente mostra `Retaliação: ... - 1/4 fatias` e que `Relações por NPC` mostra o NPC tensionado.
+9. Quando uma negociação social criar retaliação, confirme que a facção correspondente mostra `Retaliação: ... - 1/4 fatias` e que `Relações por NPC` mostra o NPC tensionado dentro do grupo da facção.
 
 ## Como corrigir erros comuns
 

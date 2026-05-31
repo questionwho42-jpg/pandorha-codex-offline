@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260531-200121-t80-group-npc-relationships-by-faction -->
+### T80 Group NPC Relationships By Faction
+- id: 20260531-200121-t80-group-npc-relationships-by-faction
+- status: open
+- created_at: 2026-05-31T20:01:21-03:00
+- source: task-ledger
+- summary: Agrupar visualmente Relacoes por NPC por faccao na aba Relacoes, mantendo save v5, schema, RPC e regras mecanicas inalterados.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260531-200121-t80-group-npc-relationships-by-faction -->
 <!-- pandorha-inbox:20260531-195801-t79-npc-relationship-history-save-v6-gate -->
 ### T79 NPC Relationship History Save V6 Gate
 - id: 20260531-195801-t79-npc-relationship-history-save-v6-gate

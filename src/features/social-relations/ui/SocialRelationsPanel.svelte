@@ -242,22 +242,33 @@ function replaceStanding(
 				{#if view.npcRows.length > 0}
 					<div class="mt-5 border-t border-bronze pt-4" data-testid="npc-relationship-list">
 						<h4 class="text-sm font-semibold text-ether">Relações por NPC</h4>
-						<ul class="mt-3 space-y-3">
-							{#each view.npcRows as npcRow (npcRow.npcId)}
-								<li class="border border-bronze bg-ruin px-4 py-3 text-sm leading-6 text-bone" data-testid="npc-relationship-row">
-									<p class="font-semibold text-bone">{npcRow.label}</p>
-									<p class="text-bone/85">{npcRow.factionLabel}</p>
-									<div class="mt-2 grid gap-2 sm:grid-cols-3">
-										<span class="border border-bronze bg-blood-shadow px-2 py-1 font-semibold text-bone">
-											{npcRow.attitudeLabel}
-										</span>
-										<span class="border border-bronze bg-blood-shadow px-2 py-1 font-semibold text-bone">
-											{npcRow.statusLabel}
-										</span>
-										<span class="border border-bronze bg-blood-shadow px-2 py-1 font-semibold text-bone">
-											{npcRow.pressureDamageLabel}
-										</span>
+						<ul class="mt-3 space-y-4">
+							{#each view.npcGroups as npcGroup (npcGroup.factionId)}
+								<li class="border border-bronze bg-ruin px-4 py-3" data-testid="npc-relationship-group">
+									<div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+										<p class="text-sm font-semibold text-ether">{npcGroup.factionLabel}</p>
+										<p class="text-xs font-semibold uppercase text-bone/70">
+											{npcGroup.rows.length} NPC{npcGroup.rows.length === 1 ? "" : "s"}
+										</p>
 									</div>
+									<ul class="mt-3 space-y-2">
+										{#each npcGroup.rows as npcRow (npcRow.npcId)}
+											<li class="border border-bronze bg-blood-shadow px-3 py-3 text-sm leading-6 text-bone" data-testid="npc-relationship-row">
+												<p class="font-semibold text-bone">{npcRow.label}</p>
+												<div class="mt-2 grid gap-2 sm:grid-cols-3">
+													<span class="border border-bronze bg-ruin px-2 py-1 font-semibold text-bone">
+														{npcRow.attitudeLabel}
+													</span>
+													<span class="border border-bronze bg-ruin px-2 py-1 font-semibold text-bone">
+														{npcRow.statusLabel}
+													</span>
+													<span class="border border-bronze bg-ruin px-2 py-1 font-semibold text-bone">
+														{npcRow.pressureDamageLabel}
+													</span>
+												</div>
+											</li>
+										{/each}
+									</ul>
 								</li>
 							{/each}
 						</ul>
