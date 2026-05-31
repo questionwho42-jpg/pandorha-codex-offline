@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260531-194729-t77-handoff-local-pos-t76 -->
+### T77 Handoff Local Pos-T76
+- id: 20260531-194729-t77-handoff-local-pos-t76
+- status: open
+- created_at: 2026-05-31T19:47:29-03:00
+- source: task-ledger
+- summary: Fechar handoff local da T73-T76, preparar resumo de PR sem publicacao automatica e revalidar gates obrigatorios mantendo output fora do Git.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260531-194729-t77-handoff-local-pos-t76 -->
 <!-- pandorha-inbox:20260530-002246-t73-t76-npc-relationship-save-ui -->
 ### T73-T76 NPC Relationship Save UI
 - id: 20260530-002246-t73-t76-npc-relationship-save-ui

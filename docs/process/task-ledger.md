@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260531-194729-t77-handoff-local-pos-t76 -->
+### T77 Handoff Local Pos-T76
+- id: 20260531-194729-t77-handoff-local-pos-t76
+- status: completed
+- kind: qa
+- planned: no
+- started_at: 2026-05-31T19:47:29-03:00
+- finished_at: 2026-05-31T19:51:53-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-31T19:51:53-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: aa5fb49 feat(npc-relationship): persist and surface social pressure
+- summary: Fechar handoff local da T73-T76, preparar resumo de PR sem publicacao automatica e revalidar gates obrigatorios mantendo output fora do Git.
+- last_change: Handoff local pos-T76 concluido: readiness inicial valido, PR draft preparado em output, gates obrigatorios reexecutados, smokes sociais validados e nenhuma publicacao feita.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-31T19:47:29-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-31T19:51:53-03:00
+- Done: Handoff local pos-T76 concluido: readiness inicial valido, PR draft preparado em output, gates obrigatorios reexecutados, smokes sociais validados e nenhuma publicacao feita.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260531-194729-t77-handoff-local-pos-t76 -->
 <!-- pandorha-task:20260530-002246-t73-t76-npc-relationship-save-ui -->
 ### T73-T76 NPC Relationship Save UI
 - id: 20260530-002246-t73-t76-npc-relationship-save-ui
