@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260531-195801-t79-npc-relationship-history-save-v6-gate -->
+### T79 NPC Relationship History Save V6 Gate
+- id: 20260531-195801-t79-npc-relationship-history-save-v6-gate
+- status: completed
+- kind: architecture
+- planned: no
+- started_at: 2026-05-31T19:58:01-03:00
+- finished_at: 2026-05-31T19:58:27-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-31T19:58:27-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: c66e012 chore(process): record t77 handoff validation
+- summary: Produzir gate A/B/C para decidir se historico append-only de relacao por NPC justifica save v6, sem migration, schema, RPC ou implementacao.
+- last_change: Gate T79 concluido: historico append-only de relacao por NPC foi adiado; save v5 permanece como contrato atual e save v6 fica condicionado a multiplas causas oficiais ou necessidade real de auditoria.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-31T19:58:01-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-31T19:58:27-03:00
+- Done: Gate T79 concluido: historico append-only de relacao por NPC foi adiado; save v5 permanece como contrato atual e save v6 fica condicionado a multiplas causas oficiais ou necessidade real de auditoria.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260531-195801-t79-npc-relationship-history-save-v6-gate -->
 <!-- pandorha-task:20260531-194729-t77-handoff-local-pos-t76 -->
 ### T77 Handoff Local Pos-T76
 - id: 20260531-194729-t77-handoff-local-pos-t76

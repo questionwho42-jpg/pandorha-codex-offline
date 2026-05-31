@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260531-195801-t79-npc-relationship-history-save-v6-gate -->
+### T79 NPC Relationship History Save V6 Gate
+- id: 20260531-195801-t79-npc-relationship-history-save-v6-gate
+- status: open
+- created_at: 2026-05-31T19:58:01-03:00
+- source: task-ledger
+- summary: Produzir gate A/B/C para decidir se historico append-only de relacao por NPC justifica save v6, sem migration, schema, RPC ou implementacao.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260531-195801-t79-npc-relationship-history-save-v6-gate -->
 <!-- pandorha-inbox:20260531-194729-t77-handoff-local-pos-t76 -->
 ### T77 Handoff Local Pos-T76
 - id: 20260531-194729-t77-handoff-local-pos-t76
