@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260601-120947-d01-1-security-audit-gate-recovery -->
+### D01.1 security audit gate recovery
+- id: 20260601-120947-d01-1-security-audit-gate-recovery
+- status: open
+- created_at: 2026-06-01T12:09:47-03:00
+- source: task-ledger
+- summary: Recover the quality gate by addressing npm audit findings without force upgrades, documenting any remaining breaking dependency risk.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260601-120947-d01-1-security-audit-gate-recovery -->
 <!-- pandorha-inbox:20260601-114326-t85-equipment-driven-combat-attack-profile -->
 ### T85 equipment-driven combat attack profile
 - id: 20260601-114326-t85-equipment-driven-combat-attack-profile

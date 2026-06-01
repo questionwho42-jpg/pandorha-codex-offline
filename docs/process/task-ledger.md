@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260601-120947-d01-1-security-audit-gate-recovery -->
+### D01.1 security audit gate recovery
+- id: 20260601-120947-d01-1-security-audit-gate-recovery
+- status: completed
+- kind: maintenance
+- planned: no
+- started_at: 2026-06-01T12:09:47-03:00
+- finished_at: 2026-06-01T12:16:16-03:00
+- model_started: GPT-5 high reasoning; local automation
+- model_finished: GPT-5 high reasoning; local automation
+- last_modified_at: 2026-06-01T12:16:16-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: f0afba2 chore(process): record t85 final snapshot
+- summary: Recover the quality gate by addressing npm audit findings without force upgrades, documenting any remaining breaking dependency risk.
+- last_change: D01.1 aplicada: npm audit fix sem --force removeu o achado nao breaking de brace-expansion e atualizou a linha Vitest 3.x para 3.2.6 no lockfile; bloqueios restantes de Vitest 4.x e Drizzle Kit/esbuild foram documentados por exigirem caminho breaking.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-01T12:09:47-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: GPT-5 high reasoning; local automation
+
+#### Checkpoint 2026-06-01T12:11:44-03:00
+- Done: Applied npm audit fix without --force; brace-expansion moved to 5.0.6 and Vitest 3.x lockfile packages moved to 3.2.6. Remaining audit blockers require breaking upgrades according to npm audit and are documented in docs/process/d01-1-security-audit-gate-recovery.md.
+- Next: Run lint, test, coverage, build, quality gate, complete task and commit D01.1.
+- Risks: quality:gate is expected to keep failing at root:audit until a separate approved major dependency upgrade handles Vitest 4.x and the Drizzle Kit/esbuild chain.
+- Improvements: Create a dedicated D01.2 upgrade spike for Vitest major and Drizzle Kit audit path before continuing mechanics if strict quality gate pass is required.
+- Model/config: GPT-5 high reasoning; local automation
+
+#### Checkpoint 2026-06-01T12:16:16-03:00
+- Done: D01.1 aplicada: npm audit fix sem --force removeu o achado nao breaking de brace-expansion e atualizou a linha Vitest 3.x para 3.2.6 no lockfile; bloqueios restantes de Vitest 4.x e Drizzle Kit/esbuild foram documentados por exigirem caminho breaking.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: GPT-5 high reasoning; local automation
+<!-- /pandorha-task:20260601-120947-d01-1-security-audit-gate-recovery -->
 <!-- pandorha-task:20260601-114326-t85-equipment-driven-combat-attack-profile -->
 ### T85 equipment-driven combat attack profile
 - id: 20260601-114326-t85-equipment-driven-combat-attack-profile
