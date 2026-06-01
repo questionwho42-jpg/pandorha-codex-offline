@@ -1,4 +1,5 @@
 import type { ConsumableRecord, EquipmentRecord } from "./equipmentSchema";
+import type { EquipmentWeaponAttackProfileDefinition } from "./equipmentTypes";
 
 export const OFFICIAL_EQUIPMENT = [
 	{
@@ -134,3 +135,32 @@ export const OFFICIAL_EQUIPMENT_IDS = OFFICIAL_EQUIPMENT.map((item) => item.id);
 export const OFFICIAL_CONSUMABLE_IDS = OFFICIAL_CONSUMABLES.map(
 	(item) => item.id,
 );
+
+export const OFFICIAL_WEAPON_ATTACK_PROFILE_DEFINITIONS: Readonly<
+	Record<string, EquipmentWeaponAttackProfileDefinition>
+> = {
+	dagger: {
+		baseDiceTotal: 2,
+		damageType: "physical",
+		diceExpression: "1d4",
+		handsRequired: 1,
+		matrix: "physical",
+		tags: ["agile", "concealable", "thrown-6m"],
+	},
+	longbow: {
+		baseDiceTotal: 4,
+		damageType: "physical",
+		diceExpression: "1d8",
+		handsRequired: 2,
+		matrix: "mental",
+		tags: ["range-36m", "two-handed"],
+	},
+	longsword: {
+		baseDiceTotal: 4,
+		damageType: "physical",
+		diceExpression: "1d8",
+		handsRequired: 1,
+		matrix: "physical",
+		tags: ["versatile"],
+	},
+};

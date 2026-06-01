@@ -10,8 +10,10 @@
 - T22G connects the training damage matrix to the selected character's Matriz Fisica while keeping weapon and dice values fixed.
 - T22H makes the target turn explicit by logging that the target holds position, without adding enemy AI.
 - T22I adds a clear defeated outcome state and keeps reset available.
+- T85.1 adds a domain hook for real weapon attack profiles without wiring UI, loadout persistence, or durability wear.
 - The next combat step should document the user flow before the final vertical-slice review.
-- Add real initiative only after the fixed turn order remains stable in browser tests.
+- Add loadout/equipped weapon selection before replacing the browser's fixed training weapon profile.
+- Add real initiative only after equipment selection and fixed turn order remain stable in browser tests.
 - Add typed combat commands for attacks, reactions, spell casts, and conditions.
 - Persist combat ledgers later through Worker/SQLite after the in-memory model is stable.
 - Add Decorator-based modifiers for conditions, talents, weapon properties, and tactical forge effects.
@@ -19,4 +21,4 @@
 ## Boundaries
 
 - This feature should not own dice, damage, or universal-test math. Those stay in `shared`.
-- T22G still avoids persistence, Worker, grid, dynamic monsters, inventory, magic, equipment math, and rolled initiative.
+- T85.1 still avoids persistence, Worker, grid, dynamic monsters, inventory mutation, magic, full equipment math, durability wear, and rolled initiative.

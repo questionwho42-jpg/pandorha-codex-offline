@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260601-114326-t85-equipment-driven-combat-attack-profile -->
+### T85 equipment-driven combat attack profile
+- id: 20260601-114326-t85-equipment-driven-combat-attack-profile
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-01T11:43:26-03:00
+- finished_at: 2026-06-01T11:57:48-03:00
+- model_started: GPT-5 high reasoning; local automation
+- model_finished: GPT-5 high reasoning; local automation
+- last_modified_at: 2026-06-01T11:57:48-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: e5bbe57 chore(process): record t84 final snapshot
+- summary: Start the T85 mechanics vertical with real equipment feeding combat attack profiles before full damage rules.
+- last_change: T85.1 concluida: equipamento real agora produz perfil de ataque estruturado para armas do catalogo, com slots, durabilidade, matriz e dado de arma deterministico; combate aceita esse perfil opcional sem UI, save v6, migration ou dano completo.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-01T11:43:26-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: GPT-5 high reasoning; local automation
+
+#### Checkpoint 2026-06-01T11:50:05-03:00
+- Done: TDD verde para EquipmentWeaponAttackProfileService e perfil de ataque de combate aceitando arma real opcional; sem save v6, migration, UI Svelte ou dano completo.
+- Next: Rodar validadores locais, atualizar memoria tripla e fechar gates.
+- Risks: A arma real ainda nao esta ligada na UI nem em loadout persistido; o dado de arma entra como total deterministico de treino ate a fase de dano completo.
+- Improvements: Na proxima fatia, adicionar loadout/equip slot explicito antes de expor selecao visual ou desgaste por ataque.
+- Model/config: GPT-5 high reasoning; local automation
+
+#### Checkpoint 2026-06-01T11:57:48-03:00
+- Done: T85.1 concluida: equipamento real agora produz perfil de ataque estruturado para armas do catalogo, com slots, durabilidade, matriz e dado de arma deterministico; combate aceita esse perfil opcional sem UI, save v6, migration ou dano completo.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: GPT-5 high reasoning; local automation
+<!-- /pandorha-task:20260601-114326-t85-equipment-driven-combat-attack-profile -->
 <!-- pandorha-task:20260601-070954-t84-social-rendered-browser-automation-evaluatio -->
 ### T84 Social Rendered Browser Automation Evaluation
 - id: 20260601-070954-t84-social-rendered-browser-automation-evaluatio

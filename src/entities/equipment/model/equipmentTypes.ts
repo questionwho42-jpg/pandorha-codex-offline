@@ -3,6 +3,9 @@ export type EquipmentFailureCode =
 	| "EQUIPMENT_NOT_FOUND"
 	| "EQUIPMENT_REPOSITORY_READ_FAILED"
 	| "CORRUPTED_EQUIPMENT_RECORD"
+	| "EQUIPMENT_NOT_A_WEAPON"
+	| "EQUIPMENT_WEAPON_UNUSABLE"
+	| "WEAPON_ATTACK_PROFILE_NOT_FOUND"
 	| "INVALID_CONSUMABLE_ID"
 	| "CONSUMABLE_NOT_FOUND"
 	| "CONSUMABLE_REPOSITORY_READ_FAILED"
@@ -30,4 +33,26 @@ export interface EquipmentRepositoryFailure {
 	readonly code: EquipmentRepositoryFailureCode;
 	readonly message: string;
 	readonly details?: EquipmentFailureDetails;
+}
+
+export type EquipmentWeaponMatrix = "physical" | "mental" | "social";
+
+export interface EquipmentWeaponAttackProfileDefinition {
+	readonly baseDiceTotal: number;
+	readonly damageType: string;
+	readonly diceExpression: string;
+	readonly handsRequired: number;
+	readonly matrix: EquipmentWeaponMatrix;
+	readonly tags: readonly string[];
+}
+
+export interface EquipmentWeaponAttackProfile
+	extends EquipmentWeaponAttackProfileDefinition {
+	readonly durabilityCurrent: number;
+	readonly durabilityMax: number;
+	readonly id: string;
+	readonly label: string;
+	readonly mechanicalSummary: string;
+	readonly slotCost: number;
+	readonly sourceFile: string;
 }

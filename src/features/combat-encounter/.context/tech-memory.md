@@ -68,6 +68,14 @@
 - `CombatEncounterPanel.svelte` renders a visible outcome block only when the training target is defeated.
 - No XP, loot, reward, persistence, or official monster outcome was introduced.
 
+## T85.1 - Equipment Weapon Attack Profile Hook
+
+- `combatTrainingAttackProfile.ts` now accepts an optional `EquipmentWeaponAttackProfile`.
+- Session characters can produce an `equipmentWeapon` attack profile using real weapon dice expression, deterministic training dice total, damage type, and matrix from `entities/equipment`.
+- Existing Aria/training behavior stays unchanged when no weapon profile is supplied.
+- Extra modifiers remain `0` for weapon profiles until talents, runes, conditions, or full damage rules are introduced.
+- The combat UI is not wired to a loadout yet; this is a service/domain contract for the next equipment slice.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

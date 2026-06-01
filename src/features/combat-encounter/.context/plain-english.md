@@ -20,6 +20,8 @@ Na T22H, quando chega o turno do alvo de treino, o usuario pode encerrar esse tu
 
 Na T22I, quando o alvo chega a 0 HP, a tela mostra que ele foi derrotado e bloqueia novos ataques ou encerramentos de turno. O botao Reiniciar encontro continua disponivel para testar de novo.
 
+Na T85.1, o combate passou a conseguir receber um perfil de arma real vindo do catalogo de equipamentos. Isso ainda nao aparece como selecao visual de arma: e uma ponte tecnica. Quando uma arma como a Espada Longa for entregue ao perfil de ataque, o combate ja sabe usar o dado `1d8`, a Matriz correta e o total deterministico de treino.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.

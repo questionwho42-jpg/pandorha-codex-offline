@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260601-114326-t85-equipment-driven-combat-attack-profile -->
+### T85 equipment-driven combat attack profile
+- id: 20260601-114326-t85-equipment-driven-combat-attack-profile
+- status: open
+- created_at: 2026-06-01T11:43:26-03:00
+- source: task-ledger
+- summary: Start the T85 mechanics vertical with real equipment feeding combat attack profiles before full damage rules.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260601-114326-t85-equipment-driven-combat-attack-profile -->
 <!-- pandorha-inbox:20260601-070954-t84-social-rendered-browser-automation-evaluatio -->
 ### T84 Social Rendered Browser Automation Evaluation
 - id: 20260601-070954-t84-social-rendered-browser-automation-evaluatio

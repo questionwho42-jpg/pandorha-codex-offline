@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { CharacterRecord } from "$lib/entities/character";
+import type { EquipmentWeaponAttackProfile } from "$lib/entities/equipment";
 import { DEFAULT_COMBAT_TRAINING_ATTACKER } from "../model/combatSessionAttacker";
 import { createCombatTrainingAttackProfile } from "../model/combatTrainingAttackProfile";
 
@@ -40,6 +41,32 @@ describe("createCombatTrainingAttackProfile", () => {
 		expect(profile.summaryLabel).toBe("Dano: 4 + F\u00edsico 3 + b\u00f4nus 3");
 		expect(profile.helperText).toBe(
 			"Dano de treino usando a Matriz F\u00edsica da ficha selecionada. Arma, dado base e b\u00f4nus ainda s\u00e3o fixos.",
+		);
+	});
+
+	it("uses a real equipped weapon profile for a session character attack", () => {
+		const profile = createCombatTrainingAttackProfile({
+			attacker: { id: "session-character-1", label: "Lia" },
+			characters: [createCharacterRecord({ physical: 3 })],
+			equippedWeapon: createWeaponProfile({
+				id: "longsword",
+				label: "Espada Longa",
+			}),
+		});
+
+		expect(profile).toMatchObject({
+			baseDiceTotal: 4,
+			damageType: "physical",
+			extraModifierTotal: 0,
+			matrixLabel: "Matriz F\u00edsica: 3",
+			matrixValue: 3,
+			source: "equipmentWeapon",
+			summaryLabel: "Espada Longa: 1d8 (treino 4) + F\u00edsico 3",
+			weaponDiceExpression: "1d8",
+			weaponLabel: "Espada Longa",
+		});
+		expect(profile.helperText).toBe(
+			"Perfil de arma real usando Espada Longa. O dado ainda entra como total determin\u00edstico de treino; dano completo e durabilidade por ataque ficam para fase posterior.",
 		);
 	});
 
@@ -101,6 +128,27 @@ function createCharacterRecord(
 		resistance: 2,
 		social: 2,
 		updatedAt: TEST_TIMESTAMP,
+		...patch,
+	};
+}
+
+function createWeaponProfile(
+	patch: Partial<EquipmentWeaponAttackProfile> = {},
+): EquipmentWeaponAttackProfile {
+	return {
+		baseDiceTotal: 4,
+		damageType: "physical",
+		diceExpression: "1d8",
+		durabilityCurrent: 100,
+		durabilityMax: 100,
+		handsRequired: 1,
+		id: "longsword",
+		label: "Espada Longa",
+		matrix: "physical",
+		mechanicalSummary: "1d8/1d10, Versatil. Item unico de treino.",
+		slotCost: 2,
+		sourceFile: "docs/system/survival/04-arsenal-e-economia.md",
+		tags: ["versatile"],
 		...patch,
 	};
 }
