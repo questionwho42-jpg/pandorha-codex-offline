@@ -2,15 +2,23 @@ import type { ZodIssue } from "zod/v4";
 import type { ClockRecord } from "$lib/entities/clock";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import {
+	type ParsedSocialRetaliationClockAdvanceGateInput,
 	type ParsedSocialRetaliationClockAdvanceInput,
+	socialRetaliationClockAdvanceGateInputSchema,
 	socialRetaliationClockAdvanceInputSchema,
 } from "../model/socialRetaliationClockSchemas";
 import type {
+	SocialRetaliationClockAdvanceGateDecision,
 	SocialRetaliationClockAdvanceResult,
 	SocialRetaliationClockEvent,
 	SocialRetaliationClockFailure,
 	SocialRetaliationClockProgressPort,
 } from "../model/socialRetaliationClockTypes";
+
+type BlockedSocialRetaliationClockAdvanceCause = Exclude<
+	ParsedSocialRetaliationClockAdvanceGateInput["cause"],
+	"social-pressure"
+>;
 
 /**
  * @description Advances only social-pressure retaliation clocks from explicit, caller-owned triggers.
@@ -20,6 +28,25 @@ export class SocialRetaliationClockService {
 	public constructor(
 		private readonly clockPort: SocialRetaliationClockProgressPort,
 	) {}
+
+	public decideAdvanceGate(
+		input: unknown,
+	): Result<
+		SocialRetaliationClockAdvanceGateDecision,
+		SocialRetaliationClockFailure
+	> {
+		const parsedInput =
+			socialRetaliationClockAdvanceGateInputSchema.safeParse(input);
+		if (!parsedInput.success) {
+			return fail({
+				code: "INVALID_SOCIAL_RETALIATION_CLOCK_INPUT",
+				message: "Social retaliation clock input failed validation.",
+				details: { issues: formatIssues(parsedInput.error.issues) },
+			});
+		}
+
+		return ok(createAdvanceGateDecision(parsedInput.data));
+	}
 
 	public async advanceFromTrigger(
 		input: unknown,
@@ -101,6 +128,45 @@ export class SocialRetaliationClockService {
 			events,
 		});
 	}
+}
+
+function createAdvanceGateDecision(
+	input: ParsedSocialRetaliationClockAdvanceGateInput,
+): SocialRetaliationClockAdvanceGateDecision {
+	if (input.cause === "social-pressure") {
+		return {
+			allowed: true,
+			cause: input.cause,
+			nextAction: "advance-from-trigger",
+			reason:
+				"Pressão social explícita pode avançar clocks de retaliação social.",
+			triggerId: input.triggerId,
+		};
+	}
+
+	return {
+		allowed: false,
+		cause: input.cause,
+		nextAction: "wait-for-official-rule",
+		reason: createBlockedAdvanceGateReason(input.cause),
+		triggerId: input.triggerId,
+	};
+}
+
+function createBlockedAdvanceGateReason(
+	cause: BlockedSocialRetaliationClockAdvanceCause,
+): string {
+	const labelByCause: Record<
+		BlockedSocialRetaliationClockAdvanceCause,
+		string
+	> = {
+		"long-rest": "descanso",
+		"elapsed-time": "tempo decorrido",
+		"social-scene": "cena social",
+		"manual-player-action": "ação manual genérica",
+	};
+
+	return `Avanço por ${labelByCause[cause]} permanece bloqueado sem regra oficial de retaliação social.`;
 }
 
 function createSkippedResult(

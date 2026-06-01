@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260601-065448-t83-social-retaliation-clock-advance-gate -->
+### T83 Social Retaliation Clock Advance Gate
+- id: 20260601-065448-t83-social-retaliation-clock-advance-gate
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-01T06:54:48-03:00
+- finished_at: 2026-06-01T07:02:41-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: GPT-5 high reasoning
+- last_modified_at: 2026-06-01T07:02:41-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: cd0e7e0 chore(process): record t82 final snapshot
+- summary: Definir contrato inicial para quando clocks sociais podem avancar: manter gatilho explicito social-pressure como unico modo automatico atual, bloquear descanso/tempo/cena social ate regra oficial existir, sem UI, save v6 ou schema novo.
+- last_change: T83 definiu gate de avanco para clocks de retaliação social: apenas social-pressure explicito pode seguir para advanceFromTrigger; descanso, tempo, cena social e acao manual generica aguardam regra oficial.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-01T06:54:48-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-01T06:58:19-03:00
+- Done: Contrato TDD verde para gate de avanco de clocks sociais: social-pressure permitido, descanso/tempo/cena/acao manual bloqueados sem regra oficial.
+- Next: Rodar validadores, lint, suite, cobertura, quality gate e readiness apos commit.
+- Risks: Sem UI nem schema; risco principal e a futura cadencia oficial precisar de nova causa testada antes de chamar advanceFromTrigger.
+- Improvements: Promover a decisao T83 para docs oficiais quando a branch entrar em main.
+- Model/config: GPT-5 high reasoning
+
+#### Checkpoint 2026-06-01T07:02:41-03:00
+- Done: T83 definiu gate de avanco para clocks de retaliação social: apenas social-pressure explicito pode seguir para advanceFromTrigger; descanso, tempo, cena social e acao manual generica aguardam regra oficial.
+- Next: Repetir readiness apos commit limpo e iniciar F84 apenas se a automacao Browser renderizada tiver custo-beneficio claro.
+- Risks: Nao ha UI nem schema; futuras causas devem ser adicionadas por TDD e regra em docs/system antes de qualquer avanco automatico.
+- Improvements: Promover docs/process/t83-social-retaliation-clock-advance-gate.md para documentacao oficial apos merge.
+- Model/config: GPT-5 high reasoning
+<!-- /pandorha-task:20260601-065448-t83-social-retaliation-clock-advance-gate -->
 <!-- pandorha-task:20260601-063146-t82-social-relations-npc-filters -->
 ### T82 Social Relations Npc Filters
 - id: 20260601-063146-t82-social-relations-npc-filters

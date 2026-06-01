@@ -1,5 +1,6 @@
 import type { ClockFailure, ClockRecord } from "$lib/entities/clock";
 import type { Result } from "$lib/shared/lib/result";
+import type { ParsedSocialRetaliationClockAdvanceGateInput } from "./socialRetaliationClockSchemas";
 
 export type SocialRetaliationClockEventType =
 	| "social-retaliation-clock-advanced"
@@ -19,6 +20,21 @@ export interface SocialRetaliationClockAdvanceResult {
 	readonly advancedClocks: readonly ClockRecord[];
 	readonly appliedTriggerIds: readonly string[];
 	readonly events: readonly SocialRetaliationClockEvent[];
+}
+
+export type SocialRetaliationClockAdvanceCause =
+	ParsedSocialRetaliationClockAdvanceGateInput["cause"];
+
+export type SocialRetaliationClockAdvanceGateNextAction =
+	| "advance-from-trigger"
+	| "wait-for-official-rule";
+
+export interface SocialRetaliationClockAdvanceGateDecision {
+	readonly allowed: boolean;
+	readonly cause: SocialRetaliationClockAdvanceCause;
+	readonly nextAction: SocialRetaliationClockAdvanceGateNextAction;
+	readonly reason: string;
+	readonly triggerId: string;
 }
 
 export type SocialRetaliationClockFailureCode =

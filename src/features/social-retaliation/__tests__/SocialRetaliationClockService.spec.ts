@@ -4,6 +4,88 @@ import { fail, ok, type Result } from "$lib/shared/lib/result";
 import { SocialRetaliationClockService } from "../domain/SocialRetaliationClockService";
 
 describe("SocialRetaliationClockService", () => {
+	it("allows explicit social-pressure triggers to reach the clock advancement path", () => {
+		const service = new SocialRetaliationClockService(
+			new FakeRetaliationClockPort([]),
+		);
+
+		const result = service.decideAdvanceGate({
+			cause: "social-pressure",
+			triggerId: "social-pressure-social-encounter-primary",
+			triggeredAt: "2026-06-01T10:00:00.000Z",
+		});
+
+		expect(result.success).toBe(true);
+		if (!result.success) {
+			return;
+		}
+
+		expect(result.data).toEqual({
+			allowed: true,
+			cause: "social-pressure",
+			nextAction: "advance-from-trigger",
+			reason:
+				"Pressão social explícita pode avançar clocks de retaliação social.",
+			triggerId: "social-pressure-social-encounter-primary",
+		});
+	});
+
+	it("blocks automatic social retaliation advancement until official rules exist", () => {
+		const service = new SocialRetaliationClockService(
+			new FakeRetaliationClockPort([]),
+		);
+
+		for (const cause of [
+			"long-rest",
+			"elapsed-time",
+			"social-scene",
+			"manual-player-action",
+		] as const) {
+			const result = service.decideAdvanceGate({
+				cause,
+				triggerId: `${cause}-candidate`,
+				triggeredAt: "2026-06-01T10:05:00.000Z",
+			});
+
+			expect(result.success).toBe(true);
+			if (!result.success) {
+				return;
+			}
+
+			expect(result.data).toMatchObject({
+				allowed: false,
+				cause,
+				nextAction: "wait-for-official-rule",
+				triggerId: `${cause}-candidate`,
+			});
+			expect(result.data.reason).toContain("sem regra oficial");
+		}
+	});
+
+	it("rejects malformed advance gate input", () => {
+		const result = new SocialRetaliationClockService(
+			new FakeRetaliationClockPort([]),
+		).decideAdvanceGate({
+			cause: "downtime",
+			triggerId: "",
+			triggeredAt: "not-a-date",
+		});
+
+		expect(result.success).toBe(false);
+		if (result.success) {
+			return;
+		}
+
+		expect(result.error.code).toBe("INVALID_SOCIAL_RETALIATION_CLOCK_INPUT");
+		expect(result.error.details).toMatchObject({
+			issues: expect.arrayContaining([
+				expect.stringMatching(/^cause:/),
+				expect.stringMatching(/^triggerId:/),
+				expect.stringMatching(/^triggeredAt:/),
+			]),
+		});
+	});
+
 	it("advances active social-pressure clocks from one explicit trigger", async () => {
 		const port = new FakeRetaliationClockPort([
 			buildClock({ id: "retaliation-training-merchant-league-primary" }),

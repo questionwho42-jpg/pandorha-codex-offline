@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260601-065448-t83-social-retaliation-clock-advance-gate -->
+### T83 Social Retaliation Clock Advance Gate
+- id: 20260601-065448-t83-social-retaliation-clock-advance-gate
+- status: open
+- created_at: 2026-06-01T06:54:48-03:00
+- source: task-ledger
+- summary: Definir contrato inicial para quando clocks sociais podem avancar: manter gatilho explicito social-pressure como unico modo automatico atual, bloquear descanso/tempo/cena social ate regra oficial existir, sem UI, save v6 ou schema novo.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260601-065448-t83-social-retaliation-clock-advance-gate -->
 <!-- pandorha-inbox:20260601-063146-t82-social-relations-npc-filters -->
 ### T82 Social Relations Npc Filters
 - id: 20260601-063146-t82-social-relations-npc-filters
