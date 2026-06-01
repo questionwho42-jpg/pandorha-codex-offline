@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260531-204829-t81-post-t80-handoff-baseline -->
+### T81 Post T80 Handoff Baseline
+- id: 20260531-204829-t81-post-t80-handoff-baseline
+- status: open
+- created_at: 2026-05-31T20:48:29-03:00
+- source: task-ledger
+- summary: Fechar handoff local pos-T80, consolidar baseline social T66-T80, registrar promocao candidata sem alterar save v5, regras RPG ou schema.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260531-204829-t81-post-t80-handoff-baseline -->
 <!-- pandorha-inbox:20260531-200121-t80-group-npc-relationships-by-faction -->
 ### T80 Group NPC Relationships By Faction
 - id: 20260531-200121-t80-group-npc-relationships-by-faction

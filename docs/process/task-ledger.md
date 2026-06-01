@@ -13,6 +13,52 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260531-204829-t81-post-t80-handoff-baseline -->
+### T81 Post T80 Handoff Baseline
+- id: 20260531-204829-t81-post-t80-handoff-baseline
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-05-31T20:48:29-03:00
+- finished_at: 2026-06-01T05:10:12-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5.5 high-reasoning final review; local automation
+- last_modified_at: 2026-06-01T05:10:12-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: 3592c46 feat(social-relations): group npc relationships by faction
+- summary: Fechar handoff local pos-T80, consolidar baseline social T66-T80, registrar promocao candidata sem alterar save v5, regras RPG ou schema.
+- last_change: T81 concluida: baseline social pos-T80 documentado, QA vertical atualizado para T80, promocao candidata pos-merge registrada, build e quality gate completos validados fora do sandbox quando necessario.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-05-31T20:48:29-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-05-31T20:49:57-03:00
+- Done: Handoff T81 criado com baseline social pos-T80, promocao candidata pos-merge e QA vertical atualizado para refletir T80.
+- Next: Executar gates obrigatorios da Fase 81 e completar registro.
+- Risks: Sem alteracao de save, schema, UI ou regra RPG; changelog oficial permanece intocado ate merge em main.
+- Improvements: Fases futuras podem automatizar promocao pos-merge via pandorha_process_automation.py post-merge.
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-05-31T20:53:47-03:00
+- Done: Implementacao documental T81 concluida, mas fechamento bloqueado por limite de uso da sessao ao tentar repetir build Vite e npm audit fora do sandbox; quality:gate completo e qa:next-phase-readiness dependem desses gates/commit limpo.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-01T05:10:12-03:00
+- Done: T81 concluida: baseline social pos-T80 documentado, QA vertical atualizado para T80, promocao candidata pos-merge registrada, build e quality gate completos validados fora do sandbox quando necessario.
+- Next: Commitar a T81 localmente e entao rodar qa:next-phase-readiness; depois iniciar F82 em microtarefa separada.
+- Risks: npm audit ainda reporta vulnerabilidades moderadas em brace-expansion e esbuild via drizzle-kit, sem falha em audit-level high; build mantem aviso antigo de chunk acima de 500 kB.
+- Improvements: Automatizar promocao pos-merge com pandorha_process_automation.py post-merge quando a branch chegar a main.
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+<!-- /pandorha-task:20260531-204829-t81-post-t80-handoff-baseline -->
 <!-- pandorha-task:20260531-200121-t80-group-npc-relationships-by-faction -->
 ### T80 Group NPC Relationships By Faction
 - id: 20260531-200121-t80-group-npc-relationships-by-faction

@@ -1,6 +1,10 @@
 # QA Da Vertical Slice Do MVP
 
-Este roteiro valida o MVP navegável atual do Pandorha Engine depois da T70. Ele não substitui `quality:gate`; ele descreve o caminho humano que deve ser repetido antes de expandir diálogo literário completo ou consequências narrativas mais profundas.
+## Baseline Pos-T80
+
+Este roteiro agora representa o baseline local pos-T80: a vertical social cobre save/load v5, negociacao social, eventos sociais, clocks de retaliacao por gatilho explicito, relacao individual por NPC e leitura agrupada por faccao. Enquanto a branch atual nao estiver em `main`, promocoes para `docs/changelog.md` devem permanecer como candidatas documentadas em `docs/process/t81-post-t80-handoff-baseline.md`.
+
+Este roteiro valida o MVP navegavel atual do Pandorha Engine depois da T80. Ele nao substitui `quality:gate`; ele descreve o caminho humano que deve ser repetido antes de expandir dialogo literario completo ou consequencias narrativas mais profundas.
 
 ## Fluxo Principal No Navegador
 
