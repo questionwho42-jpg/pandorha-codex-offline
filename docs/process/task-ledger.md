@@ -3608,6 +3608,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-01T05:13:49-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 28a67e7 chore(process): record t81 post-commit snapshot
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-01T05:12:52-03:00 - t81-post-t80-handoff-baseline
 - branch: task/t73-t76-npc-relationship-save-ui
 - commit: 3619643 docs(process): record post-t80 baseline handoff
