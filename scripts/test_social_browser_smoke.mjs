@@ -246,10 +246,14 @@ it("applies Infamia and creates a retaliation clock when Fame is already zero", 
 function renderSocialRelationsPanel() {
 	return `
 const clocks = [];
+const npcRelationshipFilter = "all";
 const npcRelationships = [];
 <div data-testid="npc-relationship-list">Relações por NPC</div>
+<div data-testid="npc-relationship-filter">Todos</div>
+<button data-testid="npc-relationship-filter-option">Atenção</button>
 <section data-testid="npc-relationship-group">Liga Mercante de Treino</section>
 <div data-testid="npc-relationship-row">Corretora de Treino</div>
+const empty = view.npcFilterEmptyStateLabel;
 <p data-testid="social-retaliation-clock">Retaliação: Liga Mercante de Treino - 0/4 fatias</p>
 `;
 }

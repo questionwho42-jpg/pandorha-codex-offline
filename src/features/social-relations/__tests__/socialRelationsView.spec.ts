@@ -133,6 +133,7 @@ describe("createSocialRelationsView", () => {
 				factionId: "training-merchant-league",
 				factionLabel: "Liga Mercante de Treino",
 				rows: view.npcRows,
+				totalRowsLabel: "1 NPC visível",
 			},
 		]);
 	});
@@ -225,18 +226,167 @@ describe("createSocialRelationsView", () => {
 				factionId: "training-merchant-league",
 				factionLabel: "Liga Mercante de Treino",
 				rows: [view.npcRows[0]],
+				totalRowsLabel: "1 NPC visível",
 			},
 			{
 				factionId: "training-war-temple",
 				factionLabel: "Templo da Guerra de Treino",
 				rows: [view.npcRows[1]],
+				totalRowsLabel: "1 NPC visível",
 			},
 			{
 				factionId: "unknown-faction",
 				factionLabel: "Facção desconhecida",
 				rows: [view.npcRows[2], view.npcRows[3]],
+				totalRowsLabel: "2 NPCs visíveis",
 			},
 		]);
+	});
+
+	it("filters NPC relationship rows that need social attention", () => {
+		const view = createSocialRelationsView({
+			errorMessage: null,
+			events: [],
+			factions: TRAINING_FACTIONS,
+			npcRelationshipFilter: "attention",
+			npcRelationships: [
+				buildNpcRelationship({
+					npcId: "training-broker",
+					attitude: "skeptical",
+					status: "strained",
+					pressureDamage: 1,
+				}),
+				buildNpcRelationship({
+					npcId: "training-informant",
+					attitude: "neutral",
+					status: "stable",
+					pressureDamage: 0,
+				}),
+				buildNpcRelationship({
+					npcId: "training-captain",
+					attitude: "hostile",
+					status: "enemy",
+					pressureDamage: 0,
+				}),
+			],
+			npcs: NPC_CATALOG,
+			standings: TRAINING_FACTION_STANDINGS,
+		});
+
+		expect(view.npcFilterOptions).toEqual([
+			{ value: "all", label: "Todos", countLabel: "3" },
+			{ value: "attention", label: "Atenção", countLabel: "2" },
+			{ value: "stable", label: "Estáveis", countLabel: "1" },
+			{ value: "allies", label: "Aliados", countLabel: "0" },
+			{ value: "enemies", label: "Inimigos", countLabel: "1" },
+		]);
+		expect(view.npcFilterLabel).toBe("Filtro de NPCs: Atenção");
+		expect(view.npcRows.map((row) => row.npcId)).toEqual([
+			"training-broker",
+			"training-captain",
+		]);
+		expect(view.npcGroups).toEqual([
+			{
+				factionId: "training-merchant-league",
+				factionLabel: "Liga Mercante de Treino",
+				rows: [view.npcRows[0]],
+				totalRowsLabel: "1 NPC em atenção",
+			},
+			{
+				factionId: "training-war-temple",
+				factionLabel: "Templo da Guerra de Treino",
+				rows: [view.npcRows[1]],
+				totalRowsLabel: "1 NPC em atenção",
+			},
+		]);
+		expect(view.npcFilterEmptyStateLabel).toBeNull();
+	});
+
+	it("shows a compact empty state when a NPC relationship filter has no matches", () => {
+		const view = createSocialRelationsView({
+			errorMessage: null,
+			events: [],
+			factions: TRAINING_FACTIONS,
+			npcRelationshipFilter: "allies",
+			npcRelationships: [
+				buildNpcRelationship({
+					npcId: "training-informant",
+					attitude: "neutral",
+					status: "stable",
+					pressureDamage: 0,
+				}),
+			],
+			npcs: NPC_CATALOG,
+			standings: TRAINING_FACTION_STANDINGS,
+		});
+
+		expect(view.npcFilterLabel).toBe("Filtro de NPCs: Aliados");
+		expect(view.npcRows).toEqual([]);
+		expect(view.npcGroups).toEqual([]);
+		expect(view.npcFilterEmptyStateLabel).toBe(
+			"Nenhuma relação por NPC aparece neste filtro.",
+		);
+	});
+
+	it("keeps compact NPC filter modes distinct", () => {
+		const relationships: readonly NpcRelationshipRecord[] = [
+			buildNpcRelationship({
+				npcId: "training-broker",
+				status: "stable",
+			}),
+			buildNpcRelationship({
+				npcId: "training-informant",
+				status: "ally",
+			}),
+			buildNpcRelationship({
+				npcId: "training-captain",
+				status: "enemy",
+			}),
+		];
+
+		const stableView = createSocialRelationsView({
+			errorMessage: null,
+			events: [],
+			factions: TRAINING_FACTIONS,
+			npcRelationshipFilter: "stable",
+			npcRelationships: relationships,
+			npcs: NPC_CATALOG,
+			standings: TRAINING_FACTION_STANDINGS,
+		});
+		const alliesView = createSocialRelationsView({
+			errorMessage: null,
+			events: [],
+			factions: TRAINING_FACTIONS,
+			npcRelationshipFilter: "allies",
+			npcRelationships: relationships,
+			npcs: NPC_CATALOG,
+			standings: TRAINING_FACTION_STANDINGS,
+		});
+		const enemiesView = createSocialRelationsView({
+			errorMessage: null,
+			events: [],
+			factions: TRAINING_FACTIONS,
+			npcRelationshipFilter: "enemies",
+			npcRelationships: relationships,
+			npcs: NPC_CATALOG,
+			standings: TRAINING_FACTION_STANDINGS,
+		});
+
+		expect(stableView.npcFilterLabel).toBe("Filtro de NPCs: Estáveis");
+		expect(stableView.npcRows.map((row) => row.npcId)).toEqual([
+			"training-broker",
+		]);
+		expect(stableView.npcGroups[0]?.totalRowsLabel).toBe("1 NPC estável");
+		expect(alliesView.npcFilterLabel).toBe("Filtro de NPCs: Aliados");
+		expect(alliesView.npcRows.map((row) => row.npcId)).toEqual([
+			"training-informant",
+		]);
+		expect(alliesView.npcGroups[0]?.totalRowsLabel).toBe("1 aliado");
+		expect(enemiesView.npcFilterLabel).toBe("Filtro de NPCs: Inimigos");
+		expect(enemiesView.npcRows.map((row) => row.npcId)).toEqual([
+			"training-captain",
+		]);
+		expect(enemiesView.npcGroups[0]?.totalRowsLabel).toBe("1 inimigo");
 	});
 
 	it("maps every faction kind and standing status to visible pt-BR labels", () => {

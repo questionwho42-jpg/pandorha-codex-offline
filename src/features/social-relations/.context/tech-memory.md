@@ -9,4 +9,6 @@
 - T76 adds read-only `npcRows` sourced from `npcRelationships` and `npcs`; the panel still does not mutate NPC relationships.
 - `SocialRelationsPanel.svelte` renders the NPC relationship list only when persisted relationships exist, using `data-testid="npc-relationship-list"` and `data-testid="npc-relationship-row"` for recurring QA.
 - T80 groups NPC relationship rows by `factionId` in the view-model and renders `data-testid="npc-relationship-group"` so recurring browser smoke can catch regressions in the grouped layout.
+- T82 adds read-only NPC relationship filters in the view-model and panel: `all`, `attention`, `stable`, `allies`, and `enemies`. The filter is local UI state only and does not alter save v5, clocks, relationship records, or social pressure rules.
+- `data-testid="npc-relationship-filter"` and `data-testid="npc-relationship-filter-option"` are part of the recurring social browser smoke contract.
 - Clock advancement and NPC relationship mutation remain in app/session orchestration, not in the social-relations feature.

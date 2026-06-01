@@ -13,3 +13,5 @@ T70 mostra clocks ativos de retaliação quando pressão social cria esse risco.
 T76 mostra `Relações por NPC` quando existe uma relação individual salva. Por exemplo, depois de usar `Pressionar`, a `Corretora de Treino` pode aparecer como uma relação tensionada. A tela apenas exibe esse estado; a regra que muda a relação fica no fluxo de negociação/social pressure do app.
 
 T80 organiza essas relações individuais por facção. Isso ajuda a enxergar se vários NPCs pertencem ao mesmo grupo político sem mudar save, banco, regras ou cálculo social.
+
+T82 adiciona filtros nessa lista de NPCs: `Todos`, `Atenção`, `Estáveis`, `Aliados` e `Inimigos`. O filtro só muda o que aparece na tela no momento; ele não salva nada novo, não avança clocks e não muda a relação com nenhum NPC.

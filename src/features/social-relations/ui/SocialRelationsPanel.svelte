@@ -14,6 +14,7 @@ import type { Result } from "$lib/shared/lib/result";
 import {
 	createSocialRelationsView,
 	mapSocialStandingFailureToMessage,
+	type SocialRelationNpcFilterValue,
 } from "../model/socialRelationsView";
 
 type Props = {
@@ -49,6 +50,7 @@ let events = $state<SocialStandingChangeResult["event"][]>([]);
 let errorMessage = $state<string | null>(null);
 let isWorkingFactionId = $state<string | null>(null);
 let hydratedKey = $state("");
+let npcRelationshipFilter = $state<SocialRelationNpcFilterValue>("all");
 
 $effect(() => {
 	const nextKey = createHydrationKey(standings);
@@ -60,6 +62,7 @@ $effect(() => {
 	events = [];
 	errorMessage = null;
 	isWorkingFactionId = null;
+	npcRelationshipFilter = "all";
 	hydratedKey = nextKey;
 });
 
@@ -70,6 +73,7 @@ let view = $derived(
 		events,
 		clocks,
 		factions,
+		npcRelationshipFilter,
 		npcRelationships,
 		npcs,
 		standings: localStandings,
@@ -84,6 +88,13 @@ async function invokeFavor(factionId: string): Promise<void> {
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 async function redeemDebt(factionId: string): Promise<void> {
 	await runStandingAction(factionId, redeemTierOneDebt);
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function selectNpcRelationshipFilter(
+	filter: SocialRelationNpcFilterValue,
+): void {
+	npcRelationshipFilter = filter;
 }
 
 async function runStandingAction(
@@ -239,39 +250,64 @@ function replaceStanding(
 						</li>
 					{/each}
 				</ul>
-				{#if view.npcRows.length > 0}
+				{#if npcRelationships.length > 0}
 					<div class="mt-5 border-t border-bronze pt-4" data-testid="npc-relationship-list">
-						<h4 class="text-sm font-semibold text-ether">Relações por NPC</h4>
-						<ul class="mt-3 space-y-4">
-							{#each view.npcGroups as npcGroup (npcGroup.factionId)}
-								<li class="border border-bronze bg-ruin px-4 py-3" data-testid="npc-relationship-group">
-									<div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-										<p class="text-sm font-semibold text-ether">{npcGroup.factionLabel}</p>
-										<p class="text-xs font-semibold uppercase text-bone/70">
-											{npcGroup.rows.length} NPC{npcGroup.rows.length === 1 ? "" : "s"}
-										</p>
-									</div>
-									<ul class="mt-3 space-y-2">
-										{#each npcGroup.rows as npcRow (npcRow.npcId)}
-											<li class="border border-bronze bg-blood-shadow px-3 py-3 text-sm leading-6 text-bone" data-testid="npc-relationship-row">
-												<p class="font-semibold text-bone">{npcRow.label}</p>
-												<div class="mt-2 grid gap-2 sm:grid-cols-3">
-													<span class="border border-bronze bg-ruin px-2 py-1 font-semibold text-bone">
-														{npcRow.attitudeLabel}
-													</span>
-													<span class="border border-bronze bg-ruin px-2 py-1 font-semibold text-bone">
-														{npcRow.statusLabel}
-													</span>
-													<span class="border border-bronze bg-ruin px-2 py-1 font-semibold text-bone">
-														{npcRow.pressureDamageLabel}
-													</span>
-												</div>
-											</li>
-										{/each}
-									</ul>
-								</li>
+						<div class="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+							<h4 class="text-sm font-semibold text-ether">Relações por NPC</h4>
+							<p class="text-xs font-semibold uppercase text-bone/70">
+								{view.npcFilterLabel}
+							</p>
+						</div>
+						<div class="mt-3 grid gap-2 sm:grid-cols-2" data-testid="npc-relationship-filter">
+							{#each view.npcFilterOptions as option (option.value)}
+								<button
+									type="button"
+									class={`min-h-10 border px-3 py-2 text-left text-sm font-semibold transition-colors ${npcRelationshipFilter === option.value ? "border-ether bg-ether text-void" : "border-bronze bg-ruin text-bone hover:border-ether hover:text-ether"}`}
+									aria-pressed={npcRelationshipFilter === option.value}
+									onclick={() => selectNpcRelationshipFilter(option.value)}
+									data-testid="npc-relationship-filter-option"
+								>
+									<span>{option.label}</span>
+									<span class="ml-2 text-xs">{option.countLabel}</span>
+								</button>
 							{/each}
-						</ul>
+						</div>
+						{#if view.npcFilterEmptyStateLabel}
+							<p class="mt-3 border border-bronze bg-ruin px-3 py-3 text-sm leading-6 text-bone" data-testid="npc-relationship-filter-empty">
+								{view.npcFilterEmptyStateLabel}
+							</p>
+						{:else}
+							<ul class="mt-3 space-y-4">
+								{#each view.npcGroups as npcGroup (npcGroup.factionId)}
+									<li class="border border-bronze bg-ruin px-4 py-3" data-testid="npc-relationship-group">
+										<div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+											<p class="text-sm font-semibold text-ether">{npcGroup.factionLabel}</p>
+											<p class="text-xs font-semibold uppercase text-bone/70">
+												{npcGroup.totalRowsLabel}
+											</p>
+										</div>
+										<ul class="mt-3 space-y-2">
+											{#each npcGroup.rows as npcRow (npcRow.npcId)}
+												<li class="border border-bronze bg-blood-shadow px-3 py-3 text-sm leading-6 text-bone" data-testid="npc-relationship-row">
+													<p class="font-semibold text-bone">{npcRow.label}</p>
+													<div class="mt-2 grid gap-2 sm:grid-cols-3">
+														<span class="border border-bronze bg-ruin px-2 py-1 font-semibold text-bone">
+															{npcRow.attitudeLabel}
+														</span>
+														<span class="border border-bronze bg-ruin px-2 py-1 font-semibold text-bone">
+															{npcRow.statusLabel}
+														</span>
+														<span class="border border-bronze bg-ruin px-2 py-1 font-semibold text-bone">
+															{npcRow.pressureDamageLabel}
+														</span>
+													</div>
+												</li>
+											{/each}
+										</ul>
+									</li>
+								{/each}
+							</ul>
+						{/if}
 					</div>
 				{/if}
 			</aside>

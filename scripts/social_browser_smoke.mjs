@@ -91,8 +91,12 @@ async function runSocialBrowserSmoke(root) {
 		[
 			'data-testid="social-retaliation-clock"',
 			'data-testid="npc-relationship-list"',
+			'data-testid="npc-relationship-filter"',
+			'data-testid="npc-relationship-filter-option"',
 			'data-testid="npc-relationship-group"',
 			'data-testid="npc-relationship-row"',
+			"npcRelationshipFilter",
+			"npcFilterEmptyStateLabel",
 			"npcRelationships",
 			"Relações por NPC",
 			"clocks",

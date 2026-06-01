@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260601-063146-t82-social-relations-npc-filters -->
+### T82 Social Relations Npc Filters
+- id: 20260601-063146-t82-social-relations-npc-filters
+- status: open
+- created_at: 2026-06-01T06:31:46-03:00
+- source: task-ledger
+- summary: Adicionar filtro e leitura compacta para Relacoes por NPC agrupadas por faccao, mantendo save v5, schema, clocks, WorldState e regras mecanicas inalterados.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260601-063146-t82-social-relations-npc-filters -->
 <!-- pandorha-inbox:20260531-204829-t81-post-t80-handoff-baseline -->
 ### T81 Post T80 Handoff Baseline
 - id: 20260531-204829-t81-post-t80-handoff-baseline

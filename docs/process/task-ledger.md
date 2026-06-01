@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260601-063146-t82-social-relations-npc-filters -->
+### T82 Social Relations Npc Filters
+- id: 20260601-063146-t82-social-relations-npc-filters
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-01T06:31:46-03:00
+- finished_at: 2026-06-01T06:48:47-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: GPT-5 high reasoning
+- last_modified_at: 2026-06-01T06:48:47-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: c3cf75f chore(process): record final t81 snapshot
+- summary: Adicionar filtro e leitura compacta para Relacoes por NPC agrupadas por faccao, mantendo save v5, schema, clocks, WorldState e regras mecanicas inalterados.
+- last_change: T82 adicionou filtros compactos de leitura para Relacoes por NPC agrupadas por faccao: Todos, Atencao, Estaveis, Aliados e Inimigos. A entrega preserva save v5, schema, clocks, WorldState e regras de pressao social.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-01T06:31:46-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-01T06:40:20-03:00
+- Done: Contrato TDD verde para filtros de Relacoes por NPC; UI Svelte ligada; smoke social atualizado; memoria tripla e guia de usuario atualizados.
+- Next: Rodar lint, cobertura, quality gates, Browser Use renderizado e snapshot final.
+- Risks: Mudanca e apenas leitura, mas precisa de validacao renderizada para garantir ergonomia do filtro no painel Resumo.
+- Improvements: Manter filtros como estado local ate existir regra oficial para acoes por NPC.
+- Model/config: GPT-5 high reasoning
+
+#### Checkpoint 2026-06-01T06:48:47-03:00
+- Done: T82 adicionou filtros compactos de leitura para Relacoes por NPC agrupadas por faccao: Todos, Atencao, Estaveis, Aliados e Inimigos. A entrega preserva save v5, schema, clocks, WorldState e regras de pressao social.
+- Next: Repetir readiness apos commit limpo e entao iniciar F83 com contrato de avanco de clocks sociais.
+- Risks: Screenshot do Browser Use falhou por timeout de captura, mas a validacao DOM confirmou filtros Atenção, Estáveis e Todos no navegador integrado.
+- Improvements: Se filtros crescerem alem do catalogo de treino, adicionar busca textual antes de historico ou acoes por NPC.
+- Model/config: GPT-5 high reasoning
+<!-- /pandorha-task:20260601-063146-t82-social-relations-npc-filters -->
 <!-- pandorha-task:20260531-204829-t81-post-t80-handoff-baseline -->
 ### T81 Post T80 Handoff Baseline
 - id: 20260531-204829-t81-post-t80-handoff-baseline
