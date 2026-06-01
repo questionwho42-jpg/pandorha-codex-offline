@@ -3902,6 +3902,40 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-01T18:20:45-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 6591749 chore(process): record t87 final snapshot
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T18:19:19-03:00 - t87-combat-equipped-weapon-ui
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: c5d457f feat(combat): add equipped weapon selector
+- changed_files_count: 2
+#### Changed Files
+- docs/process/task-ledger.md
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T18:19:13-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: c5d457f feat(combat): add equipped weapon selector
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-01T12:33:32-03:00 - t86-equipment-loadout-core
 - branch: task/t73-t76-npc-relationship-save-ui
 - commit: 35de61f feat(equipment): add loadout core
