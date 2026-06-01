@@ -3647,6 +3647,29 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-01T06:50:32-03:00 - t82-social-relations-npc-filters
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 0dcf427 feat(social-relations): add npc relationship filters
+- changed_files_count: 2
+#### Changed Files
+- docs/process/task-ledger.md
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T06:49:55-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 0dcf427 feat(social-relations): add npc relationship filters
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-01T05:13:49-03:00 - post-commit
 - branch: task/t73-t76-npc-relationship-save-ui
 - commit: 28a67e7 chore(process): record t81 post-commit snapshot
