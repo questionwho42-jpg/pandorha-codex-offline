@@ -3764,6 +3764,29 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-01T11:59:10-03:00 - t85-equipment-weapon-attack-profile
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: b5b7b2c feat(equipment): add weapon attack profiles
+- changed_files_count: 2
+#### Changed Files
+- docs/process/task-ledger.md
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T11:59:01-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: b5b7b2c feat(equipment): add weapon attack profiles
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-01T11:38:17-03:00 - t84-social-rendered-browser-automation-evaluation
 - branch: task/t73-t76-npc-relationship-save-ui
 - commit: 0d78586 docs(process): record social browser automation decision
