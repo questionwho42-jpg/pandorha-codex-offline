@@ -15,8 +15,15 @@ In T85.1, the module gained a small service that turns real catalog weapons into
 
 The service still does not equip items by itself. It only guarantees that a valid, unbroken, known weapon can be handed to combat without reading free-text summaries.
 
+In T86, the module gained the first loadout service. It answers: "what is currently in the main hand, off hand, and armor slot?" It allows an empty loadout, a one-handed weapon with a shield, armor by itself, or a two-handed weapon with the off hand empty.
+
+It refuses combinations that should not happen, such as putting a dagger in the shield slot, putting a shield in the armor slot, using a broken item, or equipping an `Arco Longo` together with an off-hand shield.
+
+This is still not a full inventory screen. Nothing is saved, no item is repaired or damaged, no proficiency is checked, and no armor class is recalculated yet.
+
 ## Alternatives
 
 - Read the weapon summary text: faster at first, but fragile because prose can change.
 - Put weapon facts directly inside combat: fewer files now, but it mixes item rules with attack rules.
 - Use structured catalog weapon profiles: current approach, because it prepares future UI without changing save or database.
+- Save selected equipment immediately: convenient for players sooner, but it would require a save-version decision before the loadout contract is proven in UI.

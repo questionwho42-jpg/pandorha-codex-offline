@@ -4,7 +4,11 @@ export type EquipmentFailureCode =
 	| "EQUIPMENT_REPOSITORY_READ_FAILED"
 	| "CORRUPTED_EQUIPMENT_RECORD"
 	| "EQUIPMENT_NOT_A_WEAPON"
+	| "EQUIPMENT_NOT_A_SHIELD"
+	| "EQUIPMENT_NOT_ARMOR"
 	| "EQUIPMENT_WEAPON_UNUSABLE"
+	| "EQUIPMENT_ITEM_UNUSABLE"
+	| "EQUIPMENT_LOADOUT_HAND_CONFLICT"
 	| "WEAPON_ATTACK_PROFILE_NOT_FOUND"
 	| "INVALID_CONSUMABLE_ID"
 	| "CONSUMABLE_NOT_FOUND"
@@ -55,4 +59,30 @@ export interface EquipmentWeaponAttackProfile
 	readonly mechanicalSummary: string;
 	readonly slotCost: number;
 	readonly sourceFile: string;
+}
+
+export type EquipmentLoadoutSlot = "mainHand" | "offHand" | "armor";
+
+export interface EquipmentLoadoutInput {
+	readonly mainHandWeaponId?: unknown;
+	readonly offHandShieldId?: unknown;
+	readonly armorId?: unknown;
+}
+
+export interface EquipmentLoadoutItemSnapshot {
+	readonly durabilityCurrent: number;
+	readonly durabilityMax: number;
+	readonly id: string;
+	readonly kind: "weapon" | "shield" | "armor";
+	readonly label: string;
+	readonly slotCost: number;
+	readonly sourceFile: string;
+}
+
+export interface EquipmentLoadoutSnapshot {
+	readonly activeWeaponProfile: EquipmentWeaponAttackProfile | null;
+	readonly armor: EquipmentLoadoutItemSnapshot | null;
+	readonly mainHand: EquipmentLoadoutItemSnapshot | null;
+	readonly occupiedHands: number;
+	readonly offHand: EquipmentLoadoutItemSnapshot | null;
 }

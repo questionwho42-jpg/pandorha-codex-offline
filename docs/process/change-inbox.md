@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260601-121945-t86-equipment-loadout-core -->
+### T86 equipment loadout core
+- id: 20260601-121945-t86-equipment-loadout-core
+- status: open
+- created_at: 2026-06-01T12:19:45-03:00
+- source: task-ledger
+- summary: Create pure equipment loadout service for main-hand weapon, off-hand shield, armor, hand occupancy, durability gate, and active weapon profile without UI, save, migration, or inventory mutation.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260601-121945-t86-equipment-loadout-core -->
 <!-- pandorha-inbox:20260601-120947-d01-1-security-audit-gate-recovery -->
 ### D01.1 security audit gate recovery
 - id: 20260601-120947-d01-1-security-audit-gate-recovery

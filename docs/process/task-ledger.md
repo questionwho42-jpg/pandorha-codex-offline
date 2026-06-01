@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260601-121945-t86-equipment-loadout-core -->
+### T86 equipment loadout core
+- id: 20260601-121945-t86-equipment-loadout-core
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-01T12:19:45-03:00
+- finished_at: 2026-06-01T12:32:05-03:00
+- model_started: GPT-5 high reasoning; local automation
+- model_finished: GPT-5 high reasoning; local automation
+- last_modified_at: 2026-06-01T12:32:05-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: 373ef58 chore(process): record d01.1 final snapshot
+- summary: Create pure equipment loadout service for main-hand weapon, off-hand shield, armor, hand occupancy, durability gate, and active weapon profile without UI, save, migration, or inventory mutation.
+- last_change: T86 concluida: EquipmentLoadoutService puro criado com snapshot de main hand, off hand e armor; validacao de tipo por slot, durabilidade, conflito de arma de duas maos com escudo, activeWeaponProfile herdado do catalogo de armas, testes TDD e memoria tripla atualizada. Sem UI, save v6, migration, inventario editavel, proficiencia ou dual wield.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-01T12:19:45-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: GPT-5 high reasoning; local automation
+
+#### Checkpoint 2026-06-01T12:27:21-03:00
+- Done: Added red-first EquipmentLoadoutService tests, implemented pure loadout snapshot service, registered coverage, and updated equipment memory triple.
+- Next: Run full validation gates, complete the task, commit T86, snapshot, and confirm next-phase readiness.
+- Risks: quality:gate is still expected to fail at root:audit because D01.1 documented breaking dependency blockers instead of forcing major updates.
+- Improvements: T87 can consume the activeWeaponProfile from the loadout snapshot in the combat UI without save v6.
+- Model/config: GPT-5 high reasoning; local automation
+
+#### Checkpoint 2026-06-01T12:32:05-03:00
+- Done: T86 concluida: EquipmentLoadoutService puro criado com snapshot de main hand, off hand e armor; validacao de tipo por slot, durabilidade, conflito de arma de duas maos com escudo, activeWeaponProfile herdado do catalogo de armas, testes TDD e memoria tripla atualizada. Sem UI, save v6, migration, inventario editavel, proficiencia ou dual wield.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: GPT-5 high reasoning; local automation
+<!-- /pandorha-task:20260601-121945-t86-equipment-loadout-core -->
 <!-- pandorha-task:20260601-120947-d01-1-security-audit-gate-recovery -->
 ### D01.1 security audit gate recovery
 - id: 20260601-120947-d01-1-security-audit-gate-recovery

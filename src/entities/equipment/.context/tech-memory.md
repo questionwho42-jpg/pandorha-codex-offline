@@ -16,3 +16,12 @@
 - Durability is a gate: weapons with `durabilityCurrent` below 1 return `EQUIPMENT_WEAPON_UNUSABLE` before combat can consume them.
 - Non-weapon equipment returns `EQUIPMENT_NOT_A_WEAPON`; weapons without structured profiles return `WEAPON_ATTACK_PROFILE_NOT_FOUND`.
 - The first profile keeps damage deterministic with `baseDiceTotal`; actual damage dice rolls and durability wear remain future work.
+
+## T86 - Equipment Loadout Core
+
+- `EquipmentLoadoutService` creates a pure `EquipmentLoadoutSnapshot` from optional catalog ids for `mainHandWeaponId`, `offHandShieldId`, and `armorId`.
+- The service composes `EquipmentWeaponAttackProfileService` for the main hand so combat receives the same validated `activeWeaponProfile` contract introduced in T85.1.
+- Slot validation is explicit: main hand must be a weapon, off hand must be a shield, and armor must be armor.
+- Durability remains a gate only: broken weapons use `EQUIPMENT_WEAPON_UNUSABLE`, while broken shield/armor records use `EQUIPMENT_ITEM_UNUSABLE`.
+- Two-handed weapons fail with `EQUIPMENT_LOADOUT_HAND_CONFLICT` when an off-hand shield is also selected.
+- T86 deliberately does not mutate inventory, consume durability, change save data, add proficiencies, support dual wield, or expose UI.
