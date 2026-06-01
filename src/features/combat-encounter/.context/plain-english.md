@@ -22,8 +22,15 @@ Na T22I, quando o alvo chega a 0 HP, a tela mostra que ele foi derrotado e bloqu
 
 Na T85.1, o combate passou a conseguir receber um perfil de arma real vindo do catalogo de equipamentos. Isso ainda nao aparece como selecao visual de arma: e uma ponte tecnica. Quando uma arma como a Espada Longa for entregue ao perfil de ataque, o combate ja sabe usar o dado `1d8`, a Matriz correta e o total deterministico de treino.
 
+Na T87, a aba Combate ganhou um seletor `Arma equipada` para personagens criados na sessao. Ele comeca em `Espada Longa`, pode trocar para outras armas oficiais de treino e muda o resumo do dano mostrado na tela.
+
+Aria continua usando o perfil fixo de treino. O seletor existe para os personagens da sessao, nao para transformar Aria em personagem equipado.
+
+A arma escolhida ainda nao e salva, nao quebra, nao gasta durabilidade e nao verifica proficiencia. Ela so alimenta o perfil de dano local do combate.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.
 - Criar primeiro um serviço puro: é o caminho atual, porque permite testar combate antes de colocar a tela no navegador.
 - Criar combate completo com turno, iniciativa e grid agora: seria mais próximo do jogo final, mas teria risco alto demais para uma única tarefa.
+- Salvar a arma equipada agora: mais conveniente, mas exigiria decisao de save version antes de o fluxo visual provar o contrato.

@@ -13,6 +13,66 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260601-123434-t87-combat-equipped-weapon-ui -->
+### T87 combat equipped weapon UI
+- id: 20260601-123434-t87-combat-equipped-weapon-ui
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-01T12:34:34-03:00
+- finished_at: 2026-06-01T18:18:07-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-01T18:18:07-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: 2ebdf77 chore(process): record t86 final snapshot
+- summary: Connect EquipmentLoadoutService to the combat tab with a local session weapon selector, defaulting player characters to Espada Longa while keeping Aria on a fixed training profile; update static QA and validate rendered combat flow with Browser Use.
+- last_change: T87 concluida: a aba Combate agora usa EquipmentLoadoutService via app boundary, mostra seletor local de Arma equipada para personagens da sessao com Espada Longa padrao, mantem Aria em perfil fixo, troca para Adaga/armas oficiais, alimenta activeWeaponProfile no ataque e possui Browser Use renderizado validado em http://127.0.0.1:5173/.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-01T12:34:34-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-01T12:45:03-03:00
+- Done: Implemented T87 code path: combat session exposes official weapon options/default loadout builder, combat UI renders local equipped weapon selector, activeWeaponProfile feeds session-character attacks, static vertical-slice smoke and combat guide were updated.
+- Next: Run full technical gates, then complete Browser Use rendered validation if the in-app browser target is allowed.
+- Risks: Browser Use rejected http://127.0.0.1:5173/ by policy, so rendered UI validation is pending and must not be worked around via alternate browser surfaces.
+- Improvements: If browser policy remains blocked, add a short process note before handoff rather than pretending rendered validation passed.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-01T18:04:43-03:00
+- Done: T87 technical validation completed: lint, focused tests, full test suite, coverage, build, qa:vertical-slice, qa:social-browser-smoke, qa:dialogue-seeds and self-review hard stop passed; quality:gate remains blocked only by the documented D01.1 npm audit issue.
+- Next: Obtain explicit permission to use Browser Use on http://127.0.0.1:5173/ for the rendered combat weapon selector flow, then complete task, commit, snapshot and run qa:next-phase-readiness.
+- Risks: Rendered Browser validation for the UI change is still pending because Browser Use previously rejected http://127.0.0.1:5173/ by policy; quality:gate still fails at root:audit due Vitest/drizzle-kit/esbuild breaking audit blockers documented in D01.1.
+- Improvements: Keep the static vertical-slice contract as fallback evidence, but do not claim rendered UI acceptance until Browser Use is explicitly allowed and completed.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-01T18:06:27-03:00
+- Done: Applied final UI state refinement so loadout errors are only shown for session-character attackers; reran lint, focused combatEncounterSession tests, qa:vertical-slice, and process validate successfully.
+- Next: Await explicit Browser Use permission for http://127.0.0.1:5173/ rendered validation, then complete the task, commit, snapshot, and run qa:next-phase-readiness.
+- Risks: Browser Use rendered validation remains pending by policy; quality:gate remains blocked only by the documented D01.1 npm audit issue requiring breaking dependency decisions.
+- Improvements: Keep Browser acceptance separate from static QA in the final handoff so future agents do not mistake contract validation for rendered validation.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-01T18:13:44-03:00
+- Done: Browser Use rendered validation completed on http://127.0.0.1:5173/: Aria keeps the fixed training profile with disabled weapon selector; a session character Nara can be created, selected in combat, defaults to Espada Longa (1d8), switches to Adaga (1d4), and attacks with the selected weapon profile in the rendered UI.
+- Next: Run final gates, complete task, commit, snapshot, and run qa:next-phase-readiness.
+- Risks: Browser screenshot capture timed out twice, so the rendered evidence is DOM/interaction validation rather than a saved image; quality:gate is still expected to fail only at the documented D01.1 npm audit blocker.
+- Improvements: Consider adding an automated rendered Browser/Playwright contract later if screenshot capture remains unreliable in the in-app browser.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-01T18:18:07-03:00
+- Done: T87 concluida: a aba Combate agora usa EquipmentLoadoutService via app boundary, mostra seletor local de Arma equipada para personagens da sessao com Espada Longa padrao, mantem Aria em perfil fixo, troca para Adaga/armas oficiais, alimenta activeWeaponProfile no ataque e possui Browser Use renderizado validado em http://127.0.0.1:5173/.
+- Next: Commit T87, record snapshot, run qa:next-phase-readiness, then plan T88 weapon dice roll contract.
+- Risks: quality:gate still fails only at root:audit because D01.1 documented breaking dependency blockers for vitest and drizzle-kit/esbuild; Browser screenshot capture timed out, but DOM and interaction validation completed successfully.
+- Improvements: Automate the rendered combat weapon flow later when Browser screenshot/capture reliability is resolved.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260601-123434-t87-combat-equipped-weapon-ui -->
 <!-- pandorha-task:20260601-121945-t86-equipment-loadout-core -->
 ### T86 equipment loadout core
 - id: 20260601-121945-t86-equipment-loadout-core

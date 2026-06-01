@@ -8,6 +8,8 @@ Este guia mostra como testar a vertical slice T22 de combate no navegador. O obj
 - A aba `Combate` permite escolher um atacante e um alvo de treino.
 - `Aria` sempre aparece como atacante de treino.
 - Personagens criados na sessao atual aparecem como atacantes adicionais.
+- Personagens da sessao usam o seletor `Arma equipada`; a arma padrao e `Espada Longa`.
+- `Aria usa perfil fixo de treino`, mesmo quando o seletor mostra uma arma da sessao.
 - A tela mostra `Rodada`, `Turno de ...` e `Acoes 3/3`.
 - `Atacar` gasta 1 acao e registra resultado, dano, HP restante e log.
 - O turno do alvo de treino existe, mas ele nao tem IA: ao encerrar o turno dele, o log informa que ele manteve posicao.
@@ -52,11 +54,14 @@ Depois:
 1. Clique em `Combate`.
 2. No seletor `Atacante`, escolha `Nara`.
 3. Confirme que a ficha resumida mostra HP maximo, Iniciativa e Carga.
-4. Confirme que o `Perfil de dano` mostra `Matriz Fisica: 3`.
-5. Confirme que o resumo de dano mostra `Dano: 4 + Fisico 3 + bonus 3`.
-6. Clique em `Atacar`.
-7. Confirme que o log usa o nome `Nara`.
-8. Confirme que o dano final e maior que o dano fixo de Aria.
+4. Confirme que `Arma equipada` mostra `Espada Longa`.
+5. Confirme que o helper mostra `Arma ativa: Espada Longa (1d8)`.
+6. Confirme que o `Perfil de dano` mostra `Matriz Fisica: 3`.
+7. Confirme que o resumo de dano mostra `Espada Longa: 1d8 (treino 4) + Fisico 3`.
+8. Troque `Arma equipada` para `Adaga` e confirme que o resumo muda para `Adaga: 1d4`.
+9. Clique em `Atacar`.
+10. Confirme que o log usa o nome `Nara`.
+11. Confirme que o dano final usa a arma selecionada e a Matriz do personagem.
 
 ## Escolhendo Alvos
 
@@ -85,6 +90,7 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - `Turno`: mostra quem pode agir agora.
 - `Acoes`: mostra quantas acoes restam no turno atual.
 - `Ficha no combate`: mostra dados resumidos do atacante selecionado.
+- `Arma equipada`: escolhe uma arma local para personagens criados na sessao.
 - `Perfil de dano`: mostra qual Matriz esta sendo usada no dano de treino.
 - `Ultimo resultado`: resume o ultimo ataque resolvido.
 - `Log do encontro`: lista os eventos em ordem.
@@ -94,7 +100,8 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - O combate existe apenas na sessao atual do navegador.
 - Recarregar a pagina reinicia o encontro e remove personagens criados na sessao.
 - O HP real do personagem ainda nao e usado.
-- Equipamentos, armas reais, talentos, magia e condicoes ainda nao entram no calculo.
+- A arma selecionada entra apenas como loadout local e perfil de dano; ela nao e salva, nao gasta durabilidade e ainda nao usa proficiencia.
+- Armaduras, escudos, talentos, magia e condicoes ainda nao entram no calculo.
 - A iniciativa ainda e fixa: atacante primeiro, alvo depois.
 - O alvo de treino nao ataca, nao causa dano e nao possui IA.
 - Os alvos sao ficticios para teste; ainda nao sao monstros oficiais.

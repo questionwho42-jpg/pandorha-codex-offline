@@ -1,6 +1,14 @@
 <script lang="ts">
+import { onMount } from "svelte";
 import type { CharacterRecord } from "$lib/entities/character";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
+import type {
+	EquipmentFailure,
+	EquipmentLoadoutInput,
+	EquipmentLoadoutSnapshot,
+	EquipmentRecord,
+} from "$lib/entities/equipment";
+import type { Result } from "$lib/shared/lib/result";
 import { CombatTurnService } from "../domain/CombatTurnService";
 import { createCombatAttackerStatsView } from "../model/combatAttackerStatsView";
 import type {
@@ -33,6 +41,9 @@ import type {
 
 type Props = {
 	attacker: CombatEncounterActorRef;
+	buildEquipmentLoadout: (
+		input: EquipmentLoadoutInput,
+	) => Promise<Result<EquipmentLoadoutSnapshot, EquipmentFailure>>;
 	characterClasses: readonly CharacterClassRecord[];
 	characters: readonly CharacterRecord[];
 	createAttackInput: (
@@ -41,6 +52,8 @@ type Props = {
 		targetHitPoints: number,
 		attackProfile: CombatTrainingAttackProfile,
 	) => CombatEncounterInput;
+	defaultWeaponId: string;
+	equipmentWeapons: readonly EquipmentRecord[];
 	initialTarget: CombatTrainingTarget;
 	resolveAttack: (
 		input: CombatEncounterInput,
@@ -58,9 +71,13 @@ const turnService = new CombatTurnService();
 
 let {
 	attacker,
+	buildEquipmentLoadout,
 	characterClasses,
 	characters,
 	createAttackInput,
+	defaultWeaponId,
+	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+	equipmentWeapons,
 	initialTarget,
 	resolveAttack,
 	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -73,6 +90,13 @@ let targetHitPoints = $state(getInitialTargetHitPoints(initialTarget));
 let selectedTargetId = $state(initialTarget.id);
 // svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for the initial selected attacker.
 let selectedAttackerId = $state(attacker.id);
+// svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for the initial selected weapon.
+let selectedWeaponId = $state(defaultWeaponId);
+let selectedLoadout = $state<EquipmentLoadoutSnapshot | null>(null);
+let loadoutErrorMessage = $state<string | null>(null);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let isLoadingLoadout = $state(false);
+let loadoutRequestId = 0;
 let lastState = $state<CombatEncounterState | null>(null);
 let errorMessage = $state<string | null>(null);
 let log = $state<readonly string[]>([]);
@@ -82,6 +106,21 @@ let turnState = $state<CombatTurnState>(
 );
 let attackerOptions = $derived(createCombatAttackerOptions(characters));
 let selectedAttacker = $derived(getCombatAttacker(selectedAttackerId));
+let selectedAttackerIsSessionCharacter = $derived(
+	characters.some((character) => character.id === selectedAttacker.id),
+);
+let activeWeaponProfile = $derived(
+	selectedAttackerIsSessionCharacter
+		? (selectedLoadout?.activeWeaponProfile ?? undefined)
+		: undefined,
+);
+let canUseSelectedWeapon = $derived(
+	!selectedAttackerIsSessionCharacter || activeWeaponProfile !== undefined,
+);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let visibleLoadoutErrorMessage = $derived(
+	selectedAttackerIsSessionCharacter ? loadoutErrorMessage : null,
+);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let attackerStatsView = $derived(
 	createCombatAttackerStatsView({
@@ -91,10 +130,18 @@ let attackerStatsView = $derived(
 	}),
 );
 let trainingAttackProfile = $derived(
-	createCombatTrainingAttackProfile({
-		attacker: selectedAttacker,
-		characters,
-	}),
+	createCombatTrainingAttackProfile(
+		activeWeaponProfile
+			? {
+					attacker: selectedAttacker,
+					characters,
+					equippedWeapon: activeWeaponProfile,
+				}
+			: {
+					attacker: selectedAttacker,
+					characters,
+				},
+	),
 );
 let selectedTarget = $derived(getTrainingTarget(selectedTargetId));
 
@@ -114,7 +161,11 @@ let view = $derived<CombatEncounterView>(
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function attack(): void {
-	if (!view.canAttack) {
+	if (!view.canAttack || !canUseSelectedWeapon) {
+		if (!canUseSelectedWeapon) {
+			errorMessage =
+				loadoutErrorMessage ?? "A arma equipada ainda n\u00e3o foi carregada.";
+		}
 		return;
 	}
 
@@ -172,7 +223,6 @@ function endTurn(): void {
 	errorMessage = null;
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function resetEncounter(): void {
 	targetHitPoints = selectedTarget.currentHitPoints;
 	lastState = null;
@@ -196,6 +246,17 @@ function selectAttacker(event: Event): void {
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function selectWeapon(event: Event): void {
+	if (!(event.currentTarget instanceof HTMLSelectElement)) {
+		return;
+	}
+
+	selectedWeaponId = event.currentTarget.value;
+	resetEncounter();
+	void refreshEquipmentLoadout();
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function selectTarget(event: Event): void {
 	if (!(event.currentTarget instanceof HTMLSelectElement)) {
 		return;
@@ -208,6 +269,58 @@ function selectTarget(event: Event): void {
 	errorMessage = null;
 	log = [];
 	turnState = createInitialTurnState(selectedAttacker.id, nextTarget.id);
+}
+
+async function refreshEquipmentLoadout(): Promise<void> {
+	const requestId = loadoutRequestId + 1;
+	loadoutRequestId = requestId;
+	isLoadingLoadout = true;
+
+	const result = await buildEquipmentLoadout({
+		mainHandWeaponId: selectedWeaponId,
+	});
+	if (requestId !== loadoutRequestId) {
+		return;
+	}
+
+	isLoadingLoadout = false;
+	if (!result.success) {
+		selectedLoadout = null;
+		loadoutErrorMessage = mapEquipmentLoadoutFailure(result.error);
+		return;
+	}
+
+	selectedLoadout = result.data;
+	loadoutErrorMessage = null;
+}
+
+function mapEquipmentLoadoutFailure(failure: EquipmentFailure): string {
+	switch (failure.code) {
+		case "INVALID_EQUIPMENT_ID":
+			return "A arma equipada possui um identificador inv\u00e1lido.";
+		case "EQUIPMENT_NOT_FOUND":
+			return "A arma equipada n\u00e3o foi encontrada no cat\u00e1logo.";
+		case "EQUIPMENT_REPOSITORY_READ_FAILED":
+			return "N\u00e3o foi poss\u00edvel ler o cat\u00e1logo de equipamentos.";
+		case "CORRUPTED_EQUIPMENT_RECORD":
+			return "O registro da arma equipada est\u00e1 corrompido.";
+		case "EQUIPMENT_NOT_A_WEAPON":
+			return "O item selecionado n\u00e3o \u00e9 uma arma.";
+		case "EQUIPMENT_NOT_A_SHIELD":
+		case "EQUIPMENT_NOT_ARMOR":
+		case "EQUIPMENT_ITEM_UNUSABLE":
+		case "EQUIPMENT_LOADOUT_HAND_CONFLICT":
+			return "A combina\u00e7\u00e3o de equipamento escolhida n\u00e3o pode ser usada neste treino.";
+		case "EQUIPMENT_WEAPON_UNUSABLE":
+			return "A arma equipada est\u00e1 quebrada.";
+		case "WEAPON_ATTACK_PROFILE_NOT_FOUND":
+			return "A arma equipada ainda n\u00e3o tem perfil de ataque.";
+		case "INVALID_CONSUMABLE_ID":
+		case "CONSUMABLE_NOT_FOUND":
+		case "CONSUMABLE_REPOSITORY_READ_FAILED":
+		case "CORRUPTED_CONSUMABLE_RECORD":
+			return "O loadout de combate recebeu um item fora do escopo de armas.";
+	}
 }
 
 function mapCombatEncounterFailure(failure: CombatEncounterFailure): string {
@@ -268,6 +381,10 @@ function createInitialTurnState(
 				events: [],
 			};
 }
+
+onMount(() => {
+	void refreshEquipmentLoadout();
+});
 </script>
 
 <section aria-labelledby="combat-encounter-title" data-testid="combat-encounter-panel">
@@ -319,7 +436,7 @@ function createInitialTurnState(
 		{view.turnInstruction}
 	</p>
 
-	<div class="mt-6 grid gap-4 md:grid-cols-2">
+	<div class="mt-6 grid gap-4 md:grid-cols-3">
 		<label class="block">
 			<span class="text-sm font-semibold text-ether">Atacante</span>
 			<select
@@ -332,6 +449,37 @@ function createInitialTurnState(
 					<option value={option.id}>{option.label}</option>
 				{/each}
 			</select>
+		</label>
+
+		<label class="block">
+			<span class="text-sm font-semibold text-ether">Arma equipada</span>
+			<select
+				bind:value={selectedWeaponId}
+				onchange={selectWeapon}
+				disabled={!selectedAttackerIsSessionCharacter || isLoadingLoadout}
+				data-testid="combat-weapon-select"
+				class="mt-2 w-full border border-bronze bg-blood-shadow px-3 py-2 text-bone outline-none focus:border-ether disabled:bg-ruin disabled:text-bone"
+			>
+				{#each equipmentWeapons as weapon}
+					<option value={weapon.id}>{weapon.label}</option>
+				{/each}
+			</select>
+			<p
+				class="mt-2 text-sm leading-6 text-bone"
+				data-testid="combat-equipped-weapon-helper"
+			>
+				{#if selectedAttackerIsSessionCharacter}
+					{#if activeWeaponProfile}
+						Arma ativa: {activeWeaponProfile.label} ({activeWeaponProfile.diceExpression}).
+					{:else if isLoadingLoadout}
+						Carregando arma equipada.
+					{:else}
+						{loadoutErrorMessage ?? "Arma equipada indispon\u00edvel."}
+					{/if}
+				{:else}
+					Aria usa perfil fixo de treino.
+				{/if}
+			</p>
 		</label>
 
 		<label class="block">
@@ -456,7 +604,7 @@ function createInitialTurnState(
 	<div class="mt-6 flex flex-wrap gap-3">
 		<button
 			type="button"
-			disabled={!view.canAttack}
+			disabled={!view.canAttack || !canUseSelectedWeapon}
 			onclick={attack}
 			data-testid="combat-attack-button"
 			class="border border-ether bg-ether px-4 py-2 text-sm font-semibold text-void transition-colors hover:border-bone hover:bg-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:border-bronze disabled:bg-ruin disabled:text-bone"
@@ -497,12 +645,12 @@ function createInitialTurnState(
 		</div>
 	{/if}
 
-	{#if view.errorMessage}
+	{#if view.errorMessage || visibleLoadoutErrorMessage}
 		<div
 			class="mt-5 border border-bronze bg-blood-shadow px-4 py-3 text-bone"
 			data-testid="combat-error"
 		>
-			{view.errorMessage}
+			{view.errorMessage ?? visibleLoadoutErrorMessage}
 		</div>
 	{/if}
 

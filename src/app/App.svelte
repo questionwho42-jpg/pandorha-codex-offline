@@ -448,9 +448,12 @@ onMount(() => {
 			{:else if activeView === "combat"}
 				<CombatEncounterPanel
 					attacker={combatEncounterSession.attacker}
+					buildEquipmentLoadout={combatEncounterSession.buildEquipmentLoadout}
 					characterClasses={characterSession.characterClasses}
 					characters={characterRecords}
 					createAttackInput={combatEncounterSession.createAttackInput}
+					defaultWeaponId={combatEncounterSession.defaultWeaponId}
+					equipmentWeapons={combatEncounterSession.equipmentWeapons}
 					initialTarget={combatEncounterSession.initialTarget}
 					resolveAttack={(input) =>
 						combatEncounterSession.service.resolveAttack(input)}

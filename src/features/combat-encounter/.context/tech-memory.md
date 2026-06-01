@@ -76,6 +76,15 @@
 - Extra modifiers remain `0` for weapon profiles until talents, runes, conditions, or full damage rules are introduced.
 - The combat UI is not wired to a loadout yet; this is a service/domain contract for the next equipment slice.
 
+## T87 - Equipped Weapon UI
+
+- `combatEncounterSession` now owns the app-boundary wiring for `EquipmentLoadoutService`, `InMemoryEquipmentCatalogRepository`, and official equipment records.
+- `CombatEncounterPanel.svelte` receives `buildEquipmentLoadout`, `defaultWeaponId`, and `equipmentWeapons` as props; the feature UI does not instantiate the repository.
+- The local weapon selector defaults to `longsword`/`Espada Longa` and only feeds session-character attackers.
+- Aria keeps the fixed training profile even when the selector has a visible weapon value.
+- `createCombatTrainingAttackProfile` receives `activeWeaponProfile` only after the loadout resolves, preserving `exactOptionalPropertyTypes`.
+- T87 does not persist selected weapon ids, mutate inventory, consume durability, apply proficiency, support dual wield, or change save v5.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

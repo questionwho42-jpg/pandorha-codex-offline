@@ -63,7 +63,37 @@ async function runVerticalSliceSmoke(root) {
 			"SpellCastPanel",
 			"InventoryReadOnlyPanel",
 			"CompendiumBrowser",
+			"buildEquipmentLoadout={combatEncounterSession.buildEquipmentLoadout}",
+			"defaultWeaponId={combatEncounterSession.defaultWeaponId}",
+			"equipmentWeapons={combatEncounterSession.equipmentWeapons}",
 			'data-testid="pwa-status"',
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/app/model/combatEncounterSession.ts",
+		[
+			"EquipmentLoadoutService",
+			'const DEFAULT_COMBAT_WEAPON_ID = "longsword"',
+			"buildEquipmentLoadout",
+			"defaultWeaponId",
+			"equipmentWeapons",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte",
+		[
+			"buildEquipmentLoadout",
+			"activeWeaponProfile",
+			'data-testid="combat-weapon-select"',
+			'data-testid="combat-equipped-weapon-helper"',
+			"Aria usa perfil fixo de treino.",
+			"Arma ativa:",
 		],
 		errors,
 	);
@@ -227,6 +257,13 @@ async function runVerticalSliceSmoke(root) {
 			"Retaliação",
 			"Relações por NPC",
 		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"docs/user/combat-training.md",
+		["Arma equipada", "Espada Longa", "Aria usa perfil fixo de treino"],
 		errors,
 	);
 

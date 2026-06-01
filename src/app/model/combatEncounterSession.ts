@@ -1,4 +1,13 @@
 import {
+	type EquipmentFailure,
+	type EquipmentLoadoutInput,
+	EquipmentLoadoutService,
+	type EquipmentLoadoutSnapshot,
+	type EquipmentRecord,
+	InMemoryEquipmentCatalogRepository,
+	OFFICIAL_EQUIPMENT,
+} from "$lib/entities/equipment";
+import {
 	type CombatEncounterActorRef,
 	type CombatEncounterClock,
 	type CombatEncounterInput,
@@ -17,16 +26,24 @@ import {
 	type DiceRollIdProvider,
 	DiceService,
 } from "$lib/shared/dice";
+import type { Result } from "$lib/shared/lib/result";
 import { ResolutionService } from "$lib/shared/resolution";
+
+const DEFAULT_COMBAT_WEAPON_ID = "longsword";
 
 export type CombatEncounterSession = Readonly<{
 	attacker: CombatEncounterActorRef;
+	buildEquipmentLoadout: (
+		input: EquipmentLoadoutInput,
+	) => Promise<Result<EquipmentLoadoutSnapshot, EquipmentFailure>>;
 	createAttackInput: (
 		attacker: CombatEncounterActorRef,
 		target: CombatTrainingTarget,
 		targetHitPoints: number,
 		attackProfile: CombatTrainingAttackProfile,
 	) => CombatEncounterInput;
+	defaultWeaponId: string;
+	equipmentWeapons: readonly EquipmentRecord[];
 	initialTarget: CombatTrainingTarget;
 	service: CombatEncounterService;
 	trainingTargets: readonly CombatTrainingTarget[];
@@ -40,10 +57,20 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 		createSequentialDiceRollIdProvider("combat-roll"),
 		diceClock,
 	);
+	const equipmentRepository = new InMemoryEquipmentCatalogRepository({
+		consumables: [],
+		equipment: OFFICIAL_EQUIPMENT,
+	});
+	const loadoutService = new EquipmentLoadoutService(equipmentRepository);
 	let nextCommandId = 1;
 
 	return {
 		attacker: DEFAULT_COMBAT_TRAINING_ATTACKER,
+		buildEquipmentLoadout: (input) => loadoutService.buildLoadout(input),
+		defaultWeaponId: DEFAULT_COMBAT_WEAPON_ID,
+		equipmentWeapons: OFFICIAL_EQUIPMENT.filter(
+			(equipment) => equipment.kind === "weapon",
+		),
 		initialTarget: DEFAULT_TRAINING_TARGET,
 		service: new CombatEncounterService(
 			new ResolutionService(diceService),

@@ -78,6 +78,31 @@ test("vertical slice smoke fails when social choice UI contract is missing", asy
 	}
 });
 
+test("vertical slice smoke fails when combat weapon selector contract is missing", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
+				renderCombatEncounterPanel().replace(
+					'data-testid="combat-weapon-select"',
+					'data-testid="combat-target-select"',
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(
+			result.stderr,
+			/src\/features\/combat-encounter\/ui\/CombatEncounterPanel\.svelte/,
+		);
+		assert.match(result.stderr, /combat-weapon-select/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("vertical slice smoke fails when dialogue tree UI contract is missing", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -186,6 +211,9 @@ async function createFixtureRoot({
 	const files = {
 		"src/app/model/navigation.ts": navigationText,
 		"src/app/App.svelte": renderApp(),
+		"src/app/model/combatEncounterSession.ts": renderCombatEncounterSession(),
+		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
+			renderCombatEncounterPanel(),
 		"src/features/social-encounter/ui/SocialEncounterPanel.svelte":
 			renderSocialEncounterPanel(),
 		"src/entities/dialogue-tree/model/dialogueTreeCatalog.ts":
@@ -201,7 +229,7 @@ async function createFixtureRoot({
 		"public/pandorha-sw.js": renderServiceWorker(),
 		"src/features/save-load/model/saveLoadSchemas.ts": renderSaveSchemas(),
 		"docs/user/character-creation.md": renderDoc("Personagens"),
-		"docs/user/combat-training.md": renderDoc("Combate"),
+		"docs/user/combat-training.md": renderCombatTrainingDoc(),
 		"docs/user/camp-training.md": renderDoc("Acampamento"),
 		"docs/user/social-relations.md": renderDoc("Relações"),
 		"docs/user/social-encounter.md": renderSocialEncounterDoc(),
@@ -253,8 +281,37 @@ npcRelationships={npcRelationshipRecords};
 SpellCastPanel;
 InventoryReadOnlyPanel;
 CompendiumBrowser;
+buildEquipmentLoadout={combatEncounterSession.buildEquipmentLoadout};
+defaultWeaponId={combatEncounterSession.defaultWeaponId};
+equipmentWeapons={combatEncounterSession.equipmentWeapons};
 </script>
 <p data-testid="pwa-status">Offline disponível neste navegador.</p>
+`;
+}
+
+function renderCombatEncounterSession() {
+	return `
+import { EquipmentLoadoutService } from "$lib/entities/equipment";
+const DEFAULT_COMBAT_WEAPON_ID = "longsword";
+const session = {
+  buildEquipmentLoadout: () => new EquipmentLoadoutService().buildLoadout(),
+  defaultWeaponId: DEFAULT_COMBAT_WEAPON_ID,
+  equipmentWeapons: [],
+};
+`;
+}
+
+function renderCombatEncounterPanel() {
+	return `
+<script>
+export let buildEquipmentLoadout = () => undefined;
+const activeWeaponProfile = {};
+</script>
+<select data-testid="combat-weapon-select"></select>
+<p data-testid="combat-equipped-weapon-helper">
+  Aria usa perfil fixo de treino.
+  Arma ativa: Espada Longa.
+</p>
 `;
 }
 
@@ -385,6 +442,17 @@ const save = {
 
 function renderDoc(title) {
 	return `# ${title}\n\nAbra http://127.0.0.1:5173/ para testar.\n`;
+}
+
+function renderCombatTrainingDoc() {
+	return `# Combate
+
+Abra http://127.0.0.1:5173/ para testar.
+
+Arma equipada aparece para personagens da sessao.
+Espada Longa e a arma padrao.
+Aria usa perfil fixo de treino.
+`;
 }
 
 function renderSocialEncounterDoc() {

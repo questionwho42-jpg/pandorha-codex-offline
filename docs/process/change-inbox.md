@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260601-123434-t87-combat-equipped-weapon-ui -->
+### T87 combat equipped weapon UI
+- id: 20260601-123434-t87-combat-equipped-weapon-ui
+- status: open
+- created_at: 2026-06-01T12:34:34-03:00
+- source: task-ledger
+- summary: Connect EquipmentLoadoutService to the combat tab with a local session weapon selector, defaulting player characters to Espada Longa while keeping Aria on a fixed training profile; update static QA and validate rendered combat flow with Browser Use.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260601-123434-t87-combat-equipped-weapon-ui -->
 <!-- pandorha-inbox:20260601-121945-t86-equipment-loadout-core -->
 ### T86 equipment loadout core
 - id: 20260601-121945-t86-equipment-loadout-core

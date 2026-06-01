@@ -65,6 +65,57 @@ describe("createCombatEncounterSession", () => {
 		expect(input.damage.baseDiceTotal).toBe(4);
 		expect(input.damage.extraModifierTotal).toBe(3);
 	});
+
+	it("builds the default weapon loadout for session-character combat", async () => {
+		const session = createCombatEncounterSession();
+		const attacker = createCombatAttackerOptions([
+			createCharacterRecord({ physical: 3 }),
+		])[1];
+
+		expect(attacker).toBeDefined();
+		if (!attacker) {
+			return;
+		}
+
+		expect(session.defaultWeaponId).toBe("longsword");
+		expect(session.equipmentWeapons.map((weapon) => weapon.id)).toEqual([
+			"longsword",
+			"dagger",
+			"longbow",
+		]);
+
+		const loadout = await session.buildEquipmentLoadout({
+			mainHandWeaponId: session.defaultWeaponId,
+		});
+
+		expect(loadout.success).toBe(true);
+		if (!loadout.success) {
+			return;
+		}
+		expect(loadout.data.activeWeaponProfile).toMatchObject({
+			diceExpression: "1d8",
+			id: "longsword",
+			label: "Espada Longa",
+		});
+		const activeWeaponProfile = loadout.data.activeWeaponProfile;
+		expect(activeWeaponProfile).not.toBeNull();
+		if (!activeWeaponProfile) {
+			return;
+		}
+
+		const profile = createCombatTrainingAttackProfile({
+			attacker,
+			characters: [createCharacterRecord({ physical: 3 })],
+			equippedWeapon: activeWeaponProfile,
+		});
+
+		expect(profile).toMatchObject({
+			extraModifierTotal: 0,
+			source: "equipmentWeapon",
+			summaryLabel: "Espada Longa: 1d8 (treino 4) + F\u00edsico 3",
+			weaponLabel: "Espada Longa",
+		});
+	});
 });
 
 function createCharacterRecord(
