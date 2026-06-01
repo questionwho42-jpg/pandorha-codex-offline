@@ -182,6 +182,17 @@ async function runSocialBrowserSmoke(root) {
 		errors,
 	);
 
+	await validateFileContains(
+		root,
+		"docs/process/t84-social-rendered-browser-automation-evaluation.md",
+		[
+			"Decision: keep qa:social-browser-smoke contractual.",
+			"Browser Use remains mandatory for social UI changes.",
+			"Do not add Playwright dependency until rendered browser checks are stable",
+		],
+		errors,
+	);
+
 	return errors.length === 0 ? { success: true } : { success: false, errors };
 }
 

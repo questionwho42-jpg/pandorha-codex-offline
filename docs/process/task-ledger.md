@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260601-070954-t84-social-rendered-browser-automation-evaluatio -->
+### T84 Social Rendered Browser Automation Evaluation
+- id: 20260601-070954-t84-social-rendered-browser-automation-evaluatio
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-01T07:09:54-03:00
+- finished_at: 2026-06-01T07:14:15-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: GPT-5 high reasoning
+- last_modified_at: 2026-06-01T07:14:15-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: 078d96f chore(process): record t83 final snapshot
+- summary: Avaliar se vale criar automacao recorrente renderizada para o fluxo social de Relacoes; manter smoke contratual se Playwright/Browser automatizado tiver custo maior que beneficio no estado atual.
+- last_change: T84 avaliou automacao renderizada social e decidiu nao adicionar Playwright/dependencia agora; qa:social-browser-smoke segue contratual e passa a verificar a politica de Browser Use manual para UI social.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-01T07:09:54-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-01T07:11:33-03:00
+- Done: Decisao T84 documentada: manter qa:social-browser-smoke contratual, Browser Use manual obrigatorio para UI social e sem dependencia Playwright agora; smoke social passa a verificar a politica.
+- Next: Rodar lint, suite, cobertura, quality gate, smokes finais, completar tarefa e commit.
+- Risks: Automacao renderizada continua manual; reabrir se Browser Use ficar estavel com screenshot/DOM por fases consecutivas ou se Playwright entrar como dependencia aprovada.
+- Improvements: Usar o doc T84 como criterio antes de adicionar runner renderizado ao repositorio.
+- Model/config: GPT-5 high reasoning
+
+#### Checkpoint 2026-06-01T07:14:15-03:00
+- Done: T84 avaliou automacao renderizada social e decidiu nao adicionar Playwright/dependencia agora; qa:social-browser-smoke segue contratual e passa a verificar a politica de Browser Use manual para UI social.
+- Next: Repetir readiness apos commit limpo e seguir para F85/equipamento real se o roadmap social permanecer estavel.
+- Risks: Fluxo renderizado segue manual quando UI social muda; reabrir decisao se Browser Use ficar estavel com screenshot/DOM ou se Playwright for aprovado como dependencia local.
+- Improvements: Usar o doc T84 como gate de decisao antes de qualquer runner renderizado recorrente.
+- Model/config: GPT-5 high reasoning
+<!-- /pandorha-task:20260601-070954-t84-social-rendered-browser-automation-evaluatio -->
 <!-- pandorha-task:20260601-065448-t83-social-retaliation-clock-advance-gate -->
 ### T83 Social Retaliation Clock Advance Gate
 - id: 20260601-065448-t83-social-retaliation-clock-advance-gate

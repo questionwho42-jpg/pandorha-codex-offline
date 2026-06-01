@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260601-070954-t84-social-rendered-browser-automation-evaluatio -->
+### T84 Social Rendered Browser Automation Evaluation
+- id: 20260601-070954-t84-social-rendered-browser-automation-evaluatio
+- status: open
+- created_at: 2026-06-01T07:09:54-03:00
+- source: task-ledger
+- summary: Avaliar se vale criar automacao recorrente renderizada para o fluxo social de Relacoes; manter smoke contratual se Playwright/Browser automatizado tiver custo maior que beneficio no estado atual.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260601-070954-t84-social-rendered-browser-automation-evaluatio -->
 <!-- pandorha-inbox:20260601-065448-t83-social-retaliation-clock-advance-gate -->
 ### T83 Social Retaliation Clock Advance Gate
 - id: 20260601-065448-t83-social-retaliation-clock-advance-gate

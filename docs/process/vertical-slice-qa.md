@@ -72,6 +72,14 @@ Esse comando executa `scripts/social_browser_smoke.mjs`. Ele valida o contrato r
 
 O smoke T62 continua sendo contratual/headless. Mudanças visuais em `.svelte` ainda exigem Browser Use ou Playwright CLI para confirmar o fluxo renderizado.
 
+## Avaliação Da T84
+
+Use `docs/process/t84-social-rendered-browser-automation-evaluation.md` como decisão atual sobre automação renderizada social.
+
+Por enquanto, não há dependência Playwright no repositório. `qa:social-browser-smoke` continua sendo um smoke contratual/headless, e Browser Use manual continua obrigatório quando uma mudança visual em `.svelte` altera a aba `Relações`.
+
+Reabra a decisão apenas se o fluxo renderizado ficar repetitivo o suficiente para compensar dependência nova, dev server dedicado, porta estável e tratamento de flake.
+
 ## Automação Da T65
 
 Use:

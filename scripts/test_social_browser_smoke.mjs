@@ -132,6 +132,8 @@ async function createFixtureRoot({
 			renderSocialPressurePenaltySessionSpec(),
 		"src/features/save-load/model/saveLoadSchemas.ts": renderSaveSchemas(),
 		"docs/process/vertical-slice-qa.md": renderVerticalSliceQa(),
+		"docs/process/t84-social-rendered-browser-automation-evaluation.md":
+			renderT84BrowserAutomationEvaluation(),
 		"docs/user/social-encounter.md": renderSocialEncounterGuide(),
 		...fileOverrides,
 		...docOverrides,
@@ -278,6 +280,14 @@ Salvar sessao
 recarregue
 Carregar save
 restaurados
+`;
+}
+
+function renderT84BrowserAutomationEvaluation() {
+	return `
+Decision: keep qa:social-browser-smoke contractual.
+Browser Use remains mandatory for social UI changes.
+Do not add Playwright dependency until rendered browser checks are stable.
 `;
 }
 
