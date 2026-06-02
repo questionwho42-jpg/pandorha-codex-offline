@@ -6,8 +6,11 @@ import {
 	equipmentSelectSchema,
 } from "../model/equipmentSchema";
 import type {
+	EquipmentDefenseProfile,
 	EquipmentFailure,
 	EquipmentFailureCode,
+	EquipmentLoadoutDefenseItem,
+	EquipmentLoadoutDefenseProfile,
 	EquipmentLoadoutInput,
 	EquipmentLoadoutItemSnapshot,
 	EquipmentLoadoutSlot,
@@ -15,6 +18,7 @@ import type {
 	EquipmentWeaponAttackProfile,
 } from "../model/equipmentTypes";
 import type { EquipmentCatalogRepository } from "./EquipmentCatalogRepository";
+import { EquipmentDefenseProfileService } from "./EquipmentDefenseProfileService";
 import { EquipmentWeaponAttackProfileService } from "./EquipmentWeaponAttackProfileService";
 
 type LoadoutKindSlot = Extract<EquipmentLoadoutSlot, "offHand" | "armor">;
@@ -30,9 +34,11 @@ interface MainHandResolution {
  * @rule docs/system/survival/04-arsenal-e-economia.md - weapons, shields, and armor define hand/slot constraints and durability context.
  */
 export class EquipmentLoadoutService {
+	private readonly defenseProfileService: EquipmentDefenseProfileService;
 	private readonly weaponProfileService: EquipmentWeaponAttackProfileService;
 
 	public constructor(private readonly repository: EquipmentCatalogRepository) {
+		this.defenseProfileService = new EquipmentDefenseProfileService(repository);
 		this.weaponProfileService = new EquipmentWeaponAttackProfileService(
 			repository,
 		);
@@ -82,7 +88,16 @@ export class EquipmentLoadoutService {
 			});
 		}
 
+		const activeDefenseProfile = await this.resolveActiveDefenseProfile({
+			armorId: armor.data?.id,
+			shieldId: offHand.data?.id,
+		});
+		if (!activeDefenseProfile.success) {
+			return fail(activeDefenseProfile.error);
+		}
+
 		return ok({
+			activeDefenseProfile: activeDefenseProfile.data,
 			activeWeaponProfile: mainHand.data.profile,
 			armor: armor.data,
 			mainHand: mainHand.data.item,
@@ -109,6 +124,27 @@ export class EquipmentLoadoutService {
 			item: createWeaponSnapshot(profile.data),
 			profile: profile.data,
 		});
+	}
+
+	private async resolveActiveDefenseProfile(input: {
+		readonly armorId: string | undefined;
+		readonly shieldId: string | undefined;
+	}): Promise<Result<EquipmentLoadoutDefenseProfile | null, EquipmentFailure>> {
+		const armor = input.armorId
+			? await this.defenseProfileService.buildDefenseProfile(input.armorId)
+			: ok(null);
+		if (!armor.success) {
+			return fail(armor.error);
+		}
+
+		const shield = input.shieldId
+			? await this.defenseProfileService.buildDefenseProfile(input.shieldId)
+			: ok(null);
+		if (!shield.success) {
+			return fail(shield.error);
+		}
+
+		return ok(createLoadoutDefenseProfile(armor.data, shield.data));
 	}
 
 	private async resolveEquipmentSlot(input: {
@@ -208,6 +244,46 @@ function createEquipmentSnapshot(
 		label: equipment.label,
 		slotCost: equipment.slotCost,
 		sourceFile: equipment.sourceFile,
+	};
+}
+
+function createLoadoutDefenseProfile(
+	armor: EquipmentDefenseProfile | null,
+	shield: EquipmentDefenseProfile | null,
+): EquipmentLoadoutDefenseProfile | null {
+	if (!armor && !shield) {
+		return null;
+	}
+
+	const armorItem = armor ? createDefenseItem(armor) : null;
+	const shieldItem = shield ? createDefenseItem(shield) : null;
+	const items = [armorItem, shieldItem].filter(
+		(item): item is EquipmentLoadoutDefenseItem => item !== null,
+	);
+	const armorClassBonus = items.reduce(
+		(total, item) => total + item.armorClassBonus,
+		0,
+	);
+	const sourceLabels = items.map(
+		(item) => `${item.label} +${item.armorClassBonus}`,
+	);
+
+	return {
+		armor: armorItem,
+		armorClassBonus,
+		shield: shieldItem,
+		summaryLabel: `CA equipada +${armorClassBonus} (${sourceLabels.join(", ")})`,
+	};
+}
+
+function createDefenseItem(
+	profile: EquipmentDefenseProfile,
+): EquipmentLoadoutDefenseItem {
+	return {
+		armorClassBonus: profile.armorClassBonus,
+		id: profile.id,
+		kind: profile.kind,
+		label: profile.label,
 	};
 }
 

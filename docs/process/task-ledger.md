@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260602-073042-t91-equipped-defense-profile -->
+### T91 equipped defense profile
+- id: 20260602-073042-t91-equipped-defense-profile
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-02T07:30:42-03:00
+- finished_at: 2026-06-02T07:56:36-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-02T07:56:36-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: 85de1e2 chore(process): record d01.2 post-commit snapshot
+- summary: Add minimal equipped armor and shield defense profile from existing equipment catalog, expose activeDefenseProfile on loadout snapshots, and show equipped defense in the combat UI without save v6, migration, enemy attacks, official monsters, or damage changes.
+- last_change: T91 implemented minimal equipped defense: structured armor/shield defense profiles, activeDefenseProfile in loadout snapshots, combat UI display, tests, documentation, and Browser validation.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-02T07:30:42-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-02T07:56:25-03:00
+- Done: Implemented equipped armor and shield defense profiles, UI display, tests, docs, context memory, and Browser validation.
+- Next: Commit T91 and run next-phase readiness.
+- Risks: Equipped defense remains display-only until official incoming attack rules exist.
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-02T07:56:36-03:00
+- Done: T91 implemented minimal equipped defense: structured armor/shield defense profiles, activeDefenseProfile in loadout snapshots, combat UI display, tests, documentation, and Browser validation.
+- Next: Keep defense display read-only until an official incoming attack contract is planned.
+- Risks: No save migration, durability spending, enemy attack, damage change, or official monster behavior was introduced.
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260602-073042-t91-equipped-defense-profile -->
 <!-- pandorha-task:20260602-072310-d01-2-strict-quality-gate-recovery -->
 ### D01.2 strict quality gate recovery
 - id: 20260602-072310-d01-2-strict-quality-gate-recovery

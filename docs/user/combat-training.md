@@ -9,6 +9,8 @@ Este guia mostra como testar a vertical slice T22 de combate no navegador. O obj
 - `Aria` sempre aparece como atacante de treino.
 - Personagens criados na sessao atual aparecem como atacantes adicionais.
 - Personagens da sessao usam o seletor `Arma equipada`; a arma padrao e `Espada Longa`.
+- Personagens da sessao tambem usam `Armadura equipada` e `Escudo equipado`; os padroes sao `Armadura de Couro` e `Escudo Redondo`.
+- A ficha do atacante mostra `Defesa equipada` com o bonus de CA local, por exemplo `CA equipada +3`.
 - `Aria usa perfil fixo de treino`, mesmo quando o seletor mostra uma arma da sessao.
 - A tela mostra `Rodada`, `Turno de ...` e `Acoes 3/3`.
 - `Atacar` gasta 1 acao e registra resultado, rolagem de dado da arma quando houver, dano, HP restante e log.
@@ -56,16 +58,19 @@ Depois:
 2. No seletor `Atacante`, escolha `Nara`.
 3. Confirme que a ficha resumida mostra HP maximo, Iniciativa e Carga.
 4. Confirme que `Arma equipada` mostra `Espada Longa`.
-5. Confirme que o helper mostra `Arma ativa: Espada Longa (1d8)`.
-6. Confirme que o `Perfil de dano` mostra `Matriz Fisica: 3`.
-7. Confirme que o resumo de dano mostra `Espada Longa: 1d8 (rolado no ataque) + Fisico 3`.
-8. Troque `Arma equipada` para `Adaga` e confirme que o resumo muda para `Adaga: 1d4 (rolado no ataque) + Fisico 3`.
-9. Clique em `Atacar`.
-10. Confirme que o log usa o nome `Nara`.
-11. Confirme que o log registra a rolagem auditavel da arma, por exemplo `Adaga rolou ... em 1d4`.
-12. Confirme que o dano final usa a arma selecionada e a Matriz do personagem.
-13. Troque o alvo para `Duelista de Treino`, mantenha `Espada Longa` e clique em `Atacar`.
-14. Confirme que o dano final e reduzido pela defesa do alvo: a rolagem deterministica gera dano base 7, RD 1 reduz para 6 e resistencia fisica reduz para 3.
+5. Confirme que `Armadura equipada` mostra `Armadura de Couro` e `Escudo equipado` mostra `Escudo Redondo`.
+6. Confirme que o helper mostra `Arma ativa: Espada Longa (1d8)`.
+7. Confirme que `Defesa equipada` mostra `CA equipada +3 (Armadura de Couro +2, Escudo Redondo +1)`.
+8. Confirme que o `Perfil de dano` mostra `Matriz Fisica: 3`.
+9. Confirme que o resumo de dano mostra `Espada Longa: 1d8 (rolado no ataque) + Fisico 3`.
+10. Troque `Arma equipada` para `Adaga` e confirme que o resumo muda para `Adaga: 1d4 (rolado no ataque) + Fisico 3`.
+11. Troque `Arma equipada` para `Arco Longo` mantendo o escudo e confirme que a tela bloqueia o ataque por conflito de maos; depois escolha `Sem escudo`.
+12. Clique em `Atacar`.
+13. Confirme que o log usa o nome `Nara`.
+14. Confirme que o log registra a rolagem auditavel da arma, por exemplo `Arco Longo rolou ... em 1d8`.
+15. Confirme que o dano final usa a arma selecionada e a Matriz do personagem.
+16. Troque a arma para `Espada Longa`, troque o alvo para `Duelista de Treino` e clique em `Atacar`.
+17. Confirme que o dano final e reduzido pela defesa do alvo: a rolagem deterministica gera dano base 7, RD 1 reduz para 6 e resistencia fisica reduz para 3.
 
 ## Escolhendo Alvos
 
@@ -95,6 +100,8 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - `Acoes`: mostra quantas acoes restam no turno atual.
 - `Ficha no combate`: mostra dados resumidos do atacante selecionado.
 - `Arma equipada`: escolhe uma arma local para personagens criados na sessao.
+- `Armadura equipada` e `Escudo equipado`: escolhem defesa local para personagens criados na sessao.
+- `Defesa equipada`: mostra o bonus de CA local da armadura e do escudo; este bonus ainda nao altera ataques recebidos.
 - `Perfil de dano`: mostra qual Matriz esta sendo usada no dano de treino.
 - `Ultimo resultado`: resume o ultimo ataque resolvido.
 - `Log do encontro`: lista os eventos em ordem.
@@ -106,7 +113,8 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - O HP real do personagem ainda nao e usado.
 - A arma selecionada entra apenas como loadout local e dado de dano auditavel; ela nao e salva, nao gasta durabilidade e ainda nao usa proficiencia.
 - As defesas dos alvos de treino entram como RD e afinidades fixas; vulnerabilidade com `+1d6` auditavel ainda nao entra.
-- Armaduras e escudos do personagem, talentos, magia e condicoes ainda nao entram no calculo.
+- Armaduras e escudos do personagem aparecem como perfil defensivo local, mas ainda nao entram em ataques recebidos, dano, save ou durabilidade por rodada.
+- Talentos, magia e condicoes ainda nao entram no calculo.
 - A iniciativa ainda e fixa: atacante primeiro, alvo depois.
 - O alvo de treino nao ataca, nao causa dano e nao possui IA.
 - Os alvos sao ficticios para teste; ainda nao sao monstros oficiais.

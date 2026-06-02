@@ -65,7 +65,11 @@ async function runVerticalSliceSmoke(root) {
 			"CompendiumBrowser",
 			"buildEquipmentLoadout={combatEncounterSession.buildEquipmentLoadout}",
 			"defaultWeaponId={combatEncounterSession.defaultWeaponId}",
+			"defaultArmorId={combatEncounterSession.defaultArmorId}",
+			"defaultShieldId={combatEncounterSession.defaultShieldId}",
 			"equipmentWeapons={combatEncounterSession.equipmentWeapons}",
+			"equipmentArmors={combatEncounterSession.equipmentArmors}",
+			"equipmentShields={combatEncounterSession.equipmentShields}",
 			'data-testid="pwa-status"',
 		],
 		errors,
@@ -77,9 +81,15 @@ async function runVerticalSliceSmoke(root) {
 		[
 			"EquipmentLoadoutService",
 			'const DEFAULT_COMBAT_WEAPON_ID = "longsword"',
+			'const DEFAULT_COMBAT_ARMOR_ID = "leather-armor"',
+			'const DEFAULT_COMBAT_SHIELD_ID = "round-shield"',
 			"buildEquipmentLoadout",
 			"defaultWeaponId",
+			"defaultArmorId",
+			"defaultShieldId",
 			"equipmentWeapons",
+			"equipmentArmors",
+			"equipmentShields",
 		],
 		errors,
 	);
@@ -90,10 +100,15 @@ async function runVerticalSliceSmoke(root) {
 		[
 			"buildEquipmentLoadout",
 			"activeWeaponProfile",
+			"activeDefenseProfile",
 			'data-testid="combat-weapon-select"',
+			'data-testid="combat-armor-select"',
+			'data-testid="combat-shield-select"',
 			'data-testid="combat-equipped-weapon-helper"',
+			'data-testid="combat-equipped-defense-profile"',
 			"Aria usa perfil fixo de treino.",
 			"Arma ativa:",
+			"Defesa equipada",
 		],
 		errors,
 	);
@@ -263,7 +278,15 @@ async function runVerticalSliceSmoke(root) {
 	await validateFileContains(
 		root,
 		"docs/user/combat-training.md",
-		["Arma equipada", "Espada Longa", "Aria usa perfil fixo de treino"],
+		[
+			"Arma equipada",
+			"Espada Longa",
+			"Armadura equipada",
+			"Escudo equipado",
+			"Defesa equipada",
+			"CA equipada +3",
+			"Aria usa perfil fixo de treino",
+		],
 		errors,
 	);
 

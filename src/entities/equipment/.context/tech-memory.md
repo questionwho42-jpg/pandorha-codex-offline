@@ -25,3 +25,11 @@
 - Durability remains a gate only: broken weapons use `EQUIPMENT_WEAPON_UNUSABLE`, while broken shield/armor records use `EQUIPMENT_ITEM_UNUSABLE`.
 - Two-handed weapons fail with `EQUIPMENT_LOADOUT_HAND_CONFLICT` when an off-hand shield is also selected.
 - T86 deliberately does not mutate inventory, consume durability, change save data, add proficiencies, support dual wield, or expose UI.
+
+## T91 - Equipped Defense Profile
+
+- `EquipmentDefenseProfileService` mirrors the weapon profile service and converts official armor/shield catalog records into structured defense profiles.
+- The first defense profile definitions are source-checked against `docs/system/survival/04-arsenal-e-economia.md`: Couro `+2 CA`, Placas `+5 CA`, and Escudo Redondo `+1 CA`.
+- `EquipmentLoadoutService` now exposes `activeDefenseProfile` alongside `activeWeaponProfile`; the summary totals armor plus shield but still does not mutate damage, attack, save data, or durability.
+- Armor and shield validation remains slot-first, then durability, then structured profile lookup, so invalid slot usage and broken equipment fail before UI can treat them as active defense.
+- A two-handed weapon plus shield remains a loadout conflict even if the shield has a valid defense profile.

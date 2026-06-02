@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260602-073042-t91-equipped-defense-profile -->
+### T91 equipped defense profile
+- id: 20260602-073042-t91-equipped-defense-profile
+- status: open
+- created_at: 2026-06-02T07:30:42-03:00
+- source: task-ledger
+- summary: Add minimal equipped armor and shield defense profile from existing equipment catalog, expose activeDefenseProfile on loadout snapshots, and show equipped defense in the combat UI without save v6, migration, enemy attacks, official monsters, or damage changes.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260602-073042-t91-equipped-defense-profile -->
 <!-- pandorha-inbox:20260602-072310-d01-2-strict-quality-gate-recovery -->
 ### D01.2 strict quality gate recovery
 - id: 20260602-072310-d01-2-strict-quality-gate-recovery

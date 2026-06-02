@@ -102,6 +102,14 @@
 - T89 intentionally supports only resistance and immunity on training targets. Vulnerability remains out of scope because the official `+1d6` needs an auditable dice contract.
 - Defenses remain local training data, not monster rules, armor equipment, save data, or persistence.
 
+## T91 - Equipped Defense Display
+
+- `combatEncounterSession` now provides default armor/shield ids and filtered official armor/shield lists to the combat panel, keeping repository setup at the app boundary.
+- `CombatEncounterPanel.svelte` passes `armorId` and `offHandShieldId` into `buildEquipmentLoadout` with the selected weapon id, so the UI reflects the same loadout conflict rules as the equipment entity.
+- Session characters default to Couro plus Escudo Redondo and show `CA equipada +3`; Aria continues to show the fixed training behavior.
+- Selecting a two-handed weapon while a shield is equipped intentionally clears the active loadout and surfaces the hand-conflict failure until the shield is set to `Sem escudo`.
+- The displayed defense profile is informational only. T91 does not alter attacks received, damage, HP, save data, durability, target AI, or official monster behavior.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

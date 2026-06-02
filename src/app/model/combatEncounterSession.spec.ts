@@ -78,14 +78,25 @@ describe("createCombatEncounterSession", () => {
 		}
 
 		expect(session.defaultWeaponId).toBe("longsword");
+		expect(session.defaultArmorId).toBe("leather-armor");
+		expect(session.defaultShieldId).toBe("round-shield");
 		expect(session.equipmentWeapons.map((weapon) => weapon.id)).toEqual([
 			"longsword",
 			"dagger",
 			"longbow",
 		]);
+		expect(session.equipmentArmors.map((armor) => armor.id)).toEqual([
+			"leather-armor",
+			"plate-armor",
+		]);
+		expect(session.equipmentShields.map((shield) => shield.id)).toEqual([
+			"round-shield",
+		]);
 
 		const loadout = await session.buildEquipmentLoadout({
+			armorId: session.defaultArmorId,
 			mainHandWeaponId: session.defaultWeaponId,
+			offHandShieldId: session.defaultShieldId,
 		});
 
 		expect(loadout.success).toBe(true);
@@ -96,6 +107,22 @@ describe("createCombatEncounterSession", () => {
 			diceExpression: "1d8",
 			id: "longsword",
 			label: "Espada Longa",
+		});
+		expect(loadout.data.activeDefenseProfile).toEqual({
+			armor: {
+				armorClassBonus: 2,
+				id: "leather-armor",
+				kind: "armor",
+				label: "Armadura de Couro",
+			},
+			armorClassBonus: 3,
+			shield: {
+				armorClassBonus: 1,
+				id: "round-shield",
+				kind: "shield",
+				label: "Escudo Redondo",
+			},
+			summaryLabel: "CA equipada +3 (Armadura de Couro +2, Escudo Redondo +1)",
 		});
 		const activeWeaponProfile = loadout.data.activeWeaponProfile;
 		expect(activeWeaponProfile).not.toBeNull();

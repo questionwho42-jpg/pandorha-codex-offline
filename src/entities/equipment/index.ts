@@ -1,5 +1,6 @@
 export * from "./domain/EquipmentCatalogRepository";
 export * from "./domain/EquipmentCatalogService";
+export * from "./domain/EquipmentDefenseProfileService";
 export * from "./domain/EquipmentLoadoutService";
 export * from "./domain/EquipmentWeaponAttackProfileService";
 export * from "./model/equipmentCatalog";

@@ -24,6 +24,7 @@ describe("[GDD 4] EquipmentLoadoutService", () => {
 		const snapshot = expectLoadoutSuccess(result);
 
 		expect(snapshot).toEqual({
+			activeDefenseProfile: null,
 			activeWeaponProfile: null,
 			armor: null,
 			mainHand: null,
@@ -68,6 +69,22 @@ describe("[GDD 4] EquipmentLoadoutService", () => {
 			id: "longsword",
 			matrix: "physical",
 		});
+		expect(snapshot.activeDefenseProfile).toEqual({
+			armor: {
+				armorClassBonus: 2,
+				id: "leather-armor",
+				kind: "armor",
+				label: "Armadura de Couro",
+			},
+			armorClassBonus: 3,
+			shield: {
+				armorClassBonus: 1,
+				id: "round-shield",
+				kind: "shield",
+				label: "Escudo Redondo",
+			},
+			summaryLabel: "CA equipada +3 (Armadura de Couro +2, Escudo Redondo +1)",
+		});
 	});
 
 	it("allows a two-handed weapon when the off hand is empty", async () => {
@@ -79,6 +96,7 @@ describe("[GDD 4] EquipmentLoadoutService", () => {
 		const snapshot = expectLoadoutSuccess(result);
 
 		expect(snapshot).toMatchObject({
+			activeDefenseProfile: null,
 			armor: null,
 			occupiedHands: 2,
 			offHand: null,
@@ -87,6 +105,40 @@ describe("[GDD 4] EquipmentLoadoutService", () => {
 			handsRequired: 2,
 			id: "longbow",
 			tags: ["range-36m", "two-handed"],
+		});
+	});
+
+	it("builds armor-only and shield-only defense summaries", async () => {
+		const service = createService();
+
+		const armorOnly = await service.buildLoadout({
+			armorId: "plate-armor",
+		});
+		const shieldOnly = await service.buildLoadout({
+			offHandShieldId: "round-shield",
+		});
+
+		expect(expectLoadoutSuccess(armorOnly).activeDefenseProfile).toEqual({
+			armor: {
+				armorClassBonus: 5,
+				id: "plate-armor",
+				kind: "armor",
+				label: "Armadura de Placas",
+			},
+			armorClassBonus: 5,
+			shield: null,
+			summaryLabel: "CA equipada +5 (Armadura de Placas +5)",
+		});
+		expect(expectLoadoutSuccess(shieldOnly).activeDefenseProfile).toEqual({
+			armor: null,
+			armorClassBonus: 1,
+			shield: {
+				armorClassBonus: 1,
+				id: "round-shield",
+				kind: "shield",
+				label: "Escudo Redondo",
+			},
+			summaryLabel: "CA equipada +1 (Escudo Redondo +1)",
 		});
 	});
 
@@ -186,6 +238,36 @@ describe("[GDD 4] EquipmentLoadoutService", () => {
 		});
 	});
 
+	it("rejects defensive loadout items without structured defense profiles", async () => {
+		const service = createService([
+			...OFFICIAL_EQUIPMENT,
+			createEquipmentRecord(OFFICIAL_EQUIPMENT[3], {
+				id: "training-armor",
+				label: "Armadura de Treino",
+			}),
+			createEquipmentRecord(OFFICIAL_EQUIPMENT[5], {
+				id: "tower-shield",
+				label: "Escudo Torre",
+			}),
+		]);
+
+		const missingArmorProfile = await service.buildLoadout({
+			armorId: "training-armor",
+		});
+		const missingShieldProfile = await service.buildLoadout({
+			offHandShieldId: "tower-shield",
+		});
+
+		expect(expectLoadoutFailure(missingArmorProfile)).toMatchObject({
+			code: "DEFENSE_PROFILE_NOT_FOUND",
+			details: { id: "training-armor" },
+		});
+		expect(expectLoadoutFailure(missingShieldProfile)).toMatchObject({
+			code: "DEFENSE_PROFILE_NOT_FOUND",
+			details: { id: "tower-shield" },
+		});
+	});
+
 	it("blocks shields when the main weapon requires both hands", async () => {
 		const service = createService();
 
@@ -262,6 +344,16 @@ function createCatalogPatch(
 		...record,
 		...patchesById[record.id],
 	}));
+}
+
+function createEquipmentRecord(
+	base: EquipmentRecord,
+	patch: Partial<EquipmentRecord>,
+): EquipmentRecord {
+	return {
+		...base,
+		...patch,
+	};
 }
 
 function expectLoadoutSuccess(

@@ -52,7 +52,11 @@ type Props = {
 		targetHitPoints: number,
 		attackProfile: CombatTrainingAttackProfile,
 	) => CombatEncounterInput;
+	defaultArmorId: string;
+	defaultShieldId: string;
 	defaultWeaponId: string;
+	equipmentArmors: readonly EquipmentRecord[];
+	equipmentShields: readonly EquipmentRecord[];
 	equipmentWeapons: readonly EquipmentRecord[];
 	initialTarget: CombatTrainingTarget;
 	resolveAttack: (
@@ -75,7 +79,13 @@ let {
 	characterClasses,
 	characters,
 	createAttackInput,
+	defaultArmorId,
+	defaultShieldId,
 	defaultWeaponId,
+	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+	equipmentArmors,
+	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+	equipmentShields,
 	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 	equipmentWeapons,
 	initialTarget,
@@ -92,6 +102,10 @@ let selectedTargetId = $state(initialTarget.id);
 let selectedAttackerId = $state(attacker.id);
 // svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for the initial selected weapon.
 let selectedWeaponId = $state(defaultWeaponId);
+// svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for the initial selected armor.
+let selectedArmorId = $state(defaultArmorId);
+// svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for the initial selected shield.
+let selectedShieldId = $state(defaultShieldId);
 let selectedLoadout = $state<EquipmentLoadoutSnapshot | null>(null);
 let loadoutErrorMessage = $state<string | null>(null);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -112,6 +126,12 @@ let selectedAttackerIsSessionCharacter = $derived(
 let activeWeaponProfile = $derived(
 	selectedAttackerIsSessionCharacter
 		? (selectedLoadout?.activeWeaponProfile ?? undefined)
+		: undefined,
+);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let activeDefenseProfile = $derived(
+	selectedAttackerIsSessionCharacter
+		? (selectedLoadout?.activeDefenseProfile ?? undefined)
 		: undefined,
 );
 let canUseSelectedWeapon = $derived(
@@ -257,6 +277,28 @@ function selectWeapon(event: Event): void {
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function selectArmor(event: Event): void {
+	if (!(event.currentTarget instanceof HTMLSelectElement)) {
+		return;
+	}
+
+	selectedArmorId = event.currentTarget.value;
+	resetEncounter();
+	void refreshEquipmentLoadout();
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function selectShield(event: Event): void {
+	if (!(event.currentTarget instanceof HTMLSelectElement)) {
+		return;
+	}
+
+	selectedShieldId = event.currentTarget.value;
+	resetEncounter();
+	void refreshEquipmentLoadout();
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function selectTarget(event: Event): void {
 	if (!(event.currentTarget instanceof HTMLSelectElement)) {
 		return;
@@ -277,7 +319,9 @@ async function refreshEquipmentLoadout(): Promise<void> {
 	isLoadingLoadout = true;
 
 	const result = await buildEquipmentLoadout({
+		armorId: normalizeEquipmentSlotId(selectedArmorId),
 		mainHandWeaponId: selectedWeaponId,
+		offHandShieldId: normalizeEquipmentSlotId(selectedShieldId),
 	});
 	if (requestId !== loadoutRequestId) {
 		return;
@@ -306,6 +350,8 @@ function mapEquipmentLoadoutFailure(failure: EquipmentFailure): string {
 			return "O registro da arma equipada est\u00e1 corrompido.";
 		case "EQUIPMENT_NOT_A_WEAPON":
 			return "O item selecionado n\u00e3o \u00e9 uma arma.";
+		case "EQUIPMENT_NOT_DEFENSIVE":
+			return "O item defensivo selecionado n\u00e3o \u00e9 armadura nem escudo.";
 		case "EQUIPMENT_NOT_A_SHIELD":
 		case "EQUIPMENT_NOT_ARMOR":
 		case "EQUIPMENT_ITEM_UNUSABLE":
@@ -315,12 +361,18 @@ function mapEquipmentLoadoutFailure(failure: EquipmentFailure): string {
 			return "A arma equipada est\u00e1 quebrada.";
 		case "WEAPON_ATTACK_PROFILE_NOT_FOUND":
 			return "A arma equipada ainda n\u00e3o tem perfil de ataque.";
+		case "DEFENSE_PROFILE_NOT_FOUND":
+			return "A armadura ou escudo equipado ainda n\u00e3o tem perfil defensivo.";
 		case "INVALID_CONSUMABLE_ID":
 		case "CONSUMABLE_NOT_FOUND":
 		case "CONSUMABLE_REPOSITORY_READ_FAILED":
 		case "CORRUPTED_CONSUMABLE_RECORD":
 			return "O loadout de combate recebeu um item fora do escopo de armas.";
 	}
+}
+
+function normalizeEquipmentSlotId(id: string): string | undefined {
+	return id ? id : undefined;
 }
 
 function mapCombatEncounterFailure(failure: CombatEncounterFailure): string {
@@ -436,7 +488,7 @@ onMount(() => {
 		{view.turnInstruction}
 	</p>
 
-	<div class="mt-6 grid gap-4 md:grid-cols-3">
+	<div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
 		<label class="block">
 			<span class="text-sm font-semibold text-ether">Atacante</span>
 			<select
@@ -480,6 +532,38 @@ onMount(() => {
 					Aria usa perfil fixo de treino.
 				{/if}
 			</p>
+		</label>
+
+		<label class="block">
+			<span class="text-sm font-semibold text-ether">Armadura equipada</span>
+			<select
+				bind:value={selectedArmorId}
+				onchange={selectArmor}
+				disabled={!selectedAttackerIsSessionCharacter || isLoadingLoadout}
+				data-testid="combat-armor-select"
+				class="mt-2 w-full border border-bronze bg-blood-shadow px-3 py-2 text-bone outline-none focus:border-ether disabled:bg-ruin disabled:text-bone"
+			>
+				<option value="">Sem armadura</option>
+				{#each equipmentArmors as armor}
+					<option value={armor.id}>{armor.label}</option>
+				{/each}
+			</select>
+		</label>
+
+		<label class="block">
+			<span class="text-sm font-semibold text-ether">Escudo equipado</span>
+			<select
+				bind:value={selectedShieldId}
+				onchange={selectShield}
+				disabled={!selectedAttackerIsSessionCharacter || isLoadingLoadout}
+				data-testid="combat-shield-select"
+				class="mt-2 w-full border border-bronze bg-blood-shadow px-3 py-2 text-bone outline-none focus:border-ether disabled:bg-ruin disabled:text-bone"
+			>
+				<option value="">Sem escudo</option>
+				{#each equipmentShields as shield}
+					<option value={shield.id}>{shield.label}</option>
+				{/each}
+			</select>
 		</label>
 
 		<label class="block">
@@ -550,6 +634,28 @@ onMount(() => {
 				</dl>
 				<p class="mt-3 text-sm leading-6 text-bone">
 					{attackerStatsView.helperText}
+				</p>
+			</div>
+			<div
+				class="mt-4 border-t border-bronze pt-4"
+				data-testid="combat-equipped-defense-profile"
+			>
+				<p class="text-sm font-semibold text-ether">Defesa equipada</p>
+				<p class="mt-3 text-sm leading-6 text-bone">
+					{#if selectedAttackerIsSessionCharacter}
+						{#if activeDefenseProfile}
+							{activeDefenseProfile.summaryLabel}
+						{:else if isLoadingLoadout}
+							Carregando defesa equipada.
+						{:else}
+							Sem armadura ou escudo equipado.
+						{/if}
+					{:else}
+						Aria usa defesa fixa de treino.
+					{/if}
+				</p>
+				<p class="mt-2 text-sm leading-6 text-bone">
+					Defesa equipada ainda n&atilde;o altera ataques recebidos neste treino.
 				</p>
 			</div>
 			<div

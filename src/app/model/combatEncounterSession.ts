@@ -31,6 +31,8 @@ import type { Result } from "$lib/shared/lib/result";
 import { ResolutionService } from "$lib/shared/resolution";
 
 const DEFAULT_COMBAT_WEAPON_ID = "longsword";
+const DEFAULT_COMBAT_ARMOR_ID = "leather-armor";
+const DEFAULT_COMBAT_SHIELD_ID = "round-shield";
 
 export type CombatEncounterSession = Readonly<{
 	attacker: CombatEncounterActorRef;
@@ -43,7 +45,11 @@ export type CombatEncounterSession = Readonly<{
 		targetHitPoints: number,
 		attackProfile: CombatTrainingAttackProfile,
 	) => CombatEncounterInput;
+	defaultArmorId: string;
+	defaultShieldId: string;
 	defaultWeaponId: string;
+	equipmentArmors: readonly EquipmentRecord[];
+	equipmentShields: readonly EquipmentRecord[];
 	equipmentWeapons: readonly EquipmentRecord[];
 	initialTarget: CombatTrainingTarget;
 	service: CombatEncounterService;
@@ -79,7 +85,15 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 			encounterClock,
 			diceService,
 		),
+		defaultArmorId: DEFAULT_COMBAT_ARMOR_ID,
+		defaultShieldId: DEFAULT_COMBAT_SHIELD_ID,
 		trainingTargets: TRAINING_TARGETS,
+		equipmentArmors: OFFICIAL_EQUIPMENT.filter(
+			(equipment) => equipment.kind === "armor",
+		),
+		equipmentShields: OFFICIAL_EQUIPMENT.filter(
+			(equipment) => equipment.kind === "shield",
+		),
 		createAttackInput: (attacker, target, targetHitPoints, attackProfile) => {
 			const commandId = `training-attack-${nextCommandId}`;
 			nextCommandId += 1;

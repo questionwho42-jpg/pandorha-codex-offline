@@ -36,6 +36,10 @@ Na T89, alguns alvos de treino passaram a ter defesas simples. O Guarda de Trein
 
 Essas defesas nao transformam os alvos em monstros oficiais. Elas apenas mostram que o combate consegue mandar RD e afinidades para o servico de dano que ja existia.
 
+Na T91, personagens criados na sessao tambem podem escolher `Armadura equipada` e `Escudo equipado` na aba Combate. O padrao e Couro com Escudo Redondo, mostrado como `CA equipada +3`.
+
+Essa defesa aparece para o jogador conferir o equipamento ativo, mas ainda nao muda ataques recebidos nem dano. Se o jogador escolher uma arma de duas maos, como Arco Longo, junto com escudo, a tela mostra o conflito ate o escudo ser trocado para `Sem escudo`.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.
@@ -44,3 +48,4 @@ Essas defesas nao transformam os alvos em monstros oficiais. Elas apenas mostram
 - Salvar a arma equipada agora: mais conveniente, mas exigiria decisao de save version antes de o fluxo visual provar o contrato.
 - Fazer o servico de dano rolar o dado internamente: reduziria uma chamada no combate, mas esconderia a auditoria de dados dentro do pipeline de dano.
 - Adicionar vulnerabilidade agora: mostraria mais uma regra oficial, mas exigiria rolar `+1d6` com auditoria e aumentaria o escopo da fase.
+- Aplicar a CA equipada imediatamente: daria retorno visual maior, mas criaria regra de ataque inimigo antes de ela estar oficializada.

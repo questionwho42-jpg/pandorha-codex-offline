@@ -14,8 +14,9 @@
 - T87 wires a local equipped-weapon selector into the combat tab for session characters, defaulting to Espada Longa while Aria remains fixed.
 - T88 rolls supported weapon damage dice through `DiceService` and records an auditable weapon-damage event before the damage pipeline.
 - T89 feeds fixed training-target defenses into the damage pipeline, covering RD, physical resistance, and physical immunity without monster data or vulnerability dice.
-- The next combat step should document the user flow before the final vertical-slice review.
+- T91 displays equipped armor/shield defense for session characters without applying it to incoming attacks.
 - Add vulnerability `+1d6`, proficiency, and durability wear only after the audited weapon roll and target-defense contracts remain stable.
+- Add enemy attacks against session characters before allowing equipped defense to affect CA or damage outcomes.
 - Add real initiative only after equipment selection and fixed turn order remain stable in browser tests.
 - Add typed combat commands for attacks, reactions, spell casts, and conditions.
 - Persist combat ledgers later through Worker/SQLite after the in-memory model is stable.
@@ -26,3 +27,4 @@
 - This feature should not own dice, damage, or universal-test math. Those stay in `shared`.
 - T88 still avoids persistence, Worker, grid, dynamic monsters, inventory mutation, magic, full equipment math, durability wear, and rolled initiative.
 - Combat may consume equipment snapshots/profiles through props or lower-layer contracts, but equipment rules should remain in `entities/equipment`.
+- Equipped defense display must remain read-only until a save-version phase and official incoming-attack contract are approved.

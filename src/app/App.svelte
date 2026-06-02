@@ -452,7 +452,11 @@ onMount(() => {
 					characterClasses={characterSession.characterClasses}
 					characters={characterRecords}
 					createAttackInput={combatEncounterSession.createAttackInput}
+					defaultArmorId={combatEncounterSession.defaultArmorId}
+					defaultShieldId={combatEncounterSession.defaultShieldId}
 					defaultWeaponId={combatEncounterSession.defaultWeaponId}
+					equipmentArmors={combatEncounterSession.equipmentArmors}
+					equipmentShields={combatEncounterSession.equipmentShields}
 					equipmentWeapons={combatEncounterSession.equipmentWeapons}
 					initialTarget={combatEncounterSession.initialTarget}
 					resolveAttack={(input) =>

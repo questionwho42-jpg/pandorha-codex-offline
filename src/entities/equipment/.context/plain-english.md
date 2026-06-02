@@ -21,9 +21,14 @@ It refuses combinations that should not happen, such as putting a dagger in the 
 
 This is still not a full inventory screen. Nothing is saved, no item is repaired or damaged, no proficiency is checked, and no armor class is recalculated yet.
 
+In T91, the module learned how to read simple defensive equipment. Leather armor gives `+2 CA`, plate armor gives `+5 CA`, and a round shield gives `+1 CA`.
+
+The loadout can now say, for example: "this character has leather armor and a round shield, so the equipped defense summary is `CA equipada +3`." This is only a visible and auditable profile. It does not make enemies attack the character yet, does not reduce damage, does not save the chosen equipment, and does not spend durability.
+
 ## Alternatives
 
 - Read the weapon summary text: faster at first, but fragile because prose can change.
 - Put weapon facts directly inside combat: fewer files now, but it mixes item rules with attack rules.
 - Use structured catalog weapon profiles: current approach, because it prepares future UI without changing save or database.
 - Save selected equipment immediately: convenient for players sooner, but it would require a save-version decision before the loadout contract is proven in UI.
+- Apply defense directly inside combat now: tempting for a visible result, but too early because no official enemy-attack flow exists yet.

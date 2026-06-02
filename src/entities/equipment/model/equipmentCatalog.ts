@@ -1,5 +1,8 @@
 import type { ConsumableRecord, EquipmentRecord } from "./equipmentSchema";
-import type { EquipmentWeaponAttackProfileDefinition } from "./equipmentTypes";
+import type {
+	EquipmentDefenseProfileDefinition,
+	EquipmentWeaponAttackProfileDefinition,
+} from "./equipmentTypes";
 
 export const OFFICIAL_EQUIPMENT = [
 	{
@@ -162,5 +165,25 @@ export const OFFICIAL_WEAPON_ATTACK_PROFILE_DEFINITIONS: Readonly<
 		handsRequired: 1,
 		matrix: "physical",
 		tags: ["versatile"],
+	},
+};
+
+export const OFFICIAL_DEFENSE_PROFILE_DEFINITIONS: Readonly<
+	Record<string, EquipmentDefenseProfileDefinition>
+> = {
+	"leather-armor": {
+		armorClassBonus: 2,
+		kind: "armor",
+		tags: ["light", "no-penalty"],
+	},
+	"plate-armor": {
+		armorClassBonus: 5,
+		kind: "armor",
+		tags: ["heavy", "noisy", "speed-penalty-3m"],
+	},
+	"round-shield": {
+		armorClassBonus: 1,
+		kind: "shield",
+		tags: ["light", "free-hand-interaction"],
 	},
 };

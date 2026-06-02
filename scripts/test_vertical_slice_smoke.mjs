@@ -283,7 +283,11 @@ InventoryReadOnlyPanel;
 CompendiumBrowser;
 buildEquipmentLoadout={combatEncounterSession.buildEquipmentLoadout};
 defaultWeaponId={combatEncounterSession.defaultWeaponId};
+defaultArmorId={combatEncounterSession.defaultArmorId};
+defaultShieldId={combatEncounterSession.defaultShieldId};
 equipmentWeapons={combatEncounterSession.equipmentWeapons};
+equipmentArmors={combatEncounterSession.equipmentArmors};
+equipmentShields={combatEncounterSession.equipmentShields};
 </script>
 <p data-testid="pwa-status">Offline disponível neste navegador.</p>
 `;
@@ -293,10 +297,16 @@ function renderCombatEncounterSession() {
 	return `
 import { EquipmentLoadoutService } from "$lib/entities/equipment";
 const DEFAULT_COMBAT_WEAPON_ID = "longsword";
+const DEFAULT_COMBAT_ARMOR_ID = "leather-armor";
+const DEFAULT_COMBAT_SHIELD_ID = "round-shield";
 const session = {
   buildEquipmentLoadout: () => new EquipmentLoadoutService().buildLoadout(),
   defaultWeaponId: DEFAULT_COMBAT_WEAPON_ID,
+  defaultArmorId: DEFAULT_COMBAT_ARMOR_ID,
+  defaultShieldId: DEFAULT_COMBAT_SHIELD_ID,
   equipmentWeapons: [],
+  equipmentArmors: [],
+  equipmentShields: [],
 };
 `;
 }
@@ -306,12 +316,16 @@ function renderCombatEncounterPanel() {
 <script>
 export let buildEquipmentLoadout = () => undefined;
 const activeWeaponProfile = {};
+const activeDefenseProfile = {};
 </script>
 <select data-testid="combat-weapon-select"></select>
+<select data-testid="combat-armor-select"></select>
+<select data-testid="combat-shield-select"></select>
 <p data-testid="combat-equipped-weapon-helper">
   Aria usa perfil fixo de treino.
   Arma ativa: Espada Longa.
 </p>
+<p data-testid="combat-equipped-defense-profile">Defesa equipada</p>
 `;
 }
 
@@ -451,6 +465,9 @@ Abra http://127.0.0.1:5173/ para testar.
 
 Arma equipada aparece para personagens da sessao.
 Espada Longa e a arma padrao.
+Armadura equipada aparece para personagens da sessao.
+Escudo equipado aparece para personagens da sessao.
+Defesa equipada mostra CA equipada +3.
 Aria usa perfil fixo de treino.
 `;
 }
