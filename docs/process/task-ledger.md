@@ -3941,6 +3941,40 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-01T22:18:08-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 129c341 chore(process): record t88 final snapshot
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T22:17:49-03:00 - t88-weapon-dice-roll-contract
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: d50aa6c feat(combat): roll equipped weapon damage dice
+- changed_files_count: 2
+#### Changed Files
+- docs/process/task-ledger.md
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T22:17:44-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: d50aa6c feat(combat): roll equipped weapon damage dice
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-01T18:20:45-03:00 - post-commit
 - branch: task/t73-t76-npc-relationship-save-ui
 - commit: 6591749 chore(process): record t87 final snapshot
