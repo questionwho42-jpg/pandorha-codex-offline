@@ -92,12 +92,15 @@ const progressPercent = $derived(
 		{:else if module.tier < 4}
 			<div class="upgrade-row">
 				{#if module.tier >= 2}
-					<input type="text" placeholder="ID do Troféu de Criatura" bind:value={trophyId} />
+					<input type="text" placeholder="ID do Troféu de Criatura" bind:value={_trophyId} />
 				{/if}
-				<button class="btn btn-sm btn-upgrade" onclick={() => { onUpgrade(module, trophyId); trophyId = ""; }}>
+				<button class="btn btn-sm btn-upgrade" onclick={() => { onUpgrade(module, _trophyId); _trophyId = ""; }}>
 					🚀 Evoluir para Tier {module.tier + 1} ({(module.tier + 1) * 150} PO)
 				</button>
 			</div>
 		{/if}
 	{/if}
 </div>
+
+
+

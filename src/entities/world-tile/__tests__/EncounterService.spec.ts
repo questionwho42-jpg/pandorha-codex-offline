@@ -79,6 +79,15 @@ class FakeCharacterStats implements ICharacterStats {
 	public get automaticDefenseFailure() {
 		return false;
 	}
+	public get hasLatentDiscoordination() {
+		return false;
+	}
+	public get latentDiscoordinationAxis() {
+		return null;
+	}
+	public get latentDiscoordinationTestsLeft() {
+		return 0;
+	}
 }
 
 function createFakeTile(

@@ -137,6 +137,20 @@ export const APP_NAVIGATION_ITEMS = [
 		heading: "Teia de Espionagem",
 		description: "Células de informantes e operações de downtime táticas.",
 	},
+	{
+		id: "research",
+		label: "Pesquisa",
+		heading: "Pesquisa e Criptografia Rúnica",
+		description:
+			"Decifre inscrições de lore e monolitos antigos com suporte a Investigação Extrema e tradução instantânea.",
+	},
+	{
+		id: "retrain",
+		label: "Retreino",
+		heading: "Retreino & Recondicionamento",
+		description:
+			"Altere talentos e manobras nos interlúdios ao custo de ouro e tempo de downtime.",
+	},
 ] as const;
 
 export type AppNavigationId = (typeof APP_NAVIGATION_ITEMS)[number]["id"];

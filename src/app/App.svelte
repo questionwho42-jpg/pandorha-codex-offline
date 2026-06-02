@@ -1,5 +1,6 @@
 <script lang="ts">
 import { onMount } from "svelte";
+import { fade } from "svelte/transition";
 import type {
 	CharacterCreateInput,
 	CharacterRecord,
@@ -156,6 +157,7 @@ let activeView = $state<AppNavigationId>("home");
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let activeDialogueTreeId = $state<string | undefined>(undefined);
 let campRations = $state(3);
+let guildGold = $state(1000);
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let dynamicInventoryItems = $derived(
@@ -1013,9 +1015,11 @@ async function createCharacter(
 
 		<section
 			aria-live="polite"
-			class="mt-8 rounded-lg border border-bronze bg-ruin p-6 sm:p-8"
+			class="mt-8 rounded-lg glass-runic p-6 sm:p-8"
 		>
-			{#if activeView === "characters"}
+			{#key activeView}
+				<div transition:fade={{ duration: 150 }}>
+					{#if activeView === "characters"}
 				<div class="grid gap-8 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
 					<CharacterCreateForm
 						ancestries={characterSession.ancestries}
@@ -1219,6 +1223,8 @@ async function createCharacter(
 					{activeItem.description}
 				</p>
 			{/if}
+				</div>
+			{/key}
 		</section>
 	</div>
 </main>

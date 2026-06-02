@@ -1,19 +1,19 @@
 <script lang="ts">
 import { onMount } from "svelte";
-import type { CharacterRecord } from "../../../entities/character/model/characterSchema";
-import type { CompanionRecord } from "../../../entities/companions/model/companionSchema";
+import type { CharacterRecord } from "../../../entities/character";
+import type { CompanionRecord } from "../../../entities/companions";
+import { WorkerCompanionRepository } from "../../../entities/companions";
 import {
 	type EspionageCellRecord,
 	EspionageService,
 	type OperationResult,
+	WorkerEspionageRepository,
 } from "../../../entities/espionage";
 import type {
 	CampaignSocialLedgerRecord,
 	FactionRecord,
-} from "../../../entities/social/model/socialSchema";
-import { WorkerCompanionRepository } from "../../companions/infrastructure/WorkerCompanionRepository";
-import { WorkerEspionageRepository } from "../../espionage/infrastructure/WorkerEspionageRepository";
-import { WorkerSocialRepository } from "../../social/infrastructure/WorkerSocialRepository";
+} from "../../../entities/social";
+import { WorkerSocialRepository } from "../../../entities/social";
 
 // Props
 interface Props {
