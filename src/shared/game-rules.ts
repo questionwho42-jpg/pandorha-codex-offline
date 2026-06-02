@@ -5,6 +5,32 @@
  */
 
 export const PANDORHA_RULES = {
+	DICE: {
+		/**
+		 * Official universal test die.
+		 * @source docs/system/survival/00-mecanicas-fundamentais.md - Secao 3 (Formula Universal)
+		 */
+		D20_SIDES: 20,
+		/**
+		 * Lowest possible natural roll on a die.
+		 * @source docs/system/survival/00-mecanicas-fundamentais.md - Secao 3 (Formula Universal)
+		 */
+		NATURAL_FAILURE: 1,
+		/**
+		 * Natural critical value for the official d20.
+		 * @source docs/system/survival/00-mecanicas-fundamentais.md - Secao 3 (Formula Universal)
+		 */
+		NATURAL_CRITICAL: 20,
+		/**
+		 * Smallest supported die size for generic dice rolls.
+		 */
+		MIN_DIE_SIDES: 2,
+		/**
+		 * Highest supported die size for generic dice rolls.
+		 */
+		MAX_DIE_SIDES: 1000,
+	},
+
 	CHARACTER_CREATION: {
 		/**
 		 * @source docs/system/survival/00-mecanicas-fundamentais.md - Seção 2 (Passo 1)
@@ -64,6 +90,29 @@ export const PANDORHA_RULES = {
 		 * @source docs/system/survival/00-mecanicas-fundamentais.md - Seção 3 (Graus de Sucesso)
 		 */
 		CRITICAL_FAIL_MARGIN: 5,
+	},
+
+	DAMAGE: {
+		/**
+		 * Critical hits double all base damage before fixed damage reduction.
+		 * @source docs/system/combat/18-tratado-de-dano.md - Secao 4.1 (Acertos Criticos)
+		 */
+		CRITICAL_MULTIPLIER: 2,
+		/**
+		 * Resistance halves matching damage after RD, rounded down.
+		 * @source docs/system/combat/18-tratado-de-dano.md - Secao 4.2 (Resistencia)
+		 */
+		RESISTANCE_MULTIPLIER: 0.5,
+		/**
+		 * Immunity removes all matching damage.
+		 * @source docs/system/combat/03-01-imunidades-resistencias-e-vulnerabilidades.md - Secao 2.1
+		 */
+		IMMUNITY_MULTIPLIER: 0,
+		/**
+		 * Damage cannot be reduced below zero.
+		 * @source docs/system/combat/03-01-imunidades-resistencias-e-vulnerabilidades.md - Secao 2.4
+		 */
+		MIN_DAMAGE: 0,
 	},
 
 	COMBAT: {
@@ -133,6 +182,19 @@ export const PANDORHA_RULES = {
 		 * @source docs/system/survival/regras-peso-carga.md - Seção 2
 		 */
 		POTION_BELT_CAPACITY: 5,
+	},
+
+	CAMP: {
+		/**
+		 * Deterministic minimum danger increase for the first one-hour camp slice.
+		 * @source docs/system/survival/28-codex-acampamento-descanso-ativo.md - Secao 2 (O Risco Crescente)
+		 */
+		BASE_DANGER_INCREASE_PER_HOUR: 1,
+		/**
+		 * T35B does not roll activity tests yet; each assigned helper advances one deterministic slice.
+		 * @source docs/system/survival/28-codex-acampamento-descanso-ativo.md - Secao 5 (Relogios de Esforco Coletivo)
+		 */
+		FORTIFY_PERIMETER_PROGRESS_PER_ASSIGNMENT: 1,
 	},
 } as const;
 

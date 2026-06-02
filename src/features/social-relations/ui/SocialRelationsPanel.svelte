@@ -1,0 +1,316 @@
+<script lang="ts">
+import type { ClockRecord } from "$lib/entities/clock";
+import type {
+	FactionRecord,
+	FactionStandingRecord,
+} from "$lib/entities/faction";
+import type { NpcRecord } from "$lib/entities/npc";
+import type { NpcRelationshipRecord } from "$lib/entities/npc-relationship";
+import type {
+	SocialStandingChangeResult,
+	SocialStandingFailure,
+} from "$lib/features/social-standing";
+import type { Result } from "$lib/shared/lib/result";
+import {
+	createSocialRelationsView,
+	mapSocialStandingFailureToMessage,
+	type SocialRelationNpcFilterValue,
+} from "../model/socialRelationsView";
+
+type Props = {
+	readonly clocks: readonly ClockRecord[];
+	readonly factions: readonly FactionRecord[];
+	readonly invokeTierOneFavor: (
+		standing: FactionStandingRecord,
+	) => Promise<Result<SocialStandingChangeResult, SocialStandingFailure>>;
+	readonly npcRelationships?: readonly NpcRelationshipRecord[];
+	readonly npcs?: readonly NpcRecord[];
+	readonly onStandingsChange: (
+		standings: readonly FactionStandingRecord[],
+	) => void;
+	readonly redeemTierOneDebt: (
+		standing: FactionStandingRecord,
+	) => Promise<Result<SocialStandingChangeResult, SocialStandingFailure>>;
+	readonly standings: readonly FactionStandingRecord[];
+};
+
+let {
+	clocks,
+	factions,
+	invokeTierOneFavor,
+	npcRelationships = [],
+	npcs = [],
+	onStandingsChange,
+	redeemTierOneDebt,
+	standings,
+}: Props = $props();
+
+let localStandings = $state<FactionStandingRecord[]>([]);
+let events = $state<SocialStandingChangeResult["event"][]>([]);
+let errorMessage = $state<string | null>(null);
+let isWorkingFactionId = $state<string | null>(null);
+let hydratedKey = $state("");
+let npcRelationshipFilter = $state<SocialRelationNpcFilterValue>("all");
+
+$effect(() => {
+	const nextKey = createHydrationKey(standings);
+	if (nextKey === hydratedKey) {
+		return;
+	}
+
+	localStandings = [...standings];
+	events = [];
+	errorMessage = null;
+	isWorkingFactionId = null;
+	npcRelationshipFilter = "all";
+	hydratedKey = nextKey;
+});
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let view = $derived(
+	createSocialRelationsView({
+		errorMessage,
+		events,
+		clocks,
+		factions,
+		npcRelationshipFilter,
+		npcRelationships,
+		npcs,
+		standings: localStandings,
+	}),
+);
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function invokeFavor(factionId: string): Promise<void> {
+	await runStandingAction(factionId, invokeTierOneFavor);
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function redeemDebt(factionId: string): Promise<void> {
+	await runStandingAction(factionId, redeemTierOneDebt);
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function selectNpcRelationshipFilter(
+	filter: SocialRelationNpcFilterValue,
+): void {
+	npcRelationshipFilter = filter;
+}
+
+async function runStandingAction(
+	factionId: string,
+	action: (
+		standing: FactionStandingRecord,
+	) => Promise<Result<SocialStandingChangeResult, SocialStandingFailure>>,
+): Promise<void> {
+	const standing = localStandings.find(
+		(record) => record.factionId === factionId,
+	);
+	if (!standing || isWorkingFactionId !== null) {
+		return;
+	}
+
+	isWorkingFactionId = factionId;
+	const result = await action(standing);
+	isWorkingFactionId = null;
+
+	if (!result.success) {
+		errorMessage = mapSocialStandingFailureToMessage(result.error);
+		return;
+	}
+
+	const nextStandings = replaceStanding(localStandings, result.data.standing);
+	localStandings = nextStandings;
+	hydratedKey = createHydrationKey(nextStandings);
+	events = [result.data.event];
+	errorMessage = null;
+	onStandingsChange(localStandings);
+}
+
+function createHydrationKey(
+	standings: readonly FactionStandingRecord[],
+): string {
+	return JSON.stringify(
+		standings.map((standing) => [
+			standing.factionId,
+			standing.fameLevel,
+			standing.bloodDebt,
+			standing.infamyLevel,
+			standing.intriguePoints,
+			standing.status,
+		]),
+	);
+}
+
+function replaceStanding(
+	standings: readonly FactionStandingRecord[],
+	nextStanding: FactionStandingRecord,
+): FactionStandingRecord[] {
+	return standings.map((standing) =>
+		standing.factionId === nextStanding.factionId ? nextStanding : standing,
+	);
+}
+</script>
+
+<section aria-labelledby="social-relations-title" data-testid="social-relations-panel">
+	<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+		<div>
+			<p class="text-sm font-semibold text-ether">Relações</p>
+			<h2 id="social-relations-title" class="mt-2 text-2xl font-semibold text-bone">
+				{view.titleLabel}
+			</h2>
+			<p class="mt-3 max-w-3xl leading-7 text-bone">
+				Acompanhe fama, dívida, intriga e favores com facções de treino.
+			</p>
+		</div>
+	</div>
+
+	{#if view.emptyStateLabel}
+		<div class="mt-6 border border-bronze bg-blood-shadow px-5 py-5">
+			<p class="text-bone" data-testid="social-empty-state">
+				{view.emptyStateLabel}
+			</p>
+		</div>
+	{:else}
+		<div class="mt-6 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.72fr)]">
+			<div class="space-y-4">
+				{#each view.rows as row (row.factionId)}
+					<article class="border border-bronze bg-blood-shadow px-5 py-5">
+						<div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+							<div>
+								<p class="text-sm font-semibold text-ether">{row.kindLabel}</p>
+								<h3 class="mt-1 text-xl font-semibold text-bone">{row.label}</h3>
+								<p class="mt-2 max-w-2xl text-sm leading-6 text-bone/85">
+									{row.summary}
+								</p>
+							</div>
+							<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-ether">
+								{row.statusLabel}
+							</p>
+						</div>
+
+						<div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+							<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone">
+								{row.fameLabel}
+							</p>
+							<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone">
+								{row.infamyLabel}
+							</p>
+							<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone" data-testid="social-debt">
+								{row.debtLabel}
+							</p>
+							<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone">
+								{row.favorLabel}
+							</p>
+							<p class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone" data-testid="social-intrigue">
+								{row.intrigueLabel}
+							</p>
+						</div>
+
+						<div class="mt-5 flex flex-wrap gap-3">
+							<button
+								type="button"
+								class="rounded-lg border border-ether bg-ether px-4 py-2 text-sm font-semibold text-void transition-opacity disabled:cursor-not-allowed disabled:opacity-50"
+								disabled={!row.canInvokeTierOneFavor || isWorkingFactionId !== null}
+								onclick={() => void invokeFavor(row.factionId)}
+								data-testid="social-invoke-favor"
+							>
+								Invocar favor Tier 1
+							</button>
+							<button
+								type="button"
+								class="rounded-lg border border-bronze bg-ruin px-4 py-2 text-sm font-semibold text-bone transition-colors hover:border-ether hover:text-ether disabled:cursor-not-allowed disabled:opacity-50"
+								disabled={!row.canRedeemTierOneDebt || isWorkingFactionId !== null}
+								onclick={() => void redeemDebt(row.factionId)}
+								data-testid="social-redeem-debt"
+							>
+								Abater dívida Tier 1
+							</button>
+						</div>
+						{#if row.retaliationClockLabel}
+							<p class="mt-4 border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-ether" data-testid="social-retaliation-clock">
+								{row.retaliationClockLabel}
+							</p>
+						{/if}
+					</article>
+				{/each}
+			</div>
+
+			<aside class="border border-bronze bg-blood-shadow px-5 py-5">
+				<h3 class="text-lg font-semibold text-bone">Resumo</h3>
+				{#if view.errorMessage}
+					<p class="mt-3 border border-bronze bg-ruin px-4 py-3 text-sm font-semibold text-ether">
+						{view.errorMessage}
+					</p>
+				{/if}
+				<ul class="mt-4 space-y-3" data-testid="social-log">
+					{#each view.logLines as line}
+						<li class="border border-bronze bg-ruin px-4 py-3 text-sm leading-6 text-bone">
+							{line}
+						</li>
+					{/each}
+				</ul>
+				{#if npcRelationships.length > 0}
+					<div class="mt-5 border-t border-bronze pt-4" data-testid="npc-relationship-list">
+						<div class="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+							<h4 class="text-sm font-semibold text-ether">Relações por NPC</h4>
+							<p class="text-xs font-semibold uppercase text-bone/70">
+								{view.npcFilterLabel}
+							</p>
+						</div>
+						<div class="mt-3 grid gap-2 sm:grid-cols-2" data-testid="npc-relationship-filter">
+							{#each view.npcFilterOptions as option (option.value)}
+								<button
+									type="button"
+									class={`min-h-10 border px-3 py-2 text-left text-sm font-semibold transition-colors ${npcRelationshipFilter === option.value ? "border-ether bg-ether text-void" : "border-bronze bg-ruin text-bone hover:border-ether hover:text-ether"}`}
+									aria-pressed={npcRelationshipFilter === option.value}
+									onclick={() => selectNpcRelationshipFilter(option.value)}
+									data-testid="npc-relationship-filter-option"
+								>
+									<span>{option.label}</span>
+									<span class="ml-2 text-xs">{option.countLabel}</span>
+								</button>
+							{/each}
+						</div>
+						{#if view.npcFilterEmptyStateLabel}
+							<p class="mt-3 border border-bronze bg-ruin px-3 py-3 text-sm leading-6 text-bone" data-testid="npc-relationship-filter-empty">
+								{view.npcFilterEmptyStateLabel}
+							</p>
+						{:else}
+							<ul class="mt-3 space-y-4">
+								{#each view.npcGroups as npcGroup (npcGroup.factionId)}
+									<li class="border border-bronze bg-ruin px-4 py-3" data-testid="npc-relationship-group">
+										<div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+											<p class="text-sm font-semibold text-ether">{npcGroup.factionLabel}</p>
+											<p class="text-xs font-semibold uppercase text-bone/70">
+												{npcGroup.totalRowsLabel}
+											</p>
+										</div>
+										<ul class="mt-3 space-y-2">
+											{#each npcGroup.rows as npcRow (npcRow.npcId)}
+												<li class="border border-bronze bg-blood-shadow px-3 py-3 text-sm leading-6 text-bone" data-testid="npc-relationship-row">
+													<p class="font-semibold text-bone">{npcRow.label}</p>
+													<div class="mt-2 grid gap-2 sm:grid-cols-3">
+														<span class="border border-bronze bg-ruin px-2 py-1 font-semibold text-bone">
+															{npcRow.attitudeLabel}
+														</span>
+														<span class="border border-bronze bg-ruin px-2 py-1 font-semibold text-bone">
+															{npcRow.statusLabel}
+														</span>
+														<span class="border border-bronze bg-ruin px-2 py-1 font-semibold text-bone">
+															{npcRow.pressureDamageLabel}
+														</span>
+													</div>
+												</li>
+											{/each}
+										</ul>
+									</li>
+								{/each}
+							</ul>
+						{/if}
+					</div>
+				{/if}
+			</aside>
+		</div>
+	{/if}
+</section>

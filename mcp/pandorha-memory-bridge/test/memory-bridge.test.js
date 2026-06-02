@@ -7,6 +7,7 @@ import {
   appendMemoryEntry,
   commitModuleContext,
   createTempProjectRoot,
+  normalizeContextLayer,
   normalizeModuleName,
   readOptionalText,
   renderPlainEnglishEntry,
@@ -42,7 +43,23 @@ test("resolveContextDir stays under src/features", () => {
   const result = resolveContextDir(projectRoot, "Social Layer");
 
   assert.equal(result.moduleSlug, "social-layer");
+  assert.equal(result.layer, "features");
   assert.equal(result.contextDir, path.join(projectRoot, "src", "features", "social-layer", ".context"));
+});
+
+test("resolveContextDir can target src/entities explicitly", () => {
+  const projectRoot = path.join(os.tmpdir(), "pandorha-project");
+  const result = resolveContextDir(projectRoot, "Ancestry", "entities");
+
+  assert.equal(result.moduleSlug, "ancestry");
+  assert.equal(result.layer, "entities");
+  assert.equal(result.contextDir, path.join(projectRoot, "src", "entities", "ancestry", ".context"));
+});
+
+test("normalizeContextLayer defaults to features and rejects unsupported layers", () => {
+  assert.equal(normalizeContextLayer(), "features");
+  assert.equal(normalizeContextLayer("entities"), "entities");
+  assert.throws(() => normalizeContextLayer("shared"), /features or entities/);
 });
 
 test("commitModuleContext creates the three context files", async () => {
@@ -61,6 +78,20 @@ test("commitModuleContext creates the three context files", async () => {
   assert.match(tech, /Falha de teste/);
   assert.match(scaling, /Review this module/);
   assert.match(plain, /memoria local/);
+});
+
+test("commitModuleContext creates entity context files when layer is entities", async () => {
+  const projectRoot = await createTempProjectRoot();
+  const result = await commitModuleContext(sampleInput({ module_name: "Equipment", layer: "entities" }), {
+    projectRoot,
+    now: fixedDate
+  });
+  const contextDir = path.join(projectRoot, "src", "entities", "equipment", ".context");
+
+  assert.equal(result.module, "equipment");
+  assert.equal(result.contextDir, "src/entities/equipment/.context");
+  assert.equal(result.files.length, 3);
+  assert.match(await fs.readFile(path.join(contextDir, "tech-memory.md"), "utf8"), /Service writes context files/);
 });
 
 test("commitModuleContext appends without deleting previous entries", async () => {

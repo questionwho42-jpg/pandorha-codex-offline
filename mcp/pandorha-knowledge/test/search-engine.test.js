@@ -51,6 +51,47 @@ test("searchRpgRule prioritizes table matches", () => {
   assert.match(result.matches[0].snippet, /Dano Cortante/);
 });
 
+test("golden rule queries find deterministic damage, character creation, and action fixtures", () => {
+  const fixtures = [
+    {
+      relativePath: "docs/system/combat/18-tratado-de-dano.md",
+      markdown: [
+        "# Tratado de Dano",
+        "",
+        "## Dano Cortante",
+        "",
+        "Dano cortante aplica reducao de dano antes de afinidades."
+      ].join("\n")
+    },
+    {
+      relativePath: "docs/system/survival/guia-criacao-de-ficha.md",
+      markdown: [
+        "# Guia de Criacao de Ficha",
+        "",
+        "A criacao de ficha distribui eixos e aplicacoes pela regra dos 6/6."
+      ].join("\n")
+    },
+    {
+      relativePath: "docs/system/survival/00-mecanicas-fundamentais.md",
+      markdown: [
+        "# Mecanicas Fundamentais",
+        "",
+        "## Acoes",
+        "",
+        "Cada turno usa tres acoes para atacar, mover ou sustentar efeitos."
+      ].join("\n")
+    }
+  ];
+  const segments = fixtures.flatMap((fixture) =>
+    buildMarkdownSegments(path.join(projectRoot, fixture.relativePath), fixture.markdown, { projectRoot })
+  );
+  const engine = createSearchEngine(segments);
+
+  assert.equal(engine.searchRpgRule("dano cortante reducao", { limit: 1 }).matches[0].file, fixtures[0].relativePath);
+  assert.equal(engine.searchRpgRule("criacao ficha eixos", { limit: 1 }).matches[0].file, fixtures[1].relativePath);
+  assert.equal(engine.searchRpgRule("tres acoes turno", { limit: 1 }).matches[0].file, fixtures[2].relativePath);
+});
+
 test("searchRpgRule handles empty terms without scanning", () => {
   const engine = createSearchEngine([]);
   const result = engine.searchRpgRule(" ", { limit: 3 });

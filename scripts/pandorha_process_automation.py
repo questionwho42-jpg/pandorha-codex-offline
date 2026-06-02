@@ -11,7 +11,7 @@ import subprocess
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(os.environ.get("PANDORHA_PROCESS_ROOT", Path(__file__).resolve().parents[1])).resolve()
 LEDGER = ROOT / "docs" / "process" / "task-ledger.md"
 INBOX = ROOT / "docs" / "process" / "change-inbox.md"
 CHANGELOG = ROOT / "docs" / "changelog.md"
@@ -267,6 +267,8 @@ def command_unfinished(args: argparse.Namespace) -> None:
 def command_snapshot(args: argparse.Namespace) -> None:
     ensure_files()
     state = git_state()
+    if args.skip_clean and state["changed_count"] == 0:
+        return
     timestamp = now()
     block = f"""### {timestamp} - {args.reason}
 - branch: {state["branch"]}
@@ -281,6 +283,96 @@ def command_snapshot(args: argparse.Namespace) -> None:
 - Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 """
     insert_under_marker(LEDGER, LEDGER_MARKERS["snapshots"], block)
+
+
+def command_validate(_: argparse.Namespace) -> None:
+    ensure_files()
+    errors, warnings = validate_records()
+    for warning in warnings:
+        print(f"warning: {warning}")
+    if errors:
+        raise SystemExit("\n".join(errors))
+    print("maintenance records are valid")
+
+
+def validate_records() -> tuple[list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    for path, markers in (
+        (LEDGER, LEDGER_MARKERS.values()),
+        (INBOX, ("pandorha-inbox:open", "pandorha-inbox:promoted")),
+        (CHANGELOG, ("pandorha-changelog:main",)),
+    ):
+        content = read_file(path)
+        for marker in markers:
+            try:
+                marker_bounds(content, marker)
+            except ValueError as error:
+                errors.append(str(error))
+
+    ledger_content = read_file(LEDGER)
+    inbox_content = read_file(INBOX)
+    errors.extend(find_duplicate_markers(ledger_content, "pandorha-task", "Duplicate task id"))
+    errors.extend(find_duplicate_markers(inbox_content, "pandorha-inbox", "Duplicate inbox id"))
+    errors.extend(find_incomplete_completed_tasks(ledger_content))
+    warnings.extend(find_empty_snapshots(ledger_content))
+    return errors, warnings
+
+
+def find_duplicate_markers(content: str, prefix: str, label: str) -> list[str]:
+    ids = re.findall(rf"<!-- {re.escape(prefix)}:([^ ]+?) -->", content)
+    seen: set[str] = set()
+    duplicates: list[str] = []
+    for item in ids:
+        if item in seen and item not in duplicates:
+            duplicates.append(item)
+        seen.add(item)
+    return [f"{label}: {item}" for item in duplicates]
+
+
+def find_incomplete_completed_tasks(content: str) -> list[str]:
+    errors: list[str] = []
+    completed_match = re.search(
+        r"<!-- pandorha-ledger:completed -->(.*?)<!-- /pandorha-ledger:completed -->",
+        content,
+        re.DOTALL,
+    )
+    if not completed_match:
+        return errors
+
+    for match in re.finditer(
+        r"<!-- pandorha-task:([^ ]+?) -->(.*?)<!-- /pandorha-task:\1 -->",
+        completed_match.group(1),
+        re.DOTALL,
+    ):
+        task_id = match.group(1)
+        block = match.group(2)
+        if "- finished_at: pending" in block:
+            errors.append(f"Completed task has pending finished_at: {task_id}")
+        if "- model_finished: pending" in block:
+            errors.append(f"Completed task has pending model_finished: {task_id}")
+        if "- status: completed" not in block:
+            errors.append(f"Completed task has non-completed status field: {task_id}")
+    return errors
+
+
+def find_empty_snapshots(content: str) -> list[str]:
+    warnings: list[str] = []
+    snapshot_match = re.search(
+        r"<!-- pandorha-ledger:snapshots -->(.*?)<!-- /pandorha-ledger:snapshots -->",
+        content,
+        re.DOTALL,
+    )
+    if not snapshot_match:
+        return warnings
+
+    current_title = ""
+    for line in snapshot_match.group(1).splitlines():
+        if line.startswith("### "):
+            current_title = line.removeprefix("### ").strip()
+        if line.strip() == "- changed_files_count: 0":
+            warnings.append(f"Empty snapshot found: {current_title}")
+    return warnings
 
 
 def command_post_merge(_: argparse.Namespace) -> None:
@@ -346,10 +438,17 @@ def build_parser() -> argparse.ArgumentParser:
 
     snapshot = sub.add_parser("snapshot", help="Record current git state.")
     snapshot.add_argument("--reason", default="manual")
+    snapshot.add_argument("--skip-clean", action="store_true", help="Do not write a snapshot when git status is clean.")
     snapshot.set_defaults(func=command_snapshot)
 
     post_merge = sub.add_parser("post-merge", help="Create main-branch promotion candidate after merge.")
     post_merge.set_defaults(func=command_post_merge)
+
+    validate = sub.add_parser("validate", help="Validate maintenance markers and records.")
+    validate.set_defaults(func=command_validate)
+
+    doctor = sub.add_parser("doctor", help="Alias for validate.")
+    doctor.set_defaults(func=command_validate)
 
     return parser
 

@@ -1,3 +1,9 @@
+---
+name: create-pull-request
+description: Orienta a criacao assistida de Pull Requests com pre-flight checks, resumo semantico, validacao de testes, revisao humana e governanca de revisores.
+version: 1.0.0
+---
+
 # create-pull-request
 
 ## Descrição

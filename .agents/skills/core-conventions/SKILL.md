@@ -20,8 +20,8 @@ Sempre que você for criar ou modificar arquivos Svelte/TS, siga este fluxo:
 1.  **PLANEJAMENTO (Chain-of-Thought):** Antes de editar, liste em bullet points curtos os passos lógicos, identificando a Feature afetada e os arquivos de contrato (types.ts) necessários.
 2.  **LEITURA DE REFERÊNCIA:** Se houver dúvida sobre uma regra de RPG, leia obrigatoriamente `references/svelte-ts-conventions.md`.
 3.  **IMPLEMENTAÇÃO:** Escreva o código aplicando as regras de Named Exports, Tailwind exclusivo e Monads de Erro.
-4.  **VALIDAÇÃO ATIVA:** Execute o script de validação para os arquivos modificados:
-    `bash .agents/skills/core-conventions/scripts/validate.sh <caminho_do_arquivo>`
+4.  **VALIDAÇÃO ATIVA:** Execute o script de validação Windows-first para os arquivos modificados:
+    `node .agents/skills/core-conventions/scripts/validate.mjs <caminho_do_arquivo>`
 5.  **AUTO-CORREÇÃO (MAX 3):**
     - Se o script falhar, emita um status: `[Validação X/3]: Erro detectado. Corrigindo...`.
     - Se após a 3ª tentativa o erro persistir, pare tudo, exiba os logs e peça ajuda humana.

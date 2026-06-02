@@ -99,6 +99,18 @@ test("executeQuery allows read-only SQL and blocks writes", () => {
   db.close();
 });
 
+test("fixture database stays read-only through the auditor query gate", () => {
+  const db = createFixtureDb();
+  const auditor = createAuditor(db);
+
+  assert.deepEqual(auditor.executeQuery("SELECT COUNT(*) AS total FROM actors").rows, [{ total: 1 }]);
+  assert.throws(() => auditor.executeQuery("INSERT INTO actors (name) VALUES ('Unsafe')"), /read-only/);
+  assert.throws(() => auditor.executeQuery("PRAGMA journal_mode = WAL"), /read-only/);
+  assert.deepEqual(auditor.executeQuery("SELECT COUNT(*) AS total FROM actors").rows, [{ total: 1 }]);
+
+  db.close();
+});
+
 test("executeQuery rejects a prepared statement that SQLite marks as non-reader", () => {
   const fakeDb = {
     prepare() {
