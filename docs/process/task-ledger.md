@@ -3987,6 +3987,40 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-01T23:10:00-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 2eea6d8 chore(process): record t89 final snapshot
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T23:09:38-03:00 - t89-combat-target-defenses
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: e3ad436 feat(combat): apply training target defenses
+- changed_files_count: 2
+#### Changed Files
+- docs/process/task-ledger.md
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T23:09:24-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: e3ad436 feat(combat): apply training target defenses
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-01T23:08:03-03:00 - post-commit
 - branch: task/t73-t76-npc-relationship-save-ui
 - commit: 10808df chore(process): record t88 final snapshot
