@@ -6,6 +6,7 @@ import {
 	EncumberedStatusDecorator,
 	EterFeverDecorator,
 	ImmobilizedDecorator,
+	LatentDiscoordinationDecorator,
 	MoribundDecorator,
 	SilencedDecorator,
 	UnconsciousDecorator,
@@ -446,6 +447,25 @@ describe("StatusEffectDecorator - Efeitos de Status do RPG Pandorha", () => {
 			const ultimateStats = new RedeIntrigasDecorator(baseStats);
 
 			expect(ultimateStats.level).toBe(1);
+		});
+	});
+
+	describe("Descoordenação Latente (LatentDiscoordinationDecorator)", () => {
+		it("deve propagar a flag hasLatentDiscoordination e dados do eixo/testes", () => {
+			const character = createCharacter({ level: 1 });
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+			const discoordStats = new LatentDiscoordinationDecorator(
+				baseStats,
+				"mental",
+				3,
+			);
+
+			expect(discoordStats.hasLatentDiscoordination).toBe(true);
+			expect(discoordStats.latentDiscoordinationAxis).toBe("mental");
+			expect(discoordStats.latentDiscoordinationTestsLeft).toBe(3);
 		});
 	});
 });

@@ -37,6 +37,9 @@ export interface ICharacterStats {
 	readonly attackBonus: number;
 	readonly ignoresDifficultTerrain: boolean;
 	readonly automaticDefenseFailure: boolean;
+	readonly hasLatentDiscoordination: boolean;
+	readonly latentDiscoordinationAxis: string | null;
+	readonly latentDiscoordinationTestsLeft: number;
 }
 
 /**
@@ -147,6 +150,18 @@ export class BaseCharacterStats implements ICharacterStats {
 
 	public get automaticDefenseFailure(): boolean {
 		return false;
+	}
+
+	public get hasLatentDiscoordination(): boolean {
+		return false;
+	}
+
+	public get latentDiscoordinationAxis(): string | null {
+		return null;
+	}
+
+	public get latentDiscoordinationTestsLeft(): number {
+		return 0;
 	}
 }
 
@@ -268,6 +283,18 @@ export abstract class StatusEffectDecorator implements ICharacterStats {
 
 	public get automaticDefenseFailure(): boolean {
 		return this.wrapped.automaticDefenseFailure;
+	}
+
+	public get hasLatentDiscoordination(): boolean {
+		return this.wrapped.hasLatentDiscoordination;
+	}
+
+	public get latentDiscoordinationAxis(): string | null {
+		return this.wrapped.latentDiscoordinationAxis;
+	}
+
+	public get latentDiscoordinationTestsLeft(): number {
+		return this.wrapped.latentDiscoordinationTestsLeft;
 	}
 }
 
@@ -536,11 +563,42 @@ export class CacadaSelvagemDecorator extends StatusEffectDecorator {
 export class RedeIntrigasDecorator extends StatusEffectDecorator {}
 
 /**
+ * 🧅 DECORADOR CONCRETO: Descoordenação Latente (LatentDiscoordinationDecorator)
+ * Status temporário aplicado após Recondicionamento de Eixo.
+ * Gera desvantagem nas primeiras 3 rolagens táticas sob perigo usando a manobra do novo eixo.
+ */
+export class LatentDiscoordinationDecorator extends StatusEffectDecorator {
+	public constructor(
+		wrapped: ICharacterStats,
+		private readonly axis: string,
+		private readonly tests: number,
+	) {
+		super(wrapped);
+	}
+
+	public override get hasLatentDiscoordination(): boolean {
+		return true;
+	}
+
+	public override get latentDiscoordinationAxis(): string | null {
+		return this.axis;
+	}
+
+	public override get latentDiscoordinationTestsLeft(): number {
+		return this.tests;
+	}
+}
+
+/**
  * 🧅 HELPER: Aplica todos os efeitos de status e ultimates ativos recursivamente
  */
 export function applyStatusEffects(
 	baseStats: ICharacterStats,
-	effects: readonly { readonly type: string }[],
+	effects: readonly {
+		readonly type: string;
+		readonly metadata?: string | null;
+		readonly severity?: number;
+	}[],
 ): ICharacterStats {
 	let decorated = baseStats;
 	for (const effect of effects) {
@@ -587,6 +645,16 @@ export function applyStatusEffects(
 			case "rede_intrigas":
 				decorated = new RedeIntrigasDecorator(decorated);
 				break;
+			case "latent_discoordination": {
+				const axis = effect.metadata || "physical";
+				const severity = effect.severity ?? 3;
+				decorated = new LatentDiscoordinationDecorator(
+					decorated,
+					axis,
+					severity,
+				);
+				break;
+			}
 		}
 	}
 	return decorated;
