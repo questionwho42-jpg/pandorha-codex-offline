@@ -41,6 +41,9 @@ import {
 } from "$lib/features/character-create";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { CharacterList } from "$lib/features/character-list";
+import { chatState } from "$lib/features/chat";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import ChatLog from "$lib/features/chat/ui/ChatLog.svelte";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { ClockDemo } from "$lib/features/clocks";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
@@ -91,6 +94,28 @@ const trapRepository = new WorkerTrapRepository();
 const trapService = new TrapService();
 
 const characterSession = createCharacterSession();
+
+let characterHudStates = $state<
+	Record<
+		string,
+		{ hp: number; pv: number; actionUsed: boolean; reactionUsed: boolean }
+	>
+>({});
+
+$effect(() => {
+	for (const char of viewItems) {
+		if (!characterHudStates[char.id]) {
+			const maxHp = char.maxHp;
+			const maxPv = (char.axes[0].value + char.applications[2].value) * 3;
+			characterHudStates[char.id] = {
+				hp: maxHp,
+				pv: maxPv,
+				actionUsed: false,
+				reactionUsed: false,
+			};
+		}
+	}
+});
 const combatEncounterSession = createCombatEncounterSession();
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -379,13 +404,15 @@ async function handleGlobalEndRecess() {
 		if (res.success && res.data.length > 0) {
 			for (const prog of res.data) {
 				if (prog.curated) {
-					console.log(
-						`[Recesso] ${char.name} superou e curou a patologia ${prog.diseaseType}!`,
-					);
+					chatState.addMessage({
+						type: "camp",
+						content: `❤️ [Recesso] **${char.name}** superou e curou a patologia **${prog.diseaseType}**!`,
+					});
 				} else {
-					console.log(
-						`[Recesso] A patologia ${prog.diseaseType} de ${char.name} progrediu para gravidade ${prog.newSeverity}.`,
-					);
+					chatState.addMessage({
+						type: "camp",
+						content: `⚠️ [Recesso] A patologia **${prog.diseaseType}** de **${char.name}** progrediu para gravidade **${prog.newSeverity}**.`,
+					});
 				}
 			}
 		}
@@ -502,7 +529,11 @@ async function handleHexcrawlMoveSuccess(biome: string, toTileId?: string) {
 
 		const detectRes = trapService.detectTrap(bestChar, trap, roll);
 		if (detectRes.success) {
-			console.log(detectRes.data.log);
+			chatState.addMessage({
+				type: "narrative",
+				sender: "Vigília",
+				content: detectRes.data.log,
+			});
 
 			if (detectRes.data.isDetected) {
 				await persistTrapUpdate({ ...trap, isDetected: true });
@@ -547,7 +578,11 @@ async function handleHexcrawlMoveSuccess(biome: string, toTileId?: string) {
 					tempCharService,
 				);
 				if (triggerRes.success) {
-					console.log(triggerRes.data.log);
+					chatState.addMessage({
+						type: "combat",
+						sender: "Armadilha",
+						content: triggerRes.data.log,
+					});
 					await persistTrapUpdate({
 						...trap,
 						isDetected: true,
@@ -590,9 +625,10 @@ async function handleHexcrawlMoveSuccess(biome: string, toTileId?: string) {
 		const effectType = arrayEffect[0] % 2 === 0 ? "eter_fever" : "viper_poison";
 		await handleApplyStatusEffect(targetChar.id, effectType);
 
-		console.log(
-			`⚠️ Perigo Ambiental! ${targetChar.name} falhou no teste de Vigor (d20: ${roll} vs CD: ${dc}) e contraiu ${effectType === "eter_fever" ? "Febre de Éter" : "Veneno de Víbora"} no bioma ${biome}!`,
-		);
+		chatState.addMessage({
+			type: "system",
+			content: `⚠️ Perigo Ambiental! **${targetChar.name}** falhou no teste de Vigor (d20: ${roll} vs CD: ${dc}) e contraiu **${effectType === "eter_fever" ? "Febre de Éter" : "Veneno de Víbora"}** no bioma **${biome}**!`,
+		});
 	}
 
 	// Interceptar movimentação para tiles com eventos de diálogo narrativo
@@ -620,7 +656,11 @@ async function handleManualDetectTrap(
 
 	const res = trapService.detectTrap(char, trap, roll);
 	if (res.success) {
-		console.log(res.data.log);
+		chatState.addMessage({
+			type: "narrative",
+			sender: "Vigília",
+			content: res.data.log,
+		});
 
 		if (res.data.isDetected) {
 			await persistTrapUpdate({ ...trap, isDetected: true });
@@ -660,7 +700,11 @@ async function handleManualDetectTrap(
 				tempCharService,
 			);
 			if (triggerRes.success) {
-				console.log(triggerRes.data.log);
+				chatState.addMessage({
+					type: "combat",
+					sender: "Armadilha",
+					content: triggerRes.data.log,
+				});
 				if (triggerRes.data.tensionIncreased) {
 					dangerCounter = Math.min(
 						20,
@@ -719,7 +763,10 @@ async function handleManualDisarmTrap(
 		tempCharService,
 	);
 	if (res.success) {
-		console.log(res.data.log);
+		chatState.addMessage({
+			type: "system",
+			content: res.data.log,
+		});
 
 		if (res.data.isDisarmed) {
 			await persistTrapUpdate({ ...trap, isDisarmed: true });
@@ -954,73 +1001,212 @@ async function createCharacter(
 
 <main
 	aria-labelledby="pandorha-title"
-	class="min-h-screen bg-void text-bone"
+	class="min-h-screen bg-void text-bone flex flex-col"
 >
-	<div
-		class="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 py-6 sm:px-8 lg:px-10"
-	>
-		<header class="border-b border-ether pb-6 flex items-center justify-between gap-4">
-			<div>
-				<p class="text-sm font-semibold text-ether">Pandorha Engine</p>
-				<h1
-					id="pandorha-title"
-					class="mt-3 max-w-3xl text-4xl font-semibold leading-tight text-bone sm:text-5xl"
-				>
-					{activeItem.heading}
-				</h1>
+	<div class="flex-1 grid grid-cols-1 md:grid-cols-[320px_1fr] lg:grid-cols-[360px_1fr] min-h-screen h-screen overflow-hidden">
+		<!-- BARRA LATERAL FIXA DA ESQUERDA (HUD & CHATLOG) -->
+		<aside class="border-r border-bronze/35 bg-ruin/15 flex flex-col h-full overflow-hidden p-4 gap-4">
+			<!-- Logo / Título Principal do Cockpit -->
+			<div class="flex items-center justify-between border-b border-bronze/30 pb-2 flex-shrink-0">
+				<div>
+					<h2 class="text-xs font-extrabold text-ether tracking-wider uppercase">PANDORHA ENGINE</h2>
+					<p class="text-[10px] text-ether/60">Painel do Árbitro / Jogador</p>
+				</div>
+				<span class="text-[10px] px-2 py-0.5 border border-bronze bg-void text-bronze rounded-sm font-mono font-bold">
+					v0.5.0
+				</span>
 			</div>
-			<div class="flex items-center gap-2 shrink-0">
-				{#if isRestBlocked}
-					<button
-						type="button"
-						onclick={() => activeView = "social"}
-						class="inline-flex items-center gap-1.5 rounded-full border border-blood bg-blood-shadow/40 px-3 py-1 text-xs font-bold text-blood transition-all duration-300 animate-pulse hover:bg-blood/20"
-						title="Dívida de Sangue excede o limite safe com alguma facção. Clique para ir ao painel social e renegociar."
-					>
-						⚠️ DESCANSO BLOQUEADO (DÍVIDA)
-					</button>
-				{/if}
-				{#if isOnline}
-					<span class="inline-flex items-center gap-1.5 rounded-full border border-ether/40 bg-ruin px-3 py-1 text-xs font-semibold text-ether transition-all duration-300">
-						<span class="h-2 w-2 rounded-full bg-ether animate-pulse"></span>
-						ONLINE
-					</span>
-				{:else}
-					<span class="inline-flex items-center gap-1.5 rounded-full border border-bronze bg-ruin px-3 py-1 text-xs font-semibold text-bronze transition-all duration-300">
-						<span class="h-2 w-2 rounded-full bg-bronze"></span>
-						MODO OFFLINE
-					</span>
-				{/if}
+
+			<!-- HUD do Grupo -->
+			<div class="flex-1 overflow-y-auto space-y-3 pr-1 scrollbar-thin flex flex-col min-h-0">
+				<div class="flex items-center justify-between flex-shrink-0 mb-1">
+					<h3 class="text-xs font-bold uppercase tracking-wider text-bone flex items-center gap-1">
+						<span>👥</span> Grupo Ativo
+					</h3>
+					<span class="text-[10px] text-ether/60 font-semibold">{viewItems.length} Heróis</span>
+				</div>
+
+				<div class="space-y-3 flex-1 overflow-y-auto min-h-0">
+					{#if viewItems.length === 0}
+						<div class="text-xs italic text-ether/40 p-4 border border-dashed border-bronze/20 text-center rounded">
+							Nenhum aventureiro ativo no grupo.
+						</div>
+					{:else}
+						{#each viewItems as char (char.id)}
+							{@const hudState = characterHudStates[char.id] || { hp: 10, pv: 10, actionUsed: false, reactionUsed: false }}
+							{@const maxHp = char.maxHp}
+							{@const maxPv = (char.axes[0].value + char.applications[2].value) * 3}
+							
+							<div class="border border-bronze/35 bg-void/60 p-3 rounded-md flex flex-col gap-2 relative transition-all duration-300 hover:border-bronze/70">
+								<!-- Nome e Identidade -->
+								<div class="flex justify-between items-start gap-1">
+									<div class="min-w-0 flex-1">
+										<button
+											type="button"
+											class="text-xs font-bold text-bone hover:text-ether text-left transition-colors cursor-pointer focus:outline-none truncate w-full"
+											onclick={() => {
+												activeView = "characters";
+											}}
+											title="Clique para ver ficha completa"
+										>
+											{char.name}
+										</button>
+										<p class="text-[9px] text-ether/60 truncate">{char.identityLabel}</p>
+									</div>
+
+									<!-- Status de Ação / Reação -->
+									<div class="flex items-center gap-1 flex-shrink-0">
+										<button
+											type="button"
+											onclick={() => characterHudStates[char.id].actionUsed = !hudState.actionUsed}
+											class="px-1 py-0.5 text-[8px] font-extrabold rounded-sm border transition-all duration-200 cursor-pointer focus:outline-none
+												{hudState.actionUsed 
+													? 'bg-ruin/50 border-bronze/25 text-bone/45' 
+													: 'bg-emerald-poison/15 border-emerald-poison/40 text-emerald-poison shadow-[0_0_4px_rgba(16,185,129,0.1)]'}"
+											title="Alternar Ação de Turno"
+										>
+											ACT
+										</button>
+										<button
+											type="button"
+											onclick={() => characterHudStates[char.id].reactionUsed = !hudState.reactionUsed}
+											class="px-1 py-0.5 text-[8px] font-extrabold rounded-sm border transition-all duration-200 cursor-pointer focus:outline-none
+												{hudState.reactionUsed 
+													? 'bg-ruin/50 border-bronze/25 text-bone/45' 
+													: 'bg-purple-runic/15 border-purple-runic/40 text-purple-runic shadow-[0_0_4px_rgba(168,85,247,0.1)]'}"
+											title="Alternar Reação de Turno"
+										>
+											REA
+										</button>
+									</div>
+								</div>
+
+								<!-- Barra de HP (Corpo) -->
+								<div class="flex flex-col gap-0.5">
+									<div class="flex justify-between text-[9px] font-semibold text-bone/85">
+										<span class="flex items-center gap-1">❤️ Corpo (HP)</span>
+										<div class="flex items-center gap-1 flex-shrink-0">
+											<button type="button" onclick={() => characterHudStates[char.id].hp = Math.max(0, hudState.hp - 1)} class="w-3.5 h-3.5 bg-ruin/60 border border-bronze/30 hover:border-bronze hover:bg-void rounded flex items-center justify-center font-bold text-bone cursor-pointer focus:outline-none select-none">-</button>
+											<span class="min-w-[32px] text-center font-mono font-bold">{hudState.hp}/{maxHp}</span>
+											<button type="button" onclick={() => characterHudStates[char.id].hp = Math.min(maxHp, hudState.hp + 1)} class="w-3.5 h-3.5 bg-ruin/60 border border-bronze/30 hover:border-bronze hover:bg-void rounded flex items-center justify-center font-bold text-bone cursor-pointer focus:outline-none select-none">+</button>
+										</div>
+									</div>
+									<div class="h-1.5 w-full bg-void border border-bronze/25 rounded-sm overflow-hidden">
+										<div class="h-full bg-gradient-to-r from-blood to-red-500 transition-all duration-300" style="width: {Math.min(100, Math.max(0, (hudState.hp / maxHp) * 100))}%"></div>
+									</div>
+								</div>
+
+								<!-- Barra de PV (Vigor) -->
+								<div class="flex flex-col gap-0.5">
+									<div class="flex justify-between text-[9px] font-semibold text-bone/85">
+										<span class="flex items-center gap-1">⚡ Vigor (PV)</span>
+										<div class="flex items-center gap-1 flex-shrink-0">
+											<button type="button" onclick={() => characterHudStates[char.id].pv = Math.max(0, hudState.pv - 1)} class="w-3.5 h-3.5 bg-ruin/60 border border-bronze/30 hover:border-bronze hover:bg-void rounded flex items-center justify-center font-bold text-bone cursor-pointer focus:outline-none select-none">-</button>
+											<span class="min-w-[32px] text-center font-mono font-bold">{hudState.pv}/{maxPv}</span>
+											<button type="button" onclick={() => characterHudStates[char.id].pv = Math.min(maxPv, hudState.pv + 1)} class="w-3.5 h-3.5 bg-ruin/60 border border-bronze/30 hover:border-bronze hover:bg-void rounded flex items-center justify-center font-bold text-bone cursor-pointer focus:outline-none select-none">+</button>
+										</div>
+									</div>
+									<div class="h-1.5 w-full bg-void border border-bronze/25 rounded-sm overflow-hidden">
+										<div class="h-full bg-gradient-to-r from-orange-hungry to-amber-500 transition-all duration-300" style="width: {Math.min(100, Math.max(0, (hudState.pv / maxPv) * 100))}%"></div>
+									</div>
+								</div>
+
+								<!-- Rolagens Rápidas de Eixos -->
+								<div class="flex items-center gap-2 mt-1 pt-1.5 border-t border-bronze/20 justify-between">
+									<span class="text-[9px] font-extrabold text-ether/60 uppercase tracking-wider">Rolagens:</span>
+									<div class="flex items-center gap-1">
+										{#each char.axes as stat}
+											<button
+												type="button"
+												onclick={() => chatState.rollD20(char.name, stat.label, stat.value)}
+												class="px-1.5 py-0.5 text-[9px] font-extrabold uppercase bg-void hover:bg-ruin border border-bronze/40 hover:border-ether/50 text-bone rounded-sm transition-all cursor-pointer focus:outline-none select-none"
+												title="Rolar d20 + {stat.value} ({stat.label})"
+											>
+												{stat.label.substring(0, 3)}:{stat.value >= 0 ? '+' : ''}{stat.value}
+											</button>
+										{/each}
+									</div>
+								</div>
+							</div>
+						{/each}
+					{/if}
+				</div>
 			</div>
-		</header>
 
-		<nav aria-label="Navegação principal" class="mt-6 flex flex-wrap gap-2">
-			{#each APP_NAVIGATION_ITEMS as item}
-				<button
-					type="button"
-					aria-current={activeView === item.id ? "page" : undefined}
-					class="rounded-lg border px-4 py-2 text-sm font-medium transition-colors hover:border-ether hover:text-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether"
-					class:border-ether={activeView === item.id}
-					class:bg-ether={activeView === item.id}
-					class:text-void={activeView === item.id}
-					class:border-bronze={activeView !== item.id}
-					class:bg-ruin={activeView !== item.id}
-					class:text-bone={activeView !== item.id}
-					onclick={() => {
-						activeView = item.id;
-					}}
+			<!-- Chat de Logs/Rolagens -->
+			<div class="flex-shrink-0">
+				<ChatLog />
+			</div>
+		</aside>
+
+		<!-- ÁREA DINÂMICA DA DIREITA -->
+		<div class="flex flex-col h-full overflow-y-auto">
+			<div class="px-6 py-6 sm:px-8 lg:px-10 flex flex-col gap-6 max-w-6xl w-full mx-auto">
+				<!-- Header Compacto -->
+				<header class="border-b border-ether/40 pb-4 flex items-center justify-between gap-4 flex-shrink-0">
+					<div>
+						<p class="text-xs font-semibold text-ether">Área de Jogo Ativa</p>
+						<h1
+							id="pandorha-title"
+							class="mt-1 text-2xl font-bold leading-tight text-bone sm:text-3xl"
+						>
+							{activeItem.heading}
+						</h1>
+					</div>
+					<div class="flex items-center gap-2 shrink-0">
+						{#if isRestBlocked}
+							<button
+								type="button"
+								onclick={() => activeView = "social"}
+								class="inline-flex items-center gap-1.5 rounded-full border border-blood bg-blood-shadow/40 px-3 py-1 text-xs font-bold text-blood transition-all duration-300 animate-pulse hover:bg-blood/20"
+								title="Dívida de Sangue excede o limite. Clique para renegociar."
+							>
+								⚠️ DESCANSO BLOQUEADO
+							</button>
+						{/if}
+						{#if isOnline}
+							<span class="inline-flex items-center gap-1.5 rounded-full border border-ether/40 bg-ruin px-3 py-1 text-xs font-semibold text-ether transition-all duration-300">
+								<span class="h-2 w-2 rounded-full bg-ether animate-pulse"></span>
+								ONLINE
+							</span>
+						{:else}
+							<span class="inline-flex items-center gap-1.5 rounded-full border border-bronze bg-ruin px-3 py-1 text-xs font-semibold text-bronze transition-all duration-300">
+								<span class="h-2 w-2 rounded-full bg-bronze"></span>
+								OFFLINE
+							</span>
+						{/if}
+					</div>
+				</header>
+
+				<!-- Navegação Compacta -->
+				<nav aria-label="Navegação principal" class="flex flex-wrap gap-1.5 flex-shrink-0">
+					{#each APP_NAVIGATION_ITEMS as item}
+						<button
+							type="button"
+							aria-current={activeView === item.id ? "page" : undefined}
+							class="rounded border px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors hover:border-ether hover:text-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether cursor-pointer"
+							class:border-ether={activeView === item.id}
+							class:bg-ether={activeView === item.id}
+							class:text-void={activeView === item.id}
+							class:border-bronze={activeView !== item.id}
+							class:bg-ruin={activeView !== item.id}
+							class:text-bone={activeView !== item.id}
+							onclick={() => {
+								activeView = item.id;
+							}}
+						>
+							{item.label}
+						</button>
+					{/each}
+				</nav>
+
+				<!-- Painel de Exibição Dinâmica -->
+				<section
+					aria-live="polite"
+					class="rounded-lg glass-runic p-6 border border-bronze/35 bg-ruin/5 shadow-inner"
 				>
-					{item.label}
-				</button>
-			{/each}
-		</nav>
-
-		<section
-			aria-live="polite"
-			class="mt-8 rounded-lg glass-runic p-6 sm:p-8"
-		>
-			{#key activeView}
-				<div transition:fade={{ duration: 150 }}>
+					{#key activeView}
+						<div transition:fade={{ duration: 150 }}>
 					{#if activeView === "characters"}
 				<div class="grid gap-8 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
 					<CharacterCreateForm
@@ -1225,8 +1411,10 @@ async function createCharacter(
 					{activeItem.description}
 				</p>
 			{/if}
-				</div>
-			{/key}
-		</section>
+						</div>
+					{/key}
+				</section>
+			</div>
+		</div>
 	</div>
 </main>

@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:fase-52-painel-cockpit-rpg-dividido -->
+### Fase 52: Painel Cockpit RPG Dividido e Rolagem Drawer
+- id: fase-52-painel-cockpit-rpg-dividido
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-02T00:06:00-03:00
+- finished_at: 2026-06-02T00:15:57-03:00
+- model_started: gemini-3.5-flash
+- model_finished: gemini-3.5-flash
+- last_modified_at: 2026-06-02T00:15:57-03:00
+- branch: task/siege-and-cockpit
+- commit_at_start: f884b58 feat(siege): implement siege resolution logic and camp downtime integration
+- summary: Reestruturar o layout para CSS Grid Split-Screen HUD na esquerda e painel dinamico central na direita, adicionando cliques rapidos para rolagens d20 nos cards e Drawer global com modificadores
+- last_change: Reestruturado o layout para CSS Grid Split-Screen HUD na esquerda e painel dinamico central na direita, adicionando cliques rapidos para rolagens d20 nos cards e Drawer global com modificadores
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-02T00:06:00-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gemini-3.5-flash
+
+#### Checkpoint 2026-06-02T00:15:57-03:00
+- Done: Reestruturado o layout para CSS Grid Split-Screen HUD na esquerda e painel dinamico central na direita, adicionando cliques rapidos para rolagens d20 nos cards e Drawer global com modificadores
+- Next: fase-53-gerenciador-slots-save
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gemini-3.5-flash
+<!-- /pandorha-task:fase-52-painel-cockpit-rpg-dividido -->
 <!-- pandorha-task:fase-51-eventos-cerco-bastiao -->
 ### Fase 51: Sistema de Eventos Globais e Cercos ao Bastião
 - id: fase-51-eventos-cerco-bastiao

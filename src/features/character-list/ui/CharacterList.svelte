@@ -6,6 +6,8 @@ import type { CharacterStatusEffectRecord } from "$lib/entities/character/model/
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import type { CompanionRecord } from "$lib/entities/companions";
 import type { CharacterCraftedItemRecord } from "$lib/entities/equipment/model/craftingSchema";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { chatState } from "../../chat/model/chatState.svelte";
 import { createCharacterListView } from "../model/characterListView";
 
 type Props = {
@@ -263,8 +265,13 @@ async function handleClear(characterId: string) {
 								<p class="text-sm font-semibold text-ether">Eixos</p>
 								<div class="mt-2 grid grid-cols-3 gap-2">
 									{#each character.axes as stat}
-										<div class="border border-bronze bg-void px-3 py-2 text-center flex flex-col justify-between">
-											<p class="text-xs text-ether">{stat.label}</p>
+										<button
+											type="button"
+											onclick={() => chatState.rollD20(character.name, stat.label, stat.value)}
+											class="border border-bronze bg-void px-3 py-2 text-center flex flex-col justify-between w-full hover:bg-ruin/50 hover:border-ether/60 transition-all duration-200 cursor-pointer rounded-sm group focus:outline-none focus:border-ether"
+											title="Clique para rolar {stat.label} com d20"
+										>
+											<p class="text-xs text-ether group-hover:text-bone transition-colors">{stat.label}</p>
 											<p 
 												class="mt-1 text-lg font-semibold animate-transition duration-200"
 												class:text-blood={stat.baseValue !== undefined}
@@ -275,7 +282,7 @@ async function handleClear(characterId: string) {
 													<span class="text-[10px] text-ether/60 line-through font-normal block">({stat.baseValue} base)</span>
 												{/if}
 											</p>
-										</div>
+										</button>
 									{/each}
 								</div>
 							</div>
@@ -284,8 +291,13 @@ async function handleClear(characterId: string) {
 								<p class="text-sm font-semibold text-ether">Aplicações</p>
 								<div class="mt-2 grid grid-cols-3 gap-2">
 									{#each character.applications as stat}
-										<div class="border border-bronze bg-void px-3 py-2 text-center flex flex-col justify-between">
-											<p class="text-xs text-ether">{stat.label}</p>
+										<button
+											type="button"
+											onclick={() => chatState.rollD20(character.name, stat.label, stat.value)}
+											class="border border-bronze bg-void px-3 py-2 text-center flex flex-col justify-between w-full hover:bg-ruin/50 hover:border-ether/60 transition-all duration-200 cursor-pointer rounded-sm group focus:outline-none focus:border-ether"
+											title="Clique para rolar {stat.label} com d20"
+										>
+											<p class="text-xs text-ether group-hover:text-bone transition-colors">{stat.label}</p>
 											<p 
 												class="mt-1 text-lg font-semibold animate-transition duration-200"
 												class:text-blood={stat.baseValue !== undefined}
@@ -296,7 +308,7 @@ async function handleClear(characterId: string) {
 													<span class="text-[10px] text-ether/60 line-through font-normal block">({stat.baseValue} base)</span>
 												{/if}
 											</p>
-										</div>
+										</button>
 									{/each}
 								</div>
 							</div>
