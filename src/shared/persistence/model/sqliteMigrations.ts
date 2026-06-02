@@ -17,6 +17,7 @@ import regionalCampMigrationSql from "../../../../drizzle/0015_gray_texas_twiste
 import mercenaryMigrationSql from "../../../../drizzle/0016_spotty_shiver_man.sql?raw";
 import espionageMigrationSql from "../../../../drizzle/0017_dark_richard_fisk.sql?raw";
 import dungeonMigrationSql from "../../../../drizzle/0018_condemned_menace.sql?raw";
+import siegeMigrationSql from "../../../../drizzle/0019_tan_roughhouse.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -95,5 +96,9 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0018_condemned_menace",
 		sql: dungeonMigrationSql,
+	},
+	{
+		id: "0019_tan_roughhouse",
+		sql: siegeMigrationSql,
 	},
 ];

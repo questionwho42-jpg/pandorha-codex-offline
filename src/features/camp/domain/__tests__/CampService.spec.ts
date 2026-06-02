@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { fail } from "$lib/shared/lib/result";
+import type { DiceService } from "$lib/shared/dice/domain/DiceService";
+import { fail, ok } from "$lib/shared/lib/result";
 import { InMemoryCampRepository } from "../../../../entities/camp/infrastructure/InMemoryCampRepository";
 import { CampService } from "../CampService";
 import {
@@ -448,5 +449,159 @@ describe("Camp Recovery Decorators", () => {
 			new AbrigoTermicoDecorator(new StandardRecovery()),
 		);
 		expect(recovery.calculate(100)).toBe(131.25);
+	});
+});
+
+import { SiegeService } from "../../../../entities/siege/domain/SiegeService";
+import { InMemorySiegeRepository } from "../../../../entities/siege/infrastructure/InMemorySiegeRepository";
+
+const fakeDiceService = {
+	rollDie: () =>
+		ok({
+			naturalRoll: 10,
+			sides: 20,
+			isNaturalCritical: false,
+			isNaturalFailure: false,
+			auditEntry: {
+				rollId: "roll-123",
+				reason: "Test",
+				sides: 20,
+				naturalRoll: 10,
+				createdAt: "2026-06-02T12:00:00Z",
+			},
+		}),
+} as unknown as DiceService;
+
+describe("CampService Siege Integration", () => {
+	let repository: InMemoryCampRepository;
+	let siegeRepo: InMemorySiegeRepository;
+	let siegeService: SiegeService;
+
+	beforeEach(() => {
+		repository = new InMemoryCampRepository();
+		siegeRepo = new InMemorySiegeRepository();
+		siegeService = new SiegeService(siegeRepo, fakeDiceService);
+	});
+
+	it("should fail if siegeService is not injected in CampService", async () => {
+		const serviceWithoutSiege = new CampService(repository);
+		const result = await serviceWithoutSiege.processSiegeAtCampStart({
+			sessionId: "camp-1",
+			campaignId: "camp-1",
+			bastionId: "bastion-1",
+			infamyValue: 0,
+			defenseRollBonus: 0,
+			requestedAt: "2026-06-02T12:00:00Z",
+		});
+
+		expect(result.success).toBe(false);
+		if (!result.success) {
+			expect(result.error.code).toBe("CAMP_REPOSITORY_WRITE_FAILED");
+			expect(result.error.message).toContain("Serviço de cerco não injetado");
+		}
+	});
+
+	it("should successfully process siege at camp start and apply +5 danger penalty if siege starts", async () => {
+		const serviceWithSiege = new CampService(repository, siegeService);
+
+		// Criar sessão de acampamento inicial
+		await serviceWithSiege.createSession("camp-siege-test", { totalTime: 12 });
+
+		// Infâmia extrema atrai cerco. Deve iniciar um cerco e somar +5 de perigo ao acampamento.
+		const result = await serviceWithSiege.processSiegeAtCampStart({
+			sessionId: "camp-siege-test",
+			campaignId: "campaign-test",
+			bastionId: "bastion-test",
+			infamyValue: -15, // <= -10 atrai cerco
+			defenseRollBonus: 2,
+			requestedAt: "2026-06-02T12:00:00Z",
+		});
+
+		expect(result.success).toBe(true);
+		if (result.success) {
+			expect(result.data.status).toBe("siege_started");
+		}
+
+		// Validar que o dangerCounter da sessão de acampamento foi incrementado em +5
+		const sessionRes = await repository.findById("camp-siege-test");
+		expect(sessionRes.success).toBe(true);
+		if (sessionRes.success) {
+			expect(sessionRes.data.dangerCounter).toBe(5);
+		}
+	});
+
+	it("should return failure if resolveSiegeAtCamp returns an error", async () => {
+		const serviceWithSiege = new CampService(repository, siegeService);
+		siegeService.resolveSiegeAtCamp = async () =>
+			fail({
+				code: "SIEGE_RESOLUTION_FAILED",
+				message: "Mocked siege failure",
+			});
+
+		const result = await serviceWithSiege.processSiegeAtCampStart({
+			sessionId: "camp-siege-test",
+			campaignId: "campaign-test",
+			bastionId: "bastion-test",
+			infamyValue: -15,
+			defenseRollBonus: 2,
+			requestedAt: "2026-06-02T12:00:00Z",
+		});
+
+		expect(result.success).toBe(false);
+		if (!result.success) {
+			expect(result.error.code).toBe("CAMP_REPOSITORY_WRITE_FAILED");
+			expect(result.error.message).toContain("Erro ao processar cerco");
+		}
+	});
+
+	it("should handle failure of camp repository findById during siege perigo penalty", async () => {
+		const serviceWithSiege = new CampService(repository, siegeService);
+		await serviceWithSiege.createSession("camp-siege-test", { totalTime: 12 });
+
+		repository.findById = async () =>
+			fail({
+				code: "CAMP_SESSION_NOT_FOUND",
+				message: "Mocked db failure",
+			});
+
+		const result = await serviceWithSiege.processSiegeAtCampStart({
+			sessionId: "camp-siege-test",
+			campaignId: "campaign-test",
+			bastionId: "bastion-test",
+			infamyValue: -15,
+			defenseRollBonus: 2,
+			requestedAt: "2026-06-02T12:00:00Z",
+		});
+
+		// A falha ao ler a sessão de acampamento para aplicar perigo não impede o processamento com sucesso
+		expect(result.success).toBe(true);
+	});
+
+	it("should not apply +5 danger penalty if siege does not start or continue", async () => {
+		const serviceWithSiege = new CampService(repository, siegeService);
+		await serviceWithSiege.createSession("camp-siege-test-no-penalty", {
+			totalTime: 12,
+		});
+
+		// Sem infâmia, status "no_siege". Não deve aplicar perigo.
+		const result = await serviceWithSiege.processSiegeAtCampStart({
+			sessionId: "camp-siege-test-no-penalty",
+			campaignId: "campaign-test",
+			bastionId: "bastion-test",
+			infamyValue: 0,
+			defenseRollBonus: 2,
+			requestedAt: "2026-06-02T12:00:00Z",
+		});
+
+		expect(result.success).toBe(true);
+		if (result.success) {
+			expect(result.data.status).toBe("no_siege");
+		}
+
+		const sessionRes = await repository.findById("camp-siege-test-no-penalty");
+		expect(sessionRes.success).toBe(true);
+		if (sessionRes.success) {
+			expect(sessionRes.data.dangerCounter).toBe(0); // Permanece 0
+		}
 	});
 });

@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:fase-51-eventos-cerco-bastiao -->
+### Fase 51: Sistema de Eventos Globais e Cercos ao Bastião
+- id: fase-51-eventos-cerco-bastiao
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-01T23:17:05-03:00
+- finished_at: 2026-06-01T23:35:37-03:00
+- model_started: gemini
+- model_finished: gemini-3.5-flash
+- last_modified_at: 2026-06-01T23:35:37-03:00
+- branch: task/siege-and-cockpit
+- commit_at_start: 4280c13 docs: document architectural decisions and update change-ledger
+- summary: Implementação do siegeSchema, SiegeService para resolução de cercos reativos ao acampamento e infâmia de facções
+- last_change: Implementacao da logica de cercos, eventos de bastiao, integracao de downtime com descanso no CampService e cobertura de testes 100% verde
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-01T23:17:05-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gemini
+
+#### Checkpoint 2026-06-01T23:35:37-03:00
+- Done: Implementacao da logica de cercos, eventos de bastiao, integracao de downtime com descanso no CampService e cobertura de testes 100% verde
+- Next: fase-52-painel-cockpit-rpg-dividido
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gemini-3.5-flash
+<!-- /pandorha-task:fase-51-eventos-cerco-bastiao -->
 <!-- pandorha-task:fases-46-e-47-espionagem-e-pesquisa -->
 ### Fases 46 & 47: Espionagem/Furtividade e Pesquisa/Criptografia
 - id: fases-46-e-47-espionagem-e-pesquisa

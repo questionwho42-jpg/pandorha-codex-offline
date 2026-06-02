@@ -5,6 +5,7 @@ import type {
 	NewCampSessionRecord,
 } from "../../../entities/camp/model/campSchema";
 import type { CampRepositoryFailure } from "../../../entities/camp/model/campTypes";
+import type { SiegeService } from "../../../entities/siege/domain/SiegeService";
 import type { CampActivity, CampSessionCreateOptions } from "./types";
 
 export interface CampActivityParams {
@@ -17,7 +18,10 @@ export interface CampActivityParams {
 }
 
 export class CampService {
-	public constructor(private readonly repository: CampRepository) {}
+	public constructor(
+		private readonly repository: CampRepository,
+		private readonly siegeService?: SiegeService,
+	) {}
 
 	/**
 	 * Inicia uma nova sessão de acampamento no banco de dados.
@@ -148,7 +152,7 @@ export class CampService {
 
 			if (relogioIndex !== -1) {
 				const activeActivity = activities[relogioIndex];
-				const match = activeActivity!.id.match(regex);
+				const match = activeActivity?.id.match(regex);
 				if (match && match[1] !== undefined) {
 					current = Number.parseInt(match[1], 10);
 				}
@@ -289,5 +293,67 @@ export class CampService {
 		};
 
 		return events[eventNumber] ?? "Evento desconhecido nas sombras do ermo.";
+	}
+
+	/**
+	 * Processa o estado de cerco no início do acampamento.
+	 * Se houver cerco ativo, executa uma rodada. Se a infâmia for extrema, inicia um cerco.
+	 * Se o cerco continuar ativo ou for iniciado, penaliza o acampamento com +5 de perigo inicial.
+	 */
+	public async processSiegeAtCampStart(params: {
+		sessionId: string;
+		campaignId: string;
+		bastionId: string;
+		infamyValue: number;
+		defenseRollBonus: number;
+		requestedAt: string;
+		forcedAttackRoll?: number;
+		forcedDefenseRoll?: number;
+	}): Promise<
+		Result<
+			{
+				status:
+					| "no_siege"
+					| "siege_started"
+					| "siege_continues"
+					| "siege_resolved";
+				damageToBastion: number;
+				logMessage: string;
+			},
+			{ code: string; message: string; details?: unknown }
+		>
+	> {
+		if (!this.siegeService) {
+			return fail({
+				code: "CAMP_REPOSITORY_WRITE_FAILED",
+				message: "Serviço de cerco não injetado no acampamento.",
+			});
+		}
+
+		const result = await this.siegeService.resolveSiegeAtCamp(params);
+		if (!result.success) {
+			return fail({
+				code: "CAMP_REPOSITORY_WRITE_FAILED",
+				message: "Erro ao processar cerco no acampamento.",
+				details: result.error,
+			});
+		}
+
+		const outcome = result.data;
+
+		// Se o cerco continuar ativo ou tiver acabado de iniciar, adiciona +5 de perigo inicial devido à tensão
+		if (
+			outcome.status === "siege_continues" ||
+			outcome.status === "siege_started"
+		) {
+			const sessionRes = await this.repository.findById(params.sessionId);
+			if (sessionRes.success) {
+				const session = sessionRes.data;
+				session.dangerCounter += 5;
+				await this.repository.save(session);
+			}
+		}
+
+		return ok(outcome);
 	}
 }

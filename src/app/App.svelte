@@ -1,5 +1,6 @@
 <script lang="ts">
 import { onMount } from "svelte";
+// biome-ignore lint/correctness/noUnusedImports: used by Svelte markup
 import { fade } from "svelte/transition";
 import type {
 	CharacterCreateInput,
@@ -157,6 +158,7 @@ let activeView = $state<AppNavigationId>("home");
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let activeDialogueTreeId = $state<string | undefined>(undefined);
 let campRations = $state(3);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let guildGold = $state(1000);
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.

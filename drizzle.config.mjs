@@ -19,6 +19,7 @@ export default defineConfig({
 		"./src/entities/mercenary/model/mercenarySchema.ts",
 		"./src/entities/espionage/model/espionageSchema.ts",
 		"./src/entities/dungeon/model/dungeonSchema.ts",
+		"./src/entities/siege/model/siegeSchema.ts",
 	],
 	out: "./drizzle",
 	dialect: "sqlite",
