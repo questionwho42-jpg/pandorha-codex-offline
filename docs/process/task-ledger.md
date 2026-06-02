@@ -13,6 +13,52 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260601-222318-t89-combat-target-defenses -->
+### T89 combat target defenses
+- id: 20260601-222318-t89-combat-target-defenses
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-01T22:23:18-03:00
+- finished_at: 2026-06-01T23:08:31-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-01T23:08:31-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: 10808df chore(process): record t88 final snapshot
+- summary: Add a minimal combat target defense contract so training targets can feed fixed damage reduction and supported damage affinities into the existing DamagePipelineService, without vulnerability dice, save v6, migration, durability, proficiency, or broad UI expansion.
+- last_change: T89 concluida: alvos de treino agora carregam RD e afinidades defensivas fixas, a sessao de combate envia essas defesas para o DamagePipelineService, o fluxo renderizado Aria contra Duelista validou dano final reduzido para 4, sem vulnerabilidade +1d6, monstros oficiais, save v6, migration, durabilidade ou proficiencia.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-01T22:23:18-03:00
+- Done: task record created
+- Next: Write failing tests for training target defenses flowing into combat damage input, then implement the smallest catalog/session change.
+- Risks: quality:gate root:audit remains blocked by D01.1 dependency audit; T89 must not add vulnerability +1d6, monster rules, persistence, save v6, migration, or full equipment durability.
+- Improvements: If target defenses are reused by official monsters later, extract a shared defender-defense contract after the second consumer.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-01T22:28:20-03:00
+- Done: Implemented minimal T89 contract: training targets now expose fixed damageReduction and resistance/immunity affinities, combat session feeds those defenses into DamagePipelineService inputs, focused red-first tests pass, and combat docs/memory were updated.
+- Next: Run lint, full tests, coverage, build, quality gate, QA smokes, rendered Browser validation for the visible Duelista damage flow, then complete and commit.
+- Risks: quality:gate root:audit remains blocked by D01.1 dependency audit; T89 intentionally excludes vulnerability +1d6, monster rules, save v6, persistence, durability, proficiency, and broad UI controls.
+- Improvements: Future official monsters should reuse a lower-layer defender defense contract after a second consumer exists.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-01T22:29:37-03:00
+- Done: Implemented T89 code/docs through focused validation: target defense catalog, session damage wiring, red-first focused tests, core-conventions validation, and lint/TypeScript passed.
+- Next: When elevated execution is available again, run full test suite, coverage, build, quality gate, QA smokes, Browser validation, then complete, commit, snapshot, and qa:next-phase-readiness.
+- Risks: Full Vitest suite could not be rerun because elevated command execution was rejected by the Codex usage limit after sandbox blocked vitest.config.mjs; changes remain uncommitted.
+- Improvements: Resume with npm.cmd test under elevated execution before making further code changes.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-01T23:08:31-03:00
+- Done: T89 concluida: alvos de treino agora carregam RD e afinidades defensivas fixas, a sessao de combate envia essas defesas para o DamagePipelineService, o fluxo renderizado Aria contra Duelista validou dano final reduzido para 4, sem vulnerabilidade +1d6, monstros oficiais, save v6, migration, durabilidade ou proficiencia.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260601-222318-t89-combat-target-defenses -->
 <!-- pandorha-task:20260601-215735-t88-weapon-dice-roll-contract -->
 ### T88 weapon dice roll contract
 - id: 20260601-215735-t88-weapon-dice-roll-contract
@@ -3941,6 +3987,160 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-01T23:08:03-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 10808df chore(process): record t88 final snapshot
+- changed_files_count: 12
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatTrainingTargetCatalog.ts
+- output/
+- src/features/combat-encounter/__tests__/combatTrainingTargetCatalog.spec.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T23:07:53-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 10808df chore(process): record t88 final snapshot
+- changed_files_count: 12
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatTrainingTargetCatalog.ts
+- output/
+- src/features/combat-encounter/__tests__/combatTrainingTargetCatalog.spec.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T23:07:45-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 10808df chore(process): record t88 final snapshot
+- changed_files_count: 12
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatTrainingTargetCatalog.ts
+- output/
+- src/features/combat-encounter/__tests__/combatTrainingTargetCatalog.spec.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T23:07:32-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 10808df chore(process): record t88 final snapshot
+- changed_files_count: 12
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatTrainingTargetCatalog.ts
+- output/
+- src/features/combat-encounter/__tests__/combatTrainingTargetCatalog.spec.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T23:07:25-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 10808df chore(process): record t88 final snapshot
+- changed_files_count: 12
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatTrainingTargetCatalog.ts
+- output/
+- src/features/combat-encounter/__tests__/combatTrainingTargetCatalog.spec.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T23:07:18-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 10808df chore(process): record t88 final snapshot
+- changed_files_count: 12
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatTrainingTargetCatalog.ts
+- output/
+- src/features/combat-encounter/__tests__/combatTrainingTargetCatalog.spec.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T23:07:10-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: 10808df chore(process): record t88 final snapshot
+- changed_files_count: 12
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatTrainingTargetCatalog.ts
+- output/
+- src/features/combat-encounter/__tests__/combatTrainingTargetCatalog.spec.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-01T22:18:08-03:00 - post-commit
 - branch: task/t73-t76-npc-relationship-save-ui
 - commit: 129c341 chore(process): record t88 final snapshot

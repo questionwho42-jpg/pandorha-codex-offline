@@ -139,6 +139,64 @@ describe("createCombatEncounterSession", () => {
 			sides: 8,
 		});
 	});
+
+	it("feeds selected training target defenses into the damage pipeline", async () => {
+		const session = createCombatEncounterSession();
+		const attacker = createCombatAttackerOptions([
+			createCharacterRecord({ physical: 3 }),
+		])[1];
+		const target = session.trainingTargets.find(
+			(trainingTarget) => trainingTarget.id === "training-duelist",
+		);
+
+		expect(attacker).toBeDefined();
+		expect(target).toBeDefined();
+		if (!attacker || !target) {
+			return;
+		}
+
+		const loadout = await session.buildEquipmentLoadout({
+			mainHandWeaponId: session.defaultWeaponId,
+		});
+
+		expect(loadout.success).toBe(true);
+		if (!loadout.success || loadout.data.activeWeaponProfile === null) {
+			return;
+		}
+
+		const profile = createCombatTrainingAttackProfile({
+			attacker,
+			characters: [createCharacterRecord({ physical: 3 })],
+			equippedWeapon: loadout.data.activeWeaponProfile,
+		});
+		const attackInput = session.createAttackInput(
+			attacker,
+			target,
+			target.currentHitPoints,
+			profile,
+		);
+
+		expect(attackInput.damage.damageReduction).toBe(1);
+		expect(attackInput.damage.affinities).toEqual([
+			{ damageType: "physical", kind: "resistance" },
+		]);
+
+		const state = session.service.resolveAttack(attackInput);
+
+		expect(state.success).toBe(true);
+		if (!state.success) {
+			return;
+		}
+		expect(state.data.damage?.breakdown).toMatchObject({
+			baseDiceTotal: 4,
+			damageReduction: 1,
+			matrixValue: 3,
+		});
+		expect(state.data.damage?.afterReduction).toBe(6);
+		expect(state.data.damage?.appliedAffinities).toEqual(["resistance"]);
+		expect(state.data.damage?.finalDamage).toBe(3);
+		expect(state.data.target.currentHitPoints).toBe(11);
+	});
 });
 
 function createCharacterRecord(

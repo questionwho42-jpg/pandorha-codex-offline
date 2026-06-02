@@ -13,8 +13,9 @@
 - T85.1 adds a domain hook for real weapon attack profiles without wiring UI, loadout persistence, or durability wear.
 - T87 wires a local equipped-weapon selector into the combat tab for session characters, defaulting to Espada Longa while Aria remains fixed.
 - T88 rolls supported weapon damage dice through `DiceService` and records an auditable weapon-damage event before the damage pipeline.
+- T89 feeds fixed training-target defenses into the damage pipeline, covering RD, physical resistance, and physical immunity without monster data or vulnerability dice.
 - The next combat step should document the user flow before the final vertical-slice review.
-- Add RD, affinity, proficiency, and durability wear only after the audited weapon roll contract remains stable.
+- Add vulnerability `+1d6`, proficiency, and durability wear only after the audited weapon roll and target-defense contracts remain stable.
 - Add real initiative only after equipment selection and fixed turn order remain stable in browser tests.
 - Add typed combat commands for attacks, reactions, spell casts, and conditions.
 - Persist combat ledgers later through Worker/SQLite after the in-memory model is stable.

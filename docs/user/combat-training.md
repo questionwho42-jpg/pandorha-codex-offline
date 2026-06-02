@@ -12,6 +12,7 @@ Este guia mostra como testar a vertical slice T22 de combate no navegador. O obj
 - `Aria usa perfil fixo de treino`, mesmo quando o seletor mostra uma arma da sessao.
 - A tela mostra `Rodada`, `Turno de ...` e `Acoes 3/3`.
 - `Atacar` gasta 1 acao e registra resultado, rolagem de dado da arma quando houver, dano, HP restante e log.
+- Alvos de treino podem aplicar RD e afinidades defensivas ja suportadas pelo pipeline de dano.
 - O turno do alvo de treino existe, mas ele nao tem IA: ao encerrar o turno dele, o log informa que ele manteve posicao.
 - Quando o alvo chega a 0 HP, a tela mostra `Alvo derrotado`, bloqueia novos ataques e mantem `Reiniciar encontro` disponivel.
 
@@ -63,16 +64,18 @@ Depois:
 10. Confirme que o log usa o nome `Nara`.
 11. Confirme que o log registra a rolagem auditavel da arma, por exemplo `Adaga rolou ... em 1d4`.
 12. Confirme que o dano final usa a arma selecionada e a Matriz do personagem.
+13. Troque o alvo para `Duelista de Treino`, mantenha `Espada Longa` e clique em `Atacar`.
+14. Confirme que o dano final e reduzido pela defesa do alvo: a rolagem deterministica gera dano base 7, RD 1 reduz para 6 e resistencia fisica reduz para 3.
 
 ## Escolhendo Alvos
 
 A aba `Combate` tem tres alvos de treino:
 
-| Alvo | CA | HP | Uso |
-| :--- | :-: | :-: | :--- |
-| Guarda de Treino | 15 | 18 | Alvo equilibrado para validar ataque e derrota rapida. |
-| Baluarte de Treino | 20 | 24 | Alvo resistente para validar falha contra CA alta. |
-| Duelista de Treino | 17 | 14 | Alvo agil para validar troca de alvo e reset. |
+| Alvo | CA | HP | Defesa | Uso |
+| :--- | :-: | :-: | :--- | :--- |
+| Guarda de Treino | 15 | 18 | Sem RD ou afinidade. | Alvo equilibrado para validar ataque e derrota rapida. |
+| Baluarte de Treino | 20 | 24 | RD 2 e imunidade fisica de treino. | Alvo resistente para validar falha contra CA alta. |
+| Duelista de Treino | 17 | 14 | RD 1 e resistencia fisica. | Alvo agil para validar defesa leve, troca de alvo e reset. |
 
 Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 
@@ -102,7 +105,8 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - Recarregar a pagina reinicia o encontro e remove personagens criados na sessao.
 - O HP real do personagem ainda nao e usado.
 - A arma selecionada entra apenas como loadout local e dado de dano auditavel; ela nao e salva, nao gasta durabilidade e ainda nao usa proficiencia.
-- Armaduras, escudos, talentos, magia e condicoes ainda nao entram no calculo.
+- As defesas dos alvos de treino entram como RD e afinidades fixas; vulnerabilidade com `+1d6` auditavel ainda nao entra.
+- Armaduras e escudos do personagem, talentos, magia e condicoes ainda nao entram no calculo.
 - A iniciativa ainda e fixa: atacante primeiro, alvo depois.
 - O alvo de treino nao ataca, nao causa dano e nao possui IA.
 - Os alvos sao ficticios para teste; ainda nao sao monstros oficiais.

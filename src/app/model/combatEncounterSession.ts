@@ -91,9 +91,9 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 				baseDiceTotal: attackProfile.baseDiceTotal,
 				matrixValue: attackProfile.matrixValue,
 				extraModifierTotal: attackProfile.extraModifierTotal,
-				damageReduction: attackProfile.damageReduction,
+				damageReduction: attackProfile.damageReduction + target.damageReduction,
 				vulnerabilityBonusDamage: attackProfile.vulnerabilityBonusDamage,
-				affinities: attackProfile.affinities,
+				affinities: [...attackProfile.affinities, ...target.affinities],
 			};
 
 			return {

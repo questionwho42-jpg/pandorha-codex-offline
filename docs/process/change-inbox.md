@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260601-222318-t89-combat-target-defenses -->
+### T89 combat target defenses
+- id: 20260601-222318-t89-combat-target-defenses
+- status: open
+- created_at: 2026-06-01T22:23:18-03:00
+- source: task-ledger
+- summary: Add a minimal combat target defense contract so training targets can feed fixed damage reduction and supported damage affinities into the existing DamagePipelineService, without vulnerability dice, save v6, migration, durability, proficiency, or broad UI expansion.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260601-222318-t89-combat-target-defenses -->
 <!-- pandorha-inbox:20260601-215735-t88-weapon-dice-roll-contract -->
 ### T88 weapon dice roll contract
 - id: 20260601-215735-t88-weapon-dice-roll-contract

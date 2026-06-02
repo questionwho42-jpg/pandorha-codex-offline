@@ -53,6 +53,8 @@ export type {
 export { createCombatTrainingAttackProfile } from "./model/combatTrainingAttackProfile";
 export {
 	type CombatTrainingTarget,
+	type CombatTrainingTargetDefenseAffinity,
+	type CombatTrainingTargetDefenseAffinityKind,
 	type CombatTrainingTargetId,
 	DEFAULT_TRAINING_TARGET,
 	findTrainingTargetById,

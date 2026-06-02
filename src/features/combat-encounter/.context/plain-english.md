@@ -32,6 +32,10 @@ Na T88, quando um personagem da sessao ataca com uma arma oficial, o dado da arm
 
 O calculo de dano continua separado: primeiro o dado da arma e rolado, depois o servico de dano recebe esse numero junto com a Matriz e os modificadores. Armadura, RD, afinidade, proficiencia e desgaste ainda ficam para fases futuras.
 
+Na T89, alguns alvos de treino passaram a ter defesas simples. O Guarda de Treino continua sem defesa especial, o Duelista reduz dano fisico com RD e resistencia, e o Baluarte carrega uma imunidade fisica de treino para validar o contrato.
+
+Essas defesas nao transformam os alvos em monstros oficiais. Elas apenas mostram que o combate consegue mandar RD e afinidades para o servico de dano que ja existia.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.
@@ -39,3 +43,4 @@ O calculo de dano continua separado: primeiro o dado da arma e rolado, depois o 
 - Criar combate completo com turno, iniciativa e grid agora: seria mais próximo do jogo final, mas teria risco alto demais para uma única tarefa.
 - Salvar a arma equipada agora: mais conveniente, mas exigiria decisao de save version antes de o fluxo visual provar o contrato.
 - Fazer o servico de dano rolar o dado internamente: reduziria uma chamada no combate, mas esconderia a auditoria de dados dentro do pipeline de dano.
+- Adicionar vulnerabilidade agora: mostraria mais uma regra oficial, mas exigiria rolar `+1d6` com auditoria e aumentaria o escopo da fase.

@@ -1,6 +1,18 @@
+import type { DamageAffinity, DamageAffinityKind } from "$lib/shared/damage";
 import type { CombatEncounterTargetState } from "./combatEncounterTypes";
 
+export type CombatTrainingTargetDefenseAffinityKind = Extract<
+	DamageAffinityKind,
+	"immunity" | "resistance"
+>;
+
+export interface CombatTrainingTargetDefenseAffinity extends DamageAffinity {
+	readonly kind: CombatTrainingTargetDefenseAffinityKind;
+}
+
 export interface CombatTrainingTarget extends CombatEncounterTargetState {
+	readonly affinities: readonly CombatTrainingTargetDefenseAffinity[];
+	readonly damageReduction: number;
 	readonly description: string;
 }
 
@@ -11,6 +23,8 @@ export const TRAINING_TARGETS: readonly CombatTrainingTarget[] = [
 		description: "Alvo equilibrado para validar o primeiro ataque.",
 		currentHitPoints: 18,
 		armorClass: 15,
+		damageReduction: 0,
+		affinities: [],
 	},
 	{
 		id: "training-bulwark",
@@ -18,6 +32,8 @@ export const TRAINING_TARGETS: readonly CombatTrainingTarget[] = [
 		description: "Alvo resistente para validar falhas contra CA alta.",
 		currentHitPoints: 24,
 		armorClass: 20,
+		damageReduction: 2,
+		affinities: [{ damageType: "physical", kind: "immunity" }],
 	},
 	{
 		id: "training-duelist",
@@ -25,6 +41,8 @@ export const TRAINING_TARGETS: readonly CombatTrainingTarget[] = [
 		description: "Alvo ágil para validar reset e novo ataque.",
 		currentHitPoints: 14,
 		armorClass: 17,
+		damageReduction: 1,
+		affinities: [{ damageType: "physical", kind: "resistance" }],
 	},
 ] as const;
 

@@ -94,6 +94,14 @@
 - Unsupported future expressions stay marked as `contrato pendente` instead of being silently rolled.
 - T88 does not add RD, affinity behavior, proficiency, durability wear, save v6, persistence, or new UI controls.
 
+## T89 - Combat Target Defenses
+
+- `CombatTrainingTarget` now carries fixed `damageReduction` and supported defensive `affinities` for training targets.
+- Target defenses are copied at the app/session boundary in `combatEncounterSession.createAttackInput`; `CombatEncounterService` and `DamagePipelineService` stay unchanged.
+- The training guard has no defenses, the duelist has RD 1 plus physical resistance, and the bulwark has RD 2 plus physical immunity for contract coverage.
+- T89 intentionally supports only resistance and immunity on training targets. Vulnerability remains out of scope because the official `+1d6` needs an auditable dice contract.
+- Defenses remain local training data, not monster rules, armor equipment, save data, or persistence.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`
