@@ -1,0 +1,15 @@
+# Scaling Roadmap
+
+## Next Improvements
+
+- Add optional severity levels after two or more documentation audits show repeated issue classes.
+- Add a stable machine-readable baseline file only if the team wants to distinguish accepted historical findings from new regressions.
+- Add anchor validation for local Markdown links after heading normalization is complete.
+- Add promotion ownership labels for `change-inbox.md` entries if the project starts assigning review lanes by subsystem.
+- Add a formatter bridge to `ai-docs-formatter` only after the schema becomes stricter than the current permissive JSON shape.
+
+## Boundaries
+
+- Keep the auditor deterministic and local. It should not call models, browsers, network services, or MCP servers.
+- Keep reports advisory unless the project explicitly decides which findings should block commits.
+- Keep `docs/system/` review separate from mechanical Markdown cleanup to avoid accidental rule drift.

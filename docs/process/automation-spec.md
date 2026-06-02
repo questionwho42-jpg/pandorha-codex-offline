@@ -26,6 +26,31 @@ Supported operations:
 - `snapshot`: record current git state after manual runs or commits.
 - `post-merge`: when on `main`, append a promotion summary to `docs/changelog.md`.
 
+## Documentation Audit
+
+The documentation audit command is:
+
+```powershell
+npm.cmd run docs:audit
+```
+
+It runs `scripts/audit_docs.mjs` in read-only mode and reports:
+
+- documentation inventory by area;
+- missing H1 headings;
+- broken local Markdown links;
+- missing path references;
+- possible orphan documentation files;
+- open `change-inbox.md` promotion entries classified by recommended destination.
+
+Use an explicit output path only when recording a snapshot report:
+
+```powershell
+node scripts/audit_docs.mjs --format markdown --scope all --output docs/process/documentation-audit.md
+```
+
+The report is advisory. It must not promote inbox items, update `docs/changelog.md`, or rewrite `docs/system/` rules without human approval and source-of-truth review.
+
 ## Required Checkpoint Format
 Every complex or long-running task should report:
 - Done: concrete work completed.

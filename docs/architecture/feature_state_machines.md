@@ -1,4 +1,4 @@
-⚙️ Especificação de Máquinas de Estado (FSM)
+# Especificação De Máquinas De Estado (FSM)
 
 Este documento traduz as regras mecânicas do GDD de Pandorha para fluxos lógicos determinísticos. Ele serve como prompt de contexto rígido para a geração de código, proibindo qualquer implementação que desvie das transições de estado aqui definidas.
 

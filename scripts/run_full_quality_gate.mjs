@@ -108,6 +108,16 @@ async function runRootGate() {
 }
 
 async function runAutomationGate() {
+	await runStep("automation:documentation-audit-tests", "node", [
+		"scripts/test_audit_docs.mjs",
+	]);
+	await runStep("automation:documentation-audit", "node", [
+		"scripts/audit_docs.mjs",
+		"--format",
+		"json",
+		"--scope",
+		"all",
+	]);
 	await runStep("automation:vertical-slice-smoke-tests", "node", [
 		"scripts/test_vertical_slice_smoke.mjs",
 	]);

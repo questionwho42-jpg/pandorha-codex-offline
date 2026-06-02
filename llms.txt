@@ -32,6 +32,7 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 | **Lint** | `npm run lint` | Verify architectural constraints |
 | **DB** | `npm run db:generate` | Generate Drizzle migrations |
 | **MCP** | `use mcp-sqlite-inspector` | Inspect real-time SQLite state |
+| **Docs Audit** | `npm run docs:audit` | Run read-only documentation inventory, link, heading, and promotion audit |
 | **Maintenance** | `python scripts/pandorha_process_automation.py snapshot --reason manual` | Record zero-token project state and maintenance checkpoints |
 
 ## 📜 TIER 1: ARCHITECTURE & CONSTITUTION [REF:TIER1]
@@ -42,6 +43,7 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 - [gdd.md](./docs/architecture/gdd.md): Game Design Document.
 - [feature_state_machines.md](./docs/architecture/feature_state_machines.md): Feature state machines.
 - [automation-spec.md](./docs/process/automation-spec.md): Zero-token maintenance, task ledger, inbox, and promotion protocol.
+- [documentation-audit.md](./docs/process/documentation-audit.md): Reproducible documentation audit report and promotion triage.
 - [task-ledger.md](./docs/process/task-ledger.md): Active, completed, unfinished, and snapshot records.
 - [change-inbox.md](./docs/process/change-inbox.md): Unplanned requests awaiting documentation promotion.
 

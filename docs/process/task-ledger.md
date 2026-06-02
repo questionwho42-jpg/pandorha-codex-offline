@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260601-232034-t90-documentation-audit-automation -->
+### T90 documentation audit automation
+- id: 20260601-232034-t90-documentation-audit-automation
+- status: completed
+- kind: maintenance
+- planned: no
+- started_at: 2026-06-01T23:20:34-03:00
+- finished_at: 2026-06-01T23:30:52-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-01T23:30:52-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: fd20c0d chore(process): record t89 final snapshot
+- summary: Create a reusable documentation audit automation, generate a reproducible project documentation audit report, and classify pending documentation promotion items without promoting them outside main.
+- last_change: T90 completed: reusable docs audit automation added with tests and docs:audit command; quality:automation now runs the audit; documentation-audit.md records inventory, structural findings, and 79 open promotion entries without promoting them outside main; docs/system rules were not changed.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-01T23:20:34-03:00
+- Done: task record created
+- Next: Implement audit_docs script and tests, then generate documentation-audit report and update process docs.
+- Risks: Broad documentation surface; avoid speculative docs/system changes and do not promote change-inbox items while branch is not main.
+- Improvements: Make documentation audits reproducible with a Windows-first Node command.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-01T23:30:44-03:00
+- Done: Implemented read-only documentation audit automation, tests, package command, quality:automation integration, documentation-audit report, H1 structural fixes, process docs, tooling map, llms link, and scripts memory triple.
+- Next: Complete T90, record documentation-audit snapshot, and run final status review.
+- Risks: Audit report is advisory and still lists historical missing path references and possible orphan docs; no docs/system rule promotion was performed.
+- Improvements: Future audit pass can tune accepted historical findings or add anchor validation after heading normalization.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-01T23:30:52-03:00
+- Done: T90 completed: reusable docs audit automation added with tests and docs:audit command; quality:automation now runs the audit; documentation-audit.md records inventory, structural findings, and 79 open promotion entries without promoting them outside main; docs/system rules were not changed.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260601-232034-t90-documentation-audit-automation -->
 <!-- pandorha-task:20260601-222318-t89-combat-target-defenses -->
 ### T89 combat target defenses
 - id: 20260601-222318-t89-combat-target-defenses
@@ -3987,6 +4026,126 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-02T00:21:51-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: fd20c0d chore(process): record t89 final snapshot
+- changed_files_count: 14
+#### Changed Files
+- docs/architecture/feature_state_machines.md
+- docs/conventions/tooling-relevance-map.md
+- "docs/ferramentas do usuario/prompt inicial para novas features.md"
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- llms.txt
+- package.json
+- scripts/run_full_quality_gate.mjs
+- docs/process/documentation-audit.md
+- output/
+- scripts/.context/
+- scripts/audit_docs.mjs
+- scripts/test_audit_docs.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-02T00:16:04-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: fd20c0d chore(process): record t89 final snapshot
+- changed_files_count: 14
+#### Changed Files
+- docs/architecture/feature_state_machines.md
+- docs/conventions/tooling-relevance-map.md
+- "docs/ferramentas do usuario/prompt inicial para novas features.md"
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- llms.txt
+- package.json
+- scripts/run_full_quality_gate.mjs
+- docs/process/documentation-audit.md
+- output/
+- scripts/.context/
+- scripts/audit_docs.mjs
+- scripts/test_audit_docs.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T23:35:43-03:00 - post-commit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: fd20c0d chore(process): record t89 final snapshot
+- changed_files_count: 14
+#### Changed Files
+- docs/architecture/feature_state_machines.md
+- docs/conventions/tooling-relevance-map.md
+- "docs/ferramentas do usuario/prompt inicial para novas features.md"
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- llms.txt
+- package.json
+- scripts/run_full_quality_gate.mjs
+- docs/process/documentation-audit.md
+- output/
+- scripts/.context/
+- scripts/audit_docs.mjs
+- scripts/test_audit_docs.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T23:32:35-03:00 - documentation-audit-final
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: fd20c0d chore(process): record t89 final snapshot
+- changed_files_count: 14
+#### Changed Files
+- docs/architecture/feature_state_machines.md
+- docs/conventions/tooling-relevance-map.md
+- "docs/ferramentas do usuario/prompt inicial para novas features.md"
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- llms.txt
+- package.json
+- scripts/run_full_quality_gate.mjs
+- docs/process/documentation-audit.md
+- output/
+- scripts/.context/
+- scripts/audit_docs.mjs
+- scripts/test_audit_docs.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-01T23:31:03-03:00 - documentation-audit
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit: fd20c0d chore(process): record t89 final snapshot
+- changed_files_count: 14
+#### Changed Files
+- docs/architecture/feature_state_machines.md
+- docs/conventions/tooling-relevance-map.md
+- "docs/ferramentas do usuario/prompt inicial para novas features.md"
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- llms.txt
+- package.json
+- scripts/run_full_quality_gate.mjs
+- docs/process/documentation-audit.md
+- output/
+- scripts/.context/
+- scripts/audit_docs.mjs
+- scripts/test_audit_docs.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-01T23:10:00-03:00 - post-commit
 - branch: task/t73-t76-npc-relationship-save-ui
 - commit: 2eea6d8 chore(process): record t89 final snapshot

@@ -57,6 +57,7 @@ Reporte apenas ferramentas com relação plausível com a tarefa. Não liste inv
 
 | Recurso | Reportar quando for útil para | Observação |
 | :--- | :--- | :--- |
+| `scripts/audit_docs.mjs` | Inventariar documentação, links locais, H1, órfãos e pendências de promoção. | Use antes de auditorias ou atualizações amplas em `docs/`, `llms.txt` ou `AGENTS.md`; é read-only por padrão. |
 | `openai-docs` | APIs, modelos e produtos OpenAI. | Buscar fontes oficiais quando a informação puder ter mudado. |
 | `imagegen` | Criar ou editar imagens, sprites, mockups ou assets visuais raster. | Não use para edição de código ou docs textuais. |
 | `playwright` | Automação alternativa de navegador, screenshots e QA quando Browser Use não estiver disponível. | Se o usuário pediu Browser Use, use fallback só com justificativa. |

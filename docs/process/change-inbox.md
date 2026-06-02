@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260601-232034-t90-documentation-audit-automation -->
+### T90 documentation audit automation
+- id: 20260601-232034-t90-documentation-audit-automation
+- status: open
+- created_at: 2026-06-01T23:20:34-03:00
+- source: task-ledger
+- summary: Create a reusable documentation audit automation, generate a reproducible project documentation audit report, and classify pending documentation promotion items without promoting them outside main.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260601-232034-t90-documentation-audit-automation -->
 <!-- pandorha-inbox:20260601-222318-t89-combat-target-defenses -->
 ### T89 combat target defenses
 - id: 20260601-222318-t89-combat-target-defenses
