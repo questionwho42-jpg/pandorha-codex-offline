@@ -142,6 +142,36 @@ describe("BrowserWorkerBridge", () => {
 			error: { code: "RPC_MESSAGE_ID_MISMATCH" },
 		});
 	});
+
+	it("ignores valid unknown responses while multiple requests are pending", async () => {
+		vi.useFakeTimers();
+		const worker = new FakeBrowserWorker();
+		const bridge = new BrowserWorkerBridge(worker);
+		const saveRequest = bridge.send(buildSaveRequest());
+		const loadRequest = bridge.send(buildLoadRequest());
+
+		worker.emitMessage({
+			messageId: UNKNOWN_MESSAGE_ID,
+			success: true,
+			data: {},
+		});
+		worker.emitMessage({
+			messageId: SAVE_MESSAGE_ID,
+			success: true,
+			data: { saved: true },
+		});
+		await vi.advanceTimersByTimeAsync(5_000);
+
+		await expect(saveRequest).resolves.toMatchObject({
+			success: true,
+			data: { messageId: SAVE_MESSAGE_ID, success: true },
+		});
+		await expect(loadRequest).resolves.toMatchObject({
+			success: false,
+			error: { code: "RPC_RESPONSE_TIMEOUT" },
+		});
+		vi.useRealTimers();
+	});
 });
 
 function buildInitRequest() {

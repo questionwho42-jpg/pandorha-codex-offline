@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260602-072310-d01-2-strict-quality-gate-recovery -->
+### D01.2 strict quality gate recovery
+- id: 20260602-072310-d01-2-strict-quality-gate-recovery
+- status: open
+- created_at: 2026-06-02T07:23:10-03:00
+- source: task-ledger
+- summary: Resolve remaining npm audit blockers for Vitest coverage and Drizzle Kit/esbuild without npm audit fix --force, preserving db:generate and all existing gates before opening T91.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260602-072310-d01-2-strict-quality-gate-recovery -->
 <!-- pandorha-inbox:20260601-232034-t90-documentation-audit-automation -->
 ### T90 documentation audit automation
 - id: 20260601-232034-t90-documentation-audit-automation

@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260602-072310-d01-2-strict-quality-gate-recovery -->
+### D01.2 strict quality gate recovery
+- id: 20260602-072310-d01-2-strict-quality-gate-recovery
+- status: completed
+- kind: maintenance
+- planned: no
+- started_at: 2026-06-02T07:23:10-03:00
+- finished_at: 2026-06-02T07:29:33-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-02T07:29:33-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: fa55bac chore(process): close t90 snapshot ledger
+- summary: Resolve remaining npm audit blockers for Vitest coverage and Drizzle Kit/esbuild without npm audit fix --force, preserving db:generate and all existing gates before opening T91.
+- last_change: D01.2 completed: Vitest and @vitest/coverage-v8 upgraded to 4.1.8, vulnerable @esbuild-kit/core-utils esbuild dependency overridden to a safe 0.25.x line, npm audit reports zero vulnerabilities, db:generate remains stable, coverage restored to 100% with an extra BrowserWorkerBridge branch test, and the full quality:gate plus QA smokes pass.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-02T07:23:10-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-02T07:25:24-03:00
+- Done: Applied explicit Vitest 4.1.8 and @vitest/coverage-v8 4.1.8 upgrade plus an @esbuild-kit/core-utils esbuild override; npm install completed; npm audit --audit-level=high reports zero vulnerabilities; db:generate still reports no schema changes.
+- Next: Run lint, tests, coverage, build, quality gate, QA smokes, then complete and commit D01.2.
+- Risks: Vitest major upgrade may expose behavior changes in tests or coverage thresholds; no RPG, UI, save, schema or RPC changes should be made in this phase.
+- Improvements: If Drizzle removes @esbuild-kit/esm-loader in a future release, remove the temporary override after audit remains clean.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-02T07:29:33-03:00
+- Done: D01.2 completed: Vitest and @vitest/coverage-v8 upgraded to 4.1.8, vulnerable @esbuild-kit/core-utils esbuild dependency overridden to a safe 0.25.x line, npm audit reports zero vulnerabilities, db:generate remains stable, coverage restored to 100% with an extra BrowserWorkerBridge branch test, and the full quality:gate plus QA smokes pass.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260602-072310-d01-2-strict-quality-gate-recovery -->
 <!-- pandorha-task:20260601-232034-t90-documentation-audit-automation -->
 ### T90 documentation audit automation
 - id: 20260601-232034-t90-documentation-audit-automation
