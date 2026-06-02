@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:fases-46-e-47-espionagem-e-pesquisa -->
+### Fases 46 & 47: Espionagem/Furtividade e Pesquisa/Criptografia
+- id: fases-46-e-47-espionagem-e-pesquisa
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-05-29T21:48:27-03:00
+- finished_at: 2026-05-29T23:46:03-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-05-29T23:46:03-03:00
+- branch: task/tension-limit-break
+- commit_at_start: c219ce9 feat(combat-social-rules): implementacao e consolidacao das fases 39 a 45
+- summary: Implementacao de Furtividade e Infiltracao em combate (Fase 46) e Sistema de Pesquisa, Criptografia e decifracao de enigmas (Fase 47)
+- last_change: Finalizacao das fases 46 a 50 com correcao da cobertura de branches para 100% no RetrainService e fiacao do Quality Gate
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-05-29T21:48:27-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-05-29T23:46:03-03:00
+- Done: Finalizacao das fases 46 a 50 com correcao da cobertura de branches para 100% no RetrainService e fiacao do Quality Gate
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:fases-46-e-47-espionagem-e-pesquisa -->
 <!-- pandorha-task:fases-43-e-44-negociacao-e-contramagia -->
 ### Fases 43 & 44: Negociacao, Economia de Quebra e Contramagia
 - id: fases-43-e-44-negociacao-e-contramagia
@@ -3396,6 +3428,57 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-05-31T09:26:21-03:00 - doc-update-complete
+- branch: task/tension-limit-break
+- commit: c219ce9 feat(combat-social-rules): implementacao e consolidacao das fases 39 a 45
+- changed_files_count: 62
+#### Changed Files
+- CONTEXT.md
+- RELATORIO_PROJETO_PANDORHA_2026-05-01.md
+- docs/architecture/sdd.md
+- docs/architecture/worker_rpc_spec.md
+- docs/changelog.md
+- docs/conventions/core-conventions.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/system/rpg-rules-manifest.json
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- factions_companions_progress.md
+- llms-full.txt
+- llms.txt
+- package.json
+- planejamento_bastiao.md
+- planejamento_campanha_sobrevivencia.md
+- planejamento_etapas.md
+- planejamento_loop_gameplay.md
+- planejamento_offline_persistencia.md
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/app/styles.css
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/investigation/__tests__/DrizzleInvestigationRepository.spec.ts
+- src/entities/investigation/domain/InvestigationService.ts
+- src/entities/investigation/infrastructure/DrizzleInvestigationRepository.ts
+- src/entities/investigation/model/investigationSchema.ts
+- src/entities/world-tile/__tests__/EncounterService.spec.ts
+- src/features/bastion/ui/BastionStructureCard.svelte
+- src/features/combat-encounter/__tests__/CombatTurnService.spec.ts
+- src/features/combat-encounter/domain/CombatTurnService.ts
+- src/features/combat-encounter/model/combatTurnSchemas.ts
+- src/features/combat-encounter/model/combatTurnTypes.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/espionage/ui/EspionageManagementPanel.svelte
+- src/features/inventory-readonly/ui/InventoryReadOnlyPanel.svelte
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- ... 22 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-29T12:12:01-03:00 - planeje-proximas-fases
 - branch: task/tension-limit-break
 - commit: 456e064 feat(armor-pwa): reactive armor modifiers and pwa offline support for phases 36 to 38

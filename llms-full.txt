@@ -1,47 +1,263 @@
-# 📚 PANDORHA ENGINE: FULL CONTEXT SPECIFICATION
+---
+title: "Pandorha Engine - Full AI Context Injection"
+version: "1.0.0"
+purpose: "Fast context for LLM inference — real interfaces from src/"
+updated: "2026-05-31"
+---
 
-[INJECT: Quick Commands Table from llms.txt]
+# 🧠 PANDORHA ENGINE: FULL CONTEXT
 
-## 📜 SECTION 1: GOVERNANCE & ARCHITECTURE
-### SDD (Software Design Description)
-[INJECT: FULL CONTENT OF sdd.md]
+> This file contains real TypeScript interfaces and key service signatures extracted from the codebase.
+> Use as a fast context injection for LLM inference sessions that need precise type information.
+> For the architectural map, see `llms.txt`. For RPG math, see `src/shared/game-rules.ts`.
 
-### Data Blueprint
-[INJECT: FULL CONTENT OF blueprint.md]
+---
 
-## 🧱 SECTION 2: TECHNICAL CORE
-### DiceService Interface
+## 1. Result Pattern (src/shared/lib/result.ts)
+
 ```typescript
-export interface RollResult {
-  total: number;
-  natural: number;
-  isCrit: boolean;
-  isFumble: boolean;
-}
-// Logic: Always audit to 'rpc_audit_logs' table.
-```
+export type Result<T, E = string> =
+  | { readonly success: true; readonly data: T }
+  | { readonly success: false; readonly error: E };
 
-## ⚔️ SECTION 3: DOMAIN MANIFESTOS
-### COMBATE (Capítulo 03)
-[INJECT: FULL CONTENT OF 03_Codex_de_Combate_e_Condicoes.md]
+export const ok = <T>(data: T): Result<T, never> =>
+  ({ success: true, data } as const);
 
-#### Combat Data Contracts
-[INJECT: TS Interfaces from combat.schema.ts]
-
-### MAGIA & GRIMÓRIO
-*Synthetic Data Representation (Sample):*
-```yaml
-spells:
-  - id: "bola_de_fogo"
-    circle: 1
-    cost: 2
-    damage: "3d6 Fogo"
-    tags: ["Area", "Evocação"]
-    ref: "GDD_12_SPELL_042"
-  [... all 100+ spells in this compact format ...]
-```
-
-[... more domain injections follow ...]
+export const fail = <E>(error: E): Result<never, E> =>
+  ({ success: false, error } as const);
 ```
 
 ---
+
+## 2. DiceService (src/shared/dice/DiceService.ts)
+
+```typescript
+export interface RollResult {
+  readonly total: number;
+  readonly rolls: readonly number[];
+  readonly sides: number;
+  readonly count: number;
+  readonly modifier: number;
+}
+
+export interface IRng {
+  rollDie(sides: number): number;
+}
+
+export class DiceService {
+  constructor(private readonly rng: IRng) {}
+
+  /** Rola N dados de X lados com modificador. */
+  roll(count: number, sides: number, modifier?: number): Result<RollResult, string>;
+
+  /** Rola 1d20 com modificador — usado em Teste Global. */
+  rollD20(modifier?: number): Result<RollResult, string>;
+
+  /** Verifica se o valor é Natural 20 (Acerto Crítico). */
+  isNaturalCritical(roll: number): boolean;
+
+  /** Verifica se o valor é Natural 1 (Falha Crítica). */
+  isNaturalFailure(roll: number): boolean;
+}
+```
+
+---
+
+## 3. ResolutionService (src/shared/resolution/ResolutionService.ts)
+
+```typescript
+export type DegreeOfSuccess =
+  | 'CRITICAL_SUCCESS'
+  | 'SUCCESS'
+  | 'SUCCESS_WITH_COST'
+  | 'FAILURE'
+  | 'CRITICAL_FAILURE';
+
+export interface ResolutionResult {
+  readonly degree: DegreeOfSuccess;
+  readonly total: number;
+  readonly dc: number;
+  readonly roll: RollResult;
+}
+
+export class ResolutionService {
+  constructor(private readonly dice: DiceService) {}
+
+  /** Executa um Teste Global e retorna o grau de sucesso. */
+  resolve(modifier: number, dc: number): Result<ResolutionResult, string>;
+}
+```
+
+---
+
+## 4. DamagePipelineService (src/shared/damage/DamagePipelineService.ts)
+
+```typescript
+export type DamageAffinity = 'RESISTANCE' | 'VULNERABILITY' | 'IMMUNITY' | 'NORMAL';
+
+export interface DamageContext {
+  readonly baseRoll: RollResult;
+  readonly isCritical: boolean;
+  readonly reductionFlat: number;
+  readonly affinity: DamageAffinity;
+}
+
+export interface DamageResult {
+  readonly final: number;
+  readonly phases: {
+    readonly base: number;
+    readonly afterCrit: number;
+    readonly afterReduction: number;
+    readonly afterAffinity: number;
+  };
+}
+
+export class DamagePipelineService {
+  /** Calcula dano em 4 fases determinísticas. */
+  calculate(ctx: DamageContext, dice: DiceService): Result<DamageResult, string>;
+}
+```
+
+---
+
+## 5. ActionQueueService (src/shared/action-queue/ActionQueueService.ts)
+
+```typescript
+export type CommandType =
+  | 'ATTACK'
+  | 'CAST_SPELL'
+  | 'MANEUVER'
+  | 'MOVE'
+  | 'APPLY_CONDITION'
+  | 'END_TURN'
+  | 'REACTION';
+
+export interface GameCommand {
+  readonly id: string;
+  readonly type: CommandType;
+  readonly actorId: string;
+  readonly payload: Record<string, unknown>;
+  readonly isInterrupt: boolean; // true = LIFO (Reaction), false = FIFO (normal)
+}
+
+export interface ProcessedCommand {
+  readonly command: GameCommand;
+  readonly timestamp: number;
+}
+
+export class ActionQueueService {
+  /** Adiciona comando à fila (FIFO) ou ao topo da pilha de interrupções (LIFO). */
+  enqueue(command: GameCommand): Result<void, string>;
+
+  /** Processa o próximo comando da fila usando o processor fornecido. */
+  processNext(processor: CommandProcessor): Result<ProcessedCommand, string>;
+
+  /** Retorna todos os comandos pendentes. */
+  getPending(): readonly GameCommand[];
+
+  /** Verifica se a fila está vazia. */
+  isEmpty(): boolean;
+}
+```
+
+---
+
+## 6. CharacterService (src/entities/character/domain/CharacterService.ts)
+
+```typescript
+export interface Character {
+  readonly id: string;
+  readonly name: string;
+  readonly level: number;
+  readonly eixos: { fisico: number; mental: number; social: number };
+  readonly aplicacoes: { conflito: number; interacao: number; resistencia: number };
+  readonly ancestry: string;
+  readonly characterClass: string;
+  readonly background: string;
+}
+
+export class CharacterService {
+  /** Cria personagem validando regra 6/6 dos eixos e aplicações. */
+  createCharacter(input: CreateCharacterInput): Result<Character, CharacterError>;
+
+  /** Lista todos os personagens da sessão. */
+  listCharacters(): Result<Character[], string>;
+
+  /** Busca personagem por ID. */
+  findById(id: string): Result<Character, string>;
+}
+```
+
+---
+
+## 7. CharacterDerivedStatsService (src/entities/character/domain/CharacterDerivedStatsService.ts)
+
+```typescript
+export interface DerivedStats {
+  readonly maxHp: number;       // (base_classe + Físico + Resistência) * Nível
+  readonly maxEe: number;       // Nível + Mental (varia por classe)
+  readonly initiative: number;  // Mental + Conflito + Nível
+  readonly carryLimit: number;  // Físico + Resistência + 6
+  readonly baseCA: number;      // 10 + Nível + Eixo + Aplicação
+}
+
+export class CharacterDerivedStatsService {
+  /** Calcula stats derivados sem persistir valores finais. */
+  calculate(character: Character): Result<DerivedStats, string>;
+}
+```
+
+---
+
+## 8. RPCResponse (src/shared/rpc/model/rpcSchemas.ts)
+
+```typescript
+import { z } from 'zod';
+
+export const RPCResponseSchema = <T extends z.ZodType>(dataSchema: T) =>
+  z.discriminatedUnion('success', [
+    z.object({
+      success: z.literal(true),
+      messageId: z.string().uuid(),
+      data: dataSchema,
+    }),
+    z.object({
+      success: z.literal(false),
+      messageId: z.string().uuid(),
+      error: z.object({
+        code: z.string(),    // 'SQLITE_BUSY' | 'VALIDATION_ERROR' | 'RPC_TIMEOUT'
+        message: z.string(),
+        details: z.unknown().optional(),
+      }),
+    }),
+  ]);
+
+export type RPCResponse<T> = z.infer<ReturnType<typeof RPCResponseSchema<z.ZodType<T>>>>;
+```
+
+---
+
+## 9. PANDORHA_RULES Quick Reference (src/shared/game-rules.ts)
+
+```typescript
+PANDORHA_RULES.DICE.D20_SIDES          = 20
+PANDORHA_RULES.DICE.NATURAL_CRITICAL   = 20
+PANDORHA_RULES.DICE.NATURAL_FAILURE    = 1
+PANDORHA_RULES.UNIVERSAL_TESTS.BASE_DC              = 10
+PANDORHA_RULES.UNIVERSAL_TESTS.CRITICAL_MARGIN      = 10
+PANDORHA_RULES.UNIVERSAL_TESTS.CRITICAL_FAIL_MARGIN = 5
+PANDORHA_RULES.DAMAGE.CRITICAL_MULTIPLIER   = 2
+PANDORHA_RULES.DAMAGE.RESISTANCE_MULTIPLIER = 0.5
+PANDORHA_RULES.DAMAGE.IMMUNITY_MULTIPLIER   = 0
+PANDORHA_RULES.DAMAGE.MIN_DAMAGE            = 0
+PANDORHA_RULES.COMBAT.BASE_CA              = 10
+PANDORHA_RULES.COMBAT.BASE_ACTIONS         = 3
+PANDORHA_RULES.COMBAT.MAP_PENALTY_1        = -5
+PANDORHA_RULES.COMBAT.MAP_PENALTY_2        = -10
+PANDORHA_RULES.DEATH.DEATH_SUCCESSES_NEEDED = 3
+PANDORHA_RULES.DEATH.DEATH_FAILURES_NEEDED  = 3
+PANDORHA_RULES.LOGISTICS.BASE_SLOTS_ADDITION = 6
+PANDORHA_RULES.LOGISTICS.OVERLOAD_IMMOBILIZED_THRESHOLD = 5
+PANDORHA_RULES.CHARACTER_CREATION.POINTS_EIXOS       = 6
+PANDORHA_RULES.CHARACTER_CREATION.POINTS_APLICACOES  = 6
+```

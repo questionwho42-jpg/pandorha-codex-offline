@@ -1,3 +1,6 @@
+> [!WARNING]
+> **ARQUIVO ARQUIVADO** — Este planejamento foi concluído. As fases descritas (T45–T50 / Fases 17–18) estão registradas no `docs/process/task-ledger.md` e promovidas no `docs/changelog.md`. Este arquivo é mantido apenas como referência histórica. Data de arquivamento: 2026-05-31
+
 # Planejamento do Bastião e Downtime
 
 Este arquivo registra o andamento atual da Etapa 3 e os passos subsequentes para manter o contexto técnico.

@@ -1,3 +1,6 @@
+> [!WARNING]
+> **ARQUIVO ARQUIVADO** — Este planejamento foi concluído. As fases T37 (Service Worker PWA), T38 (SQLite WASM/OPFS) e T39 (QA) estão registradas no `docs/process/task-ledger.md` e promovidas no `docs/changelog.md`. Este arquivo é mantido apenas como referência histórica. Data de arquivamento: 2026-05-31
+
 # Planejamento: Suporte Offline PWA & Persistência Local-First Real
 
 ## 📋 Estado Atual do Projeto

@@ -1,3 +1,6 @@
+> [!WARNING]
+> **ARQUIVO ARQUIVADO** — Este planejamento foi concluído. As Fases 21 (Fações/Social) e 22 (Companions/Familiares) estão registradas no `docs/process/task-ledger.md` e promovidas no `docs/changelog.md`. Este arquivo é mantido apenas como referência histórica. Data de arquivamento: 2026-05-31
+
 # Progresso e Próximos Passos: Fases 21 e 22
 
 Este arquivo registra o andamento atual do desenvolvimento das Fases 21 e 22 (Facções e Companheiros Místicos) e os próximos passos de engenharia.

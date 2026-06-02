@@ -1,3 +1,6 @@
+> [!WARNING]
+> **ARQUIVO ARQUIVADO** — Este planejamento foi concluído. As Fases 21–26 (Fações, Companions, Sinergias, Diálogos, Hexcrawl Encontro) estão registradas no `docs/process/task-ledger.md` e promovidas no `docs/changelog.md`. Este arquivo é mantido apenas como referência histórica. Data de arquivamento: 2026-05-31
+
 # Estado Atual e Próximos Passos: Integração do Loop de Gameplay Real
 
 ## 📋 Estado Técnico Atual

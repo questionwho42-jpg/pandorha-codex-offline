@@ -1,3 +1,6 @@
+> [!WARNING]
+> **ARQUIVO ARQUIVADO** — Este planejamento foi concluído. As fases T40–T44 (Status Effects, Decorators, Bastion, Social, Companions) estão registradas no `docs/process/task-ledger.md` e promovidas no `docs/changelog.md`. Este arquivo é mantido apenas como referência histórica. Data de arquivamento: 2026-05-31
+
 # Registro de Continuidade: Roteiro Pós-T39 (Sobrevivência & Campanha)
 
 Este arquivo registra o estado do planejamento do Pandorha Engine após a validação completa de QA da vertical slice (Fase T39).

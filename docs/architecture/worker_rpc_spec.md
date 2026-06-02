@@ -127,7 +127,7 @@ Toda mensagem RPC processada é registrada automaticamente no SQLite na tabela i
 
 ## 6. Validação de Contrato (Zod)
 
-O arquivo `src/shared/rpc-schemas.ts` contém a definição Zod de todos os comandos e queries.
+O arquivo `src/shared/rpc/model/rpcSchemas.ts` contém a definição Zod de todos os comandos e queries.
 
 - O Worker deve executar `schema.parse(payload)` antes de interagir com o Drizzle.
 - Falhas de validação retornam um `success: false` com o código `VALIDATION_ERROR`.

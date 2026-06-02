@@ -1,14 +1,15 @@
 ---
 title: "Pandorha Engine - AI Context Map"
-version: "2.0.0"
-stack: "Svelte 5 (Runes), Drizzle ORM, SQLite WASM, Web Workers"
-conventions: "Feature-Sliced Design, Strict TDD, RPC Bridge"
+version: "2.1.0"
+stack: "Svelte 5 (Runes), Drizzle ORM, SQLite WASM, Web Workers, Vite"
+conventions: "Feature-Sliced Design (4 camadas), Strict TDD, Custom RPC Bridge"
 maintenance_protocol: "Hybrid (Agent suggests LLMS_DIFF, Human approves)"
+updated: "2026-05-31"
 ---
 
 # 🗺️ PANDORHA ENGINE: AI ROOT MAP
 
-> **PRIME DIRECTIVE:** Follow the language contract below, use Svelte 5 Runes strictly, and keep Main/Worker communication on the RPC bridge.
+> **PRIME DIRECTIVE:** Follow the language contract below, use Svelte 5 Runes strictly, keep Main/Worker communication on the custom RPC bridge (`src/shared/rpc/`), and NEVER throw errors from service methods.
 >
 > **LANGUAGE CONTRACT:** Use Brazilian Portuguese (`pt-BR`) for every user-facing artifact: chat responses, UI copy, product documentation, lore, RPG/business rules, acceptance criteria, and human-readable reports. Use English for Codex/AI-facing technical artifacts: identifiers, APIs, module and file names when idiomatic, implementation contracts, technical comments, tests, and agent operating instructions. When an artifact has both audiences, keep the user-facing layer in `pt-BR` and the implementation layer in English.
 
@@ -29,43 +30,64 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 
 | Action | Command | Purpose |
 | :--- | :--- | :--- |
-| **Test** | `npm run test:unit` | Run Vitest suite (100% coverage required) |
-| **Lint** | `npm run lint` | Verify architectural constraints |
+| **Test** | `npm run test:unit` | Run Vitest suite (100% coverage required on 55 registered files) |
+| **Lint** | `npm run lint` | Verify architectural constraints (Biome) |
 | **Svelte 5** | `node scripts/validate_svelte_syntax.mjs src` | Verify Svelte 5 runes syntax compliance |
 | **Portable** | `node scripts/run_portable_command.mjs "<cmd>"` | Translate and run Unix commands on Windows |
 | **DB** | `npm run db:generate` | Generate Drizzle migrations |
-| **MCP** | `use mcp-sqlite-inspector` | Inspect real-time SQLite state |
+| **Scaffold** | `npm run scaffold:catalog-entity` | Generate new entity with schema/service/repo/spec |
+| **Scaffold** | `npm run scaffold:domain-service` | Generate new domain service with interface/fake/spec |
+| **Quality Gate** | `npm run quality:gate` | Full quality gate: lint + test + coverage + Svelte validation |
 | **Maintenance** | `python scripts/pandorha_process_automation.py snapshot --reason manual` | Record zero-token project state and maintenance checkpoints |
+| **Hooks** | `node scripts/install_process_hooks.mjs` | Install custom Node.js git hooks (post-commit, post-merge) |
 
 ## 📜 TIER 1: ARCHITECTURE & CONSTITUTION [REF:TIER1]
-- [sdd.md](./docs/architecture/sdd.md): System Architecture & Worker RPC patterns.
+- [sdd.md](./docs/architecture/sdd.md): System Architecture v2.0 — Vite SPA, Custom RPC bridge (NOT Comlink), FSD 4 layers.
 - [blueprint.md](./docs/architecture/blueprint.md): Master Data Schema & Reactivity Graph.
-- [core-conventions.md](./.agents/skills/core-conventions/SKILL.md): Named exports, Tailwind tokens, and $state rules.
+- [core-conventions.md](./docs/conventions/core-conventions.md): v2.0.0 — Named exports, Tailwind tokens, $state rules, Pure DI, Repository pattern.
 - [windows-powershell-policy.md](./docs/conventions/windows-powershell-policy.md): Rules for local terminal execution on Windows 11.
-- [build-test-verify.md](./.agents/skills/build-test-verify.md): Execution laws and QA gates.
+- [build-test-verify skill](./.agents/skills/build-test-verify/skill.md): Execution laws and QA gates.
 - [gdd.md](./docs/architecture/gdd.md): Game Design Document.
-- [feature_state_machines.md](./docs/architecture/feature_state_machines.md): Feature state machines.
+- [feature_state_machines.md](./docs/architecture/feature_state_machines.md): Feature state machines — TurnFSM, DamagePipeline, SpellCastBuilder, Social Combat.
+- [worker_rpc_spec.md](./docs/architecture/worker_rpc_spec.md): Worker RPC contract — CQRS, Result monad, serialization rules. Schema path: `src/shared/rpc/model/rpcSchemas.ts`.
 - [automation-spec.md](./docs/process/automation-spec.md): Zero-token maintenance, task ledger, inbox, and promotion protocol.
 - [task-ledger.md](./docs/process/task-ledger.md): Active, completed, unfinished, and snapshot records.
-- [change-inbox.md](./docs/process/change-inbox.md): Unplanned requests awaiting documentation promotion.
+- [change-inbox.md](./docs/process/change-inbox.md): Unplanned requests awaiting documentation promotion (currently empty — all promoted 2026-05-31).
+
+## 📐 TIER 1B: ARCHITECTURAL DECISIONS [REF:ADR]
+- [ADR-001](./docs/adr/ADR-001-worker-rpc-sem-comlink.md): Custom RPC bridge instead of Comlink.
+- [ADR-002](./docs/adr/ADR-002-fsd-4-camadas.md): FSD with 4 layers — no pages/ or widgets/.
+- [ADR-003](./docs/adr/ADR-003-vite-sem-sveltekit.md): Vite pure SPA instead of SvelteKit.
+- [ADR-004](./docs/adr/ADR-004-sqlite-wasm-opfs.md): SQLite WASM + OPFS in dedicated Web Worker.
+- [ADR-005](./docs/adr/ADR-005-result-pattern.md): Result Pattern mandatory — throw prohibited.
+- [ADR-006](./docs/adr/ADR-006-decorator-pattern-mecanicas.md): Decorator Pattern for all game mechanics modifiers.
 
 ## 🧱 TIER 2: SKILLS & AGENTS [REF:TIER2]
-- [.agents/skills/](./.agents/skills/): Directory containing all skill definitions for AI agents.
+- [.agents/skills/](./.agents/skills/): Directory containing all skill definitions for AI agents (31 skills).
 - [svelte-runes-validator](./.agents/skills/svelte-runes-validator/SKILL.md): Static syntax validator for Svelte 5 Runes.
 - [pandorha-maintenance](./.agents/skills/pandorha-maintenance/SKILL.md): Automation-first maintenance workflow for checkpoints and documentation promotion.
+- [build-test-verify](./.agents/skills/build-test-verify/skill.md): QA gate protocol with reverse TDD and 100% coverage.
+- [core-conventions](./.agents/skills/core-conventions/SKILL.md): Enforces FSD, Svelte 5, TypeScript strict, Result Pattern.
 
 ## 🏰 TIER 3: REFERENCE DEEP DIVE [REF:TIER3]
 ### System Rules
-- [rpg-rules-manifest.json](./docs/system/rpg-rules-manifest.json): Declared JSON schema of math formulas and rules values.
-- [docs/system/magic/](./docs/system/magic/): Magic and spell rules.
-- [docs/system/combat/](./docs/system/combat/): Combat, monsters, and conditions.
-- [docs/system/survival/](./docs/system/survival/): Survival, exploration, economy, and downtime.
+- [rpg-rules-manifest.json](./docs/system/rpg-rules-manifest.json): v2.0 — JSON schema of math formulas covering dice, combat, damage, magic, logistics, social, progression.
+- [game-rules.ts](./src/shared/game-rules.ts): **Source of truth in code** — `PANDORHA_RULES` constant, all game math values.
+- [docs/system/magic/](./docs/system/magic/): 15 files — magic codex, spell circles 0-10, 40 metamagics, hybrid magic.
+- [docs/system/combat/](./docs/system/combat/): 15 files — combat codex, immunities, monster compendiums tier 1-4, damage treatise, monster creation guide.
+- [docs/system/survival/](./docs/system/survival/): **68 files** — fundamental mechanics, 6 ancestries, 4 classes, economy, crafting, exploration, traps, companions, synergy, espionage, mercenary, bastion, camp, illness, fame, investigation, hexcrawl, social combat, negotiation, weight/carry, and more. Includes 883KB compiled system document.
 
 ### Lore & Worldbuilding
-- [lore/](./lore/): World lore by region (morden, dungard, floresta-ecos, gorbax, etc.).
+- [lore/](./lore/): World lore by region (morden, dungard, floresta-ecos, gorbax, almar, cinar, draskar, o-mundo-de-pandorha).
+
+### Architecture Coverage
+- [feature-coverage-map.md](./docs/architecture/feature-coverage-map.md): Current implementation status of all 22 entities + 23 features vs documentation.
 
 ## 🛡️ SECURITY & SAFETY PROTOCOLS
 - Prioritize system integrity and player safety in all implementations.
-- Consult GDD for math validation.
-- Use strict TDD for all changes.
+- Consult GDD and `src/shared/game-rules.ts` for math validation.
+- Use strict TDD for all changes — 100% coverage on registered service files.
 - Ensure all AI agents follow core conventions and build-test-verify protocols.
+- NEVER use `throw new Error()` in service methods — use `ok()` / `fail()` from `src/shared/lib/result.ts`.
+- NEVER import Comlink — the project uses a custom RPC bridge.
+- NEVER create `+page.svelte`, `+layout.ts` or any SvelteKit file — the project uses Vite pure SPA.

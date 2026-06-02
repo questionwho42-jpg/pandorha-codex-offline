@@ -1,6 +1,143 @@
 {
 	"system": "Pandorha Engine",
+	"version": "2.0",
+	"updated": "2026-05-31",
+	"source_of_truth": "src/shared/game-rules.ts (PANDORHA_RULES)",
 	"rules": {
+		"dice": {
+			"d20_sides": 20,
+			"natural_failure": 1,
+			"natural_critical": 20,
+			"min_die_sides": 2,
+			"max_die_sides": 1000,
+			"source": "docs/system/survival/00-mecanicas-fundamentais.md - Seção 3 (Fórmula Universal)"
+		},
+		"universal_tests": {
+			"base_dc": 10,
+			"critical_margin": 10,
+			"success_with_cost_margin": 4,
+			"critical_fail_margin": 5,
+			"formula": "1d20 + Eixo + Aplicação + Nível + Bônus vs DC",
+			"degrees_of_success": {
+				"critical_success": "resultado >= DC + 10 OU Natural 20",
+				"success": "resultado >= DC",
+				"success_with_cost": "DC - 4 <= resultado < DC",
+				"failure": "resultado < DC - 4",
+				"critical_failure": "resultado <= DC - 5 OU Natural 1"
+			},
+			"source": "docs/system/survival/00-mecanicas-fundamentais.md - Seção 3"
+		},
+		"combat": {
+			"base_ca": 10,
+			"base_actions_per_turn": 3,
+			"max_actions_hard_cap": 4,
+			"reactions_per_turn": 1,
+			"map_penalty_2nd_attack": -5,
+			"map_penalty_3rd_attack": -10,
+			"initiative_formula": "1d20 + Mental + Conflito + Nível",
+			"action_costs": {
+				"attack": 1,
+				"draw_from_backpack": 1,
+				"draw_from_belt": 0,
+				"move": 1,
+				"reaction": "1 (gasta a Reação do turno)"
+			},
+			"source": "docs/system/survival/00-mecanicas-fundamentais.md - Seção 5"
+		},
+		"damage": {
+			"critical_multiplier": 2,
+			"resistance_multiplier": 0.5,
+			"immunity_multiplier": 0,
+			"vulnerability_bonus_dice": "1d6",
+			"min_damage": 0,
+			"pipeline_phases": [
+				"Phase_Base: Dados + Atributos",
+				"Phase_Crit: Multiplicador (Natural 20 ou margem >= 10)",
+				"Phase_Reduction: Redução de Dano (RD) fixa da armadura",
+				"Phase_Affinity: Resistência (×0.5) / Vulnerabilidade (+1d6) / Imunidade (×0)"
+			],
+			"source": "docs/system/combat/18-tratado-de-dano.md"
+		},
+		"dying_state": {
+			"condition": "HP <= 0",
+			"stabilization_test": {
+				"formula": "1d20 + Físico + Resistência + Nível",
+				"dc_formula": "10 + Nível + Físico + Resistência",
+				"natural_20": "Estabiliza imediatamente e recupera 1 HP",
+				"natural_1": "Conta como 2 falhas",
+				"successes_to_stabilize": 3,
+				"failures_to_die": 3
+			},
+			"first_aid": {
+				"formula": "1d20 + Mental + Interação vs DC Moribundo",
+				"kit_bonus_dc": 15
+			},
+			"source": "docs/system/survival/00-mecanicas-fundamentais.md - Seção 5 (0 HP)"
+		},
+		"magic": {
+			"ee_base_formula": "Nível + Mental (varia por classe)",
+			"spell_circle_ee_cost": {
+				"0": 0,
+				"1": 1,
+				"2": 2,
+				"3": 3,
+				"4": 4,
+				"5": 5,
+				"6": 6,
+				"7": 7,
+				"8": 8,
+				"9": 9,
+				"10": 10
+			},
+			"upcast_cost_multiplier": 1,
+			"concentration_check_dc_base": 10,
+			"source": "docs/system/magic/codex-de-magia.md"
+		},
+		"logistics": {
+			"base_slots_addition": 6,
+			"carry_capacity_formula": "Físico + Resistência + 6",
+			"overload_immobilized_threshold_slots": 5,
+			"overload_slow_penalty_meters": -3,
+			"potion_belt_capacity": 5,
+			"equip_cost_backpack": "1 Ação [A]",
+			"equip_cost_belt": "Ação Livre [F]",
+			"item_durability_states": [
+				"MINT",
+				"DAMAGED (-1 penalidade)",
+				"BROKEN (bloqueia uso)"
+			],
+			"source": "docs/system/survival/regras-peso-carga.md"
+		},
+		"social": {
+			"debt_marked_condition": "blood_debt > fame * 3",
+			"debt_marked_effects": [
+				"Bloqueia Camp Rest sem emboscada",
+				"Gera 'Esquadrão do Favor Impossível'"
+			],
+			"social_combat": {
+				"target_has": "Reserva de Paciência (HP Social) + Trilha de Persuasão (Stagger Bar)",
+				"success_reduces": "Trilha de Persuasão",
+				"failure_reduces": "Paciência (NPC desiste)"
+			},
+			"source": "docs/system/survival/infamia-e-divida-de-sangue.md"
+		},
+		"character_creation": {
+			"axis_points_to_distribute": 6,
+			"application_points_to_distribute": 6,
+			"min_starting_axis": 1,
+			"max_starting_axis": 3,
+			"min_starting_application": 1,
+			"max_starting_application": 3,
+			"tier_caps": {
+				"tier_1": 3,
+				"tier_2": 4,
+				"tier_3": 5,
+				"tier_4": 6
+			},
+			"ancestry_traits_at_level_1": 3,
+			"hp_formula": "(Base_Classe + Físico + Resistência) * Nível",
+			"source": "docs/system/survival/00-mecanicas-fundamentais.md - Seção 2"
+		},
 		"scout_check": {
 			"formula": "1d20 + Atributo (Físico ou Mental) + Bônus do Andarilho vs CD Final",
 			"cd_base_formula": "9 + (Tier * 3)",
@@ -16,38 +153,32 @@
 			"disadvantages": {
 				"fast_pace": 1,
 				"adverse_weather_forced_march": 1
-			}
-		},
-		"dying_state": {
-			"condition": "Ficar com 0 HP",
-			"stabilization_test": {
-				"formula": "1d20 + Físico + Resistência + Nível",
-				"cd_target_formula": "10 + Nível + Físico + Resistência",
-				"critical_success_natural_20": "Estabiliza imediatamente e recupera 1 HP",
-				"critical_failure_natural_1": "Registra 2 falhas no teste",
-				"max_successes_to_stabilize": 3,
-				"max_failures_to_die": 3
 			},
-			"first_aid": {
-				"formula": "1d20 + Mental + Interação vs CD Moribundo",
-				"kit_bonus_cd": 15
-			}
+			"source": "docs/system/survival/exploracao-e-deslocamento.md"
 		},
 		"combat_retreat": {
 			"cost": "Retornar ao hexágono anterior",
 			"pursuit_check": "Teste físico de perseguição/fuga contra o monstro de maior iniciativa",
 			"penalties": {
 				"condition_applied": "Exhausted"
-			}
+			},
+			"source": "docs/system/survival/exploracao-e-deslocamento.md"
 		},
 		"progression": {
 			"xp_multiplier": 100,
+			"relative_xp": {
+				"enemy_same_level": 1,
+				"enemy_higher_level": 2,
+				"enemy_lower_level": 0
+			},
+			"level_up_locations": ["Cidades", "Bastiões", "Locais Seguros"],
 			"loot_chance_by_tier": {
 				"1": 0.5,
 				"2": 0.7,
 				"3": 0.9,
 				"4": 1.0
-			}
+			},
+			"source": "docs/system/survival/00-mecanicas-fundamentais.md - Seção 7"
 		},
 		"monster_tier_balancing": {
 			"1": {
@@ -73,7 +204,8 @@
 				"hp_range": [120, 200],
 				"ac_range": [20, 24],
 				"attack_bonus_range": [10, 12]
-			}
+			},
+			"source": "docs/system/combat/ (bestiário tier 1-4)"
 		}
 	}
 }

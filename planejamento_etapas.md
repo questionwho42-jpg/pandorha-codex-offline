@@ -1,3 +1,6 @@
+> [!WARNING]
+> **ARQUIVO ARQUIVADO** — Este planejamento foi concluído. As Fases 13–16 (Clocks, PWA, Saves, Diálogos) estão registradas no `docs/process/task-ledger.md` e promovidas no `docs/changelog.md`. Este arquivo é mantido apenas como referência histórica. Data de arquivamento: 2026-05-31
+
 # Continuidade: Planejamento das Próximas Etapas
 
 ## Estado Técnico Atual

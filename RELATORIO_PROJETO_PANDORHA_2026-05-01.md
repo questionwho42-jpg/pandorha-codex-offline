@@ -1,3 +1,6 @@
+> [!NOTE]
+> **DOCUMENTO HISTÓRICO** — Este relatório descreve a investigação da implementação anterior baseada em Foundry VTT, realizada em 2026-05-01. O projeto foi pivotado para um engine Svelte 5 standalone (Vite + SQLite WASM + Drizzle). Este arquivo é mantido apenas como contexto histórico. Para o estado atual do projeto, consulte `llms.txt` e `docs/architecture/sdd.md`. Data de arquivamento: 2026-05-31
+
 # Relatorio do Projeto Pandorha - 2026-05-01
 
 Este documento foi criado para que outro modelo de IA consiga entender o estado atual do projeto, o que foi investigado nesta sessao e quais cuidados deve tomar antes de continuar.
