@@ -33,6 +33,15 @@ export async function handleDatabaseWorkerRequest(
 	const command = parsedRequest.data;
 	switch (command.type) {
 		case "INIT_DATABASE": {
+			// biome-ignore lint/suspicious/noExplicitAny: access private storage dynamically
+			const storage = (input.bootstrapService as any).storage;
+			if (
+				command.payload.activeSaveFile &&
+				storage &&
+				typeof storage.fileName === "string"
+			) {
+				storage.fileName = command.payload.activeSaveFile;
+			}
 			const result = await input.bootstrapService.initializeDatabase({
 				requestedAt: command.payload.requestedAt,
 			});
@@ -91,6 +100,145 @@ export async function handleDatabaseWorkerRequest(
 					snapshot: result.data,
 				} as unknown as JsonValue,
 			});
+		}
+
+		case "LIST_SAVE_SLOTS": {
+			try {
+				if (!globalThis.navigator?.storage?.getDirectory) {
+					return createRpcFailureResponse({
+						messageId: command.messageId,
+						code: "OPFS_UNAVAILABLE",
+						message: "OPFS não está disponível no contexto do navegador.",
+					});
+				}
+				const root = await globalThis.navigator.storage.getDirectory();
+				const slots = [];
+				for await (const name of root.keys()) {
+					if (name.endsWith(".sqlite3")) {
+						const fileHandle = await root.getFileHandle(name);
+						const file = await fileHandle.getFile();
+						slots.push({
+							fileName: name,
+							sizeBytes: file.size,
+							lastModified: new Date(file.lastModified).toISOString(),
+						});
+					}
+				}
+				return createRpcSuccessResponse({
+					messageId: command.messageId,
+					data: slots as unknown as JsonValue,
+				});
+			} catch (err: unknown) {
+				const errMsg = err instanceof Error ? err.message : String(err);
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: "LIST_SAVE_SLOTS_FAILED",
+					message: `Falha ao listar slots de save: ${errMsg}`,
+				});
+			}
+		}
+
+		case "CREATE_SAVE_SLOT": {
+			try {
+				// biome-ignore lint/suspicious/noExplicitAny: access private storage dynamically
+				const storage = (input.bootstrapService as any).storage;
+				if (!storage || typeof storage.fileName !== "string") {
+					return createRpcFailureResponse({
+						messageId: command.messageId,
+						code: "STORAGE_UNAVAILABLE",
+						message: "Storage não inicializado ou inválido.",
+					});
+				}
+				const previousFileName = storage.fileName;
+				storage.fileName = command.payload.fileName;
+				const result = await input.bootstrapService.initializeDatabase({
+					requestedAt: new Date().toISOString(),
+				});
+				storage.fileName = previousFileName;
+
+				if (!result.success) {
+					return createRpcFailureResponse({
+						messageId: command.messageId,
+						code: result.error.code,
+						message: result.error.message,
+						details: asSerializableDetails(result.error.details),
+					});
+				}
+				return createRpcSuccessResponse({
+					messageId: command.messageId,
+					data: { created: true },
+				});
+			} catch (err: unknown) {
+				const errMsg = err instanceof Error ? err.message : String(err);
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: "CREATE_SAVE_SLOT_FAILED",
+					message: `Falha ao criar slot de save: ${errMsg}`,
+				});
+			}
+		}
+
+		case "CLONE_SAVE_SLOT": {
+			try {
+				if (!globalThis.navigator?.storage?.getDirectory) {
+					return createRpcFailureResponse({
+						messageId: command.messageId,
+						code: "OPFS_UNAVAILABLE",
+						message: "OPFS não está disponível.",
+					});
+				}
+				const root = await globalThis.navigator.storage.getDirectory();
+				const sourceHandle = await root.getFileHandle(
+					command.payload.sourceFileName,
+				);
+				const sourceFile = await sourceHandle.getFile();
+				const bytes = new Uint8Array(await sourceFile.arrayBuffer());
+
+				const targetHandle = await root.getFileHandle(
+					command.payload.targetFileName,
+					{ create: true },
+				);
+				const writable = await targetHandle.createWritable();
+				await writable.write(bytes);
+				await writable.close();
+
+				return createRpcSuccessResponse({
+					messageId: command.messageId,
+					data: { cloned: true },
+				});
+			} catch (err: unknown) {
+				const errMsg = err instanceof Error ? err.message : String(err);
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: "CLONE_SAVE_SLOT_FAILED",
+					message: `Falha ao clonar slot de save: ${errMsg}`,
+				});
+			}
+		}
+
+		case "DELETE_SAVE_SLOT": {
+			try {
+				if (!globalThis.navigator?.storage?.getDirectory) {
+					return createRpcFailureResponse({
+						messageId: command.messageId,
+						code: "OPFS_UNAVAILABLE",
+						message: "OPFS não está disponível.",
+					});
+				}
+				const root = await globalThis.navigator.storage.getDirectory();
+				await root.removeEntry(command.payload.fileName);
+				return createRpcSuccessResponse({
+					messageId: command.messageId,
+					data: { deleted: true },
+				});
+			} catch (err: unknown) {
+				const errMsg = err instanceof Error ? err.message : String(err);
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: "DELETE_SAVE_SLOT_FAILED",
+					message: `Falha ao deletar slot de save: ${errMsg}`,
+				});
+			}
 		}
 
 		case "SAVE_CHARACTER": {

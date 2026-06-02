@@ -40,8 +40,14 @@ export class WorkerSaveRepository {
 			}
 		};
 
+		const activeSaveFile =
+			typeof window !== "undefined"
+				? window.localStorage.getItem("pandorha_active_save_file") ||
+					"pandorha.sqlite3"
+				: "pandorha.sqlite3";
 		void this.sendRequest("INIT_DATABASE", {
 			requestedAt: new Date().toISOString(),
+			activeSaveFile,
 		});
 	}
 
@@ -86,6 +92,55 @@ export class WorkerSaveRepository {
 			saveId: "primary",
 			snapshot,
 		});
+		if (!res.success) {
+			return fail(new Error(res.error.message));
+		}
+		return ok(undefined);
+	}
+
+	public async listSaveSlots(): Promise<
+		Result<
+			{ fileName: string; sizeBytes: number; lastModified: string }[],
+			Error
+		>
+	> {
+		const res = await this.sendRequest("LIST_SAVE_SLOTS", {});
+		if (!res.success) {
+			return fail(new Error(res.error.message));
+		}
+		return ok(
+			res.data as {
+				fileName: string;
+				sizeBytes: number;
+				lastModified: string;
+			}[],
+		);
+	}
+
+	public async createSaveSlot(fileName: string): Promise<Result<void, Error>> {
+		const res = await this.sendRequest("CREATE_SAVE_SLOT", { fileName });
+		if (!res.success) {
+			return fail(new Error(res.error.message));
+		}
+		return ok(undefined);
+	}
+
+	public async cloneSaveSlot(
+		sourceFileName: string,
+		targetFileName: string,
+	): Promise<Result<void, Error>> {
+		const res = await this.sendRequest("CLONE_SAVE_SLOT", {
+			sourceFileName,
+			targetFileName,
+		});
+		if (!res.success) {
+			return fail(new Error(res.error.message));
+		}
+		return ok(undefined);
+	}
+
+	public async deleteSaveSlot(fileName: string): Promise<Result<void, Error>> {
+		const res = await this.sendRequest("DELETE_SAVE_SLOT", { fileName });
 		if (!res.success) {
 			return fail(new Error(res.error.message));
 		}

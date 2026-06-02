@@ -5,7 +5,10 @@ import type {
 } from "../model/sqliteOpfsTypes";
 
 export class BrowserOpfsDatabaseStorage implements DatabaseFileStorage {
-	public constructor(private readonly fileName = "pandorha.sqlite3") {}
+	public fileName: string;
+	public constructor(fileName = "pandorha.sqlite3") {
+		this.fileName = fileName;
+	}
 
 	public async readDatabaseFile(): Promise<
 		Result<Uint8Array | null, DatabaseFileFailure>

@@ -76,6 +76,10 @@ export const rpcCommandTypeSchema = z.enum([
 	"LIST_MERCENARY_SQUADS_BY_COMPANY",
 	"DISMANTLE_CRAFTED_ITEM",
 	"SCRAP_EQUIPMENT",
+	"LIST_SAVE_SLOTS",
+	"CREATE_SAVE_SLOT",
+	"CLONE_SAVE_SLOT",
+	"DELETE_SAVE_SLOT",
 ]);
 
 export const jsonSerializableValueSchema = z.custom<JsonValue>(
@@ -113,6 +117,38 @@ export const initDatabaseRequestSchema = z.object({
 	type: z.literal("INIT_DATABASE"),
 	payload: z.object({
 		requestedAt: isoTimestamp,
+		activeSaveFile: z.string().trim().optional(),
+	}),
+});
+
+export const listSaveSlotsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_SAVE_SLOTS"),
+	payload: z.object({}),
+});
+
+export const createSaveSlotRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("CREATE_SAVE_SLOT"),
+	payload: z.object({
+		fileName: z.string().trim().min(1),
+	}),
+});
+
+export const cloneSaveSlotRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("CLONE_SAVE_SLOT"),
+	payload: z.object({
+		sourceFileName: z.string().trim().min(1),
+		targetFileName: z.string().trim().min(1),
+	}),
+});
+
+export const deleteSaveSlotRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("DELETE_SAVE_SLOT"),
+	payload: z.object({
+		fileName: z.string().trim().min(1),
 	}),
 });
 
@@ -709,6 +745,10 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	deleteEspionageCellRequestSchema,
 	dismantleCraftedItemRequestSchema,
 	scrapEquipmentRequestSchema,
+	listSaveSlotsRequestSchema,
+	createSaveSlotRequestSchema,
+	cloneSaveSlotRequestSchema,
+	deleteSaveSlotRequestSchema,
 ]);
 
 const rpcErrorSchema = z.object({

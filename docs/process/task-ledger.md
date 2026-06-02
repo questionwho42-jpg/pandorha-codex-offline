@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:fase-53-gerenciador-slots-save -->
+### Fase 53: Gerenciador de Slots de Save (JSON)
+- id: fase-53-gerenciador-slots-save
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-02T00:16:07-03:00
+- finished_at: 2026-06-02T00:21:41-03:00
+- model_started: gemini-3.5-flash
+- model_finished: gemini-3.5-flash
+- last_modified_at: 2026-06-02T00:21:41-03:00
+- branch: task/siege-and-cockpit
+- commit_at_start: ac8859a feat(cockpit): implement split-screen HUD layout, global modifiers drawer, and quick d20 rolling on attribute click
+- summary: Implementacao da interface e persistencia OPFS para multiplos saves locais, alem de backup fisico via importacao/exportacao JSON
+- last_change: Implementacao da interface e persistencia OPFS para multiplos saves locais, alem de backup fisico via importacao/exportacao JSON e drag-and-drop
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-02T00:16:07-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gemini-3.5-flash
+
+#### Checkpoint 2026-06-02T00:21:41-03:00
+- Done: Implementacao da interface e persistencia OPFS para multiplos saves locais, alem de backup fisico via importacao/exportacao JSON e drag-and-drop
+- Next: fase-54-polimento-performance-pwa-offline
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gemini-3.5-flash
+<!-- /pandorha-task:fase-53-gerenciador-slots-save -->
 <!-- pandorha-task:fase-52-painel-cockpit-rpg-dividido -->
 ### Fase 52: Painel Cockpit RPG Dividido e Rolagem Drawer
 - id: fase-52-painel-cockpit-rpg-dividido

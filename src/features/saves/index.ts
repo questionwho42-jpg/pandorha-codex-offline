@@ -1,1 +1,1 @@
-export { default as SaveManagerPanel } from "./ui/SaveManagerPanel.svelte";
+export { default as SaveManagerPanel } from "./ui/SaveSlotManagerPanel.svelte";

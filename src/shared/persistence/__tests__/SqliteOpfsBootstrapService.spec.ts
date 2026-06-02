@@ -960,6 +960,156 @@ describe("database worker request handler", () => {
 			data: [squadObj],
 		});
 	});
+
+	it("handles save slot RPC operations (list, create, clone, delete)", async () => {
+		const storage = new InMemoryDatabaseFileStorage();
+		const service = createService(storage);
+
+		// Mock global navigator
+		const mockFiles = new Map<
+			string,
+			{ size: number; lastModified: number; bytes: Uint8Array }
+		>();
+		mockFiles.set("pandorha.sqlite3", {
+			size: 100,
+			lastModified: Date.now(),
+			bytes: new Uint8Array([1, 2]),
+		});
+
+		const mockDirectoryHandle = {
+			keys: async function* () {
+				yield* mockFiles.keys();
+			},
+			getFileHandle: async (name: string, options?: { create?: boolean }) => {
+				if (options?.create && !mockFiles.has(name)) {
+					mockFiles.set(name, {
+						size: 0,
+						lastModified: Date.now(),
+						bytes: new Uint8Array(),
+					});
+				}
+				const entry = mockFiles.get(name);
+				if (!entry) {
+					throw new DOMException("File not found", "NotFoundError");
+				}
+				return {
+					getFile: async () => ({
+						size: entry.size,
+						lastModified: entry.lastModified,
+						arrayBuffer: async () => entry.bytes.buffer as ArrayBuffer,
+					}),
+					createWritable: async () => {
+						let writtenBytes = new Uint8Array() as any;
+						return {
+							write: async (b: Uint8Array) => {
+								writtenBytes = b;
+							},
+							close: async () => {
+								entry.bytes = writtenBytes;
+								entry.size = writtenBytes.byteLength;
+								entry.lastModified = Date.now();
+							},
+						};
+					},
+				};
+			},
+			removeEntry: async (name: string) => {
+				mockFiles.delete(name);
+			},
+		};
+
+		const originalNavigator = globalThis.navigator;
+		Object.defineProperty(globalThis, "navigator", {
+			value: {
+				storage: {
+					getDirectory: async () => mockDirectoryHandle,
+				},
+			},
+			configurable: true,
+			writable: true,
+		});
+
+		try {
+			// 1. INIT_DATABASE com activeSaveFile
+			const initRes = await handleDatabaseWorkerRequest(
+				{
+					messageId: MESSAGE_ID,
+					type: "INIT_DATABASE",
+					payload: {
+						requestedAt: REQUESTED_AT,
+						activeSaveFile: "campanha_1.sqlite3",
+					},
+				},
+				{ bootstrapService: service },
+			);
+			expect(initRes.success).toBe(true);
+			// Deve ter alterado a propriedade fileName do storage interno
+			expect((service as any).storage.fileName).toBe("campanha_1.sqlite3");
+
+			// 2. LIST_SAVE_SLOTS
+			const listRes = await handleDatabaseWorkerRequest(
+				{
+					messageId: MESSAGE_ID,
+					type: "LIST_SAVE_SLOTS",
+					payload: {},
+				},
+				{ bootstrapService: service },
+			);
+			expect(listRes.success).toBe(true);
+			if (listRes.success) {
+				expect(listRes.data).toContainEqual(
+					expect.objectContaining({
+						fileName: "pandorha.sqlite3",
+					}),
+				);
+			}
+
+			// 3. CREATE_SAVE_SLOT
+			const createRes = await handleDatabaseWorkerRequest(
+				{
+					messageId: MESSAGE_ID,
+					type: "CREATE_SAVE_SLOT",
+					payload: { fileName: "campanha_2.sqlite3" },
+				},
+				{ bootstrapService: service },
+			);
+			expect(createRes.success).toBe(true);
+
+			// 4. CLONE_SAVE_SLOT
+			const cloneRes = await handleDatabaseWorkerRequest(
+				{
+					messageId: MESSAGE_ID,
+					type: "CLONE_SAVE_SLOT",
+					payload: {
+						sourceFileName: "pandorha.sqlite3",
+						targetFileName: "pandorha_copia.sqlite3",
+					},
+				},
+				{ bootstrapService: service },
+			);
+			expect(cloneRes.success).toBe(true);
+			expect(mockFiles.has("pandorha_copia.sqlite3")).toBe(true);
+
+			// 5. DELETE_SAVE_SLOT
+			const deleteRes = await handleDatabaseWorkerRequest(
+				{
+					messageId: MESSAGE_ID,
+					type: "DELETE_SAVE_SLOT",
+					payload: { fileName: "pandorha_copia.sqlite3" },
+				},
+				{ bootstrapService: service },
+			);
+			expect(deleteRes.success).toBe(true);
+			expect(mockFiles.has("pandorha_copia.sqlite3")).toBe(false);
+		} finally {
+			// Restaura o navigator original
+			Object.defineProperty(globalThis, "navigator", {
+				value: originalNavigator,
+				configurable: true,
+				writable: true,
+			});
+		}
+	});
 });
 
 function createService(
@@ -1037,6 +1187,7 @@ function expectBootstrapFailure(
 }
 
 class InMemoryDatabaseFileStorage implements DatabaseFileStorage {
+	public fileName = "pandorha.sqlite3";
 	public writeCount = 0;
 	private nextReadFailure: DatabaseFileFailure | null = null;
 	private nextWriteFailure: DatabaseFileFailure | null = null;
