@@ -322,9 +322,71 @@ describe("CombatTurnService", () => {
 		expect(endTurnRes.data.tensionClockSegmentsFilled).toBe(3);
 		expect(endTurnRes.data.isAlarmTriggered).toBe(false);
 	});
+
+	it("inicia com emboscada, aplicando 4 ações ao emboscador e status surpreendido aos alvos", () => {
+		const service = new CombatTurnService();
+		const result = service.startTurnOrder({
+			actorOrder: ["aria", "training-guard", "enemy-mage"],
+			isAmbush: true,
+		} as any);
+
+		expectSuccess(result);
+		expect(result.data?.isAmbush).toBe(true);
+		expect(result.data?.actionPointsRemaining).toBe(4); // 3 + 1 de abertura
+		expect(result.data?.surprisedActorIds).toEqual([
+			"training-guard",
+			"enemy-mage",
+		]);
+		expect(result.data?.events?.[0]?.type).toBe("ambushOpeningStrike");
+	});
+
+	it("remove o status de surpreendido do ator quando ele encerra o seu turno", () => {
+		const service = new CombatTurnService();
+		const startState = service.startTurnOrder({
+			actorOrder: ["aria", "training-guard"],
+			isAmbush: true,
+		} as any);
+		expectSuccess(startState);
+
+		// Passa o turno de aria (emboscador) para training-guard (surpreendido)
+		const transitionToGuard = service.endTurn({
+			state: startState.data,
+			actorId: "aria",
+		});
+		expectSuccess(transitionToGuard);
+		expect(transitionToGuard.data.surprisedActorIds).toContain(
+			"training-guard",
+		);
+
+		// Passa o turno do training-guard (encerrando a surpresa dele)
+		const transitionBack = service.endTurn({
+			state: transitionToGuard.data,
+			actorId: "training-guard",
+		});
+		expectSuccess(transitionBack);
+		expect(transitionBack.data?.surprisedActorIds).not.toContain(
+			"training-guard",
+		);
+	});
+
+	it("deve clonar o estado de emboscada e surpresa corretamente ao aumentar o relogio de tensao", () => {
+		const service = new CombatTurnService();
+		const state = createState({
+			isAmbush: true,
+			surprisedActorIds: ["training-guard"],
+			tensionClockSegmentsMax: 8,
+			tensionClockSegmentsFilled: 2,
+		});
+
+		const result = service.increaseTensionClock(state, 1, "aria");
+		expectSuccess(result);
+		expect(result.data?.isAmbush).toBe(true);
+		expect(result.data?.surprisedActorIds).toEqual(["training-guard"]);
+		expect(result.data?.tensionClockSegmentsFilled).toBe(3);
+	});
 });
 
-function createState(): CombatTurnState {
+function createState(patch: Partial<CombatTurnState> = {}): CombatTurnState {
 	return {
 		round: 1,
 		activeActorId: "aria",
@@ -341,6 +403,7 @@ function createState(): CombatTurnState {
 				actionCost: 0,
 			},
 		],
+		...patch,
 	};
 }
 

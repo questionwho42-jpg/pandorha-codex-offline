@@ -117,6 +117,15 @@ export class CombatTurnService {
 			nextEventIndex: parsed.data.state.events.length + 2,
 		});
 
+		let nextSurprisedActorIds = parsed.data.state.surprisedActorIds
+			? [...parsed.data.state.surprisedActorIds]
+			: [];
+		if (nextSurprisedActorIds.includes(parsed.data.actorId)) {
+			nextSurprisedActorIds = nextSurprisedActorIds.filter(
+				(id) => id !== parsed.data.actorId,
+			);
+		}
+
 		const nextState: any = {
 			round: nextRound,
 			activeActorId: nextActorId,
@@ -137,6 +146,12 @@ export class CombatTurnService {
 		}
 		if (parsed.data.state.isAlarmTriggered !== undefined) {
 			nextState.isAlarmTriggered = parsed.data.state.isAlarmTriggered;
+		}
+		if (parsed.data.state.isAmbush !== undefined) {
+			nextState.isAmbush = parsed.data.state.isAmbush;
+		}
+		if (parsed.data.state.surprisedActorIds !== undefined) {
+			nextState.surprisedActorIds = nextSurprisedActorIds;
 		}
 
 		return ok(nextState);
@@ -185,29 +200,51 @@ export class CombatTurnService {
 function createInitialState(input: CombatTurnStartInput): CombatTurnState {
 	const activeActorId = input.actorOrder[0] as string;
 	const tensionClockSegmentsMax = (input as any).tensionClockSegmentsMax;
+	const isAmbush = (input as any).isAmbush;
+
+	const events: any[] = [];
+
+	if (isAmbush) {
+		events.push(
+			createTurnEvent({
+				type: "ambushOpeningStrike",
+				actorId: activeActorId,
+				round: 1,
+				actionCost: 0,
+				nextEventIndex: 1,
+			}),
+		);
+	}
+
+	events.push(
+		createTurnEvent({
+			type: "turnStarted",
+			actorId: activeActorId,
+			round: 1,
+			actionCost: 0,
+			nextEventIndex: events.length + 1,
+		}),
+	);
 
 	const state: any = {
 		round: 1,
 		activeActorId,
 		activeActorIndex: 0,
 		actorOrder: [...input.actorOrder],
-		actionPointsRemaining: BASE_ACTION_POINTS,
+		actionPointsRemaining: isAmbush ? 4 : BASE_ACTION_POINTS,
 		maxActionPoints: BASE_ACTION_POINTS,
-		events: [
-			createTurnEvent({
-				type: "turnStarted",
-				actorId: activeActorId,
-				round: 1,
-				actionCost: 0,
-				nextEventIndex: 1,
-			}),
-		],
+		events,
 	};
 
 	if (typeof tensionClockSegmentsMax === "number") {
 		state.tensionClockSegmentsMax = tensionClockSegmentsMax;
 		state.tensionClockSegmentsFilled = 0;
 		state.isAlarmTriggered = false;
+	}
+
+	if (isAmbush) {
+		state.isAmbush = true;
+		state.surprisedActorIds = input.actorOrder.slice(1);
 	}
 
 	return state;
@@ -295,6 +332,12 @@ function copyState(state: CombatTurnState): CombatTurnState {
 	}
 	if (state.isAlarmTriggered !== undefined) {
 		copied.isAlarmTriggered = state.isAlarmTriggered;
+	}
+	if (state.isAmbush !== undefined) {
+		copied.isAmbush = state.isAmbush;
+	}
+	if (state.surprisedActorIds !== undefined) {
+		copied.surprisedActorIds = [...state.surprisedActorIds];
 	}
 
 	return copied;

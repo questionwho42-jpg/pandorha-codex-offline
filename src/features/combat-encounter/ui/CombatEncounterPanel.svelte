@@ -8,6 +8,7 @@ import { SynergyService } from "$lib/entities/synergy/domain/SynergyService";
 import { WorkerSynergyRepository } from "$lib/entities/synergy/infrastructure/WorkerSynergyRepository";
 import type { CharacterCraftedItemRecord } from "../../crafting/model/craftingSchema";
 import { CombatTurnService } from "../domain/CombatTurnService";
+import { StealthCombatService } from "../domain/StealthCombatService";
 import { createCombatAttackerStatsView } from "../model/combatAttackerStatsView";
 import type {
 	CombatEncounterActorRef,
@@ -64,6 +65,7 @@ type CombatEncounterStateResolver = (
 	| { readonly success: false; readonly error: CombatEncounterFailure };
 
 const turnService = new CombatTurnService();
+const stealthService = new StealthCombatService();
 
 const randRoll = () => {
 	const arr = new Uint32Array(1);
@@ -116,6 +118,14 @@ let selectedTrickId = $state("marca_presa");
 let masterEeSpent = $state(0);
 let familiarReactionUsed = $state(false);
 let familiarFlickered = $state(false);
+
+let isStealthMode = $state(false);
+let heatLevel = $state(0);
+let guardPosition = $state("flank");
+let useShadows = $state(false);
+let isInPoleiro = $state(false);
+let isHanging = $state(false);
+let selectedTakedownType = $state("strike");
 
 let activeCompanions = $derived(
 	companions.filter((c) => c.characterId === selectedAttackerId),
@@ -1156,6 +1166,236 @@ function healCompanion(comp: CompanionRecord, amount: number) {
 		];
 	}
 }
+
+function enableStealthMode(): void {
+	isStealthMode = true;
+	const clock = stealthService.initTensionClock(heatLevel);
+	turnState = {
+		...turnState,
+		tensionClockSegmentsFilled: clock.filledSegments,
+		tensionClockSegmentsMax: clock.maxSegments,
+		isAlarmTriggered: clock.alarmTriggered,
+		isAmbush: true,
+	};
+	log = [
+		...log,
+		`🕵️‍♂️ Infiltração tática iniciada sob nível de Heat ${heatLevel}. Relógio de Tensão ativo.`,
+	];
+}
+
+function disableStealthMode(): void {
+	isStealthMode = false;
+	turnState = {
+		...turnState,
+		isAmbush: false,
+		isAlarmTriggered: false,
+	};
+	log = [
+		...log,
+		`❌ Infiltração cancelada. Retornando ao estado de alerta normal.`,
+	];
+}
+
+function handleClimbPoleiro(): void {
+	const char = characters.find((c) => c.id === selectedAttackerId);
+	const physical = char ? char.physical : 1;
+	const roll = randRoll();
+	const dc = 15;
+	const res = stealthService.resolvePoleiroClimb({
+		rollValue: roll,
+		modifier: physical,
+		dc,
+	});
+	if (res.success) {
+		isInPoleiro = true;
+		isHanging = res.isHanging;
+		log = [
+			...log,
+			`🪜 Teste de Atletismo/Furtividade: Rolou ${roll} + ${physical} vs CD ${dc} (SUCESSO). ${res.isHanging ? "Ficou pendurado!" : "Subiu no poleiro com perfeição!"}`,
+		];
+	} else {
+		isInPoleiro = false;
+		isHanging = false;
+		const nextClock = stealthService.addTensionSegments(
+			{
+				filledSegments: turnState.tensionClockSegmentsFilled || 0,
+				maxSegments: turnState.tensionClockSegmentsMax || 10,
+				alarmTriggered: turnState.isAlarmTriggered || false,
+			},
+			res.segmentsAdded,
+		);
+		turnState = {
+			...turnState,
+			tensionClockSegmentsFilled: nextClock.filledSegments,
+			isAlarmTriggered: nextClock.alarmTriggered,
+		};
+		log = [
+			...log,
+			`💥 Teste de Atletismo/Furtividade: Rolou ${roll} + ${physical} vs CD ${dc} (FALHA TOTAL). Você caiu do poleiro e fez barulho (+${res.segmentsAdded} Tensão).`,
+		];
+	}
+}
+
+function handleGuardVisionCheck(): void {
+	const char = characters.find((c) => c.id === selectedAttackerId);
+	const stealthMod = char ? char.physical + (char.level > 1 ? 2 : 0) : 2;
+	const roll = randRoll();
+	const passivePerception = selectedTarget.perceptionBonus
+		? 10 + selectedTarget.perceptionBonus
+		: 12;
+
+	const res = stealthService.checkGuardVision({
+		position: guardPosition as any,
+		stealthRoll: roll,
+		stealthModifier: stealthMod,
+		guardPassivePerception: passivePerception,
+		useShadows,
+	});
+
+	if (!res.success) {
+		errorMessage = "Erro ao resolver a visão do guarda.";
+		return;
+	}
+
+	const checkData = res.data;
+	if (checkData.detected) {
+		const nextClock = stealthService.addTensionSegments(
+			{
+				filledSegments: turnState.tensionClockSegmentsFilled || 0,
+				maxSegments: turnState.tensionClockSegmentsMax || 10,
+				alarmTriggered: turnState.isAlarmTriggered || false,
+			},
+			checkData.tensionSegmentsAdded,
+		);
+		turnState = {
+			...turnState,
+			tensionClockSegmentsFilled: nextClock.filledSegments,
+			isAlarmTriggered: nextClock.alarmTriggered,
+		};
+		log = [
+			...log,
+			`🚨 DETECTADO! Guarda observou sua aproximação (${guardPosition}). Teste: ${roll} + ${stealthMod} vs Percepção Passiva ${passivePerception}. (+${checkData.tensionSegmentsAdded} Tensão)`,
+		];
+	} else {
+		log = [
+			...log,
+			`👥 Sucesso. Você se manteve oculto (${guardPosition}). Teste: ${roll} + ${stealthMod} vs Percepção Passiva ${passivePerception}.`,
+		];
+	}
+}
+
+function handleStealthySlide(): void {
+	const char = characters.find((c) => c.id === selectedAttackerId);
+	if (!char) return;
+	log = [
+		...log,
+		`💨 Deslizamento Furtivo executado por ${char.name}. Evitou a visão direta do guarda (Custo: -1 PV).`,
+	];
+}
+
+function handleTakedown(): void {
+	const char = characters.find((c) => c.id === selectedAttackerId);
+	if (!char) return;
+
+	const physical = char.physical;
+	const roll = randRoll();
+	const level = char.level;
+
+	const res = stealthService.resolveTakedown({
+		type: selectedTakedownType as any,
+		rollValue: roll,
+		modifier: physical,
+		targetLevel: selectedTarget.level || 1,
+		casterLevel: level,
+		isElite:
+			selectedTarget.label.includes("Elite") ||
+			selectedTarget.label.includes("Chefe"),
+		targetHp: targetHitPoints,
+		targetMaxHp: selectedTarget.currentHitPoints,
+	});
+
+	if (!res.success) {
+		errorMessage =
+			res.error.code === "STEALTH_ACTION_FAILED"
+				? "Seu nível é menor que o do alvo, impossibilitando a Execução Tática."
+				: "Ação de Abate inválida.";
+		return;
+	}
+
+	const td = res.data;
+	targetHitPoints = td.targetNewHp;
+
+	if (td.tensionSegmentsAdded > 0) {
+		const nextClock = stealthService.addTensionSegments(
+			{
+				filledSegments: turnState.tensionClockSegmentsFilled || 0,
+				maxSegments: turnState.tensionClockSegmentsMax || 10,
+				alarmTriggered: turnState.isAlarmTriggered || false,
+			},
+			td.tensionSegmentsAdded,
+		);
+		turnState = {
+			...turnState,
+			tensionClockSegmentsFilled: nextClock.filledSegments,
+			isAlarmTriggered: nextClock.alarmTriggered,
+		};
+	}
+
+	if (td.success) {
+		log = [
+			...log,
+			`🗡️ Abate Furtivo (${selectedTakedownType}) SUCESSO! Rolou ${roll} + ${physical}. Alvo ${selectedTarget.label} reduzido a ${td.targetNewHp} HP. Tensão adicionada: ${td.tensionSegmentsAdded}.`,
+		];
+		if (td.applyBleeding) {
+			log = [...log, `🩸 Alvo Elite está SANGRAMENTO!`];
+		}
+	} else {
+		log = [
+			...log,
+			`⚠️ Abate Furtivo FALHOU! O ataque fez barulho e iniciou o combate convencional. Alvo ${selectedTarget.label} ficou com ${td.targetNewHp} HP. (+${td.tensionSegmentsAdded} Tensão)`,
+		];
+	}
+	errorMessage = null;
+}
+
+function handleEvidenceCleanup(): void {
+	const char = characters.find((c) => c.id === selectedAttackerId);
+	const physical = char ? char.physical : 1;
+	const roll = randRoll();
+	const dc = 15;
+
+	const res = stealthService.resolveEvidenceCleanup({
+		rollValue: roll,
+		modifier: physical,
+		dc,
+	});
+
+	const nextClock = stealthService.addTensionSegments(
+		{
+			filledSegments: turnState.tensionClockSegmentsFilled || 0,
+			maxSegments: turnState.tensionClockSegmentsMax || 10,
+			alarmTriggered: turnState.isAlarmTriggered || false,
+		},
+		res.segmentsAdded,
+	);
+	turnState = {
+		...turnState,
+		tensionClockSegmentsFilled: nextClock.filledSegments,
+		isAlarmTriggered: nextClock.alarmTriggered,
+	};
+
+	if (res.success) {
+		log = [
+			...log,
+			`🧹 Ocultar Rastro: Sucesso total (${roll} + ${physical} vs CD ${dc}). Limpou vestígios sem gerar ruído.`,
+		];
+	} else {
+		log = [
+			...log,
+			`⚠️ Ocultar Rastro: Falha na limpeza (${roll} + ${physical} vs CD ${dc}). Apressar-se gerou suspeita (+${res.segmentsAdded} Tensão).`,
+		];
+	}
+}
 </script>
 
 <section aria-labelledby="combat-encounter-title" data-testid="combat-encounter-panel">
@@ -1235,6 +1475,196 @@ function healCompanion(comp: CompanionRecord, amount: number) {
 				{/each}
 			</select>
 		</label>
+	</div>
+
+	<!-- Controles Gerais de Furtividade / Infiltração (Fase 46) -->
+	<div class="mt-6 border border-bronze bg-blood-shadow p-5 rounded-md shadow-lg" data-testid="combat-stealth-panel">
+		<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-bronze/20 pb-3">
+			<div>
+				<h3 class="text-lg font-semibold text-ether flex items-center gap-2">
+					🕵️‍♂️ Códice de Espionagem & Furtividade Tática
+				</h3>
+				<p class="text-xs text-bone/70 mt-1">
+					Infiltre-se nas sombras, evite cones de visão e execute abates silenciosos.
+				</p>
+			</div>
+			<div class="flex items-center gap-3">
+				{#if !isStealthMode}
+					<button
+						type="button"
+						onclick={enableStealthMode}
+						class="text-xs border border-bronze bg-void px-3 py-1.5 text-bone hover:border-ether transition-colors font-bold uppercase tracking-wider"
+					>
+						🕵️ Iniciar Infiltração
+					</button>
+				{:else}
+					<button
+						type="button"
+						onclick={disableStealthMode}
+						class="text-xs border border-[#ef4444] bg-blood-shadow px-3 py-1.5 text-bone hover:bg-blood/25 transition-colors font-bold uppercase tracking-wider"
+					>
+						❌ Cancelar Furtividade
+					</button>
+				{/if}
+			</div>
+		</div>
+
+		{#if isStealthMode}
+			<div class="mt-4 grid gap-4 md:grid-cols-3">
+				<!-- Relógio de Tensão e Vigilância -->
+				<div class="border border-bronze/30 bg-[#1e293b]/40 p-3.5 rounded-sm flex flex-col justify-between">
+					<div>
+						<p class="text-xs font-bold text-ether uppercase tracking-wider">⏱️ Relógio de Tensão</p>
+						<p class="text-[10px] text-bone/60 mt-0.5">Teto baseado no Heat de Vigilância local.</p>
+
+						<div class="mt-3 flex items-center justify-between">
+							<span class="text-xs text-bone/70">Nível de Heat (0 a 3):</span>
+							<select
+								bind:value={heatLevel}
+								onchange={enableStealthMode}
+								class="text-xs border border-bronze bg-blood-shadow px-1.5 py-0.5 text-bone outline-none"
+							>
+								<option value={0}>Heat 0 (12 Segs)</option>
+								<option value={1}>Heat 1 (10 Segs)</option>
+								<option value={2}>Heat 2 (8 Segs)</option>
+								<option value={3}>Heat 3 (6 Segs)</option>
+							</select>
+						</div>
+
+						<div class="mt-4 bg-void/50 border border-bronze/20 p-2.5 rounded text-center">
+							<p class="text-xs text-bone/70 uppercase tracking-widest font-bold">Relógio de Tensão</p>
+							<p class="text-xl font-black mt-1 {turnState.isAlarmTriggered ? 'text-blood animate-pulse' : 'text-[#f59e0b]'}">
+								{turnState.tensionClockSegmentsFilled ?? 0} / {turnState.tensionClockSegmentsMax ?? 10} Fatias
+							</p>
+							{#if turnState.isAlarmTriggered}
+								<div class="mt-2 text-[9px] bg-blood-shadow border border-[#ef4444] text-[#ef4444] font-black uppercase py-0.5 rounded animate-pulse">
+									🚨 ALARME GERAL DISPARADO! 🚨
+								</div>
+							{/if}
+						</div>
+					</div>
+					
+					<button
+						type="button"
+						onclick={() => {
+							const res = turnService.increaseTensionClock(turnState, 1, selectedAttackerId);
+							if (res.success) turnState = res.data;
+						}}
+						class="mt-3 w-full border border-bronze/60 bg-void py-1 text-xs text-bone/80 hover:border-ether"
+					>
+						+1 Segmento de Tensão (Ruído)
+					</button>
+				</div>
+
+				<!-- Campo de Visão e Poleiro -->
+				<div class="border border-bronze/30 bg-[#1e293b]/40 p-3.5 rounded-sm">
+					<p class="text-xs font-bold text-ether uppercase tracking-wider">👀 Cones de Visão & Encaramento</p>
+					<p class="text-[10px] text-bone/60 mt-0.5">Visão do Guarda vs Cobertura.</p>
+
+					<label class="block mt-3">
+						<span class="text-[11px] font-semibold text-ether">Posicionamento em Relação ao Guarda</span>
+						<select
+							bind:value={guardPosition}
+							disabled={isInPoleiro}
+							class="mt-1 w-full text-xs border border-bronze bg-blood-shadow px-2 py-1 text-bone outline-none focus:border-ether disabled:opacity-50"
+						>
+							<option value="blind_spot">Ponto Cego (Costas - Auto Sucesso)</option>
+							<option value="flank">Flanco (Periférica - Teste Furtividade)</option>
+							<option value="frontal_cone">Cone Frontal (Direta - Alerta!)</option>
+						</select>
+					</label>
+
+					<div class="mt-2.5 flex items-center justify-between text-xs">
+						<span class="text-bone/70">Sombras Profundas (Cobertura)</span>
+						<input type="checkbox" bind:checked={useShadows} class="accent-ether" />
+					</div>
+
+					<div class="mt-2.5 flex items-center justify-between text-xs border-t border-bronze/10 pt-2">
+						<span class="text-bone/70 font-semibold {isInPoleiro ? 'text-ether' : 'text-bone/50'}">
+							Status: {isInPoleiro ? (isHanging ? '🪜 Pendurado no Poleiro' : '🦉 No Poleiro (Predador Vertical)') : '🚶 No Chão'}
+						</span>
+						<button
+							type="button"
+							onclick={handleClimbPoleiro}
+							class="text-[10px] border border-bronze bg-void px-2 py-0.5 text-bone hover:border-ether"
+						>
+							🪜 Subir Poleiro
+						</button>
+					</div>
+
+					<div class="mt-3.5 grid grid-cols-2 gap-2">
+						<button
+							type="button"
+							onclick={handleGuardVisionCheck}
+							class="border border-bronze bg-void py-1.5 text-xs text-bone hover:border-ether"
+						>
+							🎲 Testar Visão
+						</button>
+						<button
+							type="button"
+							onclick={handleStealthySlide}
+							class="border border-bronze bg-void py-1.5 text-xs text-bone hover:border-ether"
+						>
+							💨 Deslizar (-1 PV)
+						</button>
+					</div>
+				</div>
+
+				<!-- Abates Furtivos e Evidências -->
+				<div class="border border-bronze/30 bg-[#1e293b]/40 p-3.5 rounded-sm flex flex-col justify-between">
+					<div>
+						<p class="text-xs font-bold text-ether uppercase tracking-wider">🗡️ Abates Silenciosos (Takedown)</p>
+						<p class="text-[10px] text-bone/60 mt-0.5">Abater guardas isolados antes do combate.</p>
+
+						<label class="block mt-2">
+							<span class="text-[11px] font-semibold text-ether">Tática de Abate</span>
+							<select
+								bind:value={selectedTakedownType}
+								class="mt-1 w-full text-xs border border-bronze bg-blood-shadow px-2 py-1 text-bone outline-none"
+							>
+								<option value="strike">Golpe Ligeiro (Dano Crítico Dobrado)</option>
+								<option value="submission">Submissão (Físico vs Defesa)</option>
+								<option value="tactical_execution">Execução Tática (Auto / Custa 2 PV)</option>
+							</select>
+						</label>
+					</div>
+
+					<div class="mt-4 grid grid-cols-2 gap-2">
+						<button
+							type="button"
+							onclick={handleTakedown}
+							class="border border-[#ef4444] bg-[#ef4444]/10 hover:bg-[#ef4444]/25 py-2 text-xs font-bold text-[#ef4444] transition-colors"
+						>
+							🗡️ Executar Abate
+						</button>
+						<button
+							type="button"
+							onclick={handleEvidenceCleanup}
+							class="border border-[#38bdf8] bg-[#38bdf8]/10 hover:bg-[#38bdf8]/25 py-2 text-xs font-bold text-[#38bdf8] transition-colors"
+						>
+							🧹 Ocultar Rastro
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Status das Regras de Emboscada ativa -->
+			<div class="mt-3 bg-[#1e293b]/50 border border-bronze/20 p-2.5 rounded-sm flex items-center justify-between text-xs">
+				<div class="flex items-center gap-2">
+					<span class="text-ether font-bold">Emboscada Ativa:</span>
+					{#if turnState.isAmbush}
+						<span class="font-semibold text-bone">⚡ Golpe de Abertura (1 Ação Livre) + Inimigos DESPREVENIDOS!</span>
+						{#if turnState.surprisedActorIds && turnState.surprisedActorIds.length > 0}
+							<span class="text-[10px] bg-blood-shadow border border-blood/40 text-blood px-1.5 py-0.5 rounded-sm ml-2">
+								Desprevenidos: {turnState.surprisedActorIds.join(", ")}
+							</span>
+						{/if}
+					{:else}
+						<span class="text-bone/50">Rodada de Emboscada encerrada. Início do combate padrão.</span>
+					{/if}
+				</div>
+			</div>
+		{/if}
 	</div>
 
 	<!-- Painel de Sinergia de Combate e Coesão Compartilhada -->

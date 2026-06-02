@@ -17,6 +17,7 @@ export const combatTurnEventSchema = z
 			"actionSpent",
 			"turnEnded",
 			"tensionIncreased",
+			"ambushOpeningStrike",
 		]),
 		actorId: actorIdSchema,
 		round: z.number().int().min(1).max(10_000),
@@ -37,6 +38,8 @@ export const combatTurnStateSchema = z
 		tensionClockSegmentsMax: z.number().int().min(2).max(12).optional(),
 		tensionClockSegmentsFilled: z.number().int().min(0).max(12).optional(),
 		isAlarmTriggered: z.boolean().optional(),
+		isAmbush: z.boolean().optional(),
+		surprisedActorIds: z.array(actorIdSchema).optional(),
 	})
 	.strict();
 
@@ -44,6 +47,7 @@ export const combatTurnStartInputSchema = z
 	.object({
 		actorOrder: z.array(actorIdSchema).min(2).max(100),
 		tensionClockSegmentsMax: z.number().int().min(2).max(12).optional(),
+		isAmbush: z.boolean().optional(),
 	})
 	.strict();
 
