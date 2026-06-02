@@ -302,8 +302,22 @@ test("detects characters table dynamically and normalizes columns in English", (
 			created_at, updated_at
 		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	`).run(
-		"char-uuid-123", "Kaelen", "Warrior", "human", "soldier", "soldier_bg",
-		3, 300, 4, 2, 1, 2, 1, 3, "2026-05-27", "2026-05-27"
+		"char-uuid-123",
+		"Kaelen",
+		"Warrior",
+		"human",
+		"soldier",
+		"soldier_bg",
+		3,
+		300,
+		4,
+		2,
+		1,
+		2,
+		1,
+		3,
+		"2026-05-27",
+		"2026-05-27",
 	);
 
 	const auditor = createAuditor(db);

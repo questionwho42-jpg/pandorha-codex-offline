@@ -66,7 +66,13 @@ export function createAuditor(db: SQLiteDatabase) {
 	return {
 		getActorStats(selector: ActorSelector) {
 			const schema = inspectActorsSchema(db);
-			const actor = findActor(db, schema.table, schema.columns, schema.map, selector);
+			const actor = findActor(
+				db,
+				schema.table,
+				schema.columns,
+				schema.map,
+				selector,
+			);
 			const stats = normalizeActorStats(actor, schema.map);
 
 			return {
@@ -184,7 +190,9 @@ export function inspectActorsSchema(db: SQLiteDatabase) {
 	if (!table) {
 		tableName = "actors";
 		table = db
-			.prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?")
+			.prepare(
+				"SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?",
+			)
 			.get(tableName);
 	}
 
@@ -324,7 +332,9 @@ function findActor(
 			? [selector.actor_id, selector.actor_id]
 			: [selector.actor_id];
 		const row = db
-			.prepare(`SELECT * FROM ${quotedTable} WHERE ${clauses.join(" OR ")} LIMIT 1`)
+			.prepare(
+				`SELECT * FROM ${quotedTable} WHERE ${clauses.join(" OR ")} LIMIT 1`,
+			)
 			.get(...params);
 		if (row) return row as Record<string, unknown>;
 	}

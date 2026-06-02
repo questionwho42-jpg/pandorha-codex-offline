@@ -14,6 +14,7 @@ export default defineConfig({
 			include: [
 				"src/entities/character/domain/CharacterService.ts",
 				"src/entities/character/domain/CharacterDerivedStatsService.ts",
+				"src/entities/character/domain/RetrainService.ts",
 				"src/entities/character/model/characterRules.ts",
 				"src/entities/ancestry/domain/AncestryCatalogService.ts",
 				"src/entities/ancestry/domain/AncestryTraitSelectionService.ts",
@@ -33,6 +34,7 @@ export default defineConfig({
 				"src/features/combat-encounter/domain/CombatEncounterService.ts",
 				"src/features/combat-encounter/domain/CombatTurnService.ts",
 				"src/features/combat-encounter/domain/CombatLootService.ts",
+				"src/features/combat-encounter/domain/StealthCombatService.ts",
 				"src/features/combat-encounter/domain/TacticalAiService.ts",
 				"src/features/hexcrawl-map/domain/HexcrawlMovementService.ts",
 				"src/features/spell-cast/domain/SpellCastBuilderService.ts",
@@ -58,6 +60,7 @@ export default defineConfig({
 				"src/entities/synergy/domain/SynergyService.ts",
 				"src/entities/world-tile/domain/EncounterService.ts",
 				"src/entities/investigation/domain/InvestigationService.ts",
+				"src/entities/investigation/domain/ResearchService.ts",
 				"src/entities/domain-regional/domain/RegionalDomainService.ts",
 				"src/features/social/domain/NegotiationService.ts",
 				"src/features/spell-cast/domain/CountermagicService.ts",

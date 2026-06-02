@@ -16,6 +16,10 @@ import { DrizzleDialogueRepository } from "$lib/entities/dialogue/infrastructure
 import { campaignDialogueStates } from "$lib/entities/dialogue/model/dialogueSchema";
 import { DrizzleRegionalDomainRepository } from "$lib/entities/domain-regional/infrastructure/DrizzleRegionalDomainRepository";
 import { campaignRegionalDomains } from "$lib/entities/domain-regional/model/regionalDomainSchema";
+import {
+	dungeonDelves,
+	dungeonRooms,
+} from "$lib/entities/dungeon/model/dungeonSchema";
 import { CraftingService } from "$lib/entities/equipment/domain/CraftingService";
 import { DrizzleCraftingRepository } from "$lib/entities/equipment/infrastructure/DrizzleCraftingRepository";
 import { DrizzleEspionageRepository } from "$lib/entities/espionage/infrastructure/DrizzleEspionageRepository";
