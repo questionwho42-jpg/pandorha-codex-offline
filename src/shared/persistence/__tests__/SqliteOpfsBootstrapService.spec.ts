@@ -63,6 +63,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0015_gray_texas_twister",
 				"0016_spotty_shiver_man",
 				"0017_dark_richard_fisk",
+				"0018_condemned_menace",
 			],
 			tableNames: [
 				"_pandorha_migrations",
@@ -81,6 +82,8 @@ describe("SqliteOpfsBootstrapService", () => {
 				"character_status_effects",
 				"characters",
 				"crafting_recipes",
+				"dungeon_delves",
+				"dungeon_rooms",
 				"espionage_cells",
 				"faction_patronages",
 				"factions",
@@ -149,6 +152,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0015_gray_texas_twister",
 			"0016_spotty_shiver_man",
 			"0017_dark_richard_fisk",
+			"0018_condemned_menace",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -273,6 +277,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0015_gray_texas_twister",
 			"0016_spotty_shiver_man",
 			"0017_dark_richard_fisk",
+			"0018_condemned_menace",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
