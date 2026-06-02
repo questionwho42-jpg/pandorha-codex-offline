@@ -23,6 +23,8 @@ function buildInvestigationRecord(
 		failuresAccumulated: 0,
 		status: "active",
 		goldCostPerTest: 0,
+		translatedPercent: 0,
+		discoveredSecrets: "",
 		createdAt: TEST_TIMESTAMP,
 		updatedAt: TEST_TIMESTAMP,
 		...patch,

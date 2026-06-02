@@ -27,6 +27,8 @@ export class DrizzleInvestigationRepository implements InvestigationRepository {
 						failuresAccumulated: record.failuresAccumulated,
 						status: record.status,
 						goldCostPerTest: record.goldCostPerTest,
+						translatedPercent: record.translatedPercent,
+						discoveredSecrets: record.discoveredSecrets,
 						updatedAt: record.updatedAt,
 					},
 				})

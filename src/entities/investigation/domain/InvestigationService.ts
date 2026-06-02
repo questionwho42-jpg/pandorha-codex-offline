@@ -111,6 +111,8 @@ export class InvestigationService {
 			failuresAccumulated: 0,
 			status: "active",
 			goldCostPerTest,
+			translatedPercent: 0,
+			discoveredSecrets: "",
 			createdAt: timestamp,
 			updatedAt: timestamp,
 		};
