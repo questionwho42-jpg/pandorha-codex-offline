@@ -4,7 +4,10 @@ import type {
 	EquipmentWeaponMatrix,
 } from "$lib/entities/equipment";
 import type { DamageAffinity } from "$lib/shared/damage";
-import type { CombatEncounterActorRef } from "./combatEncounterTypes";
+import type {
+	CombatEncounterActorRef,
+	CombatWeaponDamageDiceExpression,
+} from "./combatEncounterTypes";
 
 export type CombatTrainingAttackProfileSource =
 	| "equipmentWeapon"
@@ -23,7 +26,7 @@ export interface CombatTrainingAttackProfile {
 	readonly source: CombatTrainingAttackProfileSource;
 	readonly summaryLabel: string;
 	readonly vulnerabilityBonusDamage: number;
-	readonly weaponDiceExpression?: string;
+	readonly weaponDiceExpression?: CombatWeaponDamageDiceExpression;
 	readonly weaponLabel?: string;
 }
 
@@ -93,22 +96,33 @@ function createEquipmentWeaponProfile(input: {
 	readonly weapon: EquipmentWeaponAttackProfile;
 }): CombatTrainingAttackProfile {
 	const matrix = getCharacterMatrix(input.character, input.weapon.matrix);
-
-	return {
+	const weaponDiceExpression = toSupportedWeaponDiceExpression(
+		input.weapon.diceExpression,
+	);
+	const weaponDiceIsSupported = weaponDiceExpression !== null;
+	const profile: CombatTrainingAttackProfile = {
 		affinities: [],
 		baseDiceTotal: input.weapon.baseDiceTotal,
 		damageReduction: 0,
 		damageType: input.weapon.damageType,
 		extraModifierTotal: 0,
-		helperText: `Perfil de arma real usando ${input.weapon.label}. O dado ainda entra como total determin\u00edstico de treino; dano completo e durabilidade por ataque ficam para fase posterior.`,
+		helperText: weaponDiceIsSupported
+			? `Perfil de arma real usando ${input.weapon.label}. O dado da arma ser\u00e1 rolado no ataque; dano completo e durabilidade por ataque ficam para fase posterior.`
+			: `Perfil de arma real usando ${input.weapon.label}. Esta express\u00e3o de dado ainda n\u00e3o entra no contrato de rolagem; dano completo e durabilidade por ataque ficam para fase posterior.`,
 		matrixLabel: `${matrix.label}: ${matrix.value}`,
 		matrixValue: matrix.value,
 		source: "equipmentWeapon",
-		summaryLabel: `${input.weapon.label}: ${input.weapon.diceExpression} (treino ${input.weapon.baseDiceTotal}) + ${matrix.shortLabel} ${matrix.value}`,
+		summaryLabel: `${input.weapon.label}: ${input.weapon.diceExpression} (${weaponDiceIsSupported ? "rolado no ataque" : "contrato pendente"}) + ${matrix.shortLabel} ${matrix.value}`,
 		vulnerabilityBonusDamage: 0,
-		weaponDiceExpression: input.weapon.diceExpression,
 		weaponLabel: input.weapon.label,
 	};
+
+	return weaponDiceExpression === null
+		? profile
+		: {
+				...profile,
+				weaponDiceExpression,
+			};
 }
 
 function getCharacterMatrix(
@@ -145,4 +159,17 @@ function getCharacterMatrix(
 	};
 
 	return values[matrix];
+}
+
+function toSupportedWeaponDiceExpression(
+	expression: string,
+): CombatWeaponDamageDiceExpression | null {
+	switch (expression) {
+		case "1d4":
+			return "1d4";
+		case "1d8":
+			return "1d8";
+		default:
+			return null;
+	}
 }

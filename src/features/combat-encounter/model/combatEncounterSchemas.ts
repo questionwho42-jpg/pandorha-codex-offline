@@ -28,6 +28,15 @@ export const combatEncounterAttackSchema = globalTestInputSchema
 
 export const combatEncounterDamageSchema = damagePipelineInputSchema
 	.omit({ isCriticalHit: true })
+	.extend({
+		weaponDice: z
+			.object({
+				expression: z.enum(["1d4", "1d8"]),
+				label: z.string().trim().min(1).max(80),
+			})
+			.strict()
+			.optional(),
+	})
 	.strict();
 
 export const combatEncounterInputSchema = z

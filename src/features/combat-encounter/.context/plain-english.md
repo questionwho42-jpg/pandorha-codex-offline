@@ -28,9 +28,14 @@ Aria continua usando o perfil fixo de treino. O seletor existe para os personage
 
 A arma escolhida ainda nao e salva, nao quebra, nao gasta durabilidade e nao verifica proficiencia. Ela so alimenta o perfil de dano local do combate.
 
+Na T88, quando um personagem da sessao ataca com uma arma oficial, o dado da arma passa a ser rolado no momento do ataque. O combate registra no log qual dado foi rolado, qual foi o resultado e qual codigo de auditoria veio do servico de dados.
+
+O calculo de dano continua separado: primeiro o dado da arma e rolado, depois o servico de dano recebe esse numero junto com a Matriz e os modificadores. Armadura, RD, afinidade, proficiencia e desgaste ainda ficam para fases futuras.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.
 - Criar primeiro um serviço puro: é o caminho atual, porque permite testar combate antes de colocar a tela no navegador.
 - Criar combate completo com turno, iniciativa e grid agora: seria mais próximo do jogo final, mas teria risco alto demais para uma única tarefa.
 - Salvar a arma equipada agora: mais conveniente, mas exigiria decisao de save version antes de o fluxo visual provar o contrato.
+- Fazer o servico de dano rolar o dado internamente: reduziria uma chamada no combate, mas esconderia a auditoria de dados dentro do pipeline de dano.

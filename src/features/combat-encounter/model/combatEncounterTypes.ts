@@ -8,6 +8,7 @@ import type {
 	DamagePipelineInput,
 	DamagePipelineResult,
 } from "$lib/shared/damage";
+import type { DiceFailure, DiceRollResult } from "$lib/shared/dice";
 import type { Result } from "$lib/shared/lib/result";
 import type {
 	ResolutionFailure,
@@ -35,7 +36,16 @@ export interface CombatEncounterAttackInput {
 export type CombatEncounterDamageInput = Omit<
 	DamagePipelineInput,
 	"isCriticalHit"
->;
+> & {
+	readonly weaponDice?: CombatWeaponDamageDiceInput | undefined;
+};
+
+export type CombatWeaponDamageDiceExpression = "1d4" | "1d8";
+
+export interface CombatWeaponDamageDiceInput {
+	readonly expression: CombatWeaponDamageDiceExpression;
+	readonly label: string;
+}
 
 export interface CombatEncounterInput {
 	readonly command: unknown;
@@ -48,6 +58,7 @@ export interface CombatEncounterInput {
 export type CombatEncounterEventType =
 	| "attackQueued"
 	| "attackResolved"
+	| "weaponDamageRolled"
 	| "damageApplied";
 
 export interface CombatEncounterEvent {
@@ -66,6 +77,7 @@ export interface CombatEncounterState {
 	readonly wasHit: boolean;
 	readonly resolution: ResolutionResult;
 	readonly damage: DamagePipelineResult | null;
+	readonly weaponDamageRoll: DiceRollResult | null;
 	readonly events: readonly CombatEncounterEvent[];
 	readonly log: readonly string[];
 	readonly processedCommand: ActionQueueProcessedCommand;
@@ -83,6 +95,10 @@ export interface CombatDamagePort {
 	): Result<DamagePipelineResult, DamagePipelineFailure>;
 }
 
+export interface CombatWeaponDamageDicePort {
+	rollDie(input: unknown): Result<DiceRollResult, DiceFailure>;
+}
+
 export interface CombatEncounterClock {
 	now(): string;
 }
@@ -91,7 +107,8 @@ export type CombatEncounterFailureCode =
 	| "INVALID_COMBAT_ENCOUNTER_INPUT"
 	| "ACTION_QUEUE_FAILED"
 	| "RESOLUTION_FAILED"
-	| "DAMAGE_PIPELINE_FAILED";
+	| "DAMAGE_PIPELINE_FAILED"
+	| "WEAPON_DAMAGE_DICE_FAILED";
 
 export type CombatEncounterFailureDetails = Readonly<
 	Record<string, string | number | boolean | readonly string[]>
@@ -104,7 +121,8 @@ export interface CombatEncounterFailure {
 	readonly cause?:
 		| ActionQueueFailure
 		| ResolutionFailure
-		| DamagePipelineFailure;
+		| DamagePipelineFailure
+		| DiceFailure;
 }
 
 export interface CombatEncounterResolvedCommand {

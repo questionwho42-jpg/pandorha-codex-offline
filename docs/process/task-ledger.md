@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260601-215735-t88-weapon-dice-roll-contract -->
+### T88 weapon dice roll contract
+- id: 20260601-215735-t88-weapon-dice-roll-contract
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-01T21:57:35-03:00
+- finished_at: 2026-06-01T22:16:53-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-01T22:16:53-03:00
+- branch: task/t73-t76-npc-relationship-save-ui
+- commit_at_start: 8019a63 chore(process): record t87 final snapshot
+- summary: Replace deterministic weapon baseDiceTotal in combat training with an auditable DiceService weapon die roll for current official weapon expressions 1d4 and 1d8, keeping DamagePipelineService as consumer of the rolled total and avoiding RD, affinity, durability, save v6, migration, or UI expansion.
+- last_change: T88 concluida: o contrato de dano de arma agora rola 1d4/1d8 via DiceService antes do DamagePipelineService, registra evento auditavel weaponDamageRolled, conecta o loadout local da sessao ao combate e documenta o limite sem RD, afinidade, desgaste, persistencia ou save v6.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-01T21:57:35-03:00
+- Done: task record created
+- Next: Write failing tests for audited weapon die rolls, then implement the smallest service/domain change.
+- Risks: quality:gate root:audit remains blocked by D01.1 dependency audit; T88 must not introduce full damage, durability, persistence, or broad UI changes.
+- Improvements: If dice expression parsing repeats later, extract a small shared parser only after the second concrete consumer.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-01T22:07:05-03:00
+- Done: Implemented T88 contract: combat damage input accepts optional supported weapon dice, CombatEncounterService rolls 1d4/1d8 through DiceService before DamagePipelineService, records weaponDamageRolled audit event, app session passes weaponDice from equipped profiles, and combat docs/memory were updated.
+- Next: Run full test suite, coverage, build, QA smokes, Browser Use if rendered combat copy changed, then complete and commit.
+- Risks: quality:gate root:audit remains blocked by D01.1 dependency audit; UI visible copy changed in combat profile/log, so a small Browser validation may be needed.
+- Improvements: Future dice expressions should add tests before expanding the supported union beyond 1d4 and 1d8.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-01T22:16:53-03:00
+- Done: T88 concluida: o contrato de dano de arma agora rola 1d4/1d8 via DiceService antes do DamagePipelineService, registra evento auditavel weaponDamageRolled, conecta o loadout local da sessao ao combate e documenta o limite sem RD, afinidade, desgaste, persistencia ou save v6.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260601-215735-t88-weapon-dice-roll-contract -->
 <!-- pandorha-task:20260601-123434-t87-combat-equipped-weapon-ui -->
 ### T87 combat equipped weapon UI
 - id: 20260601-123434-t87-combat-equipped-weapon-ui

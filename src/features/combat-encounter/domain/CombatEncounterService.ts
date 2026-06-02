@@ -15,11 +15,15 @@ import {
 import type {
 	CombatDamagePort,
 	CombatEncounterClock,
+	CombatEncounterDamageInput,
 	CombatEncounterEvent,
 	CombatEncounterFailure,
 	CombatEncounterInput,
 	CombatEncounterState,
 	CombatResolutionPort,
+	CombatWeaponDamageDiceExpression,
+	CombatWeaponDamageDiceInput,
+	CombatWeaponDamageDicePort,
 } from "../model/combatEncounterTypes";
 
 const RESOLUTION_DEGREE_LABELS: Record<ResolutionDegree, string> = {
@@ -28,6 +32,11 @@ const RESOLUTION_DEGREE_LABELS: Record<ResolutionDegree, string> = {
 	successWithCost: "sucesso com custo",
 	failure: "falha",
 };
+
+type ResolvedWeaponDamageRoll = Readonly<{
+	roll: NonNullable<CombatEncounterState["weaponDamageRoll"]>;
+	weaponDice: CombatWeaponDamageDiceInput;
+}>;
 
 /**
  * @rule docs/architecture/feature_state_machines.md - Combat commands must resolve through ActionQueue and HP changes derive from events.
@@ -38,6 +47,7 @@ export class CombatEncounterService {
 		private readonly resolutionService: CombatResolutionPort,
 		private readonly damageService: CombatDamagePort,
 		private readonly clock: CombatEncounterClock,
+		private readonly weaponDamageDiceService?: CombatWeaponDamageDicePort,
 	) {}
 
 	public resolveAttack(
@@ -170,10 +180,17 @@ export class CombatEncounterService {
 			);
 		}
 
-		const damage = this.damageService.calculateDamage({
-			...input.damage,
+		const weaponDamageRoll = this.rollWeaponDamageDie(input.damage);
+		if (!weaponDamageRoll.success) {
+			return fail(weaponDamageRoll.error);
+		}
+
+		const damageInput = createDamagePipelineInput({
+			damage: input.damage,
+			baseDiceTotalOverride: weaponDamageRoll.data?.roll.naturalRoll,
 			isCriticalHit: resolution.data.degree === "criticalSuccess",
 		});
+		const damage = this.damageService.calculateDamage(damageInput);
 
 		if (!damage.success) {
 			return fail({
@@ -184,6 +201,16 @@ export class CombatEncounterService {
 			});
 		}
 
+		const weaponDamageEvent =
+			weaponDamageRoll.data === null
+				? null
+				: createWeaponDamageRolledEvent({
+						command,
+						input,
+						roll: weaponDamageRoll.data.roll,
+						weaponDice: weaponDamageRoll.data.weaponDice,
+						createdAt: this.clock.now(),
+					});
 		const damageEvent = createDamageAppliedEvent({
 			command,
 			input,
@@ -196,9 +223,48 @@ export class CombatEncounterService {
 				input,
 				resolution: resolution.data,
 				damage: damage.data,
-				events: [...resolvedEvents, damageEvent],
+				weaponDamageRoll: weaponDamageRoll.data?.roll ?? null,
+				events:
+					weaponDamageEvent === null
+						? [...resolvedEvents, damageEvent]
+						: [...resolvedEvents, weaponDamageEvent, damageEvent],
 			}),
 		);
+	}
+
+	private rollWeaponDamageDie(
+		damage: CombatEncounterDamageInput,
+	): Result<ResolvedWeaponDamageRoll | null, CombatEncounterFailure> {
+		if (damage.weaponDice === undefined) {
+			return ok(null);
+		}
+
+		if (this.weaponDamageDiceService === undefined) {
+			return fail({
+				code: "WEAPON_DAMAGE_DICE_FAILED",
+				message: "Combat encounter has weapon dice but no dice service.",
+				details: { reason: "missing weapon damage dice service" },
+			});
+		}
+
+		const rolled = this.weaponDamageDiceService.rollDie({
+			sides: getWeaponDiceSides(damage.weaponDice.expression),
+			reason: `Dano de arma: ${damage.weaponDice.label} (${damage.weaponDice.expression})`,
+		});
+
+		if (!rolled.success) {
+			return fail({
+				code: "WEAPON_DAMAGE_DICE_FAILED",
+				message: "Combat encounter failed while rolling weapon damage dice.",
+				details: { diceFailureCode: rolled.error.code },
+				cause: rolled.error,
+			});
+		}
+
+		return ok({
+			roll: rolled.data,
+			weaponDice: damage.weaponDice,
+		});
 	}
 }
 
@@ -217,6 +283,7 @@ function createState(input: {
 	readonly input: CombatEncounterInput;
 	readonly resolution: CombatEncounterState["resolution"];
 	readonly damage?: CombatEncounterState["damage"];
+	readonly weaponDamageRoll?: CombatEncounterState["weaponDamageRoll"];
 	readonly events: readonly CombatEncounterEvent[];
 }): CombatEncounterState {
 	const targetHitPoints = deriveTargetHitPoints({
@@ -233,6 +300,7 @@ function createState(input: {
 		wasHit: input.damage !== undefined,
 		resolution: input.resolution,
 		damage: input.damage ?? null,
+		weaponDamageRoll: input.weaponDamageRoll ?? null,
 		events: input.events,
 		log: input.events.map((event) => event.message),
 		processedCommand: {
@@ -240,6 +308,20 @@ function createState(input: {
 			commandType: "attack",
 			processedAt: "pending",
 		},
+	};
+}
+
+function createDamagePipelineInput(input: {
+	readonly damage: CombatEncounterDamageInput;
+	readonly baseDiceTotalOverride: number | undefined;
+	readonly isCriticalHit: boolean;
+}) {
+	const { weaponDice: _weaponDice, ...damage } = input.damage;
+
+	return {
+		...damage,
+		baseDiceTotal: input.baseDiceTotalOverride ?? damage.baseDiceTotal,
+		isCriticalHit: input.isCriticalHit,
 	};
 }
 
@@ -292,6 +374,24 @@ function createAttackResolvedEvent(input: {
 	};
 }
 
+function createWeaponDamageRolledEvent(input: {
+	readonly command: ActionCommand;
+	readonly input: CombatEncounterInput;
+	readonly roll: NonNullable<CombatEncounterState["weaponDamageRoll"]>;
+	readonly weaponDice: CombatWeaponDamageDiceInput;
+	readonly createdAt: string;
+}): CombatEncounterEvent {
+	return {
+		id: `${input.command.id}-weapon-damage`,
+		type: "weaponDamageRolled",
+		actorId: input.input.attacker.id,
+		targetId: input.input.target.id,
+		message: `${input.weaponDice.label} rolou ${input.roll.naturalRoll} em ${input.weaponDice.expression} para dano da arma (auditoria ${input.roll.auditEntry.rollId}). Matriz ${input.input.damage.matrixValue}, modificadores ${input.input.damage.extraModifierTotal}.`,
+		createdAt: input.createdAt,
+		damageAmount: 0,
+	};
+}
+
 function createDamageAppliedEvent(input: {
 	readonly command: ActionCommand;
 	readonly input: CombatEncounterInput;
@@ -316,4 +416,15 @@ function createDamageAppliedEvent(input: {
 
 function isHitResolution(degree: ResolutionDegree): boolean {
 	return degree !== "failure";
+}
+
+function getWeaponDiceSides(
+	expression: CombatWeaponDamageDiceExpression,
+): number {
+	switch (expression) {
+		case "1d4":
+			return 4;
+		case "1d8":
+			return 8;
+	}
 }

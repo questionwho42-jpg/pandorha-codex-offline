@@ -96,6 +96,87 @@ describe("CombatEncounterService", () => {
 		expect(state.target.currentHitPoints).toBe(16);
 	});
 
+	it("rolls equipped weapon damage dice before sending totals to the damage pipeline", () => {
+		const service = new CombatEncounterService(
+			createResolutionService([0.45]),
+			new DamagePipelineService(),
+			createDeterministicCombatClock("2026-05-06T12:00:00.000Z"),
+			createWeaponDiceService([0.5]),
+		);
+
+		const state = expectCombatSuccess(
+			service.resolveAttack({
+				...createEncounterInput(),
+				attacker: { id: "session-character-1", label: "Nara" },
+				damage: {
+					...createDamageInput({ baseDiceTotal: 2, matrixValue: 3 }),
+					weaponDice: {
+						expression: "1d4",
+						label: "Adaga",
+					},
+				},
+			}),
+		);
+
+		expect(state.damage?.breakdown).toMatchObject({
+			baseDiceTotal: 3,
+			matrixValue: 3,
+			extraModifierTotal: 0,
+		});
+		expect(state.damage?.finalDamage).toBe(6);
+		expect(state.weaponDamageRoll?.auditEntry).toEqual({
+			rollId: "weapon-damage-roll-1",
+			reason: "Dano de arma: Adaga (1d4)",
+			sides: 4,
+			naturalRoll: 3,
+			createdAt: "2026-05-06T12:05:00.000Z",
+		});
+		expect(state.events.map((event) => event.type)).toEqual([
+			"attackQueued",
+			"attackResolved",
+			"weaponDamageRolled",
+			"damageApplied",
+		]);
+		expect(state.log).toContain(
+			"Adaga rolou 3 em 1d4 para dano da arma (auditoria weapon-damage-roll-1). Matriz 3, modificadores 0.",
+		);
+	});
+
+	it("returns typed failure when weapon dice are present without a dice service", () => {
+		const service = createService([0.45]);
+
+		const failure = expectCombatFailure(
+			service.resolveAttack(
+				createEncounterInput({
+					damage: createDamageInputWithWeaponDice(),
+				}),
+			),
+		);
+
+		expect(failure.code).toBe("WEAPON_DAMAGE_DICE_FAILED");
+		expect(failure.details?.reason).toBe("missing weapon damage dice service");
+	});
+
+	it("returns typed failure when weapon damage dice rolling fails", () => {
+		const service = new CombatEncounterService(
+			createResolutionService([0.45]),
+			new DamagePipelineService(),
+			createDeterministicCombatClock("2026-05-06T12:00:00.000Z"),
+			createWeaponDiceService([]),
+		);
+
+		const failure = expectCombatFailure(
+			service.resolveAttack(
+				createEncounterInput({
+					damage: createDamageInputWithWeaponDice(),
+				}),
+			),
+		);
+
+		expect(failure.code).toBe("WEAPON_DAMAGE_DICE_FAILED");
+		expect(failure.details?.diceFailureCode).toBe("INVALID_RNG_VALUE");
+	});
+
 	it("clamps target HP at zero when damage exceeds current HP", () => {
 		const service = createService([0.45]);
 
@@ -245,6 +326,14 @@ function createResolutionService(
 	return new ResolutionService(diceService);
 }
 
+function createWeaponDiceService(sequence: readonly number[]): DiceService {
+	return new DiceService(
+		new SequenceDiceRng(sequence),
+		createSequentialDiceRollIdProvider("weapon-damage-roll"),
+		createDeterministicDiceClock("2026-05-06T12:05:00.000Z"),
+	);
+}
+
 function createEncounterInput(
 	overrides: Partial<CombatEncounterInput> = {},
 ): CombatEncounterInput {
@@ -308,6 +397,16 @@ function createDamageInput(
 		vulnerabilityBonusDamage: 0,
 		affinities: [],
 		...overrides,
+	};
+}
+
+function createDamageInputWithWeaponDice(): CombatEncounterInput["damage"] {
+	return {
+		...createDamageInput({ baseDiceTotal: 2 }),
+		weaponDice: {
+			expression: "1d4",
+			label: "Adaga",
+		},
 	};
 }
 

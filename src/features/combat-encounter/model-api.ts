@@ -30,6 +30,7 @@ export type {
 	CombatEncounterState,
 	CombatEncounterTargetState,
 	CombatResolutionPort,
+	CombatWeaponDamageDiceInput,
 } from "./model/combatEncounterTypes";
 export {
 	type CombatEncounterView,

@@ -14,6 +14,7 @@ import {
 	CombatEncounterService,
 	type CombatTrainingAttackProfile,
 	type CombatTrainingTarget,
+	type CombatWeaponDamageDiceInput,
 	DEFAULT_COMBAT_TRAINING_ATTACKER,
 	DEFAULT_TRAINING_TARGET,
 	TRAINING_TARGETS,
@@ -76,12 +77,24 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 			new ResolutionService(diceService),
 			new DamagePipelineService(),
 			encounterClock,
+			diceService,
 		),
 		trainingTargets: TRAINING_TARGETS,
 		createAttackInput: (attacker, target, targetHitPoints, attackProfile) => {
 			const commandId = `training-attack-${nextCommandId}`;
 			nextCommandId += 1;
 			const combatAttacker = toCombatEncounterActorRef(attacker);
+
+			const weaponDice = createWeaponDiceInput(attackProfile);
+			const damage = {
+				damageType: attackProfile.damageType,
+				baseDiceTotal: attackProfile.baseDiceTotal,
+				matrixValue: attackProfile.matrixValue,
+				extraModifierTotal: attackProfile.extraModifierTotal,
+				damageReduction: attackProfile.damageReduction,
+				vulnerabilityBonusDamage: attackProfile.vulnerabilityBonusDamage,
+				affinities: attackProfile.affinities,
+			};
 
 			return {
 				command: {
@@ -106,17 +119,31 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 					applicationValue: 2,
 					itemBonus: 1,
 				},
-				damage: {
-					damageType: attackProfile.damageType,
-					baseDiceTotal: attackProfile.baseDiceTotal,
-					matrixValue: attackProfile.matrixValue,
-					extraModifierTotal: attackProfile.extraModifierTotal,
-					damageReduction: attackProfile.damageReduction,
-					vulnerabilityBonusDamage: attackProfile.vulnerabilityBonusDamage,
-					affinities: attackProfile.affinities,
-				},
+				damage:
+					weaponDice === null
+						? damage
+						: {
+								...damage,
+								weaponDice,
+							},
 			};
 		},
+	};
+}
+
+function createWeaponDiceInput(
+	attackProfile: CombatTrainingAttackProfile,
+): CombatWeaponDamageDiceInput | null {
+	if (
+		attackProfile.weaponDiceExpression === undefined ||
+		attackProfile.weaponLabel === undefined
+	) {
+		return null;
+	}
+
+	return {
+		expression: attackProfile.weaponDiceExpression,
+		label: attackProfile.weaponLabel,
 	};
 }
 

@@ -85,6 +85,15 @@
 - `createCombatTrainingAttackProfile` receives `activeWeaponProfile` only after the loadout resolves, preserving `exactOptionalPropertyTypes`.
 - T87 does not persist selected weapon ids, mutate inventory, consume durability, apply proficiency, support dual wield, or change save v5.
 
+## T88 - Weapon Dice Roll Contract
+
+- `CombatEncounterDamageInput` now accepts optional `weaponDice` with the supported official expressions `1d4` and `1d8`.
+- `CombatEncounterService` owns the bridge from weapon dice expression to `DiceService.rollDie`; `DamagePipelineService` still receives only the rolled `baseDiceTotal`.
+- Weapon damage rolls create a `weaponDamageRolled` event with the dice audit id, natural roll, Matriz value, and modifier total before `damageApplied`.
+- `combatEncounterSession` passes the same deterministic `DiceService` into attack resolution and weapon damage so rendered training remains reproducible.
+- Unsupported future expressions stay marked as `contrato pendente` instead of being silently rolled.
+- T88 does not add RD, affinity behavior, proficiency, durability wear, save v6, persistence, or new UI controls.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

@@ -392,6 +392,7 @@ function createState(input: {
 							vulnerabilityBonusDamage: 0,
 						},
 					},
+		weaponDamageRoll: null,
 		events: [],
 		log: [],
 		processedCommand: {

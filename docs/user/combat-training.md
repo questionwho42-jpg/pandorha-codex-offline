@@ -11,7 +11,7 @@ Este guia mostra como testar a vertical slice T22 de combate no navegador. O obj
 - Personagens da sessao usam o seletor `Arma equipada`; a arma padrao e `Espada Longa`.
 - `Aria usa perfil fixo de treino`, mesmo quando o seletor mostra uma arma da sessao.
 - A tela mostra `Rodada`, `Turno de ...` e `Acoes 3/3`.
-- `Atacar` gasta 1 acao e registra resultado, dano, HP restante e log.
+- `Atacar` gasta 1 acao e registra resultado, rolagem de dado da arma quando houver, dano, HP restante e log.
 - O turno do alvo de treino existe, mas ele nao tem IA: ao encerrar o turno dele, o log informa que ele manteve posicao.
 - Quando o alvo chega a 0 HP, a tela mostra `Alvo derrotado`, bloqueia novos ataques e mantem `Reiniciar encontro` disponivel.
 
@@ -57,11 +57,12 @@ Depois:
 4. Confirme que `Arma equipada` mostra `Espada Longa`.
 5. Confirme que o helper mostra `Arma ativa: Espada Longa (1d8)`.
 6. Confirme que o `Perfil de dano` mostra `Matriz Fisica: 3`.
-7. Confirme que o resumo de dano mostra `Espada Longa: 1d8 (treino 4) + Fisico 3`.
-8. Troque `Arma equipada` para `Adaga` e confirme que o resumo muda para `Adaga: 1d4`.
+7. Confirme que o resumo de dano mostra `Espada Longa: 1d8 (rolado no ataque) + Fisico 3`.
+8. Troque `Arma equipada` para `Adaga` e confirme que o resumo muda para `Adaga: 1d4 (rolado no ataque) + Fisico 3`.
 9. Clique em `Atacar`.
 10. Confirme que o log usa o nome `Nara`.
-11. Confirme que o dano final usa a arma selecionada e a Matriz do personagem.
+11. Confirme que o log registra a rolagem auditavel da arma, por exemplo `Adaga rolou ... em 1d4`.
+12. Confirme que o dano final usa a arma selecionada e a Matriz do personagem.
 
 ## Escolhendo Alvos
 
@@ -100,7 +101,7 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - O combate existe apenas na sessao atual do navegador.
 - Recarregar a pagina reinicia o encontro e remove personagens criados na sessao.
 - O HP real do personagem ainda nao e usado.
-- A arma selecionada entra apenas como loadout local e perfil de dano; ela nao e salva, nao gasta durabilidade e ainda nao usa proficiencia.
+- A arma selecionada entra apenas como loadout local e dado de dano auditavel; ela nao e salva, nao gasta durabilidade e ainda nao usa proficiencia.
 - Armaduras, escudos, talentos, magia e condicoes ainda nao entram no calculo.
 - A iniciativa ainda e fixa: atacante primeiro, alvo depois.
 - O alvo de treino nao ataca, nao causa dano e nao possui IA.

@@ -112,8 +112,31 @@ describe("createCombatEncounterSession", () => {
 		expect(profile).toMatchObject({
 			extraModifierTotal: 0,
 			source: "equipmentWeapon",
-			summaryLabel: "Espada Longa: 1d8 (treino 4) + F\u00edsico 3",
+			summaryLabel: "Espada Longa: 1d8 (rolado no ataque) + F\u00edsico 3",
 			weaponLabel: "Espada Longa",
+		});
+		const attackInput = session.createAttackInput(
+			attacker,
+			session.initialTarget,
+			session.initialTarget.currentHitPoints,
+			profile,
+		);
+
+		expect(attackInput.damage.weaponDice).toEqual({
+			expression: "1d8",
+			label: "Espada Longa",
+		});
+		const state = session.service.resolveAttack(attackInput);
+
+		expect(state.success).toBe(true);
+		if (!state.success) {
+			return;
+		}
+		expect(state.data.damage?.breakdown.baseDiceTotal).toBe(4);
+		expect(state.data.weaponDamageRoll?.auditEntry).toMatchObject({
+			reason: "Dano de arma: Espada Longa (1d8)",
+			rollId: "combat-roll-2",
+			sides: 8,
 		});
 	});
 });

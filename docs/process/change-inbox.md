@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260601-215735-t88-weapon-dice-roll-contract -->
+### T88 weapon dice roll contract
+- id: 20260601-215735-t88-weapon-dice-roll-contract
+- status: open
+- created_at: 2026-06-01T21:57:35-03:00
+- source: task-ledger
+- summary: Replace deterministic weapon baseDiceTotal in combat training with an auditable DiceService weapon die roll for current official weapon expressions 1d4 and 1d8, keeping DamagePipelineService as consumer of the rolled total and avoiding RD, affinity, durability, save v6, migration, or UI expansion.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260601-215735-t88-weapon-dice-roll-contract -->
 <!-- pandorha-inbox:20260601-123434-t87-combat-equipped-weapon-ui -->
 ### T87 combat equipped weapon UI
 - id: 20260601-123434-t87-combat-equipped-weapon-ui

@@ -61,13 +61,49 @@ describe("createCombatTrainingAttackProfile", () => {
 			matrixLabel: "Matriz F\u00edsica: 3",
 			matrixValue: 3,
 			source: "equipmentWeapon",
-			summaryLabel: "Espada Longa: 1d8 (treino 4) + F\u00edsico 3",
+			summaryLabel: "Espada Longa: 1d8 (rolado no ataque) + F\u00edsico 3",
 			weaponDiceExpression: "1d8",
 			weaponLabel: "Espada Longa",
 		});
 		expect(profile.helperText).toBe(
-			"Perfil de arma real usando Espada Longa. O dado ainda entra como total determin\u00edstico de treino; dano completo e durabilidade por ataque ficam para fase posterior.",
+			"Perfil de arma real usando Espada Longa. O dado da arma ser\u00e1 rolado no ataque; dano completo e durabilidade por ataque ficam para fase posterior.",
 		);
+	});
+
+	it("marks future weapon dice expressions as pending instead of enabling rolls", () => {
+		const profile = createCombatTrainingAttackProfile({
+			attacker: { id: "session-character-1", label: "Lia" },
+			characters: [createCharacterRecord({ physical: 3 })],
+			equippedWeapon: createWeaponProfile({
+				diceExpression: "2d6",
+				label: "Martelo Futuro",
+			}),
+		});
+
+		expect(profile.summaryLabel).toBe(
+			"Martelo Futuro: 2d6 (contrato pendente) + F\u00edsico 3",
+		);
+		expect(profile.weaponDiceExpression).toBeUndefined();
+		expect(profile.helperText).toBe(
+			"Perfil de arma real usando Martelo Futuro. Esta express\u00e3o de dado ainda n\u00e3o entra no contrato de rolagem; dano completo e durabilidade por ataque ficam para fase posterior.",
+		);
+	});
+
+	it("keeps official 1d4 weapons inside the auditable roll contract", () => {
+		const profile = createCombatTrainingAttackProfile({
+			attacker: { id: "session-character-1", label: "Lia" },
+			characters: [createCharacterRecord({ physical: 3 })],
+			equippedWeapon: createWeaponProfile({
+				diceExpression: "1d4",
+				id: "dagger",
+				label: "Adaga",
+			}),
+		});
+
+		expect(profile.summaryLabel).toBe(
+			"Adaga: 1d4 (rolado no ataque) + F\u00edsico 3",
+		);
+		expect(profile.weaponDiceExpression).toBe("1d4");
 	});
 
 	it("changes only the matrix value when session characters have different physical values", () => {
