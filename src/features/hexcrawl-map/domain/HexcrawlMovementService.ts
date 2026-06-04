@@ -1,3 +1,5 @@
+import type { LoreService } from "$lib/entities/lore/domain/LoreService";
+import type { LoreEncounterRecord } from "$lib/entities/lore/model/loreSchema";
 import type {
 	WorldTileCatalogRepository,
 	WorldTileRecord,
@@ -21,6 +23,7 @@ import type {
 export class HexcrawlMovementService {
 	public constructor(
 		private readonly tileRepository: WorldTileCatalogRepository,
+		private readonly loreService?: LoreService,
 	) {}
 
 	public async moveParty(
@@ -73,12 +76,25 @@ export class HexcrawlMovementService {
 			});
 		}
 
+		let resolvedEncounter: LoreEncounterRecord | null = null;
+		if (this.loreService) {
+			const characterId = parsedInput.data.activeCharacterId ?? "party-leader";
+			const loreResult = await this.loreService.resolveLoreEncounter(
+				targetTile.data.id,
+				characterId,
+			);
+			if (loreResult.success) {
+				resolvedEncounter = loreResult.data;
+			}
+		}
+
 		return ok(
 			createMovementResult(
 				parsedInput.data,
 				currentTile.data,
 				targetTile.data,
 				direction,
+				resolvedEncounter,
 			),
 		);
 	}
@@ -131,6 +147,7 @@ function createMovementResult(
 	fromTile: WorldTileRecord,
 	toTile: WorldTileRecord,
 	direction: HexcrawlDirection,
+	loreEncounter: LoreEncounterRecord | null,
 ): HexcrawlMovementResult {
 	const discoveredTile = !toTile.isKnown;
 	const encounterCheckPending = toTile.encounterSignal === "check";
@@ -147,6 +164,7 @@ function createMovementResult(
 			toTile,
 			discoveredTile,
 			encounterCheckPending,
+			loreEncounter,
 		),
 	};
 }
@@ -156,6 +174,7 @@ function createMovementEvents(
 	toTile: WorldTileRecord,
 	discoveredTile: boolean,
 	encounterCheckPending: boolean,
+	loreEncounter: LoreEncounterRecord | null,
 ): HexcrawlMovementResult["events"] {
 	const events: HexcrawlMovementResult["events"][number][] = [
 		{
@@ -181,6 +200,20 @@ function createMovementEvents(
 			message: "As ruínas exigem uma checagem de encontro futura.",
 			tileId: toTile.id,
 			createdAt: input.createdAt,
+		});
+	}
+
+	if (loreEncounter) {
+		events.push({
+			type: "lore-encounter-triggered",
+			message: `[Narrativa] ${loreEncounter.title}: ${loreEncounter.content}`,
+			tileId: toTile.id,
+			createdAt: input.createdAt,
+			payload: {
+				encounterId: loreEncounter.id,
+				title: loreEncounter.title,
+				content: loreEncounter.content,
+			},
 		});
 	}
 

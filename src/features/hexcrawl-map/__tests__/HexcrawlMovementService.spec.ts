@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
+import { LoreService } from "$lib/entities/lore/domain/LoreService";
+import { InMemoryLoreRepository } from "$lib/entities/lore/infrastructure/InMemoryLoreRepository";
 import {
 	InMemoryWorldTileCatalogRepository,
 	WORLD_TILE_CATALOG,
 } from "$lib/entities/world-tile";
-import type { Result } from "$lib/shared/lib/result";
+import { fail, ok, type Result } from "$lib/shared/lib/result";
 import { HexcrawlMovementService } from "../domain/HexcrawlMovementService";
 import type {
 	HexcrawlMovementFailure,
@@ -163,6 +165,100 @@ describe("HexcrawlMovementService", () => {
 			},
 		]);
 	});
+
+	it("triggers lore encounter during movement if one is available on the target tile", async () => {
+		class TestClockRepository {
+			public async findById() {
+				return ok(null);
+			}
+			public async save() {
+				return fail(new Error());
+			}
+			public async findAll() {
+				return ok([]);
+			}
+			public async delete(id: string) {
+				return ok(undefined);
+			}
+		}
+		class TestSocialRepository {
+			public async findReputation() {
+				// biome-ignore lint/suspicious/noExplicitAny: fake reputation failure
+				return fail({ code: "REPUTATION_NOT_FOUND", message: "" } as any);
+			}
+			public async saveFaction() {
+				// biome-ignore lint/suspicious/noExplicitAny: fake repository method
+				return fail(null as any);
+			}
+			public async findFactionById() {
+				// biome-ignore lint/suspicious/noExplicitAny: fake repository method
+				return fail(null as any);
+			}
+			public async listFactions() {
+				return ok([]);
+			}
+			public async saveReputation() {
+				// biome-ignore lint/suspicious/noExplicitAny: fake repository method
+				return fail(null as any);
+			}
+			public async listReputationsByCharacter() {
+				return ok([]);
+			}
+			public async saveBloodDebt() {
+				// biome-ignore lint/suspicious/noExplicitAny: fake repository method
+				return fail(null as any);
+			}
+			public async listBloodDebtsByCharacter() {
+				return ok([]);
+			}
+		}
+
+		const tilePort = createTilePort();
+		const loreRepo = new InMemoryLoreRepository();
+		// biome-ignore lint/suspicious/noExplicitAny: fake repository cast
+		const clockRepo = new TestClockRepository() as any;
+		// biome-ignore lint/suspicious/noExplicitAny: fake repository cast
+		const socialRepo = new TestSocialRepository() as any;
+		const loreService = new LoreService(loreRepo, clockRepo, socialRepo);
+
+		await loreRepo.saveEncounter({
+			id: "enc-pines",
+			tileId: "north-pines",
+			title: "Encontro nos Pinheiros",
+			content: "Você avista uma clareira estranha.",
+			factionIdRequired: null,
+			reputationRequired: 0,
+			requiredClockId: null,
+			requiredClockValue: 0,
+			isTriggered: false,
+			createdAt: "2026-06-02T00:00:00Z",
+			updatedAt: "2026-06-02T00:00:00Z",
+		});
+
+		const service = new HexcrawlMovementService(tilePort, loreService);
+
+		const result = await service.moveParty(
+			createInput({
+				targetTileId: "north-pines",
+				activeCharacterId: "char-1",
+			}),
+		);
+		const movement = expectMovementSuccess(result);
+
+		expect(movement.events.map((event) => event.type)).toContain(
+			"lore-encounter-triggered",
+		);
+		const loreEvent = movement.events.find(
+			(e) => e.type === "lore-encounter-triggered",
+		);
+		expect(loreEvent).toBeDefined();
+		expect(loreEvent?.message).toContain("Encontro nos Pinheiros");
+		expect(loreEvent?.payload).toEqual({
+			encounterId: "enc-pines",
+			title: "Encontro nos Pinheiros",
+			content: "Você avista uma clareira estranha.",
+		});
+	});
 });
 
 function createTilePort(): InMemoryWorldTileCatalogRepository {
@@ -181,6 +277,7 @@ function createInput(
 		currentTileId: string;
 		targetTileId: string;
 		createdAt: string;
+		activeCharacterId: string;
 	}> = {},
 ) {
 	return {
@@ -188,6 +285,7 @@ function createInput(
 		currentTileId: "camp-road",
 		targetTileId: "north-pines",
 		createdAt: "2026-05-14T03:00:00.000Z",
+		activeCharacterId: "char-1",
 		...overrides,
 	};
 }

@@ -13,6 +13,7 @@ export const hexcrawlMovementInputSchema = z
 		currentTileId: slugSchema,
 		targetTileId: slugSchema,
 		createdAt: z.iso.datetime(),
+		activeCharacterId: z.string().trim().optional(),
 	})
 	.strict();
 

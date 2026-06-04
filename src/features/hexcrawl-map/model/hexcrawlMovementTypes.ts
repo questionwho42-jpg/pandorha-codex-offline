@@ -11,13 +11,19 @@ export type HexcrawlDirection =
 export type HexcrawlMovementEventType =
 	| "party-moved"
 	| "world-tile-discovered"
-	| "encounter-check-pending";
+	| "encounter-check-pending"
+	| "lore-encounter-triggered";
 
 export type HexcrawlMovementEvent = {
 	readonly type: HexcrawlMovementEventType;
 	readonly message: string;
 	readonly tileId: string;
 	readonly createdAt: string;
+	readonly payload?: {
+		readonly encounterId: string;
+		readonly title: string;
+		readonly content: string;
+	};
 };
 
 export type HexcrawlMovementResult = {
