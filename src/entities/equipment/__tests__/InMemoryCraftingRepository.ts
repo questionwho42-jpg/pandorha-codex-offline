@@ -84,4 +84,35 @@ export class InMemoryCraftingRepository implements CraftingRepository {
 		this.items.set(id, updated);
 		return ok(updated);
 	}
+
+	public async updateCraftedItemDurability(
+		id: string,
+		durabilityCurrent: number,
+		durability: "mint" | "damaged" | "broken",
+	): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>> {
+		const item = this.items.get(id);
+		if (!item) {
+			return fail({
+				code: "ITEM_NOT_FOUND",
+				message: `Item artesanal com ID ${id} não foi localizado em memória para atualizar durabilidade.`,
+			});
+		}
+		const updated = { ...item, durabilityCurrent, durability };
+		this.items.set(id, updated);
+		return ok(updated);
+	}
+
+	public async updateCraftedItem(
+		item: CharacterCraftedItemRecord,
+	): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>> {
+		if (!this.items.has(item.id)) {
+			return fail({
+				code: "ITEM_NOT_FOUND",
+				message: `Item artesanal com ID ${item.id} não foi localizado em memória para atualização.`,
+			});
+		}
+		const updated = { ...item };
+		this.items.set(item.id, updated);
+		return ok(updated);
+	}
 }

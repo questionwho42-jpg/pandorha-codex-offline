@@ -132,6 +132,15 @@ export const OFFICIAL_CONSUMABLES = [
 		slotCostPerStack: 1,
 	},
 	{
+		id: "first-aid-kit",
+		label: "Kit de Primeiros Socorros",
+		kind: "adventuring-item",
+		sourceFile: "docs/system/survival/00-mecanicas-fundamentais.md",
+		quantity: 3,
+		maxQuantityPerStack: 3,
+		slotCostPerStack: 1,
+	},
+	{
 		id: "gold-coins-stack",
 		label: "Moedas de Ouro",
 		kind: "currency",

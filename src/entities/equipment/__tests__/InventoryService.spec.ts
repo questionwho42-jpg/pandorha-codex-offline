@@ -24,6 +24,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			isEquipped: 0,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint" as const,
 			createdAt: new Date().toISOString(),
 		};
 		await repo.saveCraftedItem(itemRecord);
@@ -59,6 +60,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			isEquipped: 1,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint",
 			createdAt: new Date().toISOString(),
 		});
 
@@ -74,6 +76,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			isEquipped: 1,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint",
 			createdAt: new Date().toISOString(),
 		});
 
@@ -89,6 +92,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			isEquipped: 0,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint",
 			createdAt: new Date().toISOString(),
 		});
 
@@ -103,6 +107,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			backgroundId: "solitary",
 			level: 1,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			physical: 1,
 			mental: 1,
 			social: 1,
@@ -148,6 +153,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			isEquipped: 1,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint",
 			createdAt: new Date().toISOString(),
 		});
 
@@ -163,6 +169,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			isEquipped: 1,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint",
 			createdAt: new Date().toISOString(),
 		});
 
@@ -178,6 +185,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			isEquipped: 1,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint",
 			createdAt: new Date().toISOString(),
 		});
 
@@ -193,6 +201,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			isEquipped: 1,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint",
 			createdAt: new Date().toISOString(),
 		});
 
@@ -207,6 +216,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			backgroundId: "solitary",
 			level: 1,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			physical: 0,
 			mental: 1,
 			social: 1,
@@ -261,6 +271,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			backgroundId: "solitary",
 			level: 1,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			physical: 1,
 			mental: 1,
 			social: 1,
@@ -302,6 +313,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			isEquipped: 1,
 			durabilityCurrent: 50,
 			durabilityMax: 50,
+			durability: "mint",
 			createdAt: new Date().toISOString(),
 		});
 
@@ -314,6 +326,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			backgroundId: "solitary",
 			level: 1,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			physical: 1,
 			mental: 1,
 			social: 1,
@@ -355,6 +368,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			isEquipped: 1,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint",
 			createdAt: new Date().toISOString(),
 		});
 
@@ -370,6 +384,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			isEquipped: 1,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint",
 			createdAt: new Date().toISOString(),
 		});
 
@@ -382,6 +397,7 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			backgroundId: "solitary",
 			level: 1,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			physical: 3,
 			mental: 1,
 			social: 1,

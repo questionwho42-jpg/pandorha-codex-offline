@@ -215,4 +215,87 @@ export class DrizzleCraftingRepository implements CraftingRepository {
 			});
 		}
 	}
+
+	public async updateCraftedItemDurability(
+		id: string,
+		durabilityCurrent: number,
+		durability: "mint" | "damaged" | "broken",
+	): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>> {
+		try {
+			const rows = await this.db
+				.update(characterCraftedItems)
+				.set({ durabilityCurrent, durability })
+				.where(eq(characterCraftedItems.id, id))
+				.returning();
+
+			if (rows.length === 0) {
+				return fail({
+					code: "ITEM_NOT_FOUND",
+					message: `Item artesanal com ID ${id} não foi encontrado para atualização de durabilidade.`,
+				});
+			}
+
+			const parsed = characterCraftedItemSelectSchema.safeParse(rows[0]);
+			if (!parsed.success) {
+				return fail({
+					code: "CORRUPTED_CRAFTING_RECORD",
+					message:
+						"Item artesanal retornado após atualização de durabilidade é inválido.",
+				});
+			}
+
+			return ok(parsed.data);
+		} catch (error: unknown) {
+			return fail({
+				code: "CRAFTING_REPOSITORY_WRITE_FAILED",
+				message: `Falha ao atualizar durabilidade do item no SQLite: ${error instanceof Error ? error.message : String(error)}`,
+			});
+		}
+	}
+
+	public async updateCraftedItem(
+		item: CharacterCraftedItemRecord,
+	): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>> {
+		try {
+			const rows = await this.db
+				.update(characterCraftedItems)
+				.set({
+					characterId: item.characterId,
+					equipmentId: item.equipmentId,
+					label: item.label,
+					isSharp: item.isSharp,
+					isReinforced: item.isReinforced,
+					isRunic: item.isRunic,
+					isEquipped: item.isEquipped,
+					durabilityCurrent: item.durabilityCurrent,
+					durabilityMax: item.durabilityMax,
+					durability: item.durability,
+					createdAt: item.createdAt,
+				})
+				.where(eq(characterCraftedItems.id, item.id))
+				.returning();
+
+			if (rows.length === 0) {
+				return fail({
+					code: "ITEM_NOT_FOUND",
+					message: `Item artesanal com ID ${item.id} não foi encontrado para atualização.`,
+				});
+			}
+
+			const parsed = characterCraftedItemSelectSchema.safeParse(rows[0]);
+			if (!parsed.success) {
+				return fail({
+					code: "CORRUPTED_CRAFTING_RECORD",
+					message: "Item artesanal retornado após atualização é inválido.",
+				});
+			}
+
+			return ok(parsed.data);
+		} catch (error: unknown) {
+			return fail({
+				code: "CRAFTING_REPOSITORY_WRITE_FAILED",
+				message: `Falha ao atualizar o item artesanal no SQLite: ${error instanceof Error ? error.message : String(error)}`,
+			});
+		}
+	}
 }

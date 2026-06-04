@@ -34,4 +34,14 @@ export interface CraftingRepository {
 		id: string,
 		isEquipped: number,
 	): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>>;
+
+	updateCraftedItemDurability(
+		id: string,
+		durabilityCurrent: number,
+		durability: "mint" | "damaged" | "broken",
+	): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>>;
+
+	updateCraftedItem(
+		item: CharacterCraftedItemRecord,
+	): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>>;
 }

@@ -44,6 +44,7 @@ export const characterCraftedItems = sqliteTable("character_crafted_items", {
 	isEquipped: integer("is_equipped").notNull().default(0), // 0 ou 1 (Equipado no inventário ativo)
 	durabilityCurrent: integer("durability_current").notNull(),
 	durabilityMax: integer("durability_max").notNull(),
+	durability: text("durability").notNull().default("mint"), // "mint" | "damaged" | "broken"
 	createdAt: text("created_at").notNull(),
 });
 
@@ -82,6 +83,7 @@ export const characterCraftedItemInsertSchema = createInsertSchema(
 	isEquipped: flagVal,
 	durabilityCurrent: z.number().int().min(0).max(100),
 	durabilityMax: z.number().int().min(1).max(100),
+	durability: z.enum(["mint", "damaged", "broken"]).default("mint"),
 	createdAt: notBlankText,
 });
 
@@ -98,6 +100,7 @@ export const characterCraftedItemSelectSchema = createSelectSchema(
 	isEquipped: flagVal,
 	durabilityCurrent: z.number().int().min(0).max(100),
 	durabilityMax: z.number().int().min(1).max(100),
+	durability: z.enum(["mint", "damaged", "broken"]).default("mint"),
 	createdAt: notBlankText,
 });
 

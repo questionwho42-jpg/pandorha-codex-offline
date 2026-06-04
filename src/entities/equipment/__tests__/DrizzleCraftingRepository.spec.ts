@@ -120,6 +120,7 @@ describe("DrizzleCraftingRepository (Infraestrutura de Banco)", () => {
 			isEquipped: 0,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint",
 			createdAt: "2026-05-17T16:50:00.000Z",
 		};
 
@@ -146,6 +147,7 @@ describe("DrizzleCraftingRepository (Infraestrutura de Banco)", () => {
 			isEquipped: 0,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint",
 			createdAt: "2026-05-17T16:50:00.000Z",
 		};
 
@@ -181,6 +183,7 @@ describe("DrizzleCraftingRepository (Infraestrutura de Banco)", () => {
 			isEquipped: 1,
 			durabilityCurrent: 100,
 			durabilityMax: 100,
+			durability: "mint",
 			createdAt: "2026-05-17T16:50:00.000Z",
 		};
 
@@ -194,6 +197,41 @@ describe("DrizzleCraftingRepository (Infraestrutura de Banco)", () => {
 
 		expect(saved).toEqual(updatedItem);
 		expect(db.updatedRecord).toEqual({ isEquipped: 1 });
+	});
+
+	it("deve atualizar a durabilidade e o estado de durabilidade de um item artesanal", async () => {
+		const db = new FakeCraftingDrizzleDatabase();
+		const repository = new DrizzleCraftingRepository(db);
+
+		const updatedItem: CharacterCraftedItemRecord = {
+			id: "crafted-longsword-123",
+			characterId: "char-123",
+			equipmentId: "longsword",
+			label: "Espada Longa Afiada",
+			isSharp: 1,
+			isReinforced: 0,
+			isRunic: 0,
+			isEquipped: 0,
+			durabilityCurrent: 75,
+			durabilityMax: 100,
+			durability: "damaged",
+			createdAt: "2026-05-17T16:50:00.000Z",
+		};
+
+		db.queueUpdateRows([updatedItem]);
+
+		const result = await repository.updateCraftedItemDurability(
+			"crafted-longsword-123",
+			75,
+			"damaged",
+		);
+		const saved = expectSuccess(result);
+
+		expect(saved).toEqual(updatedItem);
+		expect(db.updatedRecord).toEqual({
+			durabilityCurrent: 75,
+			durability: "damaged",
+		});
 	});
 });
 

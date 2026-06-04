@@ -22,7 +22,7 @@ import { InMemoryEquipmentCatalogRepository } from "../testing/InMemoryEquipment
 describe("Official equipment catalog", () => {
 	it("contains the minimum validated equipment and consumable records", () => {
 		expect(OFFICIAL_EQUIPMENT).toHaveLength(7);
-		expect(OFFICIAL_CONSUMABLES).toHaveLength(5);
+		expect(OFFICIAL_CONSUMABLES).toHaveLength(6);
 		expect(OFFICIAL_EQUIPMENT.map((item) => item.id)).toEqual([
 			"longsword",
 			"dagger",
@@ -37,6 +37,7 @@ describe("Official equipment catalog", () => {
 			"torch-stack",
 			"ration-stack",
 			"potion-belt-stack",
+			"first-aid-kit",
 			"gold-coins-stack",
 		]);
 
@@ -88,7 +89,7 @@ describe("EquipmentCatalogService", () => {
 		const result = await service.listConsumables();
 		const consumables = expectEquipmentSuccess(result);
 
-		expect(consumables).toHaveLength(5);
+		expect(consumables).toHaveLength(6);
 		expect(consumables).toContainEqual(
 			expect.objectContaining({
 				id: "potion-belt-stack",

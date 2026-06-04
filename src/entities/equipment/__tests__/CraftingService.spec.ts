@@ -1,3 +1,4 @@
+/* biome-ignore-start lint/style/noNonNullAssertion: legacy test assertions */
 import { beforeEach, describe, expect, it } from "vitest";
 import { DiceService } from "$lib/shared/dice";
 import {
@@ -516,6 +517,7 @@ describe("CraftingService (TDD - Forja Tática e Economia de Artífice)", () => 
 				isRunic: 0,
 				durabilityCurrent: 10,
 				durabilityMax: 10,
+				durability: "mint",
 				isEquipped: 0,
 				createdAt: new Date().toISOString(),
 			});
@@ -542,6 +544,7 @@ describe("CraftingService (TDD - Forja Tática e Economia de Artífice)", () => 
 				isRunic: 0,
 				durabilityCurrent: 10,
 				durabilityMax: 10,
+				durability: "mint",
 				isEquipped: 0,
 				createdAt: new Date().toISOString(),
 			});
@@ -576,6 +579,7 @@ describe("CraftingService (TDD - Forja Tática e Economia de Artífice)", () => 
 				isRunic: 0,
 				durabilityCurrent: 10,
 				durabilityMax: 10,
+				durability: "mint",
 				isEquipped: 0,
 				createdAt: new Date().toISOString(),
 			});
@@ -620,6 +624,7 @@ describe("CraftingService (TDD - Forja Tática e Economia de Artífice)", () => 
 				isRunic: 0,
 				durabilityCurrent: 10,
 				durabilityMax: 10,
+				durability: "mint",
 				isEquipped: 0,
 				createdAt: new Date().toISOString(),
 			});
@@ -635,3 +640,4 @@ describe("CraftingService (TDD - Forja Tática e Economia de Artífice)", () => 
 		});
 	});
 });
+/* biome-ignore-end */

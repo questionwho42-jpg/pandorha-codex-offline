@@ -210,6 +210,9 @@ export class CraftingService {
 			isRunic,
 			durabilityCurrent,
 			durabilityMax: baseEquipment.durabilityMax,
+			durability: (durabilityCurrent === baseEquipment.durabilityMax
+				? "mint"
+				: "damaged") as "mint" | "damaged" | "broken",
 			isEquipped: 0,
 			createdAt: new Date().toISOString(),
 		};
