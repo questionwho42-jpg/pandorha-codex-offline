@@ -20,6 +20,12 @@ export class InMemoryDialogueRepository implements DialogueRepository {
 			historyJson: state.historyJson ?? "[]",
 			unlockedCluesJson: state.unlockedCluesJson ?? "[]",
 			updatedAt: state.updatedAt,
+			patienceCurrent: state.patienceCurrent ?? 0,
+			patienceMax: state.patienceMax ?? 0,
+			persuasionCurrent: state.persuasionCurrent ?? 0,
+			persuasionMax: state.persuasionMax ?? 0,
+			attitude: state.attitude ?? "neutral",
+			fatigueCountersJson: state.fatigueCountersJson ?? "{}",
 		};
 		this.states.set(data.id, data);
 		return ok(data);

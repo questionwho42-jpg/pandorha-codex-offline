@@ -1,5 +1,5 @@
 import { fail, ok, type Result } from "$lib/shared/lib/result";
-import type { RpcResponse } from "$lib/shared/rpc";
+import { type RpcResponse, rpcCache } from "$lib/shared/rpc";
 import type { DialogueRepository } from "../domain/DialogueRepository";
 import type {
 	DialogueStateData,
@@ -52,10 +52,25 @@ export class WorkerDialogueRepository implements DialogueRepository {
 		});
 	}
 
-	private sendRequest(
+	private async sendRequest(
 		type: string,
 		payload: unknown,
 	): Promise<Result<unknown, { code: string; message: string }>> {
+		rpcCache.invalidate(type);
+
+		const isMutation =
+			!type.startsWith("LOAD_") &&
+			!type.startsWith("FIND_") &&
+			!type.startsWith("LIST_") &&
+			type !== "INIT_DATABASE";
+
+		if (!isMutation) {
+			const cached = rpcCache.get(type, payload);
+			if (cached !== null) {
+				return ok(cached);
+			}
+		}
+
 		const messageId = crypto.randomUUID();
 		const request = {
 			messageId,
@@ -63,12 +78,29 @@ export class WorkerDialogueRepository implements DialogueRepository {
 			payload,
 		};
 
-		return new Promise<Result<unknown, { code: string; message: string }>>(
-			(resolve, reject) => {
-				this.pendingRequests.set(messageId, { resolve, reject });
-				this.worker.postMessage(request);
-			},
-		);
+		const startTime = performance.now();
+
+		const result = await new Promise<
+			Result<unknown, { code: string; message: string }>
+		>((resolve, reject) => {
+			this.pendingRequests.set(messageId, { resolve, reject });
+			this.worker.postMessage(request);
+		});
+
+		const latency = performance.now() - startTime;
+		if (latency > 16) {
+			console.warn(
+				`[RPC Latency Warning] Request ${type} took ${latency.toFixed(2)}ms (budget exceeded)`,
+			);
+		} else {
+			console.log(`[RPC Latency] Request ${type} took ${latency.toFixed(2)}ms`);
+		}
+
+		if (result.success && !isMutation) {
+			rpcCache.set(type, payload, result.data);
+		}
+
+		return result;
 	}
 
 	public async save(

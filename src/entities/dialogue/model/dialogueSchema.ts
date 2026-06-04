@@ -1,4 +1,4 @@
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
@@ -11,6 +11,12 @@ export const campaignDialogueStates = sqliteTable("campaign_dialogue_states", {
 	historyJson: text("history_json").notNull(), // JSON stringificado de string[]
 	unlockedCluesJson: text("unlocked_clues_json").notNull(), // JSON stringificado de string[]
 	updatedAt: text("updated_at").notNull(),
+	patienceCurrent: integer("patience_current").notNull().default(0),
+	patienceMax: integer("patience_max").notNull().default(0),
+	persuasionCurrent: integer("persuasion_current").notNull().default(0),
+	persuasionMax: integer("persuasion_max").notNull().default(0),
+	attitude: text("attitude").notNull().default("neutral"),
+	fatigueCountersJson: text("fatigue_counters_json").notNull().default("{}"),
 });
 
 // Zod validation schemas
@@ -27,6 +33,20 @@ export const dialogueStateSelectSchema = createSelectSchema(
 	historyJson: z.string().min(2, "Formato de histórico inválido"),
 	unlockedCluesJson: z.string().min(2, "Formato de pistas inválido"),
 	updatedAt: z.string(),
+	patienceCurrent: z.number().int().min(0),
+	patienceMax: z.number().int().min(0),
+	persuasionCurrent: z.number().int().min(0),
+	persuasionMax: z.number().int().min(0),
+	attitude: z.enum([
+		"friendly",
+		"neutral",
+		"skeptical",
+		"hostile",
+		"declared_enemy",
+	]),
+	fatigueCountersJson: z
+		.string()
+		.min(2, "Formato de contadores de fadiga inválido"),
 });
 
 export const dialogueStateInsertSchema = createInsertSchema(
@@ -42,6 +62,14 @@ export const dialogueStateInsertSchema = createInsertSchema(
 	historyJson: z.string().default("[]"),
 	unlockedCluesJson: z.string().default("[]"),
 	updatedAt: z.string(),
+	patienceCurrent: z.number().int().min(0).default(0),
+	patienceMax: z.number().int().min(0).default(0),
+	persuasionCurrent: z.number().int().min(0).default(0),
+	persuasionMax: z.number().int().min(0).default(0),
+	attitude: z
+		.enum(["friendly", "neutral", "skeptical", "hostile", "declared_enemy"])
+		.default("neutral"),
+	fatigueCountersJson: z.string().default("{}"),
 });
 
 export type DialogueStateData = z.infer<typeof dialogueStateSelectSchema>;

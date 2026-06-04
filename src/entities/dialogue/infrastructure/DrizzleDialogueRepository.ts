@@ -27,6 +27,12 @@ export class DrizzleDialogueRepository implements DialogueRepository {
 					historyJson: state.historyJson,
 					unlockedCluesJson: state.unlockedCluesJson,
 					updatedAt: state.updatedAt,
+					patienceCurrent: state.patienceCurrent,
+					patienceMax: state.patienceMax,
+					persuasionCurrent: state.persuasionCurrent,
+					persuasionMax: state.persuasionMax,
+					attitude: state.attitude,
+					fatigueCountersJson: state.fatigueCountersJson,
 				})
 				.onConflictDoUpdate({
 					target: campaignDialogueStates.id,
@@ -38,6 +44,12 @@ export class DrizzleDialogueRepository implements DialogueRepository {
 						historyJson: state.historyJson,
 						unlockedCluesJson: state.unlockedCluesJson,
 						updatedAt: state.updatedAt,
+						patienceCurrent: state.patienceCurrent,
+						patienceMax: state.patienceMax,
+						persuasionCurrent: state.persuasionCurrent,
+						persuasionMax: state.persuasionMax,
+						attitude: state.attitude,
+						fatigueCountersJson: state.fatigueCountersJson,
 					},
 				})
 				.run();
@@ -51,6 +63,12 @@ export class DrizzleDialogueRepository implements DialogueRepository {
 				historyJson: state.historyJson ?? "[]",
 				unlockedCluesJson: state.unlockedCluesJson ?? "[]",
 				updatedAt: state.updatedAt,
+				patienceCurrent: state.patienceCurrent ?? 0,
+				patienceMax: state.patienceMax ?? 0,
+				persuasionCurrent: state.persuasionCurrent ?? 0,
+				persuasionMax: state.persuasionMax ?? 0,
+				attitude: state.attitude ?? "neutral",
+				fatigueCountersJson: state.fatigueCountersJson ?? "{}",
 			};
 
 			return ok(dialogueStateSelectSchema.parse(mapped));

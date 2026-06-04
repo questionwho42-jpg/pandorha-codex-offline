@@ -111,6 +111,12 @@ describe("DialogueService", () => {
 				historyJson: JSON.stringify(["root"]),
 				unlockedCluesJson: JSON.stringify([]),
 				updatedAt: new Date().toISOString(),
+				patienceCurrent: 0,
+				patienceMax: 0,
+				persuasionCurrent: 0,
+				persuasionMax: 0,
+				attitude: "neutral" as const,
+				fatigueCountersJson: "{}",
 			};
 			await repository.save(state);
 			const findOk = await repository.findById(state.id);
@@ -136,6 +142,12 @@ describe("DialogueService", () => {
 				historyJson: JSON.stringify(["root"]),
 				unlockedCluesJson: JSON.stringify([]),
 				updatedAt: new Date().toISOString(),
+				patienceCurrent: 0,
+				patienceMax: 0,
+				persuasionCurrent: 0,
+				persuasionMax: 0,
+				attitude: "neutral" as const,
+				fatigueCountersJson: "{}",
 			};
 			await repository.save(state);
 			const delOk = await repository.delete(state.id);
@@ -484,6 +496,12 @@ describe("DialogueService", () => {
 				historyJson: JSON.stringify(["root"]),
 				unlockedCluesJson: JSON.stringify([]),
 				updatedAt: new Date().toISOString(),
+				patienceCurrent: 0,
+				patienceMax: 0,
+				persuasionCurrent: 0,
+				persuasionMax: 0,
+				attitude: "neutral" as const,
+				fatigueCountersJson: "{}",
 			};
 			const failingRepo: DialogueRepository = {
 				save: async () =>
