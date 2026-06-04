@@ -49,6 +49,7 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 			new ResolutionService(diceService),
 			new DamagePipelineService(),
 			encounterClock,
+			diceService,
 		),
 		trainingTargets: TRAINING_TARGETS,
 		createAttackInput: (attacker, target, targetHitPoints, attackProfile) => {

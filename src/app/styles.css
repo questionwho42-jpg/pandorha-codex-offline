@@ -2,6 +2,7 @@
 @import "../features/bastion/ui/bastion.css";
 @import "../features/quests/ui/questLog.css";
 @import "../features/investigation/ui/investigation.css";
+@import "../features/sandbox/ui/sandbox.css";
 
 @theme {
 	--color-void: #1c1917;
@@ -419,5 +420,94 @@ button {
 	to {
 		transform: translateY(0);
 		opacity: 1;
+	}
+}
+
+/* Custom scrollbar rules */
+.scrollbar-thin::-webkit-scrollbar {
+	width: 5px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+	background: rgba(0, 0, 0, 0.1);
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+	background: rgba(168, 120, 50, 0.3);
+	border-radius: 2px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+	background: rgba(168, 120, 50, 0.5);
+}
+
+/* ==========================================================================
+   PANDORHA ENGINE: PREMIUM CSS PRINT STYLES FOR CHARACTER EXPORT
+   ========================================================================== */
+@media print {
+	:root {
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		background: #ffffff !important;
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		color: #000000 !important;
+	}
+	body {
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		background: #ffffff !important;
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		color: #000000 !important;
+		font-size: 12pt;
+	}
+	/* Ocultar navegacao, chat, botoes interativos e alertas */
+	aside,
+	nav,
+	header,
+	.flex-shrink-0,
+	.btn-runic,
+	button,
+	.alert-premium,
+	.trap-panel select,
+	.trap-panel button {
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		display: none !important;
+	}
+	/* Garantir que a area de conteudo ocupe a largura completa */
+	.flex-1,
+	.max-w-6xl {
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		width: 100% !important;
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		max-width: 100% !important;
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		padding: 0 !important;
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		margin: 0 !important;
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		box-shadow: none !important;
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		background: transparent !important;
+	}
+	/* Melhorar legibilidade de bordas e textos */
+	.border,
+	.panel-runic,
+	.panel-retrain {
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		border: 1px solid #000000 !important;
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		background: transparent !important;
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		color: #000000 !important;
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		box-shadow: none !important;
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		text-shadow: none !important;
+	}
+	/* biome-ignore lint/style/noDescendingSpecificity: print overrides need generic selectors */
+	h1,
+	h2,
+	h3,
+	h4,
+	span,
+	p,
+	label {
+		/* biome-ignore lint/complexity/noImportantStyles: print overrides */
+		color: #000000 !important;
 	}
 }

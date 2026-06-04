@@ -183,6 +183,34 @@ export const PANDORHA_RULES = {
 		 */
 		POTION_BELT_CAPACITY: 5,
 	},
+
+	PROGRESSION: {
+		/**
+		 * XP acumulado necessário para atingir cada nível de 1 a 20.
+		 */
+		LEVEL_XP_THRESHOLDS: {
+			1: 0,
+			2: 100,
+			3: 300,
+			4: 600,
+			5: 1000,
+			6: 1500,
+			7: 2100,
+			8: 2800,
+			9: 3600,
+			10: 4500,
+			11: 5500,
+			12: 6600,
+			13: 7800,
+			14: 9100,
+			15: 10500,
+			16: 12000,
+			17: 13600,
+			18: 15300,
+			19: 17100,
+			20: 19000,
+		},
+	},
 } as const;
 
 export type PandorhaRulesType = typeof PANDORHA_RULES;

@@ -65,6 +65,8 @@ import { DomainCouncilPanel } from "$lib/features/domain-regional";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import EspionageManagementPanel from "$lib/features/espionage/ui/EspionageManagementPanel.svelte";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { DialoguePanel } from "$lib/features/dialogue";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
@@ -77,6 +79,8 @@ import { NegotiationPanel, SocialDemo } from "$lib/features/social";
 import { SocialStandingService } from "$lib/features/social/domain/SocialStandingService";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SpellCastPanel } from "$lib/features/spell-cast";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { SaveManagerPanel } from "$lib/features/saves";
 import { createCharacterListView } from "../features/character-list/model/characterListView";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import TrapDeploymentPanel from "../features/traps/ui/TrapDeploymentPanel.svelte";
@@ -1229,11 +1233,11 @@ async function createCharacter(
 						onApplyStatusEffect={handleApplyStatusEffect}
 						onClearStatusEffects={handleClearStatusEffects}
 						companions={companions}
-						onSummonCompanion={handleSummonCompanion}
-						onShareSensory={handleShareSensory}
-						onCompanionDamage={handleCompanionDamage}
-						onStabilizeMaster={handleStabilizeMaster}
-						onUpdateCompanionTraits={handleUpdateCompanionTraits}
+						onSummonCompanion={_handleSummonCompanion}
+						onShareSensory={_handleShareSensory}
+						onCompanionDamage={_handleCompanionDamage}
+						onStabilizeMaster={_handleStabilizeMaster}
+						onUpdateCompanionTraits={_handleUpdateCompanionTraits}
 					/>
 				</div>
 			{:else if activeView === "compendium"}
@@ -1245,6 +1249,8 @@ async function createCharacter(
 				<InventoryReadOnlyPanel
 					capacity={inventorySession.capacity}
 					items={dynamicInventoryItems}
+					characters={characterRecords}
+					activeStatusEffects={activeStatusEffects}
 				/>
 			{:else if activeView === "exploration"}
 				<HexcrawlMapPanel
@@ -1261,10 +1267,34 @@ async function createCharacter(
 			{:else if activeView === "magic"}
 				<SpellCastPanel
 					buildCastCommand={spellCastSession.buildCastCommand}
-					caster={activeCaster}
+					caster={_activeCaster}
 					createCastInput={spellCastSession.createCastInput}
 					spells={spellCastSession.spells}
-					target={spellCastSession.target}
+					targets={[spellCastSession.target, ...characterRecords.map(c => ({ id: c.id, label: c.name }))]}
+					onCastSpell={async (payload) => {
+						const commandInput = {
+							...spellCastSession.createCastInput(payload.spellId),
+							casterId: payload.casterId,
+							targetId: payload.targetId,
+							availableEther: _activeCaster.availableEther,
+							upcastCircleCount: payload.upcastLevel
+						};
+						const res = await spellCastSession.buildCastCommand(commandInput);
+						if (res.success) {
+							chatState.addMessage({
+								type: "combat",
+								sender: "Magia",
+								content: `✨ ${_activeCaster.label} conjurou com sucesso em ${payload.targetId}!`
+							});
+							const spell = spellCastSession.spells.find(s => s.id === payload.spellId);
+							if (spell && spell.targetEffects) {
+								for (const effectType of spell.targetEffects) {
+									await handleApplyStatusEffect(payload.targetId, effectType);
+								}
+							}
+						}
+						return res;
+					}}
 				/>
 			{:else if activeView === "combat"}
 				<CombatEncounterPanel
