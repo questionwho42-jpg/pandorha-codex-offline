@@ -37,6 +37,22 @@ _Avoid_: Cronômetro, contador de turnos
 Ação ativa de segurança no acampamento que consome slots de tempo do descanso em troca de controle de perigo.
 _Avoid_: Turno de guarda, vigiar
 
+**Combate Social (Social Combat):**
+Encontro estruturado de debates e negociações de alta tensão onde os Andarilhos utilizam a retórica contra NPCs influentes.
+_Avoid_: Discussão livre, debate simples
+
+**Reserva de Paciência (Patience Pool / HP Social):**
+Recurso do NPC no Combate Social que decrementa com falhas dos Andarilhos. Ao zerar, encerra a negociação com penalidades de Fama.
+_Avoid_: Paciência comum, tolerância do NPC
+
+**Trilha de Persuasão (Persuasion Track / Stagger Bar):**
+Barra de desgaste de convicção do NPC no Combate Social. Quando completamente preenchida ou zerada pelos sucessos dos Andarilhos, garante a aceitação do acordo.
+_Avoid_: Trilha de acordo, barra de convencimento
+
+**Manobra Social (Social Maneuver):**
+Ação retórica específica executada na ActionQueue de debate (ex: Persuadir, Intimidar, Barganhar, Blefar) que afeta de formas distintas a Reserva de Paciência e a Trilha de Persuasão.
+_Avoid_: Argumento, fala de diálogo
+
 ---
 
 ## Domínio de Combate
@@ -77,6 +93,18 @@ _Avoid_: Penalidade de ataque, multi-ataque
 Estado de HP = 0. O Andarilho realiza Testes de Estabilização no início de cada turno. 3 sucessos = estabilizado; 3 falhas = morto. 20 natural = estabiliza imediatamente com 1 HP. 1 natural = conta como 2 falhas.
 _Avoid_: Inconsciente, KO, quase morto
 
+**Medidor de Tensão (Tension Meter):**
+Recurso numérico individual de 0 a 100 pontos acumulado em combate através de gatilhos de crise (dano massivo sofrido, aliado a 0 HP, rolagens críticas próprias).
+_Avoid_: Barra de fúria, relógio de perigo, barra de especial
+
+**Limit Break:**
+Estado de sobrecarga desencadeado quando o Medidor de Tensão alcança 100 pontos, permitindo a execução imediata de uma Habilidade Heroica.
+_Avoid_: Especial ativado, surto heroico
+
+**Habilidade Heroica (Ultimate / Heroic Ability):**
+Técnica de alto impacto vinculada ao nível do Andarilho (desbloqueadas nos níveis 5 e 10) que não consome EE ou Ações comuns, mas exige o estado de Limit Break ou condições diárias específicas de classe.
+_Avoid_: Magia final, golpe especial
+
 ---
 
 ## Domínio de Magia
@@ -107,7 +135,7 @@ _Avoid_: Nível da magia (ambíguo com nível do personagem)
 ## Domínio de Exploração / Hexcrawl
 
 **Tile de Mundo (WorldTile):**
-Hexágono no grid axial com coordenadas `(q, r)`. Cada tile tem `region_tier` que define as DCs de encontro e o nível das ameaças da região.
+O hexágono no grid axial com coordenadas `(q, r)`. Cada tile tem `region_tier` que define as DCs de encontro e o nível das ameaças da região.
 _Localização_: `src/entities/world-tile/`, schema Drizzle em infra
 _Avoid_: Célula, hexágono (como substantivo isolado)
 
@@ -117,9 +145,29 @@ _Localização_: `src/entities/world-tile/domain/EncounterService.ts`
 _Avoid_: Evento aleatório, battle
 
 **Relógio de Progresso (Progress Clock):**
-Entidade `clocks` com fatias dinâmicas que disparam `event_triggers` ao completar todos os segmentos. Usado para rastrear objetivos (completar dungeon, missão de facção) e ameaças (horda se aproxima, ritual inimigo).
+Entidade `clocks` com fatias dinâmicas que disparam `event_triggers` ao completar todos os segmentos. Usado para rastrear objetivos (completar dungeon, missão de facção) e ameaças (horda se aproxima, ritual inimigo, clima regional extremo).
 _Localização_: `src/entities/clocks/`, `src/features/clocks/`
 _Avoid_: Contador de progresso, timer de missão
+
+**Dia de Aventura (Adventure Day):**
+Ciclo completo de tempo composto por exatamente 4 Turnos de Exploração. No final de cada Dia de Aventura, os Andarilhos consomem Provisões Diárias e o desgaste biológico é processado.
+_Avoid_: Ciclo diário, dia comum
+
+**Turno de Exploração (Exploration Turn):**
+Unidade de escala de tempo no hexcrawl correspondente a 6 horas de atividade em marcha ou repouso (dividido em Manhã, Tarde, Anoitecer, Madrugada).
+_Avoid_: Turno de viagem, rodada de mapa
+
+**Papel de Viagem (Travel Role):**
+Atribuição de responsabilidade atribuída a um Andarilho durante o Dia de Aventura. Os papéis canônicos são Guia (Navegação), Batedor (Vigilância), Forrageiro (Coleta) e Cartógrafo (Mapeamento).
+_Avoid_: Trabalho de viagem, função de andarilho
+
+**Clima Extremo (Extreme Weather):**
+Estado meteorológico severo regional cuja presença e duração são reguladas por um Relógio de Progresso e que impõe penalidades de marcha ou abrigo aos Andarilhos.
+_Avoid_: Tempo severo, tormenta isolada
+
+**Cascata de Exaustão (Exhaustion Cascade / Exhaustion):**
+Efeito de status composto por 5 níveis incrementais e cumulativos (Fadiga Corporal, Neblina Mental, Ruína Espiritual, Colapso Celular, Morte) que reduz as capacidades biológicas e atributos dos Andarilhos.
+_Avoid_: Cansaço, nível de exaustão comum
 
 ---
 
@@ -139,10 +187,31 @@ Ação de longa duração executada durante dias livres no Bastião. Consome tem
 _Localização_: `src/features/bastion/ui/DowntimeProjectList.svelte`
 _Avoid_: Projeto de base, ação de descanso
 
+**Missão de Campanha (Campaign Quest):**
+Uma missão focada na crônica principal e narrativa do Andarilho, aceita e resolvida através de Diálogos e pistas de Investigação.
+_Avoid_: Quest principal, missão de história
+
+**Contrato da Guilda (Guild Contract):**
+Uma missão de downtime focada em recursos ou segurança, aceita em murais, que pode ser despachada para Esquadrões Mercenários ou resolvida diretamente.
+_Avoid_: Quest secundária, sidequest, contrato comum
+
+
 **Descanso de Acampamento (Camp Rest):**
 Fase de alocação de slots de atividade durante descanso em campo. Cada herói escolhe uma atividade: Vigília (segurança), Reparo (itens), Cozinhar (recuperação de recursos), Recuperar (HP/EE).
 _Localização_: `src/features/camp/`
 _Avoid_: Descanso longo, long rest
+
+**Durabilidade (Durability):**
+Propriedade de integridade física de armas, armaduras e ferramentas categorizada em três estados: Mint, Damaged e Broken.
+_Avoid_: Pontos de vida do item, integridade numérica
+
+**Danificado (Damaged):**
+Estado físico de desgaste de um equipamento que impõe uma penalidade de −1 em todos os testes associados ao seu uso.
+_Avoid_: Trincado, desgastado (sem penalidade)
+
+**Quebrado (Broken):**
+Estado físico de falha total de um equipamento que impede completamente o seu uso ou concessão de benefícios até ser reparado.
+_Avoid_: Destruído permanentemente
 
 ---
 
