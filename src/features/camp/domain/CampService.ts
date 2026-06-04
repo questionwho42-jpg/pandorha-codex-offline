@@ -356,4 +356,99 @@ export class CampService {
 
 		return ok(outcome);
 	}
+
+	/**
+	 * Processa o fechamento do Dia de Aventura.
+	 * Deduz 1 Provisão Diária por Andarilho e montaria.
+	 * Em caso de falta de provisões, cada Andarilho sofre +1 nível na Cascata de Exaustão.
+	 */
+	public async processAdventureDayEnd(params: {
+		characterIds: string[];
+		mountsCount: number;
+		currentProvisions: number;
+		saveStatusEffect: (effect: {
+			id: string;
+			characterId: string;
+			type: string;
+			severity: number;
+			severityMax: number;
+			isAggravated: boolean;
+			createdAt: string;
+		}) => Promise<Result<void, { code: string; message: string }>>;
+		findStatusEffects: (
+			characterId: string,
+		) => Promise<
+			Result<readonly { type: string }[], { code: string; message: string }>
+		>;
+	}): Promise<
+		Result<
+			{
+				consumed: number;
+				remaining: number;
+				exhaustionApplied: string[];
+			},
+			{ code: string; message: string }
+		>
+	> {
+		const required = params.characterIds.length + params.mountsCount;
+		const consumed = Math.min(params.currentProvisions, required);
+		const remaining = Math.max(0, params.currentProvisions - consumed);
+
+		const exhaustionApplied: string[] = [];
+
+		if (consumed < required) {
+			const exhaustionOrder = [
+				"body_fatigue",
+				"mental_fog",
+				"spirit_ruin",
+				"cellular_collapse",
+				"dead",
+			];
+
+			for (const charId of params.characterIds) {
+				const effectsRes = await params.findStatusEffects(charId);
+				if (!effectsRes.success) {
+					return fail(effectsRes.error);
+				}
+
+				const currentEffects = effectsRes.data.map((e) => e.type);
+
+				// Achar o nível mais alto de exaustão ativo
+				let currentLevelIdx = -1;
+				for (let i = 0; i < exhaustionOrder.length; i++) {
+					if (currentEffects.includes(exhaustionOrder[i]!)) {
+						currentLevelIdx = i;
+					}
+				}
+
+				const nextLevelIdx = currentLevelIdx + 1;
+				if (nextLevelIdx < exhaustionOrder.length) {
+					const nextEffectType = exhaustionOrder[nextLevelIdx]!;
+
+					// Salva o novo efeito de exaustão cumulativo
+					const saveRes = await params.saveStatusEffect({
+						id: `eff-${Date.now()}-${crypto.randomUUID()}`,
+						characterId: charId,
+						type: nextEffectType,
+						severity: 1,
+						severityMax: 3,
+						isAggravated: false,
+						createdAt: new Date().toISOString(),
+					});
+
+					if (!saveRes.success) {
+						return fail(saveRes.error);
+					}
+
+					exhaustionApplied.push(`${charId}:${nextEffectType}`);
+				}
+			}
+		}
+
+		return ok({
+			consumed,
+			remaining,
+			exhaustionApplied,
+		});
+	}
 }
