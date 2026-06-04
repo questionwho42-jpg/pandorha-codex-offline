@@ -314,6 +314,7 @@ function createCharacterRecord(): CharacterRecord {
 		backgroundId: "acolyte",
 		level: 1,
 		experiencePoints: 0,
+		tensionMeter: 0,
 		physical: 2,
 		mental: 2,
 		social: 2,

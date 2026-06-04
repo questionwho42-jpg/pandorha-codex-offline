@@ -111,3 +111,23 @@ export interface CombatEncounterResolvedCommand {
 	readonly command: ActionCommand;
 	readonly state: CombatEncounterState;
 }
+
+export type DeathSaveCommand = {
+	readonly id: string;
+	readonly type: "death-save";
+	readonly createdAt: string;
+	readonly payload: {
+		readonly actorId: string;
+	};
+};
+
+export type FirstAidCommand = {
+	readonly id: string;
+	readonly type: "first-aid";
+	readonly createdAt: string;
+	readonly payload: {
+		readonly helperId: string;
+		readonly targetId: string;
+		readonly hasFirstAidKit: boolean;
+	};
+};

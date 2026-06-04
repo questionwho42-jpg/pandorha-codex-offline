@@ -1,3 +1,5 @@
+import type { CraftingRepository } from "$lib/entities/equipment/domain/CraftingRepository";
+import { OFFICIAL_EQUIPMENT } from "$lib/entities/equipment/model/equipmentCatalog";
 import {
 	type ActionCommand,
 	type ActionCommandProcessor,
@@ -42,6 +44,7 @@ export class CombatEncounterService {
 		private readonly damageService: CombatDamagePort,
 		private readonly clock: CombatEncounterClock,
 		private readonly diceService?: DiceService,
+		private readonly craftingRepository?: CraftingRepository,
 	) {}
 
 	public resolveAttack(
@@ -88,6 +91,139 @@ export class CombatEncounterService {
 			...(resolvedState as CombatEncounterState),
 			processedCommand: processed.data,
 		});
+	}
+
+	public async resolveAttackAsync(
+		input: unknown,
+	): Promise<Result<CombatEncounterState, CombatEncounterFailure>> {
+		const parsed = combatEncounterInputSchema.safeParse(input);
+		if (!parsed.success) {
+			return fail({
+				code: "INVALID_COMBAT_ENCOUNTER_INPUT",
+				message: "Combat encounter input failed validation.",
+				details: {
+					issues: formatCombatEncounterIssues(parsed.error.issues),
+				},
+			});
+		}
+
+		const result = this.resolveAttack(input);
+		if (!result.success) {
+			return result;
+		}
+
+		let state = result.data;
+		if (this.craftingRepository) {
+			const logs = [...state.log];
+			const events = [...state.events];
+
+			// Process attacker weapon wear on natural 1 (natural failure)
+			if (state.resolution.isNaturalFailure) {
+				const attackerId = parsed.data.attacker.id;
+				const itemsResult =
+					await this.craftingRepository.findCraftedItemsByCharacterId(
+						attackerId,
+					);
+				if (itemsResult.success) {
+					const equippedWeapon = itemsResult.data.find((item) => {
+						if (item.isEquipped !== 1) return false;
+						const eq = OFFICIAL_EQUIPMENT.find(
+							(e) => e.id === item.equipmentId,
+						);
+						return eq?.kind === "weapon";
+					});
+
+					if (equippedWeapon) {
+						const newDurabilityCurrent = Math.max(
+							0,
+							equippedWeapon.durabilityCurrent - 25,
+						);
+						let newDurabilityState: "mint" | "damaged" | "broken" = "mint";
+						if (newDurabilityCurrent === 0) {
+							newDurabilityState = "broken";
+						} else if (newDurabilityCurrent < equippedWeapon.durabilityMax) {
+							newDurabilityState = "damaged";
+						}
+
+						const updated = {
+							...equippedWeapon,
+							durabilityCurrent: newDurabilityCurrent,
+							durability: newDurabilityState,
+						};
+
+						const saveResult =
+							await this.craftingRepository.updateCraftedItem(updated);
+						if (saveResult.success) {
+							const msg = `⚠️ A falha crítica causou desgaste físico em [${equippedWeapon.label}]! Durabilidade reduzida para ${newDurabilityCurrent}/${equippedWeapon.durabilityMax} (${newDurabilityState}).`;
+							logs.push(msg);
+						}
+					}
+				}
+			}
+
+			// Process defender armor/shield wear on attacker critical success
+			if (state.resolution.degree === "criticalSuccess") {
+				const targetId = parsed.data.target.id;
+				const itemsResult =
+					await this.craftingRepository.findCraftedItemsByCharacterId(targetId);
+				if (itemsResult.success) {
+					const equippedItems = itemsResult.data.filter(
+						(item) => item.isEquipped === 1,
+					);
+
+					// Find shield first, then armor
+					let targetItem = equippedItems.find((item) => {
+						const eq = OFFICIAL_EQUIPMENT.find(
+							(e) => e.id === item.equipmentId,
+						);
+						return eq?.kind === "shield";
+					});
+
+					if (!targetItem) {
+						targetItem = equippedItems.find((item) => {
+							const eq = OFFICIAL_EQUIPMENT.find(
+								(e) => e.id === item.equipmentId,
+							);
+							return eq?.kind === "armor";
+						});
+					}
+
+					if (targetItem) {
+						const newDurabilityCurrent = Math.max(
+							0,
+							targetItem.durabilityCurrent - 25,
+						);
+						let newDurabilityState: "mint" | "damaged" | "broken" = "mint";
+						if (newDurabilityCurrent === 0) {
+							newDurabilityState = "broken";
+						} else if (newDurabilityCurrent < targetItem.durabilityMax) {
+							newDurabilityState = "damaged";
+						}
+
+						const updated = {
+							...targetItem,
+							durabilityCurrent: newDurabilityCurrent,
+							durability: newDurabilityState,
+						};
+
+						const saveResult =
+							await this.craftingRepository.updateCraftedItem(updated);
+						if (saveResult.success) {
+							const msg = `⚠️ O acerto crítico causou desgaste físico em [${targetItem.label}]! Durabilidade reduzida para ${newDurabilityCurrent}/${targetItem.durabilityMax} (${newDurabilityState}).`;
+							logs.push(msg);
+						}
+					}
+				}
+			}
+
+			state = {
+				...state,
+				log: logs,
+				events: events,
+			};
+		}
+
+		return ok(state);
 	}
 
 	private createAttackProcessor(
@@ -193,6 +329,7 @@ export class CombatEncounterService {
 			input,
 			damageAmount: damage.data.finalDamage,
 			createdAt: this.clock.now(),
+			isCriticalHit: resolution.data.degree === "criticalSuccess",
 		});
 
 		return ok(
@@ -296,6 +433,7 @@ export class CombatEncounterService {
 		{
 			readonly updatedTarget: TacticalAiActor;
 			readonly logs: string[];
+			readonly consumedKitCharge: boolean;
 		},
 		{ readonly code: string; readonly message: string }
 	> {
@@ -357,6 +495,7 @@ export class CombatEncounterService {
 		return ok({
 			updatedTarget,
 			logs,
+			consumedKitCharge: params.hasFirstAidKit,
 		});
 	}
 
@@ -540,18 +679,26 @@ function createDamageAppliedEvent(input: {
 	readonly input: CombatEncounterInput;
 	readonly damageAmount: number;
 	readonly createdAt: string;
+	readonly isCriticalHit?: boolean;
 }): CombatEncounterEvent {
+	const isZeroHp = input.input.target.currentHitPoints === 0;
 	const remainingHitPoints = Math.max(
 		0,
 		input.input.target.currentHitPoints - input.damageAmount,
 	);
+
+	let message = `${input.input.target.label} sofreu ${input.damageAmount} de dano. HP restante: ${remainingHitPoints}.`;
+	if (isZeroHp) {
+		const failures = input.isCriticalHit ? 2 : 1;
+		message = `${input.input.target.label} sofreu ${input.damageAmount} de dano a 0 HP! +${failures} falha(s) de morte acumulada(s).`;
+	}
 
 	return {
 		id: `${input.command.id}-damage`,
 		type: "damageApplied",
 		actorId: input.input.attacker.id,
 		targetId: input.input.target.id,
-		message: `${input.input.target.label} sofreu ${input.damageAmount} de dano. HP restante: ${remainingHitPoints}.`,
+		message,
 		createdAt: input.createdAt,
 		damageAmount: input.damageAmount,
 	};

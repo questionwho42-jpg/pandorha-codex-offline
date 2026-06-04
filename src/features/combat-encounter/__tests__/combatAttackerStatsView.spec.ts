@@ -154,6 +154,27 @@ describe("createCombatAttackerStatsView", () => {
 		expect(view.armorClassLabel).toBe("CA: 17"); // 10 + level 1 + placas 5 + physical limit 0 + escudo 1 = 17
 		expect(view.movementSpeedLabel).toBe("Velocidade: 6m"); // 9m - 3m = 6m
 	});
+
+	it("shows derived stats with class tactical talents (Extra Breath, Double Time)", () => {
+		const view = createCombatAttackerStatsView({
+			attacker: { id: "session-character-1", label: "Lia" },
+			characterClasses: OFFICIAL_CHARACTER_CLASSES,
+			characters: [createCharacterRecord()],
+			activeEffects: [{ type: "extra_breath" }, { type: "double_time" }],
+		});
+
+		expect(view.activeEffectsLabels).toHaveLength(2);
+		expect(view.activeEffectsLabels[0]).toEqual({
+			type: "extra_breath",
+			label: "🛡️ Fôlego Extra (+2 Resistência, +1 Físico)",
+			color: "#10b981",
+		});
+		expect(view.activeEffectsLabels[1]).toEqual({
+			type: "double_time",
+			label: "⏳ Dobrar Tempo (+1 Ação Adicional)",
+			color: "#06b6d4",
+		});
+	});
 });
 
 function createCharacterRecord(
@@ -168,6 +189,7 @@ function createCharacterRecord(
 		classId: "vanguard",
 		conflict: 2,
 		experiencePoints: 0,
+		tensionMeter: 0,
 		createdAt: TEST_TIMESTAMP,
 		interaction: 2,
 		level: 1,

@@ -40,6 +40,26 @@ export const combatEncounterInputSchema = z
 	})
 	.strict();
 
+export const deathSaveCommandSchema = z.object({
+	id: z.string().trim().min(1),
+	type: z.literal("death-save"),
+	createdAt: z.string(),
+	payload: z.object({
+		actorId: actorIdSchema,
+	}),
+});
+
+export const firstAidCommandSchema = z.object({
+	id: z.string().trim().min(1),
+	type: z.literal("first-aid"),
+	createdAt: z.string(),
+	payload: z.object({
+		helperId: actorIdSchema,
+		targetId: actorIdSchema,
+		hasFirstAidKit: z.boolean(),
+	}),
+});
+
 export function formatCombatEncounterIssues(
 	issues: readonly ZodIssue[],
 ): readonly string[] {

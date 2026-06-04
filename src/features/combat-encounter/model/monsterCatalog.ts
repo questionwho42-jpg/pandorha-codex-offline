@@ -11,6 +11,10 @@ export interface Monster {
 	readonly damageBonus: number;
 	readonly initiativeBase: number;
 	readonly xpValue: number;
+	role?: "brute" | "sniper" | "controller";
+	position?: { x: number; y: number };
+	debuffs?: string[];
+	spellsCount?: number;
 }
 
 export const MONSTER_TEMPLATES: Record<

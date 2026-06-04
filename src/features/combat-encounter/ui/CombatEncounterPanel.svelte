@@ -1,6 +1,7 @@
 <script lang="ts">
 import { onMount } from "svelte";
 import type { CharacterRecord } from "$lib/entities/character";
+import { LimitBreakService } from "$lib/entities/character/domain/LimitBreakService";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import type { CompanionRecord } from "$lib/entities/companions";
 import { OFFICIAL_EQUIPMENT } from "$lib/entities/equipment/model/equipmentCatalog";
@@ -9,6 +10,7 @@ import { WorkerSynergyRepository } from "$lib/entities/synergy/infrastructure/Wo
 import type { CharacterCraftedItemRecord } from "../../crafting/model/craftingSchema";
 import { CombatTurnService } from "../domain/CombatTurnService";
 import { StealthCombatService } from "../domain/StealthCombatService";
+import { findUltimateByClass } from "../domain/UltimatesCatalog";
 import { createCombatAttackerStatsView } from "../model/combatAttackerStatsView";
 import type {
 	CombatEncounterActorRef,
@@ -56,6 +58,7 @@ type Props = {
 		input: CombatEncounterInput,
 	) => ReturnType<CombatEncounterStateResolver>;
 	trainingTargets: readonly CombatTrainingTarget[];
+	service?: CombatEncounterService;
 };
 
 type CombatEncounterStateResolver = (
@@ -66,6 +69,7 @@ type CombatEncounterStateResolver = (
 
 const turnService = new CombatTurnService();
 const stealthService = new StealthCombatService();
+const limitBreakService = new LimitBreakService();
 
 const randRoll = () => {
 	const arr = new Uint32Array(1);
@@ -91,6 +95,7 @@ let {
 	resolveAttack,
 	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 	trainingTargets,
+	service,
 }: Props = $props();
 
 // svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for reset.
@@ -99,6 +104,9 @@ let targetHitPoints = $state(getInitialTargetHitPoints(initialTarget));
 let selectedTargetId = $state(initialTarget.id);
 // svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for the initial selected attacker.
 let selectedAttackerId = $state(attacker.id);
+let attackerChar = $derived(
+	characters.find((c) => c.id === selectedAttackerId),
+);
 let lastState = $state<CombatEncounterState | null>(null);
 let errorMessage = $state<string | null>(null);
 let log = $state<readonly string[]>([]);
@@ -108,7 +116,7 @@ let turnState = $state<CombatTurnState>(
 );
 
 let attackerHp = $state(15);
-let attackerTension = $state(0);
+let attackerTension = $derived(attackerChar?.tensionMeter ?? 0);
 let attackerDeathSuccesses = $state(0);
 let attackerDeathFailures = $state(0);
 let attackerIsDying = $state(false);
@@ -181,9 +189,6 @@ let activeCompanionStats = $derived(
 	}),
 );
 
-let attackerChar = $derived(
-	characters.find((c) => c.id === selectedAttackerId),
-);
 let hasActiveFamiliar = $derived(
 	companions.some(
 		(comp) =>
@@ -199,6 +204,11 @@ let masterMaxEe = $derived(
 	hasActiveFamiliar ? Math.max(0, masterBaseEe - 1) : masterBaseEe,
 );
 let masterAvailableEe = $derived(Math.max(0, masterMaxEe - masterEeSpent));
+let masterPvSpent = $state(0);
+let masterMaxPv = $derived(
+	attackerChar ? (attackerChar.physical + attackerChar.resistance) * 3 : 10,
+);
+let masterAvailablePv = $derived(Math.max(0, masterMaxPv - masterPvSpent));
 
 let canCommandCompanion = $derived(
 	turnState.activeActorId === selectedAttackerId &&
@@ -220,11 +230,39 @@ $effect(() => {
 		} else {
 			attackerHp = 15;
 		}
-		attackerTension = 0;
-		attackerDeathSuccesses = 0;
-		attackerDeathFailures = 0;
-		attackerIsDying = false;
 		limitBreakActive = false;
+		masterPvSpent = 0;
+
+		const moribundEffect = activeEffects.find(
+			(e) => e.characterId === selectedAttackerId && e.type === "moribund",
+		);
+		const unconsciousEffect = activeEffects.find(
+			(e) => e.characterId === selectedAttackerId && e.type === "unconscious",
+		);
+
+		if (moribundEffect) {
+			attackerHp = 0;
+			attackerIsDying = true;
+			try {
+				const meta = moribundEffect.metadata
+					? JSON.parse(moribundEffect.metadata)
+					: {};
+				attackerDeathSuccesses =
+					typeof meta.successes === "number" ? meta.successes : 0;
+				attackerDeathFailures =
+					typeof meta.failures === "number" ? meta.failures : 0;
+			} catch {
+				attackerDeathSuccesses = 0;
+				attackerDeathFailures = 0;
+			}
+		} else {
+			attackerIsDying = false;
+			attackerDeathSuccesses = 0;
+			attackerDeathFailures = 0;
+			if (unconsciousEffect) {
+				attackerHp = 0;
+			}
+		}
 	}
 });
 
@@ -236,18 +274,29 @@ $effect(() => {
 	}
 });
 
-function addStatusEffect(characterId: string, type: string) {
+function addStatusEffect(characterId: string, type: string, metadata?: string) {
 	const alreadyHas = activeEffects.some(
 		(e) => e.characterId === characterId && e.type === type,
 	);
 	if (alreadyHas) return;
+
+	const isTacticalTalent = type === "extra_breath" || type === "double_time";
+	const durationTurns = isTacticalTalent ? 3 : undefined;
+
+	const defaultMetadata =
+		type === "moribund"
+			? JSON.stringify({ successes: 0, failures: 0 })
+			: undefined;
+
 	const newEffect = {
 		id: crypto.randomUUID(),
 		characterId,
 		type,
-		severity: 2,
-		severityMax: 4,
+		severity: isTacticalTalent ? 1 : 2,
+		severityMax: isTacticalTalent ? 1 : 4,
 		isAggravated: false,
+		durationTurns,
+		metadata: metadata ?? defaultMetadata,
 		createdAt: new Date().toISOString(),
 	};
 	activeEffects = [...activeEffects, newEffect];
@@ -256,9 +305,21 @@ function addStatusEffect(characterId: string, type: string) {
 		JSON.stringify(activeEffects),
 	);
 	window.dispatchEvent(new CustomEvent("pandorha:crafted-items-changed"));
+
+	const isHero = characters.some((c) => c.id === characterId);
+	if (isHero && dbWorker) {
+		dbWorker.postMessage({
+			messageId: crypto.randomUUID(),
+			type: "SAVE_STATUS_EFFECT",
+			payload: { effect: newEffect },
+		});
+	}
 }
 
 function removeStatusEffect(characterId: string, type: string) {
+	const effectToRemove = activeEffects.find(
+		(e) => e.characterId === characterId && e.type === type,
+	);
 	activeEffects = activeEffects.filter(
 		(e) => !(e.characterId === characterId && e.type === type),
 	);
@@ -267,113 +328,309 @@ function removeStatusEffect(characterId: string, type: string) {
 		JSON.stringify(activeEffects),
 	);
 	window.dispatchEvent(new CustomEvent("pandorha:crafted-items-changed"));
+
+	const isHero = characters.some((c) => c.id === characterId);
+	if (isHero && dbWorker && effectToRemove) {
+		dbWorker.postMessage({
+			messageId: crypto.randomUUID(),
+			type: "DELETE_STATUS_EFFECT",
+			payload: { id: effectToRemove.id },
+		});
+	}
+}
+
+function updateMoribundMetadata(
+	characterId: string,
+	successes: number,
+	failures: number,
+) {
+	const effectIndex = activeEffects.findIndex(
+		(e) => e.characterId === characterId && e.type === "moribund",
+	);
+	if (effectIndex === -1) return;
+
+	const updatedMetadata = JSON.stringify({ successes, failures });
+	const updatedEffect = {
+		...activeEffects[effectIndex],
+		metadata: updatedMetadata,
+	};
+
+	activeEffects = [
+		...activeEffects.slice(0, effectIndex),
+		updatedEffect,
+		...activeEffects.slice(effectIndex + 1),
+	];
+
+	localStorage.setItem(
+		"pandorha_status_effects",
+		JSON.stringify(activeEffects),
+	);
+	window.dispatchEvent(new CustomEvent("pandorha:crafted-items-changed"));
+
+	const isHero = characters.some((c) => c.id === characterId);
+	if (isHero && dbWorker) {
+		dbWorker.postMessage({
+			messageId: crypto.randomUUID(),
+			type: "SAVE_STATUS_EFFECT",
+			payload: { effect: updatedEffect },
+		});
+	}
 }
 
 function runAutomaticDeathSave() {
 	const char = characters.find((c) => c.id === selectedAttackerId);
 	if (!char) return;
 
-	const naturalRoll = randRoll();
-	const level = char.level;
-	const physical = char.physical;
-	const resistance = char.resistance;
-
-	const cdTarget = 10 + level + physical + resistance;
-	const totalRoll = naturalRoll + physical + resistance + level;
-
-	log = [
-		...log,
-		`🩸 Teste de Morte automático de ${char.name}: Rolou d20=${naturalRoll} + mod=${physical + resistance + level} | Total ${totalRoll} vs CD ${cdTarget}.`,
-	];
-
-	if (naturalRoll === 20) {
-		attackerHp = 1;
-		attackerIsDying = false;
-		attackerDeathSuccesses = 0;
-		attackerDeathFailures = 0;
-		removeStatusEffect(char.id, "moribund");
-		removeStatusEffect(char.id, "unconscious");
-		log = [
-			...log,
-			`🌟 SUCESSO CRÍTICO! ${char.name} estabilizou e recuperou a consciência com 1 HP!`,
-		];
-	} else if (naturalRoll === 1) {
-		attackerDeathFailures += 2;
-		log = [
-			...log,
-			`💀 FALHA CRÍTICA! ${char.name} acumulou mais 2 falhas de morte. (${attackerDeathFailures}/3 falhas).`,
-		];
-	} else if (totalRoll >= cdTarget) {
-		attackerDeathSuccesses += 1;
-		log = [
-			...log,
-			`👍 Sucesso no teste de morte. (${attackerDeathSuccesses}/3 sucessos).`,
-		];
-	} else {
-		attackerDeathFailures += 1;
-		log = [
-			...log,
-			`👎 Falha no teste de morte. (${attackerDeathFailures}/3 falhas).`,
-		];
+	if (!service) {
+		console.warn("CombatEncounterService não foi fornecido ao painel.");
+		return;
 	}
 
-	if (attackerDeathSuccesses >= 3) {
-		attackerIsDying = false;
-		attackerDeathSuccesses = 0;
-		attackerDeathFailures = 0;
+	const actor: TacticalAiActor = {
+		id: char.id,
+		name: char.name,
+		maxHp: 15,
+		currentHp: attackerHp,
+		armorClass: 10,
+		level: char.level,
+		physical: char.physical,
+		mental: char.mental,
+		resistance: char.resistance,
+		isDying: attackerIsDying,
+		deathSuccesses: attackerDeathSuccesses,
+		deathFailures: attackerDeathFailures,
+	};
+
+	const result = service.resolveDeathSaves([actor]);
+	if (!result.success) {
+		console.error("Erro ao resolver testes de morte:", result.error.message);
+		return;
+	}
+
+	const updated = result.data.updatedParty[0];
+	if (!updated) return;
+
+	attackerHp = updated.currentHp;
+	attackerIsDying = updated.isDying;
+	attackerDeathSuccesses = updated.deathSuccesses;
+	attackerDeathFailures = updated.deathFailures;
+
+	log = [...log, ...result.data.logs];
+
+	if (updated.currentHp > 0) {
 		removeStatusEffect(char.id, "moribund");
-		log = [
-			...log,
-			`🩹 ${char.name} ESTABILIZOU! Ele permanece inconsciente com 0 HP, mas não corre mais risco de morte.`,
-		];
-	} else if (attackerDeathFailures >= 3) {
-		log = [
-			...log,
-			`🪦 MORTE DEFINITIVA: ${char.name} sucumbiu aos ferimentos e faleceu.`,
-		];
+		removeStatusEffect(char.id, "unconscious");
+	} else if (!updated.isDying && updated.deathFailures < 3) {
+		removeStatusEffect(char.id, "moribund");
+	} else if (updated.deathFailures >= 3) {
+		removeStatusEffect(char.id, "moribund");
+		removeStatusEffect(char.id, "unconscious");
+		addStatusEffect(char.id, "dead");
+	} else {
+		updateMoribundMetadata(
+			char.id,
+			updated.deathSuccesses,
+			updated.deathFailures,
+		);
+	}
+}
+
+function saveCharacterAndSync(updatedChar: CharacterRecord) {
+	window.dispatchEvent(
+		new CustomEvent("pandorha:character-updated", { detail: updatedChar }),
+	);
+
+	const isHero = characters.some((c) => c.id === updatedChar.id);
+	if (isHero && dbWorker) {
+		dbWorker.postMessage({
+			messageId: crypto.randomUUID(),
+			type: "SAVE_CHARACTER",
+			payload: { character: updatedChar },
+		});
 	}
 }
 
 function addTension(amount: number) {
-	if (attackerHp === 0) return;
-	attackerTension = Math.min(10, attackerTension + amount);
-	if (attackerTension === 10) {
-		log = [
-			...log,
-			`🔥 LIMIT BREAK ATIVO para ${selectedAttacker.label}! A habilidade Ultimate da classe está disponível.`,
-		];
+	if (attackerHp === 0 || !attackerChar) return;
+
+	let trigger: "massive_damage" | "adjacent_ally_down" | "lethal_precision" =
+		"lethal_precision";
+	if (amount === 40) {
+		trigger = "adjacent_ally_down";
+	} else if (amount === 30) {
+		trigger = "massive_damage";
+	} else {
+		const currentTension = attackerChar.tensionMeter ?? 0;
+		const newTension = Math.min(100, Math.max(0, currentTension + amount));
+		const updated = {
+			...attackerChar,
+			tensionMeter: newTension,
+			updatedAt: new Date().toISOString(),
+		};
+		saveCharacterAndSync(updated);
+		if (newTension === 100) {
+			log = [
+				...log,
+				`🔥 LIMIT BREAK ATIVO para ${selectedAttacker.label}! A habilidade Ultimate da classe está disponível.`,
+			];
+		}
+		return;
+	}
+
+	const result = limitBreakService.accumulateTension(attackerChar, trigger);
+	if (result.success) {
+		const updatedChar = result.data;
+		saveCharacterAndSync(updatedChar);
+
+		if (updatedChar.tensionMeter === 100) {
+			log = [
+				...log,
+				`🔥 LIMIT BREAK ATIVO para ${selectedAttacker.label}! A habilidade Ultimate da classe está disponível.`,
+			];
+		}
 	}
 }
 
 function activateLimitBreak() {
-	if (attackerTension < 10) return;
-	const char = characters.find((c) => c.id === selectedAttackerId);
-	if (!char) return;
+	if (!attackerChar || attackerTension < 100) return;
 
-	let ultimateType = "avatar_guerra";
-	let ultimateLabel = "Avatar da Guerra (Vanguarda)";
-	if (char.classId === "weaver") {
-		ultimateType = "surto_tempo";
-		ultimateLabel = "Surto de Tempo (Tecelão)";
-	} else if (char.classId === "hunter") {
-		ultimateType = "cacada_selvagem";
-		ultimateLabel = "Caçada Selvagem (Caçador)";
-	} else if (char.classId === "emissary") {
-		ultimateType = "rede_intrigas";
-		ultimateLabel = "Rede de Intrigas (Emissário)";
+	const ultimate = findUltimateByClass(attackerChar.classId);
+	if (!ultimate) return;
+
+	const result = limitBreakService.consumeLimitBreak(attackerChar);
+	if (result.success) {
+		const updatedChar = result.data;
+		saveCharacterAndSync(updatedChar);
 	}
 
-	addStatusEffect(char.id, ultimateType);
-	attackerTension = 0;
+	addStatusEffect(attackerChar.id, ultimate.statusEffectType);
 	limitBreakActive = true;
 	log = [
 		...log,
-		`💥 LIMIT BREAK CONJURADO! ${char.name} ativou a Ultimate: ${ultimateLabel}!`,
+		`💥 LIMIT BREAK CONJURADO! ${attackerChar.name} ativou a Ultimate: ${ultimate.name} (${attackerChar.classId === "weaver" ? "Tecelão" : attackerChar.classId === "hunter" ? "Caçador" : attackerChar.classId === "emissary" ? "Emissário" : "Vanguarda"})!`,
 	];
 }
 
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function activateExtraBreath(): void {
+	if (!selectedAttackerId || !attackerChar) return;
+	if (attackerChar.classId !== "vanguard") return;
+
+	if (masterAvailablePv < 2) {
+		errorMessage =
+			"Pontos de Vigor (PV) insuficientes para ativar Fôlego Extra.";
+		return;
+	}
+
+	masterPvSpent += 2;
+	addStatusEffect(selectedAttackerId, "extra_breath");
+
+	// Sincronizar com banco via Worker RPC se for personagem real
+	const isHero = characters.some((c) => c.id === selectedAttackerId);
+	if (isHero && dbWorker) {
+		const newEffect = {
+			id: crypto.randomUUID(),
+			characterId: selectedAttackerId,
+			type: "extra_breath",
+			severity: 1,
+			severityMax: 1,
+			isAggravated: false,
+			durationTurns: 3,
+			createdAt: new Date().toISOString(),
+		};
+		dbWorker.postMessage({
+			messageId: crypto.randomUUID(),
+			type: "SAVE_STATUS_EFFECT",
+			payload: { effect: newEffect },
+		});
+	}
+
+	log = [
+		...log,
+		`🛡️ ${attackerChar.name} ativou o talento tático Fôlego Extra! (Custo: 2 PV). +2 Resistência e +1 Físico por 3 turnos.`,
+	];
+	errorMessage = null;
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function activateDoubleTime(): void {
+	if (!selectedAttackerId || !attackerChar) return;
+	if (attackerChar.classId !== "weaver") return;
+
+	if (masterAvailableEe < 2) {
+		errorMessage =
+			"Energia Etérica (EE) insuficiente para ativar Dobrar Tempo.";
+		return;
+	}
+
+	masterEeSpent += 2;
+	addStatusEffect(selectedAttackerId, "double_time");
+
+	// Sincronizar com banco via Worker RPC se for personagem real
+	const isHero = characters.some((c) => c.id === selectedAttackerId);
+	if (isHero && dbWorker) {
+		const newEffect = {
+			id: crypto.randomUUID(),
+			characterId: selectedAttackerId,
+			type: "double_time",
+			severity: 1,
+			severityMax: 1,
+			isAggravated: false,
+			durationTurns: 3,
+			createdAt: new Date().toISOString(),
+		};
+		dbWorker.postMessage({
+			messageId: crypto.randomUUID(),
+			type: "SAVE_STATUS_EFFECT",
+			payload: { effect: newEffect },
+		});
+	}
+
+	log = [
+		...log,
+		`⏳ ${attackerChar.name} ativou o talento tático Dobrar Tempo! (Custo: 2 EE). +1 Ação Adicional por 3 turnos.`,
+	];
+	errorMessage = null;
+}
+
 function damageHero(amount: number) {
-	if (attackerHp === 0) return;
+	if (attackerHp === 0) {
+		const isCrit = amount >= 10;
+		const failures = isCrit ? 2 : 1;
+		attackerDeathFailures += failures;
+
+		log = [
+			...log,
+			`💥 ${selectedAttacker.label} sofreu ${amount} de dano a 0 HP! +${failures} falha(s) de morte acumulada(s). (Total: ${attackerDeathFailures}/3 falhas).`,
+		];
+
+		if (!attackerIsDying) {
+			attackerIsDying = true;
+			addStatusEffect(selectedAttacker.id, "moribund");
+			log = [
+				...log,
+				`🚨 O dano reativou o estado Moribundo de ${selectedAttacker.label}!`,
+			];
+		}
+
+		if (attackerDeathFailures >= 3) {
+			removeStatusEffect(selectedAttacker.id, "moribund");
+			removeStatusEffect(selectedAttacker.id, "unconscious");
+			addStatusEffect(selectedAttacker.id, "dead");
+			log = [
+				...log,
+				`🪦 MORTE DEFINITIVA: ${selectedAttacker.label} sucumbiu aos ferimentos e faleceu.`,
+			];
+		} else {
+			updateMoribundMetadata(
+				selectedAttacker.id,
+				attackerDeathSuccesses,
+				attackerDeathFailures,
+			);
+		}
+		return;
+	}
+
 	attackerHp = Math.max(0, attackerHp - amount);
 	log = [
 		...log,
@@ -381,10 +638,10 @@ function damageHero(amount: number) {
 	];
 
 	if (amount >= 5) {
-		addTension(2);
+		addTension(30);
 		log = [
 			...log,
-			`⚠️ Crise! ${selectedAttacker.label} sofreu dano massivo e acumulou +2 de Tensão.`,
+			`⚠️ Crise! ${selectedAttacker.label} sofreu dano massivo e acumulou +30 de Tensão.`,
 		];
 	}
 
@@ -448,36 +705,107 @@ function healHero(amount: number) {
 
 function helpHero() {
 	if (attackerHp > 0 || !attackerIsDying) return;
-	const helper = characters.find((c) => c.id !== selectedAttackerId) || {
-		name: "Aliado",
-		level: 1,
-		mental: 1,
-	};
-	const naturalRoll = randRoll();
-	const totalRoll = naturalRoll + helper.level + (helper.mental ?? 1);
+
+	if (!service) {
+		console.warn("CombatEncounterService não foi fornecido ao painel.");
+		return;
+	}
 
 	const char = characters.find((c) => c.id === selectedAttackerId);
 	if (!char) return;
-	const cdTarget = 10 + char.level + char.physical + char.resistance;
 
-	log = [
-		...log,
-		`🩹 Primeiros Socorros: ${helper.name} tenta estabilizar ${char.name}. Rolou d20=${naturalRoll} + mod=${helper.level + (helper.mental ?? 1)} | Total ${totalRoll} vs CD ${cdTarget}.`,
-	];
+	const helperChar = characters.find((c) => c.id !== selectedAttackerId) || {
+		id: "allied-helper",
+		name: "Aliado",
+		level: 1,
+		physical: 1,
+		mental: 1,
+		resistance: 1,
+		isDying: false,
+		deathSuccesses: 0,
+		deathFailures: 0,
+	};
 
-	if (totalRoll >= cdTarget) {
-		attackerIsDying = false;
-		attackerDeathSuccesses = 0;
-		attackerDeathFailures = 0;
+	const helperActor: TacticalAiActor = {
+		id: helperChar.id,
+		name: helperChar.name,
+		maxHp: 15,
+		currentHp: 15,
+		armorClass: 10,
+		level: helperChar.level,
+		physical: helperChar.physical,
+		mental: helperChar.mental ?? 1,
+		resistance: helperChar.resistance,
+		isDying: false,
+		deathSuccesses: 0,
+		deathFailures: 0,
+	};
+
+	const targetActor: TacticalAiActor = {
+		id: char.id,
+		name: char.name,
+		maxHp: 15,
+		currentHp: attackerHp,
+		armorClass: 10,
+		level: char.level,
+		physical: char.physical,
+		mental: char.mental,
+		resistance: char.resistance,
+		isDying: attackerIsDying,
+		deathSuccesses: attackerDeathSuccesses,
+		deathFailures: attackerDeathFailures,
+	};
+
+	const kitIndex = craftedItems.findIndex(
+		(i) =>
+			i.characterId === helperChar.id &&
+			i.id === "first-aid-kit" &&
+			i.quantity > 0,
+	);
+	const hasKit = kitIndex !== -1;
+
+	const result = service.resolveFirstAid({
+		helper: helperActor,
+		target: targetActor,
+		hasFirstAidKit: hasKit,
+	});
+
+	if (!result.success) {
+		console.error("Erro ao aplicar primeiros socorros:", result.error.message);
+		return;
+	}
+
+	const updated = result.data.updatedTarget;
+	attackerIsDying = updated.isDying;
+	attackerDeathSuccesses = updated.deathSuccesses;
+	attackerDeathFailures = updated.deathFailures;
+
+	log = [...log, ...result.data.logs];
+
+	if (!updated.isDying) {
 		removeStatusEffect(char.id, "moribund");
+	}
+
+	if (result.data.consumedKitCharge && hasKit) {
+		const kit = craftedItems[kitIndex];
+		const nextQty = kit.quantity - 1;
+		if (nextQty <= 0) {
+			craftedItems = craftedItems.filter((_, idx) => idx !== kitIndex);
+		} else {
+			craftedItems = [
+				...craftedItems.slice(0, kitIndex),
+				{ ...kit, quantity: nextQty },
+				...craftedItems.slice(kitIndex + 1),
+			];
+		}
+		localStorage.setItem(
+			"pandorha_crafted_items",
+			JSON.stringify(craftedItems),
+		);
+		window.dispatchEvent(new CustomEvent("pandorha:crafted-items-changed"));
 		log = [
 			...log,
-			`💖 SUCESSO! ${char.name} foi estabilizado por ${helper.name}!`,
-		];
-	} else {
-		log = [
-			...log,
-			`❌ FALHA! ${helper.name} não conseguiu estabilizar ${char.name}.`,
+			`📦 Consumido 1 carga do Kit de Primeiros Socorros de ${helperChar.name}. Cargas restantes: ${Math.max(0, nextQty)}.`,
 		];
 	}
 }
@@ -486,6 +814,7 @@ function helpHero() {
 let craftedItems = $state<CharacterCraftedItemRecord[]>([]);
 // biome-ignore lint/suspicious/noExplicitAny: status effects loaded dynamically from local storage
 let activeEffects = $state<any[]>([]);
+let dbWorker = $state<Worker | null>(null);
 
 // Lógica de Sinergia de Combate
 const synergyRepository = new WorkerSynergyRepository();
@@ -675,6 +1004,19 @@ onMount(async () => {
 	};
 
 	if (typeof window !== "undefined") {
+		dbWorker = new Worker(
+			new URL(
+				"../../../shared/persistence/worker/pandorhaDatabase.worker.ts",
+				import.meta.url,
+			),
+			{ type: "module" },
+		);
+		dbWorker.postMessage({
+			messageId: crypto.randomUUID(),
+			type: "INIT_DATABASE",
+			payload: { requestedAt: new Date().toISOString() },
+		});
+
 		const stored = localStorage.getItem("pandorha_crafted_items");
 		if (stored) {
 			try {
@@ -910,6 +1252,18 @@ function attack(): void {
 	lastState = result.data;
 	targetHitPoints = result.data.target.currentHitPoints;
 	log = [...log, ...result.data.log];
+
+	if (
+		result.data.resolution.degree === "criticalSuccess" &&
+		result.data.resolution.margin >= 10
+	) {
+		addTension(30);
+		log = [
+			...log,
+			`🎯 PRECISÃO LETAL! ${selectedAttacker.label} obteve um Sucesso Crítico (Margem: +${result.data.resolution.margin}) e acumulou +30 de Tensão.`,
+		];
+	}
+
 	errorMessage = null;
 }
 
@@ -918,6 +1272,72 @@ function endTurn(): void {
 	if (!view.canEndTurn) {
 		return;
 	}
+
+	const activeActorId = turnState.activeActorId;
+
+	// Decrementar durações de status do ator que está encerrando o turno
+	const actorEffects = activeEffects.filter(
+		(e) =>
+			e.characterId === activeActorId &&
+			e.durationTurns !== undefined &&
+			e.durationTurns !== null,
+	);
+
+	for (const effect of actorEffects) {
+		const nextTurns = effect.durationTurns - 1;
+		if (nextTurns <= 0) {
+			activeEffects = activeEffects.filter((e) => e.id !== effect.id);
+
+			const isHero = characters.some((c) => c.id === activeActorId);
+			if (isHero && dbWorker) {
+				dbWorker.postMessage({
+					messageId: crypto.randomUUID(),
+					type: "DELETE_STATUS_EFFECT",
+					payload: { id: effect.id },
+				});
+			}
+			log = [
+				...log,
+				`⏳ Efeito de status [${effect.type}] em ${activeActorId === selectedAttacker.id ? selectedAttacker.label : activeActorId} expirou e foi removido.`,
+			];
+		} else {
+			activeEffects = activeEffects.map((e) => {
+				if (e.id === effect.id) {
+					return { ...e, durationTurns: nextTurns };
+				}
+				return e;
+			});
+
+			const isHero = characters.some((c) => c.id === activeActorId);
+			if (isHero && dbWorker) {
+				const updatedEffect = {
+					id: effect.id,
+					characterId: effect.characterId,
+					type: effect.type,
+					severity: effect.severity,
+					severityMax: effect.severityMax,
+					isAggravated: effect.isAggravated,
+					createdAt: effect.createdAt,
+					durationTurns: nextTurns,
+				};
+				dbWorker.postMessage({
+					messageId: crypto.randomUUID(),
+					type: "SAVE_STATUS_EFFECT",
+					payload: { effect: updatedEffect },
+				});
+			}
+			log = [
+				...log,
+				`⏳ Efeito de status [${effect.type}] em ${activeActorId === selectedAttacker.id ? selectedAttacker.label : activeActorId} reduzido para ${nextTurns} turnos.`,
+			];
+		}
+	}
+
+	localStorage.setItem(
+		"pandorha_status_effects",
+		JSON.stringify(activeEffects),
+	);
+	window.dispatchEvent(new CustomEvent("pandorha:crafted-items-changed"));
 
 	const targetTurnLog = createCombatTrainingTargetTurnLog({
 		activeActorId: turnState.activeActorId,
@@ -945,6 +1365,7 @@ function resetEncounter(): void {
 	log = [];
 	turnState = createInitialTurnState(selectedAttacker.id, selectedTarget.id);
 	masterEeSpent = 0;
+	masterPvSpent = 0;
 	familiarReactionUsed = false;
 	familiarFlickered = false;
 }
@@ -962,6 +1383,7 @@ function selectAttacker(event: Event): void {
 	log = [];
 	turnState = createInitialTurnState(selectedAttackerId, selectedTarget.id);
 	masterEeSpent = 0;
+	masterPvSpent = 0;
 	familiarReactionUsed = false;
 	familiarFlickered = false;
 }
@@ -980,6 +1402,7 @@ function selectTarget(event: Event): void {
 	log = [];
 	turnState = createInitialTurnState(selectedAttacker.id, nextTarget.id);
 	masterEeSpent = 0;
+	masterPvSpent = 0;
 	familiarReactionUsed = false;
 	familiarFlickered = false;
 }
@@ -1918,20 +2341,20 @@ function handleEvidenceCleanup(): void {
 						{/if}
 					</div>
 
-					<!-- Medidor de Tensão e Limit Break (Fase 39) -->
+					<!-- Medidor de Tensão e Limit Break (Fase 39/70) -->
 					{#if attackerHp > 0}
 						<div class="mt-3 bg-void/50 border border-bronze/20 p-3 rounded flex flex-col gap-2">
 							<div class="flex justify-between items-center text-xs">
 								<span class="text-bone/70 uppercase tracking-wider font-semibold">Medidor de Tensão</span>
 								<span class="font-mono font-bold text-[#f59e0b]">
-									{attackerTension} / 10 fatias
+									{attackerTension} / 100 Tensão
 								</span>
 							</div>
 							<div class="w-full bg-void rounded-full h-2.5 overflow-hidden border border-bronze/30 relative">
-								<div class="bg-[#f59e0b] h-full transition-all duration-300 {attackerTension === 10 ? 'animate-pulse bg-[#dab973] shadow-[0_0_10px_#f59e0b]' : ''}" style="width: {attackerTension * 10}%"></div>
+								<div class="bg-[#f59e0b] h-full transition-all duration-300 {attackerTension === 100 ? 'animate-pulse bg-[#dab973] shadow-[0_0_10px_#f59e0b]' : ''}" style="width: {attackerTension}%"></div>
 							</div>
 
-							{#if attackerTension === 10}
+							{#if attackerTension === 100}
 								<button
 									type="button"
 									onclick={activateLimitBreak}
@@ -1972,11 +2395,19 @@ function handleEvidenceCleanup(): void {
 							</button>
 							<button
 								type="button"
-								onclick={() => addTension(2)}
+								onclick={() => addTension(30)}
 								disabled={attackerHp === 0}
 								class="py-1 px-1.5 bg-[#f59e0b]/10 border border-[#f59e0b]/30 text-[#f59e0b] hover:bg-[#f59e0b]/25 transition-colors disabled:opacity-50"
 							>
-								⚡ Tensão (+2)
+								⚡ Precisão Letal (+30)
+							</button>
+							<button
+								type="button"
+								onclick={() => addTension(40)}
+								disabled={attackerHp === 0}
+								class="py-1 px-1.5 bg-[#f59e0b]/10 border border-[#f59e0b]/30 text-[#f59e0b] hover:bg-[#f59e0b]/25 transition-colors disabled:opacity-50 col-span-2 text-center"
+							>
+								👥 Aliado Caído (+40)
 							</button>
 						</div>
 						{#if attackerHp === 0 && attackerIsDying}
@@ -2221,6 +2652,57 @@ function handleEvidenceCleanup(): void {
 					</div>
 				{/if}
 			</div>
+			<!-- Talentos Táticos de Classe -->
+			{#if attackerChar && (attackerChar.classId === "vanguard" || attackerChar.classId === "weaver")}
+				<div class="mt-4 border-t border-bronze pt-4" data-testid="combat-class-talents">
+					<p class="text-sm font-semibold text-ether">Talentos Táticos de Classe</p>
+					{#if attackerChar.classId === "vanguard"}
+						<div class="mt-3 bg-void/40 border border-bronze/30 p-3 rounded flex flex-col gap-2">
+							<div class="flex justify-between items-center text-xs">
+								<span class="text-bone/70 uppercase font-semibold">Vigor do Personagem:</span>
+								<span class="font-mono font-bold text-bone">
+									{masterAvailablePv} / {masterMaxPv} PV
+								</span>
+							</div>
+							<button
+								type="button"
+								onclick={activateExtraBreath}
+								disabled={masterAvailablePv < 2 || activeEffects.some(e => e.characterId === selectedAttackerId && e.type === 'extra_breath') || turnState.activeActorId !== selectedAttackerId || attackerIsDying}
+								class="bg-ether hover:bg-bone text-void text-xs font-bold py-1.5 px-2 rounded transition-colors uppercase tracking-wider disabled:opacity-50"
+							>
+								🛡️ Ativar Fôlego Extra (Custa 2 PV)
+							</button>
+							{#if activeEffects.some(e => e.characterId === selectedAttackerId && e.type === 'extra_breath')}
+								<p class="text-[10px] text-[#10b981] font-bold">
+									✅ Fôlego Extra Ativo (+2 Resistência, +1 Físico)
+								</p>
+							{/if}
+						</div>
+					{:else if attackerChar.classId === "weaver"}
+						<div class="mt-3 bg-void/40 border border-bronze/30 p-3 rounded flex flex-col gap-2">
+							<div class="flex justify-between items-center text-xs">
+								<span class="text-bone/70 uppercase font-semibold">Energia do Mestre:</span>
+								<span class="font-mono font-bold text-bone">
+									{masterAvailableEe} / {masterMaxEe} EE
+								</span>
+							</div>
+							<button
+								type="button"
+								onclick={activateDoubleTime}
+								disabled={masterAvailableEe < 2 || activeEffects.some(e => e.characterId === selectedAttackerId && e.type === 'double_time') || turnState.activeActorId !== selectedAttackerId || attackerIsDying}
+								class="bg-[#38bdf8] hover:bg-[#38bdf8]/80 text-void text-xs font-bold py-1.5 px-2 rounded transition-colors uppercase tracking-wider disabled:opacity-50"
+							>
+								⏳ Ativar Dobrar Tempo (Custa 2 EE)
+							</button>
+							{#if activeEffects.some(e => e.characterId === selectedAttackerId && e.type === 'double_time')}
+								<p class="text-[10px] text-[#06b6d4] font-bold">
+									✅ Dobrar Tempo Ativo (+1 Ação Adicional)
+								</p>
+							{/if}
+						</div>
+					{/if}
+				</div>
+			{/if}
 			<div
 				class="mt-4 border-t border-bronze pt-4"
 				data-testid="combat-training-damage-profile"

@@ -192,6 +192,7 @@ function createCharacterRecord(
 		classId: "vanguard",
 		conflict: 2,
 		experiencePoints: 0,
+		tensionMeter: 0,
 		createdAt: TEST_TIMESTAMP,
 		interaction: 2,
 		level: 1,

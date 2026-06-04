@@ -141,6 +141,38 @@ class FakeCraftingRepository implements CraftingRepository {
 			message: "Not implemented",
 		});
 	}
+
+	public async updateCraftedItemDurability(
+		id: string,
+		durabilityCurrent: number,
+		durability: "mint" | "damaged" | "broken",
+	): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>> {
+		const item = this.list.find((i) => i.id === id);
+		if (!item) {
+			return fail({
+				code: "ITEM_NOT_FOUND",
+				message: "Item not found",
+			});
+		}
+		const updated = { ...item, durabilityCurrent, durability };
+		const idx = this.list.findIndex((i) => i.id === id);
+		this.list[idx] = updated;
+		return ok(updated);
+	}
+
+	public async updateCraftedItem(
+		item: CharacterCraftedItemRecord,
+	): Promise<Result<CharacterCraftedItemRecord, CraftingFailure>> {
+		const idx = this.list.findIndex((i) => i.id === item.id);
+		if (idx === -1) {
+			return fail({
+				code: "ITEM_NOT_FOUND",
+				message: "Item not found",
+			});
+		}
+		this.list[idx] = item;
+		return ok(item);
+	}
 }
 
 function createTestDiceService(sequence: readonly number[]): DiceService {

@@ -140,6 +140,14 @@ export function createCombatAttackerStatsView(
 			label: "🕸️ Rede de Intrigas (Ações Sociais/Cena Retroativas)",
 			color: "#8b5cf6",
 		},
+		extra_breath: {
+			label: "🛡️ Fôlego Extra (+2 Resistência, +1 Físico)",
+			color: "#10b981",
+		},
+		double_time: {
+			label: "⏳ Dobrar Tempo (+1 Ação Adicional)",
+			color: "#06b6d4",
+		},
 	};
 
 	if (input.activeEffects) {

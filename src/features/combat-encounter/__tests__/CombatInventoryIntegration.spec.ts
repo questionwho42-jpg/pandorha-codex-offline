@@ -61,6 +61,7 @@ describe("Combat Inventory & Damage Decorators Integration", () => {
 			classId: "vanguard",
 			conflict: 2,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			createdAt: "2026-05-17T00:00:00Z",
 			interaction: 2,
 			level: 1,
@@ -98,6 +99,7 @@ describe("Combat Inventory & Damage Decorators Integration", () => {
 				isEquipped: 1,
 				durabilityCurrent: 50,
 				durabilityMax: 50,
+				durability: "mint",
 				createdAt: "2026-05-17T00:00:00Z",
 			};
 
@@ -122,6 +124,7 @@ describe("Combat Inventory & Damage Decorators Integration", () => {
 				isEquipped: 1,
 				durabilityCurrent: 50,
 				durabilityMax: 50,
+				durability: "mint",
 				createdAt: "2026-05-17T00:00:00Z",
 			};
 
@@ -147,6 +150,7 @@ describe("Combat Inventory & Damage Decorators Integration", () => {
 				isEquipped: 1,
 				durabilityCurrent: 50,
 				durabilityMax: 50,
+				durability: "mint",
 				createdAt: "2026-05-17T00:00:00Z",
 			};
 

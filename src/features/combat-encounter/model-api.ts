@@ -1,5 +1,7 @@
 export { CombatEncounterService } from "./domain/CombatEncounterService";
 export { CombatTurnService } from "./domain/CombatTurnService";
+export { EncounterGeneratorService } from "./domain/EncounterGeneratorService";
+export { TacticalAiService } from "./domain/TacticalAiService";
 export type {
 	CombatAttackerStatsStatus,
 	CombatAttackerStatsView,

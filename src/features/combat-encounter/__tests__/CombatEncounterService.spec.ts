@@ -603,6 +603,105 @@ describe("CombatEncounterService", () => {
 			);
 		}
 	});
+
+	describe("Mecanicas de Estado Moribundo e Primeiros Socorros", () => {
+		it("aplica +1 falha de morte ao sofrer dano normal a 0 HP", () => {
+			const service = createService([0.45]); // d20 = 10 -> Acerto normal
+			const state = expectCombatSuccess(
+				service.resolveAttack(
+					createEncounterInput({
+						target: createTarget({ currentHitPoints: 0, armorClass: 10 }),
+						damage: createDamageInput({ baseDiceTotal: 5 }),
+					}),
+				),
+			);
+			expect(state.target.currentHitPoints).toBe(0);
+			expect(
+				state.events.some((e) =>
+					e.message.includes("sofreu 7 de dano a 0 HP! +1 falha(s) de morte"),
+				),
+			).toBe(true);
+		});
+
+		it("aplica +2 falhas de morte ao sofrer dano critico a 0 HP", () => {
+			const service = createService([0.95]); // d20 = 20 -> Crítico
+			const state = expectCombatSuccess(
+				service.resolveAttack(
+					createEncounterInput({
+						target: createTarget({ currentHitPoints: 0, armorClass: 10 }),
+						damage: createDamageInput({ baseDiceTotal: 5 }),
+					}),
+				),
+			);
+			expect(state.target.currentHitPoints).toBe(0);
+			expect(
+				state.events.some((e) => e.message.includes("+2 falha(s) de morte")),
+			).toBe(true);
+		});
+
+		it("usa CD fixa 15 para Primeiros Socorros se tiver Kit", () => {
+			const service = createService([0.7]); // rola 15
+			const target = {
+				id: "solara",
+				name: "Solara",
+				maxHp: 20,
+				currentHp: 0,
+				armorClass: 10,
+				level: 5,
+				physical: 3,
+				resistance: 2,
+				mental: 1,
+				isDying: true,
+				deathSuccesses: 0,
+				deathFailures: 0,
+			};
+			const helper = { ...target, id: "aria", currentHp: 20, isDying: false };
+
+			const res = service.resolveFirstAid({
+				helper,
+				target,
+				hasFirstAidKit: true,
+			});
+			expect(res.success).toBe(true);
+			if (res.success) {
+				expect(res.data.consumedKitCharge).toBe(true);
+				expect(res.data.updatedTarget.isDying).toBe(false);
+				expect(res.data.logs[0]).toContain("vs CD 15");
+			}
+		});
+
+		it("usa CD escalonada para Primeiros Socorros se nao tiver Kit", () => {
+			const service = createService([0.4]); // rola 9. 9 + 5 (level) + 1 (mental) = 15. vs CD 20.
+			const target = {
+				id: "solara",
+				name: "Solara",
+				maxHp: 20,
+				currentHp: 0,
+				armorClass: 10,
+				level: 5,
+				physical: 3,
+				resistance: 2,
+				mental: 1,
+				isDying: true,
+				deathSuccesses: 0,
+				deathFailures: 0,
+			};
+			const helper = { ...target, id: "aria", currentHp: 20, isDying: false };
+
+			const res = service.resolveFirstAid({
+				helper,
+				target,
+				hasFirstAidKit: false,
+			});
+			expect(res.success).toBe(true);
+			if (res.success) {
+				expect(res.data.consumedKitCharge).toBe(false);
+				// CD deve ser 10 + 5 (level) + 3 (physical) + 2 (resistance) = 20
+				expect(res.data.updatedTarget.isDying).toBe(true); // helper falhou
+				expect(res.data.logs[0]).toContain("vs CD 20");
+			}
+		});
+	});
 });
 
 function createService(sequence: readonly number[]): CombatEncounterService {

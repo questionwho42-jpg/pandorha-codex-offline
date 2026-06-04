@@ -137,6 +137,7 @@ export class CombatLootService {
 								isEquipped: 0,
 								durabilityCurrent: selectedEq.durabilityCurrent,
 								durabilityMax: selectedEq.durabilityMax,
+								durability: "mint" as const,
 								createdAt: new Date().toISOString(),
 							};
 
