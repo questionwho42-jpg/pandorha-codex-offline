@@ -4,9 +4,11 @@ interface Props {
 }
 
 let props: Props = $props();
-let _unlockedClues = $derived(props.unlockedClues);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let unlockedClues = $derived(props.unlockedClues);
 
-function _getClueLabel(id: string): string {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function getClueLabel(id: string): string {
 	const labels: Record<string, string> = {
 		"clue-secret-inventory": "Inventário Secreto do Mercador",
 		"clue-magic-amulet": "Inscrição Rúnica do Amuleto",

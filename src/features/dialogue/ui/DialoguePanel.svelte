@@ -11,9 +11,12 @@ import type {
 } from "$lib/entities/character/model/characterSchema";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import { DialogueService } from "$lib/entities/dialogue/domain/DialogueService";
+import type { DialogueTree } from "$lib/entities/dialogue/domain/dialogueTypes";
 import { WorkerDialogueRepository } from "$lib/entities/dialogue/infrastructure/WorkerDialogueRepository";
 import type { DialogueStateData } from "$lib/entities/dialogue/model/dialogueSchema";
 import { DIALOGUE_TREES } from "../model/dialogueTrees";
+import ClueList from "./ClueList.svelte";
+import DialogueHistoryLog from "./DialogueHistoryLog.svelte";
 import {
 	BaseDialogueLogFormatter,
 	ChallengeHighlightDecorator,
@@ -25,7 +28,7 @@ interface Props {
 	characters: readonly CharacterRecord[];
 	characterClasses: readonly CharacterClassRecord[];
 	activeStatusEffects: readonly CharacterStatusEffectRecord[];
-	initialTreeId?: string;
+	initialTreeId?: string | undefined;
 	onClose?: () => void;
 }
 
@@ -38,7 +41,9 @@ const repository = new WorkerDialogueRepository();
 const service = new DialogueService(repository);
 
 let selectedCharacterId = $state("");
-let selectedTreeId = $state(props.initialTreeId || DIALOGUE_TREES[0].id);
+let selectedTreeId = $state(
+	props.initialTreeId || (DIALOGUE_TREES[0]?.id ?? ""),
+);
 let activeState = $state<DialogueStateData | null>(null);
 
 $effect(() => {
@@ -55,10 +60,11 @@ let d20NaturalRoll = $state<number | null>(null);
 let pendingOptionId = $state<string | null>(null);
 
 let selectedTree = $derived(
-	DIALOGUE_TREES.find((t) => t.id === selectedTreeId) || DIALOGUE_TREES[0],
+	(DIALOGUE_TREES.find((t) => t.id === selectedTreeId) ||
+		DIALOGUE_TREES[0]) as DialogueTree,
 );
 
-let _currentNode = $derived(
+let currentNode = $derived(
 	activeState
 		? selectedTree.nodes[activeState.currentConversationNodeId]
 		: null,
@@ -66,6 +72,16 @@ let _currentNode = $derived(
 
 let activeCharacter = $derived(
 	characters.find((c) => c.id === selectedCharacterId) || null,
+);
+
+let charEffects = $derived(
+	activeStatusEffects
+		.filter((e) => e.characterId === selectedCharacterId)
+		.map((e) => ({
+			type: e.type,
+			severity: e.severity,
+			metadata: e.metadata ?? null,
+		})),
 );
 
 let activeCharacterStats = $derived.by<ICharacterStats | null>(() => {
@@ -82,13 +98,14 @@ let activeCharacterStats = $derived.by<ICharacterStats | null>(() => {
 });
 
 const rawFormatter = new BaseDialogueLogFormatter();
-const _decoratedFormatter = new ClueHighlightDecorator(
+const decoratedFormatter = new ClueHighlightDecorator(
 	new ChallengeHighlightDecorator(new EeHighlightDecorator(rawFormatter)),
 );
 
 onMount(async () => {
-	if (characters.length > 0) {
-		selectedCharacterId = characters[0].id;
+	const firstChar = characters[0];
+	if (firstChar) {
+		selectedCharacterId = firstChar.id;
 	}
 
 	const storedEe = localStorage.getItem("pandorha_characters_ee");
@@ -119,10 +136,12 @@ onMount(async () => {
 	await loadDialogueState();
 });
 
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function saveEe() {
 	localStorage.setItem("pandorha_characters_ee", JSON.stringify(charactersEe));
 }
 
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function saveGlobalClues() {
 	localStorage.setItem(
 		"pandorha_unlocked_clues",
@@ -158,7 +177,7 @@ $effect(() => {
 	}
 });
 
-async function _selectOption(optionId: string) {
+async function selectOption(optionId: string) {
 	if (!selectedCharacterId || !activeState || isRolling) return;
 
 	const node = selectedTree.nodes[activeState.currentConversationNodeId];
@@ -241,7 +260,7 @@ async function executeAdvance(optionId: string, rollVal?: number) {
 	}
 }
 
-async function _resetDialogue() {
+async function resetDialogue() {
 	if (!selectedCharacterId || !activeState) return;
 
 	const res = await repository.delete(activeState.id);
@@ -254,7 +273,7 @@ async function _resetDialogue() {
 	}
 }
 
-function _restParty() {
+function restParty() {
 	for (const c of characters) {
 		charactersEe[c.id] = 5;
 	}

@@ -8,9 +8,12 @@ interface Props {
 }
 
 let props: Props = $props();
-let _logs = $derived(props.logs);
-let _formatter = $derived(props.formatter);
-let _onClear = $derived(props.onClear);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let logs = $derived(props.logs);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let formatter = $derived(props.formatter);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let onClear = $derived(props.onClear);
 </script>
 
 <div class="p-4 bg-ruin/75 border border-bronze/45 rounded-lg shadow-xl flex-1 flex flex-col gap-3 max-h-[350px]">
