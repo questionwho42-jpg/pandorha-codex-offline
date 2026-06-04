@@ -1,11 +1,12 @@
 import { fail, ok, type Result } from "$lib/shared/lib/result";
-import type { RpcResponse } from "$lib/shared/rpc";
+import { type RpcResponse, rpcCache } from "$lib/shared/rpc";
 import type {
 	SocialRepository,
 	SocialRepositoryFailure,
 } from "../domain/SocialRepository";
 import type {
 	BloodDebtRecord,
+	CampaignSocialLedgerRecord,
 	FactionRecord,
 	ReputationRecord,
 } from "../model/socialSchema";
@@ -56,10 +57,25 @@ export class WorkerSocialRepository implements SocialRepository {
 		});
 	}
 
-	private sendRequest(
+	private async sendRequest(
 		type: string,
 		payload: unknown,
 	): Promise<Result<unknown, { code: string; message: string }>> {
+		rpcCache.invalidate(type);
+
+		const isMutation =
+			!type.startsWith("LOAD_") &&
+			!type.startsWith("FIND_") &&
+			!type.startsWith("LIST_") &&
+			type !== "INIT_DATABASE";
+
+		if (!isMutation) {
+			const cached = rpcCache.get(type, payload);
+			if (cached !== null) {
+				return ok(cached);
+			}
+		}
+
 		const messageId = crypto.randomUUID();
 		const request = {
 			messageId,
@@ -67,12 +83,29 @@ export class WorkerSocialRepository implements SocialRepository {
 			payload,
 		};
 
-		return new Promise<Result<unknown, { code: string; message: string }>>(
-			(resolve, reject) => {
-				this.pendingRequests.set(messageId, { resolve, reject });
-				this.worker.postMessage(request);
-			},
-		);
+		const startTime = performance.now();
+
+		const result = await new Promise<
+			Result<unknown, { code: string; message: string }>
+		>((resolve, reject) => {
+			this.pendingRequests.set(messageId, { resolve, reject });
+			this.worker.postMessage(request);
+		});
+
+		const latency = performance.now() - startTime;
+		if (latency > 16) {
+			console.warn(
+				`[RPC Latency Warning] Request ${type} took ${latency.toFixed(2)}ms (budget exceeded)`,
+			);
+		} else {
+			console.log(`[RPC Latency] Request ${type} took ${latency.toFixed(2)}ms`);
+		}
+
+		if (result.success && !isMutation) {
+			rpcCache.set(type, payload, result.data);
+		}
+
+		return result;
 	}
 
 	public async saveFaction(
@@ -181,5 +214,31 @@ export class WorkerSocialRepository implements SocialRepository {
 			});
 		}
 		return ok(res.data as readonly BloodDebtRecord[]);
+	}
+
+	public async saveLedger(
+		ledger: CampaignSocialLedgerRecord,
+	): Promise<Result<CampaignSocialLedgerRecord, any>> {
+		const res = await this.sendRequest("SAVE_SOCIAL_LEDGER", { ledger });
+		if (!res.success) {
+			return fail({
+				code: "SOCIAL_REPOSITORY_WRITE_FAILED",
+				message: res.error.message,
+			});
+		}
+		return ok(res.data as CampaignSocialLedgerRecord);
+	}
+
+	public async getLedger(
+		id: string,
+	): Promise<Result<CampaignSocialLedgerRecord | null, any>> {
+		const res = await this.sendRequest("FIND_SOCIAL_LEDGER", { id });
+		if (!res.success) {
+			return fail({
+				code: "SOCIAL_REPOSITORY_READ_FAILED",
+				message: res.error.message,
+			});
+		}
+		return ok(res.data as CampaignSocialLedgerRecord | null);
 	}
 }
