@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260602-124529-t92-enemy-training-attack-against-session-charac -->
+### T92 enemy training attack against session character
+- id: 20260602-124529-t92-enemy-training-attack-against-session-charac
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-02T12:45:29-03:00
+- finished_at: 2026-06-02T13:16:53-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: GPT-5 high reasoning
+- last_modified_at: 2026-06-02T13:16:53-03:00
+- branch: feat/metadata-tags-codex
+- commit_at_start: 88e4479 chore(process): record post-merge snapshot
+- summary: Implement a minimal training enemy attack against a session character using equipped armor and shield CA only as a defensive target, without save v6, official monsters, AI, grid, persistence, durability, or damage mutation.
+- last_change: T92 implemented a minimal training enemy attack against the selected session character, using equipped armor and shield CA as a transient defensive target without HP mutation, damage persistence, save v6, official monsters, AI, grid, durability, or schema changes.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-02T12:45:29-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-02T13:16:53-03:00
+- Done: T92 implemented a minimal training enemy attack against the selected session character, using equipped armor and shield CA as a transient defensive target without HP mutation, damage persistence, save v6, official monsters, AI, grid, durability, or schema changes.
+- Next: After merge, plan the next combat slice only after confirming official incoming damage and character HP rules.
+- Risks: Browser validation confirmed character creation, combat selection, and CA contra treino display, but the in-app Browser blocked the final click sequence on 127.0.0.1:4173 by security policy before resolving the target attack visually.
+- Improvements: Added coverage registration for the new combat domain service and extended vertical slice smoke contracts for training enemy attack UI wiring.
+- Model/config: GPT-5 high reasoning
+<!-- /pandorha-task:20260602-124529-t92-enemy-training-attack-against-session-charac -->
 <!-- pandorha-task:20260602-073042-t91-equipped-defense-profile -->
 ### T91 equipped defense profile
 - id: 20260602-073042-t91-equipped-defense-profile
@@ -4104,6 +4136,897 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-04T12:23:56-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:43:59-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:43:46-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:43:28-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:43:10-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:42:07-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:41:46-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:41:20-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:40:44-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:40:24-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:40:01-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:39:41-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:39:23-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:39:05-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:38:12-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:37:47-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:37:16-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:36:43-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:36:26-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:36:10-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:35:54-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:35:38-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:35:22-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:35:07-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:34:51-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:34:33-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:34:16-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 88e4479 chore(process): record post-merge snapshot
+- changed_files_count: 23
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-02T12:41:24-03:00 - post-commit
 - branch: feat/metadata-tags-codex
 - commit: d32554b chore(process): record default branch merge promotion

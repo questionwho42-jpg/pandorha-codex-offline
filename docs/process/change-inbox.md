@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260602-124529-t92-enemy-training-attack-against-session-charac -->
+### T92 enemy training attack against session character
+- id: 20260602-124529-t92-enemy-training-attack-against-session-charac
+- status: open
+- created_at: 2026-06-02T12:45:29-03:00
+- source: task-ledger
+- summary: Implement a minimal training enemy attack against a session character using equipped armor and shield CA only as a defensive target, without save v6, official monsters, AI, grid, persistence, durability, or damage mutation.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260602-124529-t92-enemy-training-attack-against-session-charac -->
 <!-- pandorha-inbox:20260602-073042-t91-equipped-defense-profile -->
 ### T91 equipped defense profile
 - id: 20260602-073042-t91-equipped-defense-profile

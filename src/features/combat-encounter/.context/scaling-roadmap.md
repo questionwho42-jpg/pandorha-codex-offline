@@ -15,8 +15,10 @@
 - T88 rolls supported weapon damage dice through `DiceService` and records an auditable weapon-damage event before the damage pipeline.
 - T89 feeds fixed training-target defenses into the damage pipeline, covering RD, physical resistance, and physical immunity without monster data or vulnerability dice.
 - T91 displays equipped armor/shield defense for session characters without applying it to incoming attacks.
+- T92 lets the training target resolve a minimal incoming attack against a session character's equipped CA, without applying damage, HP mutation, official monsters, AI, save, or durability.
 - Add vulnerability `+1d6`, proficiency, and durability wear only after the audited weapon roll and target-defense contracts remain stable.
-- Add enemy attacks against session characters before allowing equipped defense to affect CA or damage outcomes.
+- Add real incoming damage only after the non-persistent target-attack contract is stable and an official rule for damaging the session character is approved.
+- Add armor-category caps for the limited axis only after the exact cap table is represented in `docs/system/` and covered by tests.
 - Add real initiative only after equipment selection and fixed turn order remain stable in browser tests.
 - Add typed combat commands for attacks, reactions, spell casts, and conditions.
 - Persist combat ledgers later through Worker/SQLite after the in-memory model is stable.
@@ -27,4 +29,4 @@
 - This feature should not own dice, damage, or universal-test math. Those stay in `shared`.
 - T88 still avoids persistence, Worker, grid, dynamic monsters, inventory mutation, magic, full equipment math, durability wear, and rolled initiative.
 - Combat may consume equipment snapshots/profiles through props or lower-layer contracts, but equipment rules should remain in `entities/equipment`.
-- Equipped defense display must remain read-only until a save-version phase and official incoming-attack contract are approved.
+- Equipped defense can be used as a transient incoming-attack target, but must remain non-persistent and non-damaging until a save-version phase and official character-damage contract are approved.

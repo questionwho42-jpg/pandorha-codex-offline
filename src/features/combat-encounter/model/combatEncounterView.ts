@@ -22,6 +22,7 @@ export type CombatEncounterViewInput = Readonly<{
 	log: readonly string[];
 	errorMessage: string | null;
 	turn: CombatTurnState;
+	canResolveTrainingEnemyAttack: boolean;
 }>;
 
 export type CombatEncounterView = Readonly<{
@@ -94,6 +95,8 @@ export function createCombatEncounterView(
 		targetHitPointsLabel: `HP ${input.targetHitPoints}`,
 		targetLabel: input.target.label,
 		turnInstruction: createTurnInstruction({
+			attackerLabel: input.attacker.label,
+			canResolveTrainingEnemyAttack: input.canResolveTrainingEnemyAttack,
 			isAttackerTurn,
 			isTargetDefeated,
 			targetLabel: input.target.label,
@@ -113,6 +116,8 @@ function createEncounterOutcomeDescription(
 }
 
 function createTurnInstruction(input: {
+	readonly attackerLabel: string;
+	readonly canResolveTrainingEnemyAttack: boolean;
 	readonly isAttackerTurn: boolean;
 	readonly isTargetDefeated: boolean;
 	readonly targetLabel: string;
@@ -121,9 +126,15 @@ function createTurnInstruction(input: {
 		return `${input.targetLabel} foi derrotado.`;
 	}
 
-	return input.isAttackerTurn
-		? "Escolha Atacar ou encerre o turno."
-		: "O alvo de treino não age nesta versão. Encerre o turno para voltar ao atacante.";
+	if (input.isAttackerTurn) {
+		return "Escolha Atacar ou encerre o turno.";
+	}
+
+	if (input.canResolveTrainingEnemyAttack) {
+		return `Encerre o turno para resolver o ataque de treino contra a CA equipada de ${input.attackerLabel}.`;
+	}
+
+	return "O alvo de treino não age nesta versão. Encerre o turno para voltar ao atacante.";
 }
 
 function createResultSummary(input: CombatEncounterViewInput): string {

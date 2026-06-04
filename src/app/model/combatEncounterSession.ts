@@ -13,6 +13,7 @@ import {
 	type CombatEncounterInput,
 	CombatEncounterService,
 	type CombatTrainingAttackProfile,
+	CombatTrainingEnemyAttackService,
 	type CombatTrainingTarget,
 	type CombatWeaponDamageDiceInput,
 	DEFAULT_COMBAT_TRAINING_ATTACKER,
@@ -53,6 +54,7 @@ export type CombatEncounterSession = Readonly<{
 	equipmentWeapons: readonly EquipmentRecord[];
 	initialTarget: CombatTrainingTarget;
 	service: CombatEncounterService;
+	trainingEnemyAttackService: CombatTrainingEnemyAttackService;
 	trainingTargets: readonly CombatTrainingTarget[];
 }>;
 
@@ -84,6 +86,9 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 			new DamagePipelineService(),
 			encounterClock,
 			diceService,
+		),
+		trainingEnemyAttackService: new CombatTrainingEnemyAttackService(
+			new ResolutionService(diceService),
 		),
 		defaultArmorId: DEFAULT_COMBAT_ARMOR_ID,
 		defaultShieldId: DEFAULT_COMBAT_SHIELD_ID,

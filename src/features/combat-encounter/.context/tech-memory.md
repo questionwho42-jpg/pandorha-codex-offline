@@ -110,9 +110,18 @@
 - Selecting a two-handed weapon while a shield is equipped intentionally clears the active loadout and surfaces the hand-conflict failure until the shield is set to `Sem escudo`.
 - The displayed defense profile is informational only. T91 does not alter attacks received, damage, HP, save data, durability, target AI, or official monster behavior.
 
+## T92 - Training Enemy Attack Against Equipped CA
+
+- `combatTrainingEnemyAttack.ts` calculates the transient defender CA as `10 + level + physical + armor bonus + shield bonus` for session characters, following the current CA formula and official catalog bonuses.
+- `CombatTrainingEnemyAttackService` resolves a fixed training target attack through `ResolutionService` and returns log entries only; it never calls `DamagePipelineService`, mutates HP, writes save data, consumes durability, or creates monster AI.
+- `CombatEncounterPanel.svelte` resolves the target attack only when the active attacker is a session character and the loadout snapshot is available. Aria keeps the passive target-turn log.
+- UI actor metadata from attacker options must be sanitized to `{ id, label }` before entering the strict training enemy attack schema.
+- The defense axis currently uses the character `physical` value directly because no armor-category cap is implemented in code yet. Add the cap only after an explicit rule slice defines it.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`
 - `docs/system/survival/00-mecanicas-fundamentais.md`
 - `docs/system/survival/05-00-regras-de-classe.md`
+- `docs/system/combat/03-codex-de-combate-e-condicoes.md`
 - `docs/system/combat/18-tratado-de-dano.md`

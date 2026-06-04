@@ -140,3 +140,9 @@
 - Save/load passes `npcRelationships` through save v5 and restores them directly from the Worker response.
 - `applySocialPressurePenaltyIntent` now coordinates faction pressure, NPC relationship pressure, and explicit `social-pressure` retaliation-clock advancement in the app/session layer.
 - `SocialRelationsPanel` receives `npcRelationships` and `npcs` from the app and remains read-only for individual NPC relationship state.
+
+## 2026-06-02 - T92 Combat Training Enemy Attack
+
+- `combatEncounterSession` now exposes `trainingEnemyAttackService` with the same deterministic dice stream used by the combat training session.
+- `App.svelte` passes `resolveTrainingEnemyAttack` into `CombatEncounterPanel`; the app does not calculate CA or resolve target attacks itself.
+- No app-level save state, schema version, Worker RPC, persisted HP, official monster data, or navigation state was added.

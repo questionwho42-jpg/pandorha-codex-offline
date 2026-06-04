@@ -27,3 +27,5 @@
 - Future app bootstrapping should introduce typed providers for Worker/RPC, repositories, services, and UI state.
 - T73-T76 moves social save state to v5 with `npcRelationships`; future app social orchestration should split large session functions only when another explicit relationship trigger exists.
 - Keep retaliation clock advancement explicit at the call site; do not add timer-driven advancement until a rule exists in `docs/system/`.
+- T92 wires the combat target's minimal incoming attack service into the combat tab without app-level HP mutation, save v6, monster data, or Worker changes.
+- Future combat app wiring should pass persisted HP only after a dedicated character-combat-state contract exists.

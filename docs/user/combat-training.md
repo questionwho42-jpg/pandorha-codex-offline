@@ -1,6 +1,6 @@
 # Guia De Usuario: Combate De Treino
 
-Este guia mostra como testar a vertical slice T22 de combate no navegador. O objetivo e validar um combate de treino simples, deterministico e sem persistencia.
+Este guia mostra como testar a vertical slice de combate no navegador. O objetivo e validar um combate de treino simples, deterministico e sem persistencia.
 
 ## O Que Ja Funciona
 
@@ -15,7 +15,8 @@ Este guia mostra como testar a vertical slice T22 de combate no navegador. O obj
 - A tela mostra `Rodada`, `Turno de ...` e `Acoes 3/3`.
 - `Atacar` gasta 1 acao e registra resultado, rolagem de dado da arma quando houver, dano, HP restante e log.
 - Alvos de treino podem aplicar RD e afinidades defensivas ja suportadas pelo pipeline de dano.
-- O turno do alvo de treino existe, mas ele nao tem IA: ao encerrar o turno dele, o log informa que ele manteve posicao.
+- Quando Aria e a atacante, o turno do alvo de treino continua passivo e registra que ele manteve posicao.
+- Quando um personagem da sessao e o atacante, encerrar o turno do alvo resolve um ataque de treino contra a CA equipada do personagem, sem alterar dano nem HP real.
 - Quando o alvo chega a 0 HP, a tela mostra `Alvo derrotado`, bloqueia novos ataques e mantem `Reiniciar encontro` disponivel.
 
 ## Teste Rapido Com Aria
@@ -71,6 +72,10 @@ Depois:
 15. Confirme que o dano final usa a arma selecionada e a Matriz do personagem.
 16. Troque a arma para `Espada Longa`, troque o alvo para `Duelista de Treino` e clique em `Atacar`.
 17. Confirme que o dano final e reduzido pela defesa do alvo: a rolagem deterministica gera dano base 7, RD 1 reduz para 6 e resistencia fisica reduz para 3.
+18. Clique em `Encerrar turno` para passar ao alvo.
+19. Confirme que a instrucao do turno avisa que o alvo resolvera o ataque contra a CA equipada de `Nara`.
+20. Clique em `Encerrar turno` de novo.
+21. Confirme que o log registra o ataque do alvo contra a CA do personagem e informa que dano e HP real nao foram alterados.
 
 ## Escolhendo Alvos
 
@@ -101,7 +106,7 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - `Ficha no combate`: mostra dados resumidos do atacante selecionado.
 - `Arma equipada`: escolhe uma arma local para personagens criados na sessao.
 - `Armadura equipada` e `Escudo equipado`: escolhem defesa local para personagens criados na sessao.
-- `Defesa equipada`: mostra o bonus de CA local da armadura e do escudo; este bonus ainda nao altera ataques recebidos.
+- `Defesa equipada`: mostra o bonus de CA local da armadura e do escudo e a `CA contra treino` usada no ataque recebido pelo personagem da sessao.
 - `Perfil de dano`: mostra qual Matriz esta sendo usada no dano de treino.
 - `Ultimo resultado`: resume o ultimo ataque resolvido.
 - `Log do encontro`: lista os eventos em ordem.
@@ -110,13 +115,13 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 
 - O combate existe apenas na sessao atual do navegador.
 - Recarregar a pagina reinicia o encontro e remove personagens criados na sessao.
-- O HP real do personagem ainda nao e usado.
+- O HP real do personagem ainda nao e alterado por combate.
 - A arma selecionada entra apenas como loadout local e dado de dano auditavel; ela nao e salva, nao gasta durabilidade e ainda nao usa proficiencia.
 - As defesas dos alvos de treino entram como RD e afinidades fixas; vulnerabilidade com `+1d6` auditavel ainda nao entra.
-- Armaduras e escudos do personagem aparecem como perfil defensivo local, mas ainda nao entram em ataques recebidos, dano, save ou durabilidade por rodada.
+- Armaduras e escudos do personagem entram apenas como CA alvo para o ataque de treino recebido; nao entram em dano, save ou durabilidade por rodada.
 - Talentos, magia e condicoes ainda nao entram no calculo.
 - A iniciativa ainda e fixa: atacante primeiro, alvo depois.
-- O alvo de treino nao ataca, nao causa dano e nao possui IA.
+- O alvo de treino ataca apenas personagens da sessao no turno dele; ele nao causa dano persistente e nao possui IA complexa.
 - Os alvos sao ficticios para teste; ainda nao sao monstros oficiais.
 - Nao ha XP, loot, recompensa, banco, Worker, OPFS ou save.
 
@@ -124,6 +129,8 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 
 - `docs/user/character-creation.md`: explica como criar o personagem usado no teste.
 - `docs/system/survival/00-mecanicas-fundamentais.md`: define os fundamentos do sistema e acoes.
+- `docs/system/combat/03-codex-de-combate-e-condicoes.md`: confirma a formula de CA usada como alvo defensivo.
 - `docs/system/survival/05-00-regras-de-classe.md`: fonte para atributos derivados exibidos na ficha resumida.
 - `docs/system/combat/18-tratado-de-dano.md`: confirma o uso da Matriz Fisica em ataque corpo a corpo padrao.
+- `src/features/combat-encounter/model/combatTrainingEnemyAttack.ts`: calcula a CA contra treino usada no ataque recebido.
 - `src/features/combat-encounter/ui/CombatEncounterPanel.svelte`: representa a tela atual validada no navegador.

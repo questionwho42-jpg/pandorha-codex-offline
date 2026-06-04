@@ -461,6 +461,10 @@ onMount(() => {
 					initialTarget={combatEncounterSession.initialTarget}
 					resolveAttack={(input) =>
 						combatEncounterSession.service.resolveAttack(input)}
+					resolveTrainingEnemyAttack={(input) =>
+						combatEncounterSession.trainingEnemyAttackService.resolveTrainingEnemyAttack(
+							input,
+						)}
 					trainingTargets={combatEncounterSession.trainingTargets}
 				/>
 			{:else}

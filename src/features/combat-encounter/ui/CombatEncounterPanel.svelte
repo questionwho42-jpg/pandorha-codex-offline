@@ -4,6 +4,7 @@ import type { CharacterRecord } from "$lib/entities/character";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import type {
 	EquipmentFailure,
+	EquipmentLoadoutDefenseProfile,
 	EquipmentLoadoutInput,
 	EquipmentLoadoutSnapshot,
 	EquipmentRecord,
@@ -29,6 +30,12 @@ import {
 	type CombatTrainingAttackProfile,
 	createCombatTrainingAttackProfile,
 } from "../model/combatTrainingAttackProfile";
+import {
+	type CombatTrainingEnemyAttackFailure,
+	type CombatTrainingEnemyAttackInput,
+	type CombatTrainingEnemyAttackResult,
+	createCombatTrainingEnemyDefenseProfile,
+} from "../model/combatTrainingEnemyAttack";
 import {
 	type CombatTrainingTarget,
 	findTrainingTargetById,
@@ -62,6 +69,9 @@ type Props = {
 	resolveAttack: (
 		input: CombatEncounterInput,
 	) => ReturnType<CombatEncounterStateResolver>;
+	resolveTrainingEnemyAttack: (
+		input: CombatTrainingEnemyAttackInput,
+	) => ReturnType<CombatTrainingEnemyAttackResolver>;
 	trainingTargets: readonly CombatTrainingTarget[];
 };
 
@@ -70,6 +80,19 @@ type CombatEncounterStateResolver = (
 ) =>
 	| { readonly success: true; readonly data: CombatEncounterState }
 	| { readonly success: false; readonly error: CombatEncounterFailure };
+
+type CombatTrainingEnemyAttackResolver = (
+	input: CombatTrainingEnemyAttackInput,
+) =>
+	| { readonly success: true; readonly data: CombatTrainingEnemyAttackResult }
+	| {
+			readonly success: false;
+			readonly error: CombatTrainingEnemyAttackFailure;
+	  };
+
+type TrainingTargetTurnLogResult =
+	| { readonly success: true; readonly entries: readonly string[] }
+	| { readonly success: false; readonly message: string };
 
 const turnService = new CombatTurnService();
 
@@ -90,6 +113,7 @@ let {
 	equipmentWeapons,
 	initialTarget,
 	resolveAttack,
+	resolveTrainingEnemyAttack,
 	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 	trainingTargets,
 }: Props = $props();
@@ -120,8 +144,11 @@ let turnState = $state<CombatTurnState>(
 );
 let attackerOptions = $derived(createCombatAttackerOptions(characters));
 let selectedAttacker = $derived(getCombatAttacker(selectedAttackerId));
+let selectedAttackerCharacter = $derived(
+	characters.find((character) => character.id === selectedAttacker.id) ?? null,
+);
 let selectedAttackerIsSessionCharacter = $derived(
-	characters.some((character) => character.id === selectedAttacker.id),
+	selectedAttackerCharacter !== null,
 );
 let activeWeaponProfile = $derived(
 	selectedAttackerIsSessionCharacter
@@ -129,10 +156,32 @@ let activeWeaponProfile = $derived(
 		: undefined,
 );
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-let activeDefenseProfile = $derived(
+let activeDefenseProfile = $derived<
+	EquipmentLoadoutDefenseProfile | null | undefined
+>(
 	selectedAttackerIsSessionCharacter
-		? (selectedLoadout?.activeDefenseProfile ?? undefined)
+		? selectedLoadout?.activeDefenseProfile
 		: undefined,
+);
+let trainingEnemyDefenseProfile = $derived(
+	selectedAttackerCharacter && selectedLoadout
+		? createCombatTrainingEnemyDefenseProfile({
+				defenderCharacter: selectedAttackerCharacter,
+				defenderDefenseProfile: selectedLoadout.activeDefenseProfile,
+			})
+		: null,
+);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let trainingEnemyDefenseSummary = $derived(
+	trainingEnemyDefenseProfile?.success
+		? trainingEnemyDefenseProfile.data.summaryLabel
+		: null,
+);
+let canResolveTrainingEnemyAttack = $derived(
+	selectedAttackerIsSessionCharacter &&
+		selectedAttackerCharacter !== null &&
+		selectedLoadout !== null &&
+		trainingEnemyDefenseProfile?.success === true,
 );
 let canUseSelectedWeapon = $derived(
 	!selectedAttackerIsSessionCharacter || activeWeaponProfile !== undefined,
@@ -176,6 +225,7 @@ let view = $derived<CombatEncounterView>(
 		log,
 		errorMessage,
 		turn: turnState,
+		canResolveTrainingEnemyAttack,
 	}),
 );
 
@@ -225,10 +275,12 @@ function endTurn(): void {
 		return;
 	}
 
-	const targetTurnLog = createCombatTrainingTargetTurnLog({
-		activeActorId: turnState.activeActorId,
-		target: selectedTarget,
-	});
+	const targetTurnLog = createTrainingTargetTurnLog();
+	if (!targetTurnLog.success) {
+		errorMessage = targetTurnLog.message;
+		return;
+	}
+
 	const endedTurn = turnService.endTurn({
 		state: turnState,
 		actorId: turnState.activeActorId,
@@ -239,7 +291,8 @@ function endTurn(): void {
 	}
 
 	turnState = endedTurn.data;
-	log = targetTurnLog ? [...log, targetTurnLog] : log;
+	log =
+		targetTurnLog.entries.length > 0 ? [...log, ...targetTurnLog.entries] : log;
 	errorMessage = null;
 }
 
@@ -388,6 +441,17 @@ function mapCombatEncounterFailure(failure: CombatEncounterFailure): string {
 	}
 }
 
+function mapCombatTrainingEnemyAttackFailure(
+	failure: CombatTrainingEnemyAttackFailure,
+): string {
+	switch (failure.code) {
+		case "INVALID_TRAINING_ENEMY_ATTACK_INPUT":
+			return "O ataque do alvo de treino recebeu dados inválidos.";
+		case "RESOLUTION_FAILED":
+			return "Não foi possível resolver o ataque do alvo de treino.";
+	}
+}
+
 function mapCombatTurnFailure(failure: CombatTurnFailure): string {
 	switch (failure.code) {
 		case "INVALID_TURN_INPUT":
@@ -399,6 +463,57 @@ function mapCombatTurnFailure(failure: CombatTurnFailure): string {
 		case "INSUFFICIENT_ACTION_POINTS":
 			return "N\u00e3o h\u00e1 a\u00e7\u00f5es suficientes para atacar.";
 	}
+}
+
+function createTrainingTargetTurnLog(): TrainingTargetTurnLogResult {
+	if (turnState.activeActorId !== selectedTarget.id) {
+		return { success: true, entries: [] };
+	}
+
+	if (!selectedAttackerIsSessionCharacter) {
+		const passiveLog = createCombatTrainingTargetTurnLog({
+			activeActorId: turnState.activeActorId,
+			target: selectedTarget,
+		});
+
+		return {
+			success: true,
+			entries: passiveLog ? [passiveLog] : [],
+		};
+	}
+
+	if (!selectedAttackerCharacter || !selectedLoadout) {
+		return {
+			success: false,
+			message:
+				loadoutErrorMessage ??
+				"A defesa equipada ainda não foi carregada para receber o ataque de treino.",
+		};
+	}
+
+	const result = resolveTrainingEnemyAttack({
+		attacker: {
+			id: selectedTarget.id,
+			label: selectedTarget.label,
+		},
+		defender: {
+			id: selectedAttacker.id,
+			label: selectedAttacker.label,
+		},
+		defenderCharacter: selectedAttackerCharacter,
+		defenderDefenseProfile: selectedLoadout.activeDefenseProfile,
+	});
+	if (!result.success) {
+		return {
+			success: false,
+			message: mapCombatTrainingEnemyAttackFailure(result.error),
+		};
+	}
+
+	return {
+		success: true,
+		entries: result.data.log,
+	};
 }
 
 function getInitialTargetHitPoints(target: CombatTrainingTarget): number {
@@ -655,8 +770,20 @@ onMount(() => {
 					{/if}
 				</p>
 				<p class="mt-2 text-sm leading-6 text-bone">
-					Defesa equipada ainda n&atilde;o altera ataques recebidos neste treino.
+					{#if selectedAttackerIsSessionCharacter}
+						<span data-testid="combat-training-enemy-defense-summary">
+							{trainingEnemyDefenseSummary ??
+								"CA contra treino indispon\u00edvel enquanto a defesa carrega."}
+						</span>
+					{:else}
+						O alvo de treino s&oacute; ataca personagens da sess&atilde;o.
+					{/if}
 				</p>
+				{#if selectedAttackerIsSessionCharacter}
+					<p class="mt-2 text-sm leading-6 text-bone">
+						Ataques recebidos de treino usam esta CA; HP real permanece intacto.
+					</p>
+				{/if}
 			</div>
 			<div
 				class="mt-4 border-t border-bronze pt-4"

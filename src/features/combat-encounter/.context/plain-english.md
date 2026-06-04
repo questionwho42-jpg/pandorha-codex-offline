@@ -40,6 +40,10 @@ Na T91, personagens criados na sessao tambem podem escolher `Armadura equipada` 
 
 Essa defesa aparece para o jogador conferir o equipamento ativo, mas ainda nao muda ataques recebidos nem dano. Se o jogador escolher uma arma de duas maos, como Arco Longo, junto com escudo, a tela mostra o conflito ate o escudo ser trocado para `Sem escudo`.
 
+Na T92, o alvo de treino passou a fazer um ataque simples quando o turno dele termina e o atacante selecionado e um personagem criado na sessao. Esse ataque olha para a CA do personagem: 10 base, nivel, Fisico, armadura e escudo.
+
+O ataque do alvo serve para testar se a defesa equipada esta auditavel. Ele nao tira HP real, nao causa dano persistente, nao salva nada e nao transforma os alvos de treino em monstros oficiais. Se Aria estiver selecionada, o alvo continua apenas mantendo posicao.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.
@@ -48,4 +52,4 @@ Essa defesa aparece para o jogador conferir o equipamento ativo, mas ainda nao m
 - Salvar a arma equipada agora: mais conveniente, mas exigiria decisao de save version antes de o fluxo visual provar o contrato.
 - Fazer o servico de dano rolar o dado internamente: reduziria uma chamada no combate, mas esconderia a auditoria de dados dentro do pipeline de dano.
 - Adicionar vulnerabilidade agora: mostraria mais uma regra oficial, mas exigiria rolar `+1d6` com auditoria e aumentaria o escopo da fase.
-- Aplicar a CA equipada imediatamente: daria retorno visual maior, mas criaria regra de ataque inimigo antes de ela estar oficializada.
+- Aplicar dano recebido real imediatamente: daria retorno visual maior, mas exigiria decidir HP do personagem em combate, salvamento e regra oficial de ataque inimigo completo.

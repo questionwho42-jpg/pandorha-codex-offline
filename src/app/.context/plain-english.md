@@ -43,3 +43,7 @@ Na T49, quando uma negociacao termina, o app registra uma consequencia no estado
 Na T51, a aba Relacoes ganhou escolhas de argumento. Antes de fazer o apelo, o usuario pode escolher Persuadir, Barganhar ou Pressionar; a tela mostra o modificador e a rolagem passa a usar esse bonus.
 
 Na T73-T76, o app passou a guardar relacoes individuais com NPCs no save. Quando o usuario usa Pressionar numa negociacao, o app atualiza Fama/Infamia, registra a pressao na relacao daquele NPC, avanca o clock de retaliacao por um gatilho explicito e mostra o resumo em Relacoes por NPC.
+
+Na T92, a aba Combate passou a receber tambem o servico que deixa o alvo de treino atacar um personagem criado na sessao. O app apenas entrega esse servico para o painel; quem calcula a CA e resolve o ataque continua sendo a feature de combate.
+
+Esse ataque recebido ainda e de treino: ele aparece no log, usa a CA equipada do personagem e nao mexe no HP real nem no save.

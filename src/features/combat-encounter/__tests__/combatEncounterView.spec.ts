@@ -190,6 +190,28 @@ describe("createCombatEncounterView", () => {
 		expect(view.canEndTurn).toBe(true);
 	});
 
+	it("explains that the training target attack resolves against a session character CA", () => {
+		const view = createCombatEncounterView(
+			createViewInput({
+				attacker: { id: "session-character-1", label: "Lia" },
+				attackerOptions: createCombatAttackerOptions([createCharacterRecord()]),
+				canResolveTrainingEnemyAttack: true,
+				turn: {
+					...createTurnState(),
+					activeActorId: "training-guard",
+					activeActorIndex: 1,
+				},
+			}),
+		);
+
+		expect(view.activeTurnLabel).toBe("Turno de Guarda de Treino");
+		expect(view.turnInstruction).toBe(
+			"Encerre o turno para resolver o ataque de treino contra a CA equipada de Lia.",
+		);
+		expect(view.canAttack).toBe(false);
+		expect(view.canEndTurn).toBe(true);
+	});
+
 	it("disables attack when no actions remain", () => {
 		const view = createCombatEncounterView(
 			createViewInput({
@@ -280,6 +302,7 @@ function createViewInput(
 		log: [],
 		errorMessage: null,
 		turn: createTurnState(),
+		canResolveTrainingEnemyAttack: false,
 		...overrides,
 	};
 }

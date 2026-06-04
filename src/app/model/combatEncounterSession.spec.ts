@@ -224,6 +224,56 @@ describe("createCombatEncounterSession", () => {
 		expect(state.data.damage?.finalDamage).toBe(3);
 		expect(state.data.target.currentHitPoints).toBe(11);
 	});
+
+	it("wires a deterministic training enemy attack against the session character equipped CA", async () => {
+		const session = createCombatEncounterSession();
+		const character = createCharacterRecord();
+		const defender = createCombatAttackerOptions([character])[1];
+
+		expect(defender).toBeDefined();
+		if (!defender) {
+			return;
+		}
+
+		const loadout = await session.buildEquipmentLoadout({
+			armorId: session.defaultArmorId,
+			mainHandWeaponId: session.defaultWeaponId,
+			offHandShieldId: session.defaultShieldId,
+		});
+
+		expect(loadout.success).toBe(true);
+		if (!loadout.success) {
+			return;
+		}
+
+		const result =
+			session.trainingEnemyAttackService.resolveTrainingEnemyAttack({
+				attacker: {
+					id: session.initialTarget.id,
+					label: session.initialTarget.label,
+				},
+				defender: {
+					id: defender.id,
+					label: defender.label,
+				},
+				defenderCharacter: character,
+				defenderDefenseProfile: loadout.data.activeDefenseProfile,
+			});
+
+		expect(result.success).toBe(true);
+		if (!result.success) {
+			return;
+		}
+		expect(result.data.defenderArmorClass.summaryLabel).toBe(
+			"CA contra treino: 16 (10 + nível 1 + Físico 2 + defesa equipada 3)",
+		);
+		expect(result.data.resolution).toMatchObject({
+			degree: "successWithCost",
+			total: 15,
+			dc: 16,
+		});
+		expect(result.data.log[1]).toContain("Dano e HP real não foram alterados.");
+	});
 });
 
 function createCharacterRecord(

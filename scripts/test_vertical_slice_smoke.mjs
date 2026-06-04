@@ -288,6 +288,7 @@ defaultShieldId={combatEncounterSession.defaultShieldId};
 equipmentWeapons={combatEncounterSession.equipmentWeapons};
 equipmentArmors={combatEncounterSession.equipmentArmors};
 equipmentShields={combatEncounterSession.equipmentShields};
+resolveTrainingEnemyAttack={(input) => combatEncounterSession.trainingEnemyAttackService.resolveTrainingEnemyAttack(input)};
 </script>
 <p data-testid="pwa-status">Offline disponível neste navegador.</p>
 `;
@@ -296,6 +297,7 @@ equipmentShields={combatEncounterSession.equipmentShields};
 function renderCombatEncounterSession() {
 	return `
 import { EquipmentLoadoutService } from "$lib/entities/equipment";
+import { CombatTrainingEnemyAttackService } from "$lib/features/combat-encounter";
 const DEFAULT_COMBAT_WEAPON_ID = "longsword";
 const DEFAULT_COMBAT_ARMOR_ID = "leather-armor";
 const DEFAULT_COMBAT_SHIELD_ID = "round-shield";
@@ -307,6 +309,7 @@ const session = {
   equipmentWeapons: [],
   equipmentArmors: [],
   equipmentShields: [],
+  trainingEnemyAttackService: new CombatTrainingEnemyAttackService(),
 };
 `;
 }
@@ -315,8 +318,10 @@ function renderCombatEncounterPanel() {
 	return `
 <script>
 export let buildEquipmentLoadout = () => undefined;
+export let resolveTrainingEnemyAttack = () => undefined;
 const activeWeaponProfile = {};
 const activeDefenseProfile = {};
+createCombatTrainingEnemyDefenseProfile();
 </script>
 <select data-testid="combat-weapon-select"></select>
 <select data-testid="combat-armor-select"></select>
@@ -326,6 +331,7 @@ const activeDefenseProfile = {};
   Arma ativa: Espada Longa.
 </p>
 <p data-testid="combat-equipped-defense-profile">Defesa equipada</p>
+<p data-testid="combat-training-enemy-defense-summary">CA contra treino</p>
 `;
 }
 
@@ -468,6 +474,8 @@ Espada Longa e a arma padrao.
 Armadura equipada aparece para personagens da sessao.
 Escudo equipado aparece para personagens da sessao.
 Defesa equipada mostra CA equipada +3.
+CA contra treino aparece para ataque recebido.
+Dano e HP real nao foram alterados.
 Aria usa perfil fixo de treino.
 `;
 }

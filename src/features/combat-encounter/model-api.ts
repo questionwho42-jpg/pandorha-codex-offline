@@ -1,4 +1,5 @@
 export { CombatEncounterService } from "./domain/CombatEncounterService";
+export { CombatTrainingEnemyAttackService } from "./domain/CombatTrainingEnemyAttackService";
 export { CombatTurnService } from "./domain/CombatTurnService";
 export type {
 	CombatAttackerStatsStatus,
@@ -51,6 +52,21 @@ export type {
 	CombatTrainingAttackProfileSource,
 } from "./model/combatTrainingAttackProfile";
 export { createCombatTrainingAttackProfile } from "./model/combatTrainingAttackProfile";
+export type {
+	CombatTrainingEnemyAttackFailure,
+	CombatTrainingEnemyAttackFailureCode,
+	CombatTrainingEnemyAttackFailureDetails,
+	CombatTrainingEnemyAttackInput,
+	CombatTrainingEnemyAttackResult,
+	CombatTrainingEnemyDefenseProfile,
+	CombatTrainingEnemyDefenseProfileInput,
+} from "./model/combatTrainingEnemyAttack";
+export {
+	combatTrainingEnemyAttackInputSchema,
+	combatTrainingEnemyDefenseProfileInputSchema,
+	createCombatTrainingEnemyDefenseProfile,
+	formatCombatTrainingEnemyAttackIssues,
+} from "./model/combatTrainingEnemyAttack";
 export {
 	type CombatTrainingTarget,
 	type CombatTrainingTargetDefenseAffinity,
