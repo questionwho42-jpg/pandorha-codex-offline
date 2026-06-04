@@ -4168,6 +4168,40 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-04T20:47:38-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: 1d93e2c chore(process): record t93 post-commit snapshot
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T20:47:03-03:00 - t93-post-commit
+- branch: feat/metadata-tags-codex
+- commit: bc48b03 docs(process): add documentation promotion draft
+- changed_files_count: 2
+#### Changed Files
+- docs/process/task-ledger.md
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T20:46:50-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: bc48b03 docs(process): add documentation promotion draft
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-04T20:35:58-03:00 - documentation-promotion-draft
 - branch: feat/metadata-tags-codex
 - commit: 4c8863a chore(process): record t92 post-commit snapshot
