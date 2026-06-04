@@ -10,7 +10,7 @@ import { InMemorySpellCatalogRepository } from "../testing/InMemorySpellCatalogR
 
 describe("Official spell catalog", () => {
 	it("contains the minimum validated circle 0 spells", () => {
-		expect(OFFICIAL_SPELLS).toHaveLength(6);
+		expect(OFFICIAL_SPELLS).toHaveLength(9);
 		expect(OFFICIAL_SPELLS.map((spell) => spell.id)).toEqual([
 			"light",
 			"mending",
@@ -18,6 +18,9 @@ describe("Official spell catalog", () => {
 			"etheric-dart",
 			"ray-of-frost",
 			"sacred-flame",
+			"silence",
+			"hold-person",
+			"bleeding-strike",
 		]);
 
 		for (const spell of OFFICIAL_SPELLS) {
@@ -34,7 +37,7 @@ describe("SpellCatalogService", () => {
 		const result = await service.listSpells();
 		const spells = expectSpellSuccess(result);
 
-		expect(spells).toHaveLength(6);
+		expect(spells).toHaveLength(9);
 		expect(spells[0]).toMatchObject({
 			id: "light",
 			label: "Luz",

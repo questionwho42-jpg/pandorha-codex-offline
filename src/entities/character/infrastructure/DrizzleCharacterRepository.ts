@@ -24,6 +24,8 @@ export interface CharacterDrizzleDatabase {
 	select(): any;
 	// biome-ignore lint/suspicious/noExplicitAny: Drizzle delete query is generic
 	delete(table: any): any;
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle update query is generic
+	update(table: any): any;
 }
 
 export class DrizzleCharacterRepository implements CharacterRepository {
@@ -33,13 +35,32 @@ export class DrizzleCharacterRepository implements CharacterRepository {
 		record: NewCharacterRecord,
 	): Promise<Result<CharacterRecord, CharacterRepositoryFailure>> {
 		try {
-			const rows = await this.db.insert(characters).values(record).returning();
+			let rows: unknown[];
+			if (record.id) {
+				const existing = await this.db
+					.select()
+					.from(characters)
+					.where(eq(characters.id, record.id))
+					.limit(1);
+				if (existing.length > 0) {
+					rows = await this.db
+						.update(characters)
+						.set(record)
+						.where(eq(characters.id, record.id))
+						.returning();
+				} else {
+					rows = await this.db.insert(characters).values(record).returning();
+				}
+			} else {
+				rows = await this.db.insert(characters).values(record).returning();
+			}
+
 			const parsed = characterSelectSchema.safeParse(rows[0]);
 
 			if (!parsed.success) {
 				return fail({
 					code: "CORRUPTED_CHARACTER_RECORD",
-					message: "Drizzle returned an invalid character record after insert.",
+					message: "Drizzle returned an invalid character record after save.",
 				});
 			}
 

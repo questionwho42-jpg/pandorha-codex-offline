@@ -156,6 +156,62 @@ export class IllnessService {
 	}
 
 	/**
+	 * ⏳ DECREMENTAR DURAÇÃO DE EFEITOS DE STATUS TEMPORÁRIOS
+	 * Reduz em 1 rodada a duração de todos os efeitos temporários do personagem.
+	 * Se a duração chegar a 0, o efeito expira e é removido do repositório.
+	 */
+	public async decrementStatusEffectsDuration(
+		characterId: string,
+	): Promise<
+		Result<{ expiredCount: number; updatedCount: number }, CharacterFailure>
+	> {
+		const existingResult =
+			await this.repository.findStatusEffectsByCharacterId(characterId);
+		if (!existingResult.success) {
+			return fail({
+				code: "FETCH_STATUS_EFFECTS_FAILED",
+				message:
+					"Não foi possível carregar os efeitos de status do personagem.",
+			});
+		}
+
+		let expiredCount = 0;
+		let updatedCount = 0;
+
+		for (const effect of existingResult.data) {
+			if (effect.durationTurns !== undefined && effect.durationTurns !== null) {
+				const nextTurns = effect.durationTurns - 1;
+				if (nextTurns <= 0) {
+					const deleteRes = await this.repository.deleteStatusEffect(effect.id);
+					if (!deleteRes.success) {
+						return fail({
+							code: "DELETE_STATUS_EFFECT_FAILED",
+							message: deleteRes.error.message,
+						});
+					}
+					expiredCount++;
+				} else {
+					const updatedEffect = {
+						...effect,
+						durationTurns: nextTurns,
+						updatedAt: this.clock.now(),
+					};
+					const saveRes = await this.repository.saveStatusEffect(updatedEffect);
+					if (!saveRes.success) {
+						return fail({
+							code: "PERSIST_STATUS_EFFECT_FAILED",
+							message: saveRes.error.message,
+						});
+					}
+					updatedCount++;
+				}
+			}
+		}
+
+		return ok({ expiredCount, updatedCount });
+	}
+
+	/**
 	 * 🎲 TESTE DE RESISTÊNCIA DE VIGOR (D20 + Nível + Físico + Resistência)
 	 * Realiza e valida a mecânica matemática de rolagem contra a DC (Dificuldade) da Doença.
 	 */

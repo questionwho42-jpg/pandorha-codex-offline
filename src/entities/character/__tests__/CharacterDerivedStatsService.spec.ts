@@ -5,6 +5,10 @@ import type {
 	CharacterDerivedStatsFailure,
 	CharacterDerivedStatsResult,
 } from "../model/characterDerivedStatsTypes";
+import {
+	canCharacterLevelUp,
+	getXpRequiredForLevel,
+} from "../model/characterRules";
 import type { CharacterRecord } from "../model/characterSchema";
 
 const TEST_TIMESTAMP = "2026-05-05T13:16:00.000Z";
@@ -148,6 +152,7 @@ function createCharacter(
 		backgroundId: "acolyte",
 		level: 1,
 		experiencePoints: 0,
+		tensionMeter: 0,
 		physical: 3,
 		mental: 1,
 		social: 2,
@@ -181,3 +186,36 @@ function expectDerivedStatsFailure(
 
 	expect.fail("Expected failure, received success.");
 }
+
+describe("characterRules progression helpers", () => {
+	describe("getXpRequiredForLevel", () => {
+		it("deve retornar o limite correto de XP por nível", () => {
+			expect(getXpRequiredForLevel(2)).toBe(100);
+			expect(getXpRequiredForLevel(3)).toBe(300);
+			expect(getXpRequiredForLevel(4)).toBe(600);
+			expect(getXpRequiredForLevel(5)).toBe(1000);
+		});
+
+		it("deve retornar o padrão 999999 se o nível estiver fora dos limites cadastrados", () => {
+			expect(getXpRequiredForLevel(99)).toBe(999999);
+		});
+	});
+
+	describe("canCharacterLevelUp", () => {
+		it("deve retornar true se possuir XP suficiente e nível < 20", () => {
+			expect(canCharacterLevelUp(100, 1)).toBe(true);
+			expect(canCharacterLevelUp(300, 2)).toBe(true);
+			expect(canCharacterLevelUp(1000, 4)).toBe(true);
+		});
+
+		it("deve retornar false se não possuir XP suficiente", () => {
+			expect(canCharacterLevelUp(50, 1)).toBe(false);
+			expect(canCharacterLevelUp(299, 2)).toBe(false);
+		});
+
+		it("deve retornar false se o nível for >= 20, independente do XP", () => {
+			expect(canCharacterLevelUp(1000000, 20)).toBe(false);
+			expect(canCharacterLevelUp(1000000, 21)).toBe(false);
+		});
+	});
+});

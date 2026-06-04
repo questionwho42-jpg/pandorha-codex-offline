@@ -1,3 +1,4 @@
+/* biome-ignore-start lint/style/noNonNullAssertion: legacy test assertions */
 import { describe, expect, it } from "vitest";
 import { fail } from "$lib/shared/lib/result";
 import { ResearchService } from "../domain/ResearchService";
@@ -625,3 +626,4 @@ describe("ResearchService", () => {
 		}
 	});
 });
+/* biome-ignore-end */

@@ -159,6 +159,7 @@ function buildCharacterRecord(
 		...CharacterBuilder.valid().buildCreateInput(),
 		id: "character-1",
 		experiencePoints: 0,
+		tensionMeter: 0,
 		createdAt: TEST_TIMESTAMP,
 		updatedAt: TEST_TIMESTAMP,
 		...patch,
@@ -191,15 +192,22 @@ function expectFailure<T>(
 
 class FakeCharacterDrizzleDatabase implements CharacterDrizzleDatabase {
 	public readonly insertedRecords: unknown[] = [];
+	public readonly updatedRecords: unknown[] = [];
 	public lastSelectLimit: number | null = null;
 	public lastDeletedId: string | null = null;
 
 	private insertRows: unknown[] = [];
+	private updateRows: unknown[] = [];
 	private selectRows: unknown[] = [];
 	private nextInsertFailure: unknown = null;
+	private nextUpdateFailure: unknown = null;
 
 	public queueInsertRows(rows: unknown[]): void {
 		this.insertRows = rows;
+	}
+
+	public queueUpdateRows(rows: unknown[]): void {
+		this.updateRows = rows;
 	}
 
 	public queueSelectRows(rows: unknown[]): void {
@@ -208,6 +216,10 @@ class FakeCharacterDrizzleDatabase implements CharacterDrizzleDatabase {
 
 	public failNextInsert(error: unknown): void {
 		this.nextInsertFailure = error;
+	}
+
+	public failNextUpdate(error: unknown): void {
+		this.nextUpdateFailure = error;
 	}
 
 	// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract requires any
@@ -231,6 +243,34 @@ class FakeCharacterDrizzleDatabase implements CharacterDrizzleDatabase {
 					// biome-ignore lint/suspicious/noExplicitAny: mock return requires matching Drizzle returning signature
 					return this.insertRows as any[];
 				},
+			}),
+		};
+	}
+
+	// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract
+	public update(_table: any): {
+		// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract
+		set(record: any): {
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract
+			where(condition: any): {
+				// biome-ignore lint/suspicious/noExplicitAny: Drizzle contract
+				returning(): Promise<any[]>;
+			};
+		};
+	} {
+		return {
+			set: (record) => ({
+				where: (_condition) => ({
+					returning: async () => {
+						this.updatedRecords.push(record);
+						if (this.nextUpdateFailure !== null) {
+							const error = this.nextUpdateFailure;
+							this.nextUpdateFailure = null;
+							return Promise.reject(error);
+						}
+						return this.updateRows as any[];
+					},
+				}),
 			}),
 		};
 	}

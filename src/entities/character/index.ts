@@ -2,6 +2,7 @@ export * from "./domain/ArmorStatsDecorator";
 export * from "./domain/CharacterDerivedStatsService";
 export * from "./domain/CharacterRepository";
 export * from "./domain/CharacterService";
+export * from "./domain/ClassTalentService";
 export * from "./domain/StatusEffectDecorator";
 export * from "./domain/UltimateStatsDecorators";
 export * from "./infrastructure/DrizzleCharacterRepository";

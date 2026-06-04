@@ -3,8 +3,10 @@ import { ArmorStatsDecorator } from "../domain/ArmorStatsDecorator";
 import {
 	BaseCharacterStats,
 	BleedingDecorator,
+	DoubleTimeDecorator,
 	EncumberedStatusDecorator,
 	EterFeverDecorator,
+	ExtraBreathDecorator,
 	ImmobilizedDecorator,
 	LatentDiscoordinationDecorator,
 	MoribundDecorator,
@@ -468,6 +470,40 @@ describe("StatusEffectDecorator - Efeitos de Status do RPG Pandorha", () => {
 			expect(discoordStats.latentDiscoordinationTestsLeft).toBe(3);
 		});
 	});
+
+	describe("Talentos Táticos de Classe (ExtraBreathDecorator & DoubleTimeDecorator)", () => {
+		it("deve aplicar ExtraBreathDecorator (+2 Resistência, +1 Físico) e recalcular maxHp reativamente", () => {
+			const character = createCharacter({
+				physical: 3,
+				resistance: 3,
+				level: 1,
+			});
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+			const decoratedStats = new ExtraBreathDecorator(baseStats);
+
+			// Original: physical 3, resistance 3, maxHp (10 + 3 + 3) * 1 = 16
+			// Buffed: physical 4 (+1), resistance 5 (+2), maxHp (10 + 4 + 5) * 1 = 19
+			expect(decoratedStats.physical).toBe(4);
+			expect(decoratedStats.resistance).toBe(5);
+			expect(decoratedStats.maxHp).toBe(19);
+		});
+
+		it("deve aplicar DoubleTimeDecorator (+1 ação extra)", () => {
+			const character = createCharacter({ level: 1 });
+			const baseStats = new BaseCharacterStats(character, {
+				id: "weaver",
+				baseHp: 6,
+			});
+			const decoratedStats = new DoubleTimeDecorator(baseStats);
+
+			// Original: extraActions 0
+			// Buffed: extraActions 1
+			expect(decoratedStats.extraActions).toBe(1);
+		});
+	});
 });
 
 function createCharacter(
@@ -482,6 +518,7 @@ function createCharacter(
 		backgroundId: "solitary",
 		level: 1,
 		experiencePoints: 0,
+		tensionMeter: 0,
 		physical: 3,
 		mental: 1,
 		social: 2,

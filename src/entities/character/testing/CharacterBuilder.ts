@@ -18,6 +18,7 @@ export class CharacterBuilder {
 			classId: "vanguarda",
 			backgroundId: "abrigo-da-fe",
 			level: 1,
+			tensionMeter: 0,
 			physical: 3,
 			mental: 1,
 			social: 2,

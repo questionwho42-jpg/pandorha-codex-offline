@@ -82,7 +82,8 @@ export class RegionalDomainService {
 
 		// Validar regra 5/3/1
 		const sorted = [nextPhysical, nextMental, nextSocial].sort((a, b) => b - a);
-		if (sorted[0]! > 5 || sorted[1]! > 3 || sorted[2]! > 1) {
+		const [first = 0, second = 0, third = 0] = sorted;
+		if (first > 5 || second > 3 || third > 1) {
 			return fail({
 				code: "INVALID_REGIONAL_DOMAIN_INPUT",
 				message: "A evolução viola a regra 5/3/1 de foco de matrizes.",
@@ -426,7 +427,8 @@ export class RegionalDomainService {
 		const sorted = [params.physical, params.mental, params.social].sort(
 			(a, b) => b - a,
 		);
-		if (sorted[0]! > 5 || sorted[1]! > 3 || sorted[2]! > 1) {
+		const [first = 0, second = 0, third = 0] = sorted;
+		if (first > 5 || second > 3 || third > 1) {
 			return fail({
 				code: "INVALID_REGIONAL_DOMAIN_INPUT",
 				message: "A realocação viola a regra 5/3/1.",

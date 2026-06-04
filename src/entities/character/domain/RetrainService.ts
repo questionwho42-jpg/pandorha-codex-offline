@@ -139,8 +139,10 @@ export class RetrainService {
 			// Altera o valor correspondente no eixo correspondente
 			[params.axisToReplace]: Math.max(
 				1,
+				// biome-ignore lint/suspicious/noExplicitAny: axes dynamic modification
 				(character as any)[params.axisToReplace] - 1,
 			),
+			// biome-ignore lint/suspicious/noExplicitAny: axes dynamic modification
 			[params.newAxis]: ((character as any)[params.newAxis] || 0) + 1,
 			updatedAt: new Date().toISOString(),
 		};

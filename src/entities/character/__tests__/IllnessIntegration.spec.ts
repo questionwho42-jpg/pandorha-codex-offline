@@ -39,6 +39,7 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 			backgroundId: "solitary",
 			level: 2,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			physical: 3,
 			mental: 2,
 			social: 1,
@@ -246,14 +247,14 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				_record: NewCharacterRecord,
 			): Promise<Result<CharacterRecord, CharacterRepositoryFailure>> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro",
 				});
 			}
 			public async findById(
 				_id: string,
 			): Promise<Result<CharacterRecord, CharacterRepositoryFailure>> {
-				return fail({ code: "CHARACTER_NOT_FOUND", message: "Erro" });
+				return fail({ code: "CHARACTER_NOT_FOUND" as const, message: "Erro" });
 			}
 			public async saveStatusEffect(
 				_effect: NewCharacterStatusEffectRecord,
@@ -261,7 +262,7 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				Result<CharacterStatusEffectRecord, CharacterRepositoryFailure>
 			> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro",
 				});
 			}
@@ -271,7 +272,7 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				Result<CharacterStatusEffectRecord[], CharacterRepositoryFailure>
 			> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro de banco simulado na busca",
 				});
 			}
@@ -279,7 +280,7 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				_id: string,
 			): Promise<Result<void, CharacterRepositoryFailure>> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro",
 				});
 			}
@@ -306,14 +307,14 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				_record: NewCharacterRecord,
 			): Promise<Result<CharacterRecord, CharacterRepositoryFailure>> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro",
 				});
 			}
 			public async findById(
 				_id: string,
 			): Promise<Result<CharacterRecord, CharacterRepositoryFailure>> {
-				return fail({ code: "CHARACTER_NOT_FOUND", message: "Erro" });
+				return fail({ code: "CHARACTER_NOT_FOUND" as const, message: "Erro" });
 			}
 			public async saveStatusEffect(
 				_effect: NewCharacterStatusEffectRecord,
@@ -321,7 +322,7 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				Result<CharacterStatusEffectRecord, CharacterRepositoryFailure>
 			> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro",
 				});
 			}
@@ -348,7 +349,7 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				_id: string,
 			): Promise<Result<void, CharacterRepositoryFailure>> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro de banco simulado na deleção",
 				});
 			}
@@ -376,14 +377,14 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				_record: NewCharacterRecord,
 			): Promise<Result<CharacterRecord, CharacterRepositoryFailure>> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro",
 				});
 			}
 			public async findById(
 				_id: string,
 			): Promise<Result<CharacterRecord, CharacterRepositoryFailure>> {
-				return fail({ code: "CHARACTER_NOT_FOUND", message: "Erro" });
+				return fail({ code: "CHARACTER_NOT_FOUND" as const, message: "Erro" });
 			}
 			public async saveStatusEffect(
 				_effect: NewCharacterStatusEffectRecord,
@@ -391,7 +392,7 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				Result<CharacterStatusEffectRecord, CharacterRepositoryFailure>
 			> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro",
 				});
 			}
@@ -401,7 +402,7 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				Result<CharacterStatusEffectRecord[], CharacterRepositoryFailure>
 			> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro de banco simulado na busca",
 				});
 			}
@@ -409,7 +410,7 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				_id: string,
 			): Promise<Result<void, CharacterRepositoryFailure>> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro",
 				});
 			}
@@ -436,14 +437,14 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				_record: NewCharacterRecord,
 			): Promise<Result<CharacterRecord, CharacterRepositoryFailure>> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro",
 				});
 			}
 			public async findById(
 				_id: string,
 			): Promise<Result<CharacterRecord, CharacterRepositoryFailure>> {
-				return fail({ code: "CHARACTER_NOT_FOUND", message: "Erro" });
+				return fail({ code: "CHARACTER_NOT_FOUND" as const, message: "Erro" });
 			}
 			public async saveStatusEffect(
 				_effect: NewCharacterStatusEffectRecord,
@@ -451,7 +452,7 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				Result<CharacterStatusEffectRecord, CharacterRepositoryFailure>
 			> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro de gravação simulado",
 				});
 			}
@@ -466,7 +467,7 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 				_id: string,
 			): Promise<Result<void, CharacterRepositoryFailure>> {
 				return fail({
-					code: "CHARACTER_REPOSITORY_WRITE_FAILED",
+					code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
 					message: "Erro",
 				});
 			}
@@ -631,6 +632,145 @@ describe("IllnessService - Integração e Testes de Patologias", () => {
 			expect(progressRes.success).toBe(false);
 			if (!progressRes.success) {
 				expect(progressRes.error.code).toBe("REPOSITORY_READ_FAILED");
+			}
+		});
+	});
+
+	describe("decrementStatusEffectsDuration", () => {
+		it("deve decrementar com sucesso a duração de um efeito tático ativo", async () => {
+			const repo = new SessionCharacterRepository();
+			const service = new IllnessService(repo, mockIdProvider, mockClock);
+
+			const character = createTestCharacter();
+			await repo.save(character);
+
+			// Salvar um status com duração turns = 3
+			const effectId = "temp-effect-1";
+			await repo.saveStatusEffect({
+				id: effectId,
+				characterId: character.id,
+				type: "eter_fever",
+				severity: 1,
+				severityMax: 3,
+				isAggravated: false,
+				createdAt: TEST_TIMESTAMP,
+				updatedAt: TEST_TIMESTAMP,
+				durationTurns: 3,
+			});
+
+			const decResult = await service.decrementStatusEffectsDuration(
+				character.id,
+			);
+			expect(decResult.success).toBe(true);
+			if (decResult.success) {
+				expect(decResult.data.expiredCount).toBe(0);
+				expect(decResult.data.updatedCount).toBe(1);
+			}
+
+			// Verificar persistência
+			const findRes = await repo.findStatusEffectsByCharacterId(character.id);
+			expect(findRes.success).toBe(true);
+			if (findRes.success) {
+				expect(findRes.data.length).toBe(1);
+				expect(findRes.data[0]?.durationTurns).toBe(2);
+			}
+		});
+
+		it("deve expirar e excluir o efeito se a duração chegar a 0 após o decremento", async () => {
+			const repo = new SessionCharacterRepository();
+			const service = new IllnessService(repo, mockIdProvider, mockClock);
+
+			const character = createTestCharacter();
+			await repo.save(character);
+
+			// Salvar status com duração turns = 1
+			const effectId = "temp-effect-2";
+			await repo.saveStatusEffect({
+				id: effectId,
+				characterId: character.id,
+				type: "viper_poison",
+				severity: 1,
+				severityMax: 3,
+				isAggravated: false,
+				createdAt: TEST_TIMESTAMP,
+				updatedAt: TEST_TIMESTAMP,
+				durationTurns: 1,
+			});
+
+			const decResult = await service.decrementStatusEffectsDuration(
+				character.id,
+			);
+			expect(decResult.success).toBe(true);
+			if (decResult.success) {
+				expect(decResult.data.expiredCount).toBe(1);
+				expect(decResult.data.updatedCount).toBe(0);
+			}
+
+			// Verificar que foi deletado
+			const findRes = await repo.findStatusEffectsByCharacterId(character.id);
+			expect(findRes.success).toBe(true);
+			if (findRes.success) {
+				expect(findRes.data.length).toBe(0);
+			}
+		});
+
+		it("deve ignorar efeitos que possuem duração indefinida (null ou undefined)", async () => {
+			const repo = new SessionCharacterRepository();
+			const service = new IllnessService(repo, mockIdProvider, mockClock);
+
+			const character = createTestCharacter();
+			await repo.save(character);
+
+			// Salvar status sem duração (permanente)
+			const effectId = "perm-effect-1";
+			await repo.saveStatusEffect({
+				id: effectId,
+				characterId: character.id,
+				type: "eter_fever",
+				severity: 1,
+				severityMax: 3,
+				isAggravated: false,
+				createdAt: TEST_TIMESTAMP,
+				updatedAt: TEST_TIMESTAMP,
+				durationTurns: null,
+			});
+
+			const decResult = await service.decrementStatusEffectsDuration(
+				character.id,
+			);
+			expect(decResult.success).toBe(true);
+			if (decResult.success) {
+				expect(decResult.data.expiredCount).toBe(0);
+				expect(decResult.data.updatedCount).toBe(0);
+			}
+
+			// Verificar que ainda existe inalterado
+			const findRes = await repo.findStatusEffectsByCharacterId(character.id);
+			expect(findRes.success).toBe(true);
+			if (findRes.success) {
+				expect(findRes.data.length).toBe(1);
+				expect(findRes.data[0]?.durationTurns).toBeNull();
+			}
+		});
+
+		it("deve falhar se a busca no repositório retornar erro", async () => {
+			class FailureRepo extends SessionCharacterRepository {
+				public override async findStatusEffectsByCharacterId(
+					_characterId: string,
+				) {
+					return fail({
+						code: "CHARACTER_REPOSITORY_WRITE_FAILED" as const,
+						message: "Erro na busca",
+					});
+				}
+			}
+			const repo = new FailureRepo();
+			const service = new IllnessService(repo, mockIdProvider, mockClock);
+
+			const result = await service.decrementStatusEffectsDuration("algum-id");
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.code).toBe("FETCH_STATUS_EFFECTS_FAILED");
 			}
 		});
 	});

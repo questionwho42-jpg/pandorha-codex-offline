@@ -154,3 +154,21 @@ function findCapFailure(
 		},
 	});
 }
+
+/**
+ * @description Obtém o XP acumulado necessário para atingir determinado nível.
+ */
+export function getXpRequiredForLevel(level: number): number {
+	const thresholds = PANDORHA_RULES.PROGRESSION.LEVEL_XP_THRESHOLDS;
+	const required = thresholds[level as keyof typeof thresholds];
+	return required ?? 999999;
+}
+
+/**
+ * @description Verifica se o personagem possui XP suficiente para avançar de nível.
+ */
+export function canCharacterLevelUp(xp: number, currentLevel: number): boolean {
+	if (currentLevel >= 20) return false;
+	const requiredForNext = getXpRequiredForLevel(currentLevel + 1);
+	return xp >= requiredForNext;
+}

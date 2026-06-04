@@ -20,9 +20,12 @@ class FakeCharacterRepository implements CharacterRepository {
 		record: NewCharacterRecord,
 	): Promise<Result<CharacterRecord, CharacterRepositoryFailure>> {
 		const existing = this.characters.get(record.id);
+		// biome-ignore lint/suspicious/noExplicitAny: mock override
+		const goldVal = (record as any).gold ?? (existing as any)?.gold ?? 0;
 		const character = {
 			...record,
-			gold: (record as any).gold ?? (existing as any)?.gold ?? 0,
+			gold: goldVal,
+			// biome-ignore lint/suspicious/noExplicitAny: mock override
 		} as any as CharacterRecord;
 		this.characters.set(record.id, character);
 		return ok(character);
@@ -135,7 +138,6 @@ describe("RetrainService", () => {
 		const data = expectSuccess(res);
 		expect(data.goldSpent).toBe(30); // 3 (level) * 10
 		expect(data.downtimeDaysSpent).toBe(3);
-		// biome-ignore lint/suspicious/noExplicitAny: gold check
 		expect((data.character as any).gold).toBe(70);
 	});
 
@@ -193,7 +195,6 @@ describe("RetrainService", () => {
 		// Atributos atualizados (physical 3 -> 2, mental 2 -> 3)
 		expect(data.character.physical).toBe(2);
 		expect(data.character.mental).toBe(3);
-		// biome-ignore lint/suspicious/noExplicitAny: gold check
 		expect((data.character as any).gold).toBe(110);
 
 		// Status de descoordenação gravado
@@ -216,7 +217,6 @@ describe("RetrainService", () => {
 		const data = expectSuccess(res);
 		expect(data.goldSpent).toBe(50);
 		expect(data.downtimeDaysSpent).toBe(3);
-		// biome-ignore lint/suspicious/noExplicitAny: gold check
 		expect((data.character as any).gold).toBe(50);
 	});
 

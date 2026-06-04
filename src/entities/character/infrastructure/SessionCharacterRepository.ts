@@ -60,6 +60,7 @@ export class SessionCharacterRepository implements CharacterRepository {
 			severityMax: effect.severityMax,
 			isAggravated: effect.isAggravated ?? false,
 			metadata: effect.metadata ?? null,
+			durationTurns: effect.durationTurns ?? null,
 			createdAt: effect.createdAt ?? new Date().toISOString(),
 			updatedAt: new Date().toISOString(),
 		};

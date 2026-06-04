@@ -14,6 +14,7 @@ const record: CharacterRecord = {
 	backgroundId: "abrigo-da-fe",
 	level: 1,
 	experiencePoints: 0,
+	tensionMeter: 0,
 	physical: 3,
 	mental: 1,
 	social: 2,

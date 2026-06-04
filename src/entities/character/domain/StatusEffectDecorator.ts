@@ -17,6 +17,7 @@ export interface ICharacterStats {
 
 	// Estatísticas Derivadas
 	readonly maxHp: number;
+	readonly maxEe: number;
 	readonly initiativeBase: number;
 	readonly carrySlotLimit: number;
 	readonly movementSpeedBase: number;
@@ -88,6 +89,10 @@ export class BaseCharacterStats implements ICharacterStats {
 	// Regra de RPG: HP = (Base HP + Físico + Resistência) * Nível
 	public get maxHp(): number {
 		return (this.classBaseHp + this.physical + this.resistance) * this.level;
+	}
+
+	public get maxEe(): number {
+		return this.level + this.mental;
 	}
 
 	// Regra de RPG: Iniciativa = Nível + Mental + Interação
@@ -217,6 +222,13 @@ export abstract class StatusEffectDecorator implements ICharacterStats {
 				this.wrapped.resistance) *
 			this.wrapped.level;
 		const adjustment = this.wrapped.maxHp - wrappedFromAttributes;
+		return baseFromAttributes + adjustment;
+	}
+
+	public get maxEe(): number {
+		const baseFromAttributes = this.level + this.mental;
+		const wrappedFromAttributes = this.wrapped.level + this.wrapped.mental;
+		const adjustment = this.wrapped.maxEe - wrappedFromAttributes;
 		return baseFromAttributes + adjustment;
 	}
 
@@ -590,6 +602,68 @@ export class LatentDiscoordinationDecorator extends StatusEffectDecorator {
 }
 
 /**
+ * 🧅 DECORADOR CONCRETO: Fôlego Extra (ExtraBreathDecorator)
+ * Talento Tático de Vanguarda: Concede +2 de Resistência (eixo resistance) e +1 de Físico (eixo physical).
+ */
+export class ExtraBreathDecorator extends StatusEffectDecorator {
+	public override get resistance(): number {
+		return this.wrapped.resistance + 2;
+	}
+
+	public override get physical(): number {
+		return this.wrapped.physical + 1;
+	}
+}
+
+/**
+ * 🧅 DECORADOR CONCRETO: Dobrar Tempo (DoubleTimeDecorator)
+ * Talento Tático de Tecelão: Concede +1 Ação Adicional (extraActions).
+ */
+export class DoubleTimeDecorator extends StatusEffectDecorator {
+	public override get extraActions(): number {
+		return this.wrapped.extraActions + 1;
+	}
+}
+
+/**
+ * 🧅 DECORADOR CONCRETO: Fadiga Corporal (BodyFatigueDecorator)
+ * Primeiro nível da Cascata de Exaustão.
+ * (A desvantagem física é resolvida dinamicamente nas rolagens).
+ */
+export class BodyFatigueDecorator extends StatusEffectDecorator {}
+
+/**
+ * 🧅 DECORADOR CONCRETO: Neblina Mental (MentalFogDecorator)
+ * Segundo nível da Cascata de Exaustão.
+ */
+export class MentalFogDecorator extends StatusEffectDecorator {}
+
+/**
+ * 🧅 DECORADOR CONCRETO: Ruína Espiritual (SpiritRuinDecorator)
+ * Terceiro nível da Cascata de Exaustão.
+ */
+export class SpiritRuinDecorator extends StatusEffectDecorator {}
+
+/**
+ * 🧅 DECORADOR CONCRETO: Colapso Celular (CellularCollapseDecorator)
+ * Quarto nível da Cascata de Exaustão.
+ * Corta HP e EE máximo pela metade e reduz o deslocamento tático a 50%.
+ */
+export class CellularCollapseDecorator extends StatusEffectDecorator {
+	public override get maxHp(): number {
+		return Math.floor(super.maxHp * 0.5);
+	}
+
+	public override get maxEe(): number {
+		return Math.floor(super.maxEe * 0.5);
+	}
+
+	public override get movementSpeedBase(): number {
+		return Math.max(1, Math.floor(super.movementSpeedBase * 0.5));
+	}
+}
+
+/**
  * 🧅 HELPER: Aplica todos os efeitos de status e ultimates ativos recursivamente
  */
 export function applyStatusEffects(
@@ -644,6 +718,24 @@ export function applyStatusEffects(
 				break;
 			case "rede_intrigas":
 				decorated = new RedeIntrigasDecorator(decorated);
+				break;
+			case "extra_breath":
+				decorated = new ExtraBreathDecorator(decorated);
+				break;
+			case "double_time":
+				decorated = new DoubleTimeDecorator(decorated);
+				break;
+			case "body_fatigue":
+				decorated = new BodyFatigueDecorator(decorated);
+				break;
+			case "mental_fog":
+				decorated = new MentalFogDecorator(decorated);
+				break;
+			case "spirit_ruin":
+				decorated = new SpiritRuinDecorator(decorated);
+				break;
+			case "cellular_collapse":
+				decorated = new CellularCollapseDecorator(decorated);
 				break;
 			case "latent_discoordination": {
 				const axis = effect.metadata || "physical";

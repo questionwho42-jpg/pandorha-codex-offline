@@ -52,6 +52,12 @@ const expectedColumns = [
 		notNull: true,
 		primaryKey: false,
 	},
+	{
+		name: "tension_meter",
+		type: "INTEGER",
+		notNull: true,
+		primaryKey: false,
+	},
 ];
 
 const expectedStatusEffectsColumns = [
@@ -59,6 +65,17 @@ const expectedStatusEffectsColumns = [
 	{ name: "character_id", type: "TEXT", notNull: true, primaryKey: false },
 	{ name: "type", type: "TEXT", notNull: true, primaryKey: false },
 	{ name: "created_at", type: "TEXT", notNull: true, primaryKey: false },
+	{
+		name: "duration_turns",
+		type: "INTEGER",
+		notNull: false,
+		primaryKey: false,
+	},
+	{ name: "severity", type: "INTEGER", notNull: true, primaryKey: false },
+	{ name: "severity_max", type: "INTEGER", notNull: true, primaryKey: false },
+	{ name: "is_aggravated", type: "INTEGER", notNull: true, primaryKey: false },
+	{ name: "metadata", type: "TEXT", notNull: false, primaryKey: false },
+	{ name: "updated_at", type: "TEXT", notNull: true, primaryKey: false },
 ];
 
 const findSqlFiles = (directory: string): string[] => {

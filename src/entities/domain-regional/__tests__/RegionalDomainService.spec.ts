@@ -110,16 +110,19 @@ describe("RegionalDomainService", () => {
 			const { service, repository } = createSetup();
 			const createRes = await service.createDomain({ tier: 1 });
 			const domain = createRes.success ? createRes.data : null;
-			expect(domain).not.toBeNull();
+			if (!domain) {
+				expect(domain).not.toBeNull();
+				return;
+			}
 
 			// Força o nível físico para 5
 			await repository.save({
-				...domain!,
+				...domain,
 				physicalLevel: 5,
 			});
 
 			const res = await service.upgradeMatrix({
-				id: domain!.id,
+				id: domain.id,
 				matrix: "physical",
 			});
 			expect(res.success).toBe(false);

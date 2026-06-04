@@ -1,8 +1,22 @@
 import type { SpellRecord } from "./spellSchema";
 
 const CIRCLE_ZERO = 0;
+const CIRCLE_ONE = 1;
+const CIRCLE_TWO = 2;
 const CANTRIP_ETHER_COST = 0;
 const CIRCLE_ZERO_SOURCE = "docs/system/magic/12-02-grimorio-circulo-0.md";
+const CIRCLE_ONE_SOURCE = "docs/system/magic/12-03-grimorio-circulo-1.md";
+const CIRCLE_TWO_SOURCE = "docs/system/magic/12-04-grimorio-circulo-2.md";
+
+const DEFAULT_UPCAST = {
+	etherCostPerCircle: 0,
+	durationIncreasePerCircle: 0,
+};
+
+const STANDARD_UPCAST = {
+	etherCostPerCircle: 2,
+	durationIncreasePerCircle: 1,
+};
 
 export const OFFICIAL_SPELLS = [
 	{
@@ -19,6 +33,9 @@ export const OFFICIAL_SPELLS = [
 		tags: ["utility", "light", "object"],
 		sourceFile: CIRCLE_ZERO_SOURCE,
 		summary: "Um objeto tocado emite luz plena em 6m e luz fraca por mais 6m.",
+		targetEffects: [],
+		baseDuration: 0,
+		upcastFormula: DEFAULT_UPCAST,
 	},
 	{
 		id: "mending",
@@ -35,6 +52,9 @@ export const OFFICIAL_SPELLS = [
 		sourceFile: CIRCLE_ZERO_SOURCE,
 		summary:
 			"Repara uma quebra ou fissura pequena em um objeto tocado, sem mecanizar durabilidade.",
+		targetEffects: [],
+		baseDuration: 0,
+		upcastFormula: DEFAULT_UPCAST,
 	},
 	{
 		id: "mage-hand",
@@ -51,6 +71,9 @@ export const OFFICIAL_SPELLS = [
 		sourceFile: CIRCLE_ZERO_SOURCE,
 		summary:
 			"Cria uma mão espectral para manipular objetos simples sem atacar.",
+		targetEffects: [],
+		baseDuration: 0,
+		upcastFormula: DEFAULT_UPCAST,
 	},
 	{
 		id: "etheric-dart",
@@ -67,6 +90,9 @@ export const OFFICIAL_SPELLS = [
 		sourceFile: CIRCLE_ZERO_SOURCE,
 		summary:
 			"Cria um dardo de energia que acerta automaticamente uma criatura escolhida.",
+		targetEffects: [],
+		baseDuration: 0,
+		upcastFormula: DEFAULT_UPCAST,
 	},
 	{
 		id: "ray-of-frost",
@@ -83,6 +109,9 @@ export const OFFICIAL_SPELLS = [
 		sourceFile: CIRCLE_ZERO_SOURCE,
 		summary:
 			"Dispara um raio frio que usa ataque mágico à distância e reduz deslocamento ao acertar.",
+		targetEffects: [],
+		baseDuration: 0,
+		upcastFormula: DEFAULT_UPCAST,
 	},
 	{
 		id: "sacred-flame",
@@ -99,6 +128,66 @@ export const OFFICIAL_SPELLS = [
 		sourceFile: CIRCLE_ZERO_SOURCE,
 		summary:
 			"Chamas radiantes exigem teste de resistência do alvo contra a CD de Magia.",
+		targetEffects: [],
+		baseDuration: 0,
+		upcastFormula: DEFAULT_UPCAST,
+	},
+	{
+		id: "silence",
+		label: "Silêncio",
+		circle: CIRCLE_ONE,
+		etherCost: 2,
+		school: "divination",
+		castingKind: "instant",
+		components: ["V", "S"],
+		requiresAttackRoll: false,
+		requiresSavingThrow: true,
+		damageText: null,
+		tags: ["utility", "debuff", "stealth"],
+		sourceFile: CIRCLE_ONE_SOURCE,
+		summary:
+			"Silencia completamente uma criatura, impedindo-a de conjurar magias com componentes verbais.",
+		targetEffects: ["silenced"],
+		baseDuration: 3,
+		upcastFormula: STANDARD_UPCAST,
+	},
+	{
+		id: "hold-person",
+		label: "Imobilizar Pessoa",
+		circle: CIRCLE_TWO,
+		etherCost: 3,
+		school: "conjuration",
+		castingKind: "instant",
+		components: ["V", "S", "M"],
+		requiresAttackRoll: false,
+		requiresSavingThrow: true,
+		damageText: null,
+		tags: ["utility", "debuff", "control"],
+		sourceFile: CIRCLE_TWO_SOURCE,
+		summary:
+			"Imobiliza um alvo humanoide, reduzindo seu deslocamento a zero e impedindo reações.",
+		targetEffects: ["immobilized"],
+		baseDuration: 2,
+		upcastFormula: STANDARD_UPCAST,
+	},
+	{
+		id: "bleeding-strike",
+		label: "Toque Sangrento",
+		circle: CIRCLE_ONE,
+		etherCost: 2,
+		school: "evocation",
+		castingKind: "instant",
+		components: ["V", "S"],
+		requiresAttackRoll: true,
+		requiresSavingThrow: false,
+		damageText: "1d6 de dano de Sangue",
+		tags: ["damage", "debuff", "bleeding"],
+		sourceFile: CIRCLE_ONE_SOURCE,
+		summary:
+			"Um toque que faz o alvo sangrar continuamente, sofrendo penalidades de HP a cada turno.",
+		targetEffects: ["bleeding"],
+		baseDuration: 3,
+		upcastFormula: STANDARD_UPCAST,
 	},
 ] satisfies readonly SpellRecord[];
 
