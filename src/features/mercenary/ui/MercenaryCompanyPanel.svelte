@@ -24,23 +24,23 @@ const service = new MercenaryService(repository, idProvider, clock);
 let companies = $state<readonly MercenaryCompanyRecord[]>([]);
 let activeCompany = $state<MercenaryCompanyRecord | null>(null);
 let squads = $state<readonly MercenarySquadRecord[]>([]);
-let _message = $state(
+let message = $state(
 	"Selecione ou funde uma Companhia Mercenária para começar...",
 );
 
 // Formulário de Criação da HQ
-let _isCreatingHQ = $state(false);
+let isCreatingHQ = $state(false);
 let newHQName = $state("Guarnição do Crepúsculo");
 let selectedHQTier = $state(1);
 
 // Formulário de Recrutamento de Esquadrão
-let _isRecruitingSquad = $state(false);
+let isRecruitingSquad = $state(false);
 let squadName = $state("Pioneiros do Vácuo");
 let attrPhysical = $state(2);
 let attrMental = $state(1);
 let attrSocial = $state(1);
 let selectedTags = $state<string[]>([]);
-const _availableTags = [
+const availableTags = [
 	"heavy_infantry",
 	"stealth",
 	"diplomacy",
@@ -59,7 +59,7 @@ let leaderCargo = $state<
 	"Mestre de Armas" | "Estrategista" | "Emissário" | null
 >(null);
 let d20Roll = $state(10);
-let _missionConsoleLog = $state<string>("");
+let missionConsoleLog = $state<string>("");
 
 // Estado da missão em progresso
 let missionSquadInAction = $state<MercenarySquadRecord | null>(null);
@@ -79,7 +79,7 @@ async function loadData() {
 			}
 		}
 	} else {
-		_message = `⚠️ Erro ao carregar companhias: ${compRes.error.message}`;
+		message = `⚠️ Erro ao carregar companhias: ${compRes.error.message}`;
 	}
 }
 
@@ -99,14 +99,14 @@ $effect(() => {
 });
 
 // Fundar HQ
-async function _handleCreateHQ() {
+async function handleCreateHQ() {
 	if (!newHQName.trim()) {
-		_message = "❌ O nome da HQ não pode ser vazio.";
+		message = "❌ O nome da HQ não pode ser vazio.";
 		return;
 	}
 	const cost = 200 * selectedHQTier;
 	if (guildGold < cost) {
-		_message = `❌ Ouro insuficiente da guilda! A fundação de Tier ${selectedHQTier} custa ${cost} Ouro (Possui: ${guildGold}).`;
+		message = `❌ Ouro insuficiente da guilda! A fundação de Tier ${selectedHQTier} custa ${cost} Ouro (Possui: ${guildGold}).`;
 		return;
 	}
 
@@ -118,27 +118,27 @@ async function _handleCreateHQ() {
 
 	if (res.success) {
 		activeCompany = res.data;
-		_message = `🏰 Companhia Mercenária "${res.data.hqName}" (Tier ${res.data.tier}) fundada com sucesso!`;
-		_isCreatingHQ = false;
+		message = `🏰 Companhia Mercenária "${res.data.hqName}" (Tier ${res.data.tier}) fundada com sucesso!`;
+		isCreatingHQ = false;
 		if (onUpdateGuildGold) {
 			onUpdateGuildGold(guildGold - cost);
 		}
 		await loadData();
 	} else {
-		_message = `❌ Falha ao fundar companhia: ${res.error.message}`;
+		message = `❌ Falha ao fundar companhia: ${res.error.message}`;
 	}
 }
 
 // Recrutar Esquadrão
-async function _handleRecruitSquad() {
+async function handleRecruitSquad() {
 	if (!activeCompany) return;
 	if (!squadName.trim()) {
-		_message = "❌ Digite um nome para o esquadrão.";
+		message = "❌ Digite um nome para o esquadrão.";
 		return;
 	}
 	const recruitCost = 100;
 	if (guildGold < recruitCost) {
-		_message = `❌ Ouro insuficiente para recrutamento! Custo: ${recruitCost} Ouro.`;
+		message = `❌ Ouro insuficiente para recrutamento! Custo: ${recruitCost} Ouro.`;
 		return;
 	}
 
@@ -151,8 +151,8 @@ async function _handleRecruitSquad() {
 	});
 
 	if (res.success) {
-		_message = `🛡️ Esquadrão "${res.data.name}" recrutado e pronto para o combate!`;
-		_isRecruitingSquad = false;
+		message = `🛡️ Esquadrão "${res.data.name}" recrutado e pronto para o combate!`;
+		isRecruitingSquad = false;
 		if (onUpdateGuildGold) {
 			onUpdateGuildGold(guildGold - recruitCost);
 		}
@@ -163,26 +163,26 @@ async function _handleRecruitSquad() {
 		selectedTags = [];
 		await loadData();
 	} else {
-		_message = `❌ Falha ao recrutar: ${res.error.message}`;
+		message = `❌ Falha ao recrutar: ${res.error.message}`;
 	}
 }
 
 // Mudar Tática
-async function _handleAssignTactic(
+async function handleAssignTactic(
 	squadId: string,
 	tactic: "honorable" | "cruel" | "stealthy",
 ) {
 	const res = await service.assignTactic(squadId, tactic);
 	if (res.success) {
-		_message = `⚔️ Tática de comando do esquadrão "${res.data.name}" alterada para [${tactic.toUpperCase()}].`;
+		message = `⚔️ Tática de comando do esquadrão "${res.data.name}" alterada para [${tactic.toUpperCase()}].`;
 		await loadData();
 	} else {
-		_message = `❌ Erro ao atribuir tática: ${res.error.message}`;
+		message = `❌ Erro ao atribuir tática: ${res.error.message}`;
 	}
 }
 
 // Alternar Tags de Missão e Esquadrão
-function _toggleTag(tag: string, target: "newSquad" | "mission") {
+function toggleTag(tag: string, target: "newSquad" | "mission") {
 	if (target === "newSquad") {
 		if (selectedTags.includes(tag)) {
 			selectedTags = selectedTags.filter((t) => t !== tag);
@@ -256,27 +256,32 @@ const estimatedModifiers = $derived.by(() => {
 });
 
 // Despachar esquadrão em missão
-async function _handleAssignSquadToMission() {
+async function handleAssignSquadToMission() {
 	if (!selectedSquadId) return;
 	const res = await service.assignMission(selectedSquadId, "missao_ativa_pwa");
 	if (res.success) {
 		missionSquadInAction = res.data;
-		_message = `✈️ Esquadrão "${res.data.name}" foi despachado para a missão!`;
+		message = `✈️ Esquadrão "${res.data.name}" foi despachado para a missão!`;
 		await loadData();
 	} else {
-		_message = `❌ Não foi possível despachar o esquadrão: ${res.error.message}`;
+		message = `❌ Não foi possível despachar o esquadrão: ${res.error.message}`;
 	}
 }
 
 // Rolar d20 aleatório de forma segura e determinística para o linter de Math.random
-function _rollD20() {
+function rollD20() {
 	const array = new Uint32Array(1);
 	crypto.getRandomValues(array);
-	d20Roll = (array[0] % 20) + 1;
+	const val = array[0];
+	if (val !== undefined) {
+		d20Roll = (val % 20) + 1;
+	} else {
+		d20Roll = 1;
+	}
 }
 
 // Resolver a missão ativa
-async function _handleResolveMission() {
+async function handleResolveMission() {
 	if (!missionSquadInAction) return;
 
 	const res = await service.resolveMission({
@@ -320,15 +325,15 @@ async function _handleResolveMission() {
 			log += `☠️ TRAGÉDIA: O esquadrão "${squadName}" perdeu toda a coesão e foi desfeito permanentemente!`;
 		}
 
-		_missionConsoleLog = log;
-		_message = data.success
+		missionConsoleLog = log;
+		message = data.success
 			? "🏆 Missão concluída com sucesso!"
 			: "💀 O esquadrão falhou na missão!";
 		missionSquadInAction = null;
 		selectedSquadId = "";
 		await loadData();
 	} else {
-		_message = `❌ Erro ao resolver missão: ${res.error.message}`;
+		message = `❌ Erro ao resolver missão: ${res.error.message}`;
 	}
 }
 </script>
