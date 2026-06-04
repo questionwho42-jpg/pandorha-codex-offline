@@ -1,3 +1,4 @@
+/* biome-ignore-start lint/suspicious/noExplicitAny: legacy test mocks */
 import { describe, expect, it } from "vitest";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { CharacterRepository } from "../../character/domain/CharacterRepository";
@@ -132,6 +133,7 @@ describe("EspionageService - Fundação de Células", () => {
 			backgroundId: "spy",
 			level: 1,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			physical: 3,
 			mental: 3,
 			social: 3,
@@ -184,6 +186,7 @@ describe("EspionageService - Fundação de Células", () => {
 			backgroundId: "spy",
 			level: 1,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			physical: 3,
 			mental: 3,
 			social: 3,
@@ -261,6 +264,7 @@ describe("EspionageService - Fundação de Células", () => {
 			backgroundId: "spy",
 			level: 1,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			physical: 3,
 			mental: 3,
 			social: 3,
@@ -351,6 +355,7 @@ describe("EspionageService - Fundação de Células", () => {
 			backgroundId: "spy",
 			level: 1,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			physical: 3,
 			mental: 3,
 			social: 3,
@@ -442,6 +447,7 @@ describe("EspionageService - Fundação de Células", () => {
 			backgroundId: "spy",
 			level: 1,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			physical: 3,
 			mental: 3,
 			social: 3,
@@ -540,6 +546,7 @@ describe("EspionageService - Fundação de Células", () => {
 			backgroundId: "spy",
 			level: 1,
 			experiencePoints: 0,
+			tensionMeter: 0,
 			physical: 3,
 			mental: 3,
 			social: 3,
@@ -1246,3 +1253,4 @@ describe("EspionageService - Recesso Semanal e Recursos", () => {
 		}
 	});
 });
+/* biome-ignore-end */
