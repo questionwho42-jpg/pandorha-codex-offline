@@ -114,6 +114,8 @@ const STATUS_EFFECT_LABELS: Record<string, string> = {
 	surto_tempo: "Surto de Tempo",
 	cacada_selvagem: "Caçada Selvagem",
 	rede_intrigas: "Rede de Intrigas",
+	extra_breath: "Fôlego Extra",
+	double_time: "Dobrar Tempo",
 };
 
 function toCharacterListItem(
@@ -142,7 +144,25 @@ function toCharacterListItem(
 				new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
 		);
 
-	stats = applyStatusEffects(stats, characterEffects);
+	stats = applyStatusEffects(
+		stats,
+		characterEffects.map((eff) => {
+			const item: {
+				type: string;
+				metadata?: string | null;
+				severity?: number;
+			} = {
+				type: eff.type,
+			};
+			if (eff.metadata !== undefined) {
+				item.metadata = eff.metadata;
+			}
+			if (eff.severity !== undefined) {
+				item.severity = eff.severity;
+			}
+			return item;
+		}),
+	);
 
 	const characterCraftedItems = craftedItems.filter(
 		(item) => item.characterId === character.id,

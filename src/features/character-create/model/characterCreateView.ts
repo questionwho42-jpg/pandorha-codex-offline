@@ -83,6 +83,7 @@ export function toCharacterCreateInput(
 		classId: draft.classId,
 		backgroundId: draft.backgroundId,
 		level: draft.level,
+		tensionMeter: 0,
 		physical: draft.physical,
 		mental: draft.mental,
 		social: draft.social,

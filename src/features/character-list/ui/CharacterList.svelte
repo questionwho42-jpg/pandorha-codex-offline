@@ -2,11 +2,16 @@
 import type { AncestryRecord } from "$lib/entities/ancestry";
 import type { BackgroundRecord } from "$lib/entities/background";
 import type { CharacterRecord } from "$lib/entities/character";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import {
+	canCharacterLevelUp,
+	getCharacterTierForLevel,
+	getXpRequiredForLevel,
+} from "$lib/entities/character/model/characterRules";
 import type { CharacterStatusEffectRecord } from "$lib/entities/character/model/characterSchema";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import type { CompanionRecord } from "$lib/entities/companions";
 import type { CharacterCraftedItemRecord } from "$lib/entities/equipment/model/craftingSchema";
-// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { chatState } from "../../chat/model/chatState.svelte";
 import { createCharacterListView } from "../model/characterListView";
 
@@ -43,6 +48,7 @@ type Props = {
 		companionId: string,
 		traits: string[],
 	) => void | Promise<void>;
+	onLevelUp?: (levelUpInput: unknown) => void | Promise<void>;
 };
 
 let {
@@ -66,9 +72,9 @@ let {
 	onStabilizeMaster,
 	// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
 	onUpdateCompanionTraits,
+	onLevelUp,
 }: Props = $props();
 
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let view = $derived(
 	createCharacterListView(records, {
 		ancestries,
@@ -119,6 +125,86 @@ async function handleClear(characterId: string) {
 		await onClearStatusEffects(characterId);
 	}
 }
+
+let activeLevelUpCharId = $state<string | null>(null);
+let levelUpPhysical = $state(0);
+let levelUpMental = $state(0);
+let levelUpSocial = $state(0);
+let levelUpConflict = $state(0);
+let levelUpInteraction = $state(0);
+let levelUpResistance = $state(0);
+// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
+let levelUpError = $state<string | null>(null);
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
+async function submitLevelUp() {
+	if (!activeLevelUpCharId) return;
+	if (onLevelUp) {
+		const payload = {
+			characterId: activeLevelUpCharId,
+			addedPhysical: levelUpPhysical,
+			addedMental: levelUpMental,
+			addedSocial: levelUpSocial,
+			addedConflict: levelUpConflict,
+			addedInteraction: levelUpInteraction,
+			addedResistance: levelUpResistance,
+		};
+		try {
+			await onLevelUp(payload);
+			activeLevelUpCharId = null;
+		} catch (err: unknown) {
+			const errMsg = err instanceof Error ? err.message : String(err);
+			levelUpError = errMsg || "Erro desconhecido ao subir de nível.";
+		}
+	}
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed in Svelte markup
+function selectActiveCharacter(character: (typeof view.items)[number]) {
+	chatState.setActiveCharacter({
+		id: character.id,
+		name: character.name,
+		statusEffects: character.statusEffects || [],
+		axes: character.axes,
+		applications: character.applications,
+	});
+}
+
+$effect(() => {
+	if (view.items.length > 0) {
+		if (!chatState.activeCharacterId) {
+			const first = view.items[0];
+			chatState.setActiveCharacter({
+				id: first.id,
+				name: first.name,
+				statusEffects: first.statusEffects || [],
+				axes: first.axes,
+				applications: first.applications,
+			});
+		} else {
+			const current = view.items.find(
+				(item) => item.id === chatState.activeCharacterId,
+			);
+			if (current) {
+				chatState.activeStatusEffects = current.statusEffects || [];
+				chatState.activeCharacterName = current.name;
+				chatState.activeAxes = current.axes || [];
+				chatState.activeApplications = current.applications || [];
+			} else {
+				const first = view.items[0];
+				chatState.setActiveCharacter({
+					id: first.id,
+					name: first.name,
+					statusEffects: first.statusEffects || [],
+					axes: first.axes,
+					applications: first.applications,
+				});
+			}
+		}
+	} else {
+		chatState.setActiveCharacter(null);
+	}
+});
 </script>
 
 <section aria-labelledby="character-list-title" data-testid="character-list">
@@ -153,11 +239,48 @@ async function handleClear(characterId: string) {
 				<li class="py-5" data-testid="character-list-item">
 					<div class="flex flex-col gap-4 lg:flex-row lg:justify-between">
 						<div class="flex-1">
-							<p class="text-sm font-semibold text-ether">
-								{character.levelLabel}
+							<p class="text-sm font-semibold text-ether flex flex-wrap items-center gap-2">
+								<span>{character.levelLabel}</span>
+								{#if records.find(r => r.id === character.id)}
+									{@const originalChar = records.find(r => r.id === character.id)}
+									{#if originalChar}
+										<span class="text-xs font-medium text-ether/60">({originalChar.experiencePoints} / {getXpRequiredForLevel(originalChar.level + 1)} XP)</span>
+										{#if canCharacterLevelUp(originalChar.experiencePoints, originalChar.level)}
+											<button
+												type="button"
+												onclick={() => {
+													activeLevelUpCharId = character.id;
+													levelUpPhysical = 0;
+													levelUpMental = 0;
+													levelUpSocial = 0;
+													levelUpConflict = 0;
+													levelUpInteraction = 0;
+													levelUpResistance = 0;
+													levelUpError = null;
+												}}
+												class="px-2 py-0.5 border border-purple-runic bg-purple-runic/20 text-purple-runic text-[10px] font-extrabold uppercase animate-pulse hover:bg-purple-runic hover:text-bone transition-all duration-300 rounded-[2px]"
+											>
+												✨ Subir de Nível Disponível
+											</button>
+										{/if}
+									{/if}
+								{/if}
 							</p>
-							<h3 class="mt-1 text-xl font-semibold text-bone">
+							<h3 class="mt-1 text-xl font-semibold text-bone flex items-center gap-2">
 								{character.name}
+								{#if chatState.activeCharacterId === character.id}
+									<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-purple-runic/20 border border-purple-runic text-purple-runic animate-pulse">
+										🎯 COCKPIT
+									</span>
+								{:else}
+									<button
+										type="button"
+										onclick={() => selectActiveCharacter(character)}
+										class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-void/50 border border-bronze/50 text-ether/60 hover:text-ether hover:border-ether transition-all duration-200"
+									>
+										Focar
+									</button>
+								{/if}
 							</h3>
 							<p class="mt-2 max-w-2xl leading-7 text-bone">
 								{character.concept}
@@ -206,6 +329,177 @@ async function handleClear(characterId: string) {
 								<div class="mt-2 text-xs font-bold text-blood flex items-center gap-1">
 									⚠️ Cura natural impedida por infecção física ou fome!
 								</div>
+							{/if}
+
+							{#if activeLevelUpCharId === character.id}
+								{@const originalChar = records.find(r => r.id === character.id)}
+								{#if originalChar}
+									{@const nextLevel = originalChar.level + 1}
+									{@const tierRes = getCharacterTierForLevel(nextLevel)}
+									{@const tier = tierRes.success ? tierRes.data : 1}
+									{@const cap = tier === 1 ? 3 : tier === 2 ? 4 : tier === 3 ? 5 : 6}
+									<div class="mt-4 border border-purple-runic/40 bg-purple-runic/5 p-4 rounded-sm" data-testid="level-up-drawer">
+										<h4 class="text-sm font-bold text-purple-runic flex items-center gap-1.5 animate-pulse">
+											✨ Subir de Nível (Nível {originalChar.level} → {originalChar.level + 1})
+										</h4>
+										<p class="mt-1 text-xs text-ether">
+											Distribua exatamente <strong>1 ponto de Eixo</strong> e <strong>2 pontos de Aplicação</strong>.
+											Limite máximo de Eixo para o Tier {tier}: <strong>{cap}</strong>.
+										</p>
+										
+										<div class="mt-4 grid gap-4 sm:grid-cols-2">
+											<!-- Eixos Section -->
+											<div class="border border-bronze bg-void p-3 rounded-sm">
+												<p class="text-xs font-bold text-ether mb-2 uppercase font-semibold">Eixos (+{levelUpPhysical + levelUpMental + levelUpSocial} / 1)</p>
+												<div class="flex flex-col gap-2">
+													<!-- Físico -->
+													<div class="flex justify-between items-center text-xs">
+														<span class="text-bone font-semibold">Físico ({originalChar.physical} → {originalChar.physical + levelUpPhysical})</span>
+														<div class="flex items-center gap-2">
+															<button 
+																type="button" 
+																disabled={levelUpPhysical === 0}
+																onclick={() => levelUpPhysical--}
+																class="w-6 h-6 border border-bronze text-ether hover:bg-ruin/50 disabled:opacity-40 disabled:hover:bg-transparent transition-all rounded-[2px]"
+															>-</button>
+															<span class="w-4 text-center font-bold text-bone">{levelUpPhysical}</span>
+															<button 
+																type="button" 
+																disabled={levelUpPhysical + levelUpMental + levelUpSocial >= 1 || (originalChar.physical + levelUpPhysical) >= cap}
+																onclick={() => levelUpPhysical++}
+																class="w-6 h-6 border border-bronze text-ether hover:bg-ruin/50 disabled:opacity-40 disabled:hover:bg-transparent transition-all rounded-[2px]"
+															>+</button>
+														</div>
+													</div>
+													<!-- Mental -->
+													<div class="flex justify-between items-center text-xs">
+														<span class="text-bone font-semibold">Mental ({originalChar.mental} → {originalChar.mental + levelUpMental})</span>
+														<div class="flex items-center gap-2">
+															<button 
+																type="button" 
+																disabled={levelUpMental === 0}
+																onclick={() => levelUpMental--}
+																class="w-6 h-6 border border-bronze text-ether hover:bg-ruin/50 disabled:opacity-40 disabled:hover:bg-transparent transition-all rounded-[2px]"
+															>-</button>
+															<span class="w-4 text-center font-bold text-bone">{levelUpMental}</span>
+															<button 
+																type="button" 
+																disabled={levelUpMental + levelUpPhysical + levelUpSocial >= 1 || (originalChar.mental + levelUpMental) >= cap}
+																onclick={() => levelUpMental++}
+																class="w-6 h-6 border border-bronze text-ether hover:bg-ruin/50 disabled:opacity-40 disabled:hover:bg-transparent transition-all rounded-[2px]"
+															>+</button>
+														</div>
+													</div>
+													<!-- Social -->
+													<div class="flex justify-between items-center text-xs">
+														<span class="text-bone font-semibold">Social ({originalChar.social} → {originalChar.social + levelUpSocial})</span>
+														<div class="flex items-center gap-2">
+															<button 
+																type="button" 
+																disabled={levelUpSocial === 0}
+																onclick={() => levelUpSocial--}
+																class="w-6 h-6 border border-bronze text-ether hover:bg-ruin/50 disabled:opacity-40 disabled:hover:bg-transparent transition-all rounded-[2px]"
+															>-</button>
+															<span class="w-4 text-center font-bold text-bone">{levelUpSocial}</span>
+															<button 
+																type="button" 
+																disabled={levelUpSocial + levelUpPhysical + levelUpMental >= 1 || (originalChar.social + levelUpSocial) >= cap}
+																onclick={() => levelUpSocial++}
+																class="w-6 h-6 border border-bronze text-ether hover:bg-ruin/50 disabled:opacity-40 disabled:hover:bg-transparent transition-all rounded-[2px]"
+															>+</button>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<!-- Aplicações Section -->
+											<div class="border border-bronze bg-void p-3 rounded-sm">
+												<p class="text-xs font-bold text-ether mb-2 uppercase font-semibold">Aplicações (+{levelUpConflict + levelUpInteraction + levelUpResistance} / 2)</p>
+												<div class="flex flex-col gap-2">
+													<!-- Conflito -->
+													<div class="flex justify-between items-center text-xs">
+														<span class="text-bone font-semibold">Conflito ({originalChar.conflict} → {originalChar.conflict + levelUpConflict})</span>
+														<div class="flex items-center gap-2">
+															<button 
+																type="button" 
+																disabled={levelUpConflict === 0}
+																onclick={() => levelUpConflict--}
+																class="w-6 h-6 border border-bronze text-ether hover:bg-ruin/50 disabled:opacity-40 disabled:hover:bg-transparent transition-all rounded-[2px]"
+															>-</button>
+															<span class="w-4 text-center font-bold text-bone">{levelUpConflict}</span>
+															<button 
+																type="button" 
+																disabled={levelUpConflict + levelUpInteraction + levelUpResistance >= 2}
+																onclick={() => levelUpConflict++}
+																class="w-6 h-6 border border-bronze text-ether hover:bg-ruin/50 disabled:opacity-40 disabled:hover:bg-transparent transition-all rounded-[2px]"
+															>+</button>
+														</div>
+													</div>
+													<!-- Interação -->
+													<div class="flex justify-between items-center text-xs">
+														<span class="text-bone font-semibold">Interação ({originalChar.interaction} → {originalChar.interaction + levelUpInteraction})</span>
+														<div class="flex items-center gap-2">
+															<button 
+																type="button" 
+																disabled={levelUpInteraction === 0}
+																onclick={() => levelUpInteraction--}
+																class="w-6 h-6 border border-bronze text-ether hover:bg-ruin/50 disabled:opacity-40 disabled:hover:bg-transparent transition-all rounded-[2px]"
+															>-</button>
+															<span class="w-4 text-center font-bold text-bone">{levelUpInteraction}</span>
+															<button 
+																type="button" 
+																disabled={levelUpInteraction + levelUpConflict + levelUpResistance >= 2}
+																onclick={() => levelUpInteraction++}
+																class="w-6 h-6 border border-bronze text-ether hover:bg-ruin/50 disabled:opacity-40 disabled:hover:bg-transparent transition-all rounded-[2px]"
+															>+</button>
+														</div>
+													</div>
+													<!-- Resistência -->
+													<div class="flex justify-between items-center text-xs">
+														<span class="text-bone font-semibold">Resistência ({originalChar.resistance} → {originalChar.resistance + levelUpResistance})</span>
+														<div class="flex items-center gap-2">
+															<button 
+																type="button" 
+																disabled={levelUpResistance === 0}
+																onclick={() => levelUpResistance--}
+																class="w-6 h-6 border border-bronze text-ether hover:bg-ruin/50 disabled:opacity-40 disabled:hover:bg-transparent transition-all rounded-[2px]"
+															>-</button>
+															<span class="w-4 text-center font-bold text-bone">{levelUpResistance}</span>
+															<button 
+																type="button" 
+																disabled={levelUpResistance + levelUpConflict + levelUpInteraction >= 2}
+																onclick={() => levelUpResistance++}
+																class="w-6 h-6 border border-bronze text-ether hover:bg-ruin/50 disabled:opacity-40 disabled:hover:bg-transparent transition-all rounded-[2px]"
+															>+</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										{#if levelUpError}
+											<p class="mt-3 text-xs font-bold text-blood">⚠️ {levelUpError}</p>
+										{/if}
+
+										<div class="mt-4 flex justify-end gap-2">
+											<button 
+												type="button" 
+												onclick={() => activeLevelUpCharId = null}
+												class="px-3 py-1.5 border border-bronze bg-void text-bone hover:bg-ruin text-xs font-semibold"
+											>
+												Cancelar
+											</button>
+											<button 
+												type="button" 
+												disabled={levelUpPhysical + levelUpMental + levelUpSocial !== 1 || levelUpConflict + levelUpInteraction + levelUpResistance !== 2}
+												onclick={submitLevelUp}
+												class="px-3 py-1.5 bg-purple-runic/20 border border-purple-runic text-purple-runic hover:bg-purple-runic/40 disabled:opacity-45 disabled:hover:bg-purple-runic/20 text-xs font-bold transition-all rounded-[2px]"
+											>
+												Confirmar Subida de Nível
+											</button>
+										</div>
+									</div>
+								{/if}
 							{/if}
 
 							<!-- CONTROLES DO GM PARA SIMULAÇÃO -->
@@ -267,7 +561,10 @@ async function handleClear(characterId: string) {
 									{#each character.axes as stat}
 										<button
 											type="button"
-											onclick={() => chatState.rollD20(character.name, stat.label, stat.value)}
+											onclick={() => {
+												selectActiveCharacter(character);
+												chatState.rollD20(character.name, stat.label, stat.value, character.statusEffects);
+											}}
 											class="border border-bronze bg-void px-3 py-2 text-center flex flex-col justify-between w-full hover:bg-ruin/50 hover:border-ether/60 transition-all duration-200 cursor-pointer rounded-sm group focus:outline-none focus:border-ether"
 											title="Clique para rolar {stat.label} com d20"
 										>
@@ -293,7 +590,10 @@ async function handleClear(characterId: string) {
 									{#each character.applications as stat}
 										<button
 											type="button"
-											onclick={() => chatState.rollD20(character.name, stat.label, stat.value)}
+											onclick={() => {
+												selectActiveCharacter(character);
+												chatState.rollD20(character.name, stat.label, stat.value, character.statusEffects);
+											}}
 											class="border border-bronze bg-void px-3 py-2 text-center flex flex-col justify-between w-full hover:bg-ruin/50 hover:border-ether/60 transition-all duration-200 cursor-pointer rounded-sm group focus:outline-none focus:border-ether"
 											title="Clique para rolar {stat.label} com d20"
 										>

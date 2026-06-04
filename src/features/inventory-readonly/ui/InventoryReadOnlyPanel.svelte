@@ -16,9 +16,10 @@ import {
 
 type Props = {
 	characters: CharacterRecord[];
+	activeStatusEffects?: CharacterStatusEffectRecord[];
 };
 
-let { characters }: Props = $props();
+let { characters, activeStatusEffects = [] }: Props = $props();
 
 // Estados Reativos do Inventário
 let selectedCharacterId = $state("");
@@ -73,17 +74,23 @@ let finalStats = $derived.by(() => {
 	});
 
 	// 2. Aplica efeitos de status de sobrevivência/doenças ativos
-	// (ex: hungry, eter_fever)
-	// Aqui, activeStatusEffects pode vir da crônica se plugado, mas podemos simular ou passar
-	const decorated = base;
+	const charEffects = activeStatusEffects
+		.filter((e) => e.characterId === selectedChar.id)
+		.map((e) => ({
+			type: e.type,
+			severity: e.severity,
+			metadata: e.metadata ?? null,
+		}));
+	const decorated = applyStatusEffects(base, charEffects);
 
 	// 3. Aplica o decorador de sobrecarga de peso baseando-se no peso equipado
 	return new EncumberedStatusDecorator(decorated, totalWeight);
 });
 
 onMount(() => {
-	if (characters.length > 0) {
-		selectedCharacterId = characters[0].id;
+	const firstChar = characters[0];
+	if (firstChar) {
+		selectedCharacterId = firstChar.id;
 	}
 });
 

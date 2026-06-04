@@ -21,7 +21,6 @@ interface Props {
 	onUpgrade: (m: BastionModuleRecord, trophyId?: string) => Promise<void>;
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
 let {
 	modules,
 	characters,
@@ -30,6 +29,14 @@ let {
 	onRepair,
 	onUpgrade,
 }: Props = $props();
+
+// Silence unused variable warnings for Biome (used in markup)
+void modules;
+void characters;
+void moduleCatalog;
+void onAdvance;
+void onRepair;
+void onUpgrade;
 </script>
 
 <div class="panel build-panel glass">

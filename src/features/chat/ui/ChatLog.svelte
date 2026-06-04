@@ -5,12 +5,27 @@ import { type ChatMessage, chatState } from "../model/chatState.svelte";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import RollModifiersDrawer from "./RollModifiersDrawer.svelte";
 
+interface Props {
+	isMasterMode?: boolean;
+}
+
+let { isMasterMode = false }: Props = $props();
+
 let chatContainer: HTMLDivElement | null = $state(null);
 let inputMessage = $state("");
 
+let filteredMessages = $derived(
+	chatState.messages.filter((msg) => {
+		if (msg.isGmOnly && !isMasterMode) {
+			return false;
+		}
+		return true;
+	}),
+);
+
 // Sempre que a lista de mensagens mudar, rola para o final
 $effect(() => {
-	if (chatState.messages.length && chatContainer) {
+	if (filteredMessages.length && chatContainer) {
 		tick().then(() => {
 			if (chatContainer) {
 				chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -83,7 +98,7 @@ onMount(() => {
 		class="flex-1 overflow-y-auto px-4 py-3 space-y-3 scrollbar-thin scrollbar-thumb-bronze/30 scrollbar-track-void/20"
 		style="max-height: 420px; min-height: 250px;"
 	>
-		{#each chatState.messages as msg (msg.id)}
+		{#each filteredMessages as msg (msg.id)}
 			<div class="flex flex-col text-xs leading-normal">
 				<!-- Cabeçalho da Mensagem -->
 				<div class="flex items-baseline justify-between text-[9px] text-ether/60 mb-0.5 font-medium">
@@ -109,7 +124,7 @@ onMount(() => {
 						.replace(/\n/g, '<br/>')}
 				</div>
 			</div>
-		{:placeholder}
+		{:else}
 			<div class="text-xs italic text-ether/40 p-4 text-center">Nenhum log registrado.</div>
 		{/each}
 	</div>
@@ -138,19 +153,4 @@ onMount(() => {
 	</div>
 </div>
 
-<style>
-/* Custom scrollbar rules */
-.scrollbar-thin::-webkit-scrollbar {
-	width: 5px;
-}
-.scrollbar-thin::-webkit-scrollbar-track {
-	background: rgba(0, 0, 0, 0.1);
-}
-.scrollbar-thin::-webkit-scrollbar-thumb {
-	background: rgba(168, 120, 50, 0.3);
-	border-radius: 2px;
-}
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-	background: rgba(168, 120, 50, 0.5);
-}
-</style>
+

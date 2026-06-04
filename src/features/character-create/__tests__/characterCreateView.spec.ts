@@ -52,6 +52,7 @@ describe("character create view model", () => {
 			classId: "vanguard",
 			backgroundId: "acolyte",
 			level: 1,
+			tensionMeter: 0,
 			physical: 3,
 			mental: 1,
 			social: 2,
