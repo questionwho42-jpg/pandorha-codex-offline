@@ -20,6 +20,7 @@ export default defineConfig({
 		"./src/entities/espionage/model/espionageSchema.ts",
 		"./src/entities/dungeon/model/dungeonSchema.ts",
 		"./src/entities/siege/model/siegeSchema.ts",
+		"./src/entities/lore/model/loreSchema.ts",
 	],
 	out: "./drizzle",
 	dialect: "sqlite",
