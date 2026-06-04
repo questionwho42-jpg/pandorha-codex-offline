@@ -2,6 +2,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import initSqlJs, { type SqlJsStatic } from "sql.js";
 import { describe, expect, it } from "vitest";
+import type { CharacterRecord } from "$lib/entities/character/model/characterSchema";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import { SqliteOpfsBootstrapService } from "../domain/SqliteOpfsBootstrapService";
 import { PANDORHA_SQLITE_MIGRATIONS } from "../model/sqliteMigrations";
@@ -65,6 +66,12 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0017_dark_richard_fisk",
 				"0018_condemned_menace",
 				"0019_tan_roughhouse",
+				"0020_abnormal_the_spike",
+				"0021_status_effects_duration",
+				"0022_status_effects_missing_columns",
+				"0023_add_crafted_item_durability_state",
+				"0024_add_dialogue_state_social_combat_fields",
+				"0025_add_character_tension_meter",
 			],
 			tableNames: [
 				"_pandorha_migrations",
@@ -78,6 +85,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"campaign_investigations",
 				"campaign_quests",
 				"campaign_regional_domains",
+				"campaign_rumors",
 				"campaign_siege_events",
 				"campaign_social_ledger",
 				"character_crafted_items",
@@ -90,6 +98,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"espionage_cells",
 				"faction_patronages",
 				"factions",
+				"lore_encounters",
 				"mercenary_companies",
 				"mercenary_squads",
 				"progress_clocks",
@@ -157,6 +166,12 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0017_dark_richard_fisk",
 			"0018_condemned_menace",
 			"0019_tan_roughhouse",
+			"0020_abnormal_the_spike",
+			"0021_status_effects_duration",
+			"0022_status_effects_missing_columns",
+			"0023_add_crafted_item_durability_state",
+			"0024_add_dialogue_state_social_combat_fields",
+			"0025_add_character_tension_meter",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -283,6 +298,12 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0017_dark_richard_fisk",
 			"0018_condemned_menace",
 			"0019_tan_roughhouse",
+			"0020_abnormal_the_spike",
+			"0021_status_effects_duration",
+			"0022_status_effects_missing_columns",
+			"0023_add_crafted_item_durability_state",
+			"0024_add_dialogue_state_social_combat_fields",
+			"0025_add_character_tension_meter",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -1107,6 +1128,574 @@ describe("database worker request handler", () => {
 				value: originalNavigator,
 				configurable: true,
 				writable: true,
+			});
+		}
+	});
+
+	it("handles MUTATE_WORLD_STATE, TICK_CLOCK_MANUAL, and FORCE_SPAWN_ACTOR operations", async () => {
+		const storage = new InMemoryDatabaseFileStorage();
+		const service = createService(storage);
+
+		expectBootstrapSuccess(
+			await service.initializeDatabase({ requestedAt: REQUESTED_AT }),
+		);
+
+		// Insere facção e personagem válidos para satisfazer restrições de chaves estrangeiras
+		const factionSave = await service.saveFaction({
+			id: "guild_explorers",
+			name: "Guilda dos Exploradores",
+			description: "Exploradores de Pandorha",
+			alignment: "neutral",
+		});
+		expect(factionSave.success).toBe(true);
+
+		const characterSave = await service.saveCharacter({
+			id: "char-1",
+			name: "Aria",
+			concept: "Guerreira nobre das Terras Altas",
+			classId: "warrior",
+			ancestryId: "human",
+			backgroundId: "noble",
+			level: 1,
+			experiencePoints: 0,
+			physical: 3,
+			mental: 2,
+			social: 2,
+			conflict: 3,
+			interaction: 2,
+			resistance: 3,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+		});
+		expect(characterSave.success).toBe(true);
+
+		// 1. Testa mutateWorldState
+		const mutateRes = await service.mutateWorldState(
+			[{ key: "plot:pista_revelada", value: true }],
+			[{ characterId: "char-1", factionId: "guild_explorers", value: 15 }],
+		);
+		expect(mutateRes.success).toBe(true);
+
+		// Valida falhas
+		storage.failNextRead({
+			code: "DATABASE_FILE_READ_FAILED",
+			message: "Read error",
+		});
+		const mutateReadFail = await service.mutateWorldState([]);
+		expect(mutateReadFail.success).toBe(false);
+
+		// 2. Testa tickClockManual
+		const clockId = "d51b73d5-2d05-4fec-a18c-7cd685cfed01";
+		const clockRes = await service.saveClock({
+			id: clockId,
+			name: "Clock Teste",
+			totalSegments: 4,
+			filledSegments: 2,
+			isCompleted: false,
+			triggerEvent: "EVENTO_TESTE",
+		});
+		expect(clockRes.success).toBe(true);
+
+		const tickRes = await service.tickClockManual(clockId, 1);
+		expect(tickRes.success).toBe(true);
+		if (tickRes.success) {
+			expect(tickRes.data.clock.filledSegments).toBe(3);
+			expect(tickRes.data.clock.isCompleted).toBe(false);
+			expect(tickRes.data.eventTriggered).toBeNull();
+		}
+
+		const tickCompleteRes = await service.tickClockManual(clockId, 1);
+		expect(tickCompleteRes.success).toBe(true);
+		if (tickCompleteRes.success) {
+			expect(tickCompleteRes.data.clock.filledSegments).toBe(4);
+			expect(tickCompleteRes.data.clock.isCompleted).toBe(true);
+			expect(tickCompleteRes.data.eventTriggered).toBe("EVENTO_TESTE");
+		}
+
+		const tickNotFound = await service.tickClockManual(
+			"d51b73d5-2d05-4fec-a18c-7cd685cfed02",
+			1,
+		);
+		expect(tickNotFound.success).toBe(false);
+		if (!tickNotFound.success) {
+			expect(tickNotFound.error.code).toBe("CLOCK_NOT_FOUND");
+		}
+
+		storage.failNextRead({
+			code: "DATABASE_FILE_READ_FAILED",
+			message: "Read error",
+		});
+		const tickReadFail = await service.tickClockManual(clockId, 1);
+		expect(tickReadFail.success).toBe(false);
+
+		// 3. Testa forceSpawnActor
+		const spawnRes = await service.forceSpawnActor({
+			actorId: "actor-1",
+			label: "Orco Bruto",
+			profile: "brute",
+			hitPoints: 50,
+			initiativeBase: 3,
+		});
+		expect(spawnRes.success).toBe(true);
+		if (spawnRes.success) {
+			expect(spawnRes.data.spawned).toBe(true);
+			expect(spawnRes.data.actor.label).toBe("Orco Bruto");
+		}
+	});
+
+	it("handles MUTATE_WORLD_STATE, TICK_CLOCK_MANUAL, and FORCE_SPAWN_ACTOR via database worker handler", async () => {
+		const storage = new InMemoryDatabaseFileStorage();
+		const service = createService(storage);
+
+		expectBootstrapSuccess(
+			await service.initializeDatabase({ requestedAt: REQUESTED_AT }),
+		);
+
+		// Insere facção e personagem válidos para satisfazer restrições de chaves estrangeiras
+		const factionSave = await service.saveFaction({
+			id: "guild_explorers",
+			name: "Guilda dos Exploradores",
+			description: "Exploradores de Pandorha",
+			alignment: "neutral",
+		});
+		expect(factionSave.success).toBe(true);
+
+		const characterSave = await service.saveCharacter({
+			id: "char-1",
+			name: "Aria",
+			concept: "Guerreira nobre das Terras Altas",
+			classId: "warrior",
+			ancestryId: "human",
+			backgroundId: "noble",
+			level: 1,
+			experiencePoints: 0,
+			physical: 3,
+			mental: 2,
+			social: 2,
+			conflict: 3,
+			interaction: 2,
+			resistance: 3,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+		});
+		expect(characterSave.success).toBe(true);
+
+		// 1. MUTATE_WORLD_STATE
+		const mutateWorkerRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "MUTATE_WORLD_STATE",
+				payload: {
+					worldStateMutations: [{ key: "plot:pista_revelada", value: true }],
+					factionRenownMutations: [
+						{ characterId: "char-1", factionId: "guild_explorers", value: 15 },
+					],
+				},
+			},
+			{ bootstrapService: service },
+		);
+		expect(mutateWorkerRes.success).toBe(true);
+
+		// 2. TICK_CLOCK_MANUAL
+		const clockId = "d51b73d5-2d05-4fec-a18c-7cd685cfed03";
+		await service.saveClock({
+			id: clockId,
+			name: "Clock Teste 2",
+			totalSegments: 4,
+			filledSegments: 2,
+			isCompleted: false,
+			triggerEvent: "EVENTO_TESTE_2",
+		});
+
+		const tickWorkerRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "TICK_CLOCK_MANUAL",
+				payload: { clockId, delta: 1 },
+			},
+			{ bootstrapService: service },
+		);
+		expect(tickWorkerRes.success).toBe(true);
+
+		// 3. FORCE_SPAWN_ACTOR
+		const spawnWorkerRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FORCE_SPAWN_ACTOR",
+				payload: {
+					actorId: "actor-2",
+					label: "Mago Sniper",
+					profile: "sniper",
+					hitPoints: 30,
+					initiativeBase: 5,
+				},
+			},
+			{ bootstrapService: service },
+		);
+		expect(spawnWorkerRes.success).toBe(true);
+	});
+
+	it("handles APPLY_LEVEL_UP successfully and handles validation failures", async () => {
+		const storage = new InMemoryDatabaseFileStorage();
+		const service = createService(storage);
+
+		expectBootstrapSuccess(
+			await service.initializeDatabase({ requestedAt: REQUESTED_AT }),
+		);
+
+		// Insert required faction
+		const factionSave = await service.saveFaction({
+			id: "guild_explorers",
+			name: "Guilda dos Exploradores",
+			description: "Exploradores de Pandorha",
+			alignment: "neutral",
+		});
+		expect(factionSave.success).toBe(true);
+
+		// Character 1 with level 1, 0 XP, physical 2, mental 3
+		const charId1 = "char-levelup-test-1";
+		const characterSave1 = await service.saveCharacter({
+			id: charId1,
+			name: "LevelUp Hero 1",
+			concept: "Místico em ascensão",
+			classId: "weaver",
+			ancestryId: "human",
+			backgroundId: "scholar",
+			level: 1,
+			experiencePoints: 0,
+			physical: 2,
+			mental: 3,
+			social: 2,
+			conflict: 3,
+			interaction: 2,
+			resistance: 3,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+		});
+		expect(characterSave1.success).toBe(true);
+
+		// Character 2 with level 1, 100 XP (eligible), physical 2, mental 3
+		const charId2 = "char-levelup-test-2";
+		const characterSave2 = await service.saveCharacter({
+			id: charId2,
+			name: "LevelUp Hero 2",
+			concept: "Guerreiro experiente",
+			classId: "warrior",
+			ancestryId: "human",
+			backgroundId: "noble",
+			level: 1,
+			experiencePoints: 100,
+			physical: 2,
+			mental: 3,
+			social: 2,
+			conflict: 3,
+			interaction: 2,
+			resistance: 3,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+		});
+		expect(characterSave2.success).toBe(true);
+
+		// Character 3 with level 2, 300 XP (eligible), physical 3, mental 3, social 2
+		const charId3 = "char-levelup-test-3";
+		const characterSave3 = await service.saveCharacter({
+			id: charId3,
+			name: "LevelUp Hero 3",
+			concept: "Ladrão furtivo",
+			classId: "vanguard",
+			ancestryId: "human",
+			backgroundId: "criminal",
+			level: 2,
+			experiencePoints: 300,
+			physical: 3,
+			mental: 3,
+			social: 2,
+			conflict: 4,
+			interaction: 2,
+			resistance: 4,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+		});
+		expect(characterSave3.success).toBe(true);
+
+		// 1. Attempt to level up with insufficient XP (Character 1 has 0 XP, level 2 needs 100 XP)
+		const failXpRes = await service.applyLevelUp({
+			characterId: charId1,
+			addedPhysical: 1,
+			addedMental: 0,
+			addedSocial: 0,
+			addedConflict: 1,
+			addedInteraction: 1,
+			addedResistance: 0,
+		});
+		expect(failXpRes.success).toBe(false);
+		if (!failXpRes.success) {
+			expect(failXpRes.error.code).toBe("INSUFFICIENT_EXPERIENCE_POINTS");
+		}
+
+		// 2. Attempt to level up with invalid point distribution (Eixos sum !== 1)
+		const failAxisRes = await service.applyLevelUp({
+			characterId: charId2,
+			addedPhysical: 1,
+			addedMental: 1,
+			addedSocial: 0,
+			addedConflict: 1,
+			addedInteraction: 1,
+			addedResistance: 0,
+		});
+		expect(failAxisRes.success).toBe(false);
+		if (!failAxisRes.success) {
+			expect(failAxisRes.error.code).toBe("INVALID_LEVEL_UP_DISTRIBUTION");
+		}
+
+		// 3. Attempt to level up with invalid point distribution (Aplicações sum !== 2)
+		const failAppRes = await service.applyLevelUp({
+			characterId: charId2,
+			addedPhysical: 1,
+			addedMental: 0,
+			addedSocial: 0,
+			addedConflict: 1,
+			addedInteraction: 0,
+			addedResistance: 0,
+		});
+		expect(failAppRes.success).toBe(false);
+		if (!failAppRes.success) {
+			expect(failAppRes.error.code).toBe("INVALID_LEVEL_UP_DISTRIBUTION");
+		}
+
+		// 4. Attempt to level up raising mental above cap for Tier I (limit is 3 for level 2, mental is 3. Adding 1 makes it 4, exceeds cap)
+		const failCapRes = await service.applyLevelUp({
+			characterId: charId2,
+			addedPhysical: 0,
+			addedMental: 1, // 3 + 1 = 4, exceeds Tier I cap of 3
+			addedSocial: 0,
+			addedConflict: 1,
+			addedInteraction: 1,
+			addedResistance: 0,
+		});
+		expect(failCapRes.success).toBe(false);
+		if (!failCapRes.success) {
+			expect(failCapRes.error.code).toBe("INVALID_TIER_CAP");
+		}
+
+		// 5. Successful level up for Character 2 (physical becomes 3, conflict 4, resistance 4)
+		const successRes = await service.applyLevelUp({
+			characterId: charId2,
+			addedPhysical: 1,
+			addedMental: 0,
+			addedSocial: 0,
+			addedConflict: 1,
+			addedInteraction: 0,
+			addedResistance: 1,
+		});
+		if (!successRes.success) {
+			console.log("LEVEL UP ERROR: ", JSON.stringify(successRes));
+		}
+		expect(successRes.success).toBe(true);
+		if (successRes.success) {
+			const updatedChar = successRes.data;
+			expect(updatedChar.level).toBe(2);
+			expect(updatedChar.physical).toBe(3);
+			expect(updatedChar.mental).toBe(3);
+			expect(updatedChar.social).toBe(2);
+			expect(updatedChar.conflict).toBe(4);
+			expect(updatedChar.interaction).toBe(2);
+			expect(updatedChar.resistance).toBe(4);
+		}
+
+		// 6. Test handler directly via handleDatabaseWorkerRequest on Character 3 (level up to 3)
+		const workerRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "APPLY_LEVEL_UP",
+				payload: {
+					levelUpInput: {
+						characterId: charId3,
+						addedPhysical: 0,
+						addedMental: 0,
+						addedSocial: 1, // 2 + 1 = 3 (within Tier I cap of 3)
+						addedConflict: 0,
+						addedInteraction: 2, // 2 + 2 = 4
+						addedResistance: 0,
+					},
+				},
+			},
+			{ bootstrapService: service },
+		);
+		expect(workerRes.success).toBe(true);
+		if (workerRes.success) {
+			const updatedChar = workerRes.data as unknown as CharacterRecord;
+			expect(updatedChar.level).toBe(3);
+			expect(updatedChar.social).toBe(3);
+			expect(updatedChar.interaction).toBe(4);
+		}
+	});
+
+	it("processes CAST_SPELL RPC requests, validates EE, calculates Upcast, and applies status effects to targets", async () => {
+		const storage = new InMemoryDatabaseFileStorage();
+		const service = createService(storage);
+
+		await service.initializeDatabase({
+			requestedAt: REQUESTED_AT,
+		});
+
+		// 1. Create a Weaver caster (Weaver class, Level 1, Mental 2 -> Max EE 3)
+		const casterId = "char-weaver-caster";
+		const targetId = "char-target-dummy";
+
+		const casterRes = await service.saveCharacter({
+			id: casterId,
+			name: "Mestre Tecelao",
+			concept: "Conjurador de Status",
+			ancestryId: "humano",
+			classId: "weaver",
+			backgroundId: "plebeu",
+			level: 1,
+			experiencePoints: 0,
+			physical: 1,
+			mental: 2,
+			social: 1,
+			conflict: 1,
+			interaction: 1,
+			resistance: 1,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+		});
+		expect(casterRes.success).toBe(true);
+
+		// 2. Create target character
+		const targetRes = await service.saveCharacter({
+			id: targetId,
+			name: "Boneco de Treino",
+			concept: "Alvo estatico",
+			ancestryId: "humano",
+			classId: "guerreiro",
+			backgroundId: "plebeu",
+			level: 1,
+			experiencePoints: 0,
+			physical: 1,
+			mental: 1,
+			social: 1,
+			conflict: 1,
+			interaction: 1,
+			resistance: 1,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+		});
+		expect(targetRes.success).toBe(true);
+
+		// 3. Cast "silence" (2 EE base, circle 1, targetEffects: silenced, duration 3)
+		// Caster max EE = 3, cost = 2. Should succeed.
+		const cast1 = await service.castSpell({
+			casterId,
+			targetId,
+			spellId: "silence",
+			upcastLevel: 0,
+		});
+		if (!cast1.success) {
+			console.error("CAST_SPELL_ERROR:", JSON.stringify(cast1.error));
+		}
+		expect(cast1.success).toBe(true);
+
+		// Check status effects applied to target
+		const effects1 = await service.findStatusEffects(targetId);
+		expect(effects1.success).toBe(true);
+		if (effects1.success) {
+			expect(effects1.data).toHaveLength(1);
+			expect(effects1.data[0]).toMatchObject({
+				characterId: targetId,
+				type: "silenced",
+				durationTurns: 3,
+			});
+		}
+
+		// Clean up status effects for next tests
+		if (effects1.success && effects1.data[0]) {
+			await service.deleteStatusEffect(effects1.data[0].id);
+		}
+
+		// 4. Try to upcast "silence" to level 1 (cost 4 EE). Available 3 EE -> Should fail
+		const castFail = await service.castSpell({
+			casterId,
+			targetId,
+			spellId: "silence",
+			upcastLevel: 1,
+		});
+		expect(castFail.success).toBe(false);
+		if (!castFail.success) {
+			expect(castFail.error.code).toBe("INSUFFICIENT_ETHER");
+		}
+
+		// 5. Upgrade caster's mental to 4 (max EE = 1 + 4 = 5)
+		const upgradedCasterRes = await service.saveCharacter({
+			id: casterId,
+			name: "Mestre Tecelao",
+			concept: "Conjurador de Status",
+			ancestryId: "humano",
+			classId: "weaver",
+			backgroundId: "plebeu",
+			level: 1,
+			experiencePoints: 0,
+			physical: 1,
+			mental: 4,
+			social: 1,
+			conflict: 1,
+			interaction: 1,
+			resistance: 1,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+		});
+		expect(upgradedCasterRes.success).toBe(true);
+
+		// 6. Cast "silence" with upcast 1 (cost 4 EE). Caster Max EE = 5 -> Should succeed
+		const cast2 = await service.castSpell({
+			casterId,
+			targetId,
+			spellId: "silence",
+			upcastLevel: 1,
+		});
+		expect(cast2.success).toBe(true);
+
+		const effects2 = await service.findStatusEffects(targetId);
+		expect(effects2.success).toBe(true);
+		if (effects2.success) {
+			expect(effects2.data).toHaveLength(1);
+			expect(effects2.data[0]).toMatchObject({
+				characterId: targetId,
+				type: "silenced",
+				durationTurns: 4, // 3 base + 1 upcast duration increase
+			});
+		}
+
+		// Clean up
+		if (effects2.success && effects2.data[0]) {
+			await service.deleteStatusEffect(effects2.data[0].id);
+		}
+
+		// 7. Test RPC worker endpoint for CAST_SPELL
+		const workerRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "CAST_SPELL",
+				payload: {
+					casterId,
+					targetId,
+					spellId: "hold-person",
+					upcastLevel: 0,
+				},
+			},
+			{ bootstrapService: service },
+		);
+		expect(workerRes.success).toBe(true);
+
+		const effects3 = await service.findStatusEffects(targetId);
+		expect(effects3.success).toBe(true);
+		if (effects3.success) {
+			expect(effects3.data).toHaveLength(1);
+			expect(effects3.data[0]).toMatchObject({
+				characterId: targetId,
+				type: "immobilized",
+				durationTurns: 2, // base duration of hold-person
 			});
 		}
 	});

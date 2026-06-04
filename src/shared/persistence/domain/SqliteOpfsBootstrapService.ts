@@ -8,7 +8,16 @@ import {
 import { DrizzleCampRepository } from "$lib/entities/camp/infrastructure/DrizzleCampRepository";
 import { campaignCampSessions } from "$lib/entities/camp/model/campSchema";
 import { DrizzleCharacterRepository } from "$lib/entities/character/infrastructure/DrizzleCharacterRepository";
-import { characters } from "$lib/entities/character/model/characterSchema";
+import {
+	canCharacterLevelUp,
+	getCharacterTierForLevel,
+	getXpRequiredForLevel,
+} from "$lib/entities/character/model/characterRules";
+import {
+	characters,
+	type LevelUpInput,
+	type NewCharacterStatusEffectRecord,
+} from "$lib/entities/character/model/characterSchema";
 import { DrizzleClockRepository } from "$lib/entities/clocks/infrastructure/DrizzleClockRepository";
 import { progressClocks } from "$lib/entities/clocks/model/clockSchema";
 import { DrizzleCompanionRepository } from "$lib/entities/companions/infrastructure/DrizzleCompanionRepository";
@@ -26,6 +35,7 @@ import { DrizzleEspionageRepository } from "$lib/entities/espionage/infrastructu
 import { espionageCells } from "$lib/entities/espionage/model/espionageSchema";
 import { DrizzleInvestigationRepository } from "$lib/entities/investigation/infrastructure/DrizzleInvestigationRepository";
 import { campaignInvestigations } from "$lib/entities/investigation/model/investigationSchema";
+import { DrizzleLoreRepository } from "$lib/entities/lore/infrastructure/DrizzleLoreRepository";
 import { DrizzleMercenaryRepository } from "$lib/entities/mercenary/infrastructure/DrizzleMercenaryRepository";
 import {
 	mercenaryCompanies,
@@ -33,12 +43,14 @@ import {
 } from "$lib/entities/mercenary/model/mercenarySchema";
 import { DrizzleQuestRepository } from "$lib/entities/quest/infrastructure/DrizzleQuestRepository";
 import { campaignQuests } from "$lib/entities/quest/model/questSchema";
+import { DrizzleFactionRepository } from "$lib/entities/social/infrastructure/DrizzleFactionRepository";
 import { DrizzleSocialRepository } from "$lib/entities/social/infrastructure/DrizzleSocialRepository";
 import {
 	bloodDebts,
 	characterReputation,
 	factions,
 } from "$lib/entities/social/model/socialSchema";
+import { OFFICIAL_SPELLS } from "$lib/entities/spell/model/spellCatalog";
 import { DrizzleSynergyRepository } from "$lib/entities/synergy/infrastructure/DrizzleSynergyRepository";
 import { DrizzleTrapRepository } from "$lib/entities/traps/infrastructure/DrizzleTrapRepository";
 import { worldStateEntries } from "$lib/entities/world-state/model/worldStateSchema";
@@ -774,6 +786,158 @@ export class SqliteOpfsBootstrapService {
 		}
 	}
 
+	public async applyLevelUp(
+		levelUpInput: LevelUpInput,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const axisSum =
+			levelUpInput.addedPhysical +
+			levelUpInput.addedMental +
+			levelUpInput.addedSocial;
+		if (axisSum !== 1) {
+			return fail({
+				code: "INVALID_LEVEL_UP_DISTRIBUTION",
+				message: `Distribuição inválida de Eixos. É necessário distribuir exatamente 1 ponto, recebido: ${axisSum}`,
+			});
+		}
+
+		const appSum =
+			levelUpInput.addedConflict +
+			levelUpInput.addedInteraction +
+			levelUpInput.addedResistance;
+		if (appSum !== 2) {
+			return fail({
+				code: "INVALID_LEVEL_UP_DISTRIBUTION",
+				message: `Distribuição inválida de Aplicações. É necessário distribuir exatamente 2 pontos, recebido: ${appSum}`,
+			});
+		}
+
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle mock mapping
+			const repository = new DrizzleCharacterRepository(db as any);
+
+			const findRes = await repository.findById(levelUpInput.characterId);
+			if (!findRes.success) {
+				database.data.close();
+				return fail({
+					code: "CHARACTER_NOT_FOUND",
+					message: `Aventureiro com ID ${levelUpInput.characterId} não foi localizado.`,
+				});
+			}
+
+			const character = findRes.data;
+
+			if (!canCharacterLevelUp(character.experiencePoints, character.level)) {
+				database.data.close();
+				const required = getXpRequiredForLevel(character.level + 1);
+				return fail({
+					code: "INSUFFICIENT_EXPERIENCE_POINTS",
+					message: `XP insuficiente para subir para o nível ${character.level + 1}. Atual: ${character.experiencePoints}, Necessário: ${required}`,
+				});
+			}
+
+			const nextLevel = character.level + 1;
+			const nextTierRes = getCharacterTierForLevel(nextLevel);
+			if (!nextTierRes.success) {
+				database.data.close();
+				return fail({
+					code: "INVALID_CHARACTER_LEVEL",
+					message: nextTierRes.error.message,
+				});
+			}
+
+			const tierCap =
+				nextTierRes.data === 1
+					? 3
+					: nextTierRes.data === 2
+						? 4
+						: nextTierRes.data === 3
+							? 5
+							: 6;
+
+			const newPhysical = character.physical + levelUpInput.addedPhysical;
+			const newMental = character.mental + levelUpInput.addedMental;
+			const newSocial = character.social + levelUpInput.addedSocial;
+
+			if (newPhysical > tierCap || newMental > tierCap || newSocial > tierCap) {
+				database.data.close();
+				return fail({
+					code: "INVALID_TIER_CAP",
+					message: `Um dos Eixos excede o limite máximo permitido de ${tierCap} para o Tier ${nextTierRes.data}.`,
+					details: {
+						cap: tierCap,
+						physical: newPhysical,
+						mental: newMental,
+						social: newSocial,
+					},
+				});
+			}
+
+			const newConflict = character.conflict + levelUpInput.addedConflict;
+			const newInteraction =
+				character.interaction + levelUpInput.addedInteraction;
+			const newResistance = character.resistance + levelUpInput.addedResistance;
+
+			const updatedCharacter = {
+				...character,
+				level: nextLevel,
+				physical: newPhysical,
+				mental: newMental,
+				social: newSocial,
+				conflict: newConflict,
+				interaction: newInteraction,
+				resistance: newResistance,
+				updatedAt: new Date().toISOString(),
+			};
+
+			const saveRes = await repository.save(updatedCharacter);
+			if (!saveRes.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: saveRes.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			database.data.close();
+
+			if (!written.success) {
+				return fail(written.error);
+			}
+
+			return ok(saveRes.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not apply level up in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
 	public async findCharacter(
 		id: string,
 		// biome-ignore lint/suspicious/noExplicitAny: return record has dynamic structure
@@ -974,6 +1138,161 @@ export class SqliteOpfsBootstrapService {
 			return fail({
 				code: "DATABASE_FILE_WRITE_FAILED",
 				message: "Could not delete status effect from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async castSpell(inputPayload: {
+		casterId: string;
+		targetId: string;
+		spellId: string;
+		upcastLevel: number;
+	}): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle mock mapping
+			const repository = new DrizzleCharacterRepository(db as any);
+			// biome-ignore lint/suspicious/noExplicitAny: Drizzle mock mapping
+			const companionRepository = new DrizzleCompanionRepository(db as any);
+
+			// 1. Load caster character
+			const casterResult = await repository.findById(inputPayload.casterId);
+			if (!casterResult.success) {
+				database.data.close();
+				return fail({
+					code: "CHARACTER_NOT_FOUND",
+					message: "Caster character was not found.",
+				});
+			}
+			const caster = casterResult.data;
+
+			// 2. Load target character
+			const targetResult = await repository.findById(inputPayload.targetId);
+			if (!targetResult.success) {
+				database.data.close();
+				return fail({
+					code: "CHARACTER_NOT_FOUND",
+					message: "Target character was not found.",
+				});
+			}
+			const target = targetResult.data;
+
+			// 3. Find spell in catalog
+			const spell = OFFICIAL_SPELLS.find((s) => s.id === inputPayload.spellId);
+			if (!spell) {
+				database.data.close();
+				return fail({
+					code: "SPELL_NOT_FOUND",
+					message: "Spell not found in catalog.",
+				});
+			}
+
+			// 4. Calculate ether cost
+			const baseCost = spell.etherCost;
+			const upcastCost =
+				inputPayload.upcastLevel * spell.upcastFormula.etherCostPerCircle;
+			const totalCost = baseCost + upcastCost;
+
+			// 5. Calculate available ether
+			const baseEe = caster.level + caster.mental;
+			const companionsRes = await companionRepository.findCompanionsByCharacter(
+				caster.id,
+			);
+			const hasActiveFamiliar =
+				companionsRes.success &&
+				companionsRes.data.some(
+					(comp) => comp.type === "familiar" && !comp.isDissipated,
+				);
+			const finalEe = hasActiveFamiliar ? Math.max(0, baseEe - 1) : baseEe;
+
+			// 6. Check enough ether
+			if (totalCost > finalEe) {
+				database.data.close();
+				return fail({
+					code: "INSUFFICIENT_ETHER",
+					message: `EE insuficiente: você tem ${finalEe} EE e precisa de ${totalCost} EE.`,
+					details: {
+						availableEther: finalEe,
+						requiredEther: totalCost,
+						spellId: spell.id,
+					},
+				});
+			}
+
+			// 7. Inject status effects into the target
+			const appliedEffects = [];
+			for (const effectType of spell.targetEffects) {
+				const duration =
+					spell.baseDuration +
+					inputPayload.upcastLevel *
+						spell.upcastFormula.durationIncreasePerCircle;
+				const newEffect: NewCharacterStatusEffectRecord = {
+					id: crypto.randomUUID(),
+					characterId: target.id,
+					type: effectType as NewCharacterStatusEffectRecord["type"],
+					severity: 1,
+					severityMax: 3,
+					isAggravated: false,
+					metadata: null,
+					durationTurns: duration > 0 ? duration : null,
+					createdAt: new Date().toISOString(),
+					updatedAt: new Date().toISOString(),
+				};
+				const saveEffectRes = await repository.saveStatusEffect(newEffect);
+				if (!saveEffectRes.success) {
+					database.data.close();
+					return fail({
+						code: "DATABASE_FILE_WRITE_FAILED",
+						message: `Could not save status effect for target: ${saveEffectRes.error.message}`,
+						details: { innerError: saveEffectRes.error },
+					});
+				}
+				appliedEffects.push(saveEffectRes.data);
+			}
+
+			// 8. Export and write database file
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			database.data.close();
+
+			if (!written.success) {
+				return fail(written.error);
+			}
+
+			return ok({
+				success: true,
+				casterId: caster.id,
+				targetId: target.id,
+				spellId: spell.id,
+				totalEtherCost: totalCost,
+				effectsApplied: appliedEffects,
+			});
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not process spell cast in SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
 		}
@@ -1280,6 +1599,104 @@ export class SqliteOpfsBootstrapService {
 			return fail({
 				code: "DATABASE_FILE_WRITE_FAILED",
 				message: "Could not save faction to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveSocialLedger(
+		ledger: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleFactionRepository(db as any);
+
+			const result = await repository.saveLedger(ledger);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save social ledger to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findSocialLedger(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleFactionRepository(db as any);
+
+			const result = await repository.getLedger(id);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load social ledger from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
 		}
@@ -3905,6 +4322,600 @@ export class SqliteOpfsBootstrapService {
 			});
 		}
 		return ok(result.data);
+	}
+
+	public async saveLoreEncounter(
+		encounter: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleLoreRepository(db as any);
+
+			const result = await repository.saveEncounter(encounter);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save lore encounter in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findLoreEncounter(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleLoreRepository(db as any);
+
+			const result = await repository.findEncounterById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not find lore encounter in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listLoreEncountersByTile(
+		tileId: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleLoreRepository(db as any);
+
+			const result = await repository.listEncountersByTile(tileId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list lore encounters by tile in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listAllLoreEncounters(): Promise<
+		Result<any, SqliteBootstrapFailure>
+	> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleLoreRepository(db as any);
+
+			const result = await repository.listAllEncounters();
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list all lore encounters in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveCampaignRumor(
+		rumor: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleLoreRepository(db as any);
+
+			const result = await repository.saveRumor(rumor);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save campaign rumor in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findCampaignRumor(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleLoreRepository(db as any);
+
+			const result = await repository.findRumorById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not find campaign rumor in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listCampaignRumorsByTile(
+		tileId: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleLoreRepository(db as any);
+
+			const result = await repository.listRumorsByTile(tileId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list campaign rumors by tile in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listAllCampaignRumors(): Promise<
+		Result<any, SqliteBootstrapFailure>
+	> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleLoreRepository(db as any);
+
+			const result = await repository.listAllRumors();
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list all campaign rumors in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async mutateWorldState(
+		worldStateMutations?: Array<{ key: string; value: any }>,
+		factionRenownMutations?: Array<{
+			characterId: string;
+			factionId: string;
+			value: number;
+		}>,
+	): Promise<Result<{ mutated: boolean }, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+
+			if (worldStateMutations && worldStateMutations.length > 0) {
+				for (const mutation of worldStateMutations) {
+					const valueJson = JSON.stringify(mutation.value);
+					const now = new Date().toISOString();
+					await db
+						.insert(worldStateEntries)
+						.values({
+							key: mutation.key,
+							valueJson,
+							updatedAt: now,
+						})
+						.onConflictDoUpdate({
+							target: worldStateEntries.key,
+							set: {
+								valueJson,
+								updatedAt: now,
+							},
+						})
+						.run();
+				}
+			}
+
+			if (factionRenownMutations && factionRenownMutations.length > 0) {
+				const { eq, and } = await import("drizzle-orm");
+				for (const mutation of factionRenownMutations) {
+					const now = new Date().toISOString();
+					const existing = await db
+						.select()
+						.from(characterReputation)
+						.where(
+							and(
+								eq(characterReputation.characterId, mutation.characterId),
+								eq(characterReputation.factionId, mutation.factionId),
+							),
+						)
+						.all();
+
+					if (existing.length > 0) {
+						await db
+							.update(characterReputation)
+							.set({
+								value: mutation.value,
+								updatedAt: now,
+							})
+							.where(
+								and(
+									eq(characterReputation.characterId, mutation.characterId),
+									eq(characterReputation.factionId, mutation.factionId),
+								),
+							)
+							.run();
+					} else {
+						const record = {
+							id: crypto.randomUUID(),
+							characterId: mutation.characterId,
+							factionId: mutation.factionId,
+							value: mutation.value,
+							updatedAt: now,
+						};
+						await db.insert(characterReputation).values(record).run();
+					}
+				}
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			database.data.close();
+
+			if (!written.success) {
+				return fail(written.error);
+			}
+
+			return ok({ mutated: true });
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not mutate world state/renown in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async tickClockManual(
+		clockId: string,
+		delta: number,
+	): Promise<
+		Result<
+			{ clock: any; eventTriggered: string | null },
+			SqliteBootstrapFailure
+		>
+	> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const { eq } = await import("drizzle-orm");
+
+			const rows = await db
+				.select()
+				.from(progressClocks)
+				.where(eq(progressClocks.id, clockId))
+				.all();
+			const clock = rows[0];
+
+			if (!clock) {
+				database.data.close();
+				return fail({
+					code: "CLOCK_NOT_FOUND",
+					message: "Clock not found in SQLite database.",
+				});
+			}
+
+			const newFilled = Math.min(
+				clock.totalSegments,
+				Math.max(0, clock.filledSegments + delta),
+			);
+			const isCompletedNow = newFilled >= clock.totalSegments;
+			const isCompletedBefore = clock.isCompleted === true;
+			const eventTriggered =
+				isCompletedNow && !isCompletedBefore && clock.triggerEvent
+					? clock.triggerEvent
+					: null;
+
+			await db
+				.update(progressClocks)
+				.set({
+					filledSegments: newFilled,
+					isCompleted: isCompletedNow,
+				})
+				.where(eq(progressClocks.id, clockId))
+				.run();
+
+			const updatedClock = {
+				...clock,
+				filledSegments: newFilled,
+				isCompleted: isCompletedNow,
+				triggerEvent: clock.triggerEvent ?? null,
+			};
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			database.data.close();
+
+			if (!written.success) {
+				return fail(written.error);
+			}
+
+			return ok({
+				clock: updatedClock,
+				eventTriggered,
+			});
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not tick clock manually in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async forceSpawnActor(actor: {
+		actorId: string;
+		label: string;
+		profile: "brute" | "sniper" | "controller";
+		hitPoints: number;
+		initiativeBase: number;
+	}): Promise<
+		Result<{ spawned: boolean; actor: any }, SqliteBootstrapFailure>
+	> {
+		return ok({
+			spawned: true,
+			actor,
+		});
 	}
 
 	private applyPendingMigrations(

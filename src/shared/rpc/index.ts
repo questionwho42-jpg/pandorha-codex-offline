@@ -1,3 +1,4 @@
+export { RpcCache, rpcCache } from "./model/rpcCache";
 export type {
 	JsonObject,
 	JsonValue,

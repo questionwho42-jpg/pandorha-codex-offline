@@ -18,6 +18,12 @@ import mercenaryMigrationSql from "../../../../drizzle/0016_spotty_shiver_man.sq
 import espionageMigrationSql from "../../../../drizzle/0017_dark_richard_fisk.sql?raw";
 import dungeonMigrationSql from "../../../../drizzle/0018_condemned_menace.sql?raw";
 import siegeMigrationSql from "../../../../drizzle/0019_tan_roughhouse.sql?raw";
+import loreMigrationSql from "../../../../drizzle/0020_abnormal_the_spike.sql?raw";
+import statusEffectsDurationMigrationSql from "../../../../drizzle/0021_status_effects_duration.sql?raw";
+import statusEffectsMissingColumnsMigrationSql from "../../../../drizzle/0022_status_effects_missing_columns.sql?raw";
+import durabilityMigrationSql from "../../../../drizzle/0023_add_crafted_item_durability_state.sql?raw";
+import socialCombatMigrationSql from "../../../../drizzle/0024_add_dialogue_state_social_combat_fields.sql?raw";
+import characterTensionMigrationSql from "../../../../drizzle/0025_add_character_tension_meter.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -100,5 +106,29 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0019_tan_roughhouse",
 		sql: siegeMigrationSql,
+	},
+	{
+		id: "0020_abnormal_the_spike",
+		sql: loreMigrationSql,
+	},
+	{
+		id: "0021_status_effects_duration",
+		sql: statusEffectsDurationMigrationSql,
+	},
+	{
+		id: "0022_status_effects_missing_columns",
+		sql: statusEffectsMissingColumnsMigrationSql,
+	},
+	{
+		id: "0023_add_crafted_item_durability_state",
+		sql: durabilityMigrationSql,
+	},
+	{
+		id: "0024_add_dialogue_state_social_combat_fields",
+		sql: socialCombatMigrationSql,
+	},
+	{
+		id: "0025_add_character_tension_meter",
+		sql: characterTensionMigrationSql,
 	},
 ];

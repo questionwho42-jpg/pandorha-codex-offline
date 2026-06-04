@@ -1,3 +1,4 @@
+import type { LevelUpInput } from "$lib/entities/character/model/characterSchema";
 import {
 	createRpcFailureResponse,
 	createRpcSuccessResponse,
@@ -277,6 +278,24 @@ export async function handleDatabaseWorkerRequest(
 			});
 		}
 
+		case "APPLY_LEVEL_UP": {
+			const result = await input.bootstrapService.applyLevelUp(
+				command.payload.levelUpInput as LevelUpInput,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
 		case "SAVE_STATUS_EFFECT": {
 			const result = await input.bootstrapService.saveStatusEffect(
 				command.payload.effect,
@@ -327,6 +346,27 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
+			});
+		}
+
+		case "CAST_SPELL": {
+			const result = await input.bootstrapService.castSpell({
+				casterId: command.payload.casterId,
+				targetId: command.payload.targetId,
+				spellId: command.payload.spellId,
+				upcastLevel: command.payload.upcastLevel,
+			});
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
 			});
 		}
 
@@ -468,6 +508,42 @@ export async function handleDatabaseWorkerRequest(
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
 				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "SAVE_SOCIAL_LEDGER": {
+			const result = await input.bootstrapService.saveSocialLedger(
+				command.payload.ledger,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_SOCIAL_LEDGER": {
+			const result = await input.bootstrapService.findSocialLedger(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
 			});
 		}
 
@@ -626,6 +702,146 @@ export async function handleDatabaseWorkerRequest(
 			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
+			});
+		}
+
+		case "SAVE_LORE_ENCOUNTER": {
+			const result = await input.bootstrapService.saveLoreEncounter(
+				command.payload.encounter,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "FIND_LORE_ENCOUNTER": {
+			const result = await input.bootstrapService.findLoreEncounter(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "LIST_LORE_ENCOUNTERS_BY_TILE": {
+			const result = await input.bootstrapService.listLoreEncountersByTile(
+				command.payload.tileId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "LIST_ALL_LORE_ENCOUNTERS": {
+			const result = await input.bootstrapService.listAllLoreEncounters();
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "SAVE_CAMPAIGN_RUMOR": {
+			const result = await input.bootstrapService.saveCampaignRumor(
+				command.payload.rumor,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "FIND_CAMPAIGN_RUMOR": {
+			const result = await input.bootstrapService.findCampaignRumor(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "LIST_CAMPAIGN_RUMORS_BY_TILE": {
+			const result = await input.bootstrapService.listCampaignRumorsByTile(
+				command.payload.tileId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "LIST_ALL_CAMPAIGN_RUMORS": {
+			const result = await input.bootstrapService.listAllCampaignRumors();
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -1379,6 +1595,62 @@ export async function handleDatabaseWorkerRequest(
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
 				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "MUTATE_WORLD_STATE": {
+			const result = await input.bootstrapService.mutateWorldState(
+				command.payload.worldStateMutations,
+				command.payload.factionRenownMutations,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "TICK_CLOCK_MANUAL": {
+			const result = await input.bootstrapService.tickClockManual(
+				command.payload.clockId,
+				command.payload.delta,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FORCE_SPAWN_ACTOR": {
+			const result = await input.bootstrapService.forceSpawnActor(
+				command.payload,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
 			});
 		}
 

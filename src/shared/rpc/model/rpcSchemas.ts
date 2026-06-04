@@ -1,4 +1,8 @@
 import { z } from "zod/v4";
+import {
+	worldStateKeySchema,
+	worldStateValueSchema,
+} from "$lib/entities/world-state/model/worldStateSchema";
 import type {
 	JsonObject,
 	JsonValue,
@@ -20,6 +24,7 @@ export const rpcCommandTypeSchema = z.enum([
 	"SAVE_STATUS_EFFECT",
 	"FIND_STATUS_EFFECTS",
 	"DELETE_STATUS_EFFECT",
+	"CAST_SPELL",
 	"SAVE_BASTION",
 	"FIND_BASTION",
 	"SAVE_BASTION_MODULE",
@@ -33,6 +38,8 @@ export const rpcCommandTypeSchema = z.enum([
 	"LIST_REPUTATIONS",
 	"SAVE_BLOOD_DEBT",
 	"LIST_BLOOD_DEBTS",
+	"SAVE_SOCIAL_LEDGER",
+	"FIND_SOCIAL_LEDGER",
 	"SAVE_CLOCK",
 	"FIND_CLOCK",
 	"LIST_CLOCKS",
@@ -44,6 +51,14 @@ export const rpcCommandTypeSchema = z.enum([
 	"FIND_QUEST",
 	"LIST_QUESTS",
 	"DELETE_QUEST",
+	"SAVE_LORE_ENCOUNTER",
+	"FIND_LORE_ENCOUNTER",
+	"LIST_LORE_ENCOUNTERS_BY_TILE",
+	"LIST_ALL_LORE_ENCOUNTERS",
+	"SAVE_CAMPAIGN_RUMOR",
+	"FIND_CAMPAIGN_RUMOR",
+	"LIST_CAMPAIGN_RUMORS_BY_TILE",
+	"LIST_ALL_CAMPAIGN_RUMORS",
 	"SAVE_COHESION",
 	"FIND_COHESION",
 	"SAVE_SIGNATURE",
@@ -80,6 +95,10 @@ export const rpcCommandTypeSchema = z.enum([
 	"CREATE_SAVE_SLOT",
 	"CLONE_SAVE_SLOT",
 	"DELETE_SAVE_SLOT",
+	"MUTATE_WORLD_STATE",
+	"TICK_CLOCK_MANUAL",
+	"FORCE_SPAWN_ACTOR",
+	"APPLY_LEVEL_UP",
 ]);
 
 export const jsonSerializableValueSchema = z.custom<JsonValue>(
@@ -209,6 +228,17 @@ export const deleteStatusEffectRequestSchema = z.object({
 	}),
 });
 
+export const castSpellRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("CAST_SPELL"),
+	payload: z.object({
+		casterId: z.string().min(1),
+		targetId: z.string().min(1),
+		spellId: z.string().min(1),
+		upcastLevel: z.number().int().min(0).max(10),
+	}),
+});
+
 export const saveBastionRequestSchema = z.object({
 	messageId: rpcMessageIdSchema,
 	type: z.literal("SAVE_BASTION"),
@@ -312,6 +342,22 @@ export const listBloodDebtsRequestSchema = z.object({
 	}),
 });
 
+export const saveSocialLedgerRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_SOCIAL_LEDGER"),
+	payload: z.object({
+		ledger: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findSocialLedgerRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_SOCIAL_LEDGER"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
 export const saveClockRequestSchema = z.object({
 	messageId: rpcMessageIdSchema,
 	type: z.literal("SAVE_CLOCK"),
@@ -395,6 +441,66 @@ export const deleteQuestRequestSchema = z.object({
 	payload: z.object({
 		id: z.string().min(1),
 	}),
+});
+
+export const saveLoreEncounterRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_LORE_ENCOUNTER"),
+	payload: z.object({
+		encounter: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findLoreEncounterRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_LORE_ENCOUNTER"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const listLoreEncountersByTileRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_LORE_ENCOUNTERS_BY_TILE"),
+	payload: z.object({
+		tileId: z.string().min(1),
+	}),
+});
+
+export const listAllLoreEncountersRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_ALL_LORE_ENCOUNTERS"),
+	payload: z.object({}),
+});
+
+export const saveCampaignRumorRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_CAMPAIGN_RUMOR"),
+	payload: z.object({
+		rumor: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findCampaignRumorRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_CAMPAIGN_RUMOR"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const listCampaignRumorsByTileRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_CAMPAIGN_RUMORS_BY_TILE"),
+	payload: z.object({
+		tileId: z.string().min(1),
+	}),
+});
+
+export const listAllCampaignRumorsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_ALL_CAMPAIGN_RUMORS"),
+	payload: z.object({}),
 });
 
 export const saveCohesionRequestSchema = z.object({
@@ -676,6 +782,59 @@ export const scrapEquipmentRequestSchema = z.object({
 	}),
 });
 
+export const mutateWorldStateRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("MUTATE_WORLD_STATE"),
+	payload: z.object({
+		worldStateMutations: z
+			.array(
+				z.object({
+					key: worldStateKeySchema,
+					value: worldStateValueSchema,
+				}),
+			)
+			.optional(),
+		factionRenownMutations: z
+			.array(
+				z.object({
+					characterId: z.string().min(1),
+					factionId: z.string().min(1),
+					value: z.number().int(),
+				}),
+			)
+			.optional(),
+	}),
+});
+
+export const tickClockManualRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("TICK_CLOCK_MANUAL"),
+	payload: z.object({
+		clockId: z.string().uuid("ID de relógio inválido"),
+		delta: z.number().int(),
+	}),
+});
+
+export const forceSpawnActorRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FORCE_SPAWN_ACTOR"),
+	payload: z.object({
+		actorId: z.string().min(1),
+		label: z.string().min(1),
+		profile: z.enum(["brute", "sniper", "controller"]),
+		hitPoints: z.number().int().min(1),
+		initiativeBase: z.number().int().min(0),
+	}),
+});
+
+export const applyLevelUpRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("APPLY_LEVEL_UP"),
+	payload: z.object({
+		levelUpInput: jsonSerializableObjectSchema,
+	}),
+});
+
 export const rpcRequestSchema = z.discriminatedUnion("type", [
 	initDatabaseRequestSchema,
 	saveGameSnapshotRequestSchema,
@@ -685,6 +844,7 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	saveStatusEffectRequestSchema,
 	findStatusEffectsRequestSchema,
 	deleteStatusEffectRequestSchema,
+	castSpellRequestSchema,
 	saveBastionRequestSchema,
 	findBastionRequestSchema,
 	saveBastionModuleRequestSchema,
@@ -698,6 +858,8 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	listReputationsRequestSchema,
 	saveBloodDebtRequestSchema,
 	listBloodDebtsRequestSchema,
+	saveSocialLedgerRequestSchema,
+	findSocialLedgerRequestSchema,
 	saveClockRequestSchema,
 	findClockRequestSchema,
 	listClocksRequestSchema,
@@ -749,6 +911,18 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	createSaveSlotRequestSchema,
 	cloneSaveSlotRequestSchema,
 	deleteSaveSlotRequestSchema,
+	saveLoreEncounterRequestSchema,
+	findLoreEncounterRequestSchema,
+	listLoreEncountersByTileRequestSchema,
+	listAllLoreEncountersRequestSchema,
+	saveCampaignRumorRequestSchema,
+	findCampaignRumorRequestSchema,
+	listCampaignRumorsByTileRequestSchema,
+	listAllCampaignRumorsRequestSchema,
+	mutateWorldStateRequestSchema,
+	tickClockManualRequestSchema,
+	forceSpawnActorRequestSchema,
+	applyLevelUpRequestSchema,
 ]);
 
 const rpcErrorSchema = z.object({
