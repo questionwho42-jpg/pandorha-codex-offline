@@ -21,3 +21,11 @@ export type WorldTileRepositoryFailure = {
 	readonly message: string;
 	readonly details?: Readonly<Record<string, unknown>>;
 };
+
+export type HexcrawlDirection =
+	| "north"
+	| "northeast"
+	| "southeast"
+	| "south"
+	| "southwest"
+	| "northwest";

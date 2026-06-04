@@ -37,6 +37,9 @@ class FakeCharacterStats implements ICharacterStats {
 	public get maxHp() {
 		return 20;
 	}
+	public get maxEe() {
+		return this.level + this.mental;
+	}
 	public get initiativeBase() {
 		return 5;
 	}
@@ -640,5 +643,122 @@ describe("EncounterService - Testes de Batedor (Scout)", () => {
 		if (resNegativo.success) {
 			expect(resNegativo.data.cdBase).toBe(12);
 		}
+	});
+
+	describe("resolveNavigationCheck", () => {
+		it("resolves successfully when target tile is mapped without rolling dice", () => {
+			const service = new EncounterService();
+			const stats = new FakeCharacterStats();
+			const tile = createFakeTile({ isMapped: true });
+
+			const result = service.resolveNavigationCheck({
+				guideStats: stats,
+				targetTile: tile,
+				ritmo: "normal",
+				climaAdverso: false,
+				visibilidadeNula: false,
+				directionRequested: "north",
+			});
+
+			expect(result.success).toBe(true);
+			if (result.success) {
+				const data = result.data;
+				expect(data.outcome).toBe("success");
+				expect(data.isDeviated).toBe(false);
+				expect(data.directionResolved).toBe("north");
+				expect(data.diceRoll).toBe(20);
+			}
+		});
+
+		it("resolves successfully on a successful guide navigation roll", () => {
+			const service = new EncounterService();
+			const stats = new FakeCharacterStats(2, 3, 1); // Mental = 3, Nivel = 1 -> Modificador = 4
+			const tile = createFakeTile({ regionTier: 1, biome: "road" }); // CD 12
+
+			const result = service.resolveNavigationCheck({
+				guideStats: stats,
+				targetTile: tile,
+				ritmo: "normal",
+				climaAdverso: false,
+				visibilidadeNula: false,
+				diceRoll: 8, // 8 + 4 = 12 (atinge CD exatamente)
+				directionRequested: "northeast",
+			});
+
+			expect(result.success).toBe(true);
+			if (result.success) {
+				const data = result.data;
+				expect(data.outcome).toBe("success");
+				expect(data.isDeviated).toBe(false);
+				expect(data.directionResolved).toBe("northeast");
+			}
+		});
+
+		it("fails navigation and resolves a drifted direction based on d6 roll on guide failure", () => {
+			const service = new EncounterService();
+			const stats = new FakeCharacterStats(2, 3, 1); // Modificador = 4
+			const tile = createFakeTile({ regionTier: 1, biome: "road" }); // CD 12
+
+			const result = service.resolveNavigationCheck({
+				guideStats: stats,
+				targetTile: tile,
+				ritmo: "normal",
+				climaAdverso: false,
+				visibilidadeNula: false,
+				diceRoll: 7, // 7 + 4 = 11 (Falha!)
+				diceRollD6: 3, // 3 no d6 secreto mapeia para "southeast"
+				directionRequested: "north",
+			});
+
+			expect(result.success).toBe(true);
+			if (result.success) {
+				const data = result.data;
+				expect(data.outcome).toBe("failure");
+				expect(data.isDeviated).toBe(true);
+				expect(data.directionResolved).toBe("southeast"); // Mapeado por 3
+			}
+		});
+
+		it("respects advantages and disadvantages from weather and travel pace", () => {
+			const service = new EncounterService();
+			const stats = new FakeCharacterStats(2, 3, 1);
+			const tile = createFakeTile({ regionTier: 1, biome: "road" });
+
+			// Cautious pace -> Vantagem
+			const resultAdv = service.resolveNavigationCheck({
+				guideStats: stats,
+				targetTile: tile,
+				ritmo: "cautious",
+				climaAdverso: false,
+				visibilidadeNula: false,
+				diceRoll: 10,
+				diceRollAlt: 15,
+				directionRequested: "south",
+			});
+
+			expect(resultAdv.success).toBe(true);
+			if (resultAdv.success) {
+				expect(resultAdv.data.rollState).toBe("advantage");
+				expect(resultAdv.data.effectiveDice).toBe(15);
+			}
+
+			// Fast pace -> Desvantagem
+			const resultDisadv = service.resolveNavigationCheck({
+				guideStats: stats,
+				targetTile: tile,
+				ritmo: "fast",
+				climaAdverso: false,
+				visibilidadeNula: false,
+				diceRoll: 10,
+				diceRollAlt: 5,
+				directionRequested: "south",
+			});
+
+			expect(resultDisadv.success).toBe(true);
+			if (resultDisadv.success) {
+				expect(resultDisadv.data.rollState).toBe("disadvantage");
+				expect(resultDisadv.data.effectiveDice).toBe(5);
+			}
+		});
 	});
 });

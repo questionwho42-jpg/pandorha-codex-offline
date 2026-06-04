@@ -2,6 +2,29 @@ import type { ICharacterStats } from "$lib/entities/character/domain/StatusEffec
 import { DiceService } from "$lib/shared/dice";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { WorldTileRecord } from "../model/worldTileSchema";
+import type { HexcrawlDirection } from "../model/worldTileTypes";
+
+export interface NavigationCheckResult {
+	readonly diceRoll: number;
+	readonly diceRollAlt?: number | undefined;
+	readonly effectiveDice: number;
+	readonly attributeValue: number;
+	readonly totalRoll: number;
+	readonly cdFinal: number;
+	readonly cdBase: number;
+	readonly modifiersApplied: {
+		readonly difficultTerrain: boolean;
+		readonly climaAdverso: boolean;
+		readonly visibilidadeNula: boolean;
+	};
+	readonly netAdvantage: number;
+	readonly rollState: "advantage" | "disadvantage" | "normal";
+	readonly margin: number;
+	readonly outcome: "success" | "failure";
+	readonly directionRequested: HexcrawlDirection;
+	readonly directionResolved: HexcrawlDirection;
+	readonly isDeviated: boolean;
+}
 
 export interface EncounterEvent {
 	readonly type: "combat" | "trap" | "hazard";
@@ -356,7 +379,7 @@ export class EncounterService {
 		readonly isCriticalFailure: boolean;
 		readonly encounterIndex?: number | undefined;
 	}): EncounterEvent {
-		const list = TIER_ENCOUNTERS[params.tier] ?? TIER_ENCOUNTERS[1]!;
+		const list = TIER_ENCOUNTERS[params.tier] ?? TIER_ENCOUNTERS[1] ?? [];
 
 		let index: number;
 		if (params.encounterIndex !== undefined) {
@@ -373,7 +396,17 @@ export class EncounterService {
 			}
 		}
 
-		const encounter = list[index]!;
+		const encounter = list[index];
+		if (!encounter) {
+			return {
+				type: "combat",
+				name: "Encontro Indefinido",
+				description: "Nenhum detalhe extra encontrado.",
+				tier: params.tier,
+				isSurpriseForParty: params.isCriticalFailure,
+				isSurpriseForEnemies: false,
+			};
+		}
 
 		return {
 			type: encounter.type,
@@ -385,5 +418,159 @@ export class EncounterService {
 			isSurpriseForParty: params.isCriticalFailure,
 			isSurpriseForEnemies: false,
 		};
+	}
+
+	public resolveNavigationCheck(params: {
+		readonly guideStats: ICharacterStats;
+		readonly targetTile: WorldTileRecord;
+		readonly ritmo: "fast" | "normal" | "cautious";
+		readonly climaAdverso: boolean;
+		readonly visibilidadeNula: boolean;
+		readonly diceRoll?: number;
+		readonly diceRollAlt?: number;
+		readonly diceRollD6?: number;
+		readonly directionRequested: HexcrawlDirection;
+	}): Result<NavigationCheckResult, EncounterFailure> {
+		if (params.targetTile.isMapped) {
+			return ok({
+				diceRoll: 20,
+				effectiveDice: 20,
+				attributeValue: params.guideStats.mental + params.guideStats.level,
+				totalRoll: 20 + params.guideStats.mental + params.guideStats.level,
+				cdFinal: 0,
+				cdBase: 0,
+				modifiersApplied: {
+					difficultTerrain: false,
+					climaAdverso: false,
+					visibilidadeNula: false,
+				},
+				netAdvantage: 0,
+				rollState: "normal",
+				margin: 20,
+				outcome: "success",
+				directionRequested: params.directionRequested,
+				directionResolved: params.directionRequested,
+				isDeviated: false,
+			});
+		}
+
+		const effectiveTier = params.targetTile.regionTier;
+		const cdBase = 9 + effectiveTier * 3;
+
+		const isDifficultTerrain = ["forest", "marsh", "ridge"].includes(
+			params.targetTile.biome,
+		);
+		const modifierTerrain = isDifficultTerrain ? 3 : 0;
+		const modifierClima = params.climaAdverso ? 3 : 0;
+		const modifierVisibilidade = params.visibilidadeNula ? 5 : 0;
+
+		const cdFinal =
+			cdBase + modifierTerrain + modifierClima + modifierVisibilidade;
+
+		const vantagens = params.ritmo === "cautious" ? 1 : 0;
+		const desvantagens =
+			(params.ritmo === "fast" ? 1 : 0) + (params.climaAdverso ? 1 : 0);
+		const netAdvantage = vantagens - desvantagens;
+
+		let rollState: "advantage" | "disadvantage" | "normal" = "normal";
+		if (netAdvantage > 0) {
+			rollState = "advantage";
+		} else if (netAdvantage < 0) {
+			rollState = "disadvantage";
+		}
+
+		let diceRoll: number;
+		if (params.diceRoll !== undefined) {
+			diceRoll = params.diceRoll;
+		} else {
+			const rollResult = this.diceService.rollD20({
+				reason: "Teste de Guia (Navegação)",
+			});
+			if (!rollResult.success) {
+				return fail({
+					code: "DICE_ROLL_ERROR",
+					message: rollResult.error.message,
+				});
+			}
+			diceRoll = rollResult.data.naturalRoll;
+		}
+
+		let diceRollAlt: number | undefined = params.diceRollAlt;
+		if (diceRollAlt === undefined && rollState !== "normal") {
+			const rollResultAlt = this.diceService.rollD20({
+				reason: "Teste de Guia (Navegação) - Alternativo",
+			});
+			if (!rollResultAlt.success) {
+				return fail({
+					code: "DICE_ROLL_ERROR",
+					message: rollResultAlt.error.message,
+				});
+			}
+			diceRollAlt = rollResultAlt.data.naturalRoll;
+		}
+
+		let effectiveDice = diceRoll;
+		if (rollState === "advantage" && diceRollAlt !== undefined) {
+			effectiveDice = Math.max(diceRoll, diceRollAlt);
+		} else if (rollState === "disadvantage" && diceRollAlt !== undefined) {
+			effectiveDice = Math.min(diceRoll, diceRollAlt);
+		}
+
+		const attributeValue = params.guideStats.mental + params.guideStats.level;
+		const totalRoll = effectiveDice + attributeValue;
+		const margin = totalRoll - cdFinal;
+
+		const outcome = margin >= 0 ? "success" : "failure";
+
+		let directionResolved = params.directionRequested;
+		let isDeviated = false;
+
+		if (outcome === "failure") {
+			isDeviated = true;
+			let d6Roll = params.diceRollD6;
+			if (d6Roll === undefined) {
+				const rollResult = this.diceService.rollDie({
+					sides: 6,
+					reason: "Desvio de Navegação",
+				});
+				if (rollResult.success) {
+					d6Roll = rollResult.data.naturalRoll;
+				} else {
+					d6Roll = 1;
+				}
+			}
+
+			const NAVIGATION_DIRECTIONS: HexcrawlDirection[] = [
+				"north",
+				"northeast",
+				"southeast",
+				"south",
+				"southwest",
+				"northwest",
+			];
+			directionResolved = NAVIGATION_DIRECTIONS[(d6Roll - 1) % 6]!;
+		}
+
+		return ok({
+			diceRoll,
+			diceRollAlt,
+			effectiveDice,
+			attributeValue,
+			totalRoll,
+			cdFinal,
+			cdBase,
+			modifiersApplied: {
+				difficultTerrain: isDifficultTerrain,
+				climaAdverso: params.climaAdverso,
+				visibilidadeNula: params.visibilidadeNula,
+			},
+			netAdvantage,
+			rollState,
+			margin,
+			outcome,
+			directionRequested: params.directionRequested,
+			directionResolved,
+			isDeviated,
+		});
 	}
 }

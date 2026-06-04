@@ -1,3 +1,4 @@
+export * from "./domain/TravelRoleService";
 export * from "./domain/WorldTileCatalogRepository";
 export * from "./domain/WorldTileCatalogService";
 export * from "./model/worldTileCatalog";
