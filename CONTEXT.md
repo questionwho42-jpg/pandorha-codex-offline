@@ -105,6 +105,14 @@ _Avoid_: Especial ativado, surto heroico
 Técnica de alto impacto vinculada ao nível do Andarilho (desbloqueadas nos níveis 5 e 10) que não consome EE ou Ações comuns, mas exige o estado de Limit Break ou condições diárias específicas de classe.
 _Avoid_: Magia final, golpe especial
 
+**Papel Tático (Tactical Role):**
+A classificação comportamental de uma criatura ou monstro em combate (ex: Bruto, Assassino, Suporte) que determina suas prioridades de alvo e regras de decisão na geração de comandos para a ActionQueue.
+_Avoid_: Classe do monstro, comportamento simples
+
+**Espólios de Guerra (Loot):**
+O conjunto de recompensas (pontos de experiência, cobres e itens físicos de refugo) concedido aos Andarilhos no encerramento de um combate vitorioso e persistido de forma transacional atômica no banco SQLite.
+_Avoid_: Drops, recompensas soltas, saques do chão
+
 ---
 
 ## Domínio de Magia

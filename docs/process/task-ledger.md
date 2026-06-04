@@ -8,21 +8,57 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## In Progress
 <!-- pandorha-ledger:in-progress -->
+<!-- pandorha-task:20260604-123000-loop-tatico-e-sobrevivencia -->
+### Loop Tatico e Sobrevivencia
+- id: 20260604-123000-loop-tatico-e-sobrevivencia
+- status: in-progress
+- kind: task
+- planned: yes
+- started_at: 2026-06-04T12:23:43-03:00
+- finished_at: pending
+- model_started: gemini-2.5-pro
+- model_finished: pending
+- last_modified_at: 2026-06-04T12:23:43-03:00
+- branch: task/combat-survival
+- commit_at_start: 5ab4129 style: format App entrypoint and update task ledger logs
+- summary: Implementacao das Fases 68 a 72 do Pandorha Engine, cobrindo a transicao mapa-combate local-first, IA inimiga baseada na ActionQueue, loots atomicos SQLite, mercenarios por ticks de exploracao e climatologia reativa.
+- last_change: created task record
+#### Files At Start
+- CONTEXT.md
+- docs/process/task-ledger.md
+- docs/adr/ADR-009-combat-hexcrawl-transition.md
+- docs/adr/ADR-010-tactical-ai-combat.md
+- docs/adr/ADR-011-combat-loot-persistence.md
+- docs/adr/ADR-012-mercenary-dispatch-time.md
+- docs/adr/ADR-013-reactive-weather-march.md
+#### Checkpoints
+#### Checkpoint 2026-06-04T12:23:43-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gemini-2.5-pro
+<!-- /pandorha-task:20260604-123000-loop-tatico-e-sobrevivencia -->
+
+<!-- /pandorha-ledger:in-progress -->
+
+## Completed
+<!-- pandorha-ledger:completed -->
 <!-- pandorha-task:20260604-113201-consolidacao-das-uis-de-campanha -->
 ### Consolidacao das UIs de Campanha
 - id: 20260604-113201-consolidacao-das-uis-de-campanha
-- status: in-progress
+- status: completed
 - kind: feature
 - planned: yes
 - started_at: 2026-06-04T11:32:01-03:00
-- finished_at: pending
+- finished_at: 2026-06-04T11:44:57-03:00
 - model_started: gpt-5.5 high-reasoning final review; local automation zero-token
-- model_finished: pending
-- last_modified_at: 2026-06-04T11:32:01-03:00
+- model_finished: gemini-2.5-pro
+- last_modified_at: 2026-06-04T11:44:57-03:00
 - branch: task/siege-and-cockpit
 - commit_at_start: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
 - summary: Consolidacao incremental convencional do backlog de UI e integracao de sistemas existentes
-- last_change: created task record
+- last_change: Consolidacao e integracao de todas as logicas de banco, migrations, dominios (entities) e panels (features) locais do Pandorha Engine, validando sintaxe Svelte 5, Biome e executando a esteira de 24 commits incrementais limpos.
 #### Files At Start
 - CONTEXT.md
 - biome.json
@@ -72,12 +108,14 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - Risks: unknown until implementation begins
 - Improvements: automate repeated manual steps where practical
 - Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-04T11:44:57-03:00
+- Done: Consolidacao e integracao de todas as logicas de banco, migrations, dominios (entities) e panels (features) locais do Pandorha Engine, validando sintaxe Svelte 5, Biome e executando a esteira de 24 commits incrementais limpos.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gemini-2.5-pro
 <!-- /pandorha-task:20260604-113201-consolidacao-das-uis-de-campanha -->
-
-<!-- /pandorha-ledger:in-progress -->
-
-## Completed
-<!-- pandorha-ledger:completed -->
 <!-- pandorha-task:20260602-223552-fase-67-logistica-e-a-cascata-de-exaustao -->
 ### Fase 67: Logistica e a Cascata de Exaustao
 - id: 20260602-223552-fase-67-logistica-e-a-cascata-de-exaustao
