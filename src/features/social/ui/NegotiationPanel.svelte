@@ -1,11 +1,12 @@
 <script lang="ts">
 import { onMount } from "svelte";
 import type { CharacterRecord } from "$lib/entities/character/model/characterSchema";
+import { WorkerDialogueRepository } from "$lib/entities/dialogue/infrastructure/WorkerDialogueRepository";
 import { WorkerCraftingRepository } from "$lib/entities/equipment/infrastructure/WorkerCraftingRepository";
 import type { CharacterCraftedItemRecord } from "$lib/entities/equipment/model/craftingSchema";
 import { OFFICIAL_EQUIPMENT } from "$lib/entities/equipment/model/equipmentCatalog";
 import { fail, ok } from "$lib/shared/lib/result";
-import { NegotiationService } from "../domain/NegotiationService";
+import { SocialCombatEngine } from "../domain/SocialCombatEngine";
 
 interface Props {
 	characters: readonly CharacterRecord[];
@@ -16,10 +17,12 @@ let props: Props = $props();
 let characters = $derived(props.characters);
 
 // Servicos e Repositorios
-const negotiationService = new NegotiationService();
+const dialogueRepository = new WorkerDialogueRepository();
+const socialEngine = new SocialCombatEngine(dialogueRepository);
 const craftingRepository = new WorkerCraftingRepository();
 
 // Estado da Negociacao
+let selectedNpcId = $state("npc-merchant");
 let selectedOratorId = $state("");
 let selectedAxis = $state("social");
 let selectedManeuver = $state<
@@ -33,7 +36,8 @@ let targetPatience = $state(10);
 let targetPatienceMax = $state(10);
 let persuasionSegments = $state(0);
 let persuasionSegmentsMax = $state(6);
-let targetDisposition = $state<"friendly" | "neutral" | "hostile">("neutral");
+let targetDisposition = $state("neutral");
+let activeEvents = $state<any[]>([]);
 
 let rollValue = $state(10);
 let dcValue = $state(12);
@@ -56,7 +60,7 @@ let genericEquipment = $state<{ id: string; label: string; count: number }[]>(
 );
 let recyclingLogs = $state<string[]>([]);
 
-// Carregar inventario ficticio e itens forjados
+// Carregar inventario e sincronizar negociacao
 onMount(async () => {
 	if (characters.length > 0) {
 		selectedOratorId = characters[0].id;
@@ -65,17 +69,49 @@ onMount(async () => {
 	await loadInventoryData();
 });
 
+async function loadSocialCombatState() {
+	if (!selectedOratorId || !selectedNpcId) return;
+
+	const res = await dialogueRepository.findByCharacterAndNpc(
+		selectedOratorId,
+		selectedNpcId,
+	);
+	if (res.success && res.data) {
+		const state = res.data;
+		if (state.patienceMax > 0) {
+			targetPatience = state.patienceCurrent;
+			targetPatienceMax = state.patienceMax;
+			persuasionSegments = state.persuasionCurrent;
+			persuasionSegmentsMax = state.persuasionMax;
+			targetDisposition = state.attitude;
+		} else {
+			const profile = socialEngine.getInitialNpcStats(selectedNpcId);
+			targetPatience = profile.patienceMax;
+			targetPatienceMax = profile.patienceMax;
+			persuasionSegments = 0;
+			persuasionSegmentsMax = profile.persuasionMax;
+			targetDisposition = profile.attitude;
+		}
+	} else {
+		const profile = socialEngine.getInitialNpcStats(selectedNpcId);
+		targetPatience = profile.patienceMax;
+		targetPatienceMax = profile.patienceMax;
+		persuasionSegments = 0;
+		persuasionSegmentsMax = profile.persuasionMax;
+		targetDisposition = profile.attitude;
+	}
+	activeEvents = [];
+}
+
 async function loadInventoryData() {
 	if (!selectedInventoryCharId) return;
 
-	// Mocking generic equipments in inventory for scrapping (normal inventory is not fully mapped in worker repo as separate entities, so we simulate available ones from catalog)
 	genericEquipment = OFFICIAL_EQUIPMENT.map((eq) => ({
 		id: eq.id,
 		label: eq.label,
 		count: 2,
 	}));
 
-	// In real app, crafted items are loaded via rpc call. Here we load empty or default mock for safety.
 	craftedItems = [
 		{
 			id: "crafted-longsword-1",
@@ -99,58 +135,52 @@ $effect(() => {
 	}
 });
 
+$effect(() => {
+	if (selectedOratorId && selectedNpcId) {
+		loadSocialCombatState();
+	}
+});
+
 // Acao de Negociacao
-function handleResolveRound() {
-	if (!selectedOratorId) return;
+async function handleResolveRound() {
+	if (!selectedOratorId || !selectedNpcId) return;
 
-	const targetMock = {
-		id: "npc-merchant",
-		name: "Comerciante de Éter",
-		disposition: targetDisposition,
-		patience: {
-			currentValue: targetPatience,
-			maxValue: targetPatienceMax,
-		},
-		persuasion: {
-			completedSegments: persuasionSegments,
-			totalSegments: persuasionSegmentsMax,
-		},
-	};
+	const treeId =
+		selectedNpcId === "npc-merchant"
+			? "tree-merchant-bargain"
+			: selectedNpcId === "npc-alchemist"
+				? "tree-alchemist-secrets"
+				: "tree-scribe-lore";
 
-	const conflictStateMock = {
-		currentRound: 1,
-		bargainOffers: [],
-	};
-
-	// Aplica o bonus de barganha na rolagem final
-	const finalRoll = rollValue + totalBargainBonus;
-
-	const roundResult = negotiationService.resolveRound({
+	const res = await socialEngine.resolveSocialRound({
+		characterId: selectedOratorId,
+		npcId: selectedNpcId,
+		treeId,
 		oratorId: selectedOratorId,
 		axis: selectedAxis,
-		rollValue: finalRoll,
+		rollValue: rollValue,
 		dc: dcValue,
 		maneuver: selectedManeuver,
-		target: targetMock,
-		conflictState: conflictStateMock,
-		events: [],
+		offerGold: offerGold,
+		offerFavors: offerFavors,
+		events: activeEvents,
 	});
 
-	if (roundResult.success) {
-		const data = roundResult.data;
+	if (res.success) {
+		const data = res.data;
 		targetPatience = data.target.patience.currentValue;
+		targetPatienceMax = data.target.patience.baseValue;
 		persuasionSegments = data.target.persuasion.completedSegments;
+		persuasionSegmentsMax = data.target.persuasion.totalSegments;
+		targetDisposition = data.target.attitude;
+		activeEvents = [...activeEvents, ...data.events];
 		negotiationLogs = [data.logMessage, ...negotiationLogs];
 
-		// Se falhar o contrato de eter, ativa animacao de recuo
 		if (data.recoilDamage) {
 			triggerRecoilAnimation();
 		}
 	} else {
-		negotiationLogs = [
-			`❌ Erro: ${roundResult.error.message}`,
-			...negotiationLogs,
-		];
+		negotiationLogs = [`❌ Erro: ${res.error.message}`, ...negotiationLogs];
 	}
 }
 
@@ -165,13 +195,41 @@ function triggerRecoilAnimation() {
 	}, 1500);
 }
 
-function handleResetNegotiation() {
-	targetPatience = targetPatienceMax;
-	persuasionSegments = 0;
-	offerGold = 0;
-	offerFavors = 0;
-	selectedManeuver = "none";
-	negotiationLogs = ["Nova rodada de negociacao iniciada."];
+async function handleResetNegotiation() {
+	if (!selectedOratorId || !selectedNpcId) return;
+
+	const treeId =
+		selectedNpcId === "npc-merchant"
+			? "tree-merchant-bargain"
+			: selectedNpcId === "npc-alchemist"
+				? "tree-alchemist-secrets"
+				: "tree-scribe-lore";
+
+	const res = await socialEngine.resetSocialStats(
+		selectedOratorId,
+		selectedNpcId,
+		treeId,
+	);
+	if (res.success) {
+		const profile = socialEngine.getInitialNpcStats(selectedNpcId);
+		targetPatience = profile.patienceMax;
+		targetPatienceMax = profile.patienceMax;
+		persuasionSegments = 0;
+		persuasionSegmentsMax = profile.persuasionMax;
+		targetDisposition = profile.attitude;
+		offerGold = 0;
+		offerFavors = 0;
+		selectedManeuver = "none";
+		activeEvents = [];
+		negotiationLogs = [
+			`Nova rodada de negociação iniciada com ${profile.label}.`,
+		];
+	} else {
+		negotiationLogs = [
+			`❌ Erro ao resetar: ${res.error.message}`,
+			...negotiationLogs,
+		];
+	}
 }
 
 // Acoes de Reciclagem/Desmanche
@@ -255,7 +313,20 @@ async function handleScrap(equipmentId: string) {
 				<h2 class="text-xl font-bold text-purple-runic border-b border-[#27272a] pb-2 mb-4">Mesa de Negociação</h2>
 				
 				<!-- Visualização de Status do Target -->
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#09090b] p-4 rounded-lg border border-[#27272a]">
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-[#09090b] p-4 rounded-lg border border-[#27272a]">
+					<div>
+						<div class="text-xs text-[#a1a1aa] uppercase font-bold tracking-wider">NPC Negociando</div>
+						<div class="text-sm font-semibold text-[#f4f4f5] mt-1">
+							{selectedNpcId === 'npc-merchant' ? 'Silas o Mercador' : selectedNpcId === 'npc-alchemist' ? 'Eldrin o Alquimista' : 'Silas o Escriba'}
+						</div>
+						<div class="text-[10px] text-purple-runic font-mono uppercase mt-0.5">
+							Atitude: {targetDisposition === 'friendly' ? 'Amigável' : 
+									  targetDisposition === 'neutral' ? 'Neutro' : 
+									  targetDisposition === 'skeptical' ? 'Cético' : 
+									  targetDisposition === 'hostile' ? 'Hostil' : 'Inimigo Declarado'}
+						</div>
+					</div>
+
 					<div>
 						<div class="flex justify-between text-sm mb-1">
 							<span class="text-[#a1a1aa]">Reserva de Paciência do NPC</span>
@@ -264,7 +335,7 @@ async function handleScrap(equipmentId: string) {
 						<div class="w-full bg-[#27272a] h-3 rounded-full overflow-hidden">
 							<div
 								class="bg-gradient-to-r from-purple-runic to-sky-runic h-full transition-all duration-300"
-								style="width: {(targetPatience / targetPatienceMax) * 100}%"
+								style="width: {targetPatienceMax > 0 ? (targetPatience / targetPatienceMax) * 100 : 0}%"
 							></div>
 						</div>
 					</div>
@@ -316,15 +387,15 @@ async function handleScrap(equipmentId: string) {
 						</div>
 
 						<div>
-							<label for="disposition" class="text-sm font-semibold text-[#a1a1aa] block mb-1">Disposição Inicial</label>
+							<label for="npc" class="text-sm font-semibold text-[#a1a1aa] block mb-1">Alvo da Negociação (NPC)</label>
 							<select
-								id="disposition"
-								bind:value={targetDisposition}
+								id="npc"
+								bind:value={selectedNpcId}
 								class="w-full bg-[#09090b] border border-[#27272a] rounded-md p-2 text-[#f4f4f5] focus:outline-none focus:border-bronze"
 							>
-								<option value="hostile">Hostil</option>
-								<option value="neutral">Neutro</option>
-								<option value="friendly">Amigável</option>
+								<option value="npc-merchant">Silas o Mercador</option>
+								<option value="npc-alchemist">Eldrin o Alquimista</option>
+								<option value="npc-scribe">Silas o Escriba</option>
 							</select>
 						</div>
 					</div>
