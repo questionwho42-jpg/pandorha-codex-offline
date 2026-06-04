@@ -1,16 +1,16 @@
 # Auditoria De Documentação Do Pandorha Engine
 
-Gerado em: 2026-06-02T10:19:34.562Z
+Gerado em: 2026-06-04T23:45:10.899Z
 Escopo: `all`
 
 ## Resumo
 
-- Arquivos Markdown analisados: 133
+- Arquivos Markdown analisados: 134
 - Documentos sem H1: 0
 - Links locais quebrados: 0
-- Referências de caminho ausentes: 116
+- Referências de caminho ausentes: 115
 - Possíveis órfãos: 121
-- Entradas abertas de promoção: 79
+- Entradas abertas de promoção: 83
 
 ## Inventário Por Área
 
@@ -19,7 +19,7 @@ Escopo: `all`
 | adr | 1 |
 | architecture | 5 |
 | conventions | 3 |
-| process | 17 |
+| process | 18 |
 | root | 2 |
 | system | 98 |
 | user | 7 |
@@ -44,7 +44,6 @@ Escopo: `all`
 - `docs/conventions/core-conventions.md:35 -> +layout.ts`
 - `docs/conventions/core-conventions.md:35 -> +page.server.ts`
 - `docs/conventions/core-conventions.md:43 -> tailwind.config.ts`
-- `docs/process/automation-spec.md:44 -> change-inbox.md`
 - `docs/process/complete-game-implementation-guide.md:68 -> styleguide.md`
 - `docs/process/complete-game-implementation-guide.md:154 -> styleguide.md`
 - `docs/process/microtask-delivery-plan.md:12 -> blueprint.md`
@@ -291,10 +290,10 @@ Escopo: `all`
 
 | Destino recomendado | Entradas |
 | :--- | ---: |
-| arquitetura | 15 |
+| arquitetura | 16 |
 | convenções | 1 |
 | não promover ainda | 4 |
-| processo | 29 |
+| processo | 32 |
 | sistema | 13 |
 | usuário | 17 |
 
@@ -302,6 +301,10 @@ Escopo: `all`
 
 | ID | Título | Destino | Motivo |
 | :--- | :--- | :--- | :--- |
+| 20260604-202736-t93-documentation-promotion-draft | T93 documentation promotion draft | processo | A entrada descreve fluxo de entrega, validação, auditoria ou manutenção. |
+| 20260602-124529-t92-enemy-training-attack-against-session-charac | T92 enemy training attack against session character | arquitetura | A entrada afeta contrato técnico, persistência, schema ou ponte RPC. |
+| 20260602-073042-t91-equipped-defense-profile | T91 equipped defense profile | processo | A entrada descreve fluxo de entrega, validação, auditoria ou manutenção. |
+| 20260602-072310-d01-2-strict-quality-gate-recovery | D01.2 strict quality gate recovery | processo | A entrada descreve fluxo de entrega, validação, auditoria ou manutenção. |
 | 20260601-232034-t90-documentation-audit-automation | T90 documentation audit automation | processo | A entrada descreve fluxo de entrega, validação, auditoria ou manutenção. |
 | 20260601-222318-t89-combat-target-defenses | T89 combat target defenses | usuário | A entrada afeta fluxo visível, guia de teste ou documentação de uso. |
 | 20260601-215735-t88-weapon-dice-roll-contract | T88 weapon dice roll contract | processo | A entrada descreve fluxo de entrega, validação, auditoria ou manutenção. |

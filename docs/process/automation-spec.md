@@ -41,7 +41,7 @@ It runs `scripts/audit_docs.mjs` in read-only mode and reports:
 - broken local Markdown links;
 - missing path references;
 - possible orphan documentation files;
-- open `change-inbox.md` promotion entries classified by recommended destination.
+- open [change-inbox.md](./change-inbox.md) promotion entries classified by recommended destination.
 
 Use an explicit output path only when recording a snapshot report:
 
@@ -50,6 +50,12 @@ node scripts/audit_docs.mjs --format markdown --scope all --output docs/process/
 ```
 
 The report is advisory. It must not promote inbox items, update `docs/changelog.md`, or rewrite `docs/system/` rules without human approval and source-of-truth review.
+
+## Documentation Promotion Drafts
+
+Broad promotion rounds should create a draft before editing official documentation. Use [documentation-promotion-draft.md](./documentation-promotion-draft.md) to map every open inbox id to a destination, evidence source, target document, and blocking condition.
+
+The draft is allowed on feature branches. It does not move entries from `Open` to `Promoted`, and it does not turn code behavior into RPG rules. After merge to the default branch, run a fresh audit, compare the draft against [change-inbox.md](./change-inbox.md), then promote only the entries whose target document was actually updated and reviewed.
 
 ## Required Checkpoint Format
 Every complex or long-running task should report:

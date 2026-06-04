@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260604-202736-t93-documentation-promotion-draft -->
+### T93 documentation promotion draft
+- id: 20260604-202736-t93-documentation-promotion-draft
+- status: open
+- created_at: 2026-06-04T20:27:36-03:00
+- source: task-ledger
+- summary: Atualizar a auditoria documental e criar um rascunho revisavel cobrindo todas as 82 promocoes abertas sem mover change-inbox para Promoted fora de main.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260604-202736-t93-documentation-promotion-draft -->
 <!-- pandorha-inbox:20260602-124529-t92-enemy-training-attack-against-session-charac -->
 ### T92 enemy training attack against session character
 - id: 20260602-124529-t92-enemy-training-attack-against-session-charac

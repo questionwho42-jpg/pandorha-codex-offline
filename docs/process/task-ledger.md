@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260604-202736-t93-documentation-promotion-draft -->
+### T93 documentation promotion draft
+- id: 20260604-202736-t93-documentation-promotion-draft
+- status: completed
+- kind: maintenance
+- planned: no
+- started_at: 2026-06-04T20:27:36-03:00
+- finished_at: 2026-06-04T20:35:52-03:00
+- model_started: GPT-5 high reasoning; local automation zero-token
+- model_finished: GPT-5 high reasoning; local automation zero-token
+- last_modified_at: 2026-06-04T20:35:52-03:00
+- branch: feat/metadata-tags-codex
+- commit_at_start: 4c8863a chore(process): record t92 post-commit snapshot
+- summary: Atualizar a auditoria documental e criar um rascunho revisavel cobrindo todas as 82 promocoes abertas sem mover change-inbox para Promoted fora de main.
+- last_change: T93 concluiu a rodada documental: auditoria regenerada para 134 Markdown e 83 entradas abertas, rascunho de promocao criado cobrindo todos os IDs exatamente uma vez, fluxo de promocao documentado, recorte arquitetural de treino registrado, QA vertical atualizado e gates docs:audit, lint, test e automation:doctor validados.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-04T20:27:36-03:00
+- Done: task record created
+- Next: Regenerar documentation-audit e criar rascunho de promocao documental.
+- Risks: Nao promover docs/system por inferencia do codigo; manter change-inbox aberto ate main.
+- Improvements: Usar docs:audit como fonte repetivel para futuras promocoes.
+- Model/config: GPT-5 high reasoning; local automation zero-token
+
+#### Checkpoint 2026-06-04T20:35:52-03:00
+- Done: T93 concluiu a rodada documental: auditoria regenerada para 134 Markdown e 83 entradas abertas, rascunho de promocao criado cobrindo todos os IDs exatamente uma vez, fluxo de promocao documentado, recorte arquitetural de treino registrado, QA vertical atualizado e gates docs:audit, lint, test e automation:doctor validados.
+- Next: Depois de merge/default branch, revisar documentation-promotion-draft.md e promover apenas itens com docs-alvo revisados; nao mover change-inbox para Promoted nesta branch.
+- Risks: Os 13 itens de sistema permanecem bloqueados para revisao contra docs/system; 4 itens continuam como nao promover ainda; 115 referencias textuais historicas seguem como aviso de auditoria, sem links quebrados.
+- Improvements: Automatizar futuramente a geracao inicial da tabela de promocao a partir de audit_docs para reduzir edicao manual em lotes grandes.
+- Model/config: GPT-5 high reasoning; local automation zero-token
+<!-- /pandorha-task:20260604-202736-t93-documentation-promotion-draft -->
 <!-- pandorha-task:20260602-124529-t92-enemy-training-attack-against-session-charac -->
 ### T92 enemy training attack against session character
 - id: 20260602-124529-t92-enemy-training-attack-against-session-charac
@@ -4136,6 +4168,25 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-04T20:35:58-03:00 - documentation-promotion-draft
+- branch: feat/metadata-tags-codex
+- commit: 4c8863a chore(process): record t92 post-commit snapshot
+- changed_files_count: 9
+#### Changed Files
+- docs/architecture/feature_state_machines.md
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/documentation-audit.md
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- llms.txt
+- docs/process/documentation-promotion-draft.md
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-04T20:06:45-03:00 - post-commit
 - branch: feat/metadata-tags-codex
 - commit: d634ec7 feat(combat): resolve training enemy attack

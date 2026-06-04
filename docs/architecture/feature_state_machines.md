@@ -175,3 +175,14 @@ NUNCA ignore a ActionQueue para resoluções imediatas.
 SEMPRE valide a breaksStealth tag antes de finalizar um comando de ataque.
 
 SEMPRE utilize $derived para mostrar estados que dependem de condições ativas.
+
+## 8. Recorte Implementado De Treino
+
+As vertical slices atuais implementam apenas um subconjunto seguro das FSMs oficiais. Combate de treino usa ActionQueue, ResolutionService, DiceService e DamagePipelineService para validar fluxo, log e contratos de UI, mas nao persiste dano real no personagem e nao instancia monstros oficiais.
+
+Equipamentos entram no combate de treino por dois caminhos separados:
+
+- armas alimentam um perfil local de ataque e dados suportados, sem durabilidade, proficiencia ou save;
+- armaduras e escudos alimentam apenas a CA alvo do ataque de treino recebido, sem dano persistente, desgaste ou migracao.
+
+Relacoes sociais tambem seguem recorte controlado: relacao individual por NPC, Fama, Infamia e clocks de retaliacao existem no baseline social, mas clocks avancam automaticamente apenas por gatilho explicito `social-pressure`. Descanso, passagem generica de tempo e cenas sociais nao avancam esses clocks ate haver regra oficial promovida.
