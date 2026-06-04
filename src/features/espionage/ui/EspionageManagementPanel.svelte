@@ -1,5 +1,6 @@
 <script lang="ts">
 import { onMount } from "svelte";
+import { fade, slide } from "svelte/transition";
 import type { CharacterRecord } from "../../../entities/character";
 import type { CompanionRecord } from "../../../entities/companions";
 import { WorkerCompanionRepository } from "../../../entities/companions";
@@ -46,14 +47,14 @@ let service = $derived(
 
 // Estado Reativo Svelte 5
 const campaignId = "campaign_default";
-let _cells = $state<EspionageCellRecord[]>([]);
-let _factionsList = $state<FactionRecord[]>([]);
-let _companionsList = $state<CompanionRecord[]>([]);
+let cells = $state<EspionageCellRecord[]>([]);
+let factionsList = $state<FactionRecord[]>([]);
+let companionsList = $state<CompanionRecord[]>([]);
 let selectedCharacterId = $state<string>("");
 let ledger = $state<CampaignSocialLedgerRecord | null>(null);
 
 // Estado do Formulário de Fundação
-let _showNewCellForm = $state(false);
+let showNewCellForm = $state(false);
 let newCellFactionId = $state("");
 let newCellRegionId = $state("");
 let newCellTenenteId = $state("");
@@ -61,18 +62,21 @@ let newCellAxis = $state<"physical" | "mental" | "social">("physical");
 let newCellTier = $state(1);
 
 // Estado de Resolução de Missão
-let _activeMissionCellId = $state<string | null>(null);
+let activeMissionCellId = $state<string | null>(null);
 let missionTargetDc = $state(15);
 let useBribery = $state(false);
-let _lastMissionResult = $state<OperationResult | null>(null);
-let _showResultModal = $state(false);
+let lastMissionResult = $state<OperationResult | null>(null);
+let showResultModal = $state(false);
 let isRolling = $state(false);
 let d20VisualRoll = $state(20);
 
 // Inicialização de Dados
 onMount(async () => {
 	if (characters.length > 0) {
-		selectedCharacterId = characters[0].id;
+		const firstChar = characters[0];
+		if (firstChar) {
+			selectedCharacterId = firstChar.id;
+		}
 	}
 	await loadData();
 });
@@ -88,13 +92,13 @@ async function loadData() {
 	// Carregar Células
 	const cellsRes = await espionageRepo.listByCampaign(campaignId);
 	if (cellsRes.success) {
-		_cells = [...cellsRes.data];
+		cells = [...cellsRes.data];
 	}
 
 	// Carregar Facções
 	const factionsRes = await socialRepo.listFactions();
 	if (factionsRes.success) {
-		_factionsList = [...factionsRes.data];
+		factionsList = [...factionsRes.data];
 	}
 
 	// Carregar Ledger
@@ -108,12 +112,12 @@ async function loadCompanionsForCharacter(charId: string) {
 	const compRes = await companionRepo.findCompanionsByCharacter(charId);
 	if (compRes.success) {
 		// Apenas companheiros não dissipados podem ser tenentes
-		_companionsList = compRes.data.filter((c) => !c.isDissipated);
+		companionsList = compRes.data.filter((c) => !c.isDissipated);
 	}
 }
 
 // Fundação de Nova Célula
-async function _handleCreateCell() {
+async function handleCreateCell() {
 	if (
 		!newCellFactionId ||
 		!newCellRegionId ||
@@ -138,7 +142,7 @@ async function _handleCreateCell() {
 
 	if (res.success) {
 		onUpdateGuildGold(guildGold - res.data.goldSpent);
-		_showNewCellForm = false;
+		showNewCellForm = false;
 		// Reset form
 		newCellFactionId = "";
 		newCellRegionId = "";
@@ -153,17 +157,19 @@ async function _handleCreateCell() {
 function getRandomD20(): number {
 	const array = new Uint32Array(1);
 	crypto.getRandomValues(array);
-	return (array[0] % 20) + 1;
+	const val = array[0];
+	if (val === undefined) return 1;
+	return (val % 20) + 1;
 }
 
 // Executa Missão Downtime
-async function _handleRunMission(
+async function handleRunMission(
 	cell: EspionageCellRecord,
 	type: "autonomous" | "coordinated",
 ) {
 	if (isRolling) return;
 	isRolling = true;
-	_lastMissionResult = null;
+	lastMissionResult = null;
 
 	// Efeito visual de dados rolando
 	let counter = 0;
@@ -215,12 +221,12 @@ async function executeActualRoll(
 	isRolling = false;
 
 	if (res.success) {
-		_lastMissionResult = res.data;
+		lastMissionResult = res.data;
 		if (res.data.goldSpent > 0) {
 			onUpdateGuildGold(guildGold - res.data.goldSpent);
 		}
-		_showResultModal = true;
-		_activeMissionCellId = null;
+		showResultModal = true;
+		activeMissionCellId = null;
 		await loadData();
 	} else {
 		alert(`Erro na missão: ${res.error.message}`);
@@ -228,7 +234,7 @@ async function executeActualRoll(
 }
 
 // Ações Semanais e Resfriamento
-async function _handleCoolDown(cellId: string) {
+async function handleCoolDown(cellId: string) {
 	const res = await service.coolDownCell(cellId, new Date().toISOString());
 	if (res.success) {
 		await loadData();
@@ -237,7 +243,7 @@ async function _handleCoolDown(cellId: string) {
 	}
 }
 
-async function _handleClearHeat(cellId: string, method: "gold" | "favor") {
+async function handleClearHeat(cellId: string, method: "gold" | "favor") {
 	const res = await service.clearHeatWithResources({
 		cellId,
 		method,
@@ -256,7 +262,7 @@ async function _handleClearHeat(cellId: string, method: "gold" | "favor") {
 	}
 }
 
-async function _simulateRecessoWeekly() {
+async function simulateRecessoWeekly() {
 	const res = await service.processWeeklyMaintenance({
 		campaignId,
 		availableGold: guildGold,
