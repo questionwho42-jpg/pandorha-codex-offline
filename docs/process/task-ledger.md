@@ -8,11 +8,418 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## In Progress
 <!-- pandorha-ledger:in-progress -->
+<!-- pandorha-task:20260604-113201-consolidacao-das-uis-de-campanha -->
+### Consolidacao das UIs de Campanha
+- id: 20260604-113201-consolidacao-das-uis-de-campanha
+- status: in-progress
+- kind: feature
+- planned: yes
+- started_at: 2026-06-04T11:32:01-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-06-04T11:32:01-03:00
+- branch: task/siege-and-cockpit
+- commit_at_start: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- summary: Consolidacao incremental convencional do backlog de UI e integracao de sistemas existentes
+- last_change: created task record
+#### Files At Start
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/__tests__/CompanionService.spec.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/infrastructure/DrizzleDialogueRepository.ts
+- src/entities/dialogue/infrastructure/InMemoryDialogueRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/dialogue/model/dialogueSchema.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/__tests__/CraftingService.spec.ts
+- ... 113 more
+#### Checkpoints
+#### Checkpoint 2026-06-04T11:32:01-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260604-113201-consolidacao-das-uis-de-campanha -->
 
 <!-- /pandorha-ledger:in-progress -->
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260602-223552-fase-67-logistica-e-a-cascata-de-exaustao -->
+### Fase 67: Logistica e a Cascata de Exaustao
+- id: 20260602-223552-fase-67-logistica-e-a-cascata-de-exaustao
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-06-02T22:35:52-03:00
+- finished_at: 2026-06-02T22:35:56-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-02T22:35:56-03:00
+- branch: task/siege-and-cockpit
+- commit_at_start: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- summary: Implementacao de exaustao reativa e consumo diario de provisoes no fechamento do dia
+- last_change: Implementacao de exaustao reativa e consumo diario de provisoes no fechamento do dia
+#### Files At Start
+- CONTEXT.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/__tests__/EquipmentCatalogService.spec.ts
+- src/entities/equipment/infrastructure/WorkerCraftingRepository.ts
+- src/entities/equipment/model/equipmentCatalog.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/spell/__tests__/SpellCatalogService.spec.ts
+- src/entities/spell/model/spellCatalog.ts
+- src/entities/spell/model/spellSchema.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- src/entities/traps/infrastructure/WorkerTrapRepository.ts
+- src/entities/world-tile/__tests__/EncounterService.spec.ts
+- src/entities/world-tile/domain/EncounterService.ts
+- src/entities/world-tile/index.ts
+- ... 52 more
+#### Checkpoints
+#### Checkpoint 2026-06-02T22:35:52-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-02T22:35:56-03:00
+- Done: Implementacao de exaustao reativa e consumo diario de provisoes no fechamento do dia
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260602-223552-fase-67-logistica-e-a-cascata-de-exaustao -->
+<!-- pandorha-task:20260602-214010-fase-65-estado-moribundo-e-primeiros-socorros -->
+### Fase 65: Estado Moribundo e Primeiros Socorros
+- id: 20260602-214010-fase-65-estado-moribundo-e-primeiros-socorros
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-06-02T21:40:10-03:00
+- finished_at: 2026-06-02T21:40:15-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-02T21:40:15-03:00
+- branch: task/siege-and-cockpit
+- commit_at_start: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- summary: Implementacao do Estado Moribundo, rolagens de morte e primeiros socorros em combate
+- last_change: Implementação completa da Fase 65: Estado Moribundo, rolagens de morte persistentes no status 'moribund', interceptador de dano a 0 HP e consumo do Kit de Primeiros Socorros em combate, com 100% de cobertura nos testes e estilo de código Biome.
+#### Files At Start
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/__tests__/EquipmentCatalogService.spec.ts
+- src/entities/equipment/infrastructure/WorkerCraftingRepository.ts
+- src/entities/equipment/model/equipmentCatalog.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/spell/__tests__/SpellCatalogService.spec.ts
+- src/entities/spell/model/spellCatalog.ts
+- src/entities/spell/model/spellSchema.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- src/entities/traps/infrastructure/WorkerTrapRepository.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- ... 42 more
+#### Checkpoints
+#### Checkpoint 2026-06-02T21:40:10-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-02T21:40:15-03:00
+- Done: Implementação completa da Fase 65: Estado Moribundo, rolagens de morte persistentes no status 'moribund', interceptador de dano a 0 HP e consumo do Kit de Primeiros Socorros em combate, com 100% de cobertura nos testes e estilo de código Biome.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260602-214010-fase-65-estado-moribundo-e-primeiros-socorros -->
+<!-- pandorha-task:fase-57-lore-dinamica-no-hexcrawl -->
+### Fase 57: Lore Dinamica & Encontros Narrativos
+- id: fase-57-lore-dinamica-no-hexcrawl
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-02T07:49:28-03:00
+- finished_at: 2026-06-02T12:36:37-03:00
+- model_started: gemini-3.5-flash
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-02T12:36:37-03:00
+- branch: task/siege-and-cockpit
+- commit_at_start: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- summary: Criacao de schemas lore_encounters e campaign_rumors, desenvolvimento de LoreService com Result Pattern e 100% de cobertura, e integracao no HexcrawlMovementService
+- last_change: Implementacao da Sandbox do GM (Fase 59) com suporte a mutacao de estado, relogios e spawn de monstros via RPC, cobrindo 100% de testes e estilo Biome.
+#### Files At Start
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/infrastructure/WorkerCraftingRepository.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- src/entities/traps/infrastructure/WorkerTrapRepository.ts
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/saves/infrastructure/WorkerSaveRepository.ts
+- src/features/traps/ui/TrapDeploymentPanel.svelte
+- src/shared/rpc/index.ts
+- vite.config.mjs
+- src/shared/rpc/__tests__/rpcCache.spec.ts
+- src/shared/rpc/model/rpcCache.ts
+#### Checkpoints
+#### Checkpoint 2026-06-02T07:49:28-03:00
+- Done: task record created
+- Next: fase-58-ia-tatica-de-criaturas
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gemini-3.5-flash
+
+#### Checkpoint 2026-06-02T12:36:37-03:00
+- Done: Implementacao da Sandbox do GM (Fase 59) com suporte a mutacao de estado, relogios e spawn de monstros via RPC, cobrindo 100% de testes e estilo Biome.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:fase-57-lore-dinamica-no-hexcrawl -->
+<!-- pandorha-task:fase-56-modulo-cooperativo-local -->
+### Fase 56: Modulo Cooperativo Local
+- id: fase-56-modulo-cooperativo-local
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-02T07:36:50-03:00
+- finished_at: 2026-06-02T07:41:36-03:00
+- model_started: gemini-3.5-flash
+- model_finished: gemini-3.5-flash
+- last_modified_at: 2026-06-02T07:41:36-03:00
+- branch: task/siege-and-cockpit
+- commit_at_start: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- summary: Implementacao de chave global de Modo Mestre no Cockpit, filtros de logs passivos no ChatLog e estilizacao CSS print para exportacao premium
+- last_change: Chave global de Modo Mestre no Cockpit, suporte para mensagens exclusivas de GM no ChatLog via isGmOnly, e regras CSS @media print premium com ignores inline do Biome
+#### Files At Start
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/infrastructure/WorkerCraftingRepository.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- src/entities/traps/infrastructure/WorkerTrapRepository.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/saves/infrastructure/WorkerSaveRepository.ts
+- src/features/traps/ui/TrapDeploymentPanel.svelte
+- src/shared/rpc/index.ts
+- vite.config.mjs
+- src/shared/rpc/__tests__/rpcCache.spec.ts
+- src/shared/rpc/model/rpcCache.ts
+#### Checkpoints
+#### Checkpoint 2026-06-02T07:36:50-03:00
+- Done: task record created
+- Next: fase-57-lore-dinamica-no-hexcrawl
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gemini-3.5-flash
+
+#### Checkpoint 2026-06-02T07:41:36-03:00
+- Done: Chave global de Modo Mestre no Cockpit, suporte para mensagens exclusivas de GM no ChatLog via isGmOnly, e regras CSS @media print premium com ignores inline do Biome
+- Next: fase-57-lore-dinamica-no-hexcrawl
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gemini-3.5-flash
+<!-- /pandorha-task:fase-56-modulo-cooperativo-local -->
+<!-- pandorha-task:fase-55-fechamento-e-producao -->
+### Fase 55: Fechamento, Empacotamento e Producao
+- id: fase-55-fechamento-e-producao
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-02T07:31:51-03:00
+- finished_at: 2026-06-02T07:31:55-03:00
+- model_started: gemini-3.5-flash
+- model_finished: gemini-3.5-flash
+- last_modified_at: 2026-06-02T07:31:55-03:00
+- branch: task/siege-and-cockpit
+- commit_at_start: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- summary: Configuracao de headers COOP/COEP para SQLite WASM e OPFS, otimizacao de build Vite para assets do Web Worker e resolucao de erros de compilacao Svelte 5 no ChatLog e TrapDeploymentPanel
+- last_change: Configuracao de headers COOP/COEP para SQLite WASM e OPFS, otimizacao de build Vite para assets do Web Worker e resolucao de erros de compilacao Svelte 5 no ChatLog e TrapDeploymentPanel
+#### Files At Start
+- docs/process/task-ledger.md
+- src/app/App.svelte
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/infrastructure/WorkerCraftingRepository.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- src/entities/traps/infrastructure/WorkerTrapRepository.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/saves/infrastructure/WorkerSaveRepository.ts
+- src/features/traps/ui/TrapDeploymentPanel.svelte
+- src/shared/rpc/index.ts
+- vite.config.mjs
+- src/shared/rpc/__tests__/rpcCache.spec.ts
+- src/shared/rpc/model/rpcCache.ts
+#### Checkpoints
+#### Checkpoint 2026-06-02T07:31:51-03:00
+- Done: task record created
+- Next: fase-56-modulo-cooperativo-local
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gemini-3.5-flash
+
+#### Checkpoint 2026-06-02T07:31:55-03:00
+- Done: Configuracao de headers COOP/COEP para SQLite WASM e OPFS, otimizacao de build Vite para assets do Web Worker e resolucao de erros de compilacao Svelte 5 no ChatLog e TrapDeploymentPanel
+- Next: fase-56-modulo-cooperativo-local
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gemini-3.5-flash
+<!-- /pandorha-task:fase-55-fechamento-e-producao -->
+<!-- pandorha-task:fase-54-polimento-performance-pwa-offline -->
+### Fase 54: Polimento, Performance e PWA Offline
+- id: fase-54-polimento-performance-pwa-offline
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-02T00:21:56-03:00
+- finished_at: 2026-06-02T07:18:29-03:00
+- model_started: gemini-3.5-flash
+- model_finished: gemini-3.5-flash
+- last_modified_at: 2026-06-02T07:18:29-03:00
+- branch: task/siege-and-cockpit
+- commit_at_start: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- summary: Otimizacao RPC, latencias abaixo de 16ms, cache-first Service Worker e QA do Quality Gate
+- last_change: Implementacao de cache RPC global na thread principal, telemetria de latencia, auditoria de service worker e limpeza de estilo/convencoes em App e ChatLog
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-02T00:21:56-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gemini-3.5-flash
+
+#### Checkpoint 2026-06-02T07:18:29-03:00
+- Done: Implementacao de cache RPC global na thread principal, telemetria de latencia, auditoria de service worker e limpeza de estilo/convencoes em App e ChatLog
+- Next: fase-55-fechamento-e-producao
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gemini-3.5-flash
+<!-- /pandorha-task:fase-54-polimento-performance-pwa-offline -->
 <!-- pandorha-task:fase-53-gerenciador-slots-save -->
 ### Fase 53: Gerenciador de Slots de Save (JSON)
 - id: fase-53-gerenciador-slots-save
@@ -3524,6 +3931,1585 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-04T11:43:41-03:00 - chore-config
+- branch: task/siege-and-cockpit
+- commit: 42ee453 docs: update glossary for campaign quests and ADR decisions on time flow and quest system
+- changed_files_count: 7
+#### Changed Files
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- vite.config.mjs
+- vitest.config.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:43:24-03:00 - docs-adr
+- branch: task/siege-and-cockpit
+- commit: 0986cb9 feat(app): wire Svelte UI panels and session controllers in App.svelte and styles
+- changed_files_count: 10
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/adr/ADR-007-hexcrawl-driven-time-flow.md
+- docs/adr/ADR-008-hybrid-quest-system.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- vite.config.mjs
+- vitest.config.mjs
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:43:05-03:00 - feat-app
+- branch: task/siege-and-cockpit
+- commit: 65f57b0 feat(features-misc): implement character list/creation, spell-casting panel, chat log, and other UI utilities
+- changed_files_count: 14
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/shared/game-rules.ts
+- vite.config.mjs
+- vitest.config.mjs
+- docs/adr/ADR-007-hexcrawl-driven-time-flow.md
+- docs/adr/ADR-008-hybrid-quest-system.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:42:02-03:00 - feat-features-misc
+- branch: task/siege-and-cockpit
+- commit: cd8c4b8 feat(combat-encounter): implement combat encounter views, AI service, catalog, and inventory integrations
+- changed_files_count: 29
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/__tests__/chatState.spec.ts
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/chat/ui/RollModifiersDrawer.svelte
+- src/features/domain-regional/ui/DomainCouncilPanel.svelte
+- src/features/inventory-readonly/ui/InventoryReadOnlyPanel.svelte
+- src/features/sandbox/ui/GMSandboxPanel.svelte
+- src/features/sandbox/ui/sandbox.css
+- src/features/spell-cast/ui/SpellCastPanel.svelte
+- src/shared/game-rules.ts
+- vite.config.mjs
+- vitest.config.mjs
+- docs/adr/ADR-007-hexcrawl-driven-time-flow.md
+- docs/adr/ADR-008-hybrid-quest-system.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:41:41-03:00 - feat-combat-encounter
+- branch: task/siege-and-cockpit
+- commit: 860d705 feat(hexcrawl): implement hexcrawl map panel and time flow navigation
+- changed_files_count: 49
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/chat/ui/RollModifiersDrawer.svelte
+- src/features/combat-encounter/__tests__/CombatEncounterService.spec.ts
+- src/features/combat-encounter/__tests__/CombatInventoryIntegration.spec.ts
+- src/features/combat-encounter/__tests__/CombatLootService.spec.ts
+- src/features/combat-encounter/__tests__/EncounterGeneratorService.spec.ts
+- src/features/combat-encounter/__tests__/RepairIntegration.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/__tests__/combatTrainingAttackProfile.spec.ts
+- src/features/combat-encounter/domain/CombatEncounterService.ts
+- src/features/combat-encounter/domain/CombatLootService.ts
+- src/features/combat-encounter/domain/EncounterGeneratorService.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/domain/UltimatesCatalog.ts
+- src/features/combat-encounter/domain/__tests__/UltimatesCatalog.spec.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatEncounterSchemas.ts
+- src/features/combat-encounter/model/combatEncounterTypes.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/domain-regional/ui/DomainCouncilPanel.svelte
+- ... 9 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:41:15-03:00 - feat-hexcrawl-map
+- branch: task/siege-and-cockpit
+- commit: afa0a2d feat(feature-traps): implement trap deployment and disarming panel
+- changed_files_count: 53
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/chat/ui/RollModifiersDrawer.svelte
+- src/features/combat-encounter/__tests__/CombatEncounterService.spec.ts
+- src/features/combat-encounter/__tests__/CombatInventoryIntegration.spec.ts
+- src/features/combat-encounter/__tests__/CombatLootService.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/__tests__/combatTrainingAttackProfile.spec.ts
+- src/features/combat-encounter/domain/CombatEncounterService.ts
+- src/features/combat-encounter/domain/CombatLootService.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatEncounterSchemas.ts
+- src/features/combat-encounter/model/combatEncounterTypes.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/domain-regional/ui/DomainCouncilPanel.svelte
+- src/features/hexcrawl-map/__tests__/HexcrawlMovementService.spec.ts
+- src/features/hexcrawl-map/domain/HexcrawlMovementService.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementSchemas.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementTypes.ts
+- src/features/inventory-readonly/ui/InventoryReadOnlyPanel.svelte
+- ... 13 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:40:39-03:00 - feat-feature-traps
+- branch: task/siege-and-cockpit
+- commit: eee7628 feat(feature-social): implement negotiation panel and tactical forge armor features
+- changed_files_count: 56
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/chat/ui/RollModifiersDrawer.svelte
+- src/features/combat-encounter/__tests__/CombatEncounterService.spec.ts
+- src/features/combat-encounter/__tests__/CombatInventoryIntegration.spec.ts
+- src/features/combat-encounter/__tests__/CombatLootService.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/__tests__/combatTrainingAttackProfile.spec.ts
+- src/features/combat-encounter/domain/CombatEncounterService.ts
+- src/features/combat-encounter/domain/CombatLootService.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatEncounterSchemas.ts
+- src/features/combat-encounter/model/combatEncounterTypes.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/domain-regional/ui/DomainCouncilPanel.svelte
+- src/features/hexcrawl-map/__tests__/HexcrawlMovementService.spec.ts
+- src/features/hexcrawl-map/domain/HexcrawlMovementService.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementSchemas.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementTypes.ts
+- src/features/hexcrawl-map/ui/HexcrawlMapPanel.svelte
+- ... 16 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:40:19-03:00 - feat-feature-social
+- branch: task/siege-and-cockpit
+- commit: c3ac83b feat(feature-espionage): implement espionage cell operations and heat management UI
+- changed_files_count: 60
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/chat/ui/RollModifiersDrawer.svelte
+- src/features/combat-encounter/__tests__/CombatEncounterService.spec.ts
+- src/features/combat-encounter/__tests__/CombatInventoryIntegration.spec.ts
+- src/features/combat-encounter/__tests__/CombatLootService.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/__tests__/combatTrainingAttackProfile.spec.ts
+- src/features/combat-encounter/domain/CombatEncounterService.ts
+- src/features/combat-encounter/domain/CombatLootService.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatEncounterSchemas.ts
+- src/features/combat-encounter/model/combatEncounterTypes.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/domain-regional/ui/DomainCouncilPanel.svelte
+- src/features/hexcrawl-map/__tests__/HexcrawlMovementService.spec.ts
+- src/features/hexcrawl-map/domain/HexcrawlMovementService.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementSchemas.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementTypes.ts
+- src/features/hexcrawl-map/ui/HexcrawlMapPanel.svelte
+- ... 20 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:39:57-03:00 - feat-feature-espionage
+- branch: task/siege-and-cockpit
+- commit: 60c1992 feat(feature-mercenary): implement mercenary company and squad recruitment panel
+- changed_files_count: 61
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/chat/ui/RollModifiersDrawer.svelte
+- src/features/combat-encounter/__tests__/CombatEncounterService.spec.ts
+- src/features/combat-encounter/__tests__/CombatInventoryIntegration.spec.ts
+- src/features/combat-encounter/__tests__/CombatLootService.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/__tests__/combatTrainingAttackProfile.spec.ts
+- src/features/combat-encounter/domain/CombatEncounterService.ts
+- src/features/combat-encounter/domain/CombatLootService.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatEncounterSchemas.ts
+- src/features/combat-encounter/model/combatEncounterTypes.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/domain-regional/ui/DomainCouncilPanel.svelte
+- src/features/espionage/ui/EspionageManagementPanel.svelte
+- src/features/hexcrawl-map/__tests__/HexcrawlMovementService.spec.ts
+- src/features/hexcrawl-map/domain/HexcrawlMovementService.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementSchemas.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementTypes.ts
+- ... 21 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:39:37-03:00 - feat-feature-mercenary
+- branch: task/siege-and-cockpit
+- commit: efab460 feat(feature-dialogue): implement dialogue history log and clue list components
+- changed_files_count: 62
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/chat/ui/RollModifiersDrawer.svelte
+- src/features/combat-encounter/__tests__/CombatEncounterService.spec.ts
+- src/features/combat-encounter/__tests__/CombatInventoryIntegration.spec.ts
+- src/features/combat-encounter/__tests__/CombatLootService.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/__tests__/combatTrainingAttackProfile.spec.ts
+- src/features/combat-encounter/domain/CombatEncounterService.ts
+- src/features/combat-encounter/domain/CombatLootService.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatEncounterSchemas.ts
+- src/features/combat-encounter/model/combatEncounterTypes.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/domain-regional/ui/DomainCouncilPanel.svelte
+- src/features/espionage/ui/EspionageManagementPanel.svelte
+- src/features/hexcrawl-map/__tests__/HexcrawlMovementService.spec.ts
+- src/features/hexcrawl-map/domain/HexcrawlMovementService.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementSchemas.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementTypes.ts
+- ... 22 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:39:19-03:00 - feat-feature-dialogue
+- branch: task/siege-and-cockpit
+- commit: e944eb0 feat(feature-saves): implement save manager panel with JSON import/export
+- changed_files_count: 65
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/chat/ui/RollModifiersDrawer.svelte
+- src/features/combat-encounter/__tests__/CombatEncounterService.spec.ts
+- src/features/combat-encounter/__tests__/CombatInventoryIntegration.spec.ts
+- src/features/combat-encounter/__tests__/CombatLootService.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/__tests__/combatTrainingAttackProfile.spec.ts
+- src/features/combat-encounter/domain/CombatEncounterService.ts
+- src/features/combat-encounter/domain/CombatLootService.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatEncounterSchemas.ts
+- src/features/combat-encounter/model/combatEncounterTypes.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/dialogue/ui/ClueList.svelte
+- src/features/dialogue/ui/DialogueHistoryLog.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/domain-regional/ui/DomainCouncilPanel.svelte
+- src/features/espionage/ui/EspionageManagementPanel.svelte
+- src/features/hexcrawl-map/__tests__/HexcrawlMovementService.spec.ts
+- ... 25 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:39:01-03:00 - feat-feature-saves
+- branch: task/siege-and-cockpit
+- commit: 4b0b512 feat(feature-camp): implement camp rest active downtime panel and recovery decorators
+- changed_files_count: 66
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/chat/ui/RollModifiersDrawer.svelte
+- src/features/combat-encounter/__tests__/CombatEncounterService.spec.ts
+- src/features/combat-encounter/__tests__/CombatInventoryIntegration.spec.ts
+- src/features/combat-encounter/__tests__/CombatLootService.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/__tests__/combatTrainingAttackProfile.spec.ts
+- src/features/combat-encounter/domain/CombatEncounterService.ts
+- src/features/combat-encounter/domain/CombatLootService.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatEncounterSchemas.ts
+- src/features/combat-encounter/model/combatEncounterTypes.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/dialogue/ui/ClueList.svelte
+- src/features/dialogue/ui/DialogueHistoryLog.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/domain-regional/ui/DomainCouncilPanel.svelte
+- src/features/espionage/ui/EspionageManagementPanel.svelte
+- src/features/hexcrawl-map/__tests__/HexcrawlMovementService.spec.ts
+- ... 26 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:38:07-03:00 - feat-feature-camp
+- branch: task/siege-and-cockpit
+- commit: ff7c979 feat(entities): consolidate remaining character, spell, regional domain, and trap logic
+- changed_files_count: 67
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- src/features/camp/domain/CampService.ts
+- src/features/character-create/__tests__/characterCreateView.spec.ts
+- src/features/character-create/model/characterCreateView.ts
+- src/features/character-list/__tests__/characterListView.spec.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/chat/ui/RollModifiersDrawer.svelte
+- src/features/combat-encounter/__tests__/CombatEncounterService.spec.ts
+- src/features/combat-encounter/__tests__/CombatInventoryIntegration.spec.ts
+- src/features/combat-encounter/__tests__/CombatLootService.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- src/features/combat-encounter/__tests__/combatEncounterView.spec.ts
+- src/features/combat-encounter/__tests__/combatTrainingAttackProfile.spec.ts
+- src/features/combat-encounter/domain/CombatEncounterService.ts
+- src/features/combat-encounter/domain/CombatLootService.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatAttackerStatsView.ts
+- src/features/combat-encounter/model/combatEncounterSchemas.ts
+- src/features/combat-encounter/model/combatEncounterTypes.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/dialogue/ui/ClueList.svelte
+- src/features/dialogue/ui/DialogueHistoryLog.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/domain-regional/ui/DomainCouncilPanel.svelte
+- src/features/espionage/ui/EspionageManagementPanel.svelte
+- ... 27 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:37:42-03:00 - feat-entities-consolidation
+- branch: task/siege-and-cockpit
+- commit: 91a80a6 feat(siege): implement siege resolution logic and camp integration
+- changed_files_count: 101
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/lore/__tests__/LoreService.spec.ts
+- src/entities/lore/domain/ILoreRepository.ts
+- src/entities/lore/domain/LoreService.ts
+- src/entities/lore/index.ts
+- src/entities/lore/infrastructure/DrizzleLoreRepository.ts
+- src/entities/lore/infrastructure/InMemoryLoreRepository.ts
+- src/entities/lore/model/loreSchema.ts
+- src/entities/spell/__tests__/SpellCatalogService.spec.ts
+- src/entities/spell/model/spellCatalog.ts
+- src/entities/spell/model/spellSchema.ts
+- ... 61 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:37:12-03:00 - feat-siege
+- branch: task/siege-and-cockpit
+- commit: 41fb9f7 feat(espionage): implement espionage cell establishment and cell operations
+- changed_files_count: 98
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/spell/__tests__/SpellCatalogService.spec.ts
+- src/entities/spell/model/spellCatalog.ts
+- src/entities/spell/model/spellSchema.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- src/entities/traps/__tests__/TrapService.spec.ts
+- src/entities/traps/infrastructure/WorkerTrapRepository.ts
+- src/features/bastion/ui/DowntimeProjectList.svelte
+- ... 58 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:36:39-03:00 - feat-espionage
+- branch: task/siege-and-cockpit
+- commit: 79e3b86 feat(mercenary): implement mercenary companies and squad management
+- changed_files_count: 100
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/espionage/__tests__/EspionageService.spec.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/spell/__tests__/SpellCatalogService.spec.ts
+- src/entities/spell/model/spellCatalog.ts
+- src/entities/spell/model/spellSchema.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- src/entities/traps/__tests__/TrapService.spec.ts
+- ... 60 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:36:23-03:00 - feat-mercenary
+- branch: task/siege-and-cockpit
+- commit: 8008142 feat(social): implement factions, reputations, and blood debt standing
+- changed_files_count: 101
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/espionage/__tests__/EspionageService.spec.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/spell/__tests__/SpellCatalogService.spec.ts
+- src/entities/spell/model/spellCatalog.ts
+- src/entities/spell/model/spellSchema.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- ... 61 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:36:07-03:00 - feat-social
+- branch: task/siege-and-cockpit
+- commit: f3f3073 feat(quests): implement quest and rumor schemas with Result pattern
+- changed_files_count: 102
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/espionage/__tests__/EspionageService.spec.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/spell/__tests__/SpellCatalogService.spec.ts
+- src/entities/spell/model/spellCatalog.ts
+- src/entities/spell/model/spellSchema.ts
+- ... 62 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:35:50-03:00 - feat-quests
+- branch: task/siege-and-cockpit
+- commit: a309852 feat(world-tile): implement axial world tiles, encounters, and travel roles
+- changed_files_count: 103
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/espionage/__tests__/EspionageService.spec.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/spell/__tests__/SpellCatalogService.spec.ts
+- src/entities/spell/model/spellCatalog.ts
+- ... 63 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:35:34-03:00 - feat-world-tile
+- branch: task/siege-and-cockpit
+- commit: 1179f0d feat(equipment): implement equipment catalog and crafting decorators
+- changed_files_count: 109
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/espionage/__tests__/EspionageService.spec.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/spell/__tests__/SpellCatalogService.spec.ts
+- src/entities/spell/model/spellCatalog.ts
+- ... 69 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:35:19-03:00 - feat-equipment
+- branch: task/siege-and-cockpit
+- commit: 2cb6755 feat(dialogue): implement dialogue state schemas and branch evaluation service
+- changed_files_count: 122
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/__tests__/CraftingService.spec.ts
+- src/entities/equipment/__tests__/DrizzleCraftingRepository.spec.ts
+- src/entities/equipment/__tests__/EquipmentCatalogService.spec.ts
+- src/entities/equipment/__tests__/InMemoryCraftingRepository.ts
+- src/entities/equipment/__tests__/InventoryService.spec.ts
+- src/entities/equipment/__tests__/RepairService.spec.ts
+- src/entities/equipment/domain/CraftingRepository.ts
+- src/entities/equipment/domain/CraftingService.ts
+- src/entities/equipment/domain/RepairService.ts
+- ... 82 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:35:03-03:00 - feat-dialogue
+- branch: task/siege-and-cockpit
+- commit: 37a5704 feat(companions): implement companion and familiar summoning with sensory share
+- changed_files_count: 128
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/infrastructure/DrizzleDialogueRepository.ts
+- src/entities/dialogue/infrastructure/InMemoryDialogueRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/dialogue/model/dialogueSchema.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/__tests__/CraftingService.spec.ts
+- src/entities/equipment/__tests__/DrizzleCraftingRepository.spec.ts
+- src/entities/equipment/__tests__/EquipmentCatalogService.spec.ts
+- ... 88 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:34:47-03:00 - feat-companions
+- branch: task/siege-and-cockpit
+- commit: fcf04d2 feat(character): implement and test derived stats, dying state, and exhaustion modifiers
+- changed_files_count: 130
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/__tests__/CompanionService.spec.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/infrastructure/DrizzleDialogueRepository.ts
+- src/entities/dialogue/infrastructure/InMemoryDialogueRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/dialogue/model/dialogueSchema.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/__tests__/CraftingService.spec.ts
+- ... 90 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:34:30-03:00 - feat-character
+- branch: task/siege-and-cockpit
+- commit: cb5eda6 db(schema): consolidate database schemas and migrations 0020 to 0025
+- changed_files_count: 135
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/ClassTalentService.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/ExhaustionIntegration.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/ClassTalentService.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/LimitBreakService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/LimitBreakService.spec.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/__tests__/CompanionService.spec.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/infrastructure/DrizzleDialogueRepository.ts
+- src/entities/dialogue/infrastructure/InMemoryDialogueRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- ... 95 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-04T11:34:12-03:00 - db-schema
+- branch: task/siege-and-cockpit
+- commit: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- changed_files_count: 154
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/0020_abnormal_the_spike.sql
+- drizzle/0021_status_effects_duration.sql
+- drizzle/0022_status_effects_missing_columns.sql
+- drizzle/0023_add_crafted_item_durability_state.sql
+- drizzle/0024_add_dialogue_state_social_combat_fields.sql
+- drizzle/0025_add_character_tension_meter.sql
+- drizzle/meta/0020_snapshot.json
+- drizzle/meta/0021_snapshot.json
+- drizzle/meta/0022_snapshot.json
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/__tests__/CompanionService.spec.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- ... 114 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-03T12:47:24-03:00 - fix-App-svelte-tabs
+- branch: task/siege-and-cockpit
+- commit: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- changed_files_count: 144
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/__tests__/CompanionService.spec.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/infrastructure/DrizzleDialogueRepository.ts
+- src/entities/dialogue/infrastructure/InMemoryDialogueRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/dialogue/model/dialogueSchema.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/__tests__/CraftingService.spec.ts
+- ... 104 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-03T12:07:15-03:00 - finalizacao-fase-70
+- branch: task/siege-and-cockpit
+- commit: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- changed_files_count: 144
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/RetrainService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/domain/__tests__/RetrainService.spec.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/character/testing/CharacterBuilder.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/__tests__/CompanionService.spec.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/infrastructure/DrizzleDialogueRepository.ts
+- src/entities/dialogue/infrastructure/InMemoryDialogueRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/dialogue/model/dialogueSchema.ts
+- src/entities/domain-regional/__tests__/RegionalDomainService.spec.ts
+- src/entities/domain-regional/domain/RegionalDomainService.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/__tests__/CraftingService.spec.ts
+- ... 104 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-03T00:05:12-03:00 - manual
+- branch: task/siege-and-cockpit
+- commit: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- changed_files_count: 110
+#### Changed Files
+- CONTEXT.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/infrastructure/DrizzleDialogueRepository.ts
+- src/entities/dialogue/infrastructure/InMemoryDialogueRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/dialogue/model/dialogueSchema.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/__tests__/DrizzleCraftingRepository.spec.ts
+- src/entities/equipment/__tests__/EquipmentCatalogService.spec.ts
+- src/entities/equipment/__tests__/InMemoryCraftingRepository.ts
+- src/entities/equipment/domain/CraftingRepository.ts
+- src/entities/equipment/infrastructure/DrizzleCraftingRepository.ts
+- src/entities/equipment/infrastructure/WorkerCraftingRepository.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/entities/equipment/model/equipmentCatalog.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- ... 70 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-02T22:36:08-03:00 - Phase_67_Fix
+- branch: task/siege-and-cockpit
+- commit: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- changed_files_count: 92
+#### Changed Files
+- CONTEXT.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/__tests__/EquipmentCatalogService.spec.ts
+- src/entities/equipment/infrastructure/WorkerCraftingRepository.ts
+- src/entities/equipment/model/equipmentCatalog.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/spell/__tests__/SpellCatalogService.spec.ts
+- src/entities/spell/model/spellCatalog.ts
+- src/entities/spell/model/spellSchema.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- src/entities/traps/infrastructure/WorkerTrapRepository.ts
+- src/entities/world-tile/__tests__/EncounterService.spec.ts
+- src/entities/world-tile/domain/EncounterService.ts
+- src/entities/world-tile/index.ts
+- ... 52 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-02T22:21:26-03:00 - manual
+- branch: task/siege-and-cockpit
+- commit: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- changed_files_count: 90
+#### Changed Files
+- CONTEXT.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.ts
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/__tests__/EquipmentCatalogService.spec.ts
+- src/entities/equipment/infrastructure/WorkerCraftingRepository.ts
+- src/entities/equipment/model/equipmentCatalog.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/spell/__tests__/SpellCatalogService.spec.ts
+- src/entities/spell/model/spellCatalog.ts
+- src/entities/spell/model/spellSchema.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- src/entities/traps/infrastructure/WorkerTrapRepository.ts
+- src/entities/world-tile/__tests__/EncounterService.spec.ts
+- src/entities/world-tile/domain/EncounterService.ts
+- src/entities/world-tile/index.ts
+- ... 50 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-02T18:06:24-03:00 - Fase 64 completa
+- branch: task/siege-and-cockpit
+- commit: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- changed_files_count: 75
+#### Changed Files
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/domain/StatusEffectDecorator.ts
+- src/entities/character/index.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/infrastructure/WorkerCraftingRepository.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/spell/__tests__/SpellCatalogService.spec.ts
+- src/entities/spell/model/spellCatalog.ts
+- src/entities/spell/model/spellSchema.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- src/entities/traps/infrastructure/WorkerTrapRepository.ts
+- src/features/character-list/model/characterListView.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/chat/ui/RollModifiersDrawer.svelte
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/__tests__/combatAttackerStatsView.spec.ts
+- ... 35 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-02T15:06:26-03:00 - manual
+- branch: task/siege-and-cockpit
+- commit: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- changed_files_count: 62
+#### Changed Files
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/domain/IllnessService.ts
+- src/entities/character/infrastructure/DrizzleCharacterRepository.ts
+- src/entities/character/infrastructure/SessionCharacterRepository.ts
+- src/entities/character/model/characterRules.ts
+- src/entities/character/model/characterSchema.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/infrastructure/WorkerCraftingRepository.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- src/entities/traps/infrastructure/WorkerTrapRepository.ts
+- src/features/character-list/ui/CharacterList.svelte
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/chat/ui/RollModifiersDrawer.svelte
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/hexcrawl-map/__tests__/HexcrawlMovementService.spec.ts
+- src/features/hexcrawl-map/domain/HexcrawlMovementService.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementSchemas.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementTypes.ts
+- ... 22 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-02T12:36:41-03:00 - complete
+- branch: task/siege-and-cockpit
+- commit: 9f80e17 feat(saves): implement multi-save slots in OPFS and drag-and-drop JSON backup
+- changed_files_count: 48
+#### Changed Files
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/styles.css
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/clocks/infrastructure/WorkerClockRepository.ts
+- src/entities/companions/infrastructure/WorkerCompanionRepository.ts
+- src/entities/dialogue/infrastructure/WorkerDialogueRepository.ts
+- src/entities/domain-regional/infrastructure/WorkerRegionalDomainRepository.ts
+- src/entities/equipment/infrastructure/WorkerCraftingRepository.ts
+- src/entities/espionage/infrastructure/WorkerEspionageRepository.ts
+- src/entities/investigation/infrastructure/WorkerInvestigationRepository.ts
+- src/entities/mercenary/infrastructure/WorkerMercenaryRepository.ts
+- src/entities/quest/infrastructure/WorkerQuestRepository.ts
+- src/entities/social/infrastructure/WorkerSocialRepository.ts
+- src/entities/synergy/infrastructure/WorkerSynergyRepository.ts
+- src/entities/traps/infrastructure/WorkerTrapRepository.ts
+- src/features/chat/model/chatState.svelte.ts
+- src/features/chat/ui/ChatLog.svelte
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/hexcrawl-map/__tests__/HexcrawlMovementService.spec.ts
+- src/features/hexcrawl-map/domain/HexcrawlMovementService.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementSchemas.ts
+- src/features/hexcrawl-map/model/hexcrawlMovementTypes.ts
+- src/features/saves/infrastructure/WorkerSaveRepository.ts
+- src/features/traps/ui/TrapDeploymentPanel.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/index.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- src/shared/rpc/model/rpcTypes.ts
+- vite.config.mjs
+- vitest.config.mjs
+- ... 8 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-05-31T09:26:21-03:00 - doc-update-complete
 - branch: task/tension-limit-break
 - commit: c219ce9 feat(combat-social-rules): implementacao e consolidacao das fases 39 a 45

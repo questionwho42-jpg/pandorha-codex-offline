@@ -61,11 +61,11 @@ import {
 	IllnessWorkshopPanel,
 } from "$lib/features/crafting";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { DialoguePanel } from "$lib/features/dialogue";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { DomainCouncilPanel } from "$lib/features/domain-regional";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import EspionageManagementPanel from "$lib/features/espionage/ui/EspionageManagementPanel.svelte";
-// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
-import { DialoguePanel } from "$lib/features/dialogue";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
@@ -75,12 +75,12 @@ import { MercenaryCompanyPanel } from "$lib/features/mercenary";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { QuestLogPanel } from "$lib/features/quests";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { SaveManagerPanel } from "$lib/features/saves";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { NegotiationPanel, SocialDemo } from "$lib/features/social";
 import { SocialStandingService } from "$lib/features/social/domain/SocialStandingService";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SpellCastPanel } from "$lib/features/spell-cast";
-// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
-import { SaveManagerPanel } from "$lib/features/saves";
 import { createCharacterListView } from "../features/character-list/model/characterListView";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import TrapDeploymentPanel from "../features/traps/ui/TrapDeploymentPanel.svelte";
