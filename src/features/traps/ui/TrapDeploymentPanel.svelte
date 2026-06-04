@@ -325,7 +325,7 @@ async function triggerReclaim(trapId: string) {
 
 			<!-- Seletor de Armadilha/Tier -->
 			<div class="flex flex-col gap-1.5 mt-2">
-				<label class="text-xs font-semibold text-bone/80">Escolher Projeto (Códice Capítulo 23)</label>
+				<span class="text-xs font-semibold text-bone/80">Escolher Projeto (Códice Capítulo 23)</span>
 				<div class="flex flex-col gap-2">
 					{#each TRAP_RECIPES as recipe}
 						<button
