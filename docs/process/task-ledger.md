@@ -4136,6 +4136,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-04T20:06:45-03:00 - post-commit
+- branch: feat/metadata-tags-codex
+- commit: d634ec7 feat(combat): resolve training enemy attack
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-04T12:23:56-03:00 - post-commit
 - branch: feat/metadata-tags-codex
 - commit: 88e4479 chore(process): record post-merge snapshot
