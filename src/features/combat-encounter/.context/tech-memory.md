@@ -142,6 +142,14 @@
 - The event deliberately omits `currentHitPoints` and `nextHitPoints`; HP replay remains a future approved phase.
 - T99 does not wire UI, save v6, SQLite, Worker persistence, Moribundo, Inconsciente, concentration, DoT, durability, or official monsters.
 
+## T101 - Real Hit Points Replay
+
+- `combatRealHitPointsReplay.ts` derives HP real from `realDamageReceived` events without mutating records, saves, or UI state.
+- The replay filters by `targetId`, preserves unrelated events, sums matched damage, and clamps the visible HP at 0.
+- Overkill on the event that reaches 0 HP is accepted, but any later matching damage event returns `REAL_HIT_POINTS_EVENT_AFTER_TERMINAL`.
+- Typed failures cover invalid input, missing target, missing ledger, and post-terminal event ordering.
+- T101 still does not apply Moribundo, Inconsciente, concentration, DoT, durability, persistence, Worker, SQLite, or official monster behavior.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

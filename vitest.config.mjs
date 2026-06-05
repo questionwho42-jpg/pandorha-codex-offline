@@ -72,6 +72,7 @@ export default defineConfig({
 				"src/features/combat-encounter/model/combatAttackerStatsView.ts",
 				"src/features/combat-encounter/model/combatEncounterView.ts",
 				"src/features/combat-encounter/model/combatRealDamageEvent.ts",
+				"src/features/combat-encounter/model/combatRealHitPointsReplay.ts",
 				"src/features/combat-encounter/model/combatTrainingAttackProfile.ts",
 				"src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts",
 				"src/features/combat-encounter/model/combatTrainingTargetTurn.ts",

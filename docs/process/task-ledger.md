@@ -13,6 +13,46 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260605-195904-t101-combat-real-hp-replay -->
+### T101 combat real HP replay
+- id: 20260605-195904-t101-combat-real-hp-replay
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-05T19:59:04-03:00
+- finished_at: 2026-06-05T20:04:04-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-05T20:04:04-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: b982682 feat(combat): add real damage event contract
+- summary: Criar replay puro de HP real a partir de eventos realDamageReceived sem UI, save, banco ou estados oficiais.
+- last_change: T101 concluida: replay puro de HP real por eventos realDamageReceived criado com Result tipado, bloqueio post-terminal, exports publicos, coverage registrado e memoria tripla atualizada.
+#### Files At Start
+- docs/process/task-ledger.md
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-05T19:59:04-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T20:02:01-03:00
+- Done: T101 replay puro de HP real implementado com spec focada verde, exports publicos, coverage registrado e memoria tripla atualizada.
+- Next: Rodar gates completos, completar T101 e abrir T102 ponte evento+replay.
+- Risks: Sem UI/save; terminal oficial permanece bloqueado.
+- Improvements: T102 deve compor evento append-only e replay sem duplicar regras.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T20:04:04-03:00
+- Done: T101 concluida: replay puro de HP real por eventos realDamageReceived criado com Result tipado, bloqueio post-terminal, exports publicos, coverage registrado e memoria tripla atualizada.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260605-195904-t101-combat-real-hp-replay -->
 <!-- pandorha-task:20260605-183829-t99-combat-real-damage-event-contract -->
 ### T99 combat real damage event contract
 - id: 20260605-183829-t99-combat-real-damage-event-contract
@@ -4368,6 +4408,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-05T19:58:54-03:00 - post-commit
+- branch: task/t94-training-incoming-damage-contract
+- commit: b982682 feat(combat): add real damage event contract
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-05T19:58:41-03:00 - post-commit
 - branch: task/t94-training-incoming-damage-contract
 - commit: e113cb0 fix(app): keep active navigation label legible

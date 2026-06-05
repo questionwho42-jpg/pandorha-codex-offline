@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260605-195904-t101-combat-real-hp-replay -->
+### T101 combat real HP replay
+- id: 20260605-195904-t101-combat-real-hp-replay
+- status: open
+- created_at: 2026-06-05T19:59:04-03:00
+- source: task-ledger
+- summary: Criar replay puro de HP real a partir de eventos realDamageReceived sem UI, save, banco ou estados oficiais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-195904-t101-combat-real-hp-replay -->
 <!-- pandorha-inbox:20260605-183829-t99-combat-real-damage-event-contract -->
 ### T99 combat real damage event contract
 - id: 20260605-183829-t99-combat-real-damage-event-contract

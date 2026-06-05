@@ -53,6 +53,18 @@ export {
 	createCombatRealDamageReceivedEvent,
 	formatCombatRealDamageEventIssues,
 } from "./model/combatRealDamageEvent";
+export type {
+	CombatRealHitPointsReplayFailure,
+	CombatRealHitPointsReplayFailureCode,
+	CombatRealHitPointsReplayFailureDetails,
+	CombatRealHitPointsReplayInput,
+	CombatRealHitPointsReplayState,
+	CombatRealHitPointsReplayTargetRef,
+} from "./model/combatRealHitPointsReplay";
+export {
+	formatCombatRealHitPointsReplayIssues,
+	replayCombatRealHitPoints,
+} from "./model/combatRealHitPointsReplay";
 export {
 	type CombatAttackerOption,
 	type CombatAttackerSource,

@@ -19,8 +19,10 @@
 - T94-T96 calculate incoming training damage through the existing damage pipeline and reduce only a local, non-persistent `HP de treino` ledger for session characters.
 - T97 adds a terminal state for local defender `HP de treino`: after 0, the same encounter requires reset before calculating another received training damage.
 - T99 adds a pure `realDamageReceived` event contract for future HP replay, still without UI, save v6, persistence, or real HP mutation.
+- T101 adds a pure HP real replay from `realDamageReceived` events, still without UI, save v6, persistence, or official terminal-state application.
+- Add the event+replay bridge before exposing any real-damage preview in UI.
 - Add vulnerability `+1d6`, proficiency, and durability wear only after the audited weapon roll and target-defense contracts remain stable.
-- Expose real incoming damage in UI only after the T100 UI gate approves copy, replay boundaries, and Playwright validation scope.
+- Expose real incoming damage in UI only after T100/T103 approve copy, replay boundaries, and Playwright validation scope.
 - Add armor-category caps for the limited axis only after the exact cap table is represented in `docs/system/` and covered by tests.
 - Add real initiative only after equipment selection and fixed turn order remain stable in browser tests.
 - Add typed combat commands for attacks, reactions, spell casts, and conditions.
