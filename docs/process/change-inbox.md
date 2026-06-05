@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260605-173410-t98-official-incoming-damage-gate -->
+### T98 official incoming damage gate
+- id: 20260605-173410-t98-official-incoming-damage-gate
+- status: open
+- created_at: 2026-06-05T17:34:10-03:00
+- source: task-ledger
+- summary: Criar gate documental A/B/C para decidir dano recebido real, HP real e save v6 antes de qualquer implementacao mecanica.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-173410-t98-official-incoming-damage-gate -->
 <!-- pandorha-inbox:20260605-131506-offline-dependency-security-gate -->
 ### Offline dependency security gate
 - id: 20260605-131506-offline-dependency-security-gate

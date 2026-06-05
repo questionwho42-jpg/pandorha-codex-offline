@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260605-173410-t98-official-incoming-damage-gate -->
+### T98 official incoming damage gate
+- id: 20260605-173410-t98-official-incoming-damage-gate
+- status: completed
+- kind: maintenance
+- planned: no
+- started_at: 2026-06-05T17:34:10-03:00
+- finished_at: 2026-06-05T17:43:52-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-05T17:43:52-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: bf1996d chore(process): record post-commit snapshots
+- summary: Criar gate documental A/B/C para decidir dano recebido real, HP real e save v6 antes de qualquer implementacao mecanica.
+- last_change: T98 concluida: criado gate documental A/B/C para dano recebido real, recomendando proxima microtarefa economica sem HP real, save v6, UI, banco, durabilidade, monstros oficiais ou promocao para docs/system; gates docs:audit, lint, test, test:coverage, quality:gate e automation:doctor validados.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-05T17:34:10-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T17:43:52-03:00
+- Done: T98 concluida: criado gate documental A/B/C para dano recebido real, recomendando proxima microtarefa economica sem HP real, save v6, UI, banco, durabilidade, monstros oficiais ou promocao para docs/system; gates docs:audit, lint, test, test:coverage, quality:gate e automation:doctor validados.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260605-173410-t98-official-incoming-damage-gate -->
 <!-- pandorha-task:20260605-131506-offline-dependency-security-gate -->
 ### Offline dependency security gate
 - id: 20260605-131506-offline-dependency-security-gate
@@ -4297,6 +4329,20 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-05T17:44:00-03:00 - t98-official-incoming-damage-gate
+- branch: task/t94-training-incoming-damage-contract
+- commit: bf1996d chore(process): record post-commit snapshots
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/t98-official-incoming-damage-gate.md
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-05T15:48:53-03:00 - post-commit
 - branch: task/t94-training-incoming-damage-contract
 - commit: e94a731 chore(security): replace npm audit with offline gate
