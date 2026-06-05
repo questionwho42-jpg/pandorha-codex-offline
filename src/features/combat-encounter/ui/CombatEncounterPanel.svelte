@@ -35,6 +35,7 @@ import {
 	type CombatTrainingDefenderHitPointsFailure,
 	type CombatTrainingDefenderHitPointsState,
 	createCombatTrainingDefenderHitPoints,
+	createCombatTrainingDefenderHitPointsView,
 } from "../model/combatTrainingDefenderHitPoints";
 import {
 	type CombatTrainingEnemyAttackFailure,
@@ -186,10 +187,15 @@ let trainingEnemyDefenseSummary = $derived(
 let trainingDefenderHitPoints =
 	$state<CombatTrainingDefenderHitPointsState | null>(null);
 let trainingDefenderHitPointsError = $state<string | null>(null);
+let trainingDefenderHitPointsView = $derived(
+	trainingDefenderHitPoints
+		? createCombatTrainingDefenderHitPointsView(trainingDefenderHitPoints)
+		: null,
+);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let visibleTrainingDefenderHitPointsSummary = $derived(
 	selectedAttackerIsSessionCharacter
-		? (trainingDefenderHitPoints?.summaryLabel ??
+		? (trainingDefenderHitPointsView?.summaryLabel ??
 				trainingDefenderHitPointsError ??
 				"HP de treino indispon\u00edvel.")
 		: "Aria n\u00e3o usa HP de treino de personagem.",
@@ -564,11 +570,14 @@ function createTrainingTargetTurnLog(): TrainingTargetTurnLogResult {
 		};
 	}
 
-	if (trainingDefenderHitPoints.isDefeated) {
+	const defenderHitPointsView = createCombatTrainingDefenderHitPointsView(
+		trainingDefenderHitPoints,
+	);
+	if (!defenderHitPointsView.canReceiveTrainingDamage) {
 		return {
 			success: true,
 			entries: [
-				`${trainingDefenderHitPoints.characterLabel} j\u00e1 est\u00e1 com 0 HP de treino. Reinicie o encontro para testar novamente; Moribundo n\u00e3o foi aplicado.`,
+				`${defenderHitPointsView.terminalDescription} Nenhum novo dano de treino foi calculado.`,
 			],
 		};
 	}
@@ -886,6 +895,19 @@ onMount(() => {
 					>
 						{visibleTrainingDefenderHitPointsSummary}
 					</p>
+					{#if trainingDefenderHitPointsView?.terminalLabel}
+						<div
+							class="mt-3 border border-ether bg-ruin px-4 py-3"
+							data-testid="combat-training-defender-terminal"
+						>
+							<p class="text-sm font-semibold text-ether">
+								{trainingDefenderHitPointsView.terminalLabel}
+							</p>
+							<p class="mt-2 text-sm leading-6 text-bone">
+								{trainingDefenderHitPointsView.terminalDescription}
+							</p>
+						</div>
+					{/if}
 				{/if}
 			</div>
 			<div

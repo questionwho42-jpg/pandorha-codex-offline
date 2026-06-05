@@ -19,6 +19,7 @@ Este guia mostra como testar a vertical slice de combate no navegador. O objetiv
 - Quando Aria e a atacante, o turno do alvo de treino continua passivo e registra que ele manteve posicao.
 - Quando um personagem da sessao e o atacante, encerrar o turno do alvo resolve um ataque de treino contra a CA equipada do personagem, calcula dano de treino e reduz apenas o `HP de treino`.
 - O HP real permanece intacto: o medidor local pode chegar a 0, mas Moribundo e Inconsciente nao sao aplicados nesta fatia.
+- Quando o `HP de treino` chega a 0, a tela mostra `Teste recebido encerrado`; para testar outro dano recebido, use `Reiniciar encontro`.
 - Quando o alvo chega a 0 HP, a tela mostra `Alvo derrotado`, bloqueia novos ataques e mantem `Reiniciar encontro` disponivel.
 
 ## Teste Rapido Com Aria
@@ -79,6 +80,7 @@ Depois:
 20. Clique em `Encerrar turno` de novo.
 21. Confirme que o log registra o ataque do alvo contra a CA do personagem, calcula dano de treino e atualiza `HP de treino`.
 22. Confirme que a ficha real continua intacta; se o `HP de treino` chegar a 0, a tela informa que Moribundo e Inconsciente nao foram aplicados.
+23. Quando aparecer `Teste recebido encerrado`, confirme que o proximo dano recebido de treino exige `Reiniciar encontro`.
 
 ## Escolhendo Alvos
 
@@ -110,6 +112,7 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - `Arma equipada`: escolhe uma arma local para personagens criados na sessao.
 - `Armadura equipada` e `Escudo equipado`: escolhem defesa local para personagens criados na sessao.
 - `Defesa equipada`: mostra o bonus de CA local da armadura e do escudo, a `CA contra treino` usada no ataque recebido e o `HP de treino` local do personagem da sessao.
+- `Teste recebido encerrado`: aparece quando o `HP de treino` chegou a 0 e bloqueia novo dano recebido de treino ate `Reiniciar encontro`.
 - `Perfil de dano`: mostra qual Matriz esta sendo usada no dano de treino.
 - `Ultimo resultado`: resume o ultimo ataque resolvido.
 - `Log do encontro`: lista os eventos em ordem.
@@ -126,6 +129,8 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - A iniciativa ainda e fixa: atacante primeiro, alvo depois.
 - O alvo de treino ataca apenas personagens da sessao no turno dele; ele calcula dano de treino local, nao causa dano persistente e nao possui IA complexa.
 - Chegar a 0 no `HP de treino` nao aplica Moribundo, Inconsciente, teste de morte, ferimentos ou qualquer mudanca persistida.
+- Depois de 0 no `HP de treino`, o app nao calcula outro dano recebido de treino para o mesmo encontro; reinicie para repetir o teste.
+- Reinicie o encontro para testar outro dano recebido.
 - Os alvos sao ficticios para teste; ainda nao sao monstros oficiais.
 - Nao ha XP, loot, recompensa, banco, Worker, OPFS ou save.
 

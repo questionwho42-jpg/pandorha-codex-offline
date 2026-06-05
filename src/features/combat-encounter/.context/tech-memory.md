@@ -127,6 +127,13 @@
 - `CombatEncounterPanel.svelte` displays `HP de treino` only for session characters and appends local HP logs after the target attack.
 - Reaching 0 HP de treino does not apply Moribundo, Inconsciente, death tests, save changes, durability, or real character HP mutation.
 
+## T97 - Training Defender HP Terminal State
+
+- `createCombatTrainingDefenderHitPointsView` exposes the local defender HP terminal state as a testable view model instead of embedding the copy only in Svelte.
+- `applyCombatTrainingDefenderDamage` now short-circuits when the local ledger is already at 0 HP, preserving the state and logging that no new training damage was calculated.
+- `CombatEncounterPanel.svelte` renders `combat-training-defender-terminal` with `Teste recebido encerrado` and uses the view model before resolving another target attack.
+- The terminal state remains local to the encounter. It does not introduce real HP mutation, save, Moribundo, Inconsciente, durability, official monsters, or docs/system promotion.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

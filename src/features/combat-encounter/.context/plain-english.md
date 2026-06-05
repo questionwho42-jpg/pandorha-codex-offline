@@ -48,6 +48,10 @@ Na T94-T96, quando o alvo de treino acerta um personagem da sessao, o app tambem
 
 Esse medidor comeca no HP maximo derivado da ficha, mas vive apenas dentro do encontro atual. Ele pode chegar a 0 para mostrar que o fluxo funcionou, mas isso nao machuca a ficha real, nao salva dano, nao aplica Moribundo e nao coloca o personagem Inconsciente.
 
+Na T97, chegar a 0 no `HP de treino` virou um encerramento local claro. A tela mostra `Teste recebido encerrado` e pede `Reiniciar encontro` antes de calcular outro dano recebido de treino.
+
+Isso impede que o mesmo teste continue empilhando ataques recebidos depois que o medidor local ja zerou. Mesmo assim, ainda nao e dano real: nada muda no save, na ficha, em Moribundo, em Inconsciente ou em durabilidade.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.
@@ -58,3 +62,4 @@ Esse medidor comeca no HP maximo derivado da ficha, mas vive apenas dentro do en
 - Adicionar vulnerabilidade agora: mostraria mais uma regra oficial, mas exigiria rolar `+1d6` com auditoria e aumentaria o escopo da fase.
 - Aplicar dano recebido real imediatamente: daria retorno visual maior, mas exigiria decidir HP do personagem em combate, salvamento e regra oficial de ataque inimigo completo.
 - Usar `HP de treino` local primeiro: e menos definitivo, mas permite testar o fluxo completo de dano recebido sem arriscar save, morte ou regras oficiais ainda nao fechadas.
+- Permitir dano recebido repetido depois de 0 HP de treino: seria simples, mas confundiria o usuario e pareceria dano real; por isso a T97 exige reset local.

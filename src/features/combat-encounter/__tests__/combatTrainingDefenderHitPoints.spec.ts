@@ -5,6 +5,7 @@ import type { DamagePipelineResult } from "$lib/shared/damage";
 import {
 	applyCombatTrainingDefenderDamage,
 	createCombatTrainingDefenderHitPoints,
+	createCombatTrainingDefenderHitPointsView,
 } from "../model/combatTrainingDefenderHitPoints";
 
 const TEST_TIMESTAMP = "2026-06-04T21:22:00.000Z";
@@ -104,6 +105,60 @@ describe("combat training defender hit points", () => {
 		]);
 	});
 
+	it("exposes a terminal training HP view when the local ledger reaches zero", () => {
+		const state = expectTrainingHpSuccess(
+			createCombatTrainingDefenderHitPoints({
+				character: createCharacterRecord(),
+				characterClasses: OFFICIAL_CHARACTER_CLASSES,
+			}),
+		);
+		const defeated = expectTrainingDamageSuccess(
+			applyCombatTrainingDefenderDamage({
+				state,
+				incomingDamage: createDamageResult({ finalDamage: 99 }),
+			}),
+		).state;
+
+		const view = createCombatTrainingDefenderHitPointsView(defeated);
+
+		expect(view).toEqual({
+			canReceiveTrainingDamage: false,
+			summaryLabel: "HP de treino de Lia: 0/14",
+			terminalDescription:
+				"Lia chegou a 0 HP de treino. Reinicie o encontro para testar outro dano recebido; HP real, Moribundo e Inconsciente permanecem fora desta fatia.",
+			terminalLabel: "Teste recebido encerrado",
+		});
+	});
+
+	it("blocks repeated incoming training damage after the local ledger is already terminal", () => {
+		const state = expectTrainingHpSuccess(
+			createCombatTrainingDefenderHitPoints({
+				character: createCharacterRecord(),
+				characterClasses: OFFICIAL_CHARACTER_CLASSES,
+			}),
+		);
+		const defeated = expectTrainingDamageSuccess(
+			applyCombatTrainingDefenderDamage({
+				state,
+				incomingDamage: createDamageResult({ finalDamage: 99 }),
+			}),
+		).state;
+
+		const result = applyCombatTrainingDefenderDamage({
+			state: defeated,
+			incomingDamage: createDamageResult({ finalDamage: 6 }),
+		});
+
+		expect(result.success).toBe(true);
+		if (!result.success) {
+			return;
+		}
+		expect(result.data.state).toEqual(defeated);
+		expect(result.data.log).toEqual([
+			"Lia jÃ¡ estÃ¡ com 0 HP de treino. Reinicie o encontro para testar outro dano recebido; nenhum novo dano de treino foi calculado.",
+		]);
+	});
+
 	it("fails when the character class cannot be resolved", () => {
 		const result = createCombatTrainingDefenderHitPoints({
 			character: createCharacterRecord(),
@@ -198,6 +253,17 @@ function createDamageResult(input: {
 
 function expectTrainingHpSuccess(
 	result: ReturnType<typeof createCombatTrainingDefenderHitPoints>,
+) {
+	expect(result.success).toBe(true);
+	if (result.success) {
+		return result.data;
+	}
+
+	return result.error as never;
+}
+
+function expectTrainingDamageSuccess(
+	result: ReturnType<typeof applyCombatTrainingDefenderDamage>,
 ) {
 	expect(result.success).toBe(true);
 	if (result.success) {

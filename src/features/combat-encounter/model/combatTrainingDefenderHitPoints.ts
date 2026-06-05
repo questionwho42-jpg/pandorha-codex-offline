@@ -29,6 +29,13 @@ export interface CombatTrainingDefenderHitPointsState {
 	readonly summaryLabel: string;
 }
 
+export interface CombatTrainingDefenderHitPointsView {
+	readonly canReceiveTrainingDamage: boolean;
+	readonly summaryLabel: string;
+	readonly terminalDescription: string | null;
+	readonly terminalLabel: string | null;
+}
+
 export interface CombatTrainingDefenderHitPointsInput {
 	readonly character: CharacterRecord;
 	readonly characterClasses: readonly CharacterClassRecord[];
@@ -104,6 +111,16 @@ export function applyCombatTrainingDefenderDamage(
 	CombatTrainingDefenderDamageResult,
 	CombatTrainingDefenderHitPointsFailure
 > {
+	const view = createCombatTrainingDefenderHitPointsView(input.state);
+	if (!view.canReceiveTrainingDamage) {
+		return ok({
+			state: input.state,
+			log: [
+				`${input.state.characterLabel} jÃ¡ estÃ¡ com 0 HP de treino. Reinicie o encontro para testar outro dano recebido; nenhum novo dano de treino foi calculado.`,
+			],
+		});
+	}
+
 	if (input.incomingDamage === null) {
 		return ok({ state: input.state, log: [] });
 	}
@@ -126,6 +143,26 @@ export function applyCombatTrainingDefenderDamage(
 			`${input.state.characterLabel} sofreu ${input.incomingDamage.finalDamage} de dano de treino. HP de treino: ${state.currentHitPoints}/${state.maxHitPoints}. ${suffix}`,
 		],
 	});
+}
+
+export function createCombatTrainingDefenderHitPointsView(
+	state: CombatTrainingDefenderHitPointsState,
+): CombatTrainingDefenderHitPointsView {
+	if (!state.isDefeated) {
+		return {
+			canReceiveTrainingDamage: true,
+			summaryLabel: state.summaryLabel,
+			terminalDescription: null,
+			terminalLabel: null,
+		};
+	}
+
+	return {
+		canReceiveTrainingDamage: false,
+		summaryLabel: state.summaryLabel,
+		terminalDescription: `${state.characterLabel} chegou a 0 HP de treino. Reinicie o encontro para testar outro dano recebido; HP real, Moribundo e Inconsciente permanecem fora desta fatia.`,
+		terminalLabel: "Teste recebido encerrado",
+	};
 }
 
 function createState(input: {

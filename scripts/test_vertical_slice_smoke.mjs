@@ -103,6 +103,31 @@ test("vertical slice smoke fails when combat weapon selector contract is missing
 	}
 });
 
+test("vertical slice smoke fails when combat training defender terminal contract is missing", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
+				renderCombatEncounterPanel().replace(
+					'data-testid="combat-training-defender-terminal"',
+					'data-testid="combat-training-defender-hp"',
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(
+			result.stderr,
+			/src\/features\/combat-encounter\/ui\/CombatEncounterPanel\.svelte/,
+		);
+		assert.match(result.stderr, /combat-training-defender-terminal/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("vertical slice smoke fails when dialogue tree UI contract is missing", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -214,6 +239,8 @@ async function createFixtureRoot({
 		"src/app/model/combatEncounterSession.ts": renderCombatEncounterSession(),
 		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
 			renderCombatEncounterPanel(),
+		"src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts":
+			renderCombatTrainingDefenderHitPoints(),
 		"src/features/social-encounter/ui/SocialEncounterPanel.svelte":
 			renderSocialEncounterPanel(),
 		"src/entities/dialogue-tree/model/dialogueTreeCatalog.ts":
@@ -323,6 +350,7 @@ const activeWeaponProfile = {};
 const activeDefenseProfile = {};
 createCombatTrainingEnemyDefenseProfile();
 createCombatTrainingDefenderHitPoints();
+createCombatTrainingDefenderHitPointsView();
 applyCombatTrainingDefenderDamage();
 </script>
 <select data-testid="combat-weapon-select"></select>
@@ -335,6 +363,23 @@ applyCombatTrainingDefenderDamage();
 <p data-testid="combat-equipped-defense-profile">Defesa equipada</p>
 <p data-testid="combat-training-enemy-defense-summary">CA contra treino</p>
 <p data-testid="combat-training-defender-hp">HP de treino de Lia: 14/14</p>
+<div data-testid="combat-training-defender-terminal">
+  <p>Teste recebido encerrado</p>
+  <p>Reinicie o encontro para testar outro dano recebido.</p>
+</div>
+`;
+}
+
+function renderCombatTrainingDefenderHitPoints() {
+	return `
+export function createCombatTrainingDefenderHitPointsView() {
+  return {
+    canReceiveTrainingDamage: false,
+    terminalLabel: "Teste recebido encerrado",
+    terminalDescription: "Reinicie o encontro para testar outro dano recebido.",
+  };
+}
+const repeatedDamageLog = "nenhum novo dano de treino foi calculado";
 `;
 }
 
@@ -480,6 +525,8 @@ Defesa equipada mostra CA equipada +3.
 CA contra treino aparece para ataque recebido.
 HP de treino aparece como medidor local.
 HP real permanece intacto.
+Teste recebido encerrado aparece quando o HP de treino chega a 0.
+Reinicie o encontro para testar outro dano recebido.
 Aria usa perfil fixo de treino.
 `;
 }

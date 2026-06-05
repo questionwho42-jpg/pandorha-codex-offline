@@ -107,6 +107,7 @@ async function runVerticalSliceSmoke(root) {
 			"activeDefenseProfile",
 			"createCombatTrainingEnemyDefenseProfile",
 			"createCombatTrainingDefenderHitPoints",
+			"createCombatTrainingDefenderHitPointsView",
 			"applyCombatTrainingDefenderDamage",
 			"resolveTrainingEnemyAttack",
 			'data-testid="combat-weapon-select"',
@@ -116,10 +117,24 @@ async function runVerticalSliceSmoke(root) {
 			'data-testid="combat-equipped-defense-profile"',
 			'data-testid="combat-training-enemy-defense-summary"',
 			'data-testid="combat-training-defender-hp"',
+			'data-testid="combat-training-defender-terminal"',
 			"Aria usa perfil fixo de treino.",
 			"HP de treino",
 			"Arma ativa:",
 			"Defesa equipada",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts",
+		[
+			"createCombatTrainingDefenderHitPointsView",
+			"canReceiveTrainingDamage",
+			"Teste recebido encerrado",
+			"Reinicie o encontro para testar outro dano recebido",
+			"nenhum novo dano de treino foi calculado",
 		],
 		errors,
 	);
@@ -299,6 +314,8 @@ async function runVerticalSliceSmoke(root) {
 			"CA contra treino",
 			"HP de treino",
 			"HP real permanece intacto",
+			"Teste recebido encerrado",
+			"Reinicie o encontro para testar outro dano recebido",
 			"Aria usa perfil fixo de treino",
 		],
 		errors,
