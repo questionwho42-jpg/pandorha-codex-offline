@@ -118,6 +118,15 @@
 - UI actor metadata from attacker options must be sanitized to `{ id, label }` before entering the strict training enemy attack schema.
 - The defense axis currently uses the character `physical` value directly because no armor-category cap is implemented in code yet. Add the cap only after an explicit rule slice defines it.
 
+## T94-T96 - Training Incoming Damage And Local Defender HP
+
+- `CombatTrainingEnemyAttackService` now receives a `CombatDamagePort` and calculates fixed incoming training damage only after a hit against equipped CA.
+- The incoming damage profile is intentionally local and explicit: physical damage, `baseDiceTotal: 4`, `matrixValue: 2`, no extra modifier, no RD, no affinity, and critical multiplier delegated to `DamagePipelineService`.
+- Misses return `incomingDamage: null`; damage pipeline failures return `DAMAGE_PIPELINE_FAILED`.
+- `combatTrainingDefenderHitPoints.ts` owns the non-persistent defender HP ledger, deriving max HP through `CharacterDerivedStatsService` and clamping local training HP at 0.
+- `CombatEncounterPanel.svelte` displays `HP de treino` only for session characters and appends local HP logs after the target attack.
+- Reaching 0 HP de treino does not apply Moribundo, Inconsciente, death tests, save changes, durability, or real character HP mutation.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

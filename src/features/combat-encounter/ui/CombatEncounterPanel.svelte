@@ -31,6 +31,12 @@ import {
 	createCombatTrainingAttackProfile,
 } from "../model/combatTrainingAttackProfile";
 import {
+	applyCombatTrainingDefenderDamage,
+	type CombatTrainingDefenderHitPointsFailure,
+	type CombatTrainingDefenderHitPointsState,
+	createCombatTrainingDefenderHitPoints,
+} from "../model/combatTrainingDefenderHitPoints";
+import {
 	type CombatTrainingEnemyAttackFailure,
 	type CombatTrainingEnemyAttackInput,
 	type CombatTrainingEnemyAttackResult,
@@ -177,6 +183,17 @@ let trainingEnemyDefenseSummary = $derived(
 		? trainingEnemyDefenseProfile.data.summaryLabel
 		: null,
 );
+let trainingDefenderHitPoints =
+	$state<CombatTrainingDefenderHitPointsState | null>(null);
+let trainingDefenderHitPointsError = $state<string | null>(null);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let visibleTrainingDefenderHitPointsSummary = $derived(
+	selectedAttackerIsSessionCharacter
+		? (trainingDefenderHitPoints?.summaryLabel ??
+				trainingDefenderHitPointsError ??
+				"HP de treino indispon\u00edvel.")
+		: "Aria n\u00e3o usa HP de treino de personagem.",
+);
 let canResolveTrainingEnemyAttack = $derived(
 	selectedAttackerIsSessionCharacter &&
 		selectedAttackerCharacter !== null &&
@@ -302,6 +319,7 @@ function resetEncounter(): void {
 	errorMessage = null;
 	log = [];
 	turnState = createInitialTurnState(selectedAttacker.id, selectedTarget.id);
+	resetTrainingDefenderHitPoints();
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -316,6 +334,7 @@ function selectAttacker(event: Event): void {
 	errorMessage = null;
 	log = [];
 	turnState = createInitialTurnState(selectedAttackerId, selectedTarget.id);
+	resetTrainingDefenderHitPoints(selectedAttackerId);
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -364,6 +383,7 @@ function selectTarget(event: Event): void {
 	errorMessage = null;
 	log = [];
 	turnState = createInitialTurnState(selectedAttacker.id, nextTarget.id);
+	resetTrainingDefenderHitPoints();
 }
 
 async function refreshEquipmentLoadout(): Promise<void> {
@@ -428,6 +448,44 @@ function normalizeEquipmentSlotId(id: string): string | undefined {
 	return id ? id : undefined;
 }
 
+function resetTrainingDefenderHitPoints(
+	characterId = selectedAttackerId,
+): void {
+	const character =
+		characters.find((candidate) => candidate.id === characterId) ?? null;
+	if (!character) {
+		trainingDefenderHitPoints = null;
+		trainingDefenderHitPointsError = null;
+		return;
+	}
+
+	const result = createCombatTrainingDefenderHitPoints({
+		character,
+		characterClasses,
+	});
+	if (!result.success) {
+		trainingDefenderHitPoints = null;
+		trainingDefenderHitPointsError = mapCombatTrainingDefenderHitPointsFailure(
+			result.error,
+		);
+		return;
+	}
+
+	trainingDefenderHitPoints = result.data;
+	trainingDefenderHitPointsError = null;
+}
+
+function mapCombatTrainingDefenderHitPointsFailure(
+	failure: CombatTrainingDefenderHitPointsFailure,
+): string {
+	switch (failure.code) {
+		case "TRAINING_DEFENDER_CLASS_NOT_FOUND":
+			return "N\u00e3o foi poss\u00edvel localizar a classe para calcular o HP de treino.";
+		case "TRAINING_DEFENDER_DERIVED_STATS_FAILED":
+			return "N\u00e3o foi poss\u00edvel calcular o HP de treino deste personagem.";
+	}
+}
+
 function mapCombatEncounterFailure(failure: CombatEncounterFailure): string {
 	switch (failure.code) {
 		case "INVALID_COMBAT_ENCOUNTER_INPUT":
@@ -447,6 +505,8 @@ function mapCombatTrainingEnemyAttackFailure(
 	switch (failure.code) {
 		case "INVALID_TRAINING_ENEMY_ATTACK_INPUT":
 			return "O ataque do alvo de treino recebeu dados inválidos.";
+		case "DAMAGE_PIPELINE_FAILED":
+			return "N\u00e3o foi poss\u00edvel calcular o dano de treino recebido.";
 		case "RESOLUTION_FAILED":
 			return "Não foi possível resolver o ataque do alvo de treino.";
 	}
@@ -491,6 +551,28 @@ function createTrainingTargetTurnLog(): TrainingTargetTurnLogResult {
 		};
 	}
 
+	if (!trainingDefenderHitPoints) {
+		resetTrainingDefenderHitPoints(selectedAttackerCharacter.id);
+	}
+
+	if (!trainingDefenderHitPoints) {
+		return {
+			success: false,
+			message:
+				trainingDefenderHitPointsError ??
+				"HP de treino indispon\u00edvel para este personagem.",
+		};
+	}
+
+	if (trainingDefenderHitPoints.isDefeated) {
+		return {
+			success: true,
+			entries: [
+				`${trainingDefenderHitPoints.characterLabel} j\u00e1 est\u00e1 com 0 HP de treino. Reinicie o encontro para testar novamente; Moribundo n\u00e3o foi aplicado.`,
+			],
+		};
+	}
+
 	const result = resolveTrainingEnemyAttack({
 		attacker: {
 			id: selectedTarget.id,
@@ -510,9 +592,23 @@ function createTrainingTargetTurnLog(): TrainingTargetTurnLogResult {
 		};
 	}
 
+	const defenderHitPoints = applyCombatTrainingDefenderDamage({
+		state: trainingDefenderHitPoints,
+		incomingDamage: result.data.incomingDamage,
+	});
+	if (!defenderHitPoints.success) {
+		return {
+			success: false,
+			message: mapCombatTrainingDefenderHitPointsFailure(
+				defenderHitPoints.error,
+			),
+		};
+	}
+	trainingDefenderHitPoints = defenderHitPoints.data.state;
+
 	return {
 		success: true,
-		entries: result.data.log,
+		entries: [...result.data.log, ...defenderHitPoints.data.log],
 	};
 }
 
@@ -550,6 +646,7 @@ function createInitialTurnState(
 }
 
 onMount(() => {
+	resetTrainingDefenderHitPoints();
 	void refreshEquipmentLoadout();
 });
 </script>
@@ -782,6 +879,12 @@ onMount(() => {
 				{#if selectedAttackerIsSessionCharacter}
 					<p class="mt-2 text-sm leading-6 text-bone">
 						Ataques recebidos de treino usam esta CA; HP real permanece intacto.
+					</p>
+					<p
+						class="mt-2 text-sm font-semibold leading-6 text-bone"
+						data-testid="combat-training-defender-hp"
+					>
+						{visibleTrainingDefenderHitPointsSummary}
 					</p>
 				{/if}
 			</div>

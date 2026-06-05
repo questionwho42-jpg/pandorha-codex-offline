@@ -53,6 +53,19 @@ export type {
 } from "./model/combatTrainingAttackProfile";
 export { createCombatTrainingAttackProfile } from "./model/combatTrainingAttackProfile";
 export type {
+	CombatTrainingDefenderDamageInput,
+	CombatTrainingDefenderDamageResult,
+	CombatTrainingDefenderHitPointsFailure,
+	CombatTrainingDefenderHitPointsFailureCode,
+	CombatTrainingDefenderHitPointsFailureDetails,
+	CombatTrainingDefenderHitPointsInput,
+	CombatTrainingDefenderHitPointsState,
+} from "./model/combatTrainingDefenderHitPoints";
+export {
+	applyCombatTrainingDefenderDamage,
+	createCombatTrainingDefenderHitPoints,
+} from "./model/combatTrainingDefenderHitPoints";
+export type {
 	CombatTrainingEnemyAttackFailure,
 	CombatTrainingEnemyAttackFailureCode,
 	CombatTrainingEnemyAttackFailureDetails,

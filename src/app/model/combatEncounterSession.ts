@@ -89,6 +89,7 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 		),
 		trainingEnemyAttackService: new CombatTrainingEnemyAttackService(
 			new ResolutionService(diceService),
+			new DamagePipelineService(),
 		),
 		defaultArmorId: DEFAULT_COMBAT_ARMOR_ID,
 		defaultShieldId: DEFAULT_COMBAT_SHIELD_ID,

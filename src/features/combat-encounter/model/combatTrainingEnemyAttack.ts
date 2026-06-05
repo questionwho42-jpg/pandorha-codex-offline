@@ -5,6 +5,10 @@ import {
 	characterSelectSchema,
 } from "$lib/entities/character";
 import type { EquipmentLoadoutDefenseProfile } from "$lib/entities/equipment";
+import type {
+	DamagePipelineFailure,
+	DamagePipelineResult,
+} from "$lib/shared/damage";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type {
 	ResolutionFailure,
@@ -18,6 +22,7 @@ import type { CombatEncounterActorRef } from "./combatEncounterTypes";
 
 export type CombatTrainingEnemyAttackFailureCode =
 	| "INVALID_TRAINING_ENEMY_ATTACK_INPUT"
+	| "DAMAGE_PIPELINE_FAILED"
 	| "RESOLUTION_FAILED";
 
 export type CombatTrainingEnemyAttackFailureDetails = Readonly<
@@ -28,7 +33,7 @@ export interface CombatTrainingEnemyAttackFailure {
 	readonly code: CombatTrainingEnemyAttackFailureCode;
 	readonly message: string;
 	readonly details?: CombatTrainingEnemyAttackFailureDetails;
-	readonly cause?: ResolutionFailure;
+	readonly cause?: DamagePipelineFailure | ResolutionFailure;
 }
 
 export interface CombatTrainingEnemyDefenseProfile {
@@ -59,6 +64,7 @@ export interface CombatTrainingEnemyAttackResult {
 	readonly attacker: CombatEncounterActorRef;
 	readonly defender: CombatEncounterActorRef;
 	readonly defenderArmorClass: CombatTrainingEnemyDefenseProfile;
+	readonly incomingDamage: DamagePipelineResult | null;
 	readonly log: readonly string[];
 	readonly resolution: ResolutionResult;
 	readonly wasHit: boolean;

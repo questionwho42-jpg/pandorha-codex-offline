@@ -1,12 +1,18 @@
 import { describe, expect, it } from "vitest";
 import type { CharacterRecord } from "$lib/entities/character";
 import type { EquipmentLoadoutDefenseProfile } from "$lib/entities/equipment";
+import {
+	type DamagePipelineFailure,
+	type DamagePipelineResult,
+	DamagePipelineService,
+} from "$lib/shared/damage";
 import { DiceService } from "$lib/shared/dice";
 import {
 	createDeterministicDiceClock,
 	createSequentialDiceRollIdProvider,
 	SequenceDiceRng,
 } from "$lib/shared/dice/testing/SequenceDiceRng";
+import { fail, type Result } from "$lib/shared/lib/result";
 import { ResolutionService } from "$lib/shared/resolution";
 import { CombatTrainingEnemyAttackService } from "../domain/CombatTrainingEnemyAttackService";
 import {
@@ -90,6 +96,22 @@ describe("CombatTrainingEnemyAttackService", () => {
 
 		expect(attack.defenderArmorClass.armorClass).toBe(16);
 		expect(attack.wasHit).toBe(true);
+		expect(attack.incomingDamage).toMatchObject({
+			damageType: "physical",
+			baseDamage: 6,
+			afterCritical: 6,
+			afterReduction: 6,
+			finalDamage: 6,
+			appliedAffinities: [],
+			breakdown: {
+				baseDiceTotal: 4,
+				matrixValue: 2,
+				extraModifierTotal: 0,
+				criticalMultiplier: 1,
+				damageReduction: 0,
+				vulnerabilityBonusDamage: 0,
+			},
+		});
 		expect(attack.resolution).toMatchObject({
 			dc: 16,
 			degree: "successWithCost",
@@ -97,7 +119,8 @@ describe("CombatTrainingEnemyAttackService", () => {
 		});
 		expect(attack.log).toEqual([
 			"Guarda de Treino atacou Lia em treino contra CA 16.",
-			"Resultado do alvo: sucesso com custo, total 15 contra CA 16. Dano e HP real não foram alterados.",
+			"Resultado do alvo: sucesso com custo, total 15 contra CA 16.",
+			"Dano de treino calculado: 6 físico. HP real ainda não foi alterado.",
 		]);
 	});
 
@@ -134,6 +157,12 @@ describe("CombatTrainingEnemyAttackService", () => {
 		const attack = expectTrainingEnemyAttackSuccess(result);
 
 		expect(attack.wasHit).toBe(true);
+		expect(attack.incomingDamage).toMatchObject({
+			baseDamage: 6,
+			afterCritical: 12,
+			finalDamage: 12,
+			breakdown: { criticalMultiplier: 2 },
+		});
 		expect(attack.resolution).toMatchObject({
 			degree: "criticalSuccess",
 			total: 25,
@@ -158,6 +187,7 @@ describe("CombatTrainingEnemyAttackService", () => {
 
 		expect(attack.defenderArmorClass.armorClass).toBe(22);
 		expect(attack.wasHit).toBe(false);
+		expect(attack.incomingDamage).toBeNull();
 		expect(attack.resolution).toMatchObject({
 			dc: 22,
 			degree: "failure",
@@ -206,10 +236,33 @@ describe("CombatTrainingEnemyAttackService", () => {
 			details: { resolutionFailureCode: "DICE_ROLL_FAILED" },
 		});
 	});
+
+	it("returns a damage pipeline failure when incoming training damage cannot be calculated", () => {
+		const service = createService([0.45], new FailingDamagePipeline());
+
+		const result = service.resolveTrainingEnemyAttack({
+			attacker: { id: "training-guard", label: "Guarda de Treino" },
+			defender: { id: "session-character-1", label: "Lia" },
+			defenderCharacter: createCharacterRecord(),
+			defenderDefenseProfile: createDefenseProfile(),
+		});
+
+		expect(result.success).toBe(false);
+		if (result.success) {
+			return;
+		}
+		expect(result.error).toMatchObject({
+			code: "DAMAGE_PIPELINE_FAILED",
+			details: { damageFailureCode: "INVALID_DAMAGE_INPUT" },
+		});
+	});
 });
 
 function createService(
 	sequence: readonly number[],
+	damageService:
+		| DamagePipelineService
+		| FailingDamagePipeline = new DamagePipelineService(),
 ): CombatTrainingEnemyAttackService {
 	return new CombatTrainingEnemyAttackService(
 		new ResolutionService(
@@ -219,6 +272,7 @@ function createService(
 				createDeterministicDiceClock("2026-06-02T15:00:00.000Z"),
 			),
 		),
+		damageService,
 	);
 }
 
@@ -284,4 +338,15 @@ function expectTrainingEnemyAttackSuccess(
 	}
 
 	return result.error as never;
+}
+
+class FailingDamagePipeline {
+	public calculateDamage(
+		_input: unknown,
+	): Result<DamagePipelineResult, DamagePipelineFailure> {
+		return fail({
+			code: "INVALID_DAMAGE_INPUT",
+			message: "Damage pipeline test failure.",
+		});
+	}
 }

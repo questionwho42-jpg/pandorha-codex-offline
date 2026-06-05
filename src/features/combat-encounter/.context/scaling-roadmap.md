@@ -16,8 +16,9 @@
 - T89 feeds fixed training-target defenses into the damage pipeline, covering RD, physical resistance, and physical immunity without monster data or vulnerability dice.
 - T91 displays equipped armor/shield defense for session characters without applying it to incoming attacks.
 - T92 lets the training target resolve a minimal incoming attack against a session character's equipped CA, without applying damage, HP mutation, official monsters, AI, save, or durability.
+- T94-T96 calculate incoming training damage through the existing damage pipeline and reduce only a local, non-persistent `HP de treino` ledger for session characters.
 - Add vulnerability `+1d6`, proficiency, and durability wear only after the audited weapon roll and target-defense contracts remain stable.
-- Add real incoming damage only after the non-persistent target-attack contract is stable and an official rule for damaging the session character is approved.
+- Add real incoming damage only after the local training HP ledger remains stable, save-version scope is approved, and official character-damage consequences are planned.
 - Add armor-category caps for the limited axis only after the exact cap table is represented in `docs/system/` and covered by tests.
 - Add real initiative only after equipment selection and fixed turn order remain stable in browser tests.
 - Add typed combat commands for attacks, reactions, spell casts, and conditions.
@@ -29,4 +30,4 @@
 - This feature should not own dice, damage, or universal-test math. Those stay in `shared`.
 - T88 still avoids persistence, Worker, grid, dynamic monsters, inventory mutation, magic, full equipment math, durability wear, and rolled initiative.
 - Combat may consume equipment snapshots/profiles through props or lower-layer contracts, but equipment rules should remain in `entities/equipment`.
-- Equipped defense can be used as a transient incoming-attack target, but must remain non-persistent and non-damaging until a save-version phase and official character-damage contract are approved.
+- Equipped defense and `HP de treino` can be used as transient incoming-attack targets, but must remain non-persistent until a save-version phase and official character-damage contract are approved.

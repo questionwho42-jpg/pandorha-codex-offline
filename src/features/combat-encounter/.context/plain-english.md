@@ -44,6 +44,10 @@ Na T92, o alvo de treino passou a fazer um ataque simples quando o turno dele te
 
 O ataque do alvo serve para testar se a defesa equipada esta auditavel. Ele nao tira HP real, nao causa dano persistente, nao salva nada e nao transforma os alvos de treino em monstros oficiais. Se Aria estiver selecionada, o alvo continua apenas mantendo posicao.
 
+Na T94-T96, quando o alvo de treino acerta um personagem da sessao, o app tambem calcula um dano de treino simples e reduz um medidor chamado `HP de treino`.
+
+Esse medidor comeca no HP maximo derivado da ficha, mas vive apenas dentro do encontro atual. Ele pode chegar a 0 para mostrar que o fluxo funcionou, mas isso nao machuca a ficha real, nao salva dano, nao aplica Moribundo e nao coloca o personagem Inconsciente.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.
@@ -53,3 +57,4 @@ O ataque do alvo serve para testar se a defesa equipada esta auditavel. Ele nao 
 - Fazer o servico de dano rolar o dado internamente: reduziria uma chamada no combate, mas esconderia a auditoria de dados dentro do pipeline de dano.
 - Adicionar vulnerabilidade agora: mostraria mais uma regra oficial, mas exigiria rolar `+1d6` com auditoria e aumentaria o escopo da fase.
 - Aplicar dano recebido real imediatamente: daria retorno visual maior, mas exigiria decidir HP do personagem em combate, salvamento e regra oficial de ataque inimigo completo.
+- Usar `HP de treino` local primeiro: e menos definitivo, mas permite testar o fluxo completo de dano recebido sem arriscar save, morte ou regras oficiais ainda nao fechadas.

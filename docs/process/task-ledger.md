@@ -13,6 +13,52 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260604-211412-t94-t96-training-incoming-damage-core -->
+### T94-T96 training incoming damage core
+- id: 20260604-211412-t94-t96-training-incoming-damage-core
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-04T21:14:12-03:00
+- finished_at: 2026-06-05T10:43:06-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5 high-reasoning
+- last_modified_at: 2026-06-05T10:43:06-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: 85a24e9 chore(process): record t93 post-commit snapshot
+- summary: Implementar contrato de dano recebido de treino, HP local nao persistido e suporte documental/automacao sem save, monstros oficiais, durabilidade ou docs/system promotion.
+- last_change: T94-T96 implementadas: contrato de dano recebido de treino, HP de treino local nao persistido, UI/docs/smoke/memoria atualizados e gates funcionais verdes.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-04T21:14:12-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-04T21:25:51-03:00
+- Done: T94 implementado e validado com Vitest focado antes do bloqueio; T95/T96 implementados com HP de treino local, smoke, docs e memoria tripla.
+- Next: Rodar validadores locais sem elevacao, revisar diff e registrar bloqueio dos gates Vitest completos ate execucao elevada voltar.
+- Risks: Execucao elevada foi recusada por limite de uso depois do T94; T95/T96 ainda precisam de Vitest/lint/coverage/quality gate quando o ambiente permitir.
+- Improvements: Considerar manter HP de treino como contrato local ate save-version e regras oficiais de dano real serem aprovadas.
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-04T21:28:19-03:00
+- Done: Implementacao T94-T96 aplicada: dano recebido de treino, HP de treino local nao persistido, smoke/docs/memoria atualizados. Fechamento completo bloqueado porque Vitest/build/coverage/quality gate exigem execucao elevada e o ambiente recusou por limite de uso; lint, TypeScript, core-conventions, smoke vertical, docs:audit, automation:doctor, coverage registration, hard_stop e diff checks passaram.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-05T10:43:06-03:00
+- Done: T94-T96 implementadas: contrato de dano recebido de treino, HP de treino local nao persistido, UI/docs/smoke/memoria atualizados e gates funcionais verdes.
+- Next: Commitar a implementacao antes de rodar qa:next-phase-readiness, que exige git status limpo exceto output/.
+- Risks: HP real, save, monstros oficiais, durabilidade e estados Moribundo/Inconsciente permanecem fora do escopo.
+- Improvements: Readiness gate documentado como pos-commit; smoke vertical cobre HP de treino local.
+- Model/config: gpt-5 high-reasoning
+<!-- /pandorha-task:20260604-211412-t94-t96-training-incoming-damage-core -->
 <!-- pandorha-task:20260604-202736-t93-documentation-promotion-draft -->
 ### T93 documentation promotion draft
 - id: 20260604-202736-t93-documentation-promotion-draft
@@ -4168,6 +4214,36 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-05T10:43:13-03:00 - t94-t96-training-incoming-damage-core-final
+- branch: task/t94-training-incoming-damage-contract
+- commit: 85a24e9 chore(process): record t93 post-commit snapshot
+- changed_files_count: 20
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/combatTrainingDefenderHitPoints.spec.ts
+- src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-04T20:47:38-03:00 - post-commit
 - branch: feat/metadata-tags-codex
 - commit: 1d93e2c chore(process): record t93 post-commit snapshot

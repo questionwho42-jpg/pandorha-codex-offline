@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260604-211412-t94-t96-training-incoming-damage-core -->
+### T94-T96 training incoming damage core
+- id: 20260604-211412-t94-t96-training-incoming-damage-core
+- status: open
+- created_at: 2026-06-04T21:14:12-03:00
+- source: task-ledger
+- summary: Implementar contrato de dano recebido de treino, HP local nao persistido e suporte documental/automacao sem save, monstros oficiais, durabilidade ou docs/system promotion.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260604-211412-t94-t96-training-incoming-damage-core -->
 <!-- pandorha-inbox:20260604-202736-t93-documentation-promotion-draft -->
 ### T93 documentation promotion draft
 - id: 20260604-202736-t93-documentation-promotion-draft

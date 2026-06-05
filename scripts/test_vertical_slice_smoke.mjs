@@ -322,6 +322,8 @@ export let resolveTrainingEnemyAttack = () => undefined;
 const activeWeaponProfile = {};
 const activeDefenseProfile = {};
 createCombatTrainingEnemyDefenseProfile();
+createCombatTrainingDefenderHitPoints();
+applyCombatTrainingDefenderDamage();
 </script>
 <select data-testid="combat-weapon-select"></select>
 <select data-testid="combat-armor-select"></select>
@@ -332,6 +334,7 @@ createCombatTrainingEnemyDefenseProfile();
 </p>
 <p data-testid="combat-equipped-defense-profile">Defesa equipada</p>
 <p data-testid="combat-training-enemy-defense-summary">CA contra treino</p>
+<p data-testid="combat-training-defender-hp">HP de treino de Lia: 14/14</p>
 `;
 }
 
@@ -475,7 +478,8 @@ Armadura equipada aparece para personagens da sessao.
 Escudo equipado aparece para personagens da sessao.
 Defesa equipada mostra CA equipada +3.
 CA contra treino aparece para ataque recebido.
-Dano e HP real nao foram alterados.
+HP de treino aparece como medidor local.
+HP real permanece intacto.
 Aria usa perfil fixo de treino.
 `;
 }

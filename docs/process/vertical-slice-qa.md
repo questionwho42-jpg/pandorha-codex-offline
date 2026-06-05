@@ -96,7 +96,7 @@ O smoke T65 é estático e não substitui Browser Use quando uma mudança visual
 
 - Criação e listagem de personagens básicos.
 - Save/load local real com SQLite WASM, OPFS e Worker.
-- Combate de treino com atacante da sessão, alvos fixos, turno, ações, rolagem auditável de arma, RD/afinidades de alvo, defesa equipada local, ataque passivo do alvo contra CA de treino e derrota.
+- Combate de treino com atacante da sessão, alvos fixos, turno, ações, rolagem auditável de arma, RD/afinidades de alvo, defesa equipada local, ataque passivo do alvo contra CA de treino, HP de treino local não persistido e derrota do alvo.
 - Inventário read-only com carga de treino.
 - Magia mínima que prepara comando sem executar efeito.
 - Exploração hexcrawl mínima com mapa de 7 hexes.
@@ -116,7 +116,7 @@ O smoke T65 é estático e não substitui Browser Use quando uma mudança visual
 - As árvores de diálogo ainda são curtas, cobrem apenas a `Corretora de Treino`, o `Informante de Treino` e o `Capitão de Treino`, e preparam o argumento antes do apelo social.
 - `Pressionar` altera a relação individual por NPC e avança clocks de retaliação apenas por gatilho explícito `social-pressure`; não há avanço automático por tempo.
 - Inventário, magia, exploração e combate ainda usam dados de treino.
-- O ataque do alvo de treino contra personagens da sessão não altera HP real, dano persistente, save, durabilidade ou monstros oficiais.
+- O ataque do alvo de treino contra personagens da sessão calcula dano e reduz apenas `HP de treino` local; não altera HP real, dano persistente, save, durabilidade, Moribundo, Inconsciente ou monstros oficiais.
 - O save usa um único slot local `primary`.
 - Não há autosave, cloud sync, push, atualização avançada de cache ou PWA instalável com ícones.
 
