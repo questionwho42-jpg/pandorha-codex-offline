@@ -6,6 +6,24 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260605-131506-offline-dependency-security-gate -->
+### Offline dependency security gate
+- id: 20260605-131506-offline-dependency-security-gate
+- status: open
+- created_at: 2026-06-05T13:15:06-03:00
+- source: task-ledger
+- summary: Replace npm audit in quality gate with deterministic offline dependency security automation and explicit advisory refresh.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-131506-offline-dependency-security-gate -->
+<!-- pandorha-inbox:20260605-122617-t97-training-defender-hp-terminal -->
+### T97 training defender HP terminal
+- id: 20260605-122617-t97-training-defender-hp-terminal
+- status: open
+- created_at: 2026-06-05T12:26:17-03:00
+- source: task-ledger
+- summary: Implementar estado terminal local para HP de treino do defensor, bloqueando novo dano recebido de treino quando chegar a 0 sem HP real, save, Moribundo, Inconsciente, durabilidade ou monstros oficiais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-122617-t97-training-defender-hp-terminal -->
 <!-- pandorha-inbox:20260604-211412-t94-t96-training-incoming-damage-core -->
 ### T94-T96 training incoming damage core
 - id: 20260604-211412-t94-t96-training-incoming-damage-core

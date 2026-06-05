@@ -1,0 +1,6 @@
+{
+	"generatedAt": "2026-06-05T18:41:00.932Z",
+	"source": "npm audit --json",
+	"staleAfterDays": 30,
+	"advisories": []
+}
