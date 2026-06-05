@@ -4329,6 +4329,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-05T18:24:51-03:00 - post-commit
+- branch: task/t94-training-incoming-damage-contract
+- commit: 60b5955 docs(process): add T98 incoming damage gate
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-05T17:44:00-03:00 - t98-official-incoming-damage-gate
 - branch: task/t94-training-incoming-damage-contract
 - commit: bf1996d chore(process): record post-commit snapshots
