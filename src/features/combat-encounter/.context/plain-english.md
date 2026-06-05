@@ -52,6 +52,10 @@ Na T97, chegar a 0 no `HP de treino` virou um encerramento local claro. A tela m
 
 Isso impede que o mesmo teste continue empilhando ataques recebidos depois que o medidor local ja zerou. Mesmo assim, ainda nao e dano real: nada muda no save, na ficha, em Moribundo, em Inconsciente ou em durabilidade.
 
+Na T99, o modulo ganhou um contrato tecnico para registrar um evento de dano real recebido. Esse evento diz quem causou o dano, quem recebeu, quanto dano final foi resolvido e quando isso aconteceu.
+
+Esse contrato ainda nao muda o HP real. Ele apenas prepara o tipo de registro que um sistema futuro podera repetir para calcular o estado da ficha com seguranca. Se nao houver alvo, ledger, dano valido ou se o alvo ja estiver em estado terminal, o contrato falha de forma tipada.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.
@@ -63,3 +67,4 @@ Isso impede que o mesmo teste continue empilhando ataques recebidos depois que o
 - Aplicar dano recebido real imediatamente: daria retorno visual maior, mas exigiria decidir HP do personagem em combate, salvamento e regra oficial de ataque inimigo completo.
 - Usar `HP de treino` local primeiro: e menos definitivo, mas permite testar o fluxo completo de dano recebido sem arriscar save, morte ou regras oficiais ainda nao fechadas.
 - Permitir dano recebido repetido depois de 0 HP de treino: seria simples, mas confundiria o usuario e pareceria dano real; por isso a T97 exige reset local.
+- Registrar primeiro um evento de dano real sem alterar HP: cria uma ponte segura para replay futuro, mas ainda nao entrega mudanca visual ao jogador.

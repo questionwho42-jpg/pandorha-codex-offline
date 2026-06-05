@@ -38,6 +38,21 @@ export {
 	type CombatEncounterViewInput,
 	createCombatEncounterView,
 } from "./model/combatEncounterView";
+export type {
+	CombatRealDamageActorRef,
+	CombatRealDamageEventFailure,
+	CombatRealDamageEventFailureCode,
+	CombatRealDamageEventFailureDetails,
+	CombatRealDamageEventInput,
+	CombatRealDamageEventResult,
+	CombatRealDamageReceivedEvent,
+	CombatRealDamageReceivedEventType,
+	CombatRealDamageTargetRef,
+} from "./model/combatRealDamageEvent";
+export {
+	createCombatRealDamageReceivedEvent,
+	formatCombatRealDamageEventIssues,
+} from "./model/combatRealDamageEvent";
 export {
 	type CombatAttackerOption,
 	type CombatAttackerSource,

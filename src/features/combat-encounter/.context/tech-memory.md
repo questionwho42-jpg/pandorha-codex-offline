@@ -134,6 +134,14 @@
 - `CombatEncounterPanel.svelte` renders `combat-training-defender-terminal` with `Teste recebido encerrado` and uses the view model before resolving another target attack.
 - The terminal state remains local to the encounter. It does not introduce real HP mutation, save, Moribundo, Inconsciente, durability, official monsters, or docs/system promotion.
 
+## T99 - Real Damage Event Contract
+
+- `combatRealDamageEvent.ts` creates a pure `realDamageReceived` event contract without mutating character HP.
+- The contract requires an explicit event ledger and appends immutably, preserving the input ledger for event-sourcing safety.
+- Typed failures cover missing target, missing ledger, absent or zero damage, terminal target state, and schema validation.
+- The event deliberately omits `currentHitPoints` and `nextHitPoints`; HP replay remains a future approved phase.
+- T99 does not wire UI, save v6, SQLite, Worker persistence, Moribundo, Inconsciente, concentration, DoT, durability, or official monsters.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

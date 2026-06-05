@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260605-183829-t99-combat-real-damage-event-contract -->
+### T99 combat real damage event contract
+- id: 20260605-183829-t99-combat-real-damage-event-contract
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-05T18:38:29-03:00
+- finished_at: 2026-06-05T19:15:58-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-05T19:15:58-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: 97087f5 chore(process): record T98 post-commit snapshot
+- summary: Criar contrato puro de evento de dano recebido real sem UI, save v6, banco, HP real persistido ou estados oficiais.
+- last_change: T99 concluida: contrato puro realDamageReceived criado com Result tipado, ledger explicito append-only, falhas para alvo, ledger, dano e terminal, coverage registrado, memoria tripla e gate T100 sem UI/Playwright obrigatorio para futura mudanca visual.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-05T18:38:29-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T18:44:55-03:00
+- Done: T99 implementada com contrato puro realDamageReceived, spec TDD verde, exports publicos, memoria tripla e gate T100 sem UI.
+- Next: Rodar core-conventions, lint, testes, coverage, quality gate, docs audit e automation doctor.
+- Risks: UI permanece fora do escopo; Playwright sera obrigatorio somente quando houver mudanca visual aprovada.
+- Improvements: Proxima tarefa recomendada: replay puro de HP real a partir de eventos antes de qualquer UI.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T19:15:58-03:00
+- Done: T99 concluida: contrato puro realDamageReceived criado com Result tipado, ledger explicito append-only, falhas para alvo, ledger, dano e terminal, coverage registrado, memoria tripla e gate T100 sem UI/Playwright obrigatorio para futura mudanca visual.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260605-183829-t99-combat-real-damage-event-contract -->
 <!-- pandorha-task:20260605-173410-t98-official-incoming-damage-gate -->
 ### T98 official incoming damage gate
 - id: 20260605-173410-t98-official-incoming-damage-gate
@@ -4329,6 +4368,27 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-05T19:58:41-03:00 - post-commit
+- branch: task/t94-training-incoming-damage-contract
+- commit: e113cb0 fix(app): keep active navigation label legible
+- changed_files_count: 11
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- vitest.config.mjs
+- docs/process/t100-combat-real-damage-ui-gate.md
+- output/
+- src/features/combat-encounter/__tests__/combatRealDamageEvent.spec.ts
+- src/features/combat-encounter/model/combatRealDamageEvent.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-05T18:24:51-03:00 - post-commit
 - branch: task/t94-training-incoming-damage-contract
 - commit: 60b5955 docs(process): add T98 incoming damage gate

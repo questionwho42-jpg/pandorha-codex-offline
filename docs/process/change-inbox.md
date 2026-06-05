@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260605-183829-t99-combat-real-damage-event-contract -->
+### T99 combat real damage event contract
+- id: 20260605-183829-t99-combat-real-damage-event-contract
+- status: open
+- created_at: 2026-06-05T18:38:29-03:00
+- source: task-ledger
+- summary: Criar contrato puro de evento de dano recebido real sem UI, save v6, banco, HP real persistido ou estados oficiais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-183829-t99-combat-real-damage-event-contract -->
 <!-- pandorha-inbox:20260605-173410-t98-official-incoming-damage-gate -->
 ### T98 official incoming damage gate
 - id: 20260605-173410-t98-official-incoming-damage-gate
