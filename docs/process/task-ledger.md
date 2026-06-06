@@ -4554,6 +4554,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-06T00:31:46-03:00 - post-merge
+- branch: feat/metadata-tags-codex
+- commit: 1048d3d merge: integrate combat real HP preview
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-05T20:04:17-03:00 - post-commit
 - branch: task/t94-training-incoming-damage-contract
 - commit: 08150a3 feat(combat): add real hit points replay
