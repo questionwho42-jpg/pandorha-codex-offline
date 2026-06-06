@@ -33,3 +33,9 @@
 - `EquipmentLoadoutService` now exposes `activeDefenseProfile` alongside `activeWeaponProfile`; the summary totals armor plus shield but still does not mutate damage, attack, save data, or durability.
 - Armor and shield validation remains slot-first, then durability, then structured profile lookup, so invalid slot usage and broken equipment fail before UI can treat them as active defense.
 - A two-handed weapon plus shield remains a loadout conflict even if the shield has a valid defense profile.
+
+## 2026-06-06 - Inventory Ownership Gate
+
+- Equipment and consumable tables remain immutable catalog definitions.
+- Inventory persistence references catalog ids from a separate per-character event ledger.
+- Catalog durability and quantities are not copied into inventory events; active durability and persisted loadout remain separate future gates.

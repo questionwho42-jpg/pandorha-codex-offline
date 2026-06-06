@@ -24,4 +24,5 @@
 - Do not let equipment import combat feature code; combat can consume equipment profiles through FSD direction.
 - Do not add crafting, runes, or repair workflows until a phase explicitly scopes them.
 - Do not persist selected loadout ids until a save-version phase explicitly approves the migration.
+- Save v6 is approved only for inventory ownership events and does not approve selected loadout ids.
 - Do not let `activeDefenseProfile` change incoming damage before official character-targeting rules are implemented.
