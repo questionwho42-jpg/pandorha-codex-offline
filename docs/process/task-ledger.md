@@ -4807,6 +4807,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-06T06:50:08-03:00 - post-commit
+- branch: task/inventory-ownership-save-v6-gate
+- commit: 8ed8772 docs(inventory): approve ownership and save v6 gate
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-06T00:31:46-03:00 - post-merge
 - branch: feat/metadata-tags-codex
 - commit: 1048d3d merge: integrate combat real HP preview
