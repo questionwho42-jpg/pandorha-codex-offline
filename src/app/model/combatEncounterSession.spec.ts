@@ -272,7 +272,10 @@ describe("createCombatEncounterSession", () => {
 			total: 15,
 			dc: 16,
 		});
-		expect(result.data.log[1]).toContain("Dano e HP real não foram alterados.");
+		expect(result.data.incomingDamage?.finalDamage).toBe(6);
+		expect(result.data.log[2]).toContain(
+			"Dano de treino calculado: 6 físico. HP real ainda não foi alterado.",
+		);
 	});
 });
 

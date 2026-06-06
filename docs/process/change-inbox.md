@@ -6,6 +6,87 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260605-201308-t104-combat-real-damage-preview-ui -->
+### T104 combat real damage preview UI
+- id: 20260605-201308-t104-combat-real-damage-preview-ui
+- status: open
+- created_at: 2026-06-05T20:13:08-03:00
+- source: task-ledger
+- summary: Exibir previa local de HP real na aba Combate usando ponte evento+replay e Browser do Codex como gate, sem save, banco ou estados oficiais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-201308-t104-combat-real-damage-preview-ui -->
+<!-- pandorha-inbox:20260605-200939-t103-combat-real-damage-preview-view -->
+### T103 combat real damage preview view
+- id: 20260605-200939-t103-combat-real-damage-preview-view
+- status: open
+- created_at: 2026-06-05T20:09:39-03:00
+- source: task-ledger
+- summary: Criar view model pt-BR para previa local de HP real antes da UI, sem save, banco ou estados oficiais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-200939-t103-combat-real-damage-preview-view -->
+<!-- pandorha-inbox:20260605-200435-t102-combat-real-damage-ledger-update -->
+### T102 combat real damage ledger update
+- id: 20260605-200435-t102-combat-real-damage-ledger-update
+- status: open
+- created_at: 2026-06-05T20:04:35-03:00
+- source: task-ledger
+- summary: Compor append de evento realDamageReceived com replay puro de HP real sem UI, save, Worker ou estados oficiais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-200435-t102-combat-real-damage-ledger-update -->
+<!-- pandorha-inbox:20260605-195904-t101-combat-real-hp-replay -->
+### T101 combat real HP replay
+- id: 20260605-195904-t101-combat-real-hp-replay
+- status: open
+- created_at: 2026-06-05T19:59:04-03:00
+- source: task-ledger
+- summary: Criar replay puro de HP real a partir de eventos realDamageReceived sem UI, save, banco ou estados oficiais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-195904-t101-combat-real-hp-replay -->
+<!-- pandorha-inbox:20260605-183829-t99-combat-real-damage-event-contract -->
+### T99 combat real damage event contract
+- id: 20260605-183829-t99-combat-real-damage-event-contract
+- status: open
+- created_at: 2026-06-05T18:38:29-03:00
+- source: task-ledger
+- summary: Criar contrato puro de evento de dano recebido real sem UI, save v6, banco, HP real persistido ou estados oficiais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-183829-t99-combat-real-damage-event-contract -->
+<!-- pandorha-inbox:20260605-173410-t98-official-incoming-damage-gate -->
+### T98 official incoming damage gate
+- id: 20260605-173410-t98-official-incoming-damage-gate
+- status: open
+- created_at: 2026-06-05T17:34:10-03:00
+- source: task-ledger
+- summary: Criar gate documental A/B/C para decidir dano recebido real, HP real e save v6 antes de qualquer implementacao mecanica.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-173410-t98-official-incoming-damage-gate -->
+<!-- pandorha-inbox:20260605-131506-offline-dependency-security-gate -->
+### Offline dependency security gate
+- id: 20260605-131506-offline-dependency-security-gate
+- status: open
+- created_at: 2026-06-05T13:15:06-03:00
+- source: task-ledger
+- summary: Replace npm audit in quality gate with deterministic offline dependency security automation and explicit advisory refresh.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-131506-offline-dependency-security-gate -->
+<!-- pandorha-inbox:20260605-122617-t97-training-defender-hp-terminal -->
+### T97 training defender HP terminal
+- id: 20260605-122617-t97-training-defender-hp-terminal
+- status: open
+- created_at: 2026-06-05T12:26:17-03:00
+- source: task-ledger
+- summary: Implementar estado terminal local para HP de treino do defensor, bloqueando novo dano recebido de treino quando chegar a 0 sem HP real, save, Moribundo, Inconsciente, durabilidade ou monstros oficiais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-122617-t97-training-defender-hp-terminal -->
+<!-- pandorha-inbox:20260604-211412-t94-t96-training-incoming-damage-core -->
+### T94-T96 training incoming damage core
+- id: 20260604-211412-t94-t96-training-incoming-damage-core
+- status: open
+- created_at: 2026-06-04T21:14:12-03:00
+- source: task-ledger
+- summary: Implementar contrato de dano recebido de treino, HP local nao persistido e suporte documental/automacao sem save, monstros oficiais, durabilidade ou docs/system promotion.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260604-211412-t94-t96-training-incoming-damage-core -->
 <!-- pandorha-inbox:20260604-202736-t93-documentation-promotion-draft -->
 ### T93 documentation promotion draft
 - id: 20260604-202736-t93-documentation-promotion-draft

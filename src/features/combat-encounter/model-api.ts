@@ -38,6 +38,50 @@ export {
 	type CombatEncounterViewInput,
 	createCombatEncounterView,
 } from "./model/combatEncounterView";
+export type {
+	CombatRealDamageActorRef,
+	CombatRealDamageEventFailure,
+	CombatRealDamageEventFailureCode,
+	CombatRealDamageEventFailureDetails,
+	CombatRealDamageEventInput,
+	CombatRealDamageEventResult,
+	CombatRealDamageReceivedEvent,
+	CombatRealDamageReceivedEventType,
+	CombatRealDamageTargetRef,
+} from "./model/combatRealDamageEvent";
+export {
+	createCombatRealDamageReceivedEvent,
+	formatCombatRealDamageEventIssues,
+} from "./model/combatRealDamageEvent";
+export type {
+	CombatRealDamageLedgerUpdateFailure,
+	CombatRealDamageLedgerUpdateFailureCode,
+	CombatRealDamageLedgerUpdateFailureDetails,
+	CombatRealDamageLedgerUpdateInput,
+	CombatRealDamageLedgerUpdateResult,
+} from "./model/combatRealDamageLedgerUpdate";
+export {
+	createCombatRealDamageLedgerUpdate,
+	formatCombatRealDamageLedgerUpdateIssues,
+} from "./model/combatRealDamageLedgerUpdate";
+export type {
+	CombatRealDamagePreviewView,
+	CombatRealDamagePreviewViewInput,
+	CombatRealDamagePreviewViewStatus,
+} from "./model/combatRealDamagePreviewView";
+export { createCombatRealDamagePreviewView } from "./model/combatRealDamagePreviewView";
+export type {
+	CombatRealHitPointsReplayFailure,
+	CombatRealHitPointsReplayFailureCode,
+	CombatRealHitPointsReplayFailureDetails,
+	CombatRealHitPointsReplayInput,
+	CombatRealHitPointsReplayState,
+	CombatRealHitPointsReplayTargetRef,
+} from "./model/combatRealHitPointsReplay";
+export {
+	formatCombatRealHitPointsReplayIssues,
+	replayCombatRealHitPoints,
+} from "./model/combatRealHitPointsReplay";
 export {
 	type CombatAttackerOption,
 	type CombatAttackerSource,
@@ -52,6 +96,19 @@ export type {
 	CombatTrainingAttackProfileSource,
 } from "./model/combatTrainingAttackProfile";
 export { createCombatTrainingAttackProfile } from "./model/combatTrainingAttackProfile";
+export type {
+	CombatTrainingDefenderDamageInput,
+	CombatTrainingDefenderDamageResult,
+	CombatTrainingDefenderHitPointsFailure,
+	CombatTrainingDefenderHitPointsFailureCode,
+	CombatTrainingDefenderHitPointsFailureDetails,
+	CombatTrainingDefenderHitPointsInput,
+	CombatTrainingDefenderHitPointsState,
+} from "./model/combatTrainingDefenderHitPoints";
+export {
+	applyCombatTrainingDefenderDamage,
+	createCombatTrainingDefenderHitPoints,
+} from "./model/combatTrainingDefenderHitPoints";
 export type {
 	CombatTrainingEnemyAttackFailure,
 	CombatTrainingEnemyAttackFailureCode,

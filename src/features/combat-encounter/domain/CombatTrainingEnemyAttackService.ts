@@ -1,6 +1,9 @@
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { ResolutionDegree } from "$lib/shared/resolution";
-import type { CombatResolutionPort } from "../model/combatEncounterTypes";
+import type {
+	CombatDamagePort,
+	CombatResolutionPort,
+} from "../model/combatEncounterTypes";
 import {
 	type CombatTrainingEnemyAttackFailure,
 	type CombatTrainingEnemyAttackResult,
@@ -17,12 +20,23 @@ const TRAINING_ENEMY_ATTACK = {
 	itemBonus: 0,
 } as const;
 
+const TRAINING_ENEMY_DAMAGE = {
+	damageType: "physical",
+	baseDiceTotal: 4,
+	matrixValue: 2,
+	extraModifierTotal: 0,
+	damageReduction: 0,
+	vulnerabilityBonusDamage: 0,
+	affinities: [],
+} as const;
+
 /**
  * @description Resolves a non-persistent training target attack against the selected session character armor class.
  */
 export class CombatTrainingEnemyAttackService {
 	public constructor(
 		private readonly resolutionService: CombatResolutionPort,
+		private readonly damageService: CombatDamagePort,
 	) {}
 
 	public resolveTrainingEnemyAttack(
@@ -74,14 +88,43 @@ export class CombatTrainingEnemyAttackService {
 		}
 
 		const wasHit = resolution.data.degree !== "failure";
+		if (!wasHit) {
+			return ok({
+				attacker,
+				defender,
+				defenderArmorClass,
+				incomingDamage: null,
+				log: [
+					`${attacker.label} atacou ${defender.label} em treino contra CA ${defenderArmorClass.armorClass}.`,
+					`Resultado do alvo: ${formatDegreeLabel(resolution.data.degree)}, total ${resolution.data.total} contra CA ${defenderArmorClass.armorClass}. Nenhum dano de treino foi calculado.`,
+				],
+				resolution: resolution.data,
+				wasHit,
+			});
+		}
+
+		const incomingDamage = this.damageService.calculateDamage({
+			...TRAINING_ENEMY_DAMAGE,
+			isCriticalHit: resolution.data.degree === "criticalSuccess",
+		});
+		if (!incomingDamage.success) {
+			return fail({
+				code: "DAMAGE_PIPELINE_FAILED",
+				message: "Training enemy attack failed while calculating damage.",
+				details: { damageFailureCode: incomingDamage.error.code },
+				cause: incomingDamage.error,
+			});
+		}
 
 		return ok({
 			attacker,
 			defender,
 			defenderArmorClass,
+			incomingDamage: incomingDamage.data,
 			log: [
 				`${attacker.label} atacou ${defender.label} em treino contra CA ${defenderArmorClass.armorClass}.`,
-				`Resultado do alvo: ${formatDegreeLabel(resolution.data.degree)}, total ${resolution.data.total} contra CA ${defenderArmorClass.armorClass}. Dano e HP real não foram alterados.`,
+				`Resultado do alvo: ${formatDegreeLabel(resolution.data.degree)}, total ${resolution.data.total} contra CA ${defenderArmorClass.armorClass}.`,
+				`Dano de treino calculado: ${incomingDamage.data.finalDamage} físico. HP real ainda não foi alterado.`,
 			],
 			resolution: resolution.data,
 			wasHit,

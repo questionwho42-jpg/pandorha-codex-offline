@@ -307,13 +307,11 @@ onMount(() => {
 				<button
 					type="button"
 					aria-current={activeView === item.id ? "page" : undefined}
-					class="rounded-lg border px-4 py-2 text-sm font-medium transition-colors hover:border-ether hover:text-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether"
-					class:border-ether={activeView === item.id}
-					class:bg-ether={activeView === item.id}
-					class:text-void={activeView === item.id}
-					class:border-bronze={activeView !== item.id}
-					class:bg-ruin={activeView !== item.id}
-					class:text-bone={activeView !== item.id}
+					class={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors hover:border-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether ${
+						activeView === item.id
+							? "border-ether bg-ether text-void hover:text-void"
+							: "border-bronze bg-ruin text-bone hover:text-ether"
+					}`}
 					onclick={() => {
 						activeView = item.id;
 					}}

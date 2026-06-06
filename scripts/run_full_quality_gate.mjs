@@ -104,10 +104,20 @@ async function runRootGate() {
 	await runStep("root:lint", npmCommand, ["run", "lint"]);
 	await runStep("root:test", npmCommand, ["test"]);
 	await runStep("root:coverage", npmCommand, ["run", "test:coverage"]);
-	await runStep("root:audit", npmCommand, ["audit", "--audit-level=high"]);
+	await runStep("root:dependency-security", "node", [
+		"scripts/dependency_security_gate.mjs",
+		"--audit-level=high",
+	]);
 }
 
 async function runAutomationGate() {
+	await runStep("automation:dependency-security-tests", "node", [
+		"scripts/test_dependency_security_gate.mjs",
+	]);
+	await runStep("automation:dependency-security", "node", [
+		"scripts/dependency_security_gate.mjs",
+		"--audit-level=high",
+	]);
 	await runStep("automation:documentation-audit-tests", "node", [
 		"scripts/test_audit_docs.mjs",
 	]);

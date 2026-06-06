@@ -44,6 +44,34 @@ Na T92, o alvo de treino passou a fazer um ataque simples quando o turno dele te
 
 O ataque do alvo serve para testar se a defesa equipada esta auditavel. Ele nao tira HP real, nao causa dano persistente, nao salva nada e nao transforma os alvos de treino em monstros oficiais. Se Aria estiver selecionada, o alvo continua apenas mantendo posicao.
 
+Na T94-T96, quando o alvo de treino acerta um personagem da sessao, o app tambem calcula um dano de treino simples e reduz um medidor chamado `HP de treino`.
+
+Esse medidor comeca no HP maximo derivado da ficha, mas vive apenas dentro do encontro atual. Ele pode chegar a 0 para mostrar que o fluxo funcionou, mas isso nao machuca a ficha real, nao salva dano, nao aplica Moribundo e nao coloca o personagem Inconsciente.
+
+Na T97, chegar a 0 no `HP de treino` virou um encerramento local claro. A tela mostra `Teste recebido encerrado` e pede `Reiniciar encontro` antes de calcular outro dano recebido de treino.
+
+Isso impede que o mesmo teste continue empilhando ataques recebidos depois que o medidor local ja zerou. Mesmo assim, ainda nao e dano real: nada muda no save, na ficha, em Moribundo, em Inconsciente ou em durabilidade.
+
+Na T99, o modulo ganhou um contrato tecnico para registrar um evento de dano real recebido. Esse evento diz quem causou o dano, quem recebeu, quanto dano final foi resolvido e quando isso aconteceu.
+
+Esse contrato ainda nao muda o HP real. Ele apenas prepara o tipo de registro que um sistema futuro podera repetir para calcular o estado da ficha com seguranca. Se nao houver alvo, ledger, dano valido ou se o alvo ja estiver em estado terminal, o contrato falha de forma tipada.
+
+Na T101, o modulo ganhou essa repeticao segura dos eventos. Ele olha para a lista de eventos `realDamageReceived`, pega apenas os eventos do personagem certo e calcula quanto HP real sobraria.
+
+Mesmo assim, ainda e uma conta local: nao salva a ficha, nao muda banco, nao aplica Moribundo, nao aplica Inconsciente e nao mexe em durabilidade. Se a lista tentar colocar outro dano depois que o HP ja chegou a 0, o replay bloqueia para evitar uma historia de combate incoerente.
+
+Na T102, o modulo passou a juntar as duas partes: primeiro calcula o HP real atual pela lista de eventos, depois registra um novo evento de dano real e calcula o HP de novo.
+
+Essa ponte ainda nao aparece na tela e ainda nao salva nada. Ela existe para garantir que qualquer futura previa visual use o mesmo caminho auditavel: evento primeiro, HP calculado depois.
+
+Na T103, a frase que pode aparecer na tela foi preparada antes da tela existir. Ela sempre chama o resultado de `Previa local de HP real` e avisa que isso nao salva a ficha nem aplica Moribundo ou Inconsciente.
+
+Isso evita que a interface prometa dano persistido antes de existir save, banco ou estado oficial de 0 HP.
+
+Na T104, essa previa local passou a aparecer na aba Combate para personagens criados na sessao. Quando o alvo de treino acerta e causa dano de treino, a tela tambem mostra uma conta separada de como ficaria o HP real se os eventos locais fossem repetidos.
+
+Essa previa ainda nao e o HP salvo da ficha. Trocar atacante, trocar alvo, trocar equipamento ou reiniciar o encontro limpa a previa local.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.
@@ -53,3 +81,10 @@ O ataque do alvo serve para testar se a defesa equipada esta auditavel. Ele nao 
 - Fazer o servico de dano rolar o dado internamente: reduziria uma chamada no combate, mas esconderia a auditoria de dados dentro do pipeline de dano.
 - Adicionar vulnerabilidade agora: mostraria mais uma regra oficial, mas exigiria rolar `+1d6` com auditoria e aumentaria o escopo da fase.
 - Aplicar dano recebido real imediatamente: daria retorno visual maior, mas exigiria decidir HP do personagem em combate, salvamento e regra oficial de ataque inimigo completo.
+- Usar `HP de treino` local primeiro: e menos definitivo, mas permite testar o fluxo completo de dano recebido sem arriscar save, morte ou regras oficiais ainda nao fechadas.
+- Permitir dano recebido repetido depois de 0 HP de treino: seria simples, mas confundiria o usuario e pareceria dano real; por isso a T97 exige reset local.
+- Registrar primeiro um evento de dano real sem alterar HP: cria uma ponte segura para replay futuro, mas ainda nao entrega mudanca visual ao jogador.
+- Repetir eventos para calcular HP real antes de salvar qualquer coisa: deixa a regra auditavel, mas ainda precisa de uma ponte e uma copy segura antes de aparecer na interface.
+- Juntar evento e replay em uma funcao pura: facilita ligar uma futura UI sem inventar regra no componente, mas ainda nao resolve persistencia nem estados oficiais.
+- Preparar a copy em um view model: reduz risco visual, mas ainda exige validacao renderizada no navegador antes de entregar para usuario.
+- Mostrar a previa local na tela: da feedback visual, mas continua propositalmente separada do `HP de treino` e do save real.

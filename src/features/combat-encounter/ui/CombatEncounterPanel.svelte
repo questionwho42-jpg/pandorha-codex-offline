@@ -9,6 +9,7 @@ import type {
 	EquipmentLoadoutSnapshot,
 	EquipmentRecord,
 } from "$lib/entities/equipment";
+import type { DamagePipelineResult } from "$lib/shared/damage";
 import type { Result } from "$lib/shared/lib/result";
 import { CombatTurnService } from "../domain/CombatTurnService";
 import { createCombatAttackerStatsView } from "../model/combatAttackerStatsView";
@@ -22,6 +23,13 @@ import {
 	type CombatEncounterView,
 	createCombatEncounterView,
 } from "../model/combatEncounterView";
+import type { CombatRealDamageReceivedEvent } from "../model/combatRealDamageEvent";
+import {
+	type CombatRealDamageLedgerUpdateFailure,
+	createCombatRealDamageLedgerUpdate,
+} from "../model/combatRealDamageLedgerUpdate";
+import { createCombatRealDamagePreviewView } from "../model/combatRealDamagePreviewView";
+import type { CombatRealHitPointsReplayState } from "../model/combatRealHitPointsReplay";
 import {
 	createCombatAttackerOptions,
 	findCombatAttackerOptionById,
@@ -30,6 +38,13 @@ import {
 	type CombatTrainingAttackProfile,
 	createCombatTrainingAttackProfile,
 } from "../model/combatTrainingAttackProfile";
+import {
+	applyCombatTrainingDefenderDamage,
+	type CombatTrainingDefenderHitPointsFailure,
+	type CombatTrainingDefenderHitPointsState,
+	createCombatTrainingDefenderHitPoints,
+	createCombatTrainingDefenderHitPointsView,
+} from "../model/combatTrainingDefenderHitPoints";
 import {
 	type CombatTrainingEnemyAttackFailure,
 	type CombatTrainingEnemyAttackInput,
@@ -95,6 +110,7 @@ type TrainingTargetTurnLogResult =
 	| { readonly success: false; readonly message: string };
 
 const turnService = new CombatTurnService();
+const REAL_DAMAGE_PREVIEW_START_MS = Date.parse("2026-06-05T20:13:00.000Z");
 
 let {
 	attacker,
@@ -176,6 +192,37 @@ let trainingEnemyDefenseSummary = $derived(
 	trainingEnemyDefenseProfile?.success
 		? trainingEnemyDefenseProfile.data.summaryLabel
 		: null,
+);
+let trainingDefenderHitPoints =
+	$state<CombatTrainingDefenderHitPointsState | null>(null);
+let trainingDefenderHitPointsError = $state<string | null>(null);
+let realDamageEventLedger = $state<readonly CombatRealDamageReceivedEvent[]>(
+	[],
+);
+let realDamagePreviewHitPoints = $state<CombatRealHitPointsReplayState | null>(
+	null,
+);
+let realDamagePreviewError = $state<string | null>(null);
+let nextRealDamagePreviewEventIndex = 1;
+let trainingDefenderHitPointsView = $derived(
+	trainingDefenderHitPoints
+		? createCombatTrainingDefenderHitPointsView(trainingDefenderHitPoints)
+		: null,
+);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let realDamagePreviewView = $derived(
+	createCombatRealDamagePreviewView({
+		failureMessage: realDamagePreviewError,
+		hitPoints: realDamagePreviewHitPoints,
+	}),
+);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let visibleTrainingDefenderHitPointsSummary = $derived(
+	selectedAttackerIsSessionCharacter
+		? (trainingDefenderHitPointsView?.summaryLabel ??
+				trainingDefenderHitPointsError ??
+				"HP de treino indispon\u00edvel.")
+		: "Aria n\u00e3o usa HP de treino de personagem.",
 );
 let canResolveTrainingEnemyAttack = $derived(
 	selectedAttackerIsSessionCharacter &&
@@ -302,6 +349,8 @@ function resetEncounter(): void {
 	errorMessage = null;
 	log = [];
 	turnState = createInitialTurnState(selectedAttacker.id, selectedTarget.id);
+	resetTrainingDefenderHitPoints();
+	resetRealDamagePreview();
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -316,6 +365,8 @@ function selectAttacker(event: Event): void {
 	errorMessage = null;
 	log = [];
 	turnState = createInitialTurnState(selectedAttackerId, selectedTarget.id);
+	resetTrainingDefenderHitPoints(selectedAttackerId);
+	resetRealDamagePreview();
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -364,6 +415,8 @@ function selectTarget(event: Event): void {
 	errorMessage = null;
 	log = [];
 	turnState = createInitialTurnState(selectedAttacker.id, nextTarget.id);
+	resetTrainingDefenderHitPoints();
+	resetRealDamagePreview();
 }
 
 async function refreshEquipmentLoadout(): Promise<void> {
@@ -428,6 +481,108 @@ function normalizeEquipmentSlotId(id: string): string | undefined {
 	return id ? id : undefined;
 }
 
+function resetTrainingDefenderHitPoints(
+	characterId = selectedAttackerId,
+): void {
+	const character =
+		characters.find((candidate) => candidate.id === characterId) ?? null;
+	if (!character) {
+		trainingDefenderHitPoints = null;
+		trainingDefenderHitPointsError = null;
+		return;
+	}
+
+	const result = createCombatTrainingDefenderHitPoints({
+		character,
+		characterClasses,
+	});
+	if (!result.success) {
+		trainingDefenderHitPoints = null;
+		trainingDefenderHitPointsError = mapCombatTrainingDefenderHitPointsFailure(
+			result.error,
+		);
+		return;
+	}
+
+	trainingDefenderHitPoints = result.data;
+	trainingDefenderHitPointsError = null;
+}
+
+function resetRealDamagePreview(): void {
+	realDamageEventLedger = [];
+	realDamagePreviewHitPoints = null;
+	realDamagePreviewError = null;
+	nextRealDamagePreviewEventIndex = 1;
+}
+
+function applyRealDamagePreview(
+	incomingDamage: DamagePipelineResult | null,
+): void {
+	if (
+		incomingDamage === null ||
+		!selectedAttackerCharacter ||
+		!trainingDefenderHitPoints
+	) {
+		return;
+	}
+
+	const eventId = `real-damage-preview-${nextRealDamagePreviewEventIndex}`;
+	const result = createCombatRealDamageLedgerUpdate({
+		createdAt: createRealDamagePreviewTimestamp(),
+		eventId,
+		eventLedger: realDamageEventLedger,
+		incomingDamage,
+		source: {
+			id: selectedTarget.id,
+			label: selectedTarget.label,
+		},
+		target: {
+			id: selectedAttackerCharacter.id,
+			label: selectedAttackerCharacter.name,
+			maxHitPoints: trainingDefenderHitPoints.maxHitPoints,
+		},
+	});
+	if (!result.success) {
+		realDamagePreviewError = mapCombatRealDamageLedgerUpdateFailure(
+			result.error,
+		);
+		return;
+	}
+
+	nextRealDamagePreviewEventIndex += 1;
+	realDamageEventLedger = result.data.eventLedger;
+	realDamagePreviewHitPoints = result.data.hitPoints;
+	realDamagePreviewError = null;
+}
+
+function createRealDamagePreviewTimestamp(): string {
+	return new Date(
+		REAL_DAMAGE_PREVIEW_START_MS + (nextRealDamagePreviewEventIndex - 1) * 1000,
+	).toISOString();
+}
+
+function mapCombatRealDamageLedgerUpdateFailure(
+	failure: CombatRealDamageLedgerUpdateFailure,
+): string {
+	switch (failure.code) {
+		case "INVALID_REAL_DAMAGE_LEDGER_UPDATE_INPUT":
+		case "REAL_DAMAGE_REPLAY_FAILED":
+		case "REAL_DAMAGE_EVENT_FAILED":
+			return "Prévia local de HP real indisponível.";
+	}
+}
+
+function mapCombatTrainingDefenderHitPointsFailure(
+	failure: CombatTrainingDefenderHitPointsFailure,
+): string {
+	switch (failure.code) {
+		case "TRAINING_DEFENDER_CLASS_NOT_FOUND":
+			return "N\u00e3o foi poss\u00edvel localizar a classe para calcular o HP de treino.";
+		case "TRAINING_DEFENDER_DERIVED_STATS_FAILED":
+			return "N\u00e3o foi poss\u00edvel calcular o HP de treino deste personagem.";
+	}
+}
+
 function mapCombatEncounterFailure(failure: CombatEncounterFailure): string {
 	switch (failure.code) {
 		case "INVALID_COMBAT_ENCOUNTER_INPUT":
@@ -447,6 +602,8 @@ function mapCombatTrainingEnemyAttackFailure(
 	switch (failure.code) {
 		case "INVALID_TRAINING_ENEMY_ATTACK_INPUT":
 			return "O ataque do alvo de treino recebeu dados inválidos.";
+		case "DAMAGE_PIPELINE_FAILED":
+			return "N\u00e3o foi poss\u00edvel calcular o dano de treino recebido.";
 		case "RESOLUTION_FAILED":
 			return "Não foi possível resolver o ataque do alvo de treino.";
 	}
@@ -491,6 +648,31 @@ function createTrainingTargetTurnLog(): TrainingTargetTurnLogResult {
 		};
 	}
 
+	if (!trainingDefenderHitPoints) {
+		resetTrainingDefenderHitPoints(selectedAttackerCharacter.id);
+	}
+
+	if (!trainingDefenderHitPoints) {
+		return {
+			success: false,
+			message:
+				trainingDefenderHitPointsError ??
+				"HP de treino indispon\u00edvel para este personagem.",
+		};
+	}
+
+	const defenderHitPointsView = createCombatTrainingDefenderHitPointsView(
+		trainingDefenderHitPoints,
+	);
+	if (!defenderHitPointsView.canReceiveTrainingDamage) {
+		return {
+			success: true,
+			entries: [
+				`${defenderHitPointsView.terminalDescription} Nenhum novo dano de treino foi calculado.`,
+			],
+		};
+	}
+
 	const result = resolveTrainingEnemyAttack({
 		attacker: {
 			id: selectedTarget.id,
@@ -510,9 +692,24 @@ function createTrainingTargetTurnLog(): TrainingTargetTurnLogResult {
 		};
 	}
 
+	const defenderHitPoints = applyCombatTrainingDefenderDamage({
+		state: trainingDefenderHitPoints,
+		incomingDamage: result.data.incomingDamage,
+	});
+	if (!defenderHitPoints.success) {
+		return {
+			success: false,
+			message: mapCombatTrainingDefenderHitPointsFailure(
+				defenderHitPoints.error,
+			),
+		};
+	}
+	trainingDefenderHitPoints = defenderHitPoints.data.state;
+	applyRealDamagePreview(result.data.incomingDamage);
+
 	return {
 		success: true,
-		entries: result.data.log,
+		entries: [...result.data.log, ...defenderHitPoints.data.log],
 	};
 }
 
@@ -550,6 +747,7 @@ function createInitialTurnState(
 }
 
 onMount(() => {
+	resetTrainingDefenderHitPoints();
 	void refreshEquipmentLoadout();
 });
 </script>
@@ -783,6 +981,45 @@ onMount(() => {
 					<p class="mt-2 text-sm leading-6 text-bone">
 						Ataques recebidos de treino usam esta CA; HP real permanece intacto.
 					</p>
+					<p
+						class="mt-2 text-sm font-semibold leading-6 text-bone"
+						data-testid="combat-training-defender-hp"
+					>
+						{visibleTrainingDefenderHitPointsSummary}
+					</p>
+					<div
+						class="mt-3 border border-bronze bg-ruin px-4 py-3"
+						data-testid="combat-real-damage-preview"
+					>
+						<p class="text-sm font-semibold text-ether">
+							{realDamagePreviewView.titleLabel}
+						</p>
+						<p
+							class="mt-2 text-sm font-semibold leading-6 text-bone"
+							data-testid="combat-real-damage-preview-summary"
+						>
+							{realDamagePreviewView.summaryLabel}
+						</p>
+						<p
+							class="mt-2 text-sm leading-6 text-bone"
+							data-testid="combat-real-damage-preview-description"
+						>
+							{realDamagePreviewView.description}
+						</p>
+					</div>
+					{#if trainingDefenderHitPointsView?.terminalLabel}
+						<div
+							class="mt-3 border border-ether bg-ruin px-4 py-3"
+							data-testid="combat-training-defender-terminal"
+						>
+							<p class="text-sm font-semibold text-ether">
+								{trainingDefenderHitPointsView.terminalLabel}
+							</p>
+							<p class="mt-2 text-sm leading-6 text-bone">
+								{trainingDefenderHitPointsView.terminalDescription}
+							</p>
+						</div>
+					{/if}
 				{/if}
 			</div>
 			<div

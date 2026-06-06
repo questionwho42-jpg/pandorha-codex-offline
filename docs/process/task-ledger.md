@@ -13,6 +13,392 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260605-201308-t104-combat-real-damage-preview-ui -->
+### T104 combat real damage preview UI
+- id: 20260605-201308-t104-combat-real-damage-preview-ui
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-05T20:13:08-03:00
+- finished_at: 2026-06-06T00:19:27-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-06T00:19:27-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: 08150a3 feat(combat): add real hit points replay
+- summary: Exibir previa local de HP real na aba Combate usando ponte evento+replay e Browser do Codex como gate, sem save, banco ou estados oficiais.
+- last_change: Local real HP preview UI implemented and documented. Coverage reached 100% with 707 tests; build, full quality gate, self-review, and Codex In-app Browser validation passed, including active preview, reset, Aria hiding, narrow viewport containment, and clean console.
+#### Files At Start
+- docs/process/change-inbox.md
+- docs/process/t100-combat-real-damage-ui-gate.md
+- docs/process/task-ledger.md
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/combatRealDamageLedgerUpdate.spec.ts
+- src/features/combat-encounter/__tests__/combatRealDamagePreviewView.spec.ts
+- src/features/combat-encounter/model/combatRealDamageLedgerUpdate.ts
+- src/features/combat-encounter/model/combatRealDamagePreviewView.ts
+#### Checkpoints
+#### Checkpoint 2026-06-05T20:13:08-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T20:19:33-03:00
+- Done: Implemented local real HP preview UI in CombatEncounterPanel, documented user flow, updated module context, and validated non-elevated gates: core-conventions, npm test, lint, qa:vertical-slice, docs:audit, maintenance validate and doctor.
+- Next: Run elevated coverage, build, quality gate, commit T102-T104, and Codex Browser UI validation after the elevation usage limit and iab bootstrap issues are resolved.
+- Risks: Coverage, build, quality gate, commit, and Codex Browser validation remain blocked by elevation usage limit and unusable iab/browser bootstrap.
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T20:19:40-03:00
+- Done: Local real HP preview UI implemented and documented. Non-elevated gates passed. Final elevated gates and Codex Browser validation are blocked by environment limits.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-06T00:19:27-03:00
+- Done: Local real HP preview UI implemented and documented. Coverage reached 100% with 707 tests; build, full quality gate, self-review, and Codex In-app Browser validation passed, including active preview, reset, Aria hiding, narrow viewport containment, and clean console.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260605-201308-t104-combat-real-damage-preview-ui -->
+<!-- pandorha-task:20260605-200939-t103-combat-real-damage-preview-view -->
+### T103 combat real damage preview view
+- id: 20260605-200939-t103-combat-real-damage-preview-view
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-05T20:09:39-03:00
+- finished_at: 2026-06-05T20:12:54-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-05T20:12:54-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: 08150a3 feat(combat): add real hit points replay
+- summary: Criar view model pt-BR para previa local de HP real antes da UI, sem save, banco ou estados oficiais.
+- last_change: T103 concluida: view model pt-BR para previa local de HP real criado com estados unavailable/active/terminal/failure, copy segura, exports publicos, coverage registrado e T100/contextos atualizados.
+#### Files At Start
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/combatRealDamageLedgerUpdate.spec.ts
+- src/features/combat-encounter/model/combatRealDamageLedgerUpdate.ts
+#### Checkpoints
+#### Checkpoint 2026-06-05T20:09:39-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T20:12:10-03:00
+- Done: T103 view model de previa local de HP real implementado com spec focada verde e copy segura pt-BR.
+- Next: Completar T103 e integrar UI minima T104.
+- Risks: Coverage elevado segue bloqueado pelo limite do ambiente; repetir no fechamento se permitido.
+- Improvements: T104 deve consumir o view model sem duplicar copy no Svelte.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T20:12:54-03:00
+- Done: T103 concluida: view model pt-BR para previa local de HP real criado com estados unavailable/active/terminal/failure, copy segura, exports publicos, coverage registrado e T100/contextos atualizados.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260605-200939-t103-combat-real-damage-preview-view -->
+<!-- pandorha-task:20260605-200435-t102-combat-real-damage-ledger-update -->
+### T102 combat real damage ledger update
+- id: 20260605-200435-t102-combat-real-damage-ledger-update
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-05T20:04:35-03:00
+- finished_at: 2026-06-05T20:09:01-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-05T20:09:01-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: 08150a3 feat(combat): add real hit points replay
+- summary: Compor append de evento realDamageReceived com replay puro de HP real sem UI, save, Worker ou estados oficiais.
+- last_change: T102 concluida: ponte pura entre realDamageReceived e replay de HP real criada com Result tipado, bloqueios terminal/replay, exports publicos, coverage registrado e memoria tripla atualizada.
+#### Files At Start
+- docs/process/task-ledger.md
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-05T20:04:35-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T20:09:00-03:00
+- Done: T102 ponte evento+replay implementada com specs focadas e lint verdes.
+- Next: Completar T102, commitar e abrir T103 copy/view model.
+- Risks: Coverage elevado bloqueado pelo limite de uso do ambiente; repetir no fechamento se a elevação voltar.
+- Improvements: T103 deve manter copy pt-BR segura e testavel antes de Svelte.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T20:09:01-03:00
+- Done: T102 concluida: ponte pura entre realDamageReceived e replay de HP real criada com Result tipado, bloqueios terminal/replay, exports publicos, coverage registrado e memoria tripla atualizada.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260605-200435-t102-combat-real-damage-ledger-update -->
+<!-- pandorha-task:20260605-195904-t101-combat-real-hp-replay -->
+### T101 combat real HP replay
+- id: 20260605-195904-t101-combat-real-hp-replay
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-05T19:59:04-03:00
+- finished_at: 2026-06-05T20:04:04-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-05T20:04:04-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: b982682 feat(combat): add real damage event contract
+- summary: Criar replay puro de HP real a partir de eventos realDamageReceived sem UI, save, banco ou estados oficiais.
+- last_change: T101 concluida: replay puro de HP real por eventos realDamageReceived criado com Result tipado, bloqueio post-terminal, exports publicos, coverage registrado e memoria tripla atualizada.
+#### Files At Start
+- docs/process/task-ledger.md
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-05T19:59:04-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T20:02:01-03:00
+- Done: T101 replay puro de HP real implementado com spec focada verde, exports publicos, coverage registrado e memoria tripla atualizada.
+- Next: Rodar gates completos, completar T101 e abrir T102 ponte evento+replay.
+- Risks: Sem UI/save; terminal oficial permanece bloqueado.
+- Improvements: T102 deve compor evento append-only e replay sem duplicar regras.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T20:04:04-03:00
+- Done: T101 concluida: replay puro de HP real por eventos realDamageReceived criado com Result tipado, bloqueio post-terminal, exports publicos, coverage registrado e memoria tripla atualizada.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260605-195904-t101-combat-real-hp-replay -->
+<!-- pandorha-task:20260605-183829-t99-combat-real-damage-event-contract -->
+### T99 combat real damage event contract
+- id: 20260605-183829-t99-combat-real-damage-event-contract
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-05T18:38:29-03:00
+- finished_at: 2026-06-05T19:15:58-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-05T19:15:58-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: 97087f5 chore(process): record T98 post-commit snapshot
+- summary: Criar contrato puro de evento de dano recebido real sem UI, save v6, banco, HP real persistido ou estados oficiais.
+- last_change: T99 concluida: contrato puro realDamageReceived criado com Result tipado, ledger explicito append-only, falhas para alvo, ledger, dano e terminal, coverage registrado, memoria tripla e gate T100 sem UI/Playwright obrigatorio para futura mudanca visual.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-05T18:38:29-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T18:44:55-03:00
+- Done: T99 implementada com contrato puro realDamageReceived, spec TDD verde, exports publicos, memoria tripla e gate T100 sem UI.
+- Next: Rodar core-conventions, lint, testes, coverage, quality gate, docs audit e automation doctor.
+- Risks: UI permanece fora do escopo; Playwright sera obrigatorio somente quando houver mudanca visual aprovada.
+- Improvements: Proxima tarefa recomendada: replay puro de HP real a partir de eventos antes de qualquer UI.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T19:15:58-03:00
+- Done: T99 concluida: contrato puro realDamageReceived criado com Result tipado, ledger explicito append-only, falhas para alvo, ledger, dano e terminal, coverage registrado, memoria tripla e gate T100 sem UI/Playwright obrigatorio para futura mudanca visual.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260605-183829-t99-combat-real-damage-event-contract -->
+<!-- pandorha-task:20260605-173410-t98-official-incoming-damage-gate -->
+### T98 official incoming damage gate
+- id: 20260605-173410-t98-official-incoming-damage-gate
+- status: completed
+- kind: maintenance
+- planned: no
+- started_at: 2026-06-05T17:34:10-03:00
+- finished_at: 2026-06-05T17:43:52-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-05T17:43:52-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: bf1996d chore(process): record post-commit snapshots
+- summary: Criar gate documental A/B/C para decidir dano recebido real, HP real e save v6 antes de qualquer implementacao mecanica.
+- last_change: T98 concluida: criado gate documental A/B/C para dano recebido real, recomendando proxima microtarefa economica sem HP real, save v6, UI, banco, durabilidade, monstros oficiais ou promocao para docs/system; gates docs:audit, lint, test, test:coverage, quality:gate e automation:doctor validados.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-05T17:34:10-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T17:43:52-03:00
+- Done: T98 concluida: criado gate documental A/B/C para dano recebido real, recomendando proxima microtarefa economica sem HP real, save v6, UI, banco, durabilidade, monstros oficiais ou promocao para docs/system; gates docs:audit, lint, test, test:coverage, quality:gate e automation:doctor validados.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260605-173410-t98-official-incoming-damage-gate -->
+<!-- pandorha-task:20260605-131506-offline-dependency-security-gate -->
+### Offline dependency security gate
+- id: 20260605-131506-offline-dependency-security-gate
+- status: completed
+- kind: chore
+- planned: no
+- started_at: 2026-06-05T13:15:06-03:00
+- finished_at: 2026-06-05T13:27:48-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-05T13:27:48-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: fd9a314 chore(process): record t94 post-commit snapshot
+- summary: Replace npm audit in quality gate with deterministic offline dependency security automation and explicit advisory refresh.
+- last_change: Implemented an offline dependency security gate that replaces npm audit inside quality:gate, added a versioned advisory database, manual advisory refresh automation, focused tests, package scripts, quality automation integration, and process documentation.
+#### Files At Start
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatTrainingDefenderHitPoints.spec.ts
+- src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-05T13:15:06-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T13:27:48-03:00
+- Done: Implemented an offline dependency security gate that replaces npm audit inside quality:gate, added a versioned advisory database, manual advisory refresh automation, focused tests, package scripts, quality automation integration, and process documentation.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260605-131506-offline-dependency-security-gate -->
+<!-- pandorha-task:20260605-122617-t97-training-defender-hp-terminal -->
+### T97 training defender HP terminal
+- id: 20260605-122617-t97-training-defender-hp-terminal
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-05T12:26:17-03:00
+- finished_at: 2026-06-05T12:36:58-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-05T12:36:58-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: fd9a314 chore(process): record t94 post-commit snapshot
+- summary: Implementar estado terminal local para HP de treino do defensor, bloqueando novo dano recebido de treino quando chegar a 0 sem HP real, save, Moribundo, Inconsciente, durabilidade ou monstros oficiais.
+- last_change: T97 concluida: HP de treino do defensor agora possui estado terminal local com view model testavel, UI explicita Teste recebido encerrado, bloqueio de novo dano recebido apos 0, smoke vertical/docs/memoria atualizados e gates locais validados; quality:gate completo ficou bloqueado por politica externa do npm audit.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-05T12:26:17-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T12:36:50-03:00
+- Done: T97 implementada: helper terminal de HP de treino, bloqueio de novo dano recebido local apos 0, UI com Teste recebido encerrado, docs, memoria tripla e smoke vertical atualizados.
+- Next: Fechar registro, registrar snapshot e deixar quality:gate completo pendente apenas se houver aprovacao explicita para npm audit externo.
+- Risks: quality:gate completo nao pode ser repetido elevado sem aprovacao explicita porque inclui npm audit e envio de metadados ao registry; subgates locais passaram individualmente.
+- Improvements: Separar futuramente audit externo de quality:gate local para ambientes com politica restritiva.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-05T12:36:58-03:00
+- Done: T97 concluida: HP de treino do defensor agora possui estado terminal local com view model testavel, UI explicita Teste recebido encerrado, bloqueio de novo dano recebido apos 0, smoke vertical/docs/memoria atualizados e gates locais validados; quality:gate completo ficou bloqueado por politica externa do npm audit.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260605-122617-t97-training-defender-hp-terminal -->
+<!-- pandorha-task:20260604-211412-t94-t96-training-incoming-damage-core -->
+### T94-T96 training incoming damage core
+- id: 20260604-211412-t94-t96-training-incoming-damage-core
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-04T21:14:12-03:00
+- finished_at: 2026-06-05T10:43:06-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5 high-reasoning
+- last_modified_at: 2026-06-05T10:43:06-03:00
+- branch: task/t94-training-incoming-damage-contract
+- commit_at_start: 85a24e9 chore(process): record t93 post-commit snapshot
+- summary: Implementar contrato de dano recebido de treino, HP local nao persistido e suporte documental/automacao sem save, monstros oficiais, durabilidade ou docs/system promotion.
+- last_change: T94-T96 implementadas: contrato de dano recebido de treino, HP de treino local nao persistido, UI/docs/smoke/memoria atualizados e gates funcionais verdes.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-04T21:14:12-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-04T21:25:51-03:00
+- Done: T94 implementado e validado com Vitest focado antes do bloqueio; T95/T96 implementados com HP de treino local, smoke, docs e memoria tripla.
+- Next: Rodar validadores locais sem elevacao, revisar diff e registrar bloqueio dos gates Vitest completos ate execucao elevada voltar.
+- Risks: Execucao elevada foi recusada por limite de uso depois do T94; T95/T96 ainda precisam de Vitest/lint/coverage/quality gate quando o ambiente permitir.
+- Improvements: Considerar manter HP de treino como contrato local ate save-version e regras oficiais de dano real serem aprovadas.
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-04T21:28:19-03:00
+- Done: Implementacao T94-T96 aplicada: dano recebido de treino, HP de treino local nao persistido, smoke/docs/memoria atualizados. Fechamento completo bloqueado porque Vitest/build/coverage/quality gate exigem execucao elevada e o ambiente recusou por limite de uso; lint, TypeScript, core-conventions, smoke vertical, docs:audit, automation:doctor, coverage registration, hard_stop e diff checks passaram.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-05T10:43:06-03:00
+- Done: T94-T96 implementadas: contrato de dano recebido de treino, HP de treino local nao persistido, UI/docs/smoke/memoria atualizados e gates funcionais verdes.
+- Next: Commitar a implementacao antes de rodar qa:next-phase-readiness, que exige git status limpo exceto output/.
+- Risks: HP real, save, monstros oficiais, durabilidade e estados Moribundo/Inconsciente permanecem fora do escopo.
+- Improvements: Readiness gate documentado como pos-commit; smoke vertical cobre HP de treino local.
+- Model/config: gpt-5 high-reasoning
+<!-- /pandorha-task:20260604-211412-t94-t96-training-incoming-damage-core -->
 <!-- pandorha-task:20260604-202736-t93-documentation-promotion-draft -->
 ### T93 documentation promotion draft
 - id: 20260604-202736-t93-documentation-promotion-draft
@@ -4168,6 +4554,229 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-05T20:04:17-03:00 - post-commit
+- branch: task/t94-training-incoming-damage-contract
+- commit: 08150a3 feat(combat): add real hit points replay
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-05T19:58:54-03:00 - post-commit
+- branch: task/t94-training-incoming-damage-contract
+- commit: b982682 feat(combat): add real damage event contract
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-05T19:58:41-03:00 - post-commit
+- branch: task/t94-training-incoming-damage-contract
+- commit: e113cb0 fix(app): keep active navigation label legible
+- changed_files_count: 11
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- vitest.config.mjs
+- docs/process/t100-combat-real-damage-ui-gate.md
+- output/
+- src/features/combat-encounter/__tests__/combatRealDamageEvent.spec.ts
+- src/features/combat-encounter/model/combatRealDamageEvent.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-05T18:24:51-03:00 - post-commit
+- branch: task/t94-training-incoming-damage-contract
+- commit: 60b5955 docs(process): add T98 incoming damage gate
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-05T17:44:00-03:00 - t98-official-incoming-damage-gate
+- branch: task/t94-training-incoming-damage-contract
+- commit: bf1996d chore(process): record post-commit snapshots
+- changed_files_count: 4
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/t98-official-incoming-damage-gate.md
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-05T15:48:53-03:00 - post-commit
+- branch: task/t94-training-incoming-damage-contract
+- commit: e94a731 chore(security): replace npm audit with offline gate
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-05T15:48:22-03:00 - post-commit
+- branch: task/t94-training-incoming-damage-contract
+- commit: e48e55c feat(combat): add training hp terminal state
+- changed_files_count: 10
+#### Changed Files
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- package.json
+- scripts/run_full_quality_gate.mjs
+- output/
+- scripts/dependency_security_gate.mjs
+- scripts/refresh_dependency_advisories.mjs
+- scripts/test_dependency_security_gate.mjs
+- security/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-05T15:43:33-03:00 - dependency-advisory-refresh
+- branch: task/t94-training-incoming-damage-contract
+- commit: fd9a314 chore(process): record t94 post-commit snapshot
+- changed_files_count: 20
+#### Changed Files
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/combat-training.md
+- package.json
+- scripts/run_full_quality_gate.mjs
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatTrainingDefenderHitPoints.spec.ts
+- src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- output/
+- scripts/dependency_security_gate.mjs
+- scripts/refresh_dependency_advisories.mjs
+- scripts/test_dependency_security_gate.mjs
+- security/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-05T13:28:04-03:00 - offline-dependency-security-gate
+- branch: task/t94-training-incoming-damage-contract
+- commit: fd9a314 chore(process): record t94 post-commit snapshot
+- changed_files_count: 20
+#### Changed Files
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/combat-training.md
+- package.json
+- scripts/run_full_quality_gate.mjs
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatTrainingDefenderHitPoints.spec.ts
+- src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- output/
+- scripts/dependency_security_gate.mjs
+- scripts/refresh_dependency_advisories.mjs
+- scripts/test_dependency_security_gate.mjs
+- security/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-05T12:37:08-03:00 - t97-training-defender-hp-terminal
+- branch: task/t94-training-incoming-damage-contract
+- commit: fd9a314 chore(process): record t94 post-commit snapshot
+- changed_files_count: 13
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/combatTrainingDefenderHitPoints.spec.ts
+- src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-05T11:49:50-03:00 - post-commit
+- branch: task/t94-training-incoming-damage-contract
+- commit: 12b7e3c feat(combat): add training incoming damage core
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-05T10:43:13-03:00 - t94-t96-training-incoming-damage-core-final
+- branch: task/t94-training-incoming-damage-contract
+- commit: 85a24e9 chore(process): record t93 post-commit snapshot
+- changed_files_count: 20
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/combat-training.md
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/__tests__/CombatTrainingEnemyAttackService.spec.ts
+- src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatTrainingEnemyAttack.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- vitest.config.mjs
+- output/
+- src/features/combat-encounter/__tests__/combatTrainingDefenderHitPoints.spec.ts
+- src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-04T20:47:38-03:00 - post-commit
 - branch: feat/metadata-tags-codex
 - commit: 1d93e2c chore(process): record t93 post-commit snapshot

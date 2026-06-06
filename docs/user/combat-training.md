@@ -11,12 +11,15 @@ Este guia mostra como testar a vertical slice de combate no navegador. O objetiv
 - Personagens da sessao usam o seletor `Arma equipada`; a arma padrao e `Espada Longa`.
 - Personagens da sessao tambem usam `Armadura equipada` e `Escudo equipado`; os padroes sao `Armadura de Couro` e `Escudo Redondo`.
 - A ficha do atacante mostra `Defesa equipada` com o bonus de CA local, por exemplo `CA equipada +3`.
+- Personagens da sessao tambem mostram `HP de treino`, um medidor local que usa o HP maximo derivado da ficha.
 - `Aria usa perfil fixo de treino`, mesmo quando o seletor mostra uma arma da sessao.
 - A tela mostra `Rodada`, `Turno de ...` e `Acoes 3/3`.
 - `Atacar` gasta 1 acao e registra resultado, rolagem de dado da arma quando houver, dano, HP restante e log.
 - Alvos de treino podem aplicar RD e afinidades defensivas ja suportadas pelo pipeline de dano.
 - Quando Aria e a atacante, o turno do alvo de treino continua passivo e registra que ele manteve posicao.
-- Quando um personagem da sessao e o atacante, encerrar o turno do alvo resolve um ataque de treino contra a CA equipada do personagem, sem alterar dano nem HP real.
+- Quando um personagem da sessao e o atacante, encerrar o turno do alvo resolve um ataque de treino contra a CA equipada do personagem, calcula dano de treino e reduz apenas o `HP de treino`.
+- O HP real permanece intacto: o medidor local pode chegar a 0, mas Moribundo e Inconsciente nao sao aplicados nesta fatia.
+- Quando o `HP de treino` chega a 0, a tela mostra `Teste recebido encerrado`; para testar outro dano recebido, use `Reiniciar encontro`.
 - Quando o alvo chega a 0 HP, a tela mostra `Alvo derrotado`, bloqueia novos ataques e mantem `Reiniciar encontro` disponivel.
 
 ## Teste Rapido Com Aria
@@ -75,7 +78,9 @@ Depois:
 18. Clique em `Encerrar turno` para passar ao alvo.
 19. Confirme que a instrucao do turno avisa que o alvo resolvera o ataque contra a CA equipada de `Nara`.
 20. Clique em `Encerrar turno` de novo.
-21. Confirme que o log registra o ataque do alvo contra a CA do personagem e informa que dano e HP real nao foram alterados.
+21. Confirme que o log registra o ataque do alvo contra a CA do personagem, calcula dano de treino e atualiza `HP de treino`.
+22. Confirme que a ficha real continua intacta; se o `HP de treino` chegar a 0, a tela informa que Moribundo e Inconsciente nao foram aplicados.
+23. Quando aparecer `Teste recebido encerrado`, confirme que o proximo dano recebido de treino exige `Reiniciar encontro`.
 
 ## Escolhendo Alvos
 
@@ -106,7 +111,9 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - `Ficha no combate`: mostra dados resumidos do atacante selecionado.
 - `Arma equipada`: escolhe uma arma local para personagens criados na sessao.
 - `Armadura equipada` e `Escudo equipado`: escolhem defesa local para personagens criados na sessao.
-- `Defesa equipada`: mostra o bonus de CA local da armadura e do escudo e a `CA contra treino` usada no ataque recebido pelo personagem da sessao.
+- `Defesa equipada`: mostra o bonus de CA local da armadura e do escudo, a `CA contra treino` usada no ataque recebido e o `HP de treino` local do personagem da sessao.
+- `Previa local de HP real`: aparece separada do `HP de treino` para mostrar o replay local dos eventos de dano real; ela nao salva a ficha e nao aplica Moribundo ou Inconsciente.
+- `Teste recebido encerrado`: aparece quando o `HP de treino` chegou a 0 e bloqueia novo dano recebido de treino ate `Reiniciar encontro`.
 - `Perfil de dano`: mostra qual Matriz esta sendo usada no dano de treino.
 - `Ultimo resultado`: resume o ultimo ataque resolvido.
 - `Log do encontro`: lista os eventos em ordem.
@@ -115,13 +122,17 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 
 - O combate existe apenas na sessao atual do navegador.
 - Recarregar a pagina reinicia o encontro e remove personagens criados na sessao.
-- O HP real do personagem ainda nao e alterado por combate.
+- O HP real do personagem ainda nao e alterado por combate; apenas o `HP de treino` local muda durante o encontro.
+- A `Previa local de HP real` tambem e local ao encontro: ela vem de eventos em memoria, nao grava save, nao muda a ficha e nao aplica estados oficiais.
 - A arma selecionada entra apenas como loadout local e dado de dano auditavel; ela nao e salva, nao gasta durabilidade e ainda nao usa proficiencia.
 - As defesas dos alvos de treino entram como RD e afinidades fixas; vulnerabilidade com `+1d6` auditavel ainda nao entra.
 - Armaduras e escudos do personagem entram apenas como CA alvo para o ataque de treino recebido; nao entram em dano, save ou durabilidade por rodada.
 - Talentos, magia e condicoes ainda nao entram no calculo.
 - A iniciativa ainda e fixa: atacante primeiro, alvo depois.
-- O alvo de treino ataca apenas personagens da sessao no turno dele; ele nao causa dano persistente e nao possui IA complexa.
+- O alvo de treino ataca apenas personagens da sessao no turno dele; ele calcula dano de treino local, nao causa dano persistente e nao possui IA complexa.
+- Chegar a 0 no `HP de treino` nao aplica Moribundo, Inconsciente, teste de morte, ferimentos ou qualquer mudanca persistida.
+- Depois de 0 no `HP de treino`, o app nao calcula outro dano recebido de treino para o mesmo encontro; reinicie para repetir o teste.
+- Reinicie o encontro para testar outro dano recebido.
 - Os alvos sao ficticios para teste; ainda nao sao monstros oficiais.
 - Nao ha XP, loot, recompensa, banco, Worker, OPFS ou save.
 
@@ -133,4 +144,6 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - `docs/system/survival/05-00-regras-de-classe.md`: fonte para atributos derivados exibidos na ficha resumida.
 - `docs/system/combat/18-tratado-de-dano.md`: confirma o uso da Matriz Fisica em ataque corpo a corpo padrao.
 - `src/features/combat-encounter/model/combatTrainingEnemyAttack.ts`: calcula a CA contra treino usada no ataque recebido.
+- `src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts`: controla o HP de treino local sem persistir dano real.
+- `src/features/combat-encounter/model/combatRealDamageLedgerUpdate.ts`: monta a previa local de HP real por evento e replay, sem persistir a ficha.
 - `src/features/combat-encounter/ui/CombatEncounterPanel.svelte`: representa a tela atual validada no navegador.

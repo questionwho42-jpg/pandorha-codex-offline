@@ -118,6 +118,62 @@
 - UI actor metadata from attacker options must be sanitized to `{ id, label }` before entering the strict training enemy attack schema.
 - The defense axis currently uses the character `physical` value directly because no armor-category cap is implemented in code yet. Add the cap only after an explicit rule slice defines it.
 
+## T94-T96 - Training Incoming Damage And Local Defender HP
+
+- `CombatTrainingEnemyAttackService` now receives a `CombatDamagePort` and calculates fixed incoming training damage only after a hit against equipped CA.
+- The incoming damage profile is intentionally local and explicit: physical damage, `baseDiceTotal: 4`, `matrixValue: 2`, no extra modifier, no RD, no affinity, and critical multiplier delegated to `DamagePipelineService`.
+- Misses return `incomingDamage: null`; damage pipeline failures return `DAMAGE_PIPELINE_FAILED`.
+- `combatTrainingDefenderHitPoints.ts` owns the non-persistent defender HP ledger, deriving max HP through `CharacterDerivedStatsService` and clamping local training HP at 0.
+- `CombatEncounterPanel.svelte` displays `HP de treino` only for session characters and appends local HP logs after the target attack.
+- Reaching 0 HP de treino does not apply Moribundo, Inconsciente, death tests, save changes, durability, or real character HP mutation.
+
+## T97 - Training Defender HP Terminal State
+
+- `createCombatTrainingDefenderHitPointsView` exposes the local defender HP terminal state as a testable view model instead of embedding the copy only in Svelte.
+- `applyCombatTrainingDefenderDamage` now short-circuits when the local ledger is already at 0 HP, preserving the state and logging that no new training damage was calculated.
+- `CombatEncounterPanel.svelte` renders `combat-training-defender-terminal` with `Teste recebido encerrado` and uses the view model before resolving another target attack.
+- The terminal state remains local to the encounter. It does not introduce real HP mutation, save, Moribundo, Inconsciente, durability, official monsters, or docs/system promotion.
+
+## T99 - Real Damage Event Contract
+
+- `combatRealDamageEvent.ts` creates a pure `realDamageReceived` event contract without mutating character HP.
+- The contract requires an explicit event ledger and appends immutably, preserving the input ledger for event-sourcing safety.
+- Typed failures cover missing target, missing ledger, absent or zero damage, terminal target state, and schema validation.
+- The event deliberately omits `currentHitPoints` and `nextHitPoints`; HP replay remains a future approved phase.
+- T99 does not wire UI, save v6, SQLite, Worker persistence, Moribundo, Inconsciente, concentration, DoT, durability, or official monsters.
+
+## T101 - Real Hit Points Replay
+
+- `combatRealHitPointsReplay.ts` derives HP real from `realDamageReceived` events without mutating records, saves, or UI state.
+- The replay filters by `targetId`, preserves unrelated events, sums matched damage, and clamps the visible HP at 0.
+- Overkill on the event that reaches 0 HP is accepted, but any later matching damage event returns `REAL_HIT_POINTS_EVENT_AFTER_TERMINAL`.
+- Typed failures cover invalid input, missing target, missing ledger, and post-terminal event ordering.
+- T101 still does not apply Moribundo, Inconsciente, concentration, DoT, durability, persistence, Worker, SQLite, or official monster behavior.
+
+## T102 - Real Damage Ledger Update
+
+- `combatRealDamageLedgerUpdate.ts` composes `replayCombatRealHitPoints` before and after `createCombatRealDamageReceivedEvent`.
+- The bridge does not duplicate HP math; it adapts replay state into the T99 event target and returns the replayed next HP.
+- Wrapped failures distinguish replay failures (`REAL_DAMAGE_REPLAY_FAILED`) from event append failures (`REAL_DAMAGE_EVENT_FAILED`).
+- New damage after replayed terminal HP is blocked by the existing T99 terminal guard, while the event that reaches 0 HP remains allowed.
+- T102 still does not add UI, save v6, persistence, Worker, SQLite, Moribundo, Inconsciente, concentration, DoT, durability, or official monsters.
+
+## T103 - Real Damage Preview View
+
+- `combatRealDamagePreviewView.ts` owns the pt-BR user copy for future real HP preview rendering.
+- Every view state uses the phrase `Prévia local de HP real` and states that it does not save the sheet or apply Moribundo/Inconsciente.
+- The view model separates unavailable, active, terminal, and failure states before Svelte consumes the contract.
+- Technical failure messages are intentionally not surfaced in UI copy.
+- T103 still does not add Svelte rendering, save v6, persistence, Worker, SQLite, or official terminal-state application.
+
+## T104 - Real Damage Preview UI
+
+- `CombatEncounterPanel.svelte` now owns a local `realDamageReceived` ledger for session-character preview only.
+- The preview updates only after the training target hits and produces incoming training damage; misses leave the preview unchanged.
+- Resetting the encounter, changing attacker, changing target, or changing equipment through reset clears the preview ledger and event counter.
+- The rendered block is separate from `HP de treino`, uses `combatRealDamagePreviewView.ts` copy, and remains hidden for Aria.
+- T104 still does not save HP, mutate character records, create save v6, Worker/SQLite persistence, Moribundo, Inconsciente, concentration, DoT, durability, or official monsters.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

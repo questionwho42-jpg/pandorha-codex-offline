@@ -51,6 +51,26 @@ node scripts/audit_docs.mjs --format markdown --scope all --output docs/process/
 
 The report is advisory. It must not promote inbox items, update `docs/changelog.md`, or rewrite `docs/system/` rules without human approval and source-of-truth review.
 
+## Dependency Security Gate
+
+The recurring quality gate does not call `npm audit` directly. The command:
+
+```powershell
+npm.cmd run security:gate
+```
+
+runs `scripts/dependency_security_gate.mjs` in offline mode. It reads `package-lock.json` and compares installed direct and transitive packages against the versioned advisory database in `security/npm-advisories.json`.
+
+The gate fails for advisories at `high` or `critical` severity that match installed versions. A stale advisory database is reported as a warning, not as a blocker, because the recurring gate must remain local and deterministic.
+
+Refresh the local advisory database only as an explicit maintenance action with network approval:
+
+```powershell
+npm.cmd run security:refresh-advisories
+```
+
+The refresh command normalizes `npm audit --json` output into `security/npm-advisories.json`. It is intentionally not called by `quality:gate`; newly published advisories become visible to the offline gate only after an approved refresh updates the versioned database.
+
 ## Documentation Promotion Drafts
 
 Broad promotion rounds should create a draft before editing official documentation. Use [documentation-promotion-draft.md](./documentation-promotion-draft.md) to map every open inbox id to a destination, evidence source, target document, and blocking condition.
