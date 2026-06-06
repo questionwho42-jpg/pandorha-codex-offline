@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260606-inventory-ownership-save-v6-gate -->
+### Inventory ownership and save v6 gate
+- id: 20260606-inventory-ownership-save-v6-gate
+- status: open
+- created_at: 2026-06-06T06:45:53-03:00
+- source: task-ledger
+- summary: Aprovar contrato event-sourced de inventario pertencente ao personagem e limitar save v6 a inventoryEvents antes de qualquer implementacao.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260606-inventory-ownership-save-v6-gate -->
 <!-- pandorha-inbox:20260606-future-pwa-update-install-ui -->
 ### Future PWA update and install UI
 - id: 20260606-future-pwa-update-install-ui

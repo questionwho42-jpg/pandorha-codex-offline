@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260606-inventory-ownership-save-v6-gate -->
+### Inventory ownership and save v6 gate
+- id: 20260606-inventory-ownership-save-v6-gate
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-06T06:45:53-03:00
+- finished_at: 2026-06-06T06:49:18-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-06T06:49:18-03:00
+- branch: main
+- commit_at_start: 8e48cfa fix(ui): protect reachability regressions
+- summary: Aprovar contrato event-sourced de inventario pertencente ao personagem e limitar save v6 a inventoryEvents antes de qualquer implementacao.
+- last_change: Aprovado contrato append-only de inventario por personagem, limites do save v6, invariantes de replay e sequencia modular de entrega.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-06T06:45:53-03:00
+- Done: task record created
+- Next: Documentar contrato, invariantes e limites do gate v6.
+- Risks: Acoplamento indevido com equipamento, combate ou estado derivado.
+- Improvements: Reutilizar o contrato aprovado em dominio, persistencia e UI.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-06T06:49:18-03:00
+- Done: Aprovado contrato append-only de inventario por personagem, limites do save v6, invariantes de replay e sequencia modular de entrega.
+- Next: Implementar nucleo event-sourced em branch propria por Reverse TDD.
+- Risks: Loadout, durabilidade, HP real e outros dominios continuam fora do save v6.
+- Improvements: Reutilizar o ledger aprovado em persistencia e UI sem persistir derivados.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260606-inventory-ownership-save-v6-gate -->
 <!-- pandorha-task:20260606-022029-ui-reachability-regressions-and-audit -->
 ### UI reachability regressions and audit
 - id: 20260606-022029-ui-reachability-regressions-and-audit

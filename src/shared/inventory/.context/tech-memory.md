@@ -6,3 +6,5 @@
 - The input is a generic list of `{ id, label, slotCost }`; `shared` must not import `entities/equipment`.
 - Rule constants come from `PANDORHA_RULES.LOGISTICS`: base slots addition, immobilized threshold, and slowed movement penalty.
 - The service returns typed `Result` failures and validates all unknown input through Zod.
+- The inventory ownership gate approved an append-only per-character event ledger.
+- `InventoryCapacityService` must continue receiving replayed carried entries; it must never persist or replay ownership itself.

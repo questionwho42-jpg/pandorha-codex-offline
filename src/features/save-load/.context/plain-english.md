@@ -5,3 +5,6 @@ This feature saves the current browser session into the local SQLite file and lo
 In version 4, it also saves active social negotiations so a conversation can come back after reload.
 
 In version 5, it also saves individual NPC relationships. This means a pressured NPC can stay strained after saving, reloading, and loading the local save again.
+
+The approved version 6 will add only the event history that reconstructs each
+character's carried inventory. Older saves will load with an empty inventory.

@@ -4,4 +4,6 @@ Este modulo calcula quanta carga um personagem consegue carregar e se ele ficou 
 
 Ele recebe Fisico, Resistencia, bonus de slots ja resolvidos e uma lista de itens com custo em slots. Depois devolve o limite, quantos slots foram usados e o estado final: normal, lento ou imobilizado.
 
-Nesta etapa ele nao mostra nada na tela e nao salva inventario. A proxima tarefa deve usar esse calculo para uma tela simples de inventario somente leitura.
+Ele nao salva inventario. O inventario persistido sera reconstruido a partir de
+eventos de itens carregados por personagem, e este modulo continuara apenas
+calculando a carga resultante.

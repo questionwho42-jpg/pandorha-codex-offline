@@ -50,6 +50,11 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 
 ## Gate Para Retomar Cada Item
 
+O gate de propriedade do inventario e save v6 foi aprovado em
+`docs/process/inventory-ownership-save-v6-gate.md`. A implementacao deve seguir
+as fases de ledger, persistencia v6 e UI editavel antes de qualquer loadout
+persistente.
+
 Uma futura tarefa só deve começar quando:
 
 - a entrada correspondente do `change-inbox` tiver um plano aprovado;

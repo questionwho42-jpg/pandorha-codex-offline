@@ -2,6 +2,10 @@
 
 This module is the technical catalog for the first equipment and consumable records in Pandorha.
 
+Persisted inventory does not alter these definitions. It stores events saying
+which catalog items each character carries. Equipping items, saving loadouts,
+and spending durability remain separate deliveries.
+
 It answers simple questions such as:
 
 - What basic weapons, armor, and shields exist today?
