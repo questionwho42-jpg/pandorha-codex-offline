@@ -150,6 +150,30 @@
 - Typed failures cover invalid input, missing target, missing ledger, and post-terminal event ordering.
 - T101 still does not apply Moribundo, Inconsciente, concentration, DoT, durability, persistence, Worker, SQLite, or official monster behavior.
 
+## T102 - Real Damage Ledger Update
+
+- `combatRealDamageLedgerUpdate.ts` composes `replayCombatRealHitPoints` before and after `createCombatRealDamageReceivedEvent`.
+- The bridge does not duplicate HP math; it adapts replay state into the T99 event target and returns the replayed next HP.
+- Wrapped failures distinguish replay failures (`REAL_DAMAGE_REPLAY_FAILED`) from event append failures (`REAL_DAMAGE_EVENT_FAILED`).
+- New damage after replayed terminal HP is blocked by the existing T99 terminal guard, while the event that reaches 0 HP remains allowed.
+- T102 still does not add UI, save v6, persistence, Worker, SQLite, Moribundo, Inconsciente, concentration, DoT, durability, or official monsters.
+
+## T103 - Real Damage Preview View
+
+- `combatRealDamagePreviewView.ts` owns the pt-BR user copy for future real HP preview rendering.
+- Every view state uses the phrase `Prévia local de HP real` and states that it does not save the sheet or apply Moribundo/Inconsciente.
+- The view model separates unavailable, active, terminal, and failure states before Svelte consumes the contract.
+- Technical failure messages are intentionally not surfaced in UI copy.
+- T103 still does not add Svelte rendering, save v6, persistence, Worker, SQLite, or official terminal-state application.
+
+## T104 - Real Damage Preview UI
+
+- `CombatEncounterPanel.svelte` now owns a local `realDamageReceived` ledger for session-character preview only.
+- The preview updates only after the training target hits and produces incoming training damage; misses leave the preview unchanged.
+- Resetting the encounter, changing attacker, changing target, or changing equipment through reset clears the preview ledger and event counter.
+- The rendered block is separate from `HP de treino`, uses `combatRealDamagePreviewView.ts` copy, and remains hidden for Aria.
+- T104 still does not save HP, mutate character records, create save v6, Worker/SQLite persistence, Moribundo, Inconsciente, concentration, DoT, durability, or official monsters.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

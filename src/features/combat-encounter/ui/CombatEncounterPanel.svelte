@@ -9,6 +9,7 @@ import type {
 	EquipmentLoadoutSnapshot,
 	EquipmentRecord,
 } from "$lib/entities/equipment";
+import type { DamagePipelineResult } from "$lib/shared/damage";
 import type { Result } from "$lib/shared/lib/result";
 import { CombatTurnService } from "../domain/CombatTurnService";
 import { createCombatAttackerStatsView } from "../model/combatAttackerStatsView";
@@ -22,6 +23,13 @@ import {
 	type CombatEncounterView,
 	createCombatEncounterView,
 } from "../model/combatEncounterView";
+import type { CombatRealDamageReceivedEvent } from "../model/combatRealDamageEvent";
+import {
+	type CombatRealDamageLedgerUpdateFailure,
+	createCombatRealDamageLedgerUpdate,
+} from "../model/combatRealDamageLedgerUpdate";
+import { createCombatRealDamagePreviewView } from "../model/combatRealDamagePreviewView";
+import type { CombatRealHitPointsReplayState } from "../model/combatRealHitPointsReplay";
 import {
 	createCombatAttackerOptions,
 	findCombatAttackerOptionById,
@@ -102,6 +110,7 @@ type TrainingTargetTurnLogResult =
 	| { readonly success: false; readonly message: string };
 
 const turnService = new CombatTurnService();
+const REAL_DAMAGE_PREVIEW_START_MS = Date.parse("2026-06-05T20:13:00.000Z");
 
 let {
 	attacker,
@@ -187,10 +196,25 @@ let trainingEnemyDefenseSummary = $derived(
 let trainingDefenderHitPoints =
 	$state<CombatTrainingDefenderHitPointsState | null>(null);
 let trainingDefenderHitPointsError = $state<string | null>(null);
+let realDamageEventLedger = $state<readonly CombatRealDamageReceivedEvent[]>(
+	[],
+);
+let realDamagePreviewHitPoints = $state<CombatRealHitPointsReplayState | null>(
+	null,
+);
+let realDamagePreviewError = $state<string | null>(null);
+let nextRealDamagePreviewEventIndex = 1;
 let trainingDefenderHitPointsView = $derived(
 	trainingDefenderHitPoints
 		? createCombatTrainingDefenderHitPointsView(trainingDefenderHitPoints)
 		: null,
+);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let realDamagePreviewView = $derived(
+	createCombatRealDamagePreviewView({
+		failureMessage: realDamagePreviewError,
+		hitPoints: realDamagePreviewHitPoints,
+	}),
 );
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let visibleTrainingDefenderHitPointsSummary = $derived(
@@ -326,6 +350,7 @@ function resetEncounter(): void {
 	log = [];
 	turnState = createInitialTurnState(selectedAttacker.id, selectedTarget.id);
 	resetTrainingDefenderHitPoints();
+	resetRealDamagePreview();
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -341,6 +366,7 @@ function selectAttacker(event: Event): void {
 	log = [];
 	turnState = createInitialTurnState(selectedAttackerId, selectedTarget.id);
 	resetTrainingDefenderHitPoints(selectedAttackerId);
+	resetRealDamagePreview();
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -390,6 +416,7 @@ function selectTarget(event: Event): void {
 	log = [];
 	turnState = createInitialTurnState(selectedAttacker.id, nextTarget.id);
 	resetTrainingDefenderHitPoints();
+	resetRealDamagePreview();
 }
 
 async function refreshEquipmentLoadout(): Promise<void> {
@@ -479,6 +506,70 @@ function resetTrainingDefenderHitPoints(
 
 	trainingDefenderHitPoints = result.data;
 	trainingDefenderHitPointsError = null;
+}
+
+function resetRealDamagePreview(): void {
+	realDamageEventLedger = [];
+	realDamagePreviewHitPoints = null;
+	realDamagePreviewError = null;
+	nextRealDamagePreviewEventIndex = 1;
+}
+
+function applyRealDamagePreview(
+	incomingDamage: DamagePipelineResult | null,
+): void {
+	if (
+		incomingDamage === null ||
+		!selectedAttackerCharacter ||
+		!trainingDefenderHitPoints
+	) {
+		return;
+	}
+
+	const eventId = `real-damage-preview-${nextRealDamagePreviewEventIndex}`;
+	const result = createCombatRealDamageLedgerUpdate({
+		createdAt: createRealDamagePreviewTimestamp(),
+		eventId,
+		eventLedger: realDamageEventLedger,
+		incomingDamage,
+		source: {
+			id: selectedTarget.id,
+			label: selectedTarget.label,
+		},
+		target: {
+			id: selectedAttackerCharacter.id,
+			label: selectedAttackerCharacter.name,
+			maxHitPoints: trainingDefenderHitPoints.maxHitPoints,
+		},
+	});
+	if (!result.success) {
+		realDamagePreviewError = mapCombatRealDamageLedgerUpdateFailure(
+			result.error,
+		);
+		return;
+	}
+
+	nextRealDamagePreviewEventIndex += 1;
+	realDamageEventLedger = result.data.eventLedger;
+	realDamagePreviewHitPoints = result.data.hitPoints;
+	realDamagePreviewError = null;
+}
+
+function createRealDamagePreviewTimestamp(): string {
+	return new Date(
+		REAL_DAMAGE_PREVIEW_START_MS + (nextRealDamagePreviewEventIndex - 1) * 1000,
+	).toISOString();
+}
+
+function mapCombatRealDamageLedgerUpdateFailure(
+	failure: CombatRealDamageLedgerUpdateFailure,
+): string {
+	switch (failure.code) {
+		case "INVALID_REAL_DAMAGE_LEDGER_UPDATE_INPUT":
+		case "REAL_DAMAGE_REPLAY_FAILED":
+		case "REAL_DAMAGE_EVENT_FAILED":
+			return "Prévia local de HP real indisponível.";
+	}
 }
 
 function mapCombatTrainingDefenderHitPointsFailure(
@@ -614,6 +705,7 @@ function createTrainingTargetTurnLog(): TrainingTargetTurnLogResult {
 		};
 	}
 	trainingDefenderHitPoints = defenderHitPoints.data.state;
+	applyRealDamagePreview(result.data.incomingDamage);
 
 	return {
 		success: true,
@@ -895,6 +987,26 @@ onMount(() => {
 					>
 						{visibleTrainingDefenderHitPointsSummary}
 					</p>
+					<div
+						class="mt-3 border border-bronze bg-ruin px-4 py-3"
+						data-testid="combat-real-damage-preview"
+					>
+						<p class="text-sm font-semibold text-ether">
+							{realDamagePreviewView.titleLabel}
+						</p>
+						<p
+							class="mt-2 text-sm font-semibold leading-6 text-bone"
+							data-testid="combat-real-damage-preview-summary"
+						>
+							{realDamagePreviewView.summaryLabel}
+						</p>
+						<p
+							class="mt-2 text-sm leading-6 text-bone"
+							data-testid="combat-real-damage-preview-description"
+						>
+							{realDamagePreviewView.description}
+						</p>
+					</div>
 					{#if trainingDefenderHitPointsView?.terminalLabel}
 						<div
 							class="mt-3 border border-ether bg-ruin px-4 py-3"

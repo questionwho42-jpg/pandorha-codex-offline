@@ -20,7 +20,10 @@
 - T97 adds a terminal state for local defender `HP de treino`: after 0, the same encounter requires reset before calculating another received training damage.
 - T99 adds a pure `realDamageReceived` event contract for future HP replay, still without UI, save v6, persistence, or real HP mutation.
 - T101 adds a pure HP real replay from `realDamageReceived` events, still without UI, save v6, persistence, or official terminal-state application.
-- Add the event+replay bridge before exposing any real-damage preview in UI.
+- T102 adds the event+replay bridge for local ledger updates, still without UI, save v6, persistence, or official terminal-state application.
+- T103 adds safe preview copy for local real HP rendering before any Svelte UI consumes the bridge.
+- T104 adds the Svelte preview panel as local, non-persistent UI for session characters only.
+- Add save v6, Worker/SQLite persistence, and official terminal-state application only after a separate persistence gate.
 - Add vulnerability `+1d6`, proficiency, and durability wear only after the audited weapon roll and target-defense contracts remain stable.
 - Expose real incoming damage in UI only after T100/T103 approve copy, replay boundaries, and Playwright validation scope.
 - Add armor-category caps for the limited axis only after the exact cap table is represented in `docs/system/` and covered by tests.

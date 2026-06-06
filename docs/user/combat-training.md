@@ -112,6 +112,7 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - `Arma equipada`: escolhe uma arma local para personagens criados na sessao.
 - `Armadura equipada` e `Escudo equipado`: escolhem defesa local para personagens criados na sessao.
 - `Defesa equipada`: mostra o bonus de CA local da armadura e do escudo, a `CA contra treino` usada no ataque recebido e o `HP de treino` local do personagem da sessao.
+- `Previa local de HP real`: aparece separada do `HP de treino` para mostrar o replay local dos eventos de dano real; ela nao salva a ficha e nao aplica Moribundo ou Inconsciente.
 - `Teste recebido encerrado`: aparece quando o `HP de treino` chegou a 0 e bloqueia novo dano recebido de treino ate `Reiniciar encontro`.
 - `Perfil de dano`: mostra qual Matriz esta sendo usada no dano de treino.
 - `Ultimo resultado`: resume o ultimo ataque resolvido.
@@ -122,6 +123,7 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - O combate existe apenas na sessao atual do navegador.
 - Recarregar a pagina reinicia o encontro e remove personagens criados na sessao.
 - O HP real do personagem ainda nao e alterado por combate; apenas o `HP de treino` local muda durante o encontro.
+- A `Previa local de HP real` tambem e local ao encontro: ela vem de eventos em memoria, nao grava save, nao muda a ficha e nao aplica estados oficiais.
 - A arma selecionada entra apenas como loadout local e dado de dano auditavel; ela nao e salva, nao gasta durabilidade e ainda nao usa proficiencia.
 - As defesas dos alvos de treino entram como RD e afinidades fixas; vulnerabilidade com `+1d6` auditavel ainda nao entra.
 - Armaduras e escudos do personagem entram apenas como CA alvo para o ataque de treino recebido; nao entram em dano, save ou durabilidade por rodada.
@@ -143,4 +145,5 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - `docs/system/combat/18-tratado-de-dano.md`: confirma o uso da Matriz Fisica em ataque corpo a corpo padrao.
 - `src/features/combat-encounter/model/combatTrainingEnemyAttack.ts`: calcula a CA contra treino usada no ataque recebido.
 - `src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts`: controla o HP de treino local sem persistir dano real.
+- `src/features/combat-encounter/model/combatRealDamageLedgerUpdate.ts`: monta a previa local de HP real por evento e replay, sem persistir a ficha.
 - `src/features/combat-encounter/ui/CombatEncounterPanel.svelte`: representa a tela atual validada no navegador.

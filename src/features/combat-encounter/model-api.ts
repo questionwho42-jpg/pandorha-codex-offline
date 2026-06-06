@@ -54,6 +54,23 @@ export {
 	formatCombatRealDamageEventIssues,
 } from "./model/combatRealDamageEvent";
 export type {
+	CombatRealDamageLedgerUpdateFailure,
+	CombatRealDamageLedgerUpdateFailureCode,
+	CombatRealDamageLedgerUpdateFailureDetails,
+	CombatRealDamageLedgerUpdateInput,
+	CombatRealDamageLedgerUpdateResult,
+} from "./model/combatRealDamageLedgerUpdate";
+export {
+	createCombatRealDamageLedgerUpdate,
+	formatCombatRealDamageLedgerUpdateIssues,
+} from "./model/combatRealDamageLedgerUpdate";
+export type {
+	CombatRealDamagePreviewView,
+	CombatRealDamagePreviewViewInput,
+	CombatRealDamagePreviewViewStatus,
+} from "./model/combatRealDamagePreviewView";
+export { createCombatRealDamagePreviewView } from "./model/combatRealDamagePreviewView";
+export type {
 	CombatRealHitPointsReplayFailure,
 	CombatRealHitPointsReplayFailureCode,
 	CombatRealHitPointsReplayFailureDetails,

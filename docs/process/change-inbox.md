@@ -6,6 +6,33 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260605-201308-t104-combat-real-damage-preview-ui -->
+### T104 combat real damage preview UI
+- id: 20260605-201308-t104-combat-real-damage-preview-ui
+- status: open
+- created_at: 2026-06-05T20:13:08-03:00
+- source: task-ledger
+- summary: Exibir previa local de HP real na aba Combate usando ponte evento+replay e Browser do Codex como gate, sem save, banco ou estados oficiais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-201308-t104-combat-real-damage-preview-ui -->
+<!-- pandorha-inbox:20260605-200939-t103-combat-real-damage-preview-view -->
+### T103 combat real damage preview view
+- id: 20260605-200939-t103-combat-real-damage-preview-view
+- status: open
+- created_at: 2026-06-05T20:09:39-03:00
+- source: task-ledger
+- summary: Criar view model pt-BR para previa local de HP real antes da UI, sem save, banco ou estados oficiais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-200939-t103-combat-real-damage-preview-view -->
+<!-- pandorha-inbox:20260605-200435-t102-combat-real-damage-ledger-update -->
+### T102 combat real damage ledger update
+- id: 20260605-200435-t102-combat-real-damage-ledger-update
+- status: open
+- created_at: 2026-06-05T20:04:35-03:00
+- source: task-ledger
+- summary: Compor append de evento realDamageReceived com replay puro de HP real sem UI, save, Worker ou estados oficiais.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260605-200435-t102-combat-real-damage-ledger-update -->
 <!-- pandorha-inbox:20260605-195904-t101-combat-real-hp-replay -->
 ### T101 combat real HP replay
 - id: 20260605-195904-t101-combat-real-hp-replay
