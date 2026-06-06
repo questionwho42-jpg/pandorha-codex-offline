@@ -4,21 +4,21 @@ export const APP_NAVIGATION_ITEMS = [
 		label: "Início",
 		heading: "Pandorha Engine",
 		description:
-			"O app está carregado e pronto para receber as próximas telas.",
+			"Explore as áreas jogáveis atuais, crie personagens e preserve a sessão no save local.",
 	},
 	{
 		id: "characters",
 		label: "Personagens",
 		heading: "Personagens",
 		description:
-			"A listagem e a criação de personagens serão implementadas nas tarefas T07 e T08.",
+			"Crie personagens, consulte a lista da sessão e gerencie o save local.",
 	},
 	{
 		id: "compendium",
 		label: "Compêndio",
 		heading: "Compêndio",
 		description:
-			"A consulta de regras e lore será implementada nas tarefas T16 e T17.",
+			"Consulte o catálogo curado de regras, classes, antecedentes e lore.",
 	},
 	{
 		id: "inventory",
@@ -52,7 +52,7 @@ export const APP_NAVIGATION_ITEMS = [
 		label: "Magia",
 		heading: "Magia",
 		description:
-			"A conjuraÃ§Ã£o de treino prepara comandos sem executar efeitos.",
+			"A conjuração de treino prepara comandos sem executar efeitos.",
 	},
 	{
 		id: "combat",

@@ -51,6 +51,18 @@ node scripts/audit_docs.mjs --format markdown --scope all --output docs/process/
 
 The report is advisory. It must not promote inbox items, update `docs/changelog.md`, or rewrite `docs/system/` rules without human approval and source-of-truth review.
 
+## UI Reachability Gate
+
+The recurring UI reachability command is:
+
+```powershell
+npm.cmd run qa:ui-reachability
+```
+
+It runs `scripts/ui_reachability_smoke.mjs` as a deterministic contractual gate. The smoke verifies that every navigation tab still mounts its expected browser panel, blocks obsolete placeholder copy, protects the immediate camp-resolution log from parent-state echo, and requires current user and QA documentation.
+
+The gate does not replace rendered validation. UI changes must still be exercised in the Browser do Codex, including affected interactions, save/load when relevant, and browser console inspection.
+
 ## Dependency Security Gate
 
 The recurring quality gate does not call `npm audit` directly. The command:

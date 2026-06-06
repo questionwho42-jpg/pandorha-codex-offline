@@ -13,6 +13,66 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260606-022029-ui-reachability-regressions-and-audit -->
+### UI reachability regressions and audit
+- id: 20260606-022029-ui-reachability-regressions-and-audit
+- status: completed
+- kind: fix
+- planned: no
+- started_at: 2026-06-06T02:20:29-03:00
+- finished_at: 2026-06-06T06:22:57-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-06T06:22:57-03:00
+- branch: fix/ui-reachability-regressions
+- commit_at_start: 8cbfdb9 chore(process): record combat preview merge
+- summary: Corrigir regressões confirmadas de acessibilidade da UI, criar gate contratual qa:ui-reachability, validar pelo Browser do Codex e documentar futuras implementações após nova auditoria.
+- last_change: Correcoes de alcance da UI, gate contratual, auditoria pos-correcao e roadmap concluidos; Browser do Codex, cobertura 100%, build e quality gate aprovados.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-06T02:20:29-03:00
+- Done: task record created
+- Next: Criar teste RED do smoke ui-reachability
+- Risks: Regressões renderizadas podem não ser detectadas apenas pelo smoke contratual; Browser do Codex permanece obrigatório.
+- Improvements: Transformar auditoria recorrente de alcance da UI em gate local determinístico.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-06T02:26:31-03:00
+- Done: Gate qa:ui-reachability criado com sete fixtures; regressões de Acampamento, navegação e guia de personagens corrigidas; integração com quality:automation e readiness implementada.
+- Next: Executar gates completos e validar fluxos renderizados no Browser do Codex.
+- Risks: A validação renderizada ainda pode revelar regressões não cobertas pelo smoke contratual.
+- Improvements: Manter novos contratos estáveis de alcance da UI no smoke sem substituir o Browser do Codex.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-06T02:35:13-03:00
+- Done: Correcoes de alcance da UI, gate qa:ui-reachability, integracoes, auditoria estatica pos-correcao e roadmap de ausencias concluidos; npm test passou com 707 testes; lint, quality:automation, smokes, MCPs, skills, docs:audit e maintenance validate passaram.
+- Next: Repetir somente a auditoria renderizada no Browser do Codex quando localhost:5173 voltar a ser permitido e reexecutar build/cobertura fora do bloqueio de acesso do esbuild.
+- Risks: Browser do Codex recusou localhost:5173 por politica ativa; build, cobertura e os subprocessos Vitest do quality:gate foram bloqueados pelo sandbox ao ler configs, embora npm test direto tenha passado.
+- Improvements: Manter qa:ui-reachability como gate contratual e usar o roadmap pos-auditoria para iniciar futuras implementacoes apenas apos seus contratos e gates.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-06T02:35:26-03:00
+- Done: Implementacao, automacao, correcoes, auditoria estatica e roadmap concluidos. Fechamento renderizado permanece pendente porque o Browser do Codex recusou localhost:5173 por politica ativa; build e cobertura permanecem bloqueados pelo sandbox do esbuild.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-06T06:22:48-03:00
+- Done: Browser do Codex validou nove abas sem erros de console, criacao de personagem, log imediato correto do Acampamento e restauracao apos save/reload/load de personagem, negociacao e Acampamento; cobertura 100%, build e quality:gate passaram.
+- Next: Concluir manutencao, repetir gates documentais, criar commit atomico e executar qa:next-phase-readiness.
+- Risks: Somente aviso conhecido de chunk principal acima de 500 kB; sem regressao funcional encontrada.
+- Improvements: Avaliar code splitting em tarefa futura separada, sem ampliar este fechamento.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-06T06:22:57-03:00
+- Done: Correcoes de alcance da UI, gate contratual, auditoria pos-correcao e roadmap concluidos; Browser do Codex, cobertura 100%, build e quality gate aprovados.
+- Next: Criar commit atomico e validar readiness da proxima fase.
+- Risks: Aviso conhecido de chunk principal acima de 500 kB permanece como otimizacao futura.
+- Improvements: Manter qa:ui-reachability e Browser do Codex como gates complementares.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260606-022029-ui-reachability-regressions-and-audit -->
 <!-- pandorha-task:20260605-201308-t104-combat-real-damage-preview-ui -->
 ### T104 combat real damage preview UI
 - id: 20260605-201308-t104-combat-real-damage-preview-ui
@@ -4549,7 +4609,168 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Unfinished
 <!-- pandorha-ledger:unfinished -->
+<!-- pandorha-task:20260606-future-pwa-update-install-ui -->
+### Future PWA update and install UI
+- id: 20260606-future-pwa-update-install-ui
+- status: unfinished
+- kind: feature
+- planned: no
+- started_at: 2026-06-06T02:29:38-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-06-06T02:29:46-03:00
+- branch: fix/ui-reachability-regressions
+- commit_at_start: 8cbfdb9 chore(process): record combat preview merge
+- summary: Planejar manifest com ícones instaláveis e tela segura de atualização de cache após estabilizar o comportamento offline e a automação de rede.
+- last_change: Implementação futura bloqueada até existir automação offline confiável e política de atualização do service worker.
+#### Files At Start
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/character-creation.md
+- package.json
+- scripts/.context/plain-english.md
+- scripts/.context/scaling-roadmap.md
+- scripts/.context/tech-memory.md
+- scripts/next_phase_readiness.mjs
+- scripts/run_full_quality_gate.mjs
+- scripts/test_next_phase_readiness.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/model/navigation.ts
+- src/features/camp-hour/.context/plain-english.md
+- src/features/camp-hour/.context/scaling-roadmap.md
+- src/features/camp-hour/.context/tech-memory.md
+- src/features/camp-hour/ui/CampHourPanel.svelte
+- output/
+- scripts/test_ui_reachability_smoke.mjs
+- scripts/ui_reachability_smoke.mjs
+#### Checkpoints
+#### Checkpoint 2026-06-06T02:29:38-03:00
+- Done: task record created
+- Next: Aguardar smoke offline confiável e política de atualização do service worker.
+- Risks: Uma UI prematura pode promover cache obsoleto ou fluxo de atualização instável.
+- Improvements: Automatizar cenários offline e atualização antes da UI.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
 
+#### Checkpoint 2026-06-06T02:29:46-03:00
+- Done: Implementação futura bloqueada até existir automação offline confiável e política de atualização do service worker.
+- Next: Retomar após smoke de rede/offline estável.
+- Risks: Cache e instalação podem ficar inconsistentes sem gate renderizado confiável.
+- Improvements: Criar cenários automatizados de atualização e fallback offline.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260606-future-pwa-update-install-ui -->
+<!-- pandorha-task:20260606-future-social-higher-tiers -->
+### Future social higher tiers
+- id: 20260606-future-social-higher-tiers
+- status: unfinished
+- kind: feature
+- planned: no
+- started_at: 2026-06-06T02:29:23-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-06-06T02:29:31-03:00
+- branch: fix/ui-reachability-regressions
+- commit_at_start: 8cbfdb9 chore(process): record combat preview merge
+- summary: Planejar favores e quitação de dívida acima de Tier 1 somente após revisão das regras soberanas de fama, influência e facções.
+- last_change: Implementação futura bloqueada até revisão das regras soberanas para favores e dívidas acima de Tier 1.
+#### Files At Start
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/character-creation.md
+- package.json
+- scripts/.context/plain-english.md
+- scripts/.context/scaling-roadmap.md
+- scripts/.context/tech-memory.md
+- scripts/next_phase_readiness.mjs
+- scripts/run_full_quality_gate.mjs
+- scripts/test_next_phase_readiness.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/model/navigation.ts
+- src/features/camp-hour/.context/plain-english.md
+- src/features/camp-hour/.context/scaling-roadmap.md
+- src/features/camp-hour/.context/tech-memory.md
+- src/features/camp-hour/ui/CampHourPanel.svelte
+- output/
+- scripts/test_ui_reachability_smoke.mjs
+- scripts/ui_reachability_smoke.mjs
+#### Checkpoints
+#### Checkpoint 2026-06-06T02:29:23-03:00
+- Done: task record created
+- Next: Aguardar revisão de docs/system e contratos de Tier superiores.
+- Risks: Implementar pela UI atual pode inventar custos e limites não aprovados.
+- Improvements: Criar testes de fronteira por Tier antes da UI.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-06T02:29:31-03:00
+- Done: Implementação futura bloqueada até revisão das regras soberanas para favores e dívidas acima de Tier 1.
+- Next: Retomar após revisão das regras de fama, influência e facções.
+- Risks: Custos e limites ainda não estão aprovados para implementação.
+- Improvements: Cobrir fronteiras de Tier com serviços puros antes da UI.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260606-future-social-higher-tiers -->
+<!-- pandorha-task:20260606-future-camp-multi-hour -->
+### Future camp multi-hour orchestration
+- id: 20260606-future-camp-multi-hour
+- status: unfinished
+- kind: feature
+- planned: no
+- started_at: 2026-06-06T02:29:14-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-06-06T02:29:15-03:00
+- branch: fix/ui-reachability-regressions
+- commit_at_start: 8cbfdb9 chore(process): record combat preview merge
+- summary: Planejar orquestração explícita de nova hora e noite de acampamento após estabilizar o fluxo de uma hora, sem sobrecarregar a sessão resolvida atual.
+- last_change: Implementação futura bloqueada até existir orquestração explícita de nova hora e revisão das atividades avançadas.
+#### Files At Start
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/vertical-slice-qa.md
+- docs/user/character-creation.md
+- package.json
+- scripts/.context/plain-english.md
+- scripts/.context/scaling-roadmap.md
+- scripts/.context/tech-memory.md
+- scripts/next_phase_readiness.mjs
+- scripts/run_full_quality_gate.mjs
+- scripts/test_next_phase_readiness.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/model/navigation.ts
+- src/features/camp-hour/.context/plain-english.md
+- src/features/camp-hour/.context/scaling-roadmap.md
+- src/features/camp-hour/.context/tech-memory.md
+- src/features/camp-hour/ui/CampHourPanel.svelte
+- output/
+- scripts/test_ui_reachability_smoke.mjs
+- scripts/ui_reachability_smoke.mjs
+#### Checkpoints
+#### Checkpoint 2026-06-06T02:29:14-03:00
+- Done: task record created
+- Next: Aguardar contrato aprovado de nova hora e atividades avançadas.
+- Risks: Mudança prematura pode quebrar save, clocks e separação entre resolução local e restauração.
+- Improvements: Reusar o gate qa:ui-reachability no futuro fluxo multi-hora.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-06T02:29:15-03:00
+- Done: Implementação futura bloqueada até existir orquestração explícita de nova hora e revisão das atividades avançadas.
+- Next: Retomar após aprovação do contrato multi-hora.
+- Risks: Exige decisão de estado, save e regras de atividades.
+- Improvements: Adicionar testes de transição entre horas antes da UI.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260606-future-camp-multi-hour -->
 <!-- /pandorha-ledger:unfinished -->
 
 ## Snapshots

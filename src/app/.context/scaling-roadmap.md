@@ -29,3 +29,4 @@
 - Keep retaliation clock advancement explicit at the call site; do not add timer-driven advancement until a rule exists in `docs/system/`.
 - T92 wires the combat target's minimal incoming attack service into the combat tab without app-level HP mutation, save v6, monster data, or Worker changes.
 - Future combat app wiring should pass persisted HP only after a dedicated character-combat-state contract exists.
+- Keep navigation copy synchronized with reachable panels through `qa:ui-reachability`; add new panel contracts to the smoke when a new tab is introduced.

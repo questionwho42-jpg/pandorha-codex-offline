@@ -10,14 +10,16 @@ Este guia mostra como testar a criação de personagem que existe hoje no Pandor
 - O formulário valida a Regra dos 6/6 antes de aceitar o personagem.
 - O formulário permite escolher uma das 6 ancestralidades oficiais.
 - O formulário permite escolher exatamente 3 traços da ancestralidade selecionada.
+- O formulário permite escolher classes e antecedentes do catálogo atual.
+- Os controles `Salvar sessão` e `Carregar save` preservam personagens no armazenamento local SQLite WASM/OPFS do navegador.
+- A aba `Compêndio` permite consultar o catálogo curado atual.
 - Os erros aparecem em português e dizem o que precisa ser corrigido.
 
 ## Limites Desta Versão
 
-- O personagem existe apenas na sessão atual do navegador. Se você recarregar a página, ele será perdido.
-- Classe e Antecedente ainda são fixos: `Vanguarda` e `Abrigo da Fé`.
-- Os traços escolhidos são validados na criação, mas ainda não aparecem na listagem e seus efeitos mecânicos ainda não são aplicados.
-- A ficha completa, persistência real, banco SQLite/OPFS e compêndio ainda serão implementados em tarefas futuras.
+- O save usa um único slot local chamado `primary`; não há autosave, múltiplos slots ou sincronização em nuvem.
+- Os traços escolhidos são validados na criação, mas ainda não aparecem na listagem, não são persistidos na ficha salva e seus efeitos mecânicos ainda não são aplicados.
+- A ficha exibida ainda é parcial e não oferece edição de personagem depois da criação.
 
 ## Como Criar Um Personagem Válido
 
@@ -32,6 +34,9 @@ Este guia mostra como testar a criação de personagem que existe hoje no Pandor
 9. Distribua as `Aplicações` para somarem exatamente `6`.
 10. Clique em `Criar personagem`.
 11. Confirme que o personagem aparece na `Listagem de personagens`.
+12. Clique em `Salvar sessão`.
+13. Recarregue a página, volte para `Personagens` e clique em `Carregar save`.
+14. Confirme que o personagem salvo voltou para a listagem.
 
 ## Exemplo Para Testar
 
@@ -44,7 +49,7 @@ Use estes valores para confirmar que o fluxo está funcionando:
 | Ancestralidade | Humano |
 | Traços | Diligência Erudita, Língua de Prata, Vontade Indomável |
 | Classe | Vanguarda |
-| Antecedente | Abrigo da Fé |
+| Antecedente | Acólito |
 | Nível | 1 |
 | Físico | 3 |
 | Mental | 2 |

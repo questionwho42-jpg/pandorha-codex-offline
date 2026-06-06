@@ -11,12 +11,16 @@ const requiredPackageScripts = [
 	"build",
 	"quality:gate",
 	"qa:vertical-slice",
+	"qa:ui-reachability",
 	"qa:social-browser-smoke",
 	"qa:dialogue-seeds",
 	"qa:next-phase-readiness",
 	"automation:doctor",
 ];
-const requiredFiles = ["scripts/dialogue_seed_smoke.mjs"];
+const requiredFiles = [
+	"scripts/dialogue_seed_smoke.mjs",
+	"scripts/ui_reachability_smoke.mjs",
+];
 
 const parsedArgs = parseArgs(process.argv.slice(2));
 

@@ -6,3 +6,4 @@
 - Add multi-hour and night-long orchestration only after the one-hour path is stable.
 - Next expansion should add explicit reset/new-hour orchestration instead of overloading the first-hour UI.
 - Activity results should move into dedicated services before adding kits, healing, random events, or encounter checks.
+- Keep the local-resolution and restored-save log states distinct when multi-hour orchestration is introduced.

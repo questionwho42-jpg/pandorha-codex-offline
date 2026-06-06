@@ -6,6 +6,42 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260606-future-pwa-update-install-ui -->
+### Future PWA update and install UI
+- id: 20260606-future-pwa-update-install-ui
+- status: open
+- created_at: 2026-06-06T02:29:38-03:00
+- source: task-ledger
+- summary: Planejar manifest com ícones instaláveis e tela segura de atualização de cache após estabilizar o comportamento offline e a automação de rede.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260606-future-pwa-update-install-ui -->
+<!-- pandorha-inbox:20260606-future-social-higher-tiers -->
+### Future social higher tiers
+- id: 20260606-future-social-higher-tiers
+- status: open
+- created_at: 2026-06-06T02:29:23-03:00
+- source: task-ledger
+- summary: Planejar favores e quitação de dívida acima de Tier 1 somente após revisão das regras soberanas de fama, influência e facções.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260606-future-social-higher-tiers -->
+<!-- pandorha-inbox:20260606-future-camp-multi-hour -->
+### Future camp multi-hour orchestration
+- id: 20260606-future-camp-multi-hour
+- status: open
+- created_at: 2026-06-06T02:29:14-03:00
+- source: task-ledger
+- summary: Planejar orquestração explícita de nova hora e noite de acampamento após estabilizar o fluxo de uma hora, sem sobrecarregar a sessão resolvida atual.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260606-future-camp-multi-hour -->
+<!-- pandorha-inbox:20260606-022029-ui-reachability-regressions-and-audit -->
+### UI reachability regressions and audit
+- id: 20260606-022029-ui-reachability-regressions-and-audit
+- status: open
+- created_at: 2026-06-06T02:20:29-03:00
+- source: task-ledger
+- summary: Corrigir regressões confirmadas de acessibilidade da UI, criar gate contratual qa:ui-reachability, validar pelo Browser do Codex e documentar futuras implementações após nova auditoria.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260606-022029-ui-reachability-regressions-and-audit -->
 <!-- pandorha-inbox:20260605-201308-t104-combat-real-damage-preview-ui -->
 ### T104 combat real damage preview UI
 - id: 20260605-201308-t104-combat-real-damage-preview-ui

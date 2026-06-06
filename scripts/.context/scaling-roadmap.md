@@ -7,6 +7,7 @@
 - Add anchor validation for local Markdown links after heading normalization is complete.
 - Add promotion ownership labels for `change-inbox.md` entries if the project starts assigning review lanes by subsystem.
 - Add a formatter bridge to `ai-docs-formatter` only after the schema becomes stricter than the current permissive JSON shape.
+- Extend `qa:ui-reachability` only with stable source contracts; keep rendered interactions in the Browser do Codex until the T84 Playwright decision is explicitly reopened.
 
 ## Boundaries
 

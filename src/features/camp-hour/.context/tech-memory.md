@@ -6,3 +6,4 @@
 - Danger increases by `PANDORHA_RULES.CAMP.BASE_DANGER_INCREASE_PER_HOUR`, currently `1`, as a deliberate first-slice placeholder until full camp event rolls are implemented.
 - T35D adds `CampHourPanel` as the browser UI for one planned hour. The panel owns local Svelte state, emits persisted clocks/sessions/assignments to `App.svelte`, and keeps `CampHourService` pure.
 - The first UI persists resolved camp state through save/load v2; it does not start a second hour or apply advanced activity effects.
+- A locally resolved hour must update `hydratedKey` before emitting `onStateChange`; otherwise the parent-state echo rehydrates the panel, clears fresh events, and incorrectly renders the save-restoration fallback.

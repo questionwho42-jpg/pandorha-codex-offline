@@ -146,6 +146,12 @@ async function resolveCurrentHour(): Promise<void> {
 		: localClocks;
 	events = [...result.data.events];
 	errorMessage = null;
+	hydratedKey = createHydrationKey({
+		assignments: localAssignments,
+		characters,
+		clocks: localClocks,
+		sessions: localCampSessions,
+	});
 	onStateChange({
 		clocks: localClocks,
 		campSessions: localCampSessions,

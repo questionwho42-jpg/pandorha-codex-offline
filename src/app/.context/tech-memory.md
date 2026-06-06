@@ -146,3 +146,8 @@
 - `combatEncounterSession` now exposes `trainingEnemyAttackService` with the same deterministic dice stream used by the combat training session.
 - `App.svelte` passes `resolveTrainingEnemyAttack` into `CombatEncounterPanel`; the app does not calculate CA or resolve target attacks itself.
 - No app-level save state, schema version, Worker RPC, persisted HP, official monster data, or navigation state was added.
+
+## 2026-06-06 - UI Reachability Regression Fix
+
+- Navigation descriptions must describe the current browser surface and must not retain future-task placeholders after a panel becomes reachable.
+- The Browser do Codex remains the rendered UI acceptance gate; `qa:ui-reachability` protects deterministic source and documentation contracts.

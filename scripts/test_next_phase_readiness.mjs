@@ -86,8 +86,37 @@ test("next phase readiness fails when a required project script is missing", asy
 	}
 });
 
+test("next phase readiness fails when the ui reachability command is missing", async () => {
+	const root = await createFixtureRoot({
+		packageJson: renderPackageJson({ omitScript: "qa:ui-reachability" }),
+	});
+
+	try {
+		const result = runReadiness(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /qa:ui-reachability/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
+test("next phase readiness fails when the ui reachability smoke is missing", async () => {
+	const root = await createFixtureRoot({ includeUiReachabilitySmoke: false });
+
+	try {
+		const result = runReadiness(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /ui_reachability_smoke\.mjs/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 async function createFixtureRoot({
 	gitStatus = "",
+	includeUiReachabilitySmoke = true,
 	packageJson = renderPackageJson(),
 	taskLedger = renderTaskLedger(),
 } = {}) {
@@ -98,6 +127,9 @@ async function createFixtureRoot({
 		"scripts/dialogue_seed_smoke.mjs": "console.log('ok');\n",
 		"git-status.txt": gitStatus,
 	};
+	if (includeUiReachabilitySmoke) {
+		files["scripts/ui_reachability_smoke.mjs"] = "console.log('ok');\n";
+	}
 
 	for (const [relativePath, content] of Object.entries(files)) {
 		const fullPath = path.join(root, relativePath);
@@ -116,6 +148,7 @@ function renderPackageJson({ omitScript = null } = {}) {
 		build: "echo build",
 		"quality:gate": "echo quality",
 		"qa:vertical-slice": "echo vertical",
+		"qa:ui-reachability": "echo reachability",
 		"qa:social-browser-smoke": "echo browser",
 		"qa:dialogue-seeds": "echo seeds",
 		"qa:next-phase-readiness": "echo readiness",

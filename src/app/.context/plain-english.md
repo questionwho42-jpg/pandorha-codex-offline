@@ -47,3 +47,5 @@ Na T73-T76, o app passou a guardar relacoes individuais com NPCs no save. Quando
 Na T92, a aba Combate passou a receber tambem o servico que deixa o alvo de treino atacar um personagem criado na sessao. O app apenas entrega esse servico para o painel; quem calcula a CA e resolve o ataque continua sendo a feature de combate.
 
 Esse ataque recebido ainda e de treino: ele aparece no log, usa a CA equipada do personagem e nao mexe no HP real nem no save.
+
+As descricoes da navegacao agora falam sobre o que ja esta disponivel no navegador. Uma verificacao automatica impede que avisos antigos de "sera implementado" voltem depois que uma tela ja existe.

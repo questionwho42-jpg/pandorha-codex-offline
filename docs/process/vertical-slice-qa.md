@@ -60,6 +60,18 @@ Esse comando executa `scripts/vertical_slice_smoke.mjs`. Ele valida contratos m�
 
 O script é um smoke estático/contratual, não substitui o Browser Use. Ele existe para falhar cedo quando uma aba, guia ou peça central do MVP desaparecer sem intenção.
 
+## Automação De Alcance Da UI
+
+Use:
+
+```powershell
+npm.cmd run qa:ui-reachability
+```
+
+Esse comando executa `scripts/ui_reachability_smoke.mjs`. Ele protege o alcance das nove abas, bloqueia placeholders obsoletos, exige documentação coerente com o save atual e verifica o contrato que preserva o log recém-resolvido do Acampamento antes do eco de estado do componente pai.
+
+O smoke é contratual e não substitui a validação renderizada. Mudanças visuais ou de navegação continuam exigindo o Browser do Codex para abrir todas as abas, executar os fluxos afetados e confirmar ausência de erros no console.
+
 ## Automação Da T62
 
 Use:
