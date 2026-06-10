@@ -5,7 +5,18 @@ This file receives zero-token promotion summaries after changes reach `main`.
 Detailed architectural decisions belong in `docs/adr/`. RPG and business rules remain in `docs/system/`.
 
 <!-- pandorha-changelog:main -->
-
+## 2026-06-10T12:37:00-03:00 - master merge promotion candidate
+- branch: master
+- commit: ad2ff2a feat(combat-survival): implement tactical combat loop, dynamic encounters and advanced testing suite
+- changed_files_count: 0
+- review_model: gpt-5.5 high-reasoning final review; local automation zero-token
+#### Changed Files
+- none
+#### Promotion Review
+- Done: merge detected on main and changelog promotion candidate created
+- Next: model final review should decide whether ADR, system docs, conventions, or llms.txt need updates
+- Risks: semantic promotion still requires human/model judgment
+- Improvements: include task ids in commit messages for tighter traceability
 ## 2026-06-09 - Doc Sync: Fases 68–72 em Progresso (Loop Tático e Sobrevivência)
 - branch: task/combat-survival
 - status: **EM ANDAMENTO** — task `loop-tatico-e-sobrevivencia` (iniciada 2026-06-04)
@@ -153,5 +164,4 @@ Detailed architectural decisions belong in `docs/adr/`. RPG and business rules r
 - Done: tracer bullet completo; personagem criável no browser com TDD 100% em todos os services
 - Next: combat vertical slice
 - Risks: App.svelte ainda pequeno, mas vai crescer com a navegação de sessão
-
 <!-- /pandorha-changelog:main -->
