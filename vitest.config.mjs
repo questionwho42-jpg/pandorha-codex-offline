@@ -1,11 +1,14 @@
 import { fileURLToPath } from "node:url";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
+	plugins: [svelte({ hot: !process.env.VITEST })],
 	resolve: {
 		alias: {
 			$lib: fileURLToPath(new URL("./src", import.meta.url)),
 		},
+		conditions: ["browser"],
 	},
 	test: {
 		environment: "node",
@@ -73,6 +76,7 @@ export default defineConfig({
 				"src/entities/world-tile/domain/TravelRoleService.ts",
 				"src/entities/character/domain/LimitBreakService.ts",
 				"src/features/combat-encounter/domain/UltimatesCatalog.ts",
+				"src/features/sandbox/domain/sandboxUtils.ts",
 				// "src/features/character-list/model/characterListView.ts",
 				// "src/features/combat-encounter/model/combatAttackerStatsView.ts",
 				// "src/entities/character/domain/IllnessService.ts",

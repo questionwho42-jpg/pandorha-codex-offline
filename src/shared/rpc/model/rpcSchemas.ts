@@ -99,6 +99,12 @@ export const rpcCommandTypeSchema = z.enum([
 	"TICK_CLOCK_MANUAL",
 	"FORCE_SPAWN_ACTOR",
 	"APPLY_LEVEL_UP",
+	"SAVE_COMBAT_ENCOUNTER",
+	"FIND_COMBAT_ENCOUNTER",
+	"SAVE_COMBAT_MONSTER",
+	"FIND_COMBAT_MONSTERS_BY_ENCOUNTER",
+	"SAVE_ACTIVE_SESSION",
+	"FIND_ACTIVE_SESSION",
 ]);
 
 export const jsonSerializableValueSchema = z.custom<JsonValue>(
@@ -129,6 +135,9 @@ export const saveGameSnapshotSchema = z.object({
 	campSessions: z.array(jsonSerializableObjectSchema).optional(),
 	mercenaryCompanies: z.array(jsonSerializableObjectSchema).optional(),
 	mercenarySquads: z.array(jsonSerializableObjectSchema).optional(),
+	activeSessions: z.array(jsonSerializableObjectSchema).optional(),
+	combatEncounters: z.array(jsonSerializableObjectSchema).optional(),
+	combatMonsters: z.array(jsonSerializableObjectSchema).optional(),
 });
 
 export const initDatabaseRequestSchema = z.object({
@@ -835,6 +844,54 @@ export const applyLevelUpRequestSchema = z.object({
 	}),
 });
 
+export const saveCombatEncounterRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_COMBAT_ENCOUNTER"),
+	payload: z.object({
+		combatEncounter: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findCombatEncounterRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_COMBAT_ENCOUNTER"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const saveCombatMonsterRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_COMBAT_MONSTER"),
+	payload: z.object({
+		combatMonster: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findCombatMonstersByEncounterRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_COMBAT_MONSTERS_BY_ENCOUNTER"),
+	payload: z.object({
+		combatEncounterId: z.string().min(1),
+	}),
+});
+
+export const saveActiveSessionRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_ACTIVE_SESSION"),
+	payload: z.object({
+		activeSession: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findActiveSessionRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_ACTIVE_SESSION"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
 export const rpcRequestSchema = z.discriminatedUnion("type", [
 	initDatabaseRequestSchema,
 	saveGameSnapshotRequestSchema,
@@ -923,6 +980,12 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	tickClockManualRequestSchema,
 	forceSpawnActorRequestSchema,
 	applyLevelUpRequestSchema,
+	saveCombatEncounterRequestSchema,
+	findCombatEncounterRequestSchema,
+	saveCombatMonsterRequestSchema,
+	findCombatMonstersByEncounterRequestSchema,
+	saveActiveSessionRequestSchema,
+	findActiveSessionRequestSchema,
 ]);
 
 const rpcErrorSchema = z.object({

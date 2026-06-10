@@ -6,6 +6,42 @@ Detailed architectural decisions belong in `docs/adr/`. RPG and business rules r
 
 <!-- pandorha-changelog:main -->
 
+## 2026-06-09 - Doc Sync: Fases 68–72 em Progresso (Loop Tático e Sobrevivência)
+- branch: task/combat-survival
+- status: **EM ANDAMENTO** — task `loop-tatico-e-sobrevivencia` (iniciada 2026-06-04)
+- commit_at_start: 5ab4129 style: format App entrypoint and update task ledger logs
+- escopo: Implementação das Fases 68 a 72 do Pandorha Engine
+- fases_planejadas:
+  - **Fase 68** — Transição mapa↔combate via `active_sessions` (ADR-009): HexcrawlMovementService dispara encontro → persiste combat_encounter_id → App.svelte reage reativamente
+  - **Fase 69** — IA Tática de Criaturas (ADR-010): TacticalAiService com Papéis Táticos (Bruto/Assassino/Suporte) e prioridade de alvo na ActionQueue
+  - **Fase 70** — Loots Atômicos SQLite (ADR-011): CombatLootService persiste XP, cobres e itens em transação única ao encerrar encontro
+  - **Fase 71** — Mercenários por Ticks de Exploração (ADR-012): MercenaryDispatchService consome Turnos de Exploração reais
+  - **Fase 72** — Climatologia Reativa (ADR-013): ProgressClock regional controla penalidades de marcha e abrigo
+- adrs_cobertas: ADR-009, ADR-010, ADR-011, ADR-012, ADR-013
+#### Promotion Review
+- Done: documentação sincronizada; llms.txt atualizado com ADRs 007–013; feature-coverage-map.md inclui entities/combat; task ledger reflete status in-progress
+- Next: completar implementação das Fases 68–72 e promover ao changelog após merge para main
+- Risks: IA tática (ADR-010) pode introduzir não-determinismo se Math.random() vazar — garantir IRng injetável; GMSandbox com mutação direta de estado pode conflitar com active_sessions durante transição de combate
+- Improvements: adicionar testes de integração fim-a-fim para ciclo hexcrawl→combate→loot→return
+
+---
+
+## 2026-06-04T23:59:00-03:00 - Fases 51–67+: Siege, Lore, Chat, GM Sandbox, RPC Cache
+- branch: main
+- commit: consolidado (Phases 51–67, 2026-06-01 a 2026-06-04)
+- fases_cobertas: Fase 51 (SiegeService), Fase 52 (integração Bastião×Cerco), Fase 53 (HexcrawlMovement refactor), Fase 54 (RPC Cache global), Fase 55 (ClockService triggers avançados), Fase 56 (ChatLog + GM Mode + isGmOnly), Fase 57 (LoreService + GMSandbox), Fase 59 (GMSandboxPanel RPC direto), Fase 65 (NegotiationPanel + CountermagicService UI completa), Fase 67 (polish e integração final)
+- entidades_criadas: `entities/siege` (SiegeService, InMemorySiegeRepository, DrizzleSiegeRepository, siegeSchema), `entities/lore` (LoreService, InMemoryLoreRepository, DrizzleLoreRepository)
+- features_criadas: `features/chat` (ChatLog.svelte, RollModifiersDrawer.svelte, chatState), `features/sandbox` (GMSandboxPanel.svelte)
+- features_atualizadas: `features/social` (NegotiationPanel.svelte completo, FactionPanel.svelte, SocialDemo.svelte, SocialStandings.svelte, BargainWindow.svelte — UI agora completa)
+- infra_atualizada: `src/shared/rpc/model/rpcCache.ts` (cache global na thread principal, latência < 16ms)
+#### Promotion Review
+- Done: SiegeService com 100% TDD; LoreService integrado ao HexcrawlMovementService; ChatLog com filtro GM isGmOnly; GMSandboxPanel operacional; RPC Cache reduz latência para < 16ms; NegotiationPanel finalizado com CountermagicService; todas as fases com cobertura de testes
+- Next: integrar SiegeService ao ciclo de Downtime do Bastião; expandir GM Sandbox com eventos de clima; features/research e features/survival ainda pendentes
+- Risks: GMSandbox com mutação direta de estado via RPC pode gerar inconsistências se Worker estiver em transação longa; rpcCache pode retornar dados stale em janelas de sincronização OPFS
+- Improvements: adicionar TTL ao rpcCache para invalidação automática; documentar protocolo de resolução de conflito Siege×ClockService
+
+---
+
 ## 2026-05-31T12:00:00-03:00 - Atualização consolidada de documentação
 - branch: main
 - summary: Atualização completa dos docs de desenvolvimento para refletir o estado real do código (29+ fases concluídas)

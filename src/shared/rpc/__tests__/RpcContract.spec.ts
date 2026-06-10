@@ -133,6 +133,76 @@ describe("RPC save/load contract", () => {
 		expect(deleteParsed.success).toBe(true);
 	});
 
+	it("accepts combat and active session RPC requests", () => {
+		const saveEncounterParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "SAVE_COMBAT_ENCOUNTER",
+			payload: {
+				combatEncounter: {
+					id: "combat-1",
+					turn: 1,
+					round: 1,
+					initiativeOrderJson: '["hero-1", "monster-1"]',
+					status: "active",
+					createdAt: CREATED_AT,
+					updatedAt: CREATED_AT,
+				},
+			},
+		});
+		const findEncounterParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "FIND_COMBAT_ENCOUNTER",
+			payload: { id: "combat-1" },
+		});
+		const saveMonsterParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "SAVE_COMBAT_MONSTER",
+			payload: {
+				combatMonster: {
+					id: "monster-instance-1",
+					combatEncounterId: "combat-1",
+					monsterId: "goblin",
+					name: "Goblin 1",
+					hpCurrent: 10,
+					hpMax: 10,
+					eeCurrent: 2,
+					eeMax: 2,
+					tacticalRole: "assassino",
+					createdAt: CREATED_AT,
+					updatedAt: CREATED_AT,
+				},
+			},
+		});
+		const findMonstersParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "FIND_COMBAT_MONSTERS_BY_ENCOUNTER",
+			payload: { combatEncounterId: "combat-1" },
+		});
+		const saveActiveSessionParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "SAVE_ACTIVE_SESSION",
+			payload: {
+				activeSession: {
+					id: "current",
+					combatEncounterId: "combat-1",
+					updatedAt: CREATED_AT,
+				},
+			},
+		});
+		const findActiveSessionParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "FIND_ACTIVE_SESSION",
+			payload: { id: "current" },
+		});
+
+		expect(saveEncounterParsed.success).toBe(true);
+		expect(findEncounterParsed.success).toBe(true);
+		expect(saveMonsterParsed.success).toBe(true);
+		expect(findMonstersParsed.success).toBe(true);
+		expect(saveActiveSessionParsed.success).toBe(true);
+		expect(findActiveSessionParsed.success).toBe(true);
+	});
+
 	it("accepts mercenary RPC requests (SAVE_COMPANY, FIND_COMPANY, LIST_COMPANIES, SAVE_SQUAD, FIND_SQUAD, LIST_SQUADS)", () => {
 		const saveCompanyParsed = rpcRequestSchema.safeParse({
 			messageId: MESSAGE_ID,

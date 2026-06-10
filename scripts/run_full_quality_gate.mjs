@@ -118,6 +118,176 @@ async function runAutomationGate() {
 	await runStep("automation:mechanics-balance", pythonCommand, [
 		".agents/skills/rpg-mechanics-validator/scripts/simulate_mechanics.py",
 	]);
+	await runBenchmarksStep();
+	await runCombatSimulationAuditStep();
+	await runSqliteStressAuditStep();
+}
+
+async function runBenchmarksStep() {
+	const label = "automation:rpc-benchmarks";
+	const started = new Date().toISOString();
+	const benchmarkFile = path.join(rootDir, "artifacts", "benchmarks.json");
+
+	try {
+		const content = await readFile(benchmarkFile, "utf8");
+		const data = JSON.parse(content);
+		const stdout = [
+			"SQLite & RPC Benchmark Summary:",
+			`- Timestamp: ${data.timestamp}`,
+			`- Database Init (Migrations): ${data.database_init_ms} ms`,
+			`- Game Snapshot Save: ${data.snapshot_save_ms} ms`,
+			`- Game Snapshot Load: ${data.snapshot_load_ms} ms`,
+		].join("\n");
+
+		results.push({
+			label,
+			command: "read benchmarks.json",
+			status: "passed",
+			exitCode: 0,
+			startedAt: started,
+			finishedAt: new Date().toISOString(),
+			stdout,
+			stderr: "",
+		});
+	} catch (error) {
+		results.push({
+			label,
+			command: "read benchmarks.json",
+			status: "failed",
+			exitCode: 1,
+			startedAt: started,
+			finishedAt: new Date().toISOString(),
+			stdout: "",
+			stderr: `Failed to read or parse benchmarks.json: ${error instanceof Error ? error.message : String(error)}`,
+		});
+	}
+}
+
+async function runCombatSimulationAuditStep() {
+	const label = "automation:combat-montecarlo-audit";
+	const started = new Date().toISOString();
+	const reportFile = path.join(
+		rootDir,
+		"artifacts",
+		"combat_simulation_report.json",
+	);
+
+	try {
+		const content = await readFile(reportFile, "utf8");
+		const data = JSON.parse(content);
+
+		const stdout = [
+			"Combat Simulation Monte Carlo Audit Summary:",
+			`- Mode: ${data.mode}`,
+			`- Iterations: ${data.iterations}`,
+			`- Win Rate: ${data.win_rate.toFixed(2)}% (Min: 70%)`,
+			`- Average Turns: ${data.avg_turns_per_combat.toFixed(2)} turns (Max: 15)`,
+			`- Stalemates/Infinite Loops: ${data.stalemates}`,
+		].join("\n");
+
+		if (data.win_rate < 70) {
+			throw new Error(
+				`Andarilhos win rate is too low: ${data.win_rate.toFixed(2)}% (requires >= 70%)`,
+			);
+		}
+		if (data.avg_turns_per_combat > 15) {
+			throw new Error(
+				`Average combat duration is too long: ${data.avg_turns_per_combat.toFixed(2)} turns (requires <= 15)`,
+			);
+		}
+		if (data.stalemates > 0) {
+			throw new Error(
+				`Combat got stuck in infinite loops: ${data.stalemates} stalemate(s) detected.`,
+			);
+		}
+
+		results.push({
+			label,
+			command: "read combat_simulation_report.json",
+			status: "passed",
+			exitCode: 0,
+			startedAt: started,
+			finishedAt: new Date().toISOString(),
+			stdout,
+			stderr: "",
+		});
+	} catch (error) {
+		results.push({
+			label,
+			command: "read combat_simulation_report.json",
+			status: "failed",
+			exitCode: 1,
+			startedAt: started,
+			finishedAt: new Date().toISOString(),
+			stdout: "",
+			stderr: `Combat simulation audit failed: ${error instanceof Error ? error.message : String(error)}`,
+		});
+	}
+}
+
+async function runSqliteStressAuditStep() {
+	const label = "automation:sqlite-stress-audit";
+	const started = new Date().toISOString();
+	const reportFile = path.join(
+		rootDir,
+		"artifacts",
+		"sqlite_stress_report.json",
+	);
+
+	try {
+		const content = await readFile(reportFile, "utf8");
+		const data = JSON.parse(content);
+
+		const stdout = [
+			"SQLite Persistence & Stress Audit Summary:",
+			`- Concurrency Writes tested: ${data.concurrency_writes_tested}`,
+			`- Writes status: ${data.writes_status}`,
+			`- Cascade deletion integrity: ${data.cascade_delete_integrity}`,
+			`- Rollback RPC transationality: ${data.rollback_transationality}`,
+			`- Table scans detected: ${data.table_scans_detected} (Max: 0)`,
+			`- Missing foreign key indices: ${data.missing_indices_detected} (Max: 0)`,
+		].join("\n");
+
+		if (
+			data.writes_status !== "passed" ||
+			data.cascade_delete_integrity !== "passed" ||
+			data.rollback_transationality !== "passed"
+		) {
+			throw new Error("One or more sqlite integrity validations failed.");
+		}
+		if (data.table_scans_detected > 0) {
+			throw new Error(
+				`SQLite Table Scans (SCAN TABLE) detected: ${data.table_scans_detected} queries lack index optimization.`,
+			);
+		}
+		if (data.missing_indices_detected > 0) {
+			throw new Error(
+				`Migration foreign keys lack indices: ${data.missing_indices_detected} missing indices.`,
+			);
+		}
+
+		results.push({
+			label,
+			command: "read sqlite_stress_report.json",
+			status: "passed",
+			exitCode: 0,
+			startedAt: started,
+			finishedAt: new Date().toISOString(),
+			stdout,
+			stderr: "",
+		});
+	} catch (error) {
+		results.push({
+			label,
+			command: "read sqlite_stress_report.json",
+			status: "failed",
+			exitCode: 1,
+			startedAt: started,
+			finishedAt: new Date().toISOString(),
+			stdout: "",
+			stderr: `SQLite stress audit failed: ${error instanceof Error ? error.message : String(error)}`,
+		});
+	}
 }
 
 async function runMcpGate() {

@@ -1,5 +1,6 @@
 <script lang="ts">
 import { onMount } from "svelte";
+import { WorkerClockRepository } from "$lib/entities/clocks/infrastructure/WorkerClockRepository";
 import { MercenaryService } from "$lib/entities/mercenary/domain/MercenaryService";
 import { WorkerMercenaryRepository } from "$lib/entities/mercenary/infrastructure/WorkerMercenaryRepository";
 import type {
@@ -16,6 +17,7 @@ let { guildGold = 1000, onUpdateGuildGold }: Props = $props();
 
 // Instanciação física
 const repository = new WorkerMercenaryRepository();
+const clockRepository = new WorkerClockRepository();
 const idProvider = { generate: () => crypto.randomUUID() };
 const clock = { now: () => new Date().toISOString() };
 const service = new MercenaryService(repository, idProvider, clock);
@@ -24,23 +26,23 @@ const service = new MercenaryService(repository, idProvider, clock);
 let companies = $state<readonly MercenaryCompanyRecord[]>([]);
 let activeCompany = $state<MercenaryCompanyRecord | null>(null);
 let squads = $state<readonly MercenarySquadRecord[]>([]);
-let message = $state(
+let _message = $state(
 	"Selecione ou funde uma Companhia Mercenária para começar...",
 );
 
 // Formulário de Criação da HQ
-let isCreatingHQ = $state(false);
+let _isCreatingHQ = $state(false);
 let newHQName = $state("Guarnição do Crepúsculo");
 let selectedHQTier = $state(1);
 
 // Formulário de Recrutamento de Esquadrão
-let isRecruitingSquad = $state(false);
+let _isRecruitingSquad = $state(false);
 let squadName = $state("Pioneiros do Vácuo");
 let attrPhysical = $state(2);
 let attrMental = $state(1);
 let attrSocial = $state(1);
 let selectedTags = $state<string[]>([]);
-const availableTags = [
+const _availableTags = [
 	"heavy_infantry",
 	"stealth",
 	"diplomacy",
@@ -59,10 +61,11 @@ let leaderCargo = $state<
 	"Mestre de Armas" | "Estrategista" | "Emissário" | null
 >(null);
 let d20Roll = $state(10);
-let missionConsoleLog = $state<string>("");
+let _missionConsoleLog = $state<string>("");
 
 // Estado da missão em progresso
 let missionSquadInAction = $state<MercenarySquadRecord | null>(null);
+let dispatchClock = $state<any>(null);
 
 // Carregamento de dados
 async function loadData() {
@@ -76,10 +79,25 @@ async function loadData() {
 			const squadRes = await repository.listSquadsByCompany(activeCompany.id);
 			if (squadRes.success) {
 				squads = squadRes.data;
+				const inAction = squads.find((s) => s.status === "on_mission");
+				if (inAction) {
+					missionSquadInAction = inAction;
+					if (inAction.assignedMissionId) {
+						const clockRes = await clockRepository.findById(
+							inAction.assignedMissionId,
+						);
+						if (clockRes.success && clockRes.data) {
+							dispatchClock = clockRes.data;
+						}
+					}
+				} else {
+					missionSquadInAction = null;
+					dispatchClock = null;
+				}
 			}
 		}
 	} else {
-		message = `⚠️ Erro ao carregar companhias: ${compRes.error.message}`;
+		_message = `⚠️ Erro ao carregar companhias: ${compRes.error.message}`;
 	}
 }
 
@@ -99,14 +117,14 @@ $effect(() => {
 });
 
 // Fundar HQ
-async function handleCreateHQ() {
+async function _handleCreateHQ() {
 	if (!newHQName.trim()) {
-		message = "❌ O nome da HQ não pode ser vazio.";
+		_message = "❌ O nome da HQ não pode ser vazio.";
 		return;
 	}
 	const cost = 200 * selectedHQTier;
 	if (guildGold < cost) {
-		message = `❌ Ouro insuficiente da guilda! A fundação de Tier ${selectedHQTier} custa ${cost} Ouro (Possui: ${guildGold}).`;
+		_message = `❌ Ouro insuficiente da guilda! A fundação de Tier ${selectedHQTier} custa ${cost} Ouro (Possui: ${guildGold}).`;
 		return;
 	}
 
@@ -118,27 +136,27 @@ async function handleCreateHQ() {
 
 	if (res.success) {
 		activeCompany = res.data;
-		message = `🏰 Companhia Mercenária "${res.data.hqName}" (Tier ${res.data.tier}) fundada com sucesso!`;
-		isCreatingHQ = false;
+		_message = `🏰 Companhia Mercenária "${res.data.hqName}" (Tier ${res.data.tier}) fundada com sucesso!`;
+		_isCreatingHQ = false;
 		if (onUpdateGuildGold) {
 			onUpdateGuildGold(guildGold - cost);
 		}
 		await loadData();
 	} else {
-		message = `❌ Falha ao fundar companhia: ${res.error.message}`;
+		_message = `❌ Falha ao fundar companhia: ${res.error.message}`;
 	}
 }
 
 // Recrutar Esquadrão
-async function handleRecruitSquad() {
+async function _handleRecruitSquad() {
 	if (!activeCompany) return;
 	if (!squadName.trim()) {
-		message = "❌ Digite um nome para o esquadrão.";
+		_message = "❌ Digite um nome para o esquadrão.";
 		return;
 	}
 	const recruitCost = 100;
 	if (guildGold < recruitCost) {
-		message = `❌ Ouro insuficiente para recrutamento! Custo: ${recruitCost} Ouro.`;
+		_message = `❌ Ouro insuficiente para recrutamento! Custo: ${recruitCost} Ouro.`;
 		return;
 	}
 
@@ -151,8 +169,8 @@ async function handleRecruitSquad() {
 	});
 
 	if (res.success) {
-		message = `🛡️ Esquadrão "${res.data.name}" recrutado e pronto para o combate!`;
-		isRecruitingSquad = false;
+		_message = `🛡️ Esquadrão "${res.data.name}" recrutado e pronto para o combate!`;
+		_isRecruitingSquad = false;
 		if (onUpdateGuildGold) {
 			onUpdateGuildGold(guildGold - recruitCost);
 		}
@@ -163,26 +181,26 @@ async function handleRecruitSquad() {
 		selectedTags = [];
 		await loadData();
 	} else {
-		message = `❌ Falha ao recrutar: ${res.error.message}`;
+		_message = `❌ Falha ao recrutar: ${res.error.message}`;
 	}
 }
 
 // Mudar Tática
-async function handleAssignTactic(
+async function _handleAssignTactic(
 	squadId: string,
 	tactic: "honorable" | "cruel" | "stealthy",
 ) {
 	const res = await service.assignTactic(squadId, tactic);
 	if (res.success) {
-		message = `⚔️ Tática de comando do esquadrão "${res.data.name}" alterada para [${tactic.toUpperCase()}].`;
+		_message = `⚔️ Tática de comando do esquadrão "${res.data.name}" alterada para [${tactic.toUpperCase()}].`;
 		await loadData();
 	} else {
-		message = `❌ Erro ao atribuir tática: ${res.error.message}`;
+		_message = `❌ Erro ao atribuir tática: ${res.error.message}`;
 	}
 }
 
 // Alternar Tags de Missão e Esquadrão
-function toggleTag(tag: string, target: "newSquad" | "mission") {
+function _toggleTag(tag: string, target: "newSquad" | "mission") {
 	if (target === "newSquad") {
 		if (selectedTags.includes(tag)) {
 			selectedTags = selectedTags.filter((t) => t !== tag);
@@ -256,20 +274,39 @@ const estimatedModifiers = $derived.by(() => {
 });
 
 // Despachar esquadrão em missão
-async function handleAssignSquadToMission() {
+async function _handleAssignSquadToMission() {
 	if (!selectedSquadId) return;
-	const res = await service.assignMission(selectedSquadId, "missao_ativa_pwa");
+	const squad = squads.find((s) => s.id === selectedSquadId);
+	if (!squad) return;
+
+	const clockId = crypto.randomUUID();
+	const clockSaveRes = await clockRepository.save({
+		id: clockId,
+		name: `Expedição: ${squad.name}`,
+		totalSegments: 4,
+		filledSegments: 0,
+		isCompleted: false,
+		triggerEvent: null,
+	});
+
+	if (!clockSaveRes.success) {
+		_message = `❌ Falha ao criar Relógio de Progresso: ${clockSaveRes.error.message}`;
+		return;
+	}
+
+	const res = await service.assignMission(selectedSquadId, clockId);
 	if (res.success) {
 		missionSquadInAction = res.data;
-		message = `✈️ Esquadrão "${res.data.name}" foi despachado para a missão!`;
+		_message = `✈️ Esquadrão "${res.data.name}" foi despachado para a missão!`;
 		await loadData();
 	} else {
-		message = `❌ Não foi possível despachar o esquadrão: ${res.error.message}`;
+		await clockRepository.delete(clockId);
+		_message = `❌ Não foi possível despachar o esquadrão: ${res.error.message}`;
 	}
 }
 
 // Rolar d20 aleatório de forma segura e determinística para o linter de Math.random
-function rollD20() {
+function _rollD20() {
 	const array = new Uint32Array(1);
 	crypto.getRandomValues(array);
 	const val = array[0];
@@ -281,8 +318,16 @@ function rollD20() {
 }
 
 // Resolver a missão ativa
-async function handleResolveMission() {
+async function _handleResolveMission() {
 	if (!missionSquadInAction) return;
+
+	if (!dispatchClock?.isCompleted) {
+		_message =
+			"❌ A missão ainda não está concluída! O Relógio de Progresso precisa estar completo.";
+		return;
+	}
+
+	const clockId = missionSquadInAction.assignedMissionId;
 
 	const res = await service.resolveMission({
 		squadId: missionSquadInAction.id,
@@ -295,6 +340,9 @@ async function handleResolveMission() {
 	});
 
 	if (res.success) {
+		if (clockId) {
+			await clockRepository.delete(clockId);
+		}
 		const data = res.data;
 		const squadName = data.squad.name;
 
@@ -325,15 +373,15 @@ async function handleResolveMission() {
 			log += `☠️ TRAGÉDIA: O esquadrão "${squadName}" perdeu toda a coesão e foi desfeito permanentemente!`;
 		}
 
-		missionConsoleLog = log;
-		message = data.success
+		_missionConsoleLog = log;
+		_message = data.success
 			? "🏆 Missão concluída com sucesso!"
 			: "💀 O esquadrão falhou na missão!";
 		missionSquadInAction = null;
 		selectedSquadId = "";
 		await loadData();
 	} else {
-		message = `❌ Erro ao resolver missão: ${res.error.message}`;
+		_message = `❌ Erro ao resolver missão: ${res.error.message}`;
 	}
 }
 </script>
@@ -569,6 +617,23 @@ async function handleResolveMission() {
 							Defina a rolagem d20 e clique em resolver.
 						</p>
 
+						{#if dispatchClock}
+							<div class="flex flex-col gap-1.5 bg-ruin/20 p-2.5 rounded border border-bronze/10 text-left font-sans">
+								<div class="flex justify-between items-center text-[10px] uppercase font-mono text-bone/65">
+									<span>Relógio de Progresso:</span>
+									<span class="text-ether font-bold">{dispatchClock.filledSegments} / {dispatchClock.totalSegments}</span>
+								</div>
+								<div class="w-full bg-void h-3 rounded-full overflow-hidden p-[2px] border border-bronze/30">
+									<div class="h-full rounded-full bg-ether transition-all duration-300" style="width: {(dispatchClock.filledSegments / dispatchClock.totalSegments) * 100}%"></div>
+								</div>
+								{#if !dispatchClock.isCompleted}
+									<span class="text-[9px] text-bronze/70 italic text-center block mt-1">🕒 Avance no hexcrawl ou descanse no acampamento para progredir.</span>
+								{:else}
+									<span class="text-[9px] text-ether font-bold text-center block mt-1 animate-pulse">✓ Pronto para resolução!</span>
+								{/if}
+							</div>
+						{/if}
+
 						<div class="flex flex-col gap-1.5 bg-ruin/20 p-2.5 rounded border border-bronze/10">
 							<span class="text-[9px] uppercase text-bone/60 font-mono">Rolagem d20</span>
 							<div class="flex gap-2">
@@ -579,7 +644,8 @@ async function handleResolveMission() {
 
 						<button 
 							onclick={handleResolveMission}
-							class="w-full py-2 bg-blood hover:bg-[#991b1b] text-white font-bold text-xs uppercase tracking-wider rounded transition-all mt-1"
+							disabled={dispatchClock ? !dispatchClock.isCompleted : false}
+							class="w-full py-2 bg-blood hover:bg-[#991b1b] text-white font-bold text-xs uppercase tracking-wider rounded transition-all mt-1 disabled:opacity-40 disabled:pointer-events-none"
 						>
 							⚔️ Resolver Missão
 						</button>

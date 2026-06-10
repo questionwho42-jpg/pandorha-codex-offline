@@ -296,6 +296,114 @@ export async function handleDatabaseWorkerRequest(
 			});
 		}
 
+		case "SAVE_COMBAT_ENCOUNTER": {
+			const result = await input.bootstrapService.saveCombatEncounter(
+				command.payload.combatEncounter,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_COMBAT_ENCOUNTER": {
+			const result = await input.bootstrapService.findCombatEncounter(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "SAVE_COMBAT_MONSTER": {
+			const result = await input.bootstrapService.saveCombatMonster(
+				command.payload.combatMonster,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_COMBAT_MONSTERS_BY_ENCOUNTER": {
+			const result = await input.bootstrapService.findCombatMonstersByEncounter(
+				command.payload.combatEncounterId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "SAVE_ACTIVE_SESSION": {
+			const result = await input.bootstrapService.saveActiveSession(
+				command.payload.activeSession,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_ACTIVE_SESSION": {
+			const result = await input.bootstrapService.findActiveSession(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
 		case "SAVE_STATUS_EFFECT": {
 			const result = await input.bootstrapService.saveStatusEffect(
 				command.payload.effect,

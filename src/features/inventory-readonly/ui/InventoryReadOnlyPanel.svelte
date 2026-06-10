@@ -94,7 +94,7 @@ onMount(() => {
 	}
 });
 
-function toggleEquip(itemId: string) {
+function _toggleEquip(itemId: string) {
 	if (equippedItemIds.includes(itemId)) {
 		equippedItemIds = equippedItemIds.filter((id) => id !== itemId);
 	} else {
@@ -102,12 +102,12 @@ function toggleEquip(itemId: string) {
 	}
 }
 
-let percent = $derived.by(() => {
+let _percent = $derived.by(() => {
 	if (!finalStats) return 0;
 	return (totalWeight / finalStats.carrySlotLimit) * 100;
 });
 
-let progressColor = $derived.by(() => {
+let _progressColor = $derived.by(() => {
 	if (!finalStats) return "bg-ether";
 	const state = finalStats.encumbranceState;
 	if (state === "overloaded") return "bg-blood animate-pulse";

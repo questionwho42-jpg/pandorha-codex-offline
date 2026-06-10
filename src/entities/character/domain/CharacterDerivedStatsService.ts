@@ -37,14 +37,25 @@ export class CharacterDerivedStatsService {
 			});
 		}
 
+		const climaExtremo = parsed.data.climaExtremo;
+		const physical = character.physical - (climaExtremo === "frost" ? 1 : 0);
+		const mental = character.mental - (climaExtremo === "heat" ? 1 : 0);
+
+		let initiativeBase = character.level + mental + character.interaction;
+		let armorClass = 10 + character.level + physical;
+
+		if (climaExtremo === "storm") {
+			initiativeBase -= 1;
+			armorClass -= 1;
+		}
+
 		return ok({
 			maxHp:
-				(characterClass.baseHp + character.physical + character.resistance) *
+				(characterClass.baseHp + physical + character.resistance) *
 				character.level,
-			initiativeBase:
-				character.level + character.mental + character.interaction,
-			carrySlotLimit: character.physical + character.resistance + 6,
-			armorClass: 10 + character.level + character.physical,
+			initiativeBase,
+			carrySlotLimit: physical + character.resistance + 6,
+			armorClass,
 			stealthPenalty: 0,
 		});
 	}

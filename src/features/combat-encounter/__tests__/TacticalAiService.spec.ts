@@ -791,7 +791,7 @@ describe("TacticalAiService", () => {
 		if (res2.success) {
 			// Sniper deve ter recuado
 			expect(res2.data.logs[0]).toContain("recuou para longe de Aria");
-			expect(res2.data.updatedMonsters[0]!.position).toEqual({ x: 0, y: -1 });
+			expect(res2.data.updatedMonsters[0]?.position).toEqual({ x: 0, y: -1 });
 		}
 	});
 
@@ -966,7 +966,7 @@ describe("TacticalAiService", () => {
 		expect(res.success).toBe(true);
 		if (res.success) {
 			expect(res.data.logs[0]).toContain("conjurou uma magia");
-			expect(res.data.updatedMonsters[0]!.spellsCount).toBe(0);
+			expect(res.data.updatedMonsters[0]?.spellsCount).toBe(0);
 		}
 	});
 
@@ -1400,7 +1400,7 @@ describe("TacticalAiService", () => {
 		expect(res.success).toBe(true);
 		if (res.success) {
 			expect(res.data.logs[0]).toContain("(ERRO) (FALHA CRÍTICA)");
-			expect(res.data.updatedParty[0]!.currentHp).toBe(20);
+			expect(res.data.updatedParty[0]?.currentHp).toBe(20);
 		}
 	});
 
@@ -1449,7 +1449,7 @@ describe("TacticalAiService", () => {
 		expect(res.success).toBe(true);
 		if (res.success) {
 			expect(res.data.logs[0]).toContain("recuou para longe de Aria");
-			expect(res.data.updatedMonsters[0]!.position).toEqual({ x: 1, y: 0 });
+			expect(res.data.updatedMonsters[0]?.position).toEqual({ x: 1, y: 0 });
 		}
 	});
 
@@ -1498,7 +1498,7 @@ describe("TacticalAiService", () => {
 		expect(res.success).toBe(true);
 		if (res.success) {
 			expect(res.data.logs[0]).toContain("se aproximou de Aria");
-			expect(res.data.updatedMonsters[0]!.position).toEqual({ x: 0, y: 1 });
+			expect(res.data.updatedMonsters[0]?.position).toEqual({ x: 0, y: 1 });
 		}
 	});
 
@@ -1547,7 +1547,7 @@ describe("TacticalAiService", () => {
 		expect(res.success).toBe(true);
 		if (res.success) {
 			expect(res.data.logs[0]).toContain("ACERTO CRÍTICO");
-			expect(res.data.updatedParty[0]!.currentHp).toBe(10); // 20 - (4+4+2) = 10
+			expect(res.data.updatedParty[0]?.currentHp).toBe(10); // 20 - (4+4+2) = 10
 		}
 	});
 
@@ -1597,7 +1597,7 @@ describe("TacticalAiService", () => {
 		expect(res.success).toBe(true);
 		if (res.success) {
 			expect(res.data.logs[0]).toContain("se aproximou de Aria");
-			expect(res.data.updatedMonsters[0]!.position).toEqual({ x: 0, y: 1 });
+			expect(res.data.updatedMonsters[0]?.position).toEqual({ x: 0, y: 1 });
 		}
 	});
 

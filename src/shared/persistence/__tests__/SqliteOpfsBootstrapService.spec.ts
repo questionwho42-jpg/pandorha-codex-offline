@@ -72,9 +72,11 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0023_add_crafted_item_durability_state",
 				"0024_add_dialogue_state_social_combat_fields",
 				"0025_add_character_tension_meter",
+				"0026_add_tactical_combat_loop",
 			],
 			tableNames: [
 				"_pandorha_migrations",
+				"active_sessions",
 				"bastion_modules",
 				"bastions",
 				"blood_debts",
@@ -92,6 +94,8 @@ describe("SqliteOpfsBootstrapService", () => {
 				"character_reputation",
 				"character_status_effects",
 				"characters",
+				"combat_encounters",
+				"combat_monsters",
 				"crafting_recipes",
 				"dungeon_delves",
 				"dungeon_rooms",
@@ -172,6 +176,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0023_add_crafted_item_durability_state",
 			"0024_add_dialogue_state_social_combat_fields",
 			"0025_add_character_tension_meter",
+			"0026_add_tactical_combat_loop",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -304,6 +309,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0023_add_crafted_item_durability_state",
 			"0024_add_dialogue_state_social_combat_fields",
 			"0025_add_character_tension_meter",
+			"0026_add_tactical_combat_loop",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -979,6 +985,136 @@ describe("database worker request handler", () => {
 			messageId: MESSAGE_ID,
 			success: true,
 			data: [squadObj],
+		});
+	});
+
+	it("handles Combat Encounter, Monsters and Active Session RPC operations", async () => {
+		const storage = new InMemoryDatabaseFileStorage();
+		const service = createService(storage);
+
+		await service.initializeDatabase({ requestedAt: REQUESTED_AT });
+
+		const encounterId = "encounter-123";
+		const encounterObj = {
+			id: encounterId,
+			turn: 1,
+			round: 1,
+			initiativeOrderJson: JSON.stringify(["hero-1", "monster-1"]),
+			status: "active",
+			createdAt: REQUESTED_AT,
+			updatedAt: REQUESTED_AT,
+		};
+
+		// 1. SAVE ENCOUNTER
+		const saveEncounterRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "SAVE_COMBAT_ENCOUNTER",
+				payload: { combatEncounter: encounterObj },
+			},
+			{ bootstrapService: service },
+		);
+		expect(saveEncounterRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: encounterObj,
+		});
+
+		// 2. FIND ENCOUNTER
+		const findEncounterRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FIND_COMBAT_ENCOUNTER",
+				payload: { id: encounterId },
+			},
+			{ bootstrapService: service },
+		);
+		expect(findEncounterRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: encounterObj,
+		});
+
+		const monsterId = "monster-instance-123";
+		const monsterObj = {
+			id: monsterId,
+			combatEncounterId: encounterId,
+			monsterId: "goblin",
+			name: "Goblin Comum",
+			hpCurrent: 8,
+			hpMax: 8,
+			eeCurrent: 0,
+			eeMax: 0,
+			tacticalRole: "assassino",
+			createdAt: REQUESTED_AT,
+			updatedAt: REQUESTED_AT,
+		};
+
+		// 3. SAVE MONSTER
+		const saveMonsterRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "SAVE_COMBAT_MONSTER",
+				payload: { combatMonster: monsterObj },
+			},
+			{ bootstrapService: service },
+		);
+		expect(saveMonsterRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: monsterObj,
+		});
+
+		// 4. FIND MONSTERS BY ENCOUNTER
+		const findMonstersRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FIND_COMBAT_MONSTERS_BY_ENCOUNTER",
+				payload: { combatEncounterId: encounterId },
+			},
+			{ bootstrapService: service },
+		);
+		expect(findMonstersRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: [monsterObj],
+		});
+
+		const activeSessionId = "current-session";
+		const activeSessionObj = {
+			id: activeSessionId,
+			combatEncounterId: encounterId,
+			updatedAt: REQUESTED_AT,
+		};
+
+		// 5. SAVE ACTIVE SESSION
+		const saveSessionRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "SAVE_ACTIVE_SESSION",
+				payload: { activeSession: activeSessionObj },
+			},
+			{ bootstrapService: service },
+		);
+		expect(saveSessionRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: activeSessionObj,
+		});
+
+		// 6. FIND ACTIVE SESSION
+		const findSessionRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "FIND_ACTIVE_SESSION",
+				payload: { id: activeSessionId },
+			},
+			{ bootstrapService: service },
+		);
+		expect(findSessionRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: activeSessionObj,
 		});
 	});
 

@@ -177,7 +177,7 @@ describe("HexcrawlMovementService", () => {
 			public async findAll() {
 				return ok([]);
 			}
-			public async delete(id: string) {
+			public async delete(_id: string) {
 				return ok(undefined);
 			}
 		}

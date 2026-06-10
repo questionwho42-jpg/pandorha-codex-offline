@@ -21,8 +21,8 @@ const service = new RegionalDomainService(repository, idProvider, clock);
 // Estados Reativos Svelte 5
 let domains = $state<readonly RegionalDomainRecord[]>([]);
 let activeDomain = $state<RegionalDomainRecord | null>(null);
-let message = $state("Selecione ou crie um Domínio Regional para governar...");
-let isCreating = $state(false);
+let _message = $state("Selecione ou crie um Domínio Regional para governar...");
+let _isCreating = $state(false);
 let selectedTier = $state(1);
 
 // Inputs de Simulação GM/Líder
@@ -32,14 +32,14 @@ let d20RollTax1 = $state(12);
 let d20RollTax2 = $state(8);
 
 // Estados de crise gerados em tempo de execução
-let lastTaxResult = $state<{
+let _lastTaxResult = $state<{
 	revenue: number;
 	stabilityRoll: number;
 	cd: number;
 	hasCrisis: boolean;
 } | null>(null);
 
-let lastStabilityResult = $state<{
+let _lastStabilityResult = $state<{
 	roll: number;
 	cd: number;
 	hasCrisis: boolean;
@@ -58,7 +58,7 @@ async function loadDomains() {
 			activeDomain = domains[0]!;
 		}
 	} else {
-		message = `⚠️ Erro ao listar domínios: ${result.error.message}`;
+		_message = `⚠️ Erro ao listar domínios: ${result.error.message}`;
 	}
 }
 
@@ -67,33 +67,33 @@ onMount(async () => {
 });
 
 // Cria um novo domínio regional
-async function handleCreateDomain() {
+async function _handleCreateDomain() {
 	const res = await service.createDomain({ tier: selectedTier });
 	if (res.success) {
 		activeDomain = res.data;
-		message = `👑 Novo Domínio Regional de Tier ${selectedTier} fundado com sucesso!`;
-		isCreating = false;
+		_message = `👑 Novo Domínio Regional de Tier ${selectedTier} fundado com sucesso!`;
+		_isCreating = false;
 		await loadDomains();
 	} else {
-		message = `❌ Falha ao fundar domínio: ${res.error.message}`;
+		_message = `❌ Falha ao fundar domínio: ${res.error.message}`;
 	}
 }
 
 // Evolução de Matriz
-async function handleUpgradeMatrix(matrix: "physical" | "mental" | "social") {
+async function _handleUpgradeMatrix(matrix: "physical" | "mental" | "social") {
 	if (!activeDomain) return;
 	const res = await service.upgradeMatrix({ id: activeDomain.id, matrix });
 	if (res.success) {
 		activeDomain = res.data;
-		message = `📈 Matriz ${matrix === "physical" ? "Física" : matrix === "mental" ? "Mental" : "Social"} evoluída com sucesso!`;
+		_message = `📈 Matriz ${matrix === "physical" ? "Física" : matrix === "mental" ? "Mental" : "Social"} evoluída com sucesso!`;
 		await loadDomains();
 	} else {
-		message = `⚠️ Não foi possível evoluir matriz: ${res.error.message}`;
+		_message = `⚠️ Não foi possível evoluir matriz: ${res.error.message}`;
 	}
 }
 
 // Contratação de Regente
-async function handleToggleRegent() {
+async function _handleToggleRegent() {
 	if (!activeDomain) return;
 	const nextRegent = activeDomain.regentId ? null : "regente_nomade_local";
 	const res = await service.hireRegent({
@@ -102,17 +102,17 @@ async function handleToggleRegent() {
 	});
 	if (res.success) {
 		activeDomain = res.data;
-		message = nextRegent
+		_message = nextRegent
 			? "👤 Regente contratado! A taxa de perseguição de ausência foi reduzida pela metade."
 			: "👤 Regente demitido. O território agora está vulnerável à ausência da guilda.";
 		await loadDomains();
 	} else {
-		message = `⚠️ Falha ao alterar regente: ${res.error.message}`;
+		_message = `⚠️ Falha ao alterar regente: ${res.error.message}`;
 	}
 }
 
 // Semanas de Ausência
-async function handleAdjustWeeks(amount: number) {
+async function _handleAdjustWeeks(amount: number) {
 	if (!activeDomain) return;
 	if (amount > 0) {
 		const res = await service.addWeeksAway({
@@ -121,14 +121,14 @@ async function handleAdjustWeeks(amount: number) {
 		});
 		if (res.success) {
 			activeDomain = res.data;
-			message = `⏳ O tempo passa... Mais ${amount} semana(s) de ausência acumuladas no território.`;
+			_message = `⏳ O tempo passa... Mais ${amount} semana(s) de ausência acumuladas no território.`;
 			await loadDomains();
 		}
 	} else {
 		const res = await service.resetWeeksAway({ id: activeDomain.id });
 		if (res.success) {
 			activeDomain = res.data;
-			message =
+			_message =
 				"✨ A guilda retornou ao território! Contador de ausência redefinido para 0.";
 			await loadDomains();
 		}
@@ -136,7 +136,7 @@ async function handleAdjustWeeks(amount: number) {
 }
 
 // Teste de Estabilidade Ativo
-async function handleStabilityCheck(matrix: "physical" | "mental" | "social") {
+async function _handleStabilityCheck(matrix: "physical" | "mental" | "social") {
 	if (!activeDomain) return;
 	const res = await service.resolveStabilityCheck({
 		id: activeDomain.id,
@@ -147,26 +147,26 @@ async function handleStabilityCheck(matrix: "physical" | "mental" | "social") {
 
 	if (res.success) {
 		const data = res.data;
-		lastStabilityResult = {
+		_lastStabilityResult = {
 			roll: data.roll,
 			cd: data.cd,
 			hasCrisis: data.hasCrisis,
 		};
-		lastTaxResult = null;
+		_lastTaxResult = null;
 
 		if (data.hasCrisis) {
 			activeCrisis = { matrix };
-			message = `⚠️ CRRISE ESTOURADA! O teste de Estabilidade falhou (Rolagem: ${data.roll} vs CD ${data.cd}). A região sofre com instabilidade!`;
+			_message = `⚠️ CRRISE ESTOURADA! O teste de Estabilidade falhou (Rolagem: ${data.roll} vs CD ${data.cd}). A região sofre com instabilidade!`;
 		} else {
-			message = `❇️ Sucesso! O território manteve-se estável sob sua influência (Rolagem: ${data.roll} vs CD ${data.cd}).`;
+			_message = `❇️ Sucesso! O território manteve-se estável sob sua influência (Rolagem: ${data.roll} vs CD ${data.cd}).`;
 		}
 	} else {
-		message = `❌ Falha ao rolar estabilidade: ${res.error.message}`;
+		_message = `❌ Falha ao rolar estabilidade: ${res.error.message}`;
 	}
 }
 
 // Coleta de Impostos (Com Desvantagem)
-async function handleCollectTaxes() {
+async function _handleCollectTaxes() {
 	if (!activeDomain) return;
 	const res = await service.collectTaxes({
 		id: activeDomain.id,
@@ -177,13 +177,13 @@ async function handleCollectTaxes() {
 
 	if (res.success) {
 		const data = res.data;
-		lastTaxResult = {
+		_lastTaxResult = {
 			revenue: data.revenue,
 			stabilityRoll: data.stabilityRoll,
 			cd: data.cd,
 			hasCrisis: data.hasCrisis,
 		};
-		lastStabilityResult = null;
+		_lastStabilityResult = null;
 
 		if (onUpdateGuildGold) {
 			onUpdateGuildGold(guildGold + data.revenue);
@@ -191,17 +191,17 @@ async function handleCollectTaxes() {
 
 		if (data.hasCrisis) {
 			activeCrisis = { matrix: "social" };
-			message = `💰 Impostos cobrados! Renda gerada: +${data.revenue} Ouro. Contudo, a cobrança gerou revolta social! CRISE ATIVA (Teste: ${data.stabilityRoll} vs CD ${data.cd}).`;
+			_message = `💰 Impostos cobrados! Renda gerada: +${data.revenue} Ouro. Contudo, a cobrança gerou revolta social! CRISE ATIVA (Teste: ${data.stabilityRoll} vs CD ${data.cd}).`;
 		} else {
-			message = `💰 Impostos cobrados com sucesso! Renda gerada: +${data.revenue} Ouro. O povo permanece leal e estável.`;
+			_message = `💰 Impostos cobrados com sucesso! Renda gerada: +${data.revenue} Ouro. O povo permanece leal e estável.`;
 		}
 	} else {
-		message = `❌ Falha na cobrança: ${res.error.message}`;
+		_message = `❌ Falha na cobrança: ${res.error.message}`;
 	}
 }
 
 // Resolução de Crise
-async function handleResolveCrisis(resolution: "delegate" | "negligence") {
+async function _handleResolveCrisis(resolution: "delegate" | "negligence") {
 	if (!activeDomain || !activeCrisis) return;
 	const matrix = activeCrisis.matrix;
 
@@ -214,7 +214,7 @@ async function handleResolveCrisis(resolution: "delegate" | "negligence") {
 	const cost = 5 * 10 ** activeDomain.tier * level;
 
 	if (resolution === "delegate" && guildGold < cost) {
-		message = `❌ Ouro insuficiente da guilda! A delegação custa ${cost} Ouro (Possui: ${guildGold}).`;
+		_message = `❌ Ouro insuficiente da guilda! A delegação custa ${cost} Ouro (Possui: ${guildGold}).`;
 		return;
 	}
 
@@ -227,29 +227,29 @@ async function handleResolveCrisis(resolution: "delegate" | "negligence") {
 	if (res.success) {
 		activeDomain = res.data.domain;
 		activeCrisis = null;
-		lastTaxResult = null;
-		lastStabilityResult = null;
+		_lastTaxResult = null;
+		_lastStabilityResult = null;
 
 		if (resolution === "delegate") {
 			if (onUpdateGuildGold) {
 				onUpdateGuildGold(guildGold - cost);
 			}
-			message = `✨ Crise resolvida! Ouro pago: ${cost} Ouro. Nenhuma perda de matriz ocorreu.`;
+			_message = `✨ Crise resolvida! Ouro pago: ${cost} Ouro. Nenhuma perda de matriz ocorreu.`;
 		} else {
-			message = `⚠️ Crise resolvida por negligência. O território sofreu degradação e perdeu 1 nível na matriz de ${matrix === "physical" ? "Física" : matrix === "mental" ? "Mental" : "Social"}.`;
+			_message = `⚠️ Crise resolvida por negligência. O território sofreu degradação e perdeu 1 nível na matriz de ${matrix === "physical" ? "Física" : matrix === "mental" ? "Mental" : "Social"}.`;
 		}
 		await loadDomains();
 	} else {
-		message = `❌ Erro ao resolver crise: ${res.error.message}`;
+		_message = `❌ Erro ao resolver crise: ${res.error.message}`;
 	}
 }
 
 // Realocar Níveis
-async function handleReallocate(p: number, m: number, s: number) {
+async function _handleReallocate(p: number, m: number, s: number) {
 	if (!activeDomain) return;
 	const cost = 25 * 10 ** activeDomain.tier;
 	if (guildGold < cost) {
-		message = `❌ Ouro insuficiente! A realocação custa ${cost} Ouro.`;
+		_message = `❌ Ouro insuficiente! A realocação custa ${cost} Ouro.`;
 		return;
 	}
 
@@ -265,10 +265,10 @@ async function handleReallocate(p: number, m: number, s: number) {
 		if (onUpdateGuildGold) {
 			onUpdateGuildGold(guildGold - cost);
 		}
-		message = `🔮 Realocação efetuada! Custo: ${cost} Ouro. Matrizes redistribuídas.`;
+		_message = `🔮 Realocação efetuada! Custo: ${cost} Ouro. Matrizes redistribuídas.`;
 		await loadDomains();
 	} else {
-		message = `⚠️ Realocação inválida: ${res.error.message}`;
+		_message = `⚠️ Realocação inválida: ${res.error.message}`;
 	}
 }
 </script>

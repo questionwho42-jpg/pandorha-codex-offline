@@ -1,6 +1,5 @@
 <script lang="ts">
 import { onMount } from "svelte";
-import { fade } from "svelte/transition";
 import type { CharacterRecord } from "$lib/entities/character/model/characterSchema";
 import { ResearchService } from "$lib/entities/investigation/domain/ResearchService";
 import { WorkerInvestigationRepository } from "$lib/entities/investigation/infrastructure/WorkerInvestigationRepository";
@@ -30,13 +29,13 @@ let selectedTier = $state(1);
 let selectedDc = $state(12);
 
 // UI Alerts e Logs
-let successNotification = $state<string | null>(null);
-let errorNotification = $state<string | null>(null);
+let _successNotification = $state<string | null>(null);
+let _errorNotification = $state<string | null>(null);
 let researchLogs = $state<string[]>([]);
 
 // Estado de Animação de Rolagem
-let isRolling = $state(false);
-let rolledD20 = $state<number | null>(null);
+let _isRolling = $state(false);
+let _rolledD20 = $state<number | null>(null);
 let rolledTotal = $state<number | null>(null);
 
 // Alfabeto Rúnico para Criptografia Embaraçada
@@ -60,7 +59,7 @@ const RUNES_CHARACTERS = [
 ];
 
 // Textos Decifrados Originais para Criptografia de Demonstração
-const CRYPTO_TEXTS: Record<string, string> = {
+const _CRYPTO_TEXTS: Record<string, string> = {
 	lore: "O guardião do abismo tem fraqueza a dano espiritual. Suas escamas se rompem quando ele fita o olho do conjurador no momento da metamagia.",
 	cryptography:
 		"A chave rúnica sob as ruínas orientais abre o portal do Bastião Perdido às três badaladas da meia-noite sob a lua de éter.",
@@ -84,16 +83,16 @@ function addLog(msg: string) {
 }
 
 function triggerSuccess(msg: string) {
-	successNotification = msg;
+	_successNotification = msg;
 	setTimeout(() => {
-		successNotification = null;
+		_successNotification = null;
 	}, 3500);
 }
 
 function triggerError(msg: string) {
-	errorNotification = msg;
+	_errorNotification = msg;
 	setTimeout(() => {
-		errorNotification = null;
+		_errorNotification = null;
 	}, 3500);
 }
 
@@ -115,7 +114,7 @@ async function reloadProjects() {
 }
 
 // Embaralha o texto dependendo do percentual traduzido
-function obfuscateText(originalText: string, percent: number): string {
+function _obfuscateText(originalText: string, percent: number): string {
 	if (percent >= 100) return originalText;
 	const words = originalText.split(" ");
 	return words
@@ -147,7 +146,7 @@ function obfuscateText(originalText: string, percent: number): string {
 		.join(" ");
 }
 
-async function handleCreateProject() {
+async function _handleCreateProject() {
 	if (!targetNameInput.trim()) {
 		triggerError("Dê um nome ou descrição ao alvo do projeto de pesquisa!");
 		return;
@@ -199,7 +198,7 @@ function secureRandomD20(): number {
 	return (arr[0] % 20) + 1;
 }
 
-async function handleRollResearch(project: InvestigationRecord) {
+async function _handleRollResearch(project: InvestigationRecord) {
 	if (!selectedResearcher) {
 		triggerError("Selecione um Andarilho ativo para guiar a pesquisa!");
 		return;
@@ -224,8 +223,8 @@ async function handleRollResearch(project: InvestigationRecord) {
 		return;
 	}
 
-	isRolling = true;
-	rolledD20 = null;
+	_isRolling = true;
+	_rolledD20 = null;
 	rolledTotal = null;
 
 	// Bônus do Pesquisador: Nível + Mental + Maior Eixo (Interação ou Conflito)
@@ -236,7 +235,7 @@ async function handleRollResearch(project: InvestigationRecord) {
 
 	let animCount = 0;
 	const interval = setInterval(() => {
-		rolledD20 = secureRandomD20();
+		_rolledD20 = secureRandomD20();
 		animCount++;
 		if (animCount > 6) {
 			clearInterval(interval);
@@ -246,9 +245,9 @@ async function handleRollResearch(project: InvestigationRecord) {
 
 	async function executeFinalRoll() {
 		const d20 = secureRandomD20();
-		rolledD20 = d20;
+		_rolledD20 = d20;
 		rolledTotal = d20 + modifier;
-		isRolling = false;
+		_isRolling = false;
 
 		const goldStateBefore = selectedResearcher.gold;
 

@@ -81,7 +81,7 @@ export class NegotiationService {
 		let socialFatiguePenalty = 0;
 		if (input.events.length > 0) {
 			const lastEvent = input.events[input.events.length - 1];
-			if (lastEvent && lastEvent.message.includes(input.axis)) {
+			if (lastEvent?.message.includes(input.axis)) {
 				socialFatiguePenalty = -2;
 			}
 		}
@@ -194,7 +194,7 @@ export class NegotiationService {
 		}
 
 		if (attackContext.log.length > 0) {
-			logMessage += " " + attackContext.log.join(" ");
+			logMessage += ` ${attackContext.log.join(" ")}`;
 		}
 
 		// Update round counter in conflict state

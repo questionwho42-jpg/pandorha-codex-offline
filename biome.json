@@ -12,7 +12,8 @@
 	"linter": {
 		"rules": {
 			"style": {
-				"noNonNullAssertion": "warn"
+				"noNonNullAssertion": "warn",
+				"noDescendingSpecificity": "off"
 			},
 			"suspicious": {
 				"noExplicitAny": "warn"

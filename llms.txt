@@ -4,7 +4,7 @@ version: "2.1.0"
 stack: "Svelte 5 (Runes), Drizzle ORM, SQLite WASM, Web Workers, Vite"
 conventions: "Feature-Sliced Design (4 camadas), Strict TDD, Custom RPC Bridge"
 maintenance_protocol: "Hybrid (Agent suggests LLMS_DIFF, Human approves)"
-updated: "2026-05-31"
+updated: "2026-06-09"
 ---
 
 # 🗺️ PANDORHA ENGINE: AI ROOT MAP
@@ -30,7 +30,7 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 
 | Action | Command | Purpose |
 | :--- | :--- | :--- |
-| **Test** | `npm run test:unit` | Run Vitest suite (100% coverage required on 55 registered files) |
+| **Test** | `npm run test:unit` | Run Vitest suite (100% coverage required on 58 registered files) |
 | **Lint** | `npm run lint` | Verify architectural constraints (Biome) |
 | **Svelte 5** | `node scripts/validate_svelte_syntax.mjs src` | Verify Svelte 5 runes syntax compliance |
 | **Portable** | `node scripts/run_portable_command.mjs "<cmd>"` | Translate and run Unix commands on Windows |
@@ -53,6 +53,7 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 - [automation-spec.md](./docs/process/automation-spec.md): Zero-token maintenance, task ledger, inbox, and promotion protocol.
 - [task-ledger.md](./docs/process/task-ledger.md): Active, completed, unfinished, and snapshot records.
 - [change-inbox.md](./docs/process/change-inbox.md): Unplanned requests awaiting documentation promotion (currently empty — all promoted 2026-05-31).
+- **IN PROGRESS:** Task `loop-tatico-e-sobrevivencia` (Fases 68–72) — transição mapa↔combate local-first, IA inimiga via ActionQueue, loots atômicos SQLite, mercenários por ticks, climatologia reativa. Branch: `task/combat-survival`.
 
 ## 📐 TIER 1B: ARCHITECTURAL DECISIONS [REF:ADR]
 - [ADR-001](./docs/adr/ADR-001-worker-rpc-sem-comlink.md): Custom RPC bridge instead of Comlink.
@@ -61,9 +62,17 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 - [ADR-004](./docs/adr/ADR-004-sqlite-wasm-opfs.md): SQLite WASM + OPFS in dedicated Web Worker.
 - [ADR-005](./docs/adr/ADR-005-result-pattern.md): Result Pattern mandatory — throw prohibited.
 - [ADR-006](./docs/adr/ADR-006-decorator-pattern-mecanicas.md): Decorator Pattern for all game mechanics modifiers.
+- [ADR-007](./docs/adr/ADR-007-hexcrawl-driven-time-flow.md): Fluxo de tempo centralizado no hexcrawl — 1 movimento = 1 Turno de Exploração; 4 turnos = 1 Dia de Aventura.
+- [ADR-008](./docs/adr/ADR-008-hybrid-quest-system.md): Sistema híbrido de missões — Campaign Quests (narrativas) + Guild Contracts (recursos/downtime).
+- [ADR-009](./docs/adr/ADR-009-combat-hexcrawl-transition.md): Transição mapa↔combate via estado reativo em `active_sessions` — anti-save-scumming.
+- [ADR-010](./docs/adr/ADR-010-tactical-ai-combat.md): IA tática de inimigos baseada em Papéis Táticos e prioridades na ActionQueue.
+- [ADR-011](./docs/adr/ADR-011-combat-loot-persistence.md): Loots de combate persistidos atomicamente no SQLite ao término do encontro.
+- [ADR-012](./docs/adr/ADR-012-mercenary-dispatch-time.md): Despacho de mercenários consome ticks de exploração reais, não timers artificiais.
+- [ADR-013](./docs/adr/ADR-013-reactive-weather-march.md): Climatologia reativa controlada por Progress Clock regional — penalidades de marcha e abrigo.
+- [ADR-014](./docs/adr/ADR-014-rpc-cache-main-thread.md): RPC Cache global na thread principal — latência < 16ms, invalidação pessimista por escrita.
 
 ## 🧱 TIER 2: SKILLS & AGENTS [REF:TIER2]
-- [.agents/skills/](./.agents/skills/): Directory containing all skill definitions for AI agents (31 skills).
+- [.agents/skills/](./.agents/skills/): Directory containing all skill definitions for AI agents (32+ skills).
 - [svelte-runes-validator](./.agents/skills/svelte-runes-validator/SKILL.md): Static syntax validator for Svelte 5 Runes.
 - [pandorha-maintenance](./.agents/skills/pandorha-maintenance/SKILL.md): Automation-first maintenance workflow for checkpoints and documentation promotion.
 - [build-test-verify](./.agents/skills/build-test-verify/skill.md): QA gate protocol with reverse TDD and 100% coverage.
@@ -81,7 +90,7 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 - [lore/](./lore/): World lore by region (morden, dungard, floresta-ecos, gorbax, almar, cinar, draskar, o-mundo-de-pandorha).
 
 ### Architecture Coverage
-- [feature-coverage-map.md](./docs/architecture/feature-coverage-map.md): Current implementation status of all 22 entities + 23 features vs documentation.
+- [feature-coverage-map.md](./docs/architecture/feature-coverage-map.md): Current implementation status of all 25 entities + 27 features vs documentation.
 
 ## 🛡️ SECURITY & SAFETY PROTOCOLS
 - Prioritize system integrity and player safety in all implementations.

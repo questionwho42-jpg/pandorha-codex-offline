@@ -8,21 +8,104 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## In Progress
 <!-- pandorha-ledger:in-progress -->
+<!-- pandorha-task:91ba9cfe-119e-46d8-adfb-ab96edbcffaf -->
+### Ampliacao de Testes e Validacoes
+- id: 91ba9cfe-119e-46d8-adfb-ab96edbcffaf
+- status: completed
+- kind: task
+- planned: no
+- started_at: 2026-06-09T23:43:35-03:00
+- finished_at: 2026-06-09T23:43:39-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-10T09:31:37-03:00
+- branch: task/combat-survival
+- commit_at_start: 0433df7 docs: establish glossary terms and ADRs 009 to 013 for tactical loop and survival
+- summary: Ampliacao da suite de testes e validacoes do Pandorha Engine, cobrindo testes baseados em propriedades, conformidade arquitetural FSD, consistencia de persistencia SQLite/InMemory e RPC budgets/benchmarks.
+- last_change: Correcao de warnings e bugs no Svelte markup expostos pelo happy-dom (isStealthMode, isVictory, isHeroTurn) e harmonizacao de tipos no SQLite Concurrency tests.
+#### Files At Start
+- CONTEXT.md
+- docs/architecture/feature-coverage-map.md
+- docs/changelog.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- llms.txt
+- package-lock.json
+- package.json
+- scripts/run_full_quality_gate.mjs
+- src/app/App.svelte
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/domain/CharacterDerivedStatsService.ts
+- src/entities/character/model/characterDerivedStatsTypes.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/mercenary/ui/MercenaryCompanyPanel.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/__tests__/RpcContract.spec.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- vitest.config.mjs
+- .agents/orchestrator/
+- .agents/sentinel/
+- .agents/worker_doc_update/
+- ORIGINAL_REQUEST.md
+- docs/adr/ADR-014-rpc-cache-main-thread.md
+- drizzle/0026_add_tactical_combat_loop.sql
+- drizzle/meta/0023_snapshot.json
+- src/entities/character/__tests__/CharacterRepositoryConsistency.spec.ts
+- src/entities/combat/
+- src/features/sandbox/__tests__/
+- src/features/sandbox/domain/
+- src/shared/architecture/
+- src/shared/dice/__tests__/DiceService.properties.spec.ts
+- src/shared/resolution/__tests__/ResolutionService.properties.spec.ts
+- src/shared/rpc/__tests__/RpcBudget.spec.ts
+- stryker.config.mjs
+#### Checkpoints
+#### Checkpoint 2026-06-09T23:43:35-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-09T23:43:39-03:00
+- Done: Ampliacao de testes e validacoes do Pandorha Engine concluida. Adicionados testes baseados em propriedades (fast-check), conformidade arquitetural FSD, consistencia de persistencia (InMemory vs SQLite Drizzle) e RPC budgets/benchmarks com relatorios automaticos no Quality Gate.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-10T09:31:37-03:00
+- Done: Correcao de warnings e bugs no Svelte markup expostos pelo happy-dom (isStealthMode, isVictory, isHeroTurn) e harmonizacao de tipos no SQLite Concurrency tests.
+- Next: Nenhum; entrega concluida com sucesso.
+- Risks: Nenhum; toda a esteira do Quality Gate esta 100% verde.
+- Improvements: Testes nativos sob happy-dom integrados e passando com sucesso.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:91ba9cfe-119e-46d8-adfb-ab96edbcffaf -->
+
+<!-- /pandorha-ledger:in-progress -->
+
+## Completed
+<!-- pandorha-ledger:completed -->
 <!-- pandorha-task:20260604-123000-loop-tatico-e-sobrevivencia -->
 ### Loop Tatico e Sobrevivencia
 - id: 20260604-123000-loop-tatico-e-sobrevivencia
-- status: in-progress
+- status: completed
 - kind: task
 - planned: yes
 - started_at: 2026-06-04T12:23:43-03:00
-- finished_at: pending
+- finished_at: 2026-06-09T22:50:24-03:00
 - model_started: gemini-2.5-pro
-- model_finished: pending
-- last_modified_at: 2026-06-04T12:23:43-03:00
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-09T22:50:24-03:00
 - branch: task/combat-survival
 - commit_at_start: 5ab4129 style: format App entrypoint and update task ledger logs
 - summary: Implementacao das Fases 68 a 72 do Pandorha Engine, cobrindo a transicao mapa-combate local-first, IA inimiga baseada na ActionQueue, loots atomicos SQLite, mercenarios por ticks de exploracao e climatologia reativa.
-- last_change: created task record
+- last_change: Implementacao e consolidacao das Fases 68 a 72 do Pandorha Engine, cobrindo o despacho de mercenarios acoplado a Relogios de Progresso do SQLite, IA de monstros, loots e clima.
 #### Files At Start
 - CONTEXT.md
 - docs/process/task-ledger.md
@@ -38,12 +121,14 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - Risks: unknown until implementation begins
 - Improvements: automate repeated manual steps where practical
 - Model/config: gemini-2.5-pro
+
+#### Checkpoint 2026-06-09T22:50:24-03:00
+- Done: Implementacao e consolidacao das Fases 68 a 72 do Pandorha Engine, cobrindo o despacho de mercenarios acoplado a Relogios de Progresso do SQLite, IA de monstros, loots e clima.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
 <!-- /pandorha-task:20260604-123000-loop-tatico-e-sobrevivencia -->
-
-<!-- /pandorha-ledger:in-progress -->
-
-## Completed
-<!-- pandorha-ledger:completed -->
 <!-- pandorha-task:20260604-113201-consolidacao-das-uis-de-campanha -->
 ### Consolidacao das UIs de Campanha
 - id: 20260604-113201-consolidacao-das-uis-de-campanha
@@ -3969,6 +4054,212 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-10T12:21:25-03:00 - updated-grill-decisions
+- branch: task/combat-survival
+- commit: 0433df7 docs: establish glossary terms and ADRs 009 to 013 for tactical loop and survival
+- changed_files_count: 64
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/architecture/feature-coverage-map.md
+- docs/changelog.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- llms.txt
+- package-lock.json
+- package.json
+- scripts/run_full_quality_gate.mjs
+- src/app/App.svelte
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/ClassTalentService.spec.ts
+- src/entities/character/domain/CharacterDerivedStatsService.ts
+- src/entities/character/model/characterDerivedStatsTypes.ts
+- src/features/character-list/ui/RetrainPanel.svelte
+- src/features/combat-encounter/__tests__/RepairIntegration.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/IllnessWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/domain-regional/ui/DomainCouncilPanel.svelte
+- src/features/espionage/ui/EspionageManagementPanel.svelte
+- src/features/hexcrawl-map/__tests__/HexcrawlMovementService.spec.ts
+- src/features/inventory-readonly/ui/InventoryReadOnlyPanel.svelte
+- src/features/mercenary/ui/MercenaryCompanyPanel.svelte
+- src/features/research/ui/ResearchPanel.svelte
+- src/features/sandbox/ui/GMSandboxPanel.svelte
+- src/features/social/domain/NegotiationService.ts
+- src/features/social/ui/NegotiationPanel.svelte
+- src/features/traps/ui/TrapDeploymentPanel.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/__tests__/RpcContract.spec.ts
+- ... 24 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-10T12:02:56-03:00 - planning-next-steps
+- branch: task/combat-survival
+- commit: 0433df7 docs: establish glossary terms and ADRs 009 to 013 for tactical loop and survival
+- changed_files_count: 64
+#### Changed Files
+- CONTEXT.md
+- biome.json
+- docs/architecture/feature-coverage-map.md
+- docs/changelog.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- llms.txt
+- package-lock.json
+- package.json
+- scripts/run_full_quality_gate.mjs
+- src/app/App.svelte
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/ClassTalentService.spec.ts
+- src/entities/character/domain/CharacterDerivedStatsService.ts
+- src/entities/character/model/characterDerivedStatsTypes.ts
+- src/features/character-list/ui/RetrainPanel.svelte
+- src/features/combat-encounter/__tests__/RepairIntegration.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/IllnessWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/domain-regional/ui/DomainCouncilPanel.svelte
+- src/features/espionage/ui/EspionageManagementPanel.svelte
+- src/features/hexcrawl-map/__tests__/HexcrawlMovementService.spec.ts
+- src/features/inventory-readonly/ui/InventoryReadOnlyPanel.svelte
+- src/features/mercenary/ui/MercenaryCompanyPanel.svelte
+- src/features/research/ui/ResearchPanel.svelte
+- src/features/sandbox/ui/GMSandboxPanel.svelte
+- src/features/social/domain/NegotiationService.ts
+- src/features/social/ui/NegotiationPanel.svelte
+- src/features/traps/ui/TrapDeploymentPanel.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/__tests__/RpcContract.spec.ts
+- ... 24 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-09T22:20:56-03:00 - doc-sync-june-09
+- branch: task/combat-survival
+- commit: 0433df7 docs: establish glossary terms and ADRs 009 to 013 for tactical loop and survival
+- changed_files_count: 25
+#### Changed Files
+- CONTEXT.md
+- docs/architecture/feature-coverage-map.md
+- docs/changelog.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- llms.txt
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/__tests__/RpcContract.spec.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- vitest.config.mjs
+- .agents/orchestrator/
+- .agents/sentinel/
+- .agents/worker_doc_update/
+- ORIGINAL_REQUEST.md
+- docs/adr/ADR-014-rpc-cache-main-thread.md
+- drizzle/0026_add_tactical_combat_loop.sql
+- drizzle/meta/0023_snapshot.json
+- src/entities/combat/
+- src/features/sandbox/__tests__/
+- src/features/sandbox/domain/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-09T22:06:18-03:00 - manual
+- branch: task/combat-survival
+- commit: 0433df7 docs: establish glossary terms and ADRs 009 to 013 for tactical loop and survival
+- changed_files_count: 25
+#### Changed Files
+- CONTEXT.md
+- docs/architecture/feature-coverage-map.md
+- docs/changelog.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- llms.txt
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/__tests__/RpcContract.spec.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- vitest.config.mjs
+- .agents/orchestrator/
+- .agents/sentinel/
+- .agents/worker_doc_update/
+- ORIGINAL_REQUEST.md
+- docs/adr/ADR-014-rpc-cache-main-thread.md
+- drizzle/0026_add_tactical_combat_loop.sql
+- drizzle/meta/0023_snapshot.json
+- src/entities/combat/
+- src/features/sandbox/__tests__/
+- src/features/sandbox/domain/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-08T17:25:01-03:00 - doc-update: resolve open items - sandbox tests, feature-coverage-map gaps, llms.txt spec count
+- branch: task/combat-survival
+- commit: 0433df7 docs: establish glossary terms and ADRs 009 to 013 for tactical loop and survival
+- changed_files_count: 24
+#### Changed Files
+- CONTEXT.md
+- docs/architecture/feature-coverage-map.md
+- docs/changelog.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- llms.txt
+- src/features/combat-encounter/model/combatEncounterView.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/__tests__/RpcContract.spec.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- vitest.config.mjs
+- .agents/orchestrator/
+- .agents/sentinel/
+- .agents/worker_doc_update/
+- ORIGINAL_REQUEST.md
+- docs/adr/ADR-014-rpc-cache-main-thread.md
+- drizzle/0026_add_tactical_combat_loop.sql
+- drizzle/meta/0023_snapshot.json
+- src/entities/combat/
+- src/features/sandbox/__tests__/
+- src/features/sandbox/domain/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-04T11:43:41-03:00 - chore-config
 - branch: task/siege-and-cockpit
 - commit: 42ee453 docs: update glossary for campaign quests and ADR decisions on time flow and quest system

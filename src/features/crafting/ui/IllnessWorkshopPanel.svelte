@@ -1,5 +1,4 @@
 <script lang="ts">
-import { onMount } from "svelte";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup transition.
 import { slide } from "svelte/transition";
 import type {
@@ -12,7 +11,6 @@ import {
 	BaseCharacterStats,
 	EncumberedStatusDecorator,
 } from "$lib/entities/character/domain/StatusEffectDecorator";
-import { SessionCharacterRepository } from "$lib/entities/character/infrastructure/SessionCharacterRepository";
 
 interface Props {
 	characters: readonly CharacterRecord[];
@@ -85,7 +83,7 @@ let baseStats = $derived(
 	new BaseCharacterStats(activeChar, { id: "vanguard", baseHp: 10 }),
 );
 
-let decoratedStats = $derived.by(() => {
+let _decoratedStats = $derived.by(() => {
 	const stats = applyStatusEffects(baseStats, charActiveEffects);
 	// Aplica também o peso do guerreiro padrão (0 de peso para simplicidade no diagnóstico)
 	return new EncumberedStatusDecorator(stats, 0);
@@ -140,7 +138,7 @@ async function infect(type: "eter_fever" | "wound_infection" | "viper_poison") {
 }
 
 // Cura o personagem de um status effect
-async function cure(type: "eter_fever" | "wound_infection" | "viper_poison") {
+async function _cure(type: "eter_fever" | "wound_infection" | "viper_poison") {
 	const res = await illnessService.cureCharacter(selectedCharId, type);
 	if (res.success) {
 		activeStatusEffects = activeStatusEffects.filter(
@@ -161,7 +159,7 @@ function getSecureRandom(): number {
 // Simula a rolagem de Vigor (d20 + Nível + Físico + Resistência) com animação
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 async function rollResistance(
-	type: "eter_fever" | "wound_infection" | "viper_poison",
+	_type: "eter_fever" | "wound_infection" | "viper_poison",
 	dc: number,
 ) {
 	if (isRolling) return;

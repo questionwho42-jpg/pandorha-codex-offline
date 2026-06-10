@@ -20,15 +20,17 @@ import {
 } from "$lib/entities/character/model/characterSchema";
 import { DrizzleClockRepository } from "$lib/entities/clocks/infrastructure/DrizzleClockRepository";
 import { progressClocks } from "$lib/entities/clocks/model/clockSchema";
+import { DrizzleCombatRepository } from "$lib/entities/combat/infrastructure/DrizzleCombatRepository";
+import {
+	activeSessions,
+	combatEncounters,
+	combatMonsters,
+} from "$lib/entities/combat/model/combatSchema";
 import { DrizzleCompanionRepository } from "$lib/entities/companions/infrastructure/DrizzleCompanionRepository";
 import { DrizzleDialogueRepository } from "$lib/entities/dialogue/infrastructure/DrizzleDialogueRepository";
 import { campaignDialogueStates } from "$lib/entities/dialogue/model/dialogueSchema";
 import { DrizzleRegionalDomainRepository } from "$lib/entities/domain-regional/infrastructure/DrizzleRegionalDomainRepository";
 import { campaignRegionalDomains } from "$lib/entities/domain-regional/model/regionalDomainSchema";
-import {
-	dungeonDelves,
-	dungeonRooms,
-} from "$lib/entities/dungeon/model/dungeonSchema";
 import { CraftingService } from "$lib/entities/equipment/domain/CraftingService";
 import { DrizzleCraftingRepository } from "$lib/entities/equipment/infrastructure/DrizzleCraftingRepository";
 import { DrizzleEspionageRepository } from "$lib/entities/espionage/infrastructure/DrizzleEspionageRepository";
@@ -568,6 +570,59 @@ export class SqliteOpfsBootstrapService {
 				}
 			}
 
+			// active_sessions
+			const snapshotActiveSessions = (snapshot as any).activeSessions;
+			if (snapshotActiveSessions && snapshotActiveSessions.length > 0) {
+				for (const asess of snapshotActiveSessions) {
+					const mappedAs = {
+						id: String(asess.id),
+						combatEncounterId: asess.combatEncounterId
+							? String(asess.combatEncounterId)
+							: null,
+						updatedAt: String(asess.updatedAt),
+					};
+					db.insert(activeSessions).values(mappedAs).run();
+				}
+			}
+
+			// combat_encounters
+			const snapshotCombatEncounters = (snapshot as any).combatEncounters;
+			if (snapshotCombatEncounters && snapshotCombatEncounters.length > 0) {
+				for (const ce of snapshotCombatEncounters) {
+					const mappedCe = {
+						id: String(ce.id),
+						turn: Number(ce.turn ?? 1),
+						round: Number(ce.round ?? 1),
+						initiativeOrderJson: String(ce.initiativeOrderJson ?? "[]"),
+						status: String(ce.status ?? "active"),
+						createdAt: String(ce.createdAt),
+						updatedAt: String(ce.updatedAt),
+					};
+					db.insert(combatEncounters).values(mappedCe).run();
+				}
+			}
+
+			// combat_monsters
+			const snapshotCombatMonsters = (snapshot as any).combatMonsters;
+			if (snapshotCombatMonsters && snapshotCombatMonsters.length > 0) {
+				for (const cm of snapshotCombatMonsters) {
+					const mappedCm = {
+						id: String(cm.id),
+						combatEncounterId: String(cm.combatEncounterId),
+						monsterId: String(cm.monsterId),
+						name: String(cm.name),
+						hpCurrent: Number(cm.hpCurrent),
+						hpMax: Number(cm.hpMax),
+						eeCurrent: Number(cm.eeCurrent),
+						eeMax: Number(cm.eeMax),
+						tacticalRole: String(cm.tacticalRole),
+						createdAt: String(cm.createdAt),
+						updatedAt: String(cm.updatedAt),
+					};
+					db.insert(combatMonsters).values(mappedCm).run();
+				}
+			}
+
 			const exported = this.exportDatabase(database.data);
 			if (!exported.success) {
 				database.data.close();
@@ -668,6 +723,9 @@ export class SqliteOpfsBootstrapService {
 				.all();
 			const loadedMercenarySquads = db.select().from(mercenarySquads).all();
 			const loadedEspionageCells = db.select().from(espionageCells).all();
+			const loadedActiveSessions = db.select().from(activeSessions).all();
+			const loadedCombatEncounters = db.select().from(combatEncounters).all();
+			const loadedCombatMonsters = db.select().from(combatMonsters).all();
 
 			const mappedBastionModules = loadedBastionModules.map((m: any) => ({
 				...m,
@@ -717,6 +775,9 @@ export class SqliteOpfsBootstrapService {
 					...ec,
 					isLockdown: ec.isLockdown === 1 || ec.isLockdown === true,
 				})),
+				activeSessions: loadedActiveSessions,
+				combatEncounters: loadedCombatEncounters,
+				combatMonsters: loadedCombatMonsters,
 			});
 		} catch (error: unknown) {
 			database.data.close();
@@ -4243,6 +4304,301 @@ export class SqliteOpfsBootstrapService {
 			return fail({
 				code: "DATABASE_FILE_WRITE_FAILED",
 				message: "Could not delete espionage cell from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveCombatEncounter(
+		combatEncounter: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCombatRepository(db as any);
+
+			const result = await repository.saveEncounter(combatEncounter);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save combat encounter to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findCombatEncounter(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCombatRepository(db as any);
+
+			const result = await repository.findEncounterById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load combat encounter from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveCombatMonster(
+		combatMonster: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCombatRepository(db as any);
+
+			const result = await repository.saveMonster(combatMonster);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save combat monster to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findCombatMonstersByEncounter(
+		combatEncounterId: string,
+	): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCombatRepository(db as any);
+
+			const result =
+				await repository.findMonstersByEncounterId(combatEncounterId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data as any[]);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load combat monsters from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveActiveSession(
+		activeSession: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCombatRepository(db as any);
+
+			const result = await repository.saveActiveSession(activeSession);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save active session to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findActiveSession(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleCombatRepository(db as any);
+
+			const result = await repository.findActiveSessionById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load active session from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
 		}

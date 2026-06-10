@@ -138,6 +138,69 @@ describe("CharacterDerivedStatsService", () => {
 			"characterClass.baseHp: Too small: expected number to be >=1",
 		);
 	});
+
+	it("applies frost weather modifier by subtracting 1 from physical", () => {
+		const service = new CharacterDerivedStatsService();
+
+		const result = service.calculateCharacterDerivedStats({
+			character: createCharacter({
+				classId: "vanguard",
+				physical: 3,
+				resistance: 3,
+			}),
+			characterClass: { id: "vanguard", baseHp: 10 },
+			climaExtremo: "frost",
+		});
+		const stats = expectDerivedStatsSuccess(result);
+
+		// physical = 3 - 1 = 2
+		// maxHp = (10 + 2 + 3) * 1 = 15 (normally 16)
+		// carrySlotLimit = 2 + 3 + 6 = 11 (normally 12)
+		// armorClass = 10 + 1 + 2 = 13 (normally 14)
+		expect(stats.maxHp).toBe(15);
+		expect(stats.carrySlotLimit).toBe(11);
+		expect(stats.armorClass).toBe(13);
+	});
+
+	it("applies heat weather modifier by subtracting 1 from mental", () => {
+		const service = new CharacterDerivedStatsService();
+
+		const result = service.calculateCharacterDerivedStats({
+			character: createCharacter({
+				classId: "vanguard",
+				mental: 1,
+				interaction: 1,
+			}),
+			characterClass: { id: "vanguard", baseHp: 10 },
+			climaExtremo: "heat",
+		});
+		const stats = expectDerivedStatsSuccess(result);
+
+		// mental = 1 - 1 = 0
+		// initiativeBase = 1 (level) + 0 (mental) + 1 (interaction) = 2 (normally 3)
+		expect(stats.initiativeBase).toBe(2);
+	});
+
+	it("applies storm weather modifier by subtracting 1 from initiativeBase and armorClass", () => {
+		const service = new CharacterDerivedStatsService();
+
+		const result = service.calculateCharacterDerivedStats({
+			character: createCharacter({
+				classId: "vanguard",
+				physical: 3,
+				mental: 1,
+				interaction: 1,
+			}),
+			characterClass: { id: "vanguard", baseHp: 10 },
+			climaExtremo: "storm",
+		});
+		const stats = expectDerivedStatsSuccess(result);
+
+		// initiativeBase = 1 + 1 + 1 - 1 = 2 (normally 3)
+		// armorClass = 10 + 1 + 3 - 1 = 13 (normally 14)
+		expect(stats.initiativeBase).toBe(2);
+		expect(stats.armorClass).toBe(13);
+	});
 });
 
 function createCharacter(

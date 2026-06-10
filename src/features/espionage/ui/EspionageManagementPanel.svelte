@@ -1,6 +1,5 @@
 <script lang="ts">
 import { onMount } from "svelte";
-import { fade, slide } from "svelte/transition";
 import type { CharacterRecord } from "../../../entities/character";
 import type { CompanionRecord } from "../../../entities/companions";
 import { WorkerCompanionRepository } from "../../../entities/companions";
@@ -47,14 +46,14 @@ let service = $derived(
 
 // Estado Reativo Svelte 5
 const campaignId = "campaign_default";
-let cells = $state<EspionageCellRecord[]>([]);
-let factionsList = $state<FactionRecord[]>([]);
-let companionsList = $state<CompanionRecord[]>([]);
+let _cells = $state<EspionageCellRecord[]>([]);
+let _factionsList = $state<FactionRecord[]>([]);
+let _companionsList = $state<CompanionRecord[]>([]);
 let selectedCharacterId = $state<string>("");
 let ledger = $state<CampaignSocialLedgerRecord | null>(null);
 
 // Estado do Formulário de Fundação
-let showNewCellForm = $state(false);
+let _showNewCellForm = $state(false);
 let newCellFactionId = $state("");
 let newCellRegionId = $state("");
 let newCellTenenteId = $state("");
@@ -62,11 +61,11 @@ let newCellAxis = $state<"physical" | "mental" | "social">("physical");
 let newCellTier = $state(1);
 
 // Estado de Resolução de Missão
-let activeMissionCellId = $state<string | null>(null);
+let _activeMissionCellId = $state<string | null>(null);
 let missionTargetDc = $state(15);
 let useBribery = $state(false);
-let lastMissionResult = $state<OperationResult | null>(null);
-let showResultModal = $state(false);
+let _lastMissionResult = $state<OperationResult | null>(null);
+let _showResultModal = $state(false);
 let isRolling = $state(false);
 let d20VisualRoll = $state(20);
 
@@ -92,13 +91,13 @@ async function loadData() {
 	// Carregar Células
 	const cellsRes = await espionageRepo.listByCampaign(campaignId);
 	if (cellsRes.success) {
-		cells = [...cellsRes.data];
+		_cells = [...cellsRes.data];
 	}
 
 	// Carregar Facções
 	const factionsRes = await socialRepo.listFactions();
 	if (factionsRes.success) {
-		factionsList = [...factionsRes.data];
+		_factionsList = [...factionsRes.data];
 	}
 
 	// Carregar Ledger
@@ -112,12 +111,12 @@ async function loadCompanionsForCharacter(charId: string) {
 	const compRes = await companionRepo.findCompanionsByCharacter(charId);
 	if (compRes.success) {
 		// Apenas companheiros não dissipados podem ser tenentes
-		companionsList = compRes.data.filter((c) => !c.isDissipated);
+		_companionsList = compRes.data.filter((c) => !c.isDissipated);
 	}
 }
 
 // Fundação de Nova Célula
-async function handleCreateCell() {
+async function _handleCreateCell() {
 	if (
 		!newCellFactionId ||
 		!newCellRegionId ||
@@ -142,7 +141,7 @@ async function handleCreateCell() {
 
 	if (res.success) {
 		onUpdateGuildGold(guildGold - res.data.goldSpent);
-		showNewCellForm = false;
+		_showNewCellForm = false;
 		// Reset form
 		newCellFactionId = "";
 		newCellRegionId = "";
@@ -163,13 +162,13 @@ function getRandomD20(): number {
 }
 
 // Executa Missão Downtime
-async function handleRunMission(
+async function _handleRunMission(
 	cell: EspionageCellRecord,
 	type: "autonomous" | "coordinated",
 ) {
 	if (isRolling) return;
 	isRolling = true;
-	lastMissionResult = null;
+	_lastMissionResult = null;
 
 	// Efeito visual de dados rolando
 	let counter = 0;
@@ -221,12 +220,12 @@ async function executeActualRoll(
 	isRolling = false;
 
 	if (res.success) {
-		lastMissionResult = res.data;
+		_lastMissionResult = res.data;
 		if (res.data.goldSpent > 0) {
 			onUpdateGuildGold(guildGold - res.data.goldSpent);
 		}
-		showResultModal = true;
-		activeMissionCellId = null;
+		_showResultModal = true;
+		_activeMissionCellId = null;
 		await loadData();
 	} else {
 		alert(`Erro na missão: ${res.error.message}`);
@@ -234,7 +233,7 @@ async function executeActualRoll(
 }
 
 // Ações Semanais e Resfriamento
-async function handleCoolDown(cellId: string) {
+async function _handleCoolDown(cellId: string) {
 	const res = await service.coolDownCell(cellId, new Date().toISOString());
 	if (res.success) {
 		await loadData();
@@ -243,7 +242,7 @@ async function handleCoolDown(cellId: string) {
 	}
 }
 
-async function handleClearHeat(cellId: string, method: "gold" | "favor") {
+async function _handleClearHeat(cellId: string, method: "gold" | "favor") {
 	const res = await service.clearHeatWithResources({
 		cellId,
 		method,
@@ -262,7 +261,7 @@ async function handleClearHeat(cellId: string, method: "gold" | "favor") {
 	}
 }
 
-async function simulateRecessoWeekly() {
+async function _simulateRecessoWeekly() {
 	const res = await service.processWeeklyMaintenance({
 		campaignId,
 		availableGold: guildGold,

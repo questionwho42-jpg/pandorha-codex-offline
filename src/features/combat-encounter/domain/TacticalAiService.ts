@@ -172,7 +172,7 @@ export class TacticalAiService {
 							break;
 						}
 						default: {
-							const hasDebuff = T.debuffs!.length > 0;
+							const hasDebuff = T.debuffs?.length > 0;
 							physicalScore =
 								distance <= 1 ? 30 + (1 / (1 + distance)) * 10 : 0;
 							movementScore = distance <= 1 ? 10 : 35;
@@ -327,7 +327,7 @@ export class TacticalAiService {
 						break;
 					}
 					case "debuff": {
-						target.debuffs!.push("enfraquecido");
+						target.debuffs?.push("enfraquecido");
 						logs.push(
 							`✨ ${monster.label} aplicou debuff 'enfraquecido' em ${target.name}.`,
 						);

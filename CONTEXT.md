@@ -127,7 +127,7 @@ _Localização_: `src/features/spell-cast/domain/SpellCastBuilderService.ts`
 _Avoid_: Lançar magia diretamente, cast simples
 
 **Metamagia:**
-Modificador opcional aplicado durante a fase Weaving do SpellCastBuilder. Aumenta o custo de EE e altera o comportamento da magia (ex.: alcance duplo, dano aumentado, área expandida).
+Modificador opcional aplicado durante a fase Weaving do SpellCastBuilder. Aumenta o custo de EE e altera o comportamento da magia (ex.: alcance duplo, dano aumentado, área expandida). A interface deve desabilitar reativamente opções cujos custos de EE excedam o saldo atual do Andarilho.
 _Avoid_: Modificador de magia, upgrades de magia
 
 **Concentração (Concentration):**
@@ -174,8 +174,19 @@ Estado meteorológico severo regional cuja presença e duração são reguladas 
 _Avoid_: Tempo severo, tormenta isolada
 
 **Cascata de Exaustão (Exhaustion Cascade / Exhaustion):**
-Efeito de status composto por 5 níveis incrementais e cumulativos (Fadiga Corporal, Neblina Mental, Ruína Espiritual, Colapso Celular, Morte) que reduz as capacidades biológicas e atributos dos Andarilhos.
+Efeito de status composto por 5 níveis incrementais e cumulativos (Fadiga Corporal, Neblina Mental, Ruína Espiritual, Colapso Celular, Morte) persistidos em `characters.exhaustion_level` e aplicados reativamente pelo `StatusEffectDecorator`.
+_Regra_:
+- Nível 1: Fadiga Corporal -> Desvantagem em testes Físicos.
+- Nível 2: Neblina Mental -> Desvantagem em testes Mentais.
+- Nível 3: Ruína Espiritual -> Desvantagem em testes Sociais.
+- Nível 4: Colapso Celular -> Deslocamento -50%, PV/EE Máximos caem pela metade.
+- Nível 5: Morte imediata.
 _Avoid_: Cansaço, nível de exaustão comum
+
+**Lore Dinâmica (LoreService):**
+Sistema de encontros narrativos gerados a partir dos schemas `lore_encounters` e `campaign_rumors`, integrado ao `HexcrawlMovementService`. Entrega fragmentos de lore contextuais durante a exploração.
+_Localização_: `src/entities/lore/`
+_Avoid_: Texto de lore fixo, lore estático
 
 ---
 
@@ -199,9 +210,33 @@ _Avoid_: Projeto de base, ação de descanso
 Uma missão focada na crônica principal e narrativa do Andarilho, aceita e resolvida através de Diálogos e pistas de Investigação.
 _Avoid_: Quest principal, missão de história
 
+**Pesquisa (Research):**
+Investigação focada em desvendar segredos de um monstro, NPC ou local de mundo, executada através de rolagens de CD baseadas no Tier da região e controlada por Progress Clocks.
+_Avoid_: Investigar à toa, busca genérica
+
+**Token de Insight (Insight Token):**
+Recurso partilhado do grupo obtido ao concluir pesquisas com sucesso, que pode ser gasto em Ações Livres [F] ou Reações [R] em combate/narrativa para obter vantagens contra o alvo pesquisado.
+_Avoid_: Fichas de bônus, ponto de dica
+
+**Foco Único (Single Focus):**
+Regra que impede o grupo de acumular tokens de múltiplos alvos em paralelo; iniciar uma nova pesquisa ou expirar o alvo ativo limpa os tokens da reserva do grupo.
+_Avoid_: Acumular tudo
+
 **Contrato da Guilda (Guild Contract):**
 Uma missão de downtime focada em recursos ou segurança, aceita em murais, que pode ser despachada para Esquadrões Mercenários ou resolvida diretamente.
 _Avoid_: Quest secundária, sidequest, contrato comum
+
+**Despacho Mercenário (Mercenary Dispatch):**
+Ação de downtime que envia um esquadrão de peões mercenários para resolver um Contrato da Guilda. Consome turnos de exploração (ticks) e é resolvida via `ResolutionService` contra a CD do Tier da Região do contrato, podendo causar ferimentos ou perda de soldados em caso de falha.
+_Avoid_: Enviar peões, missão passiva
+
+**Incursão de Masmorra (Dungeon Delve):**
+Exploração sala-a-sala de uma masmorra biomecânica baseada em um grafo de salas (`dungeon_rooms`) gerado proceduralmente a partir de um seed único.
+_Avoid_: Dungeon crawl livre, andar na masmorra
+
+**Sala de Masmorra (Dungeon Room):**
+Nó individual da masmorra com tipo específico (combat, treasure, puzzle, rest, boss) e coordenadas cartesianas conectado por connections_csv.
+_Avoid_: Quarto de monstro, célula
 
 
 **Descanso de Acampamento (Camp Rest):**
@@ -220,6 +255,16 @@ _Avoid_: Trincado, desgastado (sem penalidade)
 **Quebrado (Broken):**
 Estado físico de falha total de um equipamento que impede completamente o seu uso ou concessão de benefícios até ser reparado.
 _Avoid_: Destruído permanentemente
+
+**Cerco (Siege):**
+Evento global de ameaça que desencadeia assaltos ao Bastião, gerenciado pelo `SiegeService`. O progresso do cerco é rastreado por um Relógio de Progresso dedicado.
+_Localização_: `src/entities/siege/`
+_Usa_: Relógio de Progresso
+_Avoid_: Invasão genérica, evento de ataque
+
+**Modo Mestre (GM Mode):**
+Chave global do Cockpit que, quando ativa, revela informações exclusivas do GM no ChatLog (mensagens `isGmOnly`), exibe painéis de diagnóstico ocultos e habilita a Sandbox do GM.
+_Avoid_: Admin mode, debug mode, modo de desenvolvimento
 
 ---
 
@@ -253,3 +298,17 @@ _Avoid_: Animal de estimação mágico
 - **"Nível da magia"** é ambíguo: use **Círculo da Magia** para o poder da spell e **Nível do Personagem** para a progressão do herói
 - **"Descanso"** pode ser curto (in-dungeon, sem alocação) ou longo (Camp Rest com slots de atividade)
 - **"Encontro"** na documentação de lore refere-se a qualquer evento narrativo; no código, `Encounter` é especificamente o resultado do `EncounterService` no hexcrawl
+
+---
+
+## Domínio de GM e Infraestrutura
+
+**Cache RPC (RPC Cache):**
+Cache global mantido na thread principal que armazena as últimas respostas do Worker SQLite, reduzindo a latência percebida abaixo de 16ms para leituras frequentes de estado.
+_Localização_: `src/shared/rpc/model/rpcCache.ts`
+_Avoid_: Cache de banco de dados, cache de sessão
+
+**Sandbox do GM (GM Sandbox):**
+Interface exclusiva do Modo Mestre para mutação direta do estado do mundo em tempo de jogo: spawn de monstros, alteração de Relógios de Progresso e injeção de eventos via RPC direto ao Worker.
+_Localização_: `src/features/sandbox/ui/GMSandboxPanel.svelte`
+_Avoid_: Debug panel, painel de trapaça

@@ -35,7 +35,7 @@ let {
 }>();
 
 // Estado reativo do componente
-let clocks = $state<ClockRecord[]>([]);
+let _clocks = $state<ClockRecord[]>([]);
 let activeCharacterId = $state("");
 let activeFactionId = $state("guild_explorers");
 let renownNewValue = $state(10);
@@ -51,7 +51,7 @@ let worker = $state<Worker | null>(null);
 let logs = $state<string[]>([]);
 
 // Variáveis para aplicação de status effects na sandbox
-let activeCharacterStatusEffects = $state<any[]>([]);
+let _activeCharacterStatusEffects = $state<any[]>([]);
 let selectedStatusType = $state<
 	"eter_fever" | "wound_infection" | "viper_poison"
 >("eter_fever");
@@ -60,7 +60,7 @@ let statusDurationTurns = $state<number | null>(3);
 // Carrega efeitos de status ativos do herói selecionado
 async function loadStatusEffects() {
 	if (!worker || !activeCharacterId) {
-		activeCharacterStatusEffects = [];
+		_activeCharacterStatusEffects = [];
 		return;
 	}
 
@@ -74,7 +74,7 @@ async function loadStatusEffects() {
 	const tempListener = (event: MessageEvent) => {
 		const response = event.data;
 		if (response.messageId === messageId && response.success) {
-			activeCharacterStatusEffects = response.data || [];
+			_activeCharacterStatusEffects = response.data || [];
 			worker?.removeEventListener("message", tempListener);
 		}
 	};
@@ -82,7 +82,7 @@ async function loadStatusEffects() {
 }
 
 // Aplica um novo efeito de status
-function handleApplyStatusEffect() {
+function _handleApplyStatusEffect() {
 	if (!worker || !activeCharacterId) {
 		addLog("Selecione um aventureiro válido.");
 		return;
@@ -116,7 +116,7 @@ function handleApplyStatusEffect() {
 }
 
 // Remove um efeito de status ativo
-function handleRemoveStatusEffect(effectId: string) {
+function _handleRemoveStatusEffect(effectId: string) {
 	if (!worker) return;
 
 	rpcCache.invalidate("DELETE_STATUS_EFFECT");
@@ -140,7 +140,7 @@ $effect(() => {
 	}
 });
 
-const FACTIONS = [
+const _FACTIONS = [
 	{ id: "guild_explorers", name: "Guilda dos Exploradores" },
 	{ id: "iron_order", name: "Ordem de Ferro" },
 	{ id: "whispering_coven", name: "Aliança do Sussurro" },
@@ -163,14 +163,14 @@ onMount(async () => {
 	worker.onmessage = (event) => {
 		const response = event.data;
 		if (response.success) {
-			if (response.data && response.data.clock) {
+			if (response.data?.clock) {
 				addLog(`Relógio atualizado com sucesso!`);
 				onClockMutated();
 				void loadClocks();
-			} else if (response.data && response.data.mutated) {
+			} else if (response.data?.mutated) {
 				addLog(`World State / Renome mutado com sucesso!`);
 				onRenownMutated();
-			} else if (response.data && response.data.spawned) {
+			} else if (response.data?.spawned) {
 				addLog(`Criatura '${response.data.actor.label}' spawnada com sucesso!`);
 				onSpawnCreature(response.data.actor);
 			} else {
@@ -204,7 +204,7 @@ async function loadClocks() {
 	const tempListener = (event: MessageEvent) => {
 		const response = event.data;
 		if (response.messageId === messageId && response.success) {
-			clocks = response.data || [];
+			_clocks = response.data || [];
 			worker?.removeEventListener("message", tempListener);
 		}
 	};
@@ -212,7 +212,7 @@ async function loadClocks() {
 }
 
 // Envia comando para mutar Clocks manualmente
-function handleTickClock(clockId: string, delta: number) {
+function _handleTickClock(clockId: string, delta: number) {
 	if (!worker) return;
 	rpcCache.invalidate("TICK_CLOCK_MANUAL");
 
@@ -224,7 +224,7 @@ function handleTickClock(clockId: string, delta: number) {
 }
 
 // Envia comando para mutar reputação/renown
-function handleMutateRenown() {
+function _handleMutateRenown() {
 	if (!worker || !activeCharacterId) {
 		addLog("Selecione um herói válido.");
 		return;
@@ -250,7 +250,7 @@ function handleMutateRenown() {
 }
 
 // Envia comando para mutar chaves de World State
-function handleMutateWorldState() {
+function _handleMutateWorldState() {
 	if (!worker || !customWorldStateKey) {
 		addLog("Preencha a chave do World State.");
 		return;
@@ -281,7 +281,7 @@ function handleMutateWorldState() {
 }
 
 // Envia comando para forçar spawn de criatura
-function handleForceSpawn() {
+function _handleForceSpawn() {
 	if (!worker || !targetSpawnName) return;
 
 	rpcCache.invalidate("FORCE_SPAWN_ACTOR");

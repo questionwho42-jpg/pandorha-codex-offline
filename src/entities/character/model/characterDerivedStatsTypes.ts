@@ -14,6 +14,7 @@ export const characterDerivedStatsClassSourceSchema = z.object({
 export const characterDerivedStatsInputSchema = z.object({
 	character: characterSelectSchema,
 	characterClass: characterDerivedStatsClassSourceSchema,
+	climaExtremo: z.enum(["frost", "storm", "heat"]).nullable().optional(),
 });
 
 export const characterDerivedStatsResultSchema = z.object({

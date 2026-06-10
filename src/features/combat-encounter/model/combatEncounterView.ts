@@ -55,9 +55,14 @@ export function createCombatEncounterView(
 	input: CombatEncounterViewInput,
 ): CombatEncounterView {
 	const isTargetDefeated = input.targetHitPoints <= 0;
-	const isAttackerTurn = input.turn.activeActorId === input.attacker.id;
+	const isAttackerTurn =
+		input.turn.activeActorId === input.attacker.id ||
+		input.attackerOptions.some(
+			(option) => option.id === input.turn.activeActorId,
+		);
 	const activeActorLabel = isAttackerTurn
-		? input.attacker.label
+		? (input.attackerOptions.find((o) => o.id === input.turn.activeActorId)
+				?.label ?? input.attacker.label)
 		: input.target.label;
 
 	return {

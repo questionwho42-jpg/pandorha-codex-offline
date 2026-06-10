@@ -48,7 +48,7 @@ describe("ClassTalentService - Talentos de Classe Táticos", () => {
 		expect(effects.success).toBe(true);
 		if (effects.success) {
 			expect(effects.data).toHaveLength(1);
-			expect(effects.data[0]!.type).toBe("extra_breath");
+			expect(effects.data[0]?.type).toBe("extra_breath");
 		}
 	});
 
@@ -181,7 +181,7 @@ describe("ClassTalentService - Talentos de Classe Táticos", () => {
 		expect(effects.success).toBe(true);
 		if (effects.success) {
 			expect(effects.data).toHaveLength(1);
-			expect(effects.data[0]!.type).toBe("double_time");
+			expect(effects.data[0]?.type).toBe("double_time");
 		}
 	});
 

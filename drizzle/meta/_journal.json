@@ -162,6 +162,13 @@
       "when": 1780478377498,
       "tag": "0022_low_nocturne",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "6",
+      "when": 1780587068932,
+      "tag": "0023_loving_stephen_strange",
+      "breakpoints": true
     }
   ]
 }

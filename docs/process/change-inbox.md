@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:91ba9cfe-119e-46d8-adfb-ab96edbcffaf -->
+### Ampliacao de Testes e Validacoes
+- id: 91ba9cfe-119e-46d8-adfb-ab96edbcffaf
+- status: open
+- created_at: 2026-06-09T23:43:35-03:00
+- source: task-ledger
+- summary: Ampliacao da suite de testes e validacoes do Pandorha Engine, cobrindo testes baseados em propriedades, conformidade arquitetural FSD, consistencia de persistencia SQLite/InMemory e RPC budgets/benchmarks.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:91ba9cfe-119e-46d8-adfb-ab96edbcffaf -->
 <!-- pandorha-inbox:open:empty -- todos os itens concluídos foram movidos para Promoted em 2026-05-31 -->
 <!-- /pandorha-inbox:open -->
 

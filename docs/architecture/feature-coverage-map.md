@@ -1,7 +1,7 @@
 # Feature Coverage Map
 
 > **Propósito:** Mapa vivo do estado de implementação do Pandorha Engine.
-> **Atualizado em:** 2026-05-31
+> **Atualizado em:** 2026-06-09
 > **Legenda:** ✅ Implementado · 🔧 Parcial · ❌ Não implementado · 📋 System doc existe
 
 ---
@@ -49,8 +49,11 @@
 | `traps` | ✅ TrapService | ✅ InMemory | ✅ | ✅ | ✅ | Detecção e resolução de armadilhas |
 | `world-state` | ✅ WorldStateService | ✅ InMemory | ✅ | ✅ | 📋 | Key-Value do estado do mundo |
 | `world-tile` | ✅ WorldTileService + EncounterService | ✅ InMemory | ✅ | ✅ | ✅ | Grid axial (q,r), encontros por tier |
+| `siege` | ✅ SiegeService | ✅ InMemory | ✅ | ✅ | 📋 | Eventos de cerco ao Bastião (Fase 51) |
+| `lore` | ✅ LoreService | ✅ InMemory | ✅ | ✅ | 📋 | Encontros narrativos via lore_encounters + campaign_rumors (Fase 57) |
+| `combat` | 🔧 CombatService (domain) | 🔧 | ✅ | 🔧 | ✅ ADR-009/010 | Combate tático em progresso (Fases 68–72); IA inimiga, loot, transição mapa↔combate |
 
-**Total entities:** 23 · **Completos:** 21 · **Parciais:** 1 · **Não iniciados:** 0 · **Sem schema DB:** 6 (catalog-only)
+**Total entities:** 26 · **Completos:** 23 · **Parciais:** 2 · **Não iniciados:** 0 · **Sem schema DB:** 6 (catalog-only)
 
 ---
 
@@ -79,19 +82,21 @@
 | `quests` | ✅ | 🔧 | ✅ | 📋 | Lógica pronta, UI parcial |
 | `research` | 🔧 | 🔧 | 🔧 | 📋 | Em progresso |
 | `saves` | ✅ SaveService | 🔧 SavePanel | ✅ | ✅ | Import/export JSON |
-| `social` | ✅ SocialCombatService + SocialStandingService | 🔧 | ✅ | ✅ | Lógica completa, UI parcial |
+| `social` | ✅ SocialCombatService + SocialStandingService + NegotiationPanel | ✅ NegotiationPanel, FactionPanel, SocialDemo | ✅ | ✅ | Lógica e UI completas, NegotiationPanel integrado (Fase 65) |
 | `spell-cast` | ✅ SpellCastBuilderService | ✅ SpellCastPanel | ✅ | ✅ | Builder com Weaving + Metamagia |
 | `survival` | ❌ | ❌ | ❌ | ✅ | Não iniciado (68 system docs prontos) |
 | `traps` | ✅ | 🔧 | ✅ | ✅ | Lógica completa, UI parcial |
+| `chat` | ✅ ChatLog + GM Mode | ✅ ChatLog.svelte, RollModifiersDrawer.svelte | ✅ | 📋 | ChatLog com isGmOnly e filtro de Modo Mestre (Fase 56) |
+| `sandbox` | ✅ GMSandboxPanel | ✅ GMSandboxPanel.svelte | ✅ sandboxUtils.spec | 📋 | GM Sandbox com mutação de estado via RPC (Fase 57/59) |
 
-**Total features:** 25 · **UI Completa:** 10 · **Lógica completa, UI parcial:** 10 · **Em progresso:** 4 · **Não iniciados:** 1 (survival)
+**Total features:** 27 · **UI Completa:** 12 · **Lógica completa, UI parcial:** 9 · **Em progresso:** 5 · **Não iniciados:** 1 (survival)
 
 ---
 
 ## Gaps Prioritários
 
 ### Implementação × System Docs (funcional mas sem UI)
-- `features/espionage`, `features/investigation`, `features/mercenary`, `features/quests`, `features/social` — lógica 100% TDD mas sem painéis de UI para o jogador
+- `features/espionage`, `features/investigation`, `features/mercenary`, `features/quests` — lógica 100% TDD mas sem painéis de UI completos para o jogador
 - `features/combat` — combate tático real com IA de inimigos está em progresso (combate de treino funciona)
 
 ### System Docs × Implementação (docs existem, código não)
@@ -101,6 +106,13 @@
 ### DB Schema Faltando (catálogos read-only)
 - `entities/ancestry`, `entities/background`, `entities/character-class`, `entities/spell` — catálogos serializados em código; migração para SQLite seria útil para busca dinâmica
 
+### Implementação em Progresso (Fases 68–72)
+- `entities/combat` (IA tática de inimigos baseada em Papéis Táticos — ADR-010)
+- `features/hexcrawl-map` + `features/combat` — integração transição mapa↔combate via `active_sessions` (ADR-009)
+- Loots atômicos SQLite ao encerrar encontro (ADR-011)
+- Despacho de mercenários por ticks de exploração (ADR-012)
+- Climatologia reativa via Progress Clock regional (ADR-013)
+
 ---
 
 ## Histórico de Atualizações
@@ -108,3 +120,5 @@
 | Data | Motivo | Entities | Features |
 |:---|:---|:---:|:---:|
 | 2026-05-31 | Criação inicial do mapa | 23 | 25 |
+| 2026-06-08 | Phases 51–67+: siege, lore, chat, sandbox; social UI upgrade | 25 | 27 |
+| 2026-06-09 | Adicionado entities/combat (descoberto no filesystem); mapa sincronizado com task em progresso (Fases 68–72) e ADRs 009–013 | 26 | 27 |

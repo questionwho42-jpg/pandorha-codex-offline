@@ -4,12 +4,21 @@ import type { CharacterRecord } from "$lib/entities/character";
 import { LimitBreakService } from "$lib/entities/character/domain/LimitBreakService";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import type { CompanionRecord } from "$lib/entities/companions";
+import { WorkerCraftingRepository } from "$lib/entities/equipment/infrastructure/WorkerCraftingRepository";
 import { OFFICIAL_EQUIPMENT } from "$lib/entities/equipment/model/equipmentCatalog";
 import { SynergyService } from "$lib/entities/synergy/domain/SynergyService";
 import { WorkerSynergyRepository } from "$lib/entities/synergy/infrastructure/WorkerSynergyRepository";
+import { chatState } from "$lib/features/chat";
+import { DiceService } from "$lib/shared/dice";
 import type { CharacterCraftedItemRecord } from "../../crafting/model/craftingSchema";
+import { CombatEncounterService } from "../domain/CombatEncounterService";
+import { CombatLootService } from "../domain/CombatLootService";
 import { CombatTurnService } from "../domain/CombatTurnService";
 import { StealthCombatService } from "../domain/StealthCombatService";
+import {
+	type TacticalAiActor,
+	TacticalAiService,
+} from "../domain/TacticalAiService";
 import { findUltimateByClass } from "../domain/UltimatesCatalog";
 import { createCombatAttackerStatsView } from "../model/combatAttackerStatsView";
 import type {
@@ -39,6 +48,7 @@ import type {
 	CombatTurnFailure,
 	CombatTurnState,
 } from "../model/combatTurnTypes";
+import { MONSTER_TEMPLATES, type Monster } from "../model/monsterCatalog";
 
 type Props = {
 	attacker: CombatEncounterActorRef;
@@ -59,6 +69,16 @@ type Props = {
 	) => ReturnType<CombatEncounterStateResolver>;
 	trainingTargets: readonly CombatTrainingTarget[];
 	service?: CombatEncounterService;
+
+	// Real combat properties
+	characterHudStates?: Record<
+		string,
+		{ hp: number; pv: number; actionUsed: boolean; reactionUsed: boolean }
+	>;
+	combatRepository?: any;
+	activeCombatEncounterId?: string | null;
+	onCombatEnd?: () => void;
+	characterRepository?: any;
 };
 
 type CombatEncounterStateResolver = (
@@ -96,6 +116,11 @@ let {
 	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 	trainingTargets,
 	service,
+	characterHudStates = {},
+	combatRepository,
+	activeCombatEncounterId = null,
+	onCombatEnd,
+	characterRepository,
 }: Props = $props();
 
 // svelte-ignore state_referenced_locally: fixed training encounter props are intentionally captured for reset.
@@ -120,26 +145,26 @@ let attackerTension = $derived(attackerChar?.tensionMeter ?? 0);
 let attackerDeathSuccesses = $state(0);
 let attackerDeathFailures = $state(0);
 let attackerIsDying = $state(false);
-let limitBreakActive = $state(false);
+let _limitBreakActive = $state(false);
 
 let selectedTrickId = $state("marca_presa");
 let masterEeSpent = $state(0);
 let familiarReactionUsed = $state(false);
-let familiarFlickered = $state(false);
+let _familiarFlickered = $state(false);
 
-let isStealthMode = $state(false);
+let _isStealthMode = $state(false);
 let heatLevel = $state(0);
 let guardPosition = $state("flank");
 let useShadows = $state(false);
-let isInPoleiro = $state(false);
-let isHanging = $state(false);
+let _isInPoleiro = $state(false);
+let _isHanging = $state(false);
 let selectedTakedownType = $state("strike");
 
 let activeCompanions = $derived(
 	companions.filter((c) => c.characterId === selectedAttackerId),
 );
 
-let activeCompanionStats = $derived(
+let _activeCompanionStats = $derived(
 	activeCompanions.map((comp) => {
 		const char = characters.find((c) => c.id === selectedAttackerId);
 		if (!char) {
@@ -230,7 +255,7 @@ $effect(() => {
 		} else {
 			attackerHp = 15;
 		}
-		limitBreakActive = false;
+		_limitBreakActive = false;
 		masterPvSpent = 0;
 
 		const moribundEffect = activeEffects.find(
@@ -491,7 +516,7 @@ function addTension(amount: number) {
 	}
 }
 
-function activateLimitBreak() {
+function _activateLimitBreak() {
 	if (!attackerChar || attackerTension < 100) return;
 
 	const ultimate = findUltimateByClass(attackerChar.classId);
@@ -504,7 +529,7 @@ function activateLimitBreak() {
 	}
 
 	addStatusEffect(attackerChar.id, ultimate.statusEffectType);
-	limitBreakActive = true;
+	_limitBreakActive = true;
 	log = [
 		...log,
 		`💥 LIMIT BREAK CONJURADO! ${attackerChar.name} ativou a Ultimate: ${ultimate.name} (${attackerChar.classId === "weaver" ? "Tecelão" : attackerChar.classId === "hunter" ? "Caçador" : attackerChar.classId === "emissary" ? "Emissário" : "Vanguarda"})!`,
@@ -593,7 +618,7 @@ function activateDoubleTime(): void {
 	errorMessage = null;
 }
 
-function damageHero(amount: number) {
+function _damageHero(amount: number) {
 	if (attackerHp === 0) {
 		const isCrit = amount >= 10;
 		const failures = isCrit ? 2 : 1;
@@ -680,7 +705,7 @@ function damageHero(amount: number) {
 	}
 }
 
-function healHero(amount: number) {
+function _healHero(amount: number) {
 	const char = characters.find((c) => c.id === selectedAttackerId);
 	if (!char) return;
 	const realClass = characterClasses.find((c) => c.id === char.classId);
@@ -703,7 +728,7 @@ function healHero(amount: number) {
 	];
 }
 
-function helpHero() {
+function _helpHero() {
 	if (attackerHp > 0 || !attackerIsDying) return;
 
 	if (!service) {
@@ -1214,7 +1239,7 @@ let view = $derived<CombatEncounterView>(
 );
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-function attack(): void {
+async function attack() {
 	if (!view.canAttack) {
 		return;
 	}
@@ -1253,6 +1278,27 @@ function attack(): void {
 	targetHitPoints = result.data.target.currentHitPoints;
 	log = [...log, ...result.data.log];
 
+	if (activeCombatEncounterId && combatRepository) {
+		const mon = activeMonsters.find((m) => m.id === selectedTargetId);
+		if (mon) {
+			mon.currentHitPoints = result.data.target.currentHitPoints;
+
+			const dbMonsterRes = await combatRepository.findMonstersByEncounterId(
+				activeCombatEncounterId,
+			);
+			if (dbMonsterRes.success) {
+				const dbMonster = dbMonsterRes.data.find((m: any) => m.id === mon.id);
+				if (dbMonster) {
+					await combatRepository.saveMonster({
+						...dbMonster,
+						hpCurrent: mon.currentHitPoints,
+						updatedAt: new Date().toISOString(),
+					});
+				}
+			}
+		}
+	}
+
 	if (
 		result.data.resolution.degree === "criticalSuccess" &&
 		result.data.resolution.margin >= 10
@@ -1268,7 +1314,7 @@ function attack(): void {
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-function endTurn(): void {
+async function endTurn() {
 	if (!view.canEndTurn) {
 		return;
 	}
@@ -1339,22 +1385,54 @@ function endTurn(): void {
 	);
 	window.dispatchEvent(new CustomEvent("pandorha:crafted-items-changed"));
 
-	const targetTurnLog = createCombatTrainingTargetTurnLog({
-		activeActorId: turnState.activeActorId,
-		target: selectedTarget,
-	});
-	const endedTurn = turnService.endTurn({
-		state: turnState,
-		actorId: turnState.activeActorId,
-	});
-	if (!endedTurn.success) {
-		errorMessage = mapCombatTurnFailure(endedTurn.error);
-		return;
-	}
+	if (activeCombatEncounterId && combatRepository) {
+		const endedTurn = turnService.endTurn({
+			state: turnState,
+			actorId: turnState.activeActorId,
+		});
+		if (!endedTurn.success) {
+			errorMessage = mapCombatTurnFailure(endedTurn.error);
+			return;
+		}
 
-	turnState = endedTurn.data;
-	log = targetTurnLog ? [...log, targetTurnLog] : log;
-	errorMessage = null;
+		turnState = endedTurn.data;
+		errorMessage = null;
+
+		const currentEncounter = await combatRepository.findEncounterById(
+			activeCombatEncounterId,
+		);
+		if (currentEncounter.success && currentEncounter.data) {
+			const nextTurn = currentEncounter.data.turn + 1;
+			await combatRepository.saveEncounter({
+				...currentEncounter.data,
+				turn: nextTurn,
+				round: endedTurn.data.round,
+				updatedAt: new Date().toISOString(),
+			});
+			_combatEncounterState = {
+				...currentEncounter.data,
+				turn: nextTurn,
+				round: endedTurn.data.round,
+			};
+		}
+	} else {
+		const targetTurnLog = createCombatTrainingTargetTurnLog({
+			activeActorId: turnState.activeActorId,
+			target: selectedTarget,
+		});
+		const endedTurn = turnService.endTurn({
+			state: turnState,
+			actorId: turnState.activeActorId,
+		});
+		if (!endedTurn.success) {
+			errorMessage = mapCombatTurnFailure(endedTurn.error);
+			return;
+		}
+
+		turnState = endedTurn.data;
+		log = targetTurnLog ? [...log, targetTurnLog] : log;
+		errorMessage = null;
+	}
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -1367,7 +1445,7 @@ function resetEncounter(): void {
 	masterEeSpent = 0;
 	masterPvSpent = 0;
 	familiarReactionUsed = false;
-	familiarFlickered = false;
+	_familiarFlickered = false;
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -1385,7 +1463,7 @@ function selectAttacker(event: Event): void {
 	masterEeSpent = 0;
 	masterPvSpent = 0;
 	familiarReactionUsed = false;
-	familiarFlickered = false;
+	_familiarFlickered = false;
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -1404,7 +1482,7 @@ function selectTarget(event: Event): void {
 	masterEeSpent = 0;
 	masterPvSpent = 0;
 	familiarReactionUsed = false;
-	familiarFlickered = false;
+	_familiarFlickered = false;
 }
 
 function mapCombatEncounterFailure(failure: CombatEncounterFailure): string {
@@ -1437,7 +1515,558 @@ function getInitialTargetHitPoints(target: CombatTrainingTarget): number {
 	return target.currentHitPoints;
 }
 
+let activeMonsters = $state<Monster[]>([]);
+let realInitiativeOrder = $state<string[]>([]);
+let _combatEncounterState = $state<any>(null);
+
+const roleMap: Record<string, "brute" | "sniper" | "controller"> = {
+	bruto: "brute",
+	assassino: "sniper",
+	suporte: "controller",
+};
+
+$effect(() => {
+	if (activeCombatEncounterId && combatRepository) {
+		loadRealCombat(activeCombatEncounterId);
+	}
+});
+
+async function loadRealCombat(encounterId: string) {
+	const encRes = await combatRepository.findEncounterById(encounterId);
+	if (encRes.success && encRes.data) {
+		_combatEncounterState = encRes.data;
+
+		const monstersRes =
+			await combatRepository.findMonstersByEncounterId(encounterId);
+		if (monstersRes.success) {
+			activeMonsters = monstersRes.data.map((dbMonster: any) => {
+				let template: any = null;
+				for (const key of Object.keys(MONSTER_TEMPLATES)) {
+					const match = MONSTER_TEMPLATES[key].find(
+						(t: any) =>
+							dbMonster.monsterId.startsWith(t.id) ||
+							dbMonster.name.includes(t.label),
+					);
+					if (match) {
+						template = match;
+						break;
+					}
+				}
+				return {
+					id: dbMonster.id,
+					label: dbMonster.name,
+					description: template?.description || "Inimigo hostil.",
+					maxHitPoints: dbMonster.hpMax,
+					currentHitPoints: dbMonster.hpCurrent,
+					armorClass: template?.armorClass || 12,
+					level: template?.level || 1,
+					attackBonus: template?.attackBonus || 2,
+					damageDice: template?.damageDice || "1d6",
+					damageBonus: template?.damageBonus || 1,
+					initiativeBase: template?.initiativeBase || 2,
+					xpValue: template?.xpValue || 50,
+					role: roleMap[dbMonster.tacticalRole] || "brute",
+					position: { x: 0, y: 0 },
+					debuffs: [],
+					spellsCount: dbMonster.eeCurrent,
+				};
+			});
+		}
+
+		realInitiativeOrder = JSON.parse(encRes.data.initiativeOrderJson);
+
+		const turnIndex = (encRes.data.turn - 1) % realInitiativeOrder.length;
+		const activeActorId = realInitiativeOrder[turnIndex] || "";
+
+		turnState = {
+			round: encRes.data.round,
+			roundNumber: encRes.data.round,
+			turnNumber: encRes.data.turn,
+			activeActorId,
+			activeActorIndex: turnIndex,
+			actorOrder: realInitiativeOrder,
+			actionPointsRemaining: activeActorId === selectedAttackerId ? 2 : 0,
+			maxActionPoints: 2,
+			events: [],
+		};
+
+		const aliveMonster = activeMonsters.find((m) => m.currentHitPoints > 0);
+		if (aliveMonster) {
+			selectedTargetId = aliveMonster.id;
+			targetHitPoints = aliveMonster.currentHitPoints;
+		}
+	}
+}
+
+function originalHeroHasMoribund(heroId: string): boolean {
+	return activeEffects.some(
+		(e) => e.characterId === heroId && e.type === "moribund",
+	);
+}
+
+async function addStatusEffectReal(
+	characterId: string,
+	type: string,
+	metadata?: string,
+) {
+	const alreadyHas = activeEffects.some(
+		(e) => e.characterId === characterId && e.type === type,
+	);
+	if (alreadyHas) return;
+
+	const newEffect = {
+		id: crypto.randomUUID(),
+		characterId,
+		type,
+		severity: 2,
+		severityMax: 4,
+		isAggravated: false,
+		metadata: metadata ?? null,
+		createdAt: new Date().toISOString(),
+	};
+	activeEffects = [...activeEffects, newEffect];
+	localStorage.setItem(
+		"pandorha_status_effects",
+		JSON.stringify(activeEffects),
+	);
+
+	if (dbWorker) {
+		dbWorker.postMessage({
+			messageId: crypto.randomUUID(),
+			type: "SAVE_STATUS_EFFECT",
+			payload: { effect: newEffect },
+		});
+	}
+	window.dispatchEvent(new CustomEvent("pandorha:crafted-items-changed"));
+}
+
+async function removeStatusEffectReal(characterId: string, type: string) {
+	const effectToRemove = activeEffects.find(
+		(e) => e.characterId === characterId && e.type === type,
+	);
+	if (!effectToRemove) return;
+
+	activeEffects = activeEffects.filter((e) => e.id !== effectToRemove.id);
+	localStorage.setItem(
+		"pandorha_status_effects",
+		JSON.stringify(activeEffects),
+	);
+
+	if (dbWorker) {
+		dbWorker.postMessage({
+			messageId: crypto.randomUUID(),
+			type: "DELETE_STATUS_EFFECT",
+			payload: { id: effectToRemove.id },
+		});
+	}
+	window.dispatchEvent(new CustomEvent("pandorha:crafted-items-changed"));
+}
+
+async function updateStatusEffectReal(
+	characterId: string,
+	type: string,
+	metadata: string,
+) {
+	const index = activeEffects.findIndex(
+		(e) => e.characterId === characterId && e.type === type,
+	);
+	if (index === -1) return;
+
+	const updated = {
+		...activeEffects[index],
+		metadata,
+		updatedAt: new Date().toISOString(),
+	};
+	activeEffects = [
+		...activeEffects.slice(0, index),
+		updated,
+		...activeEffects.slice(index + 1),
+	];
+	localStorage.setItem(
+		"pandorha_status_effects",
+		JSON.stringify(activeEffects),
+	);
+
+	if (dbWorker) {
+		dbWorker.postMessage({
+			messageId: crypto.randomUUID(),
+			type: "SAVE_STATUS_EFFECT",
+			payload: { effect: updated },
+		});
+	}
+	window.dispatchEvent(new CustomEvent("pandorha:crafted-items-changed"));
+}
+
+async function runMonsterTurn(monsterId: string) {
+	const monster = activeMonsters.find((m) => m.id === monsterId);
+	if (!monster || monster.currentHitPoints <= 0) {
+		await advanceTurn();
+		return;
+	}
+
+	const partyActors: TacticalAiActor[] = characters.map((c) => {
+		const hud = characterHudStates[c.id] || { hp: 10, pv: 0 };
+		const realClass = characterClasses.find((cls) => cls.id === c.classId);
+		const baseHp = realClass ? realClass.baseHp : 10;
+		const maxHp = (baseHp + c.physical + c.resistance) * c.level;
+		const moribund = activeEffects.find(
+			(e) => e.characterId === c.id && e.type === "moribund",
+		);
+		let successes = 0;
+		let failures = 0;
+		if (moribund) {
+			try {
+				const meta = moribund.metadata ? JSON.parse(moribund.metadata) : {};
+				successes = typeof meta.successes === "number" ? meta.successes : 0;
+				failures = typeof meta.failures === "number" ? meta.failures : 0;
+			} catch {}
+		}
+		return {
+			id: c.id,
+			name: c.name,
+			maxHp,
+			currentHp: hud.hp,
+			armorClass: 10 + c.physical + c.resistance,
+			level: c.level,
+			physical: c.physical,
+			mental: c.mental,
+			resistance: c.resistance,
+			isDying: !!moribund,
+			deathSuccesses: successes,
+			deathFailures: failures,
+			debuffs: [],
+			position: { x: 0, y: 0 },
+		};
+	});
+
+	const aiService = new TacticalAiService(
+		new DiceService(
+			{
+				next: () => {
+					const arr = new Uint32Array(1);
+					crypto.getRandomValues(arr);
+					return arr[0] / 0xffffffff;
+				},
+			},
+			{ generate: () => `ai-roll-${Date.now()}` },
+			{ now: () => new Date().toISOString() },
+		),
+	);
+
+	const runRes = aiService.runMonsterTurns({
+		monsters: [monster],
+		party: partyActors,
+	});
+
+	if (runRes.success) {
+		const result = runRes.data;
+		log = [...log, ...result.logs];
+
+		for (const updatedHero of result.updatedParty) {
+			const originalHud = characterHudStates[updatedHero.id];
+			if (originalHud) {
+				originalHud.hp = updatedHero.currentHp;
+				if (updatedHero.isDying && !originalHeroHasMoribund(updatedHero.id)) {
+					await addStatusEffectReal(
+						updatedHero.id,
+						"moribund",
+						JSON.stringify({
+							successes: updatedHero.deathSuccesses,
+							failures: updatedHero.deathFailures,
+						}),
+					);
+				} else if (
+					!updatedHero.isDying &&
+					originalHeroHasMoribund(updatedHero.id)
+				) {
+					await removeStatusEffectReal(updatedHero.id, "moribund");
+				} else if (updatedHero.isDying) {
+					await updateStatusEffectReal(
+						updatedHero.id,
+						"moribund",
+						JSON.stringify({
+							successes: updatedHero.deathSuccesses,
+							failures: updatedHero.deathFailures,
+						}),
+					);
+				}
+			}
+		}
+
+		const updatedMonster = result.updatedMonsters[0];
+		if (updatedMonster) {
+			monster.currentHitPoints = updatedMonster.currentHitPoints;
+			if (combatRepository) {
+				const dbMonsterRes = await combatRepository.findMonstersByEncounterId(
+					activeCombatEncounterId,
+				);
+				if (dbMonsterRes.success) {
+					const dbMonster = dbMonsterRes.data.find(
+						(m: any) => m.id === monster.id,
+					);
+					if (dbMonster) {
+						await combatRepository.saveMonster({
+							...dbMonster,
+							hpCurrent: monster.currentHitPoints,
+							updatedAt: new Date().toISOString(),
+						});
+					}
+				}
+			}
+		}
+	}
+
+	await advanceTurn();
+}
+
+async function advanceTurn() {
+	if (!activeCombatEncounterId || !combatRepository) return;
+
+	const endedTurn = turnService.endTurn({
+		state: turnState,
+		actorId: turnState.activeActorId,
+	});
+
+	if (endedTurn.success) {
+		turnState = endedTurn.data;
+
+		const currentEncounter = await combatRepository.findEncounterById(
+			activeCombatEncounterId,
+		);
+		if (currentEncounter.success && currentEncounter.data) {
+			const nextTurn = currentEncounter.data.turn + 1;
+			await combatRepository.saveEncounter({
+				...currentEncounter.data,
+				turn: nextTurn,
+				round: endedTurn.data.round,
+				updatedAt: new Date().toISOString(),
+			});
+			_combatEncounterState = {
+				...currentEncounter.data,
+				turn: nextTurn,
+				round: endedTurn.data.round,
+			};
+		}
+	}
+}
+
+async function _retreat() {
+	if (!activeCombatEncounterId || !combatRepository) return;
+
+	const partyActors: TacticalAiActor[] = characters.map((c) => {
+		const hud = characterHudStates[c.id] || { hp: 10, pv: 0 };
+		const realClass = characterClasses.find((cls) => cls.id === c.classId);
+		const baseHp = realClass ? realClass.baseHp : 10;
+		const maxHp = (baseHp + c.physical + c.resistance) * c.level;
+		return {
+			id: c.id,
+			name: c.name,
+			maxHp,
+			currentHp: hud.hp,
+			armorClass: 10 + c.physical + c.resistance,
+			level: c.level,
+			physical: c.physical,
+			mental: c.mental,
+			resistance: c.resistance,
+			isDying: originalHeroHasMoribund(c.id),
+			deathSuccesses: 0,
+			deathFailures: 0,
+			debuffs: [],
+			position: { x: 0, y: 0 },
+		};
+	});
+
+	const diceService = new DiceService(
+		{
+			next: () => {
+				const arr = new Uint32Array(1);
+				crypto.getRandomValues(arr);
+				return arr[0] / 0xffffffff;
+			},
+		},
+		{ generate: () => `retreat-roll-${Date.now()}` },
+		{ now: () => new Date().toISOString() },
+	);
+
+	const localService =
+		service ??
+		new CombatEncounterService(
+			{} as any,
+			{} as any,
+			{ now: () => new Date().toISOString() },
+			diceService,
+		);
+
+	const retRes = localService.resolveRetreat({
+		party: partyActors,
+		monsters: activeMonsters,
+	});
+
+	if (retRes.success) {
+		const resData = retRes.data;
+		log = [...log, ...resData.logs];
+
+		if (resData.success) {
+			for (const char of characters) {
+				const hud = characterHudStates[char.id];
+				if (hud && hud.hp > 0 && !originalHeroHasMoribund(char.id)) {
+					await addStatusEffectReal(char.id, "exhausted");
+				}
+			}
+
+			await combatRepository.saveActiveSession({
+				id: "current-session",
+				combatEncounterId: null,
+				updatedAt: new Date().toISOString(),
+			});
+
+			if (onCombatEnd) {
+				onCombatEnd();
+			}
+		} else {
+			chatState.addMessage({
+				type: "combat",
+				content: "⚠️ Falha na fuga! Os monstros atacam imediatamente!",
+			});
+			for (const monster of activeMonsters) {
+				if (monster.currentHitPoints > 0) {
+					await runMonsterTurn(monster.id);
+				}
+			}
+		}
+	}
+}
+
+async function _collectRewards() {
+	if (!activeCombatEncounterId || !combatRepository || !characterRepository)
+		return;
+
+	let bestChar = characters[0];
+	for (const char of characters) {
+		if (char.mental > bestChar.mental) {
+			bestChar = char;
+		}
+	}
+	const batedorId = bestChar ? bestChar.id : selectedAttackerId;
+
+	const partyActors: TacticalAiActor[] = characters.map((c) => {
+		const hud = characterHudStates[c.id] || { hp: 10, pv: 0 };
+		const realClass = characterClasses.find((cls) => cls.id === c.classId);
+		const baseHp = realClass ? realClass.baseHp : 10;
+		const maxHp = (baseHp + c.physical + c.resistance) * c.level;
+		return {
+			id: c.id,
+			name: c.name,
+			maxHp,
+			currentHp: hud.hp,
+			armorClass: 10 + c.physical + c.resistance,
+			level: c.level,
+			physical: c.physical,
+			mental: c.mental,
+			resistance: c.resistance,
+			isDying: originalHeroHasMoribund(c.id),
+			deathSuccesses: 0,
+			deathFailures: 0,
+			debuffs: [],
+			position: { x: 0, y: 0 },
+		};
+	});
+
+	const craftingRepo = new WorkerCraftingRepository();
+	const diceService = new DiceService(
+		{
+			next: () => {
+				const arr = new Uint32Array(1);
+				crypto.getRandomValues(arr);
+				return arr[0] / 0xffffffff;
+			},
+		},
+		{ generate: () => `loot-roll-${Date.now()}` },
+		{ now: () => new Date().toISOString() },
+	);
+
+	const lootService = new CombatLootService(
+		characterRepository,
+		craftingRepo as any,
+		diceService,
+	);
+
+	const lootRes = await lootService.distributeRewards({
+		party: partyActors,
+		monsters: activeMonsters,
+		batedorId,
+	});
+
+	if (lootRes.success) {
+		log = [...log, ...lootRes.data.logs];
+
+		await combatRepository.saveActiveSession({
+			id: "current-session",
+			combatEncounterId: null,
+			updatedAt: new Date().toISOString(),
+		});
+
+		setTimeout(() => {
+			if (onCombatEnd) {
+				onCombatEnd();
+			}
+		}, 1500);
+	} else {
+		errorMessage = "Erro ao distribuir recompensas de combate.";
+	}
+}
+
+$effect(() => {
+	if (activeCombatEncounterId && turnState.activeActorId) {
+		const isHero = characters.some((c) => c.id === turnState.activeActorId);
+		if (isHero) {
+			selectedAttackerId = turnState.activeActorId;
+		} else {
+			const isMonster = activeMonsters.some(
+				(m) => m.id === turnState.activeActorId,
+			);
+			if (isMonster) {
+				setTimeout(() => {
+					runMonsterTurn(turnState.activeActorId);
+				}, 1000);
+			}
+		}
+	}
+});
+
+let _isHeroTurn = $derived(
+	!activeCombatEncounterId ||
+		characters.some((c) => c.id === turnState.activeActorId),
+);
+let _isVictory = $derived(
+	activeCombatEncounterId
+		? activeMonsters.length > 0 &&
+				activeMonsters.every((m) => m.currentHitPoints <= 0)
+		: false,
+);
+let _isDefeat = $derived(
+	activeCombatEncounterId
+		? characters.every((c) => {
+				const hud = characterHudStates[c.id];
+				return hud ? hud.hp <= 0 : false;
+			})
+		: false,
+);
+
 function getTrainingTarget(id: string): CombatTrainingTarget {
+	if (activeCombatEncounterId) {
+		const mon = activeMonsters.find((m) => m.id === id);
+		if (mon) {
+			return {
+				id: mon.id,
+				label: mon.label,
+				description: mon.description,
+				maxHitPoints: mon.maxHitPoints,
+				currentHitPoints: mon.currentHitPoints,
+				armorClass: mon.armorClass,
+			};
+		}
+	}
 	return findTrainingTargetById(id) ?? initialTarget;
 }
 
@@ -1473,7 +2102,7 @@ function getTrickCost(id: string): number {
 	return 1;
 }
 
-function commandCompanionAttack(comp: CompanionRecord) {
+function _commandCompanionAttack(comp: CompanionRecord) {
 	if (!canCommandCompanion) return;
 
 	const spentAction = turnService.spendAction({
@@ -1515,7 +2144,7 @@ function commandCompanionAttack(comp: CompanionRecord) {
 	}
 }
 
-function castFamiliarTrick(comp: CompanionRecord) {
+function _castFamiliarTrick(comp: CompanionRecord) {
 	if (familiarReactionUsed) return;
 	const cost = getTrickCost(selectedTrickId);
 	if (masterAvailableEe < cost) return;
@@ -1523,7 +2152,7 @@ function castFamiliarTrick(comp: CompanionRecord) {
 
 	masterEeSpent += cost;
 	familiarReactionUsed = true;
-	familiarFlickered = true;
+	_familiarFlickered = true;
 
 	const char = characters.find((c) => c.id === selectedAttackerId);
 	const mental = char ? char.mental : 1;
@@ -1558,7 +2187,7 @@ function castFamiliarTrick(comp: CompanionRecord) {
 	}
 }
 
-function toggleSensorySharing(comp: CompanionRecord) {
+function _toggleSensorySharing(comp: CompanionRecord) {
 	if (onShareSensory) {
 		onShareSensory(comp.id, !comp.isShareSensory);
 		log = [
@@ -1570,7 +2199,7 @@ function toggleSensorySharing(comp: CompanionRecord) {
 	}
 }
 
-function damageCompanion(comp: CompanionRecord, amount: number) {
+function _damageCompanion(comp: CompanionRecord, amount: number) {
 	if (onCompanionDamage) {
 		onCompanionDamage(comp.id, amount);
 		log = [
@@ -1580,7 +2209,7 @@ function damageCompanion(comp: CompanionRecord, amount: number) {
 	}
 }
 
-function healCompanion(comp: CompanionRecord, amount: number) {
+function _healCompanion(comp: CompanionRecord, amount: number) {
 	if (onCompanionDamage) {
 		onCompanionDamage(comp.id, -amount);
 		log = [
@@ -1590,8 +2219,8 @@ function healCompanion(comp: CompanionRecord, amount: number) {
 	}
 }
 
-function enableStealthMode(): void {
-	isStealthMode = true;
+function _enableStealthMode(): void {
+	_isStealthMode = true;
 	const clock = stealthService.initTensionClock(heatLevel);
 	turnState = {
 		...turnState,
@@ -1606,8 +2235,8 @@ function enableStealthMode(): void {
 	];
 }
 
-function disableStealthMode(): void {
-	isStealthMode = false;
+function _disableStealthMode(): void {
+	_isStealthMode = false;
 	turnState = {
 		...turnState,
 		isAmbush: false,
@@ -1619,7 +2248,7 @@ function disableStealthMode(): void {
 	];
 }
 
-function handleClimbPoleiro(): void {
+function _handleClimbPoleiro(): void {
 	const char = characters.find((c) => c.id === selectedAttackerId);
 	const physical = char ? char.physical : 1;
 	const roll = randRoll();
@@ -1630,15 +2259,15 @@ function handleClimbPoleiro(): void {
 		dc,
 	});
 	if (res.success) {
-		isInPoleiro = true;
-		isHanging = res.isHanging;
+		_isInPoleiro = true;
+		_isHanging = res.isHanging;
 		log = [
 			...log,
 			`🪜 Teste de Atletismo/Furtividade: Rolou ${roll} + ${physical} vs CD ${dc} (SUCESSO). ${res.isHanging ? "Ficou pendurado!" : "Subiu no poleiro com perfeição!"}`,
 		];
 	} else {
-		isInPoleiro = false;
-		isHanging = false;
+		_isInPoleiro = false;
+		_isHanging = false;
 		const nextClock = stealthService.addTensionSegments(
 			{
 				filledSegments: turnState.tensionClockSegmentsFilled || 0,
@@ -1659,7 +2288,7 @@ function handleClimbPoleiro(): void {
 	}
 }
 
-function handleGuardVisionCheck(): void {
+function _handleGuardVisionCheck(): void {
 	const char = characters.find((c) => c.id === selectedAttackerId);
 	const stealthMod = char ? char.physical + (char.level > 1 ? 2 : 0) : 2;
 	const roll = randRoll();
@@ -1707,7 +2336,7 @@ function handleGuardVisionCheck(): void {
 	}
 }
 
-function handleStealthySlide(): void {
+function _handleStealthySlide(): void {
 	const char = characters.find((c) => c.id === selectedAttackerId);
 	if (!char) return;
 	log = [
@@ -1716,7 +2345,7 @@ function handleStealthySlide(): void {
 	];
 }
 
-function handleTakedown(): void {
+function _handleTakedown(): void {
 	const char = characters.find((c) => c.id === selectedAttackerId);
 	if (!char) return;
 
@@ -1781,7 +2410,7 @@ function handleTakedown(): void {
 	errorMessage = null;
 }
 
-function handleEvidenceCleanup(): void {
+function _handleEvidenceCleanup(): void {
 	const char = characters.find((c) => c.id === selectedAttackerId);
 	const physical = char ? char.physical : 1;
 	const roll = randRoll();
@@ -1886,16 +2515,24 @@ function handleEvidenceCleanup(): void {
 		</label>
 
 		<label class="block">
-			<span class="text-sm font-semibold text-ether">Alvo de treino</span>
+			<span class="text-sm font-semibold text-ether">
+				{#if activeCombatEncounterId}Alvo do Combate{:else}Alvo de treino{/if}
+			</span>
 			<select
 				bind:value={selectedTargetId}
 				onchange={selectTarget}
 				data-testid="combat-target-select"
 				class="mt-2 w-full border border-bronze bg-blood-shadow px-3 py-2 text-bone outline-none focus:border-ether"
 			>
-				{#each trainingTargets as target}
-					<option value={target.id}>{target.label}</option>
-				{/each}
+				{#if activeCombatEncounterId}
+					{#each activeMonsters as target}
+						<option value={target.id}>{target.label} (HP: {target.currentHitPoints}/{target.maxHitPoints})</option>
+					{/each}
+				{:else}
+					{#each trainingTargets as target}
+						<option value={target.id}>{target.label}</option>
+					{/each}
+				{/if}
 			</select>
 		</label>
 	</div>
@@ -1912,7 +2549,7 @@ function handleEvidenceCleanup(): void {
 				</p>
 			</div>
 			<div class="flex items-center gap-3">
-				{#if !isStealthMode}
+				{#if !_isStealthMode}
 					<button
 						type="button"
 						onclick={enableStealthMode}
@@ -1932,7 +2569,7 @@ function handleEvidenceCleanup(): void {
 			</div>
 		</div>
 
-		{#if isStealthMode}
+		{#if _isStealthMode}
 			<div class="mt-4 grid gap-4 md:grid-cols-3">
 				<!-- Relógio de Tensão e Vigilância -->
 				<div class="border border-bronze/30 bg-[#1e293b]/40 p-3.5 rounded-sm flex flex-col justify-between">
@@ -2772,33 +3409,58 @@ function handleEvidenceCleanup(): void {
 	</div>
 
 	<div class="mt-6 flex flex-wrap gap-3">
-		<button
-			type="button"
-			disabled={!view.canAttack}
-			onclick={attack}
-			data-testid="combat-attack-button"
-			class="border border-ether bg-ether px-4 py-2 text-sm font-semibold text-void transition-colors hover:border-bone hover:bg-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:border-bronze disabled:bg-ruin disabled:text-bone"
-		>
-			Atacar
-		</button>
-		<button
-			type="button"
-			onclick={resetEncounter}
-			disabled={!view.canReset}
-			data-testid="combat-reset-button"
-			class="border border-bronze bg-ruin px-4 py-2 text-sm font-semibold text-bone transition-colors hover:border-ether hover:text-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether"
-		>
-			Reiniciar encontro
-		</button>
-		<button
-			type="button"
-			disabled={!view.canEndTurn}
-			onclick={endTurn}
-			data-testid="combat-end-turn-button"
-			class="border border-bronze bg-ruin px-4 py-2 text-sm font-semibold text-bone transition-colors hover:border-ether hover:text-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:border-bronze disabled:bg-blood-shadow disabled:text-bone"
-		>
-			Encerrar turno
-		</button>
+		{#if !_isVictory && !_isDefeat}
+			<button
+				type="button"
+				disabled={!view.canAttack || !_isHeroTurn}
+				onclick={attack}
+				data-testid="combat-attack-button"
+				class="border border-ether bg-ether px-4 py-2 text-sm font-semibold text-void transition-colors hover:border-bone hover:bg-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:border-bronze disabled:bg-ruin disabled:text-bone"
+			>
+				Atacar
+			</button>
+			{#if !activeCombatEncounterId}
+				<button
+					type="button"
+					onclick={resetEncounter}
+					disabled={!view.canReset}
+					data-testid="combat-reset-button"
+					class="border border-bronze bg-ruin px-4 py-2 text-sm font-semibold text-bone transition-colors hover:border-ether hover:text-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether"
+				>
+					Reiniciar encontro
+				</button>
+			{/if}
+			<button
+				type="button"
+				disabled={!view.canEndTurn || !_isHeroTurn}
+				onclick={endTurn}
+				data-testid="combat-end-turn-button"
+				class="border border-bronze bg-ruin px-4 py-2 text-sm font-semibold text-bone transition-colors hover:border-ether hover:text-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:border-bronze disabled:bg-blood-shadow disabled:text-bone"
+			>
+				Encerrar turno
+			</button>
+			{#if activeCombatEncounterId}
+				<button
+					type="button"
+					onclick={retreat}
+					disabled={!_isHeroTurn}
+					data-testid="combat-retreat-button"
+					class="border border-bronze bg-ruin px-4 py-2 text-sm font-semibold text-bone transition-colors hover:border-ether hover:text-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:border-bronze disabled:bg-blood-shadow disabled:text-bone"
+				>
+					Recuar
+				</button>
+			{/if}
+		{/if}
+		{#if activeCombatEncounterId && _isVictory}
+			<button
+				type="button"
+				onclick={collectRewards}
+				data-testid="combat-collect-rewards-button"
+				class="border border-ether bg-ether px-4 py-2 text-sm font-semibold text-void transition-colors hover:border-bone hover:bg-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether"
+			>
+				Coletar Recompensas
+			</button>
+		{/if}
 	</div>
 
 	{#if view.isEncounterComplete}

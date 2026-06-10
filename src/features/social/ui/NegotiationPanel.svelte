@@ -5,7 +5,6 @@ import { WorkerDialogueRepository } from "$lib/entities/dialogue/infrastructure/
 import { WorkerCraftingRepository } from "$lib/entities/equipment/infrastructure/WorkerCraftingRepository";
 import type { CharacterCraftedItemRecord } from "$lib/entities/equipment/model/craftingSchema";
 import { OFFICIAL_EQUIPMENT } from "$lib/entities/equipment/model/equipmentCatalog";
-import { fail, ok } from "$lib/shared/lib/result";
 import { SocialCombatEngine } from "../domain/SocialCombatEngine";
 
 interface Props {
@@ -32,11 +31,11 @@ let selectedManeuver = $state<
 	| "mystic_charm"
 	| "ether_contract"
 >("none");
-let targetPatience = $state(10);
-let targetPatienceMax = $state(10);
-let persuasionSegments = $state(0);
-let persuasionSegmentsMax = $state(6);
-let targetDisposition = $state("neutral");
+let _targetPatience = $state(10);
+let _targetPatienceMax = $state(10);
+let _persuasionSegments = $state(0);
+let _persuasionSegmentsMax = $state(6);
+let _targetDisposition = $state("neutral");
 let activeEvents = $state<any[]>([]);
 
 let rollValue = $state(10);
@@ -45,12 +44,14 @@ let dcValue = $state(12);
 // Ofertas na mesa
 let offerGold = $state(0);
 let offerFavors = $state(0);
-let totalBargainBonus = $derived(Math.floor(offerGold / 100) + offerFavors * 2);
+let _totalBargainBonus = $derived(
+	Math.floor(offerGold / 100) + offerFavors * 2,
+);
 
 // Logs da Negociacao
 let negotiationLogs = $state<string[]>([]);
-let recoilAnimation = $state(false);
-let showRecoilFlash = $state(false);
+let _recoilAnimation = $state(false);
+let _showRecoilFlash = $state(false);
 
 // Estado do Inventario e Reciclagem
 let selectedInventoryCharId = $state("");
@@ -79,26 +80,26 @@ async function loadSocialCombatState() {
 	if (res.success && res.data) {
 		const state = res.data;
 		if (state.patienceMax > 0) {
-			targetPatience = state.patienceCurrent;
-			targetPatienceMax = state.patienceMax;
-			persuasionSegments = state.persuasionCurrent;
-			persuasionSegmentsMax = state.persuasionMax;
-			targetDisposition = state.attitude;
+			_targetPatience = state.patienceCurrent;
+			_targetPatienceMax = state.patienceMax;
+			_persuasionSegments = state.persuasionCurrent;
+			_persuasionSegmentsMax = state.persuasionMax;
+			_targetDisposition = state.attitude;
 		} else {
 			const profile = socialEngine.getInitialNpcStats(selectedNpcId);
-			targetPatience = profile.patienceMax;
-			targetPatienceMax = profile.patienceMax;
-			persuasionSegments = 0;
-			persuasionSegmentsMax = profile.persuasionMax;
-			targetDisposition = profile.attitude;
+			_targetPatience = profile.patienceMax;
+			_targetPatienceMax = profile.patienceMax;
+			_persuasionSegments = 0;
+			_persuasionSegmentsMax = profile.persuasionMax;
+			_targetDisposition = profile.attitude;
 		}
 	} else {
 		const profile = socialEngine.getInitialNpcStats(selectedNpcId);
-		targetPatience = profile.patienceMax;
-		targetPatienceMax = profile.patienceMax;
-		persuasionSegments = 0;
-		persuasionSegmentsMax = profile.persuasionMax;
-		targetDisposition = profile.attitude;
+		_targetPatience = profile.patienceMax;
+		_targetPatienceMax = profile.patienceMax;
+		_persuasionSegments = 0;
+		_persuasionSegmentsMax = profile.persuasionMax;
+		_targetDisposition = profile.attitude;
 	}
 	activeEvents = [];
 }
@@ -142,7 +143,7 @@ $effect(() => {
 });
 
 // Acao de Negociacao
-async function handleResolveRound() {
+async function _handleResolveRound() {
 	if (!selectedOratorId || !selectedNpcId) return;
 
 	const treeId =
@@ -168,11 +169,11 @@ async function handleResolveRound() {
 
 	if (res.success) {
 		const data = res.data;
-		targetPatience = data.target.patience.currentValue;
-		targetPatienceMax = data.target.patience.baseValue;
-		persuasionSegments = data.target.persuasion.completedSegments;
-		persuasionSegmentsMax = data.target.persuasion.totalSegments;
-		targetDisposition = data.target.attitude;
+		_targetPatience = data.target.patience.currentValue;
+		_targetPatienceMax = data.target.patience.baseValue;
+		_persuasionSegments = data.target.persuasion.completedSegments;
+		_persuasionSegmentsMax = data.target.persuasion.totalSegments;
+		_targetDisposition = data.target.attitude;
 		activeEvents = [...activeEvents, ...data.events];
 		negotiationLogs = [data.logMessage, ...negotiationLogs];
 
@@ -185,17 +186,17 @@ async function handleResolveRound() {
 }
 
 function triggerRecoilAnimation() {
-	recoilAnimation = true;
-	showRecoilFlash = true;
+	_recoilAnimation = true;
+	_showRecoilFlash = true;
 	setTimeout(() => {
-		showRecoilFlash = false;
+		_showRecoilFlash = false;
 	}, 500);
 	setTimeout(() => {
-		recoilAnimation = false;
+		_recoilAnimation = false;
 	}, 1500);
 }
 
-async function handleResetNegotiation() {
+async function _handleResetNegotiation() {
 	if (!selectedOratorId || !selectedNpcId) return;
 
 	const treeId =
@@ -212,11 +213,11 @@ async function handleResetNegotiation() {
 	);
 	if (res.success) {
 		const profile = socialEngine.getInitialNpcStats(selectedNpcId);
-		targetPatience = profile.patienceMax;
-		targetPatienceMax = profile.patienceMax;
-		persuasionSegments = 0;
-		persuasionSegmentsMax = profile.persuasionMax;
-		targetDisposition = profile.attitude;
+		_targetPatience = profile.patienceMax;
+		_targetPatienceMax = profile.patienceMax;
+		_persuasionSegments = 0;
+		_persuasionSegmentsMax = profile.persuasionMax;
+		_targetDisposition = profile.attitude;
 		offerGold = 0;
 		offerFavors = 0;
 		selectedManeuver = "none";
@@ -233,7 +234,7 @@ async function handleResetNegotiation() {
 }
 
 // Acoes de Reciclagem/Desmanche
-async function handleDismantle(itemId: string) {
+async function _handleDismantle(itemId: string) {
 	if (!selectedInventoryCharId) return;
 	const res = await craftingRepository.dismantleCraftedItem(
 		selectedInventoryCharId,
@@ -256,7 +257,7 @@ async function handleDismantle(itemId: string) {
 	}
 }
 
-async function handleScrap(equipmentId: string) {
+async function _handleScrap(equipmentId: string) {
 	const res = await craftingRepository.scrapEquipment(equipmentId);
 	if (res.success) {
 		recyclingLogs = [

@@ -1,6 +1,5 @@
 <script lang="ts">
 import { onMount } from "svelte";
-import { fade } from "svelte/transition";
 import { RetrainService } from "$lib/entities/character/domain/RetrainService";
 import {
 	applyStatusEffects,
@@ -43,8 +42,8 @@ let oldTalentId = $state("Foco em Espada");
 let newTalentId = $state("Mapeador dos Ermos");
 
 // UI Alerts
-let successMsg = $state<string | null>(null);
-let errorMsg = $state<string | null>(null);
+let _successMsg = $state<string | null>(null);
+let _errorMsg = $state<string | null>(null);
 let retrainLogs = $state<string[]>([]);
 
 let selectedChar = $derived(
@@ -52,7 +51,7 @@ let selectedChar = $derived(
 );
 
 // Calcula estatísticas decoradas via cebola reativa
-let decoratedStats = $derived.by(() => {
+let _decoratedStats = $derived.by(() => {
 	if (!selectedChar) return null;
 	const base = new BaseCharacterStats(selectedChar, {
 		id: selectedChar.classId,
@@ -75,20 +74,20 @@ function addLog(msg: string) {
 }
 
 function showSuccess(msg: string) {
-	successMsg = msg;
+	_successMsg = msg;
 	setTimeout(() => {
-		successMsg = null;
+		_successMsg = null;
 	}, 3500);
 }
 
 function showError(msg: string) {
-	errorMsg = msg;
+	_errorMsg = msg;
 	setTimeout(() => {
-		errorMsg = null;
+		_errorMsg = null;
 	}, 3500);
 }
 
-async function handleRetrainTalent() {
+async function _handleRetrainTalent() {
 	if (!selectedChar) return;
 
 	const res = await retrainService.retrainTalent({
@@ -116,7 +115,7 @@ async function handleRetrainTalent() {
 	}
 }
 
-async function handleReconditionAxis() {
+async function _handleReconditionAxis() {
 	if (!selectedChar) return;
 	if (axisToReplace === newAxis) {
 		showError("Os eixos de origem e destino devem ser diferentes!");
@@ -158,7 +157,7 @@ async function handleReconditionAxis() {
 	}
 }
 
-async function handleRetrainFamiliar() {
+async function _handleRetrainFamiliar() {
 	if (!selectedChar) return;
 
 	const res = await retrainService.retrainFamiliar({
@@ -184,7 +183,7 @@ async function handleRetrainFamiliar() {
 }
 
 // Simula um teste sob perigo usando o eixo novo para gastar a descoordenação latente de forma reativa
-async function simulateTestUsage(axis: string) {
+async function _simulateTestUsage(axis: string) {
 	if (!selectedChar) return;
 
 	const res = await retrainService.registerTestUsage(selectedChar.id, axis);
@@ -218,11 +217,11 @@ async function simulateTestUsage(axis: string) {
 	}
 }
 
-let shakeTrigger = $state(false);
+let _shakeTrigger = $state(false);
 function triggerAlertAnimate() {
-	shakeTrigger = true;
+	_shakeTrigger = true;
 	setTimeout(() => {
-		shakeTrigger = false;
+		_shakeTrigger = false;
 	}, 500);
 }
 </script>

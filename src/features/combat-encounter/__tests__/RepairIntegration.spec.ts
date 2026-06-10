@@ -320,7 +320,7 @@ describe("Repair & Durability Combat Integration (Fase 68)", () => {
 				await repository.findCraftedItemsByCharacterId("attacker-1");
 			expect(items.success).toBe(true);
 			if (items.success) {
-				expect(items.data[0]!.durabilityCurrent).toBe(100);
+				expect(items.data[0]?.durabilityCurrent).toBe(100);
 			}
 		});
 
@@ -350,7 +350,7 @@ describe("Repair & Durability Combat Integration (Fase 68)", () => {
 				await repository.findCraftedItemsByCharacterId("attacker-1");
 			expect(items.success).toBe(true);
 			if (items.success) {
-				expect(items.data[0]!.durabilityCurrent).toBe(100);
+				expect(items.data[0]?.durabilityCurrent).toBe(100);
 			}
 		});
 
@@ -421,7 +421,7 @@ describe("Repair & Durability Combat Integration (Fase 68)", () => {
 				await repository.findCraftedItemsByCharacterId("attacker-1");
 			expect(items.success).toBe(true);
 			if (items.success) {
-				expect(items.data[0]!.durabilityCurrent).toBe(100);
+				expect(items.data[0]?.durabilityCurrent).toBe(100);
 			}
 		});
 
@@ -451,7 +451,7 @@ describe("Repair & Durability Combat Integration (Fase 68)", () => {
 				await repository.findCraftedItemsByCharacterId("defender-1");
 			expect(items.success).toBe(true);
 			if (items.success) {
-				expect(items.data[0]!.durabilityCurrent).toBe(100);
+				expect(items.data[0]?.durabilityCurrent).toBe(100);
 			}
 		});
 

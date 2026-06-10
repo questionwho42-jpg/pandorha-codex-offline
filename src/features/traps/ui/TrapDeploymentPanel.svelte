@@ -1,7 +1,6 @@
 <script lang="ts">
 import { onMount } from "svelte";
 import type { CharacterRecord } from "$lib/entities/character";
-import { BaseCharacterStats } from "$lib/entities/character/domain/StatusEffectDecorator";
 import type { TrapRepository } from "$lib/entities/traps/domain/TrapRepository";
 import type { TrapRecord } from "$lib/entities/traps/model/trapSchema";
 
@@ -119,11 +118,11 @@ let selectedRecipe = $derived(
 
 // Armadilhas ativas carregadas do banco de dados no tile atual
 let installedTraps = $state<TrapRecord[]>([]);
-let isLoadingTraps = $state(false);
+let _isLoadingTraps = $state(false);
 
 // Logs didáticos de fabricação/instalação
-let logMessage = $state("");
-let isCrafting = $state(false);
+let _logMessage = $state("");
+let _isCrafting = $state(false);
 
 // Sincronizar herói selecionado inicialmente
 $effect(() => {
@@ -150,12 +149,12 @@ onMount(() => {
 
 async function loadTrapsForTile() {
 	if (!currentTileId) return;
-	isLoadingTraps = true;
+	_isLoadingTraps = true;
 	const res = await trapRepository.findByTileId(currentTileId);
 	if (res.success) {
 		installedTraps = res.data;
 	}
-	isLoadingTraps = false;
+	_isLoadingTraps = false;
 }
 
 // Obter dados do herói selecionado
@@ -178,19 +177,19 @@ let hasEnoughResources = $derived.by(() => {
 });
 
 // Fabricar e instalar armadilha no banco de dados SQLite real
-async function triggerDeploy() {
+async function _triggerDeploy() {
 	if (!isSpecialized) {
-		logMessage = `⚠️ FALHA: Apenas heróis especializados (Caçador ou Emissário) conhecem as técnicas de engenharia do Códice para fabricar armadilhas táticas.`;
+		_logMessage = `⚠️ FALHA: Apenas heróis especializados (Caçador ou Emissário) conhecem as técnicas de engenharia do Códice para fabricar armadilhas táticas.`;
 		return;
 	}
 	if (!hasEnoughResources) {
-		logMessage = `⚠️ RECURSOS INSUFICIENTES: Você precisa de ${selectedRecipe.goldCost} cobre e os materiais necessários para a forja.`;
+		_logMessage = `⚠️ RECURSOS INSUFICIENTES: Você precisa de ${selectedRecipe.goldCost} cobre e os materiais necessários para a forja.`;
 		return;
 	}
 	if (!activeCharacter) return;
 
-	isCrafting = true;
-	logMessage = `🔨 ${activeCharacter.name} está esculpindo e engatilhando os componentes da armadilha...`;
+	_isCrafting = true;
+	_logMessage = `🔨 ${activeCharacter.name} está esculpindo e engatilhando os componentes da armadilha...`;
 
 	// Pequeno delay para emular fabricação física
 	await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -233,27 +232,27 @@ async function triggerDeploy() {
 	};
 
 	const res = await trapRepository.save(newTrap);
-	isCrafting = false;
+	_isCrafting = false;
 
 	if (res.success) {
-		logMessage = `✅ SUCESSO: A "${selectedRecipe.name}" foi fabricada com êxito por ${activeCharacter.name} e ativada no Hexágono ${currentTileId}! (DC de Salvamento: ${finalDc})`;
+		_logMessage = `✅ SUCESSO: A "${selectedRecipe.name}" foi fabricada com êxito por ${activeCharacter.name} e ativada no Hexágono ${currentTileId}! (DC de Salvamento: ${finalDc})`;
 		await loadTrapsForTile();
 		if (props.onDeploySuccess) {
 			props.onDeploySuccess();
 		}
 	} else {
-		logMessage = `💀 FALHA TÉCNICA: Ocorreu um erro ao salvar a armadilha no banco de dados.`;
+		_logMessage = `💀 FALHA TÉCNICA: Ocorreu um erro ao salvar a armadilha no banco de dados.`;
 	}
 }
 
 // Remover/Desmontar armadilha instalada recuperando metade das matérias primas
-async function triggerReclaim(trapId: string) {
+async function _triggerReclaim(trapId: string) {
 	const trap = installedTraps.find((t) => t.id === trapId);
 	if (!trap) return;
 
 	const delRes = await trapRepository.delete(trapId);
 	if (delRes.success) {
-		logMessage = `♻️ RECOLHIDA: Você desarmou e desmontou a armadilha. Parte dos componentes e 50% dos minérios foram devolvidos ao estoque de recursos da oficina.`;
+		_logMessage = `♻️ RECOLHIDA: Você desarmou e desmontou a armadilha. Parte dos componentes e 50% dos minérios foram devolvidos ao estoque de recursos da oficina.`;
 
 		// Devolve 1 minério de metal de volta por segurança
 		characterMaterials["metal-ore"] += 1;

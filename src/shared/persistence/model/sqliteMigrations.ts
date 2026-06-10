@@ -24,6 +24,7 @@ import statusEffectsMissingColumnsMigrationSql from "../../../../drizzle/0022_st
 import durabilityMigrationSql from "../../../../drizzle/0023_add_crafted_item_durability_state.sql?raw";
 import socialCombatMigrationSql from "../../../../drizzle/0024_add_dialogue_state_social_combat_fields.sql?raw";
 import characterTensionMigrationSql from "../../../../drizzle/0025_add_character_tension_meter.sql?raw";
+import combatLoopMigrationSql from "../../../../drizzle/0026_add_tactical_combat_loop.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -130,5 +131,9 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0025_add_character_tension_meter",
 		sql: characterTensionMigrationSql,
+	},
+	{
+		id: "0026_add_tactical_combat_loop",
+		sql: combatLoopMigrationSql,
 	},
 ];

@@ -1096,7 +1096,7 @@ async function createCharacter(
 										</div>
 									</div>
 									<div class="h-1.5 w-full bg-void border border-bronze/25 rounded-sm overflow-hidden">
-										<div class="h-full bg-gradient-to-r from-blood to-red-500 transition-all duration-300" style="width: {Math.min(100, Math.max(0, (hudState.hp / maxHp) * 100))}%"></div>
+										<div class="h-full bg-gradient-to-r from-blood to-blood/90 transition-all duration-300" style="width: {Math.min(100, Math.max(0, (hudState.hp / maxHp) * 100))}%"></div>
 									</div>
 								</div>
 
@@ -1111,7 +1111,7 @@ async function createCharacter(
 										</div>
 									</div>
 									<div class="h-1.5 w-full bg-void border border-bronze/25 rounded-sm overflow-hidden">
-										<div class="h-full bg-gradient-to-r from-orange-hungry to-amber-500 transition-all duration-300" style="width: {Math.min(100, Math.max(0, (hudState.pv / maxPv) * 100))}%"></div>
+										<div class="h-full bg-gradient-to-r from-orange-hungry to-ether transition-all duration-300" style="width: {Math.min(100, Math.max(0, (hudState.pv / maxPv) * 100))}%"></div>
 									</div>
 								</div>
 
