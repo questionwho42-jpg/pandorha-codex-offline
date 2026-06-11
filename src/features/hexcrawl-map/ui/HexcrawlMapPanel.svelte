@@ -45,6 +45,7 @@ type Props = {
 		roll: number,
 		isTrained: boolean,
 	) => Promise<void>;
+	viewItems?: readonly any[];
 };
 
 let props: Props = $props();
@@ -56,6 +57,8 @@ let onMoveSuccess = $derived(props.onMoveSuccess);
 let onDetectTrap = $derived(props.onDetectTrap);
 let onDisarmTrap = $derived(props.onDisarmTrap);
 let initialTileId = $derived(props.initialTileId);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+let viewItems = $derived(props.viewItems);
 
 let currentTileId = $state("");
 let lastInitialTileId = "";
@@ -81,6 +84,18 @@ let scoutAttribute = $state<"physical" | "mental">("physical");
 let ritmo = $state<"fast" | "normal" | "cautious">("normal");
 let climaAdverso = $state(false);
 let visibilidadeNula = $state(false);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+let selectedScoutView = $derived(
+	props.viewItems?.find((c) => c.id === selectedScoutId),
+);
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+function getClimateLabel(biome: string): string | null {
+	if (biome === "marsh") return "🔥 Calor Extremo";
+	if (biome === "forest") return "⚡ Tempestade Biomecânica";
+	if (biome === "barrow" || biome === "ridge") return "❄️ Frio Extremo";
+	return null;
+}
 
 let view = $derived(
 	createHexcrawlMapView({
@@ -254,6 +269,7 @@ async function moveToTile(targetTileId: string): Promise<void> {
 			result.data.toTile.biome,
 			result.data.toTile.id,
 			data.encounterEvent,
+			visibilidadeNula,
 		);
 	}
 
@@ -315,6 +331,11 @@ async function handleDisarm(trapId: string, isTrained: boolean) {
 					<span class="mt-3 block text-sm">
 						{tile.biomeLabel} · {tile.regionTierLabel}
 					</span>
+					{#if getClimateLabel(tile.biome)}
+						<span class="mt-2 inline-flex items-center gap-1 rounded bg-void/50 backdrop-blur-sm border border-ether/30 px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-ether">
+							{getClimateLabel(tile.biome)}
+						</span>
+					{/if}
 					{#if tile.disabledReason}
 						<span class="mt-3 block text-sm font-semibold">
 							{tile.disabledReason}
@@ -371,6 +392,15 @@ async function handleDisarm(trapId: string, isTrained: boolean) {
 								{/each}
 							{/if}
 						</select>
+						{#if selectedScoutView && selectedScoutView.statusEffects.length > 0}
+							<div class="mt-2 flex flex-wrap gap-1.5">
+								{#each selectedScoutView.statusEffects as effect}
+									<span class="inline-flex items-center gap-1 rounded bg-blood-shadow/50 border border-blood/40 px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-blood shadow-[0_0_8px_rgba(220,38,38,0.25)]">
+										⚠️ {effect.label}
+									</span>
+								{/each}
+							</div>
+						{/if}
 					</div>
 
 					<!-- Atributo do Teste -->

@@ -8,6 +8,378 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## In Progress
 <!-- pandorha-ledger:in-progress -->
+<!-- pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-12 -->
+### Sistema de Enfermidades e Oficina de Boticario no Acampamento
+- id: e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-12
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-11T12:27:04-03:00
+- finished_at: 2026-06-11T12:27:06-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-11T14:54:39-03:00
+- branch: master
+- commit_at_start: fb80afa docs: promote combat-survival merge to changelog
+- summary: Sistema de Enfermidades e Oficina de Boticario no Acampamento
+- last_change: Otimizações de cobertura de código em branches e correção de tipos TypeScript concluídas. Cobertura de branches agora alcança o patamar estipulado de 97.00% global e todos os testes/linters passam limpos.
+#### Files At Start
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- package.json
+- public/sw.js
+- scripts/run_full_quality_gate.mjs
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/model/hexcrawlSession.ts
+- src/app/model/navigation.ts
+- src/app/model/socialSession.ts
+- src/app/styles.css
+- src/entities/bastion/__tests__/BastionService.spec.ts
+- src/entities/bastion/domain/BastionRepository.ts
+- src/entities/bastion/domain/BastionService.ts
+- src/entities/bastion/infrastructure/DrizzleBastionRepository.ts
+- src/entities/bastion/infrastructure/InMemoryBastionRepository.ts
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/__tests__/DrizzleCampRepository.spec.ts
+- src/entities/camp/domain/CampRepository.ts
+- src/entities/camp/index.ts
+- src/entities/camp/infrastructure/DrizzleCampRepository.ts
+- src/entities/camp/infrastructure/InMemoryCampRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/camp/model/campSchema.ts
+- src/entities/camp/model/campTypes.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/CharacterRepositoryConsistency.spec.ts
+- src/entities/character/__tests__/CharacterService.spec.ts
+- src/entities/character/__tests__/ClassTalentService.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/ExhaustionIntegration.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/SqliteConcurrencyAndIntegrity.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/ArmorStatsDecorator.ts
+- ... 285 more
+#### Checkpoints
+#### Checkpoint 2026-06-11T12:27:04-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-11T12:27:06-03:00
+- Done: Sistema de Enfermidades e Oficina de Boticario no Acampamento implementado e integrado de forma FSD-compliant com testes verdes.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-11T14:54:39-03:00
+- Done: Otimizações de cobertura de código em branches e correção de tipos TypeScript concluídas. Cobertura de branches agora alcança o patamar estipulado de 97.00% global e todos os testes/linters passam limpos.
+- Next: Próximas implementações agendadas (Tarefa 13 a 19) sob o plano de ação
+- Risks: Nenhum detectado
+- Improvements: Corrigido bug lógico de correspondência de eixo mental no NegotiationService
+- Model/config: gemini-2.5-pro; local automation zero-token
+<!-- /pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-12 -->
+
+<!-- /pandorha-ledger:in-progress -->
+
+## Completed
+<!-- pandorha-ledger:completed -->
+<!-- pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-11 -->
+### Integracao de Perigos e Armadilhas nas Masmorras e Hexcrawl
+- id: e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-11
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-11T09:32:52-03:00
+- finished_at: 2026-06-11T09:32:57-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-11T09:32:57-03:00
+- branch: master
+- commit_at_start: fb80afa docs: promote combat-survival merge to changelog
+- summary: Acoplar o TrapService ao DungeonService e ao HexcrawlMovementService e criar a interface visual de interacao em DungeonMap.
+- last_change: Integracao de Perigos e Armadilhas nas Masmorras e Hexcrawl concluida com testes unitarios passando.
+#### Files At Start
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- package.json
+- public/sw.js
+- scripts/run_full_quality_gate.mjs
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/model/hexcrawlSession.ts
+- src/app/model/navigation.ts
+- src/app/model/socialSession.ts
+- src/app/styles.css
+- src/entities/bastion/__tests__/BastionService.spec.ts
+- src/entities/bastion/domain/BastionRepository.ts
+- src/entities/bastion/domain/BastionService.ts
+- src/entities/bastion/infrastructure/DrizzleBastionRepository.ts
+- src/entities/bastion/infrastructure/InMemoryBastionRepository.ts
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/__tests__/DrizzleCampRepository.spec.ts
+- src/entities/camp/domain/CampRepository.ts
+- src/entities/camp/index.ts
+- src/entities/camp/infrastructure/DrizzleCampRepository.ts
+- src/entities/camp/infrastructure/InMemoryCampRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/camp/model/campSchema.ts
+- src/entities/camp/model/campTypes.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/CharacterRepositoryConsistency.spec.ts
+- src/entities/character/__tests__/CharacterService.spec.ts
+- src/entities/character/__tests__/ClassTalentService.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/ExhaustionIntegration.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/SqliteConcurrencyAndIntegrity.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/ArmorStatsDecorator.ts
+- ... 284 more
+#### Checkpoints
+#### Checkpoint 2026-06-11T09:32:52-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-11T09:32:57-03:00
+- Done: Integracao de Perigos e Armadilhas nas Masmorras e Hexcrawl concluida com testes unitarios passando.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-11 -->
+<!-- pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-10 -->
+### Polimento Geral, PWA Offline e QA Fim-a-Fim do Core Loop
+- id: e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-10
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-10T23:38:32-03:00
+- finished_at: 2026-06-10T23:39:59-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-10T23:39:59-03:00
+- branch: master
+- commit_at_start: fb80afa docs: promote combat-survival merge to changelog
+- summary: Conclusao da Tarefa 10: otimizacao de caches de SW, criacao de indices SQLite contra SCAN TABLE, linter, cobertura e testes verdes.
+- last_change: Otimizacao de caches de service worker, criacao de indices SQLite contra SCAN TABLE e notificacoes de sync offline na UI concluidas.
+#### Files At Start
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- package.json
+- public/sw.js
+- scripts/run_full_quality_gate.mjs
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/model/navigation.ts
+- src/app/model/socialSession.ts
+- src/app/styles.css
+- src/entities/bastion/__tests__/BastionService.spec.ts
+- src/entities/bastion/domain/BastionRepository.ts
+- src/entities/bastion/domain/BastionService.ts
+- src/entities/bastion/infrastructure/DrizzleBastionRepository.ts
+- src/entities/bastion/infrastructure/InMemoryBastionRepository.ts
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/__tests__/DrizzleCampRepository.spec.ts
+- src/entities/camp/domain/CampRepository.ts
+- src/entities/camp/index.ts
+- src/entities/camp/infrastructure/DrizzleCampRepository.ts
+- src/entities/camp/infrastructure/InMemoryCampRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/camp/model/campSchema.ts
+- src/entities/camp/model/campTypes.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/CharacterRepositoryConsistency.spec.ts
+- src/entities/character/__tests__/CharacterService.spec.ts
+- src/entities/character/__tests__/ClassTalentService.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/ExhaustionIntegration.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/SqliteConcurrencyAndIntegrity.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/ArmorStatsDecorator.ts
+- src/entities/character/domain/CharacterDerivedStatsService.ts
+- ... 283 more
+#### Checkpoints
+#### Checkpoint 2026-06-10T23:38:32-03:00
+- Done: task record created
+- Next: Executar scripts de automacao e marcar como completo.
+- Risks: Nenhum
+- Improvements: Nenhuma
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-10T23:39:59-03:00
+- Done: Otimizacao de caches de service worker, criacao de indices SQLite contra SCAN TABLE e notificacoes de sync offline na UI concluidas.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-10 -->
+<!-- pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-9 -->
+### Grimorio Visual e Metamagias
+- id: e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-9
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-10T23:21:21-03:00
+- finished_at: 2026-06-10T23:21:24-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-10T23:21:24-03:00
+- branch: master
+- commit_at_start: fb80afa docs: promote combat-survival merge to changelog
+- summary: Wizard visual de conjuracao Draft->Weaving->Audit->Commit integrado e testado.
+- last_change: Wizard visual de conjuracao Draft->Weaving->Audit->Commit com testes de UI concluido.
+#### Files At Start
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- package.json
+- scripts/run_full_quality_gate.mjs
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/model/navigation.ts
+- src/app/model/socialSession.ts
+- src/app/styles.css
+- src/entities/bastion/__tests__/BastionService.spec.ts
+- src/entities/bastion/domain/BastionRepository.ts
+- src/entities/bastion/domain/BastionService.ts
+- src/entities/bastion/infrastructure/DrizzleBastionRepository.ts
+- src/entities/bastion/infrastructure/InMemoryBastionRepository.ts
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/__tests__/DrizzleCampRepository.spec.ts
+- src/entities/camp/domain/CampRepository.ts
+- src/entities/camp/index.ts
+- src/entities/camp/infrastructure/DrizzleCampRepository.ts
+- src/entities/camp/infrastructure/InMemoryCampRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/camp/model/campSchema.ts
+- src/entities/camp/model/campTypes.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/CharacterRepositoryConsistency.spec.ts
+- src/entities/character/__tests__/CharacterService.spec.ts
+- src/entities/character/__tests__/ClassTalentService.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/ExhaustionIntegration.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/SqliteConcurrencyAndIntegrity.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/ArmorStatsDecorator.ts
+- src/entities/character/domain/CharacterDerivedStatsService.ts
+- src/entities/character/domain/CharacterService.ts
+- ... 281 more
+#### Checkpoints
+#### Checkpoint 2026-06-10T23:21:21-03:00
+- Done: task record created
+- Next: Verificar linter, tipos e testes
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-10T23:21:24-03:00
+- Done: Wizard visual de conjuracao Draft->Weaving->Audit->Commit com testes de UI concluido.
+- Next: Tarefa 10: Polimento Geral, PWA Offline e QA Fim-a-Fim
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-9 -->
+<!-- pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270 -->
+### Interface de Inventario Avancado
+- id: e46c6695-a700-46dd-b5a0-9e07cd5c6270
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-10T23:12:46-03:00
+- finished_at: 2026-06-10T23:12:51-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-10T23:12:51-03:00
+- branch: master
+- commit_at_start: fb80afa docs: promote combat-survival merge to changelog
+- summary: Substituir a visualizacao estatica por uma interface de arrastar e equipar itens Svelte 5
+- last_change: Advanced Inventory interface with Svelte 5 and Happy DOM tests completed.
+#### Files At Start
+- biome.json
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- package.json
+- scripts/run_full_quality_gate.mjs
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/model/navigation.ts
+- src/app/model/socialSession.ts
+- src/app/styles.css
+- src/entities/bastion/__tests__/BastionService.spec.ts
+- src/entities/bastion/domain/BastionRepository.ts
+- src/entities/bastion/domain/BastionService.ts
+- src/entities/bastion/infrastructure/DrizzleBastionRepository.ts
+- src/entities/bastion/infrastructure/InMemoryBastionRepository.ts
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/__tests__/DrizzleCampRepository.spec.ts
+- src/entities/camp/domain/CampRepository.ts
+- src/entities/camp/index.ts
+- src/entities/camp/infrastructure/DrizzleCampRepository.ts
+- src/entities/camp/infrastructure/InMemoryCampRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/camp/model/campSchema.ts
+- src/entities/camp/model/campTypes.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/CharacterRepositoryConsistency.spec.ts
+- src/entities/character/__tests__/CharacterService.spec.ts
+- src/entities/character/__tests__/ClassTalentService.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/ExhaustionIntegration.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/SqliteConcurrencyAndIntegrity.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/ArmorStatsDecorator.ts
+- src/entities/character/domain/CharacterDerivedStatsService.ts
+- src/entities/character/domain/CharacterService.ts
+- ... 278 more
+#### Checkpoints
+#### Checkpoint 2026-06-10T23:12:46-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-10T23:12:51-03:00
+- Done: Advanced Inventory interface with Svelte 5 and Happy DOM tests completed.
+- Next: Tarefa 9: Grimório Visual e Conexão de Metamagias
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270 -->
 <!-- pandorha-task:91ba9cfe-119e-46d8-adfb-ab96edbcffaf -->
 ### Ampliacao de Testes e Validacoes
 - id: 91ba9cfe-119e-46d8-adfb-ab96edbcffaf
@@ -15,14 +387,14 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - kind: task
 - planned: no
 - started_at: 2026-06-09T23:43:35-03:00
-- finished_at: 2026-06-09T23:43:39-03:00
+- finished_at: 2026-06-10T19:30:25-03:00
 - model_started: gpt-5.5 high-reasoning final review; local automation zero-token
 - model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
-- last_modified_at: 2026-06-10T09:31:37-03:00
+- last_modified_at: 2026-06-10T19:30:25-03:00
 - branch: task/combat-survival
 - commit_at_start: 0433df7 docs: establish glossary terms and ADRs 009 to 013 for tactical loop and survival
 - summary: Ampliacao da suite de testes e validacoes do Pandorha Engine, cobrindo testes baseados em propriedades, conformidade arquitetural FSD, consistencia de persistencia SQLite/InMemory e RPC budgets/benchmarks.
-- last_change: Correcao de warnings e bugs no Svelte markup expostos pelo happy-dom (isStealthMode, isVictory, isHeroTurn) e harmonizacao de tipos no SQLite Concurrency tests.
+- last_change: Dungeon crawler procedural generation and worker RPC completed, UI integration pending.
 #### Files At Start
 - CONTEXT.md
 - docs/architecture/feature-coverage-map.md
@@ -85,12 +457,21 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - Risks: Nenhum; toda a esteira do Quality Gate esta 100% verde.
 - Improvements: Testes nativos sob happy-dom integrados e passando com sucesso.
 - Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-10T19:08:27-03:00
+- Done: Survival Loop de sobrevivência climática e consumo de rações implementado, integrado no Hexcrawl e validado contra todas as regras do linter e testes.
+- Next: Procedural Dungeon Generator
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-10T19:30:25-03:00
+- Done: Dungeon crawler procedural generation and worker RPC completed, UI integration pending.
+- Next: Tarefa 8: Interface de Inventário Avançado
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
 <!-- /pandorha-task:91ba9cfe-119e-46d8-adfb-ab96edbcffaf -->
-
-<!-- /pandorha-ledger:in-progress -->
-
-## Completed
-<!-- pandorha-ledger:completed -->
 <!-- pandorha-task:20260604-123000-loop-tatico-e-sobrevivencia -->
 ### Loop Tatico e Sobrevivencia
 - id: 20260604-123000-loop-tatico-e-sobrevivencia
@@ -4054,6 +4435,57 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-10T12:57:13-03:00 - Conclusao da Tarefa 2: Padronizacao e Validacao dos Catalogos Estaticos
+- branch: master
+- commit: fb80afa docs: promote combat-survival merge to changelog
+- changed_files_count: 301
+#### Changed Files
+- biome.json
+- drizzle.config.mjs
+- package.json
+- scripts/run_full_quality_gate.mjs
+- src/app/App.svelte
+- src/app/model/combatEncounterSession.spec.ts
+- src/app/model/combatEncounterSession.ts
+- src/app/model/navigation.ts
+- src/app/model/socialSession.ts
+- src/app/styles.css
+- src/entities/bastion/__tests__/BastionService.spec.ts
+- src/entities/bastion/domain/BastionRepository.ts
+- src/entities/bastion/domain/BastionService.ts
+- src/entities/bastion/infrastructure/DrizzleBastionRepository.ts
+- src/entities/bastion/infrastructure/InMemoryBastionRepository.ts
+- src/entities/bastion/infrastructure/WorkerBastionRepository.ts
+- src/entities/camp/__tests__/DrizzleCampRepository.spec.ts
+- src/entities/camp/domain/CampRepository.ts
+- src/entities/camp/index.ts
+- src/entities/camp/infrastructure/DrizzleCampRepository.ts
+- src/entities/camp/infrastructure/InMemoryCampRepository.ts
+- src/entities/camp/infrastructure/WorkerCampRepository.ts
+- src/entities/camp/model/campSchema.ts
+- src/entities/camp/model/campTypes.ts
+- src/entities/character/__tests__/CharacterDerivedStatsService.spec.ts
+- src/entities/character/__tests__/CharacterMigration.spec.ts
+- src/entities/character/__tests__/CharacterRepositoryConsistency.spec.ts
+- src/entities/character/__tests__/CharacterService.spec.ts
+- src/entities/character/__tests__/ClassTalentService.spec.ts
+- src/entities/character/__tests__/DrizzleCharacterRepository.spec.ts
+- src/entities/character/__tests__/ExhaustionIntegration.spec.ts
+- src/entities/character/__tests__/IllnessIntegration.spec.ts
+- src/entities/character/__tests__/SessionCharacterRepository.spec.ts
+- src/entities/character/__tests__/SqliteConcurrencyAndIntegrity.spec.ts
+- src/entities/character/__tests__/StatusEffectDecorator.spec.ts
+- src/entities/character/domain/ArmorStatsDecorator.ts
+- src/entities/character/domain/CharacterDerivedStatsService.ts
+- src/entities/character/domain/CharacterService.ts
+- src/entities/character/domain/ClassTalentService.ts
+- src/entities/character/domain/IllnessService.ts
+- ... 261 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-10T12:21:25-03:00 - updated-grill-decisions
 - branch: task/combat-survival
 - commit: 0433df7 docs: establish glossary terms and ADRs 009 to 013 for tactical loop and survival

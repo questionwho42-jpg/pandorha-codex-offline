@@ -26,6 +26,7 @@ self.addEventListener("activate", (event) => {
 						if (cacheName !== CACHE_NAME) {
 							return caches.delete(cacheName);
 						}
+						return Promise.resolve(undefined);
 					}),
 				);
 			})
@@ -52,9 +53,14 @@ self.addEventListener("fetch", (event) => {
 		return;
 	}
 
-	// Estratégia de cache baseada no tipo de asset
-	if (requestUrl.pathname.includes("/assets/")) {
-		// Assets do Vite com hash de conteúdo no nome: Cache-First definitivo
+	// Estratégia de cache baseada no tipo de asset: Cache-First definitivo para arquivos estáticos compilados, wasm e scripts de workers
+	const isStaticAsset =
+		requestUrl.pathname.includes("/assets/") ||
+		requestUrl.pathname.endsWith(".wasm") ||
+		requestUrl.pathname.endsWith(".worker.js") ||
+		requestUrl.pathname.includes("sql-wasm");
+
+	if (isStaticAsset) {
 		event.respondWith(
 			caches.match(event.request).then((cachedResponse) => {
 				if (cachedResponse) {

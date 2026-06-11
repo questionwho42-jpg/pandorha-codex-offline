@@ -3,10 +3,11 @@ import type {
 	QuestRepository,
 	QuestRepositoryFailure,
 } from "../domain/QuestRepository";
-import type { QuestRecord } from "../model/questSchema";
+import type { QuestObjectiveRecord, QuestRecord } from "../model/questSchema";
 
 export class InMemoryQuestRepository implements QuestRepository {
 	public quests: QuestRecord[] = [];
+	public objectives: QuestObjectiveRecord[] = [];
 
 	public async save(
 		quest: QuestRecord,
@@ -44,6 +45,46 @@ export class InMemoryQuestRepository implements QuestRepository {
 			});
 		}
 		this.quests.splice(idx, 1);
+		return ok(undefined);
+	}
+
+	public async saveObjective(
+		objective: QuestObjectiveRecord,
+	): Promise<Result<QuestObjectiveRecord, QuestRepositoryFailure>> {
+		const idx = this.objectives.findIndex((o) => o.id === objective.id);
+		if (idx >= 0) {
+			this.objectives[idx] = objective;
+		} else {
+			this.objectives.push(objective);
+		}
+		return ok(objective);
+	}
+
+	public async findObjectiveById(
+		id: string,
+	): Promise<Result<QuestObjectiveRecord | null, QuestRepositoryFailure>> {
+		const o = this.objectives.find((o) => o.id === id);
+		return ok(o || null);
+	}
+
+	public async findObjectivesByQuestId(
+		questId: string,
+	): Promise<Result<QuestObjectiveRecord[], QuestRepositoryFailure>> {
+		const list = this.objectives.filter((o) => o.questId === questId);
+		return ok(list);
+	}
+
+	public async deleteObjective(
+		id: string,
+	): Promise<Result<void, QuestRepositoryFailure>> {
+		const idx = this.objectives.findIndex((o) => o.id === id);
+		if (idx < 0) {
+			return fail({
+				code: "QUEST_NOT_FOUND",
+				message: `Quest objective com o ID ${id} não encontrada.`,
+			});
+		}
+		this.objectives.splice(idx, 1);
 		return ok(undefined);
 	}
 }

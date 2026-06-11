@@ -73,6 +73,8 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0024_add_dialogue_state_social_combat_fields",
 				"0025_add_character_tension_meter",
 				"0026_add_tactical_combat_loop",
+				"0027_melted_norrin_radd",
+				"0028_add_foreign_key_indexes",
 			],
 			tableNames: [
 				"_pandorha_migrations",
@@ -106,6 +108,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"mercenary_companies",
 				"mercenary_squads",
 				"progress_clocks",
+				"quest_objectives",
 				"registered_signatures",
 				"summon_companions",
 				"traps",
@@ -177,6 +180,8 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0024_add_dialogue_state_social_combat_fields",
 			"0025_add_character_tension_meter",
 			"0026_add_tactical_combat_loop",
+			"0027_melted_norrin_radd",
+			"0028_add_foreign_key_indexes",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -310,6 +315,8 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0024_add_dialogue_state_social_combat_fields",
 			"0025_add_character_tension_meter",
 			"0026_add_tactical_combat_loop",
+			"0027_melted_norrin_radd",
+			"0028_add_foreign_key_indexes",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -330,6 +337,72 @@ describe("database worker request handler", () => {
 			messageId: MESSAGE_ID,
 			success: true,
 		});
+	});
+
+	it("handles GET_*_CATALOG queries and returns the correct official data", async () => {
+		const ancestryResponse = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "GET_ANCESTRY_CATALOG",
+				payload: {},
+			},
+			{ bootstrapService: createService(new InMemoryDatabaseFileStorage()) },
+		);
+		expect(ancestryResponse).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+		});
+		expect(
+			ancestryResponse.success && (ancestryResponse.data as any),
+		).toHaveLength(6);
+
+		const backgroundResponse = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "GET_BACKGROUND_CATALOG",
+				payload: {},
+			},
+			{ bootstrapService: createService(new InMemoryDatabaseFileStorage()) },
+		);
+		expect(backgroundResponse).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+		});
+		expect(
+			backgroundResponse.success && (backgroundResponse.data as any),
+		).toHaveLength(20);
+
+		const characterClassResponse = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "GET_CHARACTER_CLASS_CATALOG",
+				payload: {},
+			},
+			{ bootstrapService: createService(new InMemoryDatabaseFileStorage()) },
+		);
+		expect(characterClassResponse).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+		});
+		expect(
+			characterClassResponse.success && (characterClassResponse.data as any),
+		).toHaveLength(4);
+
+		const spellResponse = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "GET_SPELL_CATALOG",
+				payload: {},
+			},
+			{ bootstrapService: createService(new InMemoryDatabaseFileStorage()) },
+		);
+		expect(spellResponse).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+		});
+		expect(spellResponse.success && (spellResponse.data as any)).toHaveLength(
+			9,
+		);
 	});
 
 	it("returns failure responses for invalid requests and bootstrap service failures", async () => {

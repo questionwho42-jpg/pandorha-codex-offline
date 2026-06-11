@@ -1,5 +1,7 @@
 export type { WorldStateRepository } from "./domain/WorldStateRepository";
 export { WorldStateService } from "./domain/WorldStateService";
+export { DrizzleWorldStateRepository } from "./infrastructure/DrizzleWorldStateRepository";
+export { WorkerWorldStateRepository } from "./infrastructure/WorkerWorldStateRepository";
 export type {
 	NewWorldStateEntryRecord,
 	WorldStateEntryRecord,

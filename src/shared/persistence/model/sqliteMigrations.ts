@@ -25,6 +25,8 @@ import durabilityMigrationSql from "../../../../drizzle/0023_add_crafted_item_du
 import socialCombatMigrationSql from "../../../../drizzle/0024_add_dialogue_state_social_combat_fields.sql?raw";
 import characterTensionMigrationSql from "../../../../drizzle/0025_add_character_tension_meter.sql?raw";
 import combatLoopMigrationSql from "../../../../drizzle/0026_add_tactical_combat_loop.sql?raw";
+import questObjectivesMigrationSql from "../../../../drizzle/0027_melted_norrin_radd.sql?raw";
+import foreignKeyIndexesMigrationSql from "../../../../drizzle/0028_add_foreign_key_indexes.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -135,5 +137,13 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0026_add_tactical_combat_loop",
 		sql: combatLoopMigrationSql,
+	},
+	{
+		id: "0027_melted_norrin_radd",
+		sql: questObjectivesMigrationSql,
+	},
+	{
+		id: "0028_add_foreign_key_indexes",
+		sql: foreignKeyIndexesMigrationSql,
 	},
 ];

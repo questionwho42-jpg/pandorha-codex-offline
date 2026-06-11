@@ -1,5 +1,5 @@
 import type { Result } from "$lib/shared/lib/result";
-import type { QuestRecord } from "../model/questSchema";
+import type { QuestObjectiveRecord, QuestRecord } from "../model/questSchema";
 
 export interface QuestRepositoryFailure {
 	readonly code:
@@ -19,4 +19,15 @@ export interface QuestRepository {
 	): Promise<Result<QuestRecord | null, QuestRepositoryFailure>>;
 	findAll(): Promise<Result<QuestRecord[], QuestRepositoryFailure>>;
 	delete(id: string): Promise<Result<void, QuestRepositoryFailure>>;
+
+	saveObjective(
+		objective: QuestObjectiveRecord,
+	): Promise<Result<QuestObjectiveRecord, QuestRepositoryFailure>>;
+	findObjectiveById(
+		id: string,
+	): Promise<Result<QuestObjectiveRecord | null, QuestRepositoryFailure>>;
+	findObjectivesByQuestId(
+		questId: string,
+	): Promise<Result<QuestObjectiveRecord[], QuestRepositoryFailure>>;
+	deleteObjective(id: string): Promise<Result<void, QuestRepositoryFailure>>;
 }

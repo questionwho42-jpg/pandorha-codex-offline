@@ -298,4 +298,46 @@ describe("NegotiationService", () => {
 			);
 		}
 	});
+
+	it("should initialize correctly when passing a custom clock object instead of SocialCombatService", () => {
+		const customClock = { now: () => "2026-06-11T12:00:00Z" };
+		const customService = new NegotiationService(customClock);
+		expect(customService).toBeDefined();
+	});
+
+	it("does not apply social fatigue penalty when consecutive rounds use different axes", () => {
+		const target = dummyTarget();
+		const firstInput: NegotiationRoundInput = {
+			oratorId: "hero",
+			axis: "social",
+			rollValue: 15,
+			dc: 15,
+			maneuver: "none",
+			target,
+			conflictState: dummyConflictState(),
+			events: [],
+		};
+
+		const firstResult = service.resolveRound(firstInput);
+		expect(firstResult.success).toBe(true);
+		if (firstResult.success) {
+			const secondInput: NegotiationRoundInput = {
+				oratorId: "hero",
+				axis: "mental",
+				rollValue: 15,
+				dc: 15,
+				maneuver: "none",
+				target: firstResult.data.target,
+				conflictState: firstResult.data.conflictState,
+				events: firstResult.data.events,
+			};
+
+			const secondResult = service.resolveRound(secondInput);
+			expect(secondResult.success).toBe(true);
+			if (secondResult.success) {
+				expect(secondResult.data.target.persuasion.completedSegments).toBe(2);
+				expect(secondResult.data.target.patience.currentValue).toBe(20);
+			}
+		}
+	});
 });

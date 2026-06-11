@@ -501,4 +501,24 @@ describe("SiegeService", () => {
 		});
 		expect(res.success).toBe(false);
 	});
+
+	it("triggers a new siege event with a custom uuid", async () => {
+		const repo = new InMemorySiegeRepository();
+		const service = new SiegeService(repo, fakeDiceService);
+		const customUuid = "123e4567-e89b-12d3-a456-426614174000";
+
+		const result = await service.triggerSiege({
+			campaignId,
+			bastionId,
+			factionId,
+			dangerLevel: 3,
+			requestedAt,
+			uuid: customUuid,
+		});
+
+		expect(result.success).toBe(true);
+		if (result.success) {
+			expect(result.data.id).toBe(customUuid);
+		}
+	});
 });

@@ -1,6 +1,7 @@
 import { z } from "zod/v4";
 import {
 	worldStateKeySchema,
+	worldStateListPrefixSchema,
 	worldStateValueSchema,
 } from "$lib/entities/world-state/model/worldStateSchema";
 import type {
@@ -51,6 +52,10 @@ export const rpcCommandTypeSchema = z.enum([
 	"FIND_QUEST",
 	"LIST_QUESTS",
 	"DELETE_QUEST",
+	"SAVE_QUEST_OBJECTIVE",
+	"FIND_QUEST_OBJECTIVE",
+	"LIST_QUEST_OBJECTIVES_BY_QUEST",
+	"DELETE_QUEST_OBJECTIVE",
 	"SAVE_LORE_ENCOUNTER",
 	"FIND_LORE_ENCOUNTER",
 	"LIST_LORE_ENCOUNTERS_BY_TILE",
@@ -96,6 +101,9 @@ export const rpcCommandTypeSchema = z.enum([
 	"CLONE_SAVE_SLOT",
 	"DELETE_SAVE_SLOT",
 	"MUTATE_WORLD_STATE",
+	"SET_WORLD_STATE_FLAG",
+	"GET_WORLD_STATE_FLAG",
+	"LIST_WORLD_STATE_FLAGS",
 	"TICK_CLOCK_MANUAL",
 	"FORCE_SPAWN_ACTOR",
 	"APPLY_LEVEL_UP",
@@ -105,6 +113,18 @@ export const rpcCommandTypeSchema = z.enum([
 	"FIND_COMBAT_MONSTERS_BY_ENCOUNTER",
 	"SAVE_ACTIVE_SESSION",
 	"FIND_ACTIVE_SESSION",
+	"GET_ANCESTRY_CATALOG",
+	"GET_BACKGROUND_CATALOG",
+	"GET_CHARACTER_CLASS_CATALOG",
+	"GET_SPELL_CATALOG",
+	"SAVE_DUNGEON_DELVE",
+	"FIND_DUNGEON_DELVE",
+	"LIST_DUNGEON_DELVES",
+	"SAVE_DUNGEON_ROOM",
+	"FIND_DUNGEON_ROOMS",
+	"FIND_DUNGEON_ROOM_BY_COORDS",
+	"UPDATE_DUNGEON_ROOM_STATUS",
+	"UPDATE_DUNGEON_DELVE_STATUS",
 ]);
 
 export const jsonSerializableValueSchema = z.custom<JsonValue>(
@@ -130,6 +150,7 @@ export const saveGameSnapshotSchema = z.object({
 	progressClocks: z.array(jsonSerializableObjectSchema).optional(),
 	dialogueStates: z.array(jsonSerializableObjectSchema).optional(),
 	quests: z.array(jsonSerializableObjectSchema).optional(),
+	questObjectives: z.array(jsonSerializableObjectSchema).optional(),
 	investigations: z.array(jsonSerializableObjectSchema).optional(),
 	regionalDomains: z.array(jsonSerializableObjectSchema).optional(),
 	campSessions: z.array(jsonSerializableObjectSchema).optional(),
@@ -447,6 +468,38 @@ export const listQuestsRequestSchema = z.object({
 export const deleteQuestRequestSchema = z.object({
 	messageId: rpcMessageIdSchema,
 	type: z.literal("DELETE_QUEST"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const saveQuestObjectiveRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_QUEST_OBJECTIVE"),
+	payload: z.object({
+		objective: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findQuestObjectiveRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_QUEST_OBJECTIVE"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const listQuestObjectivesByQuestRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_QUEST_OBJECTIVES_BY_QUEST"),
+	payload: z.object({
+		questId: z.string().min(1),
+	}),
+});
+
+export const deleteQuestObjectiveRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("DELETE_QUEST_OBJECTIVE"),
 	payload: z.object({
 		id: z.string().min(1),
 	}),
@@ -791,6 +844,32 @@ export const scrapEquipmentRequestSchema = z.object({
 	}),
 });
 
+export const setWorldStateFlagRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SET_WORLD_STATE_FLAG"),
+	payload: z.object({
+		key: worldStateKeySchema,
+		valueJson: z.string().min(1),
+		updatedAt: isoTimestamp,
+	}),
+});
+
+export const getWorldStateFlagRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("GET_WORLD_STATE_FLAG"),
+	payload: z.object({
+		key: worldStateKeySchema,
+	}),
+});
+
+export const listWorldStateFlagsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_WORLD_STATE_FLAGS"),
+	payload: z.object({
+		prefix: worldStateListPrefixSchema,
+	}),
+});
+
 export const mutateWorldStateRequestSchema = z.object({
 	messageId: rpcMessageIdSchema,
 	type: z.literal("MUTATE_WORLD_STATE"),
@@ -892,7 +971,115 @@ export const findActiveSessionRequestSchema = z.object({
 	}),
 });
 
+export const getAncestryCatalogRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("GET_ANCESTRY_CATALOG"),
+	payload: z.object({}),
+});
+
+export const getBackgroundCatalogRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("GET_BACKGROUND_CATALOG"),
+	payload: z.object({}),
+});
+
+export const getCharacterClassCatalogRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("GET_CHARACTER_CLASS_CATALOG"),
+	payload: z.object({}),
+});
+
+export const getSpellCatalogRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("GET_SPELL_CATALOG"),
+	payload: z.object({}),
+});
+
+export const saveDungeonDelveRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_DUNGEON_DELVE"),
+	payload: z.object({
+		delve: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findDungeonDelveRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_DUNGEON_DELVE"),
+	payload: z.object({
+		id: z.string().uuid(),
+	}),
+});
+
+export const listDungeonDelvesRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_DUNGEON_DELVES"),
+	payload: z.object({
+		campaignId: z.string().min(1),
+	}),
+});
+
+export const saveDungeonRoomRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_DUNGEON_ROOM"),
+	payload: z.object({
+		room: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findDungeonRoomsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_DUNGEON_ROOMS"),
+	payload: z.object({
+		delveId: z.string().uuid(),
+	}),
+});
+
+export const findDungeonRoomByCoordsRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_DUNGEON_ROOM_BY_COORDS"),
+	payload: z.object({
+		delveId: z.string().uuid(),
+		coordinateX: z.number().int(),
+		coordinateY: z.number().int(),
+	}),
+});
+
+export const updateDungeonRoomStatusRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("UPDATE_DUNGEON_ROOM_STATUS"),
+	payload: z.object({
+		id: z.string(),
+		status: z.enum(["hidden", "revealed", "cleared"]),
+	}),
+});
+
+export const updateDungeonDelveStatusRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("UPDATE_DUNGEON_DELVE_STATUS"),
+	payload: z.object({
+		id: z.string().uuid(),
+		status: z.enum(["active", "completed", "escaped", "failed"]),
+		currentLevel: z.number().int(),
+	}),
+});
+
 export const rpcRequestSchema = z.discriminatedUnion("type", [
+	getAncestryCatalogRequestSchema,
+	getBackgroundCatalogRequestSchema,
+	getCharacterClassCatalogRequestSchema,
+	getSpellCatalogRequestSchema,
+	saveDungeonDelveRequestSchema,
+	findDungeonDelveRequestSchema,
+	listDungeonDelvesRequestSchema,
+	saveDungeonRoomRequestSchema,
+	findDungeonRoomsRequestSchema,
+	findDungeonRoomByCoordsRequestSchema,
+	updateDungeonRoomStatusRequestSchema,
+	updateDungeonDelveStatusRequestSchema,
+	setWorldStateFlagRequestSchema,
+	getWorldStateFlagRequestSchema,
+	listWorldStateFlagsRequestSchema,
 	initDatabaseRequestSchema,
 	saveGameSnapshotRequestSchema,
 	loadGameSnapshotRequestSchema,
@@ -928,6 +1115,10 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	findQuestRequestSchema,
 	listQuestsRequestSchema,
 	deleteQuestRequestSchema,
+	saveQuestObjectiveRequestSchema,
+	findQuestObjectiveRequestSchema,
+	listQuestObjectivesByQuestRequestSchema,
+	deleteQuestObjectiveRequestSchema,
 	saveCohesionRequestSchema,
 	findCohesionRequestSchema,
 	saveSignatureRequestSchema,

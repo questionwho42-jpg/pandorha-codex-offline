@@ -1,3 +1,4 @@
+import type { TrapRepository } from "$lib/entities/traps/domain/TrapRepository";
 import {
 	InMemoryWorldTileCatalogRepository,
 	WORLD_TILE_CATALOG,
@@ -27,11 +28,17 @@ const TRAINING_PARTY_ID = "party-alpha";
 const TRAINING_MOVEMENT_CREATED_AT = "2026-05-14T03:00:00.000Z";
 const INITIAL_WORLD_TILE_ID = "camp-road";
 
-export function createHexcrawlSession(): HexcrawlSession {
+export function createHexcrawlSession(
+	trapRepository?: TrapRepository,
+): HexcrawlSession {
 	const repository = new InMemoryWorldTileCatalogRepository({
 		worldTiles: WORLD_TILE_CATALOG,
 	});
-	const movementService = new HexcrawlMovementService(repository);
+	const movementService = new HexcrawlMovementService(
+		repository,
+		undefined,
+		trapRepository,
+	);
 
 	return {
 		createMovementInput: (currentTileId, targetTileId) => ({

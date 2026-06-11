@@ -2,12 +2,15 @@
 import { onMount } from "svelte";
 import { WorkerCampRepository } from "$lib/entities/camp/infrastructure/WorkerCampRepository";
 import type { CampSessionRecord } from "$lib/entities/camp/model/campSchema";
+import type { CharacterRepository } from "$lib/entities/character/domain/CharacterRepository";
+import type { CharacterStatusEffectRecord } from "$lib/entities/character/model/characterSchema";
 import type { CampActivity } from "../domain/CampService";
 import { CampService } from "../domain/CampService";
 import {
 	BanqueteDecorator,
 	StandardRecovery,
 } from "../domain/recoveryDecorators";
+import ApothecaryWorkshop from "./ApothecaryWorkshop.svelte";
 
 interface Props {
 	isRestBlocked?: boolean;
@@ -22,6 +25,10 @@ interface Props {
 	bloodDebt?: number;
 	characters?: { id: string; name: string }[];
 	onUpdateDangerCounter?: (val: number) => void;
+
+	activeStatusEffects?: readonly CharacterStatusEffectRecord[];
+	characterRepository?: CharacterRepository;
+	onCureSuccess?: () => void | Promise<void>;
 }
 
 let {
@@ -35,7 +42,20 @@ let {
 	bloodDebt = 3,
 	characters = [],
 	onUpdateDangerCounter,
+	activeStatusEffects = [],
+	characterRepository,
+	onCureSuccess,
 }: Props = $props();
+
+let activeTab = $state("activities");
+
+// Reference bypass for template-only variables to satisfy linter
+void characterName;
+void activeStatusEffects;
+void characterRepository;
+void onCureSuccess;
+void activeTab;
+void ApothecaryWorkshop;
 
 // Instanciação física do repositório de Worker e do serviço
 const repository = new WorkerCampRepository();
@@ -477,7 +497,26 @@ async function _dismantleCamp() {
 		</div>
 	{/if}
 
-	{#if !session}
+	<!-- Abas do Acampamento (Atividades / Boticário) -->
+	<div class="flex border-b border-bronze/20 mb-6 gap-2">
+		<button
+			type="button"
+			onclick={() => activeTab = "activities"}
+			class="px-4 py-2 text-xs font-bold uppercase tracking-wider border-b-2 transition-all {activeTab === 'activities' ? 'border-ether text-ether bg-void' : 'border-transparent text-bone/50 hover:text-bone hover:bg-void/50'}"
+		>
+			📋 Atividades do Códex
+		</button>
+		<button
+			type="button"
+			onclick={() => activeTab = "apothecary"}
+			class="px-4 py-2 text-xs font-bold uppercase tracking-wider border-b-2 transition-all {activeTab === 'apothecary' ? 'border-ether text-ether bg-void' : 'border-transparent text-bone/50 hover:text-bone hover:bg-void/50'}"
+		>
+			🧪 Oficina de Boticário
+		</button>
+	</div>
+
+	{#if activeTab === "activities"}
+		{#if !session}
 		<div class="flex flex-col gap-4 items-center py-8 bg-ruin/10 rounded border border-bronze/10">
 			<p class="text-xs italic text-bone/70">Configure as horas e vigília planejadas para o repouso temporário:</p>
 			<div class="flex flex-wrap gap-4 justify-center items-center">
@@ -647,5 +686,15 @@ async function _dismantleCamp() {
 				</button>
 			</div>
 		</div>
+	{/if}
+	{:else}
+		{#if characterRepository}
+			<ApothecaryWorkshop
+				characters={characters}
+				activeStatusEffects={activeStatusEffects}
+				characterRepository={characterRepository}
+				onCureSuccess={onCureSuccess}
+			/>
+		{/if}
 	{/if}
 </div>

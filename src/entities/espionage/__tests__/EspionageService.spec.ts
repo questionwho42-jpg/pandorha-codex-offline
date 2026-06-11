@@ -9,6 +9,7 @@ import type { FactionRepository } from "../../social/domain/FactionRepository";
 import type { CampaignSocialLedgerRecord } from "../../social/model/socialSchema";
 import { EspionageService } from "../domain/EspionageService";
 import { InMemoryEspionageRepository } from "../infrastructure/InMemoryEspionageRepository";
+import { InMemoryWorldStateRepository } from "../../world-state/testing/InMemoryWorldStateRepository";
 
 const TEST_TIMESTAMP = "2026-05-28T12:00:00.000Z";
 
@@ -1251,6 +1252,146 @@ describe("EspionageService - Recesso Semanal e Recursos", () => {
 			const lRes = await factionRepo.getLedger("campaign_1");
 			expect(lRes.success && lRes.data?.favorPoints).toBe(4);
 		}
+	});
+
+	describe("EspionageService - Avanço de Tempo e Consequências Críticas", () => {
+		it("processa manutenção semanal reativa baseada no tempo do world state", async () => {
+			const espionageRepo = new InMemoryEspionageRepository();
+			const factionRepo = new FakeFactionRepository() as unknown as FactionRepository;
+			const companionRepo = new FakeCompanionRepository() as unknown as CompanionRepository;
+			const characterRepo = new FakeCharacterRepository() as unknown as CharacterRepository;
+			const worldStateRepo = new InMemoryWorldStateRepository();
+
+			// Inicializar tempo no dia 1
+			await worldStateRepo.setFlag({
+				key: "location:current_time",
+				valueJson: JSON.stringify({ day: 1, turn: 1, phase: "manha" }),
+				updatedAt: TEST_TIMESTAMP,
+			});
+
+			// Célula ativa Tier 1 (manutenção = 10 PO)
+			await espionageRepo.save({
+				id: "cell_1",
+				campaignId: "campaign_1",
+				factionId: "faction_1",
+				regionId: "region_1",
+				tenenteCompanionId: "tenente_1",
+				specializedAxis: "physical",
+				tier: 1,
+				isLockdown: false,
+				lockdownWeeksRemaining: 0,
+				vigilanceHeat: 0,
+				methodOfControl: null,
+				createdAt: TEST_TIMESTAMP,
+				updatedAt: TEST_TIMESTAMP,
+			});
+
+			const service = new EspionageService(
+				espionageRepo,
+				factionRepo,
+				companionRepo,
+				characterRepo,
+				worldStateRepo,
+			);
+
+			// Sem avanço de tempo: não deve rodar manutenção
+			const resNoChange = await service.processWeeklyMaintenanceByTime({
+				campaignId: "campaign_1",
+				availableGold: 100,
+				timestamp: TEST_TIMESTAMP,
+			});
+			expect(resNoChange.success).toBe(true);
+			expect(resNoChange.success && resNoChange.data.maintenanceRun).toBe(false);
+
+			// Avança tempo para o dia 8 (passou 7 dias)
+			await worldStateRepo.setFlag({
+				key: "location:current_time",
+				valueJson: JSON.stringify({ day: 8, turn: 1, phase: "manha" }),
+				updatedAt: TEST_TIMESTAMP,
+			});
+
+			const resMaintenance = await service.processWeeklyMaintenanceByTime({
+				campaignId: "campaign_1",
+				availableGold: 100,
+				timestamp: TEST_TIMESTAMP,
+			});
+
+			expect(resMaintenance.success).toBe(true);
+			if (resMaintenance.success) {
+				expect(resMaintenance.data.maintenanceRun).toBe(true);
+				expect(resMaintenance.data.goldSpent).toBe(10); // cobrou 10 PO da célula Tier 1
+			}
+
+			// A flag last_recess_day deve ter sido atualizada para 8
+			const flag = await worldStateRepo.getFlag("location:espionage_last_recess_day");
+			expect(flag.success && JSON.parse(flag.data.valueJson)).toBe(8);
+		});
+
+		it("dissipa o tenente na falha crítica sem suborno preventivo em missão autônoma", async () => {
+			const espionageRepo = new InMemoryEspionageRepository();
+			const factionRepo = new FakeFactionRepository() as unknown as FactionRepository;
+			const companionRepo = new FakeCompanionRepository();
+			const characterRepo = new FakeCharacterRepository() as unknown as CharacterRepository;
+
+			companionRepo.setCompanion({
+				id: "tenente_1",
+				characterId: "hero_1",
+				name: "Bob",
+				type: "scout",
+				subModel: "Furtivo",
+				tier: 2,
+				hpCurrent: 15,
+				hpMax: 15,
+				isShareSensory: false,
+				isDissipated: false,
+				selectedTraitsJson: "[]",
+				createdAt: TEST_TIMESTAMP,
+				updatedAt: TEST_TIMESTAMP,
+			});
+
+			await espionageRepo.save({
+				id: "cell_1",
+				campaignId: "campaign_1",
+				factionId: "faction_1",
+				regionId: "region_1",
+				tenenteCompanionId: "tenente_1",
+				specializedAxis: "physical",
+				tier: 2,
+				isLockdown: false,
+				lockdownWeeksRemaining: 0,
+				vigilanceHeat: 0,
+				methodOfControl: null,
+				createdAt: TEST_TIMESTAMP,
+				updatedAt: TEST_TIMESTAMP,
+			});
+
+			const service = new EspionageService(
+				espionageRepo,
+				factionRepo,
+				companionRepo as unknown as CompanionRepository,
+				characterRepo,
+			);
+
+			// Falha Crítica (roll = 1)
+			const res = await service.runAutonomousOperation({
+				cellId: "cell_1",
+				targetDc: 15,
+				roll: 1,
+				timestamp: TEST_TIMESTAMP,
+				goldenRuleResolution: "heat",
+			});
+
+			expect(res.success).toBe(true);
+			if (res.success) {
+				expect(res.data.status).toBe("critical_failure");
+				expect(res.data.cellDestroyed).toBe(true);
+			}
+
+			// Tenente deve estar dissipado no repositório
+			const compRes = await companionRepo.getCompanion("tenente_1");
+			expect(compRes.success && compRes.data?.isDissipated).toBe(true);
+			expect(compRes.success && compRes.data?.hpCurrent).toBe(0);
+		});
 	});
 });
 /* biome-ignore-end */

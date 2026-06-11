@@ -307,6 +307,34 @@ describe("RPC save/load contract", () => {
 		expect(success.success).toBe(true);
 		expect(failure.success).toBe(true);
 	});
+
+	it("accepts GET_*_CATALOG requests", () => {
+		const ancestryParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "GET_ANCESTRY_CATALOG",
+			payload: {},
+		});
+		const backgroundParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "GET_BACKGROUND_CATALOG",
+			payload: {},
+		});
+		const characterClassParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "GET_CHARACTER_CLASS_CATALOG",
+			payload: {},
+		});
+		const spellParsed = rpcRequestSchema.safeParse({
+			messageId: MESSAGE_ID,
+			type: "GET_SPELL_CATALOG",
+			payload: {},
+		});
+
+		expect(ancestryParsed.success).toBe(true);
+		expect(backgroundParsed.success).toBe(true);
+		expect(characterClassParsed.success).toBe(true);
+		expect(spellParsed.success).toBe(true);
+	});
 });
 
 describe("FakeWorkerBridge", () => {

@@ -101,4 +101,19 @@ describe("EncounterGeneratorService", () => {
 			]).toContain(resHigh.data.encounterName);
 		}
 	});
+
+	it("should fallback to Combate Desconhecido when seed evaluates to a fractional index", () => {
+		const res = service.generateEncounter({
+			q: 0,
+			r: 0,
+			regionTier: 1,
+			averagePartyLevel: 1.5,
+		});
+		expect(res.success).toBe(true);
+		if (res.success) {
+			expect(res.data.encounterName).toBe("Combate Desconhecido");
+			expect(res.data.monsters).toHaveLength(1);
+			expect(res.data.monsters[0]?.label).toBe("Combate Desconhecido");
+		}
+	});
 });

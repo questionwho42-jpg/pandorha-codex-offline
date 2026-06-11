@@ -81,7 +81,7 @@ export class NegotiationService {
 		let socialFatiguePenalty = 0;
 		if (input.events.length > 0) {
 			const lastEvent = input.events[input.events.length - 1];
-			if (lastEvent?.message.includes(input.axis)) {
+			if (lastEvent?.message.includes(`argumentou com ${input.axis}`)) {
 				socialFatiguePenalty = -2;
 			}
 		}

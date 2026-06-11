@@ -1,5 +1,6 @@
 import type { LoreService } from "$lib/entities/lore/domain/LoreService";
 import type { LoreEncounterRecord } from "$lib/entities/lore/model/loreSchema";
+import type { TrapRepository } from "$lib/entities/traps";
 import type {
 	WorldTileCatalogRepository,
 	WorldTileRecord,
@@ -24,6 +25,7 @@ export class HexcrawlMovementService {
 	public constructor(
 		private readonly tileRepository: WorldTileCatalogRepository,
 		private readonly loreService?: LoreService,
+		private readonly trapRepository?: TrapRepository,
 	) {}
 
 	public async moveParty(
@@ -85,6 +87,68 @@ export class HexcrawlMovementService {
 			);
 			if (loreResult.success) {
 				resolvedEncounter = loreResult.data;
+			}
+		}
+
+		if (
+			this.trapRepository &&
+			!targetTile.data.isKnown &&
+			(targetTile.data.biome === "ruins" || targetTile.data.biome === "marsh")
+		) {
+			// 50% chance de gerar armadilha
+			const randArray = new Uint32Array(1);
+			crypto.getRandomValues(randArray);
+			const randVal = randArray[0];
+			if (randVal !== undefined && randVal % 100 < 50) {
+				const tier = targetTile.data.regionTier;
+				const trapId = `trap-gen-${crypto.randomUUID()}`;
+
+				let name = "Armadilha de Farpas";
+				let type: "mechanical" | "magical" = "mechanical";
+				let severity: "simple" | "hidden" | "deadly" = "simple";
+				let dc = 4;
+				let damage = 10;
+				let effects = ["bleeding"];
+
+				if (tier === 2) {
+					name = "Runa de Gás de Éter";
+					type = "magical";
+					severity = "simple";
+					dc = 6;
+					damage = 18;
+					effects = ["silenced"];
+				} else if (tier === 3) {
+					name = "Armadilha de Urso de Aço";
+					type = "mechanical";
+					severity = "hidden";
+					dc = 8;
+					damage = 26;
+					effects = ["immobilized"];
+				} else if (tier >= 4) {
+					name = "Runa Ruidosa Antiga";
+					type = "magical";
+					severity = "deadly";
+					dc = 10;
+					damage = 35;
+					effects = ["noisy_rune"];
+				}
+
+				const nowStr = new Date().toISOString();
+				await this.trapRepository.save({
+					id: trapId,
+					tileId: targetTile.data.id,
+					name,
+					type,
+					severity,
+					dc,
+					damage,
+					isDetected: false,
+					isDisarmed: false,
+					isTriggered: false,
+					effects: JSON.stringify(effects),
+					createdAt: nowStr,
+					updatedAt: nowStr,
+				});
 			}
 		}
 

@@ -1,4 +1,8 @@
+import { OFFICIAL_ANCESTRIES } from "$lib/entities/ancestry";
+import { OFFICIAL_BACKGROUNDS } from "$lib/entities/background";
 import type { LevelUpInput } from "$lib/entities/character/model/characterSchema";
+import { OFFICIAL_CHARACTER_CLASSES } from "$lib/entities/character-class";
+import { OFFICIAL_SPELLS } from "$lib/entities/spell";
 import {
 	createRpcFailureResponse,
 	createRpcSuccessResponse,
@@ -33,6 +37,34 @@ export async function handleDatabaseWorkerRequest(
 
 	const command = parsedRequest.data;
 	switch (command.type) {
+		case "GET_ANCESTRY_CATALOG": {
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: OFFICIAL_ANCESTRIES as unknown as JsonValue,
+			});
+		}
+
+		case "GET_BACKGROUND_CATALOG": {
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: OFFICIAL_BACKGROUNDS as unknown as JsonValue,
+			});
+		}
+
+		case "GET_CHARACTER_CLASS_CATALOG": {
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: OFFICIAL_CHARACTER_CLASSES as unknown as JsonValue,
+			});
+		}
+
+		case "GET_SPELL_CATALOG": {
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: OFFICIAL_SPELLS as unknown as JsonValue,
+			});
+		}
+
 		case "INIT_DATABASE": {
 			// biome-ignore lint/suspicious/noExplicitAny: access private storage dynamically
 			const storage = (input.bootstrapService as any).storage;
@@ -1007,6 +1039,155 @@ export async function handleDatabaseWorkerRequest(
 			});
 		}
 
+		case "SAVE_DUNGEON_DELVE": {
+			const result = await input.bootstrapService.saveDungeonDelve(
+				command.payload.delve,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "FIND_DUNGEON_DELVE": {
+			const result = await input.bootstrapService.findDungeonDelve(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "LIST_DUNGEON_DELVES": {
+			const result = await input.bootstrapService.listDungeonDelves(
+				command.payload.campaignId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "SAVE_DUNGEON_ROOM": {
+			const result = await input.bootstrapService.saveDungeonRoom(
+				command.payload.room,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "FIND_DUNGEON_ROOMS": {
+			const result = await input.bootstrapService.findDungeonRooms(
+				command.payload.delveId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "FIND_DUNGEON_ROOM_BY_COORDS": {
+			const result = await input.bootstrapService.findDungeonRoomByCoords(
+				command.payload.delveId,
+				command.payload.coordinateX,
+				command.payload.coordinateY,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "UPDATE_DUNGEON_ROOM_STATUS": {
+			const result = await input.bootstrapService.updateDungeonRoomStatus(
+				command.payload.id,
+				command.payload.status,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "UPDATE_DUNGEON_DELVE_STATUS": {
+			const result = await input.bootstrapService.updateDungeonDelveStatus(
+				command.payload.id,
+				command.payload.status,
+				command.payload.currentLevel,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
 		case "SAVE_QUEST": {
 			const result = await input.bootstrapService.saveQuest(
 				command.payload.quest,
@@ -1059,6 +1240,77 @@ export async function handleDatabaseWorkerRequest(
 
 		case "DELETE_QUEST": {
 			const result = await input.bootstrapService.deleteQuest(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+			});
+		}
+
+		case "SAVE_QUEST_OBJECTIVE": {
+			const result = await input.bootstrapService.saveQuestObjective(
+				command.payload.objective,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "FIND_QUEST_OBJECTIVE": {
+			const result = await input.bootstrapService.findQuestObjective(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "LIST_QUEST_OBJECTIVES_BY_QUEST": {
+			const result = await input.bootstrapService.listQuestObjectivesByQuest(
+				command.payload.questId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "DELETE_QUEST_OBJECTIVE": {
+			const result = await input.bootstrapService.deleteQuestObjective(
 				command.payload.id,
 			);
 			if (!result.success) {
@@ -1717,6 +1969,59 @@ export async function handleDatabaseWorkerRequest(
 					code: result.error.code,
 					message: result.error.message,
 					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "SET_WORLD_STATE_FLAG": {
+			const result = await input.bootstrapService.setWorldStateFlag({
+				key: command.payload.key,
+				valueJson: command.payload.valueJson,
+				updatedAt: command.payload.updatedAt,
+			});
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "GET_WORLD_STATE_FLAG": {
+			const result = await input.bootstrapService.getWorldStateFlag(
+				command.payload.key,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "LIST_WORLD_STATE_FLAGS": {
+			const result = await input.bootstrapService.listWorldStateFlags(
+				command.payload.prefix,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
 				});
 			}
 			return createRpcSuccessResponse({

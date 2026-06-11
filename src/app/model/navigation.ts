@@ -151,6 +151,13 @@ export const APP_NAVIGATION_ITEMS = [
 		description:
 			"Altere talentos e manobras nos interlúdios ao custo de ouro e tempo de downtime.",
 	},
+	{
+		id: "dungeon",
+		label: "Masmorra",
+		heading: "Geração Procedural de Masmorras",
+		description:
+			"Explore e desbrave masmorras biomecânicas geradas proceduralmente a partir de sementes determinísticas.",
+	},
 ] as const;
 
 export type AppNavigationId = (typeof APP_NAVIGATION_ITEMS)[number]["id"];

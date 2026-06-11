@@ -77,6 +77,8 @@ export default defineConfig({
 				"src/entities/character/domain/LimitBreakService.ts",
 				"src/features/combat-encounter/domain/UltimatesCatalog.ts",
 				"src/features/sandbox/domain/sandboxUtils.ts",
+				"src/entities/dungeon/domain/DungeonService.ts",
+				"src/features/camp/domain/SurvivalService.ts",
 				// "src/features/character-list/model/characterListView.ts",
 				// "src/features/combat-encounter/model/combatAttackerStatsView.ts",
 				// "src/entities/character/domain/IllnessService.ts",

@@ -254,6 +254,7 @@ describe("SQLite Concurrency, RPC Rollback and Database Integrity", () => {
 		expect(scanTableOffenders).toEqual([]);
 
 		// 2. Auditoria Estática de Migrations
+		const allMigrationSql = loadMigrationSql();
 		const sqlFiles = findSqlFiles(migrationsRoot);
 		const missingIndexOffenders: string[] = [];
 
@@ -263,7 +264,7 @@ describe("SQLite Concurrency, RPC Rollback and Database Integrity", () => {
 			// Se a migração cria tabelas com referências de chave estrangeira,
 			// verifica se existe o correspondente CREATE INDEX na mesma migration ou nas subsequentes
 			const foreignKeyRegex =
-				/FOREIGN KEY\s*\("([^"]+)"\)\s*REFERENCES\s*"([^"]+)"/gi;
+				/FOREIGN KEY\s*\([`"']([^`"']+)[`"']\)\s*REFERENCES\s*[`"']([^`"']+)[`"']/gi;
 			let match = foreignKeyRegex.exec(content);
 
 			while (match !== null) {
@@ -271,13 +272,16 @@ describe("SQLite Concurrency, RPC Rollback and Database Integrity", () => {
 				const targetTable = match[2];
 
 				if (fkColumn && targetTable) {
-					// Procura no conteúdo do mesmo arquivo se existe um índice para essa coluna
+					// Procura em todo o SQL de migrações se existe um índice para essa coluna
 					const indexPattern = new RegExp(
-						`CREATE( UNIQUE)? INDEX( IF NOT EXISTS)?\\s*"[^"]+"\\s*ON\\s*"[^"]+"\\s*\\("${fkColumn}"\\)`,
+						`CREATE( UNIQUE)? INDEX( IF NOT EXISTS)?\\s*[\`"']?[^\`"'\n]*[\`"']?\\s*ON\\s*[\`"']?[^\`"'\n]+[\`"']?\\s*\\([\`"']?${fkColumn}[\`"']?\\)`,
 						"i",
 					);
 
-					if (!indexPattern.test(content) && fkColumn === "character_id") {
+					if (
+						!indexPattern.test(allMigrationSql) &&
+						fkColumn === "character_id"
+					) {
 						// Caso especial do character_id que deve ser indexado sempre
 						missingIndexOffenders.push(
 							`Migration "${join("drizzle", file.replace(migrationsRoot, ""))}" references "${targetTable}" on column "${fkColumn}" without creating an index.`,

@@ -31,6 +31,7 @@ import { DrizzleDialogueRepository } from "$lib/entities/dialogue/infrastructure
 import { campaignDialogueStates } from "$lib/entities/dialogue/model/dialogueSchema";
 import { DrizzleRegionalDomainRepository } from "$lib/entities/domain-regional/infrastructure/DrizzleRegionalDomainRepository";
 import { campaignRegionalDomains } from "$lib/entities/domain-regional/model/regionalDomainSchema";
+import { DrizzleDungeonRepository } from "$lib/entities/dungeon/infrastructure/DrizzleDungeonRepository";
 import { CraftingService } from "$lib/entities/equipment/domain/CraftingService";
 import { DrizzleCraftingRepository } from "$lib/entities/equipment/infrastructure/DrizzleCraftingRepository";
 import { DrizzleEspionageRepository } from "$lib/entities/espionage/infrastructure/DrizzleEspionageRepository";
@@ -44,7 +45,10 @@ import {
 	mercenarySquads,
 } from "$lib/entities/mercenary/model/mercenarySchema";
 import { DrizzleQuestRepository } from "$lib/entities/quest/infrastructure/DrizzleQuestRepository";
-import { campaignQuests } from "$lib/entities/quest/model/questSchema";
+import {
+	campaignQuests,
+	questObjectives,
+} from "$lib/entities/quest/model/questSchema";
 import { DrizzleFactionRepository } from "$lib/entities/social/infrastructure/DrizzleFactionRepository";
 import { DrizzleSocialRepository } from "$lib/entities/social/infrastructure/DrizzleSocialRepository";
 import {
@@ -55,6 +59,7 @@ import {
 import { OFFICIAL_SPELLS } from "$lib/entities/spell/model/spellCatalog";
 import { DrizzleSynergyRepository } from "$lib/entities/synergy/infrastructure/DrizzleSynergyRepository";
 import { DrizzleTrapRepository } from "$lib/entities/traps/infrastructure/DrizzleTrapRepository";
+import { DrizzleWorldStateRepository } from "$lib/entities/world-state/infrastructure/DrizzleWorldStateRepository";
 import { worldStateEntries } from "$lib/entities/world-state/model/worldStateSchema";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { SaveGameSnapshot } from "$lib/shared/rpc";
@@ -288,6 +293,7 @@ export class SqliteOpfsBootstrapService {
 			database.data.run("DELETE FROM progress_clocks;");
 			database.data.run("DELETE FROM campaign_dialogue_states;");
 			database.data.run("DELETE FROM campaign_quests;");
+			database.data.run("DELETE FROM quest_objectives;");
 			database.data.run("DELETE FROM campaign_investigations;");
 			database.data.run("DELETE FROM campaign_regional_domains;");
 			database.data.run("DELETE FROM campaign_camp_sessions;");
@@ -428,12 +434,33 @@ export class SqliteOpfsBootstrapService {
 						title: String(q.title),
 						description: String(q.description),
 						status: String(q.status ?? "active"),
+						scope: String(q.scope ?? "campaign"),
 						requirementsJson: String(q.requirementsJson ?? "[]"),
 						rewardsJson: String(q.rewardsJson ?? "{}"),
 						createdAt: String(q.createdAt),
 						updatedAt: String(q.updatedAt),
 					};
 					db.insert(campaignQuests).values(mappedQ).run();
+				}
+			}
+
+			// biome-ignore lint/suspicious/noExplicitAny: response snapshot questObjectives typing
+			const snapshotQuestObjectives = (snapshot as any).questObjectives;
+			if (snapshotQuestObjectives && snapshotQuestObjectives.length > 0) {
+				for (const qo of snapshotQuestObjectives) {
+					const mappedQO = {
+						id: String(qo.id),
+						questId: String(qo.questId),
+						description: String(qo.description),
+						status: String(qo.status ?? "active"),
+						type: String(qo.type),
+						target: String(qo.target),
+						currentAmount: Number(qo.currentAmount ?? 0),
+						requiredAmount: Number(qo.requiredAmount ?? 1),
+						createdAt: String(qo.createdAt),
+						updatedAt: String(qo.updatedAt),
+					};
+					db.insert(questObjectives).values(mappedQO).run();
 				}
 			}
 
@@ -708,6 +735,7 @@ export class SqliteOpfsBootstrapService {
 				.from(campaignDialogueStates)
 				.all();
 			const loadedQuests = db.select().from(campaignQuests).all();
+			const loadedQuestObjectives = db.select().from(questObjectives).all();
 			const loadedInvestigations = db
 				.select()
 				.from(campaignInvestigations)
@@ -766,6 +794,7 @@ export class SqliteOpfsBootstrapService {
 				progressClocks: mappedClocks,
 				dialogueStates: loadedDialogueStates,
 				quests: loadedQuests,
+				questObjectives: loadedQuestObjectives,
 				investigations: loadedInvestigations,
 				regionalDomains: mappedRegionalDomains,
 				campSessions: loadedCampSessions,
@@ -2485,6 +2514,411 @@ export class SqliteOpfsBootstrapService {
 		}
 	}
 
+	public async saveDungeonDelve(
+		delve: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleDungeonRepository(db as any);
+
+			const result = await repository.saveDelve(delve);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save dungeon delve to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findDungeonDelve(
+		id: string,
+	): Promise<Result<any | null, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleDungeonRepository(db as any);
+
+			const result = await repository.findDelveById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not read dungeon delve from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listDungeonDelves(
+		campaignId: string,
+	): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleDungeonRepository(db as any);
+
+			const result = await repository.findDelvesByCampaignId(campaignId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list dungeon delves from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveDungeonRoom(
+		room: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleDungeonRepository(db as any);
+
+			const result = await repository.saveRoom(room);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save room to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findDungeonRooms(
+		delveId: string,
+	): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleDungeonRepository(db as any);
+
+			const result = await repository.findRoomsByDelveId(delveId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not read rooms from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findDungeonRoomByCoords(
+		delveId: string,
+		coordinateX: number,
+		coordinateY: number,
+	): Promise<Result<any | null, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleDungeonRepository(db as any);
+
+			const result = await repository.findRoomByCoordinates(
+				delveId,
+				coordinateX,
+				coordinateY,
+			);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not find room in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async updateDungeonRoomStatus(
+		id: string,
+		status: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleDungeonRepository(db as any);
+
+			const result = await repository.updateRoomStatus(id, status);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not update room status in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async updateDungeonDelveStatus(
+		id: string,
+		status: any,
+		currentLevel: number,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleDungeonRepository(db as any);
+
+			const result = await repository.updateDelveStatus(
+				id,
+				status,
+				currentLevel,
+			);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not update dungeon delve status in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
 	public async saveQuest(
 		quest: any,
 	): Promise<Result<any, SqliteBootstrapFailure>> {
@@ -2674,6 +3108,202 @@ export class SqliteOpfsBootstrapService {
 			return fail({
 				code: "DATABASE_FILE_WRITE_FAILED",
 				message: "Could not delete quest from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async saveQuestObjective(
+		objective: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleQuestRepository(db as any);
+
+			const result = await repository.saveObjective(objective);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save quest objective to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findQuestObjective(
+		id: string,
+	): Promise<Result<any | null, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleQuestRepository(db as any);
+
+			const result = await repository.findObjectiveById(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not read quest objective from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listQuestObjectivesByQuest(
+		questId: string,
+	): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleQuestRepository(db as any);
+
+			const result = await repository.findObjectivesByQuestId(questId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list quest objectives from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async deleteQuestObjective(
+		id: string,
+	): Promise<Result<void, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleQuestRepository(db as any);
+
+			const result = await repository.deleteObjective(id);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(undefined);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not delete quest objective from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
 		}
@@ -5157,6 +5787,149 @@ export class SqliteOpfsBootstrapService {
 			return fail({
 				code: "DATABASE_FILE_WRITE_FAILED",
 				message: "Could not mutate world state/renown in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async setWorldStateFlag(flag: {
+		key: string;
+		valueJson: string;
+		updatedAt: string;
+	}): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleWorldStateRepository(db as any);
+
+			const result = await repository.setFlag(flag as any);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			database.data.close();
+
+			if (!written.success) {
+				return fail(written.error);
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not write world state flag.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async getWorldStateFlag(
+		key: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleWorldStateRepository(db as any);
+
+			const result = await repository.getFlag(key as any);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not read world state flag.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listWorldStateFlags(
+		prefix: string,
+	): Promise<Result<readonly any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleWorldStateRepository(db as any);
+
+			const result = await repository.listFlagsByPrefix(prefix as any);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not list world state flags.",
 				details: { cause: stringifyCause(error) },
 			});
 		}

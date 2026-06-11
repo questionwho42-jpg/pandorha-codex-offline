@@ -600,4 +600,97 @@ describe("CompanionService", () => {
 			expect(res3.data.hpMax).toBe(15); // (4 * 3) + 3 = 15
 		}
 	});
+
+	it("does not apply mental damage when damage is 0 even if sensory sharing is active", async () => {
+		const repository = new InMemoryCompanionRepository();
+		const charRepo = new StubCharacterRepository();
+		const service = new CompanionService(repository, charRepo);
+
+		const master: CharacterRecord = {
+			id: "master_val",
+			name: "Val",
+			concept: "Conjuradora Arcana",
+			ancestryId: "elf",
+			classId: "weaver",
+			backgroundId: "sage",
+			level: 3,
+			experiencePoints: 0,
+			tensionMeter: 0,
+			physical: 2,
+			mental: 3,
+			social: 2,
+			conflict: 1,
+			interaction: 2,
+			resistance: 2,
+			createdAt: TEST_TIMESTAMP,
+			updatedAt: TEST_TIMESTAMP,
+		};
+		charRepo.setCharacter(master);
+
+		const companionRecord: CompanionRecord = {
+			id: "comp_1",
+			characterId: "master_val",
+			name: "Faisca",
+			type: "familiar",
+			subModel: "Esquilo Alado",
+			tier: 1,
+			hpCurrent: 15,
+			hpMax: 15,
+			isShareSensory: true,
+			isDissipated: false,
+			selectedTraitsJson: "[]",
+			createdAt: TEST_TIMESTAMP,
+			updatedAt: TEST_TIMESTAMP,
+		};
+		await repository.saveCompanion(companionRecord);
+
+		const res = await service.applyDamageToCompanion(
+			"comp_1",
+			0,
+			TEST_TIMESTAMP,
+		);
+		expect(res.success).toBe(true);
+		if (res.success) {
+			expect(res.data.hpCurrent).toBe(15);
+		}
+
+		const updatedMaster = await charRepo.findById("master_val");
+		expect(updatedMaster.success).toBe(true);
+		if (updatedMaster.success) {
+			expect(updatedMaster.data.mental).toBe(3);
+		}
+	});
+
+	it("handles case where master character is not found when applying sensory damage", async () => {
+		const repository = new InMemoryCompanionRepository();
+		const charRepo = new StubCharacterRepository();
+		const service = new CompanionService(repository, charRepo);
+
+		const companionRecord: CompanionRecord = {
+			id: "comp_1",
+			characterId: "non_existent_master",
+			name: "Faisca",
+			type: "familiar",
+			subModel: "Esquilo Alado",
+			tier: 1,
+			hpCurrent: 15,
+			hpMax: 15,
+			isShareSensory: true,
+			isDissipated: false,
+			selectedTraitsJson: "[]",
+			createdAt: TEST_TIMESTAMP,
+			updatedAt: TEST_TIMESTAMP,
+		};
+		await repository.saveCompanion(companionRecord);
+
+		const res = await service.applyDamageToCompanion(
+			"comp_1",
+			6,
+			TEST_TIMESTAMP,
+		);
+		expect(res.success).toBe(true);
+		if (res.success) {
+			expect(res.data.hpCurrent).toBe(9);
+		}
+	});
 });

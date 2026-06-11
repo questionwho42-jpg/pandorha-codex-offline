@@ -4,7 +4,7 @@ import type {
 	QuestRepository,
 	QuestRepositoryFailure,
 } from "../domain/QuestRepository";
-import type { QuestRecord } from "../model/questSchema";
+import type { QuestObjectiveRecord, QuestRecord } from "../model/questSchema";
 
 export class WorkerQuestRepository implements QuestRepository {
 	private readonly worker: Worker;
@@ -144,6 +144,60 @@ export class WorkerQuestRepository implements QuestRepository {
 		id: string,
 	): Promise<Result<void, QuestRepositoryFailure>> {
 		const res = await this.sendRequest("DELETE_QUEST", { id });
+		if (!res.success) {
+			return fail({
+				code: "QUEST_REPOSITORY_WRITE_FAILED",
+				message: res.error.message,
+			});
+		}
+		return ok(undefined);
+	}
+
+	public async saveObjective(
+		objective: QuestObjectiveRecord,
+	): Promise<Result<QuestObjectiveRecord, QuestRepositoryFailure>> {
+		const res = await this.sendRequest("SAVE_QUEST_OBJECTIVE", { objective });
+		if (!res.success) {
+			return fail({
+				code: "QUEST_REPOSITORY_WRITE_FAILED",
+				message: res.error.message,
+			});
+		}
+		return ok(res.data as QuestObjectiveRecord);
+	}
+
+	public async findObjectiveById(
+		id: string,
+	): Promise<Result<QuestObjectiveRecord | null, QuestRepositoryFailure>> {
+		const res = await this.sendRequest("FIND_QUEST_OBJECTIVE", { id });
+		if (!res.success) {
+			return fail({
+				code: "QUEST_REPOSITORY_READ_FAILED",
+				message: res.error.message,
+			});
+		}
+		return ok(res.data as QuestObjectiveRecord | null);
+	}
+
+	public async findObjectivesByQuestId(
+		questId: string,
+	): Promise<Result<QuestObjectiveRecord[], QuestRepositoryFailure>> {
+		const res = await this.sendRequest("LIST_QUEST_OBJECTIVES_BY_QUEST", {
+			questId,
+		});
+		if (!res.success) {
+			return fail({
+				code: "QUEST_REPOSITORY_READ_FAILED",
+				message: res.error.message,
+			});
+		}
+		return ok(res.data as QuestObjectiveRecord[]);
+	}
+
+	public async deleteObjective(
+		id: string,
+	): Promise<Result<void, QuestRepositoryFailure>> {
+		const res = await this.sendRequest("DELETE_QUEST_OBJECTIVE", { id });
 		if (!res.success) {
 			return fail({
 				code: "QUEST_REPOSITORY_WRITE_FAILED",

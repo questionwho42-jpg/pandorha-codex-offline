@@ -14,6 +14,7 @@ import type {
 	FactionRecord,
 } from "../../../entities/social";
 import { WorkerSocialRepository } from "../../../entities/social";
+import { WorkerWorldStateRepository } from "../../../entities/world-state";
 
 // Props
 interface Props {
@@ -34,6 +35,7 @@ let {
 const espionageRepo = new WorkerEspionageRepository();
 const socialRepo = new WorkerSocialRepository();
 const companionRepo = new WorkerCompanionRepository();
+const worldStateRepo = new WorkerWorldStateRepository();
 
 let service = $derived(
 	new EspionageService(
@@ -41,6 +43,7 @@ let service = $derived(
 		socialRepo as any,
 		companionRepo as any,
 		characterSession.repository,
+		worldStateRepo,
 	),
 );
 
@@ -88,6 +91,21 @@ $effect(() => {
 });
 
 async function loadData() {
+	const recessRes = await service.processWeeklyMaintenanceByTime({
+		campaignId,
+		availableGold: guildGold,
+		timestamp: new Date().toISOString(),
+	});
+
+	if (
+		recessRes.success &&
+		recessRes.data.maintenanceRun &&
+		recessRes.data.goldSpent > 0
+	) {
+		onUpdateGuildGold(guildGold - recessRes.data.goldSpent);
+		guildGold = guildGold - recessRes.data.goldSpent;
+	}
+
 	// Carregar Células
 	const cellsRes = await espionageRepo.listByCampaign(campaignId);
 	if (cellsRes.success) {
@@ -260,22 +278,6 @@ async function _handleClearHeat(cellId: string, method: "gold" | "favor") {
 		alert(`Erro ao limpar Heat: ${res.error.message}`);
 	}
 }
-
-async function _simulateRecessoWeekly() {
-	const res = await service.processWeeklyMaintenance({
-		campaignId,
-		availableGold: guildGold,
-		timestamp: new Date().toISOString(),
-	});
-
-	if (res.success) {
-		onUpdateGuildGold(guildGold - res.data.goldSpent);
-		alert(`Recesso executado! Manutenção cobrada: ${res.data.goldSpent} PO.`);
-		await loadData();
-	} else {
-		alert(`Erro na manutenção: ${res.error.message}`);
-	}
-}
 </script>
 
 <div class="p-6 bg-gradient-to-br from-[#120a21] via-[#0c0514] to-black rounded-lg border border-[#a855f7]/25 shadow-2xl text-[#e9d5ff]">
@@ -333,14 +335,6 @@ async function _simulateRecessoWeekly() {
 			onclick={() => showNewCellForm = !showNewCellForm}
 		>
 			🕸️ Fundar Nova Célula
-		</button>
-
-		<button
-			type="button"
-			class="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded transition-all bg-[#241133] hover:bg-[#341b48] border border-[#a855f7]/30 text-[#d8b4fe]"
-			onclick={simulateRecessoWeekly}
-		>
-			⏳ Passar Turno Semanal
 		</button>
 	</div>
 

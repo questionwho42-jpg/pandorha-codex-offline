@@ -2,6 +2,7 @@ import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { CharacterRepository } from "../../character/domain/CharacterRepository";
 import type { CompanionRepository } from "../../companions/domain/CompanionRepository";
 import type { FactionRepository } from "../../social/domain/FactionRepository";
+import type { WorldStateRepository } from "../../world-state";
 import type {
 	EspionageCellRecord,
 	NewEspionageCellRecord,
@@ -53,6 +54,7 @@ export class EspionageService {
 		private readonly factionRepository: FactionRepository,
 		private readonly companionRepository: CompanionRepository,
 		private readonly characterRepository: CharacterRepository,
+		private readonly worldStateRepository?: WorldStateRepository,
 	) {}
 
 	public async establishCell(input: {
@@ -306,7 +308,12 @@ export class EspionageService {
 				});
 			}
 
-			// Sem suborno, destrói e gera 20 Infâmia
+			// Sem suborno, dissipa o tenente e destrói a célula, gerando 20 Infâmia
+			lieutenant.hpCurrent = 0;
+			lieutenant.isDissipated = true;
+			lieutenant.updatedAt = input.timestamp;
+			await this.companionRepository.saveCompanion(lieutenant);
+
 			await this.espionageRepository.deleteCell(cell.id);
 			return ok({
 				success: false,
@@ -525,6 +532,18 @@ export class EspionageService {
 					message:
 						"Falha Crítica prevenida por suborno. Célula em lockdown por 1 semana.",
 				});
+			}
+
+			// Sem suborno, dissipa o tenente e destrói a célula, gerando 20 Infâmia
+			const compRes = await this.companionRepository.getCompanion(
+				cell.tenenteCompanionId,
+			);
+			if (compRes.success && compRes.data) {
+				const lieutenant = compRes.data;
+				lieutenant.hpCurrent = 0;
+				lieutenant.isDissipated = true;
+				lieutenant.updatedAt = input.timestamp;
+				await this.companionRepository.saveCompanion(lieutenant);
 			}
 
 			await this.espionageRepository.deleteCell(cell.id);
@@ -848,6 +867,100 @@ export class EspionageService {
 			cell: saveRes.data,
 			goldSpent,
 			favorPointsSpent,
+		});
+	}
+
+	public async processWeeklyMaintenanceByTime(input: {
+		campaignId: string;
+		availableGold: number;
+		timestamp: string;
+	}): Promise<
+		Result<
+			{
+				maintenanceRun: boolean;
+				goldSpent: number;
+				updatedCells: readonly EspionageCellRecord[];
+			},
+			EspionageServiceFailure
+		>
+	> {
+		if (!this.worldStateRepository) {
+			return ok({
+				maintenanceRun: false,
+				goldSpent: 0,
+				updatedCells: [],
+			});
+		}
+
+		// 1. Obter o tempo atual
+		const timeRes = await this.worldStateRepository.getFlag(
+			"location:current_time",
+		);
+		let currentDay = 1;
+		if (timeRes.success) {
+			const timeData = JSON.parse(timeRes.data.valueJson) as any;
+			currentDay = timeData.day ?? 1;
+		}
+
+		// 2. Obter o dia da última manutenção processada
+		const lastRecessRes = await this.worldStateRepository.getFlag(
+			"location:espionage_last_recess_day",
+		);
+		let lastRecessDay = 1;
+		if (lastRecessRes.success) {
+			lastRecessDay = JSON.parse(lastRecessRes.data.valueJson) as number;
+		} else {
+			// Se não existe, inicializa com o dia atual e salva
+			await this.worldStateRepository.setFlag({
+				key: "location:espionage_last_recess_day",
+				valueJson: JSON.stringify(currentDay),
+				updatedAt: input.timestamp,
+			});
+			lastRecessDay = currentDay;
+		}
+
+		const daysPassed = currentDay - lastRecessDay;
+		if (daysPassed >= 7) {
+			const recessesToProcess = Math.floor(daysPassed / 7);
+			let remainingGold = input.availableGold;
+			let totalGoldSpent = 0;
+			let finalUpdatedCells: readonly EspionageCellRecord[] = [];
+
+			for (let i = 0; i < recessesToProcess; i++) {
+				const maintenanceRes = await this.processWeeklyMaintenance({
+					campaignId: input.campaignId,
+					availableGold: remainingGold,
+					timestamp: input.timestamp,
+				});
+
+				if (!maintenanceRes.success) {
+					return fail(maintenanceRes.error);
+				}
+
+				remainingGold -= maintenanceRes.data.goldSpent;
+				totalGoldSpent += maintenanceRes.data.goldSpent;
+				finalUpdatedCells = maintenanceRes.data.cells;
+			}
+
+			// Atualiza a flag do dia da última manutenção
+			const nextRecessDay = lastRecessDay + recessesToProcess * 7;
+			await this.worldStateRepository.setFlag({
+				key: "location:espionage_last_recess_day",
+				valueJson: JSON.stringify(nextRecessDay),
+				updatedAt: input.timestamp,
+			});
+
+			return ok({
+				maintenanceRun: true,
+				goldSpent: totalGoldSpent,
+				updatedCells: finalUpdatedCells,
+			});
+		}
+
+		return ok({
+			maintenanceRun: false,
+			goldSpent: 0,
+			updatedCells: [],
 		});
 	}
 }

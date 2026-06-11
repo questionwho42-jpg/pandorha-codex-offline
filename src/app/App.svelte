@@ -21,6 +21,12 @@ import {
 	CompanionService,
 	WorkerCompanionRepository,
 } from "$lib/entities/companions";
+import { DungeonService } from "$lib/entities/dungeon/domain/DungeonService";
+import { WorkerDungeonRepository } from "$lib/entities/dungeon/infrastructure/WorkerDungeonRepository";
+import type {
+	DungeonDelveRecord,
+	DungeonRoomRecord,
+} from "$lib/entities/dungeon/model/dungeonSchema";
 import type { CharacterCraftedItemRecord } from "$lib/entities/equipment/model/craftingSchema";
 import { WorkerSocialRepository } from "$lib/entities/social";
 import type {
@@ -64,12 +70,13 @@ import {
 import { DialoguePanel } from "$lib/features/dialogue";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { DomainCouncilPanel } from "$lib/features/domain-regional";
+import { DungeonMap } from "$lib/features/dungeon-crawler";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import EspionageManagementPanel from "$lib/features/espionage/ui/EspionageManagementPanel.svelte";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
-import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
+import { InventoryPanel } from "$lib/features/inventory";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { MercenaryCompanyPanel } from "$lib/features/mercenary";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
@@ -80,7 +87,7 @@ import { SaveManagerPanel } from "$lib/features/saves";
 import { NegotiationPanel, SocialDemo } from "$lib/features/social";
 import { SocialStandingService } from "$lib/features/social/domain/SocialStandingService";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
-import { SpellCastPanel } from "$lib/features/spell-cast";
+import { SpellbookPanel } from "$lib/features/spell-cast";
 import { createCharacterListView } from "../features/character-list/model/characterListView";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import TrapDeploymentPanel from "../features/traps/ui/TrapDeploymentPanel.svelte";
@@ -96,6 +103,9 @@ import { createSpellCastSession } from "./model/spellCastSession";
 
 const trapRepository = new WorkerTrapRepository();
 const trapService = new TrapService();
+const worldStateRepository = new WorkerWorldStateRepository();
+const dungeonRepository = new WorkerDungeonRepository();
+const dungeonService = new DungeonService(dungeonRepository, trapRepository);
 
 const characterSession = createCharacterSession();
 
@@ -179,7 +189,7 @@ function handleCreateAttackInput(
 }
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const compendiumSession = createCompendiumSession();
-const hexcrawlSession = createHexcrawlSession();
+const hexcrawlSession = createHexcrawlSession(trapRepository);
 const inventorySession = createInventorySession();
 const spellCastSession = createSpellCastSession();
 
@@ -204,6 +214,10 @@ let dynamicInventoryItems = $derived(
 );
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let craftingSubTab = $state<"forge" | "alchemy">("forge");
+
+let activeDungeonDelve = $state<DungeonDelveRecord | null>(null);
+let dungeonRooms = $state<DungeonRoomRecord[]>([]);
+let isDungeonProcessing = $state(false);
 
 const socialRepository = new WorkerSocialRepository();
 const socialStandingService = new SocialStandingService(socialRepository);
@@ -501,8 +515,284 @@ async function handleRestSuccess() {
 	);
 }
 
+async function loadActiveDungeon() {
+	isDungeonProcessing = true;
+	try {
+		const delvesRes =
+			await dungeonRepository.findDelvesByCampaignId("campaign_default");
+		if (delvesRes.success) {
+			const active = delvesRes.data.find((d) => d.status === "active");
+			if (active) {
+				activeDungeonDelve = active;
+				const roomsRes = await dungeonRepository.findRoomsByDelveId(active.id);
+				if (roomsRes.success) {
+					dungeonRooms = roomsRes.data;
+				}
+			} else {
+				activeDungeonDelve = null;
+				dungeonRooms = [];
+			}
+		}
+	} catch (e) {
+		console.error("Erro ao carregar masmorra ativa:", e);
+	} finally {
+		isDungeonProcessing = false;
+	}
+}
+
+async function handleStartDungeonDelve(
+	biome: "ruins" | "caverns" | "crypt",
+	seed: number,
+	dangerLevel: number,
+) {
+	isDungeonProcessing = true;
+	try {
+		const res = await dungeonService.generateDelve({
+			campaignId: "campaign_default",
+			biome,
+			seed,
+			dangerLevel,
+		});
+
+		if (res.success) {
+			activeDungeonDelve = res.data.delve;
+			dungeonRooms = res.data.rooms;
+			chatState.addMessage({
+				type: "camp",
+				content: `🏛️ Uma nova incursão de masmorra foi iniciada em bioma ${biome === "ruins" ? "Ruínas" : biome === "caverns" ? "Cavernas" : "Cripta"} (Seed: ${seed}, Ameaça: ${dangerLevel})!`,
+			});
+		} else {
+			chatState.addMessage({
+				type: "camp",
+				content: `⚠️ Falha ao gerar masmorra: ${res.error.message}`,
+			});
+		}
+	} catch (e) {
+		console.error(e);
+	} finally {
+		isDungeonProcessing = false;
+	}
+}
+
+async function handleMoveDungeonRoom(roomId: string) {
+	if (!activeDungeonDelve) return;
+	isDungeonProcessing = true;
+	try {
+		const res = await dungeonService.moveParty(activeDungeonDelve.id, roomId);
+		if (res.success) {
+			activeDungeonDelve = res.data.delve;
+			dungeonRooms = res.data.rooms;
+
+			const targetRoom = dungeonRooms.find((r) => r.roomId === roomId);
+			const roomName = targetRoom
+				? getRoomTypeLabel(targetRoom.type)
+				: "Desconhecida";
+
+			chatState.addMessage({
+				type: "combat",
+				content: `👣 Grupo moveu-se para a sala ${roomId} (${roomName}).`,
+			});
+
+			const dungeonTileId = `${activeDungeonDelve.id}:${roomId}`;
+			const trapsRes = await trapRepository.findByTileId(dungeonTileId);
+			if (trapsRes.success) {
+				trapsList = [
+					...trapsList.filter((t) => t.tileId !== dungeonTileId),
+					...trapsRes.data,
+				];
+			}
+
+			if (characterRecords.length > 0) {
+				const blockTraps = trapsList.filter(
+					(t) =>
+						t.tileId === dungeonTileId &&
+						!t.isDetected &&
+						!t.isDisarmed &&
+						!t.isTriggered,
+				);
+
+				if (blockTraps.length > 0) {
+					const trap = blockTraps[0];
+					let bestChar = characterRecords[0];
+					for (const char of characterRecords) {
+						if (char.mental > bestChar.mental) {
+							bestChar = char;
+						}
+					}
+
+					const array = new Uint32Array(1);
+					crypto.getRandomValues(array);
+					const roll = (array[0] % 20) + 1;
+
+					const detectRes = trapService.detectTrap(bestChar, trap, roll);
+					if (detectRes.success) {
+						chatState.addMessage({
+							type: "narrative",
+							sender: "Vigília",
+							content: detectRes.data.log,
+						});
+
+						if (detectRes.data.isDetected) {
+							await persistTrapUpdate({ ...trap, isDetected: true });
+						} else {
+							const triggerRollArray = new Uint32Array(1);
+							crypto.getRandomValues(triggerRollArray);
+							const triggerRoll = (triggerRollArray[0] % 20) + 1;
+
+							const arrayIndex = new Uint32Array(1);
+							crypto.getRandomValues(arrayIndex);
+							const randomIndex = arrayIndex[0] % characterRecords.length;
+							const targetChar = characterRecords[randomIndex];
+
+							const tempCharService: TrapDowntimeCharacterService = {
+								saveStatusEffect: async (effect) => {
+									await handleApplyStatusEffect(
+										effect.characterId,
+										effect.type,
+									);
+									return {
+										success: true as const,
+										data: {
+											id: `eff-${effect.characterId}-${effect.type}`,
+											characterId: effect.characterId,
+											type: effect.type as
+												| "eter_fever"
+												| "wound_infection"
+												| "viper_poison",
+											severity: effect.severity,
+											severityMax: effect.severityMax,
+											isAggravated: effect.isAggravated,
+											metadata: null,
+											createdAt: new Date().toISOString(),
+											updatedAt: new Date().toISOString(),
+										},
+									};
+								},
+							};
+
+							const triggerRes = await trapService.resolveTriggeredTrap(
+								targetChar,
+								trap,
+								triggerRoll,
+								tempCharService,
+							);
+							if (triggerRes.success) {
+								chatState.addMessage({
+									type: "combat",
+									sender: "Armadilha",
+									content: triggerRes.data.log,
+								});
+								if (triggerRes.data.tensionIncreased) {
+									dangerCounter = Math.min(
+										20,
+										dangerCounter + triggerRes.data.tensionIncreased,
+									);
+								}
+								await persistTrapUpdate({
+									...trap,
+									isDetected: true,
+									isTriggered: true,
+								});
+							}
+						}
+					}
+				}
+			}
+
+			if (targetRoom) {
+				if (targetRoom.type === "combat") {
+					chatState.addMessage({
+						type: "combat",
+						content: `⚔️ Um encontro de combate foi iniciado nesta sala! Preparem suas armas.`,
+					});
+				} else if (targetRoom.type === "puzzle") {
+					chatState.addMessage({
+						type: "combat",
+						content: `🧩 Um enigma mecânico rúnico barrou seu caminho. Desvende-o para progredir!`,
+					});
+				} else if (targetRoom.type === "treasure") {
+					chatState.addMessage({
+						type: "camp",
+						content: `📦 Sucesso! O grupo encontrou um baú de espólios contendo suprimentos e itens antigos.`,
+					});
+				} else if (targetRoom.type === "boss") {
+					chatState.addMessage({
+						type: "combat",
+						content: `💀 ALERTA DE LETALIDADE: O Chefe da masmorra foi despertado!`,
+					});
+				}
+			}
+
+			if (activeDungeonDelve.status === "completed") {
+				chatState.addMessage({
+					type: "camp",
+					content: `🏆 PARABÉNS! O Chefe da masmorra foi derrotado e a masmorra foi concluída com sucesso!`,
+				});
+			}
+		} else {
+			chatState.addMessage({
+				type: "camp",
+				content: `⚠️ Movimento inválido: ${res.error.message}`,
+			});
+		}
+	} catch (e) {
+		console.error(e);
+	} finally {
+		isDungeonProcessing = false;
+	}
+}
+
+async function handleEscapeDungeonDelve() {
+	if (!activeDungeonDelve) return;
+	isDungeonProcessing = true;
+	try {
+		const res = await dungeonRepository.updateDelveStatus(
+			activeDungeonDelve.id,
+			"escaped",
+			activeDungeonDelve.currentLevel,
+		);
+		if (res.success) {
+			chatState.addMessage({
+				type: "camp",
+				content: `🚪 O grupo escapou com sucesso da masmorra, abandonando a exploração atual.`,
+			});
+			activeDungeonDelve = null;
+			dungeonRooms = [];
+		}
+	} catch (e) {
+		console.error(e);
+	} finally {
+		isDungeonProcessing = false;
+	}
+}
+
+function getRoomTypeLabel(type: string): string {
+	switch (type) {
+		case "rest":
+			return "Repouso";
+		case "combat":
+			return "Combate";
+		case "treasure":
+			return "Tesouro";
+		case "puzzle":
+			return "Enigma";
+		case "boss":
+			return "Chefe";
+		default:
+			return type;
+	}
+}
+
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-async function handleHexcrawlMoveSuccess(biome: string, toTileId?: string) {
+async function handleHrawMoveSuccessDummy() {}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleHexcrawlMoveSuccess(
+	biome: string,
+	toTileId?: string,
+	encounterEvent?: any,
+	visibilidadeNula = false,
+) {
 	if (toTileId) {
 		activeTileId = toTileId;
 	}
@@ -645,6 +935,220 @@ async function handleHexcrawlMoveSuccess(biome: string, toTileId?: string) {
 	} else if (toTileId === "camp-road") {
 		activeDialogueTreeId = "tree-merchant-bargain";
 		activeView = "dialogue";
+	}
+
+	// -----------------------------------------------------------------
+	// PASSAGEM DE TEMPO ORGANICA E MANUTENÇÕES REATIVAS (ADR-007)
+	// -----------------------------------------------------------------
+	const worldStateRepository = new WorkerWorldStateRepository();
+	const worldStateService = new WorldStateService(worldStateRepository);
+	const travelRoleService = new TravelRoleService(worldStateService);
+
+	// Obter o tempo de exploração antes da viagem para detectar mudança de dia
+	const timeBeforeRes = await travelRoleService.getExplorationTime();
+	const dayBefore = timeBeforeRes.success ? timeBeforeRes.data.day : 1;
+
+	// Avançar tempo: consome 1 turno (6 horas)
+	const advanceTimeRes = await travelRoleService.advanceExplorationTime(
+		new Date().toISOString(),
+	);
+
+	if (advanceTimeRes.success) {
+		const { day, turn, phase } = advanceTimeRes.data;
+
+		chatState.addMessage({
+			type: "system",
+			content: `⏳ [Tempo] Turno de Exploração avançado: Dia ${day}, Fase: ${phase.toUpperCase()} (Turno ${turn}/4).`,
+		});
+
+		// Se o dia mudou, processamos a manutenção diária e semanal (provisões e recesso de espionagem)
+		if (day > dayBefore) {
+			chatState.addMessage({
+				type: "system",
+				content: `🌅 [Alvorecer] Um novo Dia de Aventura iniciou (Dia ${day})! A caravana consome provisões mundanas.`,
+			});
+
+			// 1. Processar Sobrevivência Diária (Provisões e Cascata de Exaustão)
+			const campRepoForSurvival = new WorkerCampRepository();
+			const campServiceForSurvival = new CampService(campRepoForSurvival);
+			const survivalService = new SurvivalService(
+				worldStateRepository,
+				characterSession.repository as any,
+				campServiceForSurvival,
+			);
+
+			const survivalRes = await survivalService.processDailySurvival({
+				characterIds: characterRecords.map((c) => c.id),
+				mountsCount: 0,
+			});
+
+			if (survivalRes.success) {
+				campRations = survivalRes.data.remaining;
+				chatState.addMessage({
+					type: "camp",
+					content: `🏕️ [Sobrevivência] Provisões consumidas: ${survivalRes.data.consumed}. Restantes: ${survivalRes.data.remaining} rações.`,
+				});
+
+				let hasChanges = false;
+
+				if (survivalRes.data.exhaustionApplied.length > 0) {
+					hasChanges = true;
+					for (const applied of survivalRes.data.exhaustionApplied) {
+						chatState.addMessage({
+							type: "system",
+							content: `💀 Exaustão aplicada em **${characterRecords.find((c) => c.id === applied)?.name}** por falta de provisões!`,
+						});
+					}
+				}
+
+				if (
+					survivalRes.data.illnessProgress &&
+					survivalRes.data.illnessProgress.length > 0
+				) {
+					hasChanges = true;
+					for (const progress of survivalRes.data.illnessProgress) {
+						const charName =
+							characterRecords.find((c) => c.id === progress.characterId)
+								?.name ?? "Andarilho";
+						const illnessLabel =
+							progress.diseaseType === "eter_fever"
+								? "Febre do Éter"
+								: progress.diseaseType === "wound_infection"
+									? "Infecção de Ferida"
+									: "Veneno de Víbora";
+						if (progress.curated) {
+							chatState.addMessage({
+								type: "camp",
+								content: `✨ [Cura] **${charName}** superou a **${illnessLabel}**! A enfermidade foi expurgada do corpo.`,
+							});
+						} else {
+							const outcomeStr = progress.rollResult.success
+								? "resistiu"
+								: "teve piora";
+							chatState.addMessage({
+								type: "camp",
+								content: `🤢 [Patologia] **${charName}** ${outcomeStr} de **${illnessLabel}** (Vigor ${progress.rollResult.total} vs CD ${progress.diseaseType === "eter_fever" ? 14 : progress.diseaseType === "viper_poison" ? 15 : 12}). Severidade: ${progress.oldSeverity} ➔ ${progress.newSeverity}.`,
+							});
+						}
+					}
+				}
+
+				if (hasChanges) {
+					const tempEffects: CharacterStatusEffectRecord[] = [];
+					for (const char of characterRecords) {
+						const res =
+							await characterSession.repository.findStatusEffectsByCharacterId(
+								char.id,
+							);
+						if (res.success) {
+							tempEffects.push(...res.data);
+						}
+					}
+					activeStatusEffects = tempEffects;
+				}
+			}
+
+			// 2. Processar Espionagem Semanal
+			const espionageRepository = new WorkerEspionageRepository();
+			const socialRepository = new WorkerSocialRepository();
+			const companionRepository = new WorkerCompanionRepository();
+			const espionageService = new EspionageService(
+				espionageRepository,
+				socialRepository as any,
+				companionRepository as any,
+				characterSession.repository,
+				worldStateRepository,
+			);
+
+			const recessRes = await espionageService.processWeeklyMaintenanceByTime({
+				campaignId: "campaign_default",
+				availableGold: guildGold,
+				timestamp: new Date().toISOString(),
+			});
+
+			if (recessRes.success && recessRes.data.maintenanceRun) {
+				if (recessRes.data.goldSpent > 0) {
+					guildGold -= recessRes.data.goldSpent;
+					chatState.addMessage({
+						type: "camp",
+						content: `💰 [Manutenção da Teia] Recesso semanal processado. Custos de manutenção deduzidos: ${recessRes.data.goldSpent} PO.`,
+					});
+				} else {
+					chatState.addMessage({
+						type: "camp",
+						content: `🎭 [Manutenção da Teia] Recesso semanal processado. Nenhuma célula ativa gerou custos ou saldo insuficiente aplicou Lockdown.`,
+					});
+				}
+			}
+		}
+
+		// 3. Processar Sobrevivência Climática (Clima Extremo do Hexágono de Destino)
+		const targetTile = hexcrawlSession.tiles.find((t) => t.id === toTileId);
+		if (targetTile) {
+			const campRepoForSurvival = new WorkerCampRepository();
+			const campServiceForSurvival = new CampService(campRepoForSurvival);
+			const survivalService = new SurvivalService(
+				worldStateRepository,
+				characterSession.repository as any,
+				campServiceForSurvival,
+			);
+
+			const weatherRes = await survivalService.processWeatherSurvival({
+				characterIds: characterRecords.map((c) => c.id),
+				targetTile,
+				visibilidadeNula,
+			});
+
+			if (weatherRes.success) {
+				const { damageApplied, exhaustionApplied } = weatherRes.data;
+				for (const d of damageApplied) {
+					chatState.addMessage({
+						type: "combat",
+						content: `⚡ **${characterRecords.find((c) => c.id === d.characterId)?.name}** foi atingido pela Tempestade Biomecânica e sofreu ${d.damage} de dano elemental!`,
+					});
+				}
+
+				for (const e of exhaustionApplied) {
+					const [charId, effectType] = e.split(":");
+					const charName = characterRecords.find((c) => c.id === charId)?.name;
+					chatState.addMessage({
+						type: "system",
+						content: `❄️ **${charName}** falhou no teste climático de vigor e acumulou **Exaustão (${getExexhaustionLabel(effectType || "")})**!`,
+					});
+				}
+
+				if (damageApplied.length > 0 || exhaustionApplied.length > 0) {
+					const tempEffects: CharacterStatusEffectRecord[] = [];
+					for (const char of characterRecords) {
+						const res =
+							await characterSession.repository.findStatusEffectsByCharacterId(
+								char.id,
+							);
+						if (res.success) {
+							tempEffects.push(...res.data);
+						}
+					}
+					activeStatusEffects = tempEffects;
+				}
+			}
+		}
+	}
+}
+
+function getExexhaustionLabel(type: string): string {
+	switch (type) {
+		case "body_fatigue":
+			return "Fadiga Corporal";
+		case "mental_fog":
+			return "Névoa Mental";
+		case "spirit_ruin":
+			return "Ruína Espiritual";
+		case "cellular_collapse":
+			return "Colapso Celular";
+		case "dead":
+			return "Morto";
+		default:
+			return type;
 	}
 }
 
@@ -804,7 +1308,23 @@ onMount(async () => {
 	}
 
 	const updateOnlineStatus = () => {
+		const wasOnline = isOnline;
 		isOnline = navigator.onLine;
+		if (wasOnline !== isOnline) {
+			if (isOnline) {
+				chatState.addMessage({
+					type: "system",
+					content:
+						"📡 **Conectado:** Conexão restabelecida. Sincronização offline ativa.",
+				});
+			} else {
+				chatState.addMessage({
+					type: "system",
+					content:
+						"📶 **Offline:** Conexão perdida. O Pandorha Engine continuará operando localmente no navegador.",
+				});
+			}
+		}
 	};
 
 	const refreshCraftedItems = () => {
@@ -954,6 +1474,8 @@ onMount(async () => {
 	fame = highestFame;
 	bloodDebt = totalBloodDebt;
 	isRestBlocked = restBlocked;
+
+	await loadActiveDungeon();
 
 	return () => {
 		window.removeEventListener("online", updateOnlineStatus);
@@ -1246,9 +1768,7 @@ async function createCharacter(
 						compendiumSession.searchService.searchEntries(input)}
 				/>
 			{:else if activeView === "inventory"}
-				<InventoryReadOnlyPanel
-					capacity={inventorySession.capacity}
-					items={dynamicInventoryItems}
+				<InventoryPanel
 					characters={characterRecords}
 					activeStatusEffects={activeStatusEffects}
 				/>
@@ -1265,10 +1785,9 @@ async function createCharacter(
 					onDisarmTrap={handleManualDisarmTrap}
 				/>
 			{:else if activeView === "magic"}
-				<SpellCastPanel
+				<SpellbookPanel
 					buildCastCommand={spellCastSession.buildCastCommand}
 					caster={_activeCaster}
-					createCastInput={spellCastSession.createCastInput}
 					spells={spellCastSession.spells}
 					targets={[spellCastSession.target, ...characterRecords.map(c => ({ id: c.id, label: c.name }))]}
 					onCastSpell={async (payload) => {
@@ -1277,7 +1796,8 @@ async function createCharacter(
 							casterId: payload.casterId,
 							targetId: payload.targetId,
 							availableEther: _activeCaster.availableEther,
-							upcastCircleCount: payload.upcastLevel
+							upcastCircleCount: payload.upcastLevel,
+							metamagicIds: payload.metamagicIds || []
 						};
 						const res = await spellCastSession.buildCastCommand(commandInput);
 						if (res.success) {
@@ -1360,6 +1880,18 @@ async function createCharacter(
 					onUpdateFame={(val) => fame = val}
 					onUpdateBloodDebt={(val) => bloodDebt = val}
 					onUpdateDangerCounter={(val) => dangerCounter = val}
+					activeStatusEffects={activeStatusEffects}
+					characterRepository={characterSession.repository}
+					onCureSuccess={async () => {
+						const tempEffects: any[] = [];
+						for (const char of characterRecords) {
+							const res = await characterSession.repository.findStatusEffectsByCharacterId(char.id);
+							if (res.success) {
+								tempEffects.push(...res.data);
+							}
+						}
+						activeStatusEffects = tempEffects;
+					}}
 				/>
 			{:else if activeView === "crafting"}
 				<div class="flex flex-col gap-4">
@@ -1415,6 +1947,20 @@ async function createCharacter(
 					onUpdateGuildGold={(val) => guildGold = val}
 					characters={characterRecords}
 					characterSession={characterSession}
+				/>
+			{:else if activeView === "dungeon"}
+				<DungeonMap
+					campaignId="campaign_default"
+					activeDelve={activeDungeonDelve}
+					rooms={dungeonRooms}
+					isProcessing={isDungeonProcessing}
+					onStartDelve={handleStartDungeonDelve}
+					onMoveParty={handleMoveDungeonRoom}
+					onEscapeDelve={handleEscapeDungeonDelve}
+					currentTraps={trapsList}
+					characters={characterRecords}
+					onDetectTrap={handleManualDetectTrap}
+					onDisarmTrap={handleManualDisarmTrap}
 				/>
 			{:else if activeView === "traps"}
 				<TrapDeploymentPanel

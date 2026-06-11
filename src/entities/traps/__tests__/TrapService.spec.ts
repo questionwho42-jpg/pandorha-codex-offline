@@ -259,6 +259,44 @@ describe("TrapService & Decorators Test Suite", () => {
 			}
 		});
 
+		it("should award components on critical success due to high margin (total >= dc + 10, roll < 20)", async () => {
+			const fakeCharService = new InMemoryFakeCharacterService();
+			const res = await trapService.disarmTrap(
+				fakeHero,
+				fakeMechanicalTrap,
+				18,
+				true,
+				fakeCharService,
+			);
+			expect(res.success).toBe(true);
+			if (res.success) {
+				expect(res.data.isDisarmed).toBe(true);
+				expect(res.data.gatheredComponents).toBe(true);
+				expect(res.data.damageTaken).toBe(0);
+				expect(res.data.log).toContain("Sucesso Crítico");
+			}
+		});
+
+		it("should trigger trap and apply full effects on roll = 1 in disarmTrap", async () => {
+			const fakeCharService = new InMemoryFakeCharacterService();
+			const res = await trapService.disarmTrap(
+				fakeHero,
+				fakeMechanicalTrap,
+				1,
+				true,
+				fakeCharService,
+			);
+			expect(res.success).toBe(true);
+			if (res.success) {
+				expect(res.data.isDisarmed).toBe(false);
+				expect(res.data.damageTaken).toBe(20);
+				expect(res.data.effects).toEqual([
+					{ type: "wound_infection", severity: 2 },
+				]);
+				expect(res.data.log).toContain("Falha Feia");
+			}
+		});
+
 		it("should disarm successfully without components on normal success", async () => {
 			const fakeCharService = new InMemoryFakeCharacterService();
 			// DC = 16. Total = roll (10) + lvl (3) + physical (4) + interaction (2) + trained (0) = 19
@@ -459,6 +497,25 @@ describe("TrapService & Decorators Test Suite", () => {
 			const res = await trapService.resolveTriggeredTrap(
 				fakeHero,
 				trapWithNoEffects,
+				5,
+				fakeCharService,
+			);
+			expect(res.success).toBe(true);
+			if (res.success) {
+				expect(res.data.damageTaken).toBe(20);
+				expect(res.data.appliedEffects).toHaveLength(0);
+			}
+		});
+
+		it("should ignore unknown trap effect types gracefully", async () => {
+			const fakeCharService = new InMemoryFakeCharacterService();
+			const unknownTrap: TrapRecord = {
+				...fakeMechanicalTrap,
+				effects: JSON.stringify(["unknown_effect"]),
+			};
+			const res = await trapService.resolveTriggeredTrap(
+				fakeHero,
+				unknownTrap,
 				5,
 				fakeCharService,
 			);

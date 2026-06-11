@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { LoreService } from "$lib/entities/lore/domain/LoreService";
 import { InMemoryLoreRepository } from "$lib/entities/lore/infrastructure/InMemoryLoreRepository";
+import { SessionTrapRepository } from "$lib/entities/traps/infrastructure/SessionTrapRepository";
 import {
 	InMemoryWorldTileCatalogRepository,
 	WORLD_TILE_CATALOG,
@@ -258,6 +259,324 @@ describe("HexcrawlMovementService", () => {
 			title: "Encontro nos Pinheiros",
 			content: "Você avista uma clareira estranha.",
 		});
+	});
+
+	it("procedurally generates traps in ruins and marsh tiles during first-time discovery", async () => {
+		const tilePort = createTilePort();
+		const trapRepo = new SessionTrapRepository();
+		const service = new HexcrawlMovementService(tilePort, undefined, trapRepo);
+
+		const originalGetRandomValues = crypto.getRandomValues;
+		// biome-ignore lint/suspicious/noExplicitAny: mock implementation for crypto.getRandomValues
+		crypto.getRandomValues = (array: any) => {
+			array[0] = 10; // 10 % 100 = 10, garante o spawn
+			return array;
+		};
+
+		try {
+			const result = await service.moveParty(
+				createInput({ targetTileId: "south-marsh" }),
+			);
+			expectMovementSuccess(result);
+
+			const traps = await trapRepo.findByTileId("south-marsh");
+			expect(traps.success).toBe(true);
+			if (traps.success) {
+				expect(traps.data.length).toBeGreaterThan(0);
+				const trap = traps.data[0];
+				expect(trap).toBeDefined();
+				if (trap) {
+					expect(trap.tileId).toBe("south-marsh");
+					expect(trap.id).toMatch(/^trap-[a-z0-9-]+$/);
+				}
+			}
+		} finally {
+			crypto.getRandomValues = originalGetRandomValues;
+		}
+	});
+
+	it("procedurally generates tier 2 magical traps during discovery", async () => {
+		const tilePort = createTilePort();
+		const trapRepo = new SessionTrapRepository();
+		const service = new HexcrawlMovementService(tilePort, undefined, trapRepo);
+
+		// Vamos injetar um tile desconhecido com tier 2 e bioma ruins
+		const tilePortWithTier2 = new InMemoryWorldTileCatalogRepository({
+			worldTiles: [
+				...WORLD_TILE_CATALOG,
+				{
+					id: "tier2-ruins",
+					label: "Ruínas Tier 2",
+					q: 1,
+					r: 0, // adjacente a camp-road (q:0, r:0) se deltaQ=1, deltaR=0 -> southeast
+					biome: "ruins",
+					regionTier: 2,
+					isKnown: false,
+					isMapped: false,
+					isBlocked: false,
+					encounterSignal: "none",
+					sourceFile: "map.json",
+					summary: "Tier 2 ruins",
+				},
+			],
+		});
+		const serviceTier2 = new HexcrawlMovementService(
+			tilePortWithTier2,
+			undefined,
+			trapRepo,
+		);
+
+		const originalGetRandomValues = crypto.getRandomValues;
+		// biome-ignore lint/suspicious/noExplicitAny: mock implementation
+		crypto.getRandomValues = (array: any) => {
+			array[0] = 10;
+			return array;
+		};
+
+		try {
+			const result = await serviceTier2.moveParty(
+				createInput({ targetTileId: "tier2-ruins" }),
+			);
+			expectMovementSuccess(result);
+
+			const traps = await trapRepo.findByTileId("tier2-ruins");
+			expect(traps.success).toBe(true);
+			if (traps.success) {
+				const trap = traps.data[0];
+				expect(trap).toBeDefined();
+				if (trap) {
+					expect(trap.name).toBe("Runa de Gás de Éter");
+					expect(trap.type).toBe("magical");
+					expect(trap.dc).toBe(6);
+					expect(trap.damage).toBe(18);
+				}
+			}
+		} finally {
+			crypto.getRandomValues = originalGetRandomValues;
+		}
+	});
+
+	it("procedurally generates tier 3 mechanical traps during discovery", async () => {
+		const tilePort = createTilePort();
+		const trapRepo = new SessionTrapRepository();
+
+		const tilePortWithTier3 = new InMemoryWorldTileCatalogRepository({
+			worldTiles: [
+				...WORLD_TILE_CATALOG,
+				{
+					id: "tier3-marsh",
+					label: "Charco Tier 3",
+					q: 1,
+					r: -1, // northeast
+					biome: "marsh",
+					regionTier: 3,
+					isKnown: false,
+					isMapped: false,
+					isBlocked: false,
+					encounterSignal: "none",
+					sourceFile: "map.json",
+					summary: "Tier 3 marsh",
+				},
+			],
+		});
+		const serviceTier3 = new HexcrawlMovementService(
+			tilePortWithTier3,
+			undefined,
+			trapRepo,
+		);
+
+		const originalGetRandomValues = crypto.getRandomValues;
+		// biome-ignore lint/suspicious/noExplicitAny: mock implementation
+		crypto.getRandomValues = (array: any) => {
+			array[0] = 10;
+			return array;
+		};
+
+		try {
+			const result = await serviceTier3.moveParty(
+				createInput({ targetTileId: "tier3-marsh" }),
+			);
+			expectMovementSuccess(result);
+
+			const traps = await trapRepo.findByTileId("tier3-marsh");
+			expect(traps.success).toBe(true);
+			if (traps.success) {
+				const trap = traps.data[0];
+				expect(trap).toBeDefined();
+				if (trap) {
+					expect(trap.name).toBe("Armadilha de Urso de Aço");
+					expect(trap.type).toBe("mechanical");
+					expect(trap.dc).toBe(8);
+					expect(trap.damage).toBe(26);
+				}
+			}
+		} finally {
+			crypto.getRandomValues = originalGetRandomValues;
+		}
+	});
+
+	it("procedurally generates tier 4 magical traps during discovery", async () => {
+		const tilePort = createTilePort();
+		const trapRepo = new SessionTrapRepository();
+
+		const tilePortWithTier4 = new InMemoryWorldTileCatalogRepository({
+			worldTiles: [
+				...WORLD_TILE_CATALOG,
+				{
+					id: "tier4-ruins",
+					label: "Ruínas Tier 4",
+					q: 0,
+					r: 1, // south
+					biome: "ruins",
+					regionTier: 4,
+					isKnown: false,
+					isMapped: false,
+					isBlocked: false,
+					encounterSignal: "none",
+					sourceFile: "map.json",
+					summary: "Tier 4 ruins",
+				},
+			],
+		});
+		const serviceTier4 = new HexcrawlMovementService(
+			tilePortWithTier4,
+			undefined,
+			trapRepo,
+		);
+
+		const originalGetRandomValues = crypto.getRandomValues;
+		// biome-ignore lint/suspicious/noExplicitAny: mock implementation
+		crypto.getRandomValues = (array: any) => {
+			array[0] = 10;
+			return array;
+		};
+
+		try {
+			const result = await serviceTier4.moveParty(
+				createInput({ targetTileId: "tier4-ruins" }),
+			);
+			expectMovementSuccess(result);
+
+			const traps = await trapRepo.findByTileId("tier4-ruins");
+			expect(traps.success).toBe(true);
+			if (traps.success) {
+				const trap = traps.data[0];
+				expect(trap).toBeDefined();
+				if (trap) {
+					expect(trap.name).toBe("Runa Ruidosa Antiga");
+					expect(trap.type).toBe("magical");
+					expect(trap.dc).toBe(10);
+					expect(trap.damage).toBe(35);
+				}
+			}
+		} finally {
+			crypto.getRandomValues = originalGetRandomValues;
+		}
+	});
+
+	it("does not generate traps when random roll is >= 50", async () => {
+		const tilePort = createTilePort();
+		const trapRepo = new SessionTrapRepository();
+		const service = new HexcrawlMovementService(tilePort, undefined, trapRepo);
+
+		const originalGetRandomValues = crypto.getRandomValues;
+		// biome-ignore lint/suspicious/noExplicitAny: mock implementation
+		crypto.getRandomValues = (array: any) => {
+			array[0] = 60; // 60 % 100 = 60 >= 50, sem spawn
+			return array;
+		};
+
+		try {
+			const result = await service.moveParty(
+				createInput({ targetTileId: "south-marsh" }),
+			);
+			expectMovementSuccess(result);
+
+			const traps = await trapRepo.findByTileId("south-marsh");
+			expect(traps.success).toBe(true);
+			if (traps.success) {
+				expect(traps.data.length).toBe(0);
+			}
+		} finally {
+			crypto.getRandomValues = originalGetRandomValues;
+		}
+	});
+
+	it("moves the party fallbacking to party-leader if activeCharacterId is not provided", async () => {
+		const service = createService();
+
+		const input = createInput({
+			targetTileId: "north-pines",
+		});
+		delete (input as any).activeCharacterId;
+
+		const result = await service.moveParty(input);
+		const movement = expectMovementSuccess(result);
+		expect(movement.fromTile.id).toBe("camp-road");
+		expect(movement.toTile.id).toBe("north-pines");
+	});
+
+	it("skips lore-encounter-triggered event if resolveLoreEncounter returns a failure Result", async () => {
+		class TestClockRepository {
+			public async findById() {
+				return ok(null);
+			}
+			public async save() {
+				return fail(new Error());
+			}
+			public async findAll() {
+				return ok([]);
+			}
+			public async delete(_id: string) {
+				return ok(undefined);
+			}
+		}
+		class TestSocialRepository {
+			public async findReputation() {
+				return fail({ code: "REPUTATION_NOT_FOUND", message: "" } as any);
+			}
+			public async saveFaction() {
+				return fail(null as any);
+			}
+			public async findFactionById() {
+				return fail(null as any);
+			}
+			public async listFactions() {
+				return ok([]);
+			}
+			public async saveReputation() {
+				return fail(null as any);
+			}
+			public async listReputationsByCharacter() {
+				return ok([]);
+			}
+			public async saveBloodDebt() {
+				return fail(null as any);
+			}
+			public async listBloodDebtsByCharacter() {
+				return ok([]);
+			}
+		}
+
+		const tilePort = createTilePort();
+		const loreRepo = new InMemoryLoreRepository();
+		const clockRepo = new TestClockRepository() as any;
+		const socialRepo = new TestSocialRepository() as any;
+		const loreService = new LoreService(loreRepo, clockRepo, socialRepo);
+
+		// Mock do método resolveLoreEncounter para retornar falha
+		loreService.resolveLoreEncounter = async () =>
+			fail(new Error("Error resolve"));
+
+		const service = new HexcrawlMovementService(tilePort, loreService);
+
+		const result = await service.moveParty(
+			createInput({ targetTileId: "north-pines" }),
+		);
+		const movement = expectMovementSuccess(result);
+		expect(movement.events.map((event) => event.type)).not.toContain(
+			"lore-encounter-triggered",
+		);
 	});
 });
 

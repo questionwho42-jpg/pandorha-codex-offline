@@ -311,3 +311,254 @@ h1 {
 		transform: translateY(0);
 	}
 }
+
+/* ==========================================================================
+   PANDORHA ENGINE: QUEST TRACKER STYLES
+   ========================================================================== */
+
+.quest-tracker-widget {
+	width: 100%;
+	max-width: 380px;
+	background: rgba(18, 18, 22, 0.75);
+	backdrop-filter: blur(12px);
+	border-radius: 10px;
+	padding: 1rem;
+	color: #e2e8f0;
+	box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+	font-family: inherit;
+}
+
+.tracker-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid rgba(193, 154, 107, 0.2);
+	padding-bottom: 0.5rem;
+	margin-bottom: 0.75rem;
+}
+
+.tracker-title {
+	font-size: 0.95rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #c19a6b; /* bronze */
+}
+
+.btn-refresh {
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	font-size: 0.85rem;
+	opacity: 0.7;
+	transition:
+		opacity 0.2s,
+		transform 0.2s;
+}
+
+.btn-refresh:hover {
+	opacity: 1;
+	transform: rotate(45deg);
+}
+
+.loading-state {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	padding: 2rem 0;
+	font-size: 0.8rem;
+	color: rgba(226, 232, 240, 0.6);
+}
+
+.spinner {
+	animation: spin 2s linear infinite;
+	font-size: 1rem;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.section-title {
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: rgba(226, 232, 240, 0.55);
+	margin-bottom: 0.5rem;
+	letter-spacing: 0.05em;
+}
+
+.mt-4 {
+	margin-top: 1rem;
+}
+
+.empty-state {
+	font-size: 0.75rem;
+	font-style: italic;
+	color: rgba(226, 232, 240, 0.35);
+	padding: 0.75rem 0.5rem;
+	background: rgba(18, 18, 22, 0.3);
+	border-radius: 6px;
+	border: 1px dashed rgba(193, 154, 107, 0.1);
+	text-align: center;
+}
+
+.quests-list,
+.dispatches-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.quest-item,
+.dispatch-item {
+	background: rgba(25, 25, 30, 0.4);
+	border: 1px solid rgba(193, 154, 107, 0.15);
+	border-radius: 8px;
+	padding: 0.6rem 0.75rem;
+	transition: border-color 0.25s;
+}
+
+.quest-item:hover,
+.dispatch-item:hover {
+	border-color: rgba(193, 154, 107, 0.4);
+}
+
+.quest-title-row {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.4rem;
+}
+
+.quest-scope-badge {
+	font-size: 0.6rem;
+	font-weight: bold;
+	font-family: monospace;
+	padding: 0.1rem 0.3rem;
+	background: rgba(193, 154, 107, 0.2);
+	color: #c19a6b;
+	border-radius: 4px;
+	border: 1px solid rgba(193, 154, 107, 0.3);
+}
+
+.quest-scope-badge.guild {
+	background: rgba(139, 0, 0, 0.2);
+	color: #ff4d4d;
+	border-color: rgba(139, 0, 0, 0.4);
+}
+
+.quest-name {
+	font-size: 0.85rem;
+	color: #e2e8f0;
+}
+
+.quest-no-objectives {
+	font-size: 0.7rem;
+	color: rgba(226, 232, 240, 0.4);
+	margin-top: 0.2rem;
+}
+
+.objectives-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	margin-top: 0.4rem;
+	border-top: 1px solid rgba(226, 232, 240, 0.06);
+	padding-top: 0.4rem;
+}
+
+.objective-item {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.4rem;
+	font-size: 0.75rem;
+	color: rgba(226, 232, 240, 0.8);
+	transition: opacity 0.2s;
+}
+
+.objective-item.completed {
+	opacity: 0.55;
+	text-decoration: line-through;
+}
+
+.status-icon {
+	font-size: 0.7rem;
+	margin-top: 0.05rem;
+}
+
+.objective-details {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.objective-desc {
+	flex: 1;
+}
+
+.objective-progress {
+	color: #c19a6b;
+	font-weight: bold;
+	margin-left: 0.5rem;
+}
+
+.dispatch-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 0.4rem;
+}
+
+.squad-name {
+	font-size: 0.8rem;
+	color: #e2e8f0;
+}
+
+.tactic-tag {
+	font-size: 0.6rem;
+	color: #c19a6b;
+	border: 1px solid rgba(193, 154, 107, 0.3);
+	padding: 0.05rem 0.25rem;
+	border-radius: 4px;
+}
+
+.dispatch-progress-row {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-top: 0.25rem;
+}
+
+.dispatch-bar-bg {
+	flex: 1;
+	height: 6px;
+	background: rgba(226, 232, 240, 0.08);
+	border-radius: 3px;
+	overflow: hidden;
+}
+
+.dispatch-bar-fill {
+	height: 100%;
+	background: #c19a6b;
+	border-radius: 3px;
+	transition: width 0.3s ease;
+}
+
+.progress-val {
+	font-size: 0.65rem;
+	font-weight: bold;
+	color: #c19a6b;
+}
+
+.progress-desc {
+	display: block;
+	font-size: 0.65rem;
+	color: rgba(226, 232, 240, 0.45);
+	margin-top: 0.2rem;
+}
