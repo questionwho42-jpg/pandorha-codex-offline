@@ -1,6 +1,7 @@
 <script lang="ts">
 import { onMount } from "svelte";
 import { WorkerClockRepository } from "$lib/entities/clocks/infrastructure/WorkerClockRepository";
+import type { ClockData } from "$lib/entities/clocks/model/clockSchema";
 import { MercenaryService } from "$lib/entities/mercenary/domain/MercenaryService";
 import { WorkerMercenaryRepository } from "$lib/entities/mercenary/infrastructure/WorkerMercenaryRepository";
 import type {
@@ -26,23 +27,27 @@ const service = new MercenaryService(repository, idProvider, clock);
 let companies = $state<readonly MercenaryCompanyRecord[]>([]);
 let activeCompany = $state<MercenaryCompanyRecord | null>(null);
 let squads = $state<readonly MercenarySquadRecord[]>([]);
-let _message = $state(
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let message = $state(
 	"Selecione ou funde uma Companhia Mercenária para começar...",
 );
 
 // Formulário de Criação da HQ
-let _isCreatingHQ = $state(false);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let isCreatingHQ = $state(false);
 let newHQName = $state("Guarnição do Crepúsculo");
 let selectedHQTier = $state(1);
 
 // Formulário de Recrutamento de Esquadrão
-let _isRecruitingSquad = $state(false);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let isRecruitingSquad = $state(false);
 let squadName = $state("Pioneiros do Vácuo");
 let attrPhysical = $state(2);
 let attrMental = $state(1);
 let attrSocial = $state(1);
 let selectedTags = $state<string[]>([]);
-const _availableTags = [
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const availableTags = [
 	"heavy_infantry",
 	"stealth",
 	"diplomacy",
@@ -61,19 +66,21 @@ let leaderCargo = $state<
 	"Mestre de Armas" | "Estrategista" | "Emissário" | null
 >(null);
 let d20Roll = $state(10);
-let _missionConsoleLog = $state<string>("");
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let missionConsoleLog = $state<string>("");
 
 // Estado da missão em progresso
 let missionSquadInAction = $state<MercenarySquadRecord | null>(null);
-let dispatchClock = $state<any>(null);
+let dispatchClock = $state<ClockData | null>(null);
 
 // Carregamento de dados
-async function loadData() {
+export async function loadData() {
 	const compRes = await repository.listCompanies();
 	if (compRes.success) {
 		companies = compRes.data;
-		if (companies.length > 0 && !activeCompany) {
-			activeCompany = companies[0]!;
+		const firstCompany = companies[0];
+		if (firstCompany && !activeCompany) {
+			activeCompany = firstCompany;
 		}
 		if (activeCompany) {
 			const squadRes = await repository.listSquadsByCompany(activeCompany.id);
@@ -97,7 +104,7 @@ async function loadData() {
 			}
 		}
 	} else {
-		_message = `⚠️ Erro ao carregar companhias: ${compRes.error.message}`;
+		message = `⚠️ Erro ao carregar companhias: ${compRes.error.message}`;
 	}
 }
 
@@ -117,14 +124,15 @@ $effect(() => {
 });
 
 // Fundar HQ
-async function _handleCreateHQ() {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleCreateHQ() {
 	if (!newHQName.trim()) {
-		_message = "❌ O nome da HQ não pode ser vazio.";
+		message = "❌ O nome da HQ não pode ser vazio.";
 		return;
 	}
 	const cost = 200 * selectedHQTier;
 	if (guildGold < cost) {
-		_message = `❌ Ouro insuficiente da guilda! A fundação de Tier ${selectedHQTier} custa ${cost} Ouro (Possui: ${guildGold}).`;
+		message = `❌ Ouro insuficiente da guilda! A fundação de Tier ${selectedHQTier} custa ${cost} Ouro (Possui: ${guildGold}).`;
 		return;
 	}
 
@@ -136,27 +144,28 @@ async function _handleCreateHQ() {
 
 	if (res.success) {
 		activeCompany = res.data;
-		_message = `🏰 Companhia Mercenária "${res.data.hqName}" (Tier ${res.data.tier}) fundada com sucesso!`;
-		_isCreatingHQ = false;
+		message = `🏰 Companhia Mercenária "${res.data.hqName}" (Tier ${res.data.tier}) fundada com sucesso!`;
+		isCreatingHQ = false;
 		if (onUpdateGuildGold) {
 			onUpdateGuildGold(guildGold - cost);
 		}
 		await loadData();
 	} else {
-		_message = `❌ Falha ao fundar companhia: ${res.error.message}`;
+		message = `❌ Falha ao fundar companhia: ${res.error.message}`;
 	}
 }
 
 // Recrutar Esquadrão
-async function _handleRecruitSquad() {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleRecruitSquad() {
 	if (!activeCompany) return;
 	if (!squadName.trim()) {
-		_message = "❌ Digite um nome para o esquadrão.";
+		message = "❌ Digite um nome para o esquadrão.";
 		return;
 	}
 	const recruitCost = 100;
 	if (guildGold < recruitCost) {
-		_message = `❌ Ouro insuficiente para recrutamento! Custo: ${recruitCost} Ouro.`;
+		message = `❌ Ouro insuficiente para recrutamento! Custo: ${recruitCost} Ouro.`;
 		return;
 	}
 
@@ -169,8 +178,8 @@ async function _handleRecruitSquad() {
 	});
 
 	if (res.success) {
-		_message = `🛡️ Esquadrão "${res.data.name}" recrutado e pronto para o combate!`;
-		_isRecruitingSquad = false;
+		message = `🛡️ Esquadrão "${res.data.name}" recrutado e pronto para o combate!`;
+		isRecruitingSquad = false;
 		if (onUpdateGuildGold) {
 			onUpdateGuildGold(guildGold - recruitCost);
 		}
@@ -181,26 +190,28 @@ async function _handleRecruitSquad() {
 		selectedTags = [];
 		await loadData();
 	} else {
-		_message = `❌ Falha ao recrutar: ${res.error.message}`;
+		message = `❌ Falha ao recrutar: ${res.error.message}`;
 	}
 }
 
 // Mudar Tática
-async function _handleAssignTactic(
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleAssignTactic(
 	squadId: string,
 	tactic: "honorable" | "cruel" | "stealthy",
 ) {
 	const res = await service.assignTactic(squadId, tactic);
 	if (res.success) {
-		_message = `⚔️ Tática de comando do esquadrão "${res.data.name}" alterada para [${tactic.toUpperCase()}].`;
+		message = `⚔️ Tática de comando do esquadrão "${res.data.name}" alterada para [${tactic.toUpperCase()}].`;
 		await loadData();
 	} else {
-		_message = `❌ Erro ao atribuir tática: ${res.error.message}`;
+		message = `❌ Erro ao atribuir tática: ${res.error.message}`;
 	}
 }
 
 // Alternar Tags de Missão e Esquadrão
-function _toggleTag(tag: string, target: "newSquad" | "mission") {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function toggleTag(tag: string, target: "newSquad" | "mission") {
 	if (target === "newSquad") {
 		if (selectedTags.includes(tag)) {
 			selectedTags = selectedTags.filter((t) => t !== tag);
@@ -274,7 +285,8 @@ const estimatedModifiers = $derived.by(() => {
 });
 
 // Despachar esquadrão em missão
-async function _handleAssignSquadToMission() {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleAssignSquadToMission() {
 	if (!selectedSquadId) return;
 	const squad = squads.find((s) => s.id === selectedSquadId);
 	if (!squad) return;
@@ -290,23 +302,24 @@ async function _handleAssignSquadToMission() {
 	});
 
 	if (!clockSaveRes.success) {
-		_message = `❌ Falha ao criar Relógio de Progresso: ${clockSaveRes.error.message}`;
+		message = `❌ Falha ao criar Relógio de Progresso: ${clockSaveRes.error.message}`;
 		return;
 	}
 
 	const res = await service.assignMission(selectedSquadId, clockId);
 	if (res.success) {
 		missionSquadInAction = res.data;
-		_message = `✈️ Esquadrão "${res.data.name}" foi despachado para a missão!`;
+		message = `✈️ Esquadrão "${res.data.name}" foi despachado para a missão!`;
 		await loadData();
 	} else {
 		await clockRepository.delete(clockId);
-		_message = `❌ Não foi possível despachar o esquadrão: ${res.error.message}`;
+		message = `❌ Não foi possível despachar o esquadrão: ${res.error.message}`;
 	}
 }
 
 // Rolar d20 aleatório de forma segura e determinística para o linter de Math.random
-function _rollD20() {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function rollD20() {
 	const array = new Uint32Array(1);
 	crypto.getRandomValues(array);
 	const val = array[0];
@@ -318,11 +331,12 @@ function _rollD20() {
 }
 
 // Resolver a missão ativa
-async function _handleResolveMission() {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleResolveMission() {
 	if (!missionSquadInAction) return;
 
 	if (!dispatchClock?.isCompleted) {
-		_message =
+		message =
 			"❌ A missão ainda não está concluída! O Relógio de Progresso precisa estar completo.";
 		return;
 	}
@@ -373,15 +387,15 @@ async function _handleResolveMission() {
 			log += `☠️ TRAGÉDIA: O esquadrão "${squadName}" perdeu toda a coesão e foi desfeito permanentemente!`;
 		}
 
-		_missionConsoleLog = log;
-		_message = data.success
+		missionConsoleLog = log;
+		message = data.success
 			? "🏆 Missão concluída com sucesso!"
 			: "💀 O esquadrão falhou na missão!";
 		missionSquadInAction = null;
 		selectedSquadId = "";
 		await loadData();
 	} else {
-		_message = `❌ Erro ao resolver missão: ${res.error.message}`;
+		message = `❌ Erro ao resolver missão: ${res.error.message}`;
 	}
 }
 </script>
@@ -654,7 +668,7 @@ async function _handleResolveMission() {
 					<!-- Configuração da Missão -->
 					<div class="flex flex-col gap-3">
 						<div class="flex flex-col gap-1">
-							<span class="text-[9px] uppercase text-bone/60">1. Selecionar Esquadrão</span>
+							<span class="text-[9px] uppercase text-bone/60" data-debug-squad-id={selectedSquadId}>1. Selecionar Esquadrão</span>
 							<select 
 								bind:value={selectedSquadId}
 								class="p-2 bg-void border border-bronze/35 rounded text-xs text-bone outline-none font-mono"

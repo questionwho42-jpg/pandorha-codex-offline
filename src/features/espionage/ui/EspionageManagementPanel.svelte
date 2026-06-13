@@ -1,5 +1,6 @@
 <script lang="ts">
 import { onMount } from "svelte";
+import { fade, slide } from "svelte/transition";
 import type { CharacterRecord } from "../../../entities/character";
 import type { CompanionRecord } from "../../../entities/companions";
 import { WorkerCompanionRepository } from "../../../entities/companions";
@@ -22,6 +23,7 @@ interface Props {
 	onUpdateGuildGold: (val: number) => void;
 	characters: readonly CharacterRecord[];
 	characterSession: any;
+	isTest?: boolean;
 }
 
 let {
@@ -29,9 +31,20 @@ let {
 	onUpdateGuildGold,
 	characters = [],
 	characterSession,
+	isTest = false,
 }: Props = $props();
 
-// Repositórios e Serviços instanciados localmente
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function testableSlide(node: HTMLElement, options: unknown) {
+	if (isTest) return {};
+	return slide(node, options as any);
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function testableFade(node: HTMLElement, options: unknown) {
+	if (isTest) return {};
+	return fade(node, options as any);
+}
 const espionageRepo = new WorkerEspionageRepository();
 const socialRepo = new WorkerSocialRepository();
 const companionRepo = new WorkerCompanionRepository();
@@ -40,35 +53,45 @@ const worldStateRepo = new WorkerWorldStateRepository();
 let service = $derived(
 	new EspionageService(
 		espionageRepo,
+		// biome-ignore lint/suspicious/noExplicitAny: mocked socialRepo type
 		socialRepo as any,
+		// biome-ignore lint/suspicious/noExplicitAny: mocked companionRepo type
 		companionRepo as any,
 		characterSession.repository,
 		worldStateRepo,
 	),
 );
 
-// Estado Reativo Svelte 5
 const campaignId = "campaign_default";
-let _cells = $state<EspionageCellRecord[]>([]);
-let _factionsList = $state<FactionRecord[]>([]);
-let _companionsList = $state<CompanionRecord[]>([]);
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let cells = $state<EspionageCellRecord[]>([]);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let factionsList = $state<FactionRecord[]>([]);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let companionsList = $state<CompanionRecord[]>([]);
 let selectedCharacterId = $state<string>("");
 let ledger = $state<CampaignSocialLedgerRecord | null>(null);
 
 // Estado do Formulário de Fundação
-let _showNewCellForm = $state(false);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let showNewCellForm = $state(false);
 let newCellFactionId = $state("");
 let newCellRegionId = $state("");
 let newCellTenenteId = $state("");
 let newCellAxis = $state<"physical" | "mental" | "social">("physical");
-let newCellTier = $state(1);
+let newCellTierString = $state("tier-1");
+let newCellTier = $derived(Number(newCellTierString.replace("tier-", "")));
 
 // Estado de Resolução de Missão
-let _activeMissionCellId = $state<string | null>(null);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let activeMissionCellId = $state<string | null>(null);
 let missionTargetDc = $state(15);
 let useBribery = $state(false);
-let _lastMissionResult = $state<OperationResult | null>(null);
-let _showResultModal = $state(false);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let lastMissionResult = $state<OperationResult | null>(null);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let showResultModal = $state(false);
 let isRolling = $state(false);
 let d20VisualRoll = $state(20);
 
@@ -109,13 +132,13 @@ async function loadData() {
 	// Carregar Células
 	const cellsRes = await espionageRepo.listByCampaign(campaignId);
 	if (cellsRes.success) {
-		_cells = [...cellsRes.data];
+		cells = [...cellsRes.data];
 	}
 
 	// Carregar Facções
 	const factionsRes = await socialRepo.listFactions();
 	if (factionsRes.success) {
-		_factionsList = [...factionsRes.data];
+		factionsList = [...factionsRes.data];
 	}
 
 	// Carregar Ledger
@@ -129,12 +152,21 @@ async function loadCompanionsForCharacter(charId: string) {
 	const compRes = await companionRepo.findCompanionsByCharacter(charId);
 	if (compRes.success) {
 		// Apenas companheiros não dissipados podem ser tenentes
-		_companionsList = compRes.data.filter((c) => !c.isDissipated);
+		companionsList = compRes.data.filter((c) => !c.isDissipated);
 	}
 }
 
 // Fundação de Nova Célula
-async function _handleCreateCell() {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleCreateCell() {
+	console.log("[DEBUG CREATE CELL] handleCreateCell chamado", {
+		newCellFactionId,
+		newCellRegionId,
+		newCellTenenteId,
+		selectedCharacterId,
+		newCellTier,
+		newCellTierString,
+	});
 	if (
 		!newCellFactionId ||
 		!newCellRegionId ||
@@ -159,7 +191,7 @@ async function _handleCreateCell() {
 
 	if (res.success) {
 		onUpdateGuildGold(guildGold - res.data.goldSpent);
-		_showNewCellForm = false;
+		showNewCellForm = false;
 		// Reset form
 		newCellFactionId = "";
 		newCellRegionId = "";
@@ -180,13 +212,26 @@ function getRandomD20(): number {
 }
 
 // Executa Missão Downtime
-async function _handleRunMission(
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleRunMission(
 	cell: EspionageCellRecord,
 	type: "autonomous" | "coordinated",
 ) {
+	console.log("[DEBUG TEST] handleRunMission chamando. isTest =", isTest);
 	if (isRolling) return;
 	isRolling = true;
-	_lastMissionResult = null;
+	lastMissionResult = null;
+
+	if (isTest) {
+		d20VisualRoll = getRandomD20();
+		console.log(
+			"[DEBUG TEST] handleRunMission chamando executeActualRoll com d20 =",
+			d20VisualRoll,
+		);
+		await executeActualRoll(cell, type);
+		console.log("[DEBUG TEST] handleRunMission executeActualRoll terminou.");
+		return;
+	}
 
 	// Efeito visual de dados rolando
 	let counter = 0;
@@ -205,7 +250,14 @@ async function executeActualRoll(
 	type: "autonomous" | "coordinated",
 ) {
 	const rollValue = d20VisualRoll;
+	// biome-ignore lint/suspicious/noExplicitAny: service response type
 	let res: any;
+	console.log(
+		"[DEBUG TEST] executeActualRoll iniciando. type =",
+		type,
+		"rollValue =",
+		rollValue,
+	);
 
 	if (type === "autonomous") {
 		res = await service.runAutonomousOperation({
@@ -236,14 +288,18 @@ async function executeActualRoll(
 	}
 
 	isRolling = false;
+	console.log(
+		"[DEBUG TEST] executeActualRoll resultado res.success =",
+		res.success,
+	);
 
 	if (res.success) {
-		_lastMissionResult = res.data;
+		lastMissionResult = res.data;
 		if (res.data.goldSpent > 0) {
 			onUpdateGuildGold(guildGold - res.data.goldSpent);
 		}
-		_showResultModal = true;
-		_activeMissionCellId = null;
+		showResultModal = true;
+		activeMissionCellId = null;
 		await loadData();
 	} else {
 		alert(`Erro na missão: ${res.error.message}`);
@@ -251,7 +307,8 @@ async function executeActualRoll(
 }
 
 // Ações Semanais e Resfriamento
-async function _handleCoolDown(cellId: string) {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleCoolDown(cellId: string) {
 	const res = await service.coolDownCell(cellId, new Date().toISOString());
 	if (res.success) {
 		await loadData();
@@ -260,7 +317,8 @@ async function _handleCoolDown(cellId: string) {
 	}
 }
 
-async function _handleClearHeat(cellId: string, method: "gold" | "favor") {
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleClearHeat(cellId: string, method: "gold" | "favor") {
 	const res = await service.clearHeatWithResources({
 		cellId,
 		method,
@@ -340,7 +398,7 @@ async function _handleClearHeat(cellId: string, method: "gold" | "favor") {
 
 	<!-- Formulário de Fundação -->
 	{#if showNewCellForm}
-		<div class="bg-[#12072b]/25 p-5 rounded-lg border border-[#a855f7]/30 mb-6" transition:slide={{ duration: 250 }}>
+		<div class="bg-[#12072b]/25 p-5 rounded-lg border border-[#a855f7]/30 mb-6" transition:testableSlide={{ duration: 250 }}>
 			<h2 class="text-md font-bold text-[#f472b6] uppercase tracking-wider mb-4 border-b border-[#a855f7]/10 pb-1">Fundar Nova Célula de Espionagem</h2>
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 				<div class="flex flex-col gap-1">
@@ -348,7 +406,8 @@ async function _handleClearHeat(cellId: string, method: "gold" | "favor") {
 					<select
 						id="faction-select"
 						class="bg-[#1a0e30] border border-[#a855f7]/30 text-[#e9d5ff] rounded px-3 py-2 text-xs focus:outline-none"
-						bind:value={newCellFactionId}
+						value={newCellFactionId}
+						onchange={(e) => newCellFactionId = e.currentTarget.value}
 					>
 						<option value="">Selecione uma facção</option>
 						{#each factionsList as faction}
@@ -370,12 +429,13 @@ async function _handleClearHeat(cellId: string, method: "gold" | "favor") {
 						<select
 							aria-label="Tier da Região"
 							class="bg-[#1a0e30] border border-[#a855f7]/30 text-[#e9d5ff] rounded px-2 py-2 text-xs focus:outline-none w-20"
-							bind:value={newCellTier}
+							value={newCellTierString}
+							onchange={(e) => newCellTierString = e.currentTarget.value}
 						>
-							<option value={1}>Tier I</option>
-							<option value={2}>Tier II</option>
-							<option value={3}>Tier III</option>
-							<option value={4}>Tier IV</option>
+							<option value="tier-1">Tier I</option>
+							<option value="tier-2">Tier II</option>
+							<option value="tier-3">Tier III</option>
+							<option value="tier-4">Tier IV</option>
 						</select>
 					</div>
 				</div>
@@ -385,7 +445,8 @@ async function _handleClearHeat(cellId: string, method: "gold" | "favor") {
 					<select
 						id="tenente-select"
 						class="bg-[#1a0e30] border border-[#a855f7]/30 text-[#e9d5ff] rounded px-3 py-2 text-xs focus:outline-none"
-						bind:value={newCellTenenteId}
+						value={newCellTenenteId}
+						onchange={(e) => newCellTenenteId = e.currentTarget.value}
 					>
 						<option value="">Selecione um aliado</option>
 						{#each companionsList as companion}
@@ -399,7 +460,8 @@ async function _handleClearHeat(cellId: string, method: "gold" | "favor") {
 					<select
 						id="axis-select"
 						class="bg-[#1a0e30] border border-[#a855f7]/30 text-[#e9d5ff] rounded px-3 py-2 text-xs focus:outline-none"
-						bind:value={newCellAxis}
+						value={newCellAxis}
+						onchange={(e) => newCellAxis = e.currentTarget.value as any}
 					>
 						<option value="physical">Físico (Furtividade/Abates)</option>
 						<option value="mental">Mental (Dossiês/Rotas)</option>
@@ -541,7 +603,7 @@ async function _handleClearHeat(cellId: string, method: "gold" | "favor") {
 	{#if activeMissionCellId}
 		{@const cell = cells.find((c) => c.id === activeMissionCellId)}
 		{#if cell}
-			<div class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 backdrop-blur-sm" transition:fade={{ duration: 150 }}>
+			<div class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 backdrop-blur-sm" transition:testableFade={{ duration: 150 }}>
 				<div class="bg-[#1b0e33] border border-[#a855f7]/40 p-6 rounded-lg shadow-2xl max-w-md w-full text-[#e9d5ff]">
 					<h3 class="text-lg font-black text-[#f472b6] uppercase tracking-widest border-b border-[#a855f7]/10 pb-2 mb-4">🎯 Preparar Operação</h3>
 
@@ -625,7 +687,7 @@ async function _handleClearHeat(cellId: string, method: "gold" | "favor") {
 
 	<!-- Modal de Resultado -->
 	{#if showResultModal && lastMissionResult}
-		<div class="fixed inset-0 bg-black/85 flex items-center justify-center p-4 z-50 backdrop-blur-md" transition:fade={{ duration: 150 }}>
+		<div class="fixed inset-0 bg-black/85 flex items-center justify-center p-4 z-50 backdrop-blur-md" transition:testableFade={{ duration: 150 }}>
 			<div class="bg-[#120721] border border-[#a855f7]/40 p-6 rounded-lg shadow-2xl max-w-sm w-full text-[#e9d5ff] text-center">
 				<h3 class="text-xl font-black uppercase tracking-wider mb-2
 					{lastMissionResult.success ? 'text-[#34d399]' : 'text-[#f87171]'}"
