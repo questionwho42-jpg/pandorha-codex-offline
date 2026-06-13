@@ -112,7 +112,7 @@ describe("SiegeService", () => {
 			expect(roundResult.data.isResolved).toBe(false);
 			expect(roundResult.data.damageToBastion).toBe(10); // (17 - 12) * 2 = 10
 			expect(roundResult.data.logMessage).toContain(
-				"As muralhas sofreram 10 de dano!",
+				"As muralhas sofreram 10 de dano estrutural!",
 			);
 		}
 
@@ -501,7 +501,6 @@ describe("SiegeService", () => {
 		});
 		expect(res.success).toBe(false);
 	});
-
 	it("triggers a new siege event with a custom uuid", async () => {
 		const repo = new InMemorySiegeRepository();
 		const service = new SiegeService(repo, fakeDiceService);
@@ -519,6 +518,194 @@ describe("SiegeService", () => {
 		expect(result.success).toBe(true);
 		if (result.success) {
 			expect(result.data.id).toBe(customUuid);
+		}
+	});
+
+	it("applies structural damage directly to the bastion when attack exceeds defense", async () => {
+		const repo = new InMemorySiegeRepository();
+		const service = new SiegeService(repo, fakeDiceService);
+
+		const triggerRes = await service.triggerSiege({
+			campaignId,
+			bastionId,
+			factionId,
+			dangerLevel: 2,
+			requestedAt,
+		});
+		const siegeId = triggerRes.success ? triggerRes.data.id : "";
+
+		const bastion = {
+			id: bastionId,
+			integrityCurrent: 50,
+			structure: 2,
+			threatCurrent: 5,
+		};
+
+		const roundResult = await service.resolveSiegeRound({
+			siegeId,
+			defenseRollBonus: 2,
+			requestedAt,
+			forcedAttackRoll: 15, // 15 + 2 danger = 17
+			forcedDefenseRoll: 10, // 10 + 2 structure = 12 -> diff = 5. damage = 5 * 2 = 10
+			bastion,
+		});
+
+		expect(roundResult.success).toBe(true);
+		if (roundResult.success) {
+			expect(roundResult.data.damageToBastion).toBe(10);
+			expect(roundResult.data.updatedBastion?.integrityCurrent).toBe(40); // 50 - 10
+		}
+	});
+
+	it("mitigates damage through mercenary squads and applies cohesion loss", async () => {
+		const repo = new InMemorySiegeRepository();
+		const service = new SiegeService(repo, fakeDiceService);
+
+		const triggerRes = await service.triggerSiege({
+			campaignId,
+			bastionId,
+			factionId,
+			dangerLevel: 2,
+			requestedAt,
+		});
+		const siegeId = triggerRes.success ? triggerRes.data.id : "";
+
+		const bastion = {
+			id: bastionId,
+			integrityCurrent: 50,
+			structure: 2,
+			threatCurrent: 5,
+		};
+
+		const squads = [
+			{
+				id: "squad-1",
+				physical: 2,
+				cohesionCurrent: 10,
+				status: "available" as const,
+			},
+			{
+				id: "squad-2",
+				physical: 1,
+				cohesionCurrent: 8,
+				status: "available" as const,
+			},
+		];
+
+		const roundResult = await service.resolveSiegeRound({
+			siegeId,
+			defenseRollBonus: 2,
+			requestedAt,
+			forcedAttackRoll: 15, // 15 + 2 = 17
+			forcedDefenseRoll: 8, // 8 + 2 structure + 3 squads physical = 13 -> diff = 4. rawDamage = 4 * 2 = 8
+			bastion,
+			squads,
+		});
+
+		expect(roundResult.success).toBe(true);
+		if (roundResult.success) {
+			// Os mercenários absorvem 8 de dano.
+			// Como são 2 squads, cada um sofre 4 de dano (round-robin remove 1 a 1).
+			// Dano absorvido = 8. Dano remanescente para o bastião = 0.
+			expect(roundResult.data.damageToBastion).toBe(0);
+			expect(roundResult.data.updatedBastion?.integrityCurrent).toBe(50); // Sem dano
+			expect(roundResult.data.updatedSquads?.[0]?.cohesionCurrent).toBe(6); // 10 - 4
+			expect(roundResult.data.updatedSquads?.[1]?.cohesionCurrent).toBe(4); // 8 - 4
+		}
+	});
+
+	it("kills mercenary squads when cohesion drops to 0", async () => {
+		const repo = new InMemorySiegeRepository();
+		const service = new SiegeService(repo, fakeDiceService);
+
+		const triggerRes = await service.triggerSiege({
+			campaignId,
+			bastionId,
+			factionId,
+			dangerLevel: 3,
+			requestedAt,
+		});
+		const siegeId = triggerRes.success ? triggerRes.data.id : "";
+
+		const bastion = {
+			id: bastionId,
+			integrityCurrent: 50,
+			structure: 2,
+			threatCurrent: 5,
+		};
+
+		const squads = [
+			{
+				id: "squad-1",
+				physical: 1,
+				cohesionCurrent: 2,
+				status: "available" as const,
+			},
+		];
+
+		const roundResult = await service.resolveSiegeRound({
+			siegeId,
+			defenseRollBonus: 2,
+			requestedAt,
+			forcedAttackRoll: 15, // 15 + 3 = 18
+			forcedDefenseRoll: 10, // 10 + 2 + 1 = 13 -> diff = 5. rawDamage = 5 * 3 = 15
+			bastion,
+			squads,
+		});
+
+		expect(roundResult.success).toBe(true);
+		if (roundResult.success) {
+			// Squad absorve 2 de dano de coesão, zera e morre.
+			// Dano para o bastião = 15 - 2 = 13.
+			expect(roundResult.data.damageToBastion).toBe(13);
+			expect(roundResult.data.updatedBastion?.integrityCurrent).toBe(37); // 50 - 13
+			expect(roundResult.data.updatedSquads?.[0]?.cohesionCurrent).toBe(0);
+			expect(roundResult.data.updatedSquads?.[0]?.status).toBe("dead");
+		}
+	});
+
+	it("resets active threat clock and threatCurrent when defense repeals siege with margin >= 5 for different factions", async () => {
+		const factions = [
+			{ id: "fac-ruin", expectedClock: "Ameaça: Sectários da Ruína" },
+			{ id: "fac-ether", expectedClock: "Ameaça: Guardiões do Ether" },
+			{ id: "rival_faction", expectedClock: undefined },
+		];
+
+		for (const faction of factions) {
+			const repo = new InMemorySiegeRepository();
+			const service = new SiegeService(repo, fakeDiceService);
+
+			const triggerRes = await service.triggerSiege({
+				campaignId,
+				bastionId,
+				factionId: faction.id,
+				dangerLevel: 2,
+				requestedAt,
+			});
+			const siegeId = triggerRes.success ? triggerRes.data.id : "";
+
+			const bastion = {
+				id: bastionId,
+				integrityCurrent: 50,
+				structure: 2,
+				threatCurrent: 5,
+			};
+
+			const roundResult = await service.resolveSiegeRound({
+				siegeId,
+				defenseRollBonus: 2,
+				requestedAt,
+				forcedAttackRoll: 5, // 5 + 2 = 7
+				forcedDefenseRoll: 12, // 12 + 2 = 14 -> diff = -7 (repelido)
+				bastion,
+			});
+
+			expect(roundResult.success).toBe(true);
+			if (roundResult.success) {
+				expect(roundResult.data.isResolved).toBe(true);
+				expect(roundResult.data.resetClockName).toBe(faction.expectedClock);
+				expect(roundResult.data.updatedBastion?.threatCurrent).toBe(0);
+			}
 		}
 	});
 });

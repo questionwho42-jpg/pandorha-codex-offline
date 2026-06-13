@@ -548,3 +548,229 @@ input:focus {
 .bastion-container select:focus {
 	border-color: #8b5cf6;
 }
+
+/* Tab Navigation Styles */
+.tabs-nav {
+	display: flex;
+	gap: 1rem;
+	margin-bottom: 1.5rem;
+	padding: 0.5rem;
+	border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+}
+
+.tab-btn {
+	background: transparent;
+	border: none;
+	color: #94a3b8;
+	font-size: 1.1rem;
+	font-weight: 600;
+	padding: 0.75rem 1.5rem;
+	cursor: pointer;
+	border-radius: 8px 8px 0 0;
+	transition: all 0.3s ease;
+	border-bottom: 3px solid transparent;
+}
+
+.tab-btn:hover {
+	color: #c084fc;
+	background: rgba(139, 92, 246, 0.05);
+}
+
+.tab-btn.active {
+	color: #a78bfa;
+	border-bottom: 3px solid #8b5cf6;
+	background: rgba(139, 92, 246, 0.1);
+}
+
+/* Siege View Styles */
+.siege-intro {
+	text-align: center;
+	padding: 2.5rem;
+}
+
+.siege-trigger-form {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+	margin-top: 1.5rem;
+	max-width: 450px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.siege-trigger-form select,
+.siege-trigger-form input {
+	width: 100%;
+}
+
+.squad-selection-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	max-height: 400px;
+	overflow-y: auto;
+	padding-right: 0.5rem;
+}
+
+.squad-selection-card {
+	background: rgba(15, 10, 30, 0.4);
+	border: 1px solid rgba(139, 92, 246, 0.2);
+	border-radius: 8px;
+	padding: 1rem;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.squad-selection-card.disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.squad-selection-card:not(.disabled):hover {
+	border-color: rgba(139, 92, 246, 0.5);
+	background: rgba(139, 92, 246, 0.05);
+}
+
+.squad-selection-card input[type="checkbox"] {
+	width: 18px;
+	height: 18px;
+	accent-color: #8b5cf6;
+	cursor: pointer;
+}
+
+.squad-selection-card.disabled input[type="checkbox"] {
+	cursor: not-allowed;
+}
+
+.squad-selection-info {
+	flex-grow: 1;
+}
+
+.squad-selection-info h4 {
+	margin: 0 0 0.25rem 0;
+	font-size: 0.95rem;
+	color: #e2e8f0;
+}
+
+.squad-selection-stats {
+	display: flex;
+	gap: 1rem;
+	font-size: 0.8rem;
+	color: #94a3b8;
+}
+
+.squad-selection-stats strong {
+	color: #a78bfa;
+}
+
+.squad-selection-tags {
+	display: flex;
+	gap: 0.25rem;
+	margin-top: 0.5rem;
+}
+
+.squad-tag-badge {
+	font-size: 0.7rem;
+	padding: 0.1rem 0.4rem;
+	background: rgba(139, 92, 246, 0.15);
+	border: 1px solid rgba(139, 92, 246, 0.3);
+	color: #c084fc;
+	border-radius: 4px;
+	font-family: monospace;
+}
+
+.simulation-rolls {
+	background: rgba(15, 10, 30, 0.5);
+	border: 1px solid rgba(139, 92, 246, 0.15);
+	border-radius: 8px;
+	padding: 1rem;
+	margin: 1rem 0;
+}
+
+.simulation-rolls h4 {
+	margin: 0 0 0.75rem 0;
+	color: #c084fc;
+	font-size: 0.9rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.rolls-inputs-row {
+	display: flex;
+	gap: 1rem;
+}
+
+.rolls-inputs-row .input-group {
+	flex: 1;
+	margin-bottom: 0;
+}
+
+.rolls-inputs-row input {
+	text-align: center;
+}
+
+.defense-preview-box {
+	background: rgba(16, 185, 129, 0.1);
+	border: 1px solid rgba(16, 185, 129, 0.3);
+	border-radius: 8px;
+	padding: 1rem;
+	margin-bottom: 1.5rem;
+}
+
+.defense-preview-box h3 {
+	margin: 0 0 0.5rem 0;
+	color: #34d399;
+	font-size: 1rem;
+}
+
+.defense-preview-box p {
+	margin: 0;
+	font-size: 0.875rem;
+	color: #cbd5e1;
+}
+
+.defense-preview-box strong {
+	color: #34d399;
+	font-size: 1.1rem;
+}
+
+.siege-history-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	max-height: 400px;
+	overflow-y: auto;
+	padding-right: 0.5rem;
+}
+
+.siege-history-entry {
+	background: rgba(15, 10, 30, 0.3);
+	border-left: 3px solid #8b5cf6;
+	border-radius: 0 8px 8px 0;
+	padding: 0.75rem 1rem;
+	font-size: 0.85rem;
+}
+
+.siege-history-entry.resolve {
+	border-left-color: #10b981;
+}
+
+.siege-history-entry.start {
+	border-left-color: #ef4444;
+}
+
+.siege-history-header {
+	display: flex;
+	justify-content: space-between;
+	color: #94a3b8;
+	font-size: 0.75rem;
+	margin-bottom: 0.25rem;
+}
+
+.siege-history-desc {
+	color: #e2e8f0;
+	line-height: 1.4;
+}

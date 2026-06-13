@@ -4,6 +4,20 @@ import type { SiegeEventRecord } from "../model/siegeSchema";
 import type { SiegeServiceFailure } from "../model/siegeTypes";
 import type { SiegeRepository } from "./SiegeRepository";
 
+export interface ISiegeBastionDefender {
+	id: string;
+	integrityCurrent: number;
+	structure: number;
+	threatCurrent: number;
+}
+
+export interface ISiegeMercenarySquad {
+	id: string;
+	physical: number;
+	cohesionCurrent: number;
+	status: "available" | "on_mission" | "resting" | "dead";
+}
+
 export class SiegeService {
 	public constructor(
 		private readonly siegeRepository: SiegeRepository,
@@ -16,7 +30,7 @@ export class SiegeService {
 		factionId: string;
 		dangerLevel: number;
 		requestedAt: string;
-		uuid?: string;
+		uuid?: string | undefined;
 	}): Promise<Result<SiegeEventRecord, SiegeServiceFailure>> {
 		const activeResult = await this.siegeRepository.findActiveSiege(
 			params.campaignId,
@@ -76,9 +90,18 @@ export class SiegeService {
 		requestedAt: string;
 		forcedAttackRoll?: number | undefined;
 		forcedDefenseRoll?: number | undefined;
+		bastion?: ISiegeBastionDefender | undefined;
+		squads?: ISiegeMercenarySquad[] | undefined;
 	}): Promise<
 		Result<
-			{ damageToBastion: number; isResolved: boolean; logMessage: string },
+			{
+				damageToBastion: number;
+				isResolved: boolean;
+				logMessage: string;
+				updatedBastion?: ISiegeBastionDefender | undefined;
+				updatedSquads?: ISiegeMercenarySquad[] | undefined;
+				resetClockName?: string | undefined;
+			},
 			SiegeServiceFailure
 		>
 	> {
@@ -113,7 +136,7 @@ export class SiegeService {
 		}
 		const attackTotal = attackDie + siege.dangerLevel;
 
-		// Rolar defesa do Bastião: 1d20 + Bônus de Defesa (Estrutura)
+		// Rolar defesa do Bastião: 1d20 + Bônus de Defesa (Estrutura) + Bônus de Mercenários
 		let defenseDie = params.forcedDefenseRoll;
 		if (defenseDie === undefined) {
 			const defenseRollResult = this.diceService.rollDie({ sides: 20 });
@@ -125,7 +148,19 @@ export class SiegeService {
 			}
 			defenseDie = defenseRollResult.data.naturalRoll;
 		}
-		const defenseTotal = defenseDie + params.defenseRollBonus;
+
+		// Bônus de mercenários designados: somatório de Physical
+		const squadsList = params.squads ?? [];
+		const activeSquads = squadsList.filter(
+			(s) => s.status === "available" && s.cohesionCurrent > 0,
+		);
+		const mercenaryDefenseBonus = activeSquads.reduce(
+			(acc, sq) => acc + sq.physical,
+			0,
+		);
+
+		const defenseTotal =
+			defenseDie + params.defenseRollBonus + mercenaryDefenseBonus;
 
 		let damageToBastion = 0;
 		let isResolved = false;
@@ -133,17 +168,70 @@ export class SiegeService {
 
 		const diff = attackTotal - defenseTotal;
 
+		let updatedBastion: ISiegeBastionDefender | undefined;
+		let updatedSquads: ISiegeMercenarySquad[] | undefined;
+		let resetClockName: string | undefined;
+
 		if (diff > 0) {
 			// Sucesso do ataque inimigo
-			damageToBastion = diff * siege.dangerLevel;
-			logMessage = `As defesas do Bastião cederam sob o ataque (Ataque: ${attackTotal} vs Defesa: ${defenseTotal}). As muralhas sofreram ${damageToBastion} de dano!`;
+			const rawDamage = diff * siege.dangerLevel;
+			let remainingDamage = rawDamage;
+
+			if (activeSquads.length > 0) {
+				updatedSquads = squadsList.map((sq) => ({ ...sq }));
+				let currentActives = updatedSquads.filter(
+					(s) => s.status === "available" && s.cohesionCurrent > 0,
+				);
+
+				while (remainingDamage > 0 && currentActives.length > 0) {
+					for (const squad of currentActives) {
+						if (remainingDamage <= 0) break;
+						squad.cohesionCurrent--;
+						remainingDamage--;
+						if (squad.cohesionCurrent <= 0) {
+							squad.cohesionCurrent = 0;
+							squad.status = "dead";
+						}
+					}
+					currentActives = updatedSquads.filter(
+						(s) => s.status === "available" && s.cohesionCurrent > 0,
+					);
+				}
+			}
+
+			damageToBastion = remainingDamage;
+			const mercenariesMitigated = rawDamage - remainingDamage;
+
+			logMessage = `As defesas do Bastião cederam sob o ataque (Ataque: ${attackTotal} vs Defesa: ${defenseTotal}).`;
+			if (mercenariesMitigated > 0) {
+				logMessage += ` Esquadrões mercenários absorveram ${mercenariesMitigated} de dano de coesão.`;
+			}
+			logMessage += ` As muralhas sofreram ${damageToBastion} de dano estrutural!`;
 		} else if (Math.abs(diff) >= 5) {
 			// Defesa vence por margem >= 5: O cerco é repelido e resolvido
 			isResolved = true;
 			logMessage = `Defesa triunfante! As defesas do Bastião repeliram com sucesso os invasores (Defesa: ${defenseTotal} vs Ataque: ${attackTotal}). O cerco foi quebrado!`;
+
+			// Determinar relógio de ameaça correspondente à facção agressora
+			if (siege.factionId === "fac-ruin") {
+				resetClockName = "Ameaça: Sectários da Ruína";
+			} else if (siege.factionId === "fac-ether") {
+				resetClockName = "Ameaça: Guardiões do Ether";
+			}
 		} else {
 			// Empate ou vitória menor da defesa: O cerco continua
 			logMessage = `O cerco persiste nas fronteiras. Os defensores aguentam firmes mas as forças inimigas continuam pressionando (Defesa: ${defenseTotal} vs Ataque: ${attackTotal}).`;
+		}
+
+		if (params.bastion) {
+			updatedBastion = {
+				...params.bastion,
+				integrityCurrent: Math.max(
+					0,
+					params.bastion.integrityCurrent - damageToBastion,
+				),
+				threatCurrent: isResolved ? 0 : params.bastion.threatCurrent,
+			};
 		}
 
 		// Salvar atualizações no cerco
@@ -177,6 +265,9 @@ export class SiegeService {
 			damageToBastion,
 			isResolved,
 			logMessage,
+			updatedBastion,
+			updatedSquads,
+			resetClockName,
 		});
 	}
 

@@ -1,6 +1,7 @@
 export interface SiegeRepositoryFailure {
 	code:
 		| "SIEGE_REPOSITORY_WRITE_FAILED"
+		| "SIEGE_REPOSITORY_READ_FAILED"
 		| "SIEGE_NOT_FOUND"
 		| "CORRUPTED_SIEGE_RECORD"
 		| "EVENT_HISTORY_WRITE_FAILED";
