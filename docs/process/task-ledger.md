@@ -87,11 +87,592 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - Improvements: Corrigido bug lógico de correspondência de eixo mental no NegotiationService
 - Model/config: gemini-2.5-pro; local automation zero-token
 <!-- /pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-12 -->
-
 <!-- /pandorha-ledger:in-progress -->
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260612-182200-tarefa-24-espionage-panel -->
+### Tarefa 24: Painel de Espionagem, Furtividade e Infiltração Urbana
+- id: 20260612-182200-tarefa-24-espionage-panel
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-12T18:22:28-03:00
+- finished_at: 2026-06-12T18:49:14-03:00
+- model_started: gemini-2.5-pro
+- model_finished: gemini-2.5-pro
+- last_modified_at: 2026-06-12T18:49:14-03:00
+- branch: feat/fase3-lore-events
+- commit_at_start: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- summary: Corrigir nomes de variáveis reativas no EspionageManagementPanel.svelte e criar suíte completa de testes no spec.
+- last_change: EspionageManagementPanel refatorado e testado com 100% de cobertura em Happy-DOM
+#### Files At Start
+- docs/process/task-ledger.md
+- docs/system/survival/30-codex-do-bastiao.md
+- drizzle/meta/_journal.json
+- llms-full.txt
+- llms.txt
+- src/app/App.svelte
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/equipment/__tests__/InventoryService.spec.ts
+- src/entities/equipment/domain/CraftingQualityDecorators.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/entities/equipment/model/craftingTypes.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/domain/ResearchService.ts
+- src/entities/quest/__tests__/QuestService.spec.ts
+- src/entities/siege/__tests__/SiegeService.spec.ts
+- src/entities/siege/domain/SiegeService.ts
+- src/entities/siege/model/siegeTypes.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/combat-encounter/__tests__/CombatMonteCarlo.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/CraftingRecipeSelector.svelte
+- src/features/crafting/ui/CraftingWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/dungeon-crawler/ui/DungeonMap.svelte
+- src/features/hexcrawl-map/ui/HexcrawlMapPanel.svelte
+- src/features/investigation/ui/InvestigationPanel.svelte
+- src/features/investigation/ui/investigation.css
+- ... 28 more
+#### Checkpoints
+#### Checkpoint 2026-06-12T18:22:28-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gemini-2.5-pro
+
+#### Checkpoint 2026-06-12T18:49:14-03:00
+- Done: EspionageManagementPanel refatorado e testado com 100% de cobertura em Happy-DOM
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gemini-2.5-pro
+<!-- /pandorha-task:20260612-182200-tarefa-24-espionage-panel -->
+<!-- pandorha-task:20260612-175000-tarefa-23-mercenary-company-panel -->
+### Tarefa 23: Dashboard de Gerenciamento e Despacho da Companhia Mercenária
+- id: 20260612-175000-tarefa-23-mercenary-company-panel
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-12T17:54:56-03:00
+- finished_at: 2026-06-12T17:55:01-03:00
+- model_started: gemini-2.5-pro
+- model_finished: gemini-2.5-pro
+- last_modified_at: 2026-06-12T17:55:01-03:00
+- branch: feat/fase3-lore-events
+- commit_at_start: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- summary: Concluir e testar o MercenaryCompanyPanel com 100% de cobertura e sem erros.
+- last_change: Concluido e corrigido o painel e os testes do MercenaryCompanyPanel com 100% de cobertura nos testes Happy-DOM e com types TS e Biome limpos.
+#### Files At Start
+- docs/process/task-ledger.md
+- docs/system/survival/30-codex-do-bastiao.md
+- drizzle/meta/_journal.json
+- llms-full.txt
+- llms.txt
+- src/app/App.svelte
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/equipment/__tests__/InventoryService.spec.ts
+- src/entities/equipment/domain/CraftingQualityDecorators.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/entities/equipment/model/craftingTypes.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/domain/ResearchService.ts
+- src/entities/quest/__tests__/QuestService.spec.ts
+- src/entities/siege/__tests__/SiegeService.spec.ts
+- src/entities/siege/domain/SiegeService.ts
+- src/entities/siege/model/siegeTypes.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/combat-encounter/__tests__/CombatMonteCarlo.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/CraftingRecipeSelector.svelte
+- src/features/crafting/ui/CraftingWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/dungeon-crawler/ui/DungeonMap.svelte
+- src/features/hexcrawl-map/ui/HexcrawlMapPanel.svelte
+- src/features/investigation/ui/InvestigationPanel.svelte
+- src/features/investigation/ui/investigation.css
+- ... 28 more
+#### Checkpoints
+#### Checkpoint 2026-06-12T17:54:56-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gemini-2.5-pro
+
+#### Checkpoint 2026-06-12T17:55:01-03:00
+- Done: Concluido e corrigido o painel e os testes do MercenaryCompanyPanel com 100% de cobertura nos testes Happy-DOM e com types TS e Biome limpos.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gemini-2.5-pro
+<!-- /pandorha-task:20260612-175000-tarefa-23-mercenary-company-panel -->
+<!-- pandorha-task:20260612-124831-tarefa-22-painel-de-investiga-o-e-conex-o-de-pis -->
+### Tarefa 22: Painel de Investigação e Conexão de Pistas
+- id: 20260612-124831-tarefa-22-painel-de-investiga-o-e-conex-o-de-pis
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-12T12:48:31-03:00
+- finished_at: 2026-06-12T12:56:25-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-12T12:56:25-03:00
+- branch: feat/fase3-lore-events
+- commit_at_start: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- summary: Desenvolver interface de conexao de pistas e testes no InvestigationPanel
+- last_change: Wired App.svelte, implemented interactive clue connecting in InvestigationPanel.svelte, and added 100% covered Happy-DOM tests.
+#### Files At Start
+- docs/process/task-ledger.md
+- docs/system/survival/30-codex-do-bastiao.md
+- drizzle/meta/_journal.json
+- llms-full.txt
+- llms.txt
+- src/app/App.svelte
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/equipment/__tests__/InventoryService.spec.ts
+- src/entities/equipment/domain/CraftingQualityDecorators.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/entities/equipment/model/craftingTypes.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/domain/ResearchService.ts
+- src/entities/quest/__tests__/QuestService.spec.ts
+- src/entities/siege/__tests__/SiegeService.spec.ts
+- src/entities/siege/domain/SiegeService.ts
+- src/entities/siege/model/siegeTypes.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/combat-encounter/__tests__/CombatMonteCarlo.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/CraftingRecipeSelector.svelte
+- src/features/crafting/ui/CraftingWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/dungeon-crawler/ui/DungeonMap.svelte
+- src/features/hexcrawl-map/ui/HexcrawlMapPanel.svelte
+- src/features/quests/index.ts
+- src/features/quests/ui/QuestTracker.svelte
+- ... 23 more
+#### Checkpoints
+#### Checkpoint 2026-06-12T12:48:31-03:00
+- Done: task record created
+- Next: Modificar App.svelte, InvestigationPanel.svelte e escrever testes
+- Risks: conflitos de layout ou reatividade
+- Improvements: uso de localStorage para persistir pistas
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-12T12:56:25-03:00
+- Done: Wired App.svelte, implemented interactive clue connecting in InvestigationPanel.svelte, and added 100% covered Happy-DOM tests.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260612-124831-tarefa-22-painel-de-investiga-o-e-conex-o-de-pis -->
+<!-- pandorha-task:20260612-124110-tarefa-21-painel-de-miss-es-e-objetivos -->
+### Tarefa 21: Painel de Missões e Objetivos
+- id: 20260612-124110-tarefa-21-painel-de-miss-es-e-objetivos
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-12T12:41:10-03:00
+- finished_at: 2026-06-12T12:45:35-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-12T12:45:35-03:00
+- branch: feat/fase3-lore-events
+- commit_at_start: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- summary: Desenvolvimento dos testes do QuestsPanel
+- last_change: Desenvolvido QuestsPanel, marcadores neon e testes unitarios de UI com 100% de cobertura nos branches adicionados
+#### Files At Start
+- docs/process/task-ledger.md
+- docs/system/survival/30-codex-do-bastiao.md
+- drizzle/meta/_journal.json
+- llms-full.txt
+- llms.txt
+- src/app/App.svelte
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/equipment/__tests__/InventoryService.spec.ts
+- src/entities/equipment/domain/CraftingQualityDecorators.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/entities/equipment/model/craftingTypes.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/domain/ResearchService.ts
+- src/entities/quest/__tests__/QuestService.spec.ts
+- src/entities/siege/__tests__/SiegeService.spec.ts
+- src/entities/siege/domain/SiegeService.ts
+- src/entities/siege/model/siegeTypes.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/combat-encounter/__tests__/CombatMonteCarlo.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/CraftingRecipeSelector.svelte
+- src/features/crafting/ui/CraftingWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/dungeon-crawler/ui/DungeonMap.svelte
+- src/features/hexcrawl-map/ui/HexcrawlMapPanel.svelte
+- src/features/quests/index.ts
+- src/features/quests/ui/QuestTracker.svelte
+- ... 22 more
+#### Checkpoints
+#### Checkpoint 2026-06-12T12:41:10-03:00
+- Done: task record created
+- Next: Escrever os testes sob happy-dom
+- Risks: erros de renderizacao do svelte no vitest
+- Improvements: mockar worker local via prop
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-12T12:45:35-03:00
+- Done: Desenvolvido QuestsPanel, marcadores neon e testes unitarios de UI com 100% de cobertura nos branches adicionados
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260612-124110-tarefa-21-painel-de-miss-es-e-objetivos -->
+<!-- pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-20 -->
+### Tarefa 20: Fechamento de Ciclo, Auditoria Final de Performance e Lançamento de Build
+- id: e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-20
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-12T12:13:21-03:00
+- finished_at: 2026-06-12T12:13:25-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-12T12:13:25-03:00
+- branch: feat/fase3-lore-events
+- commit_at_start: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- summary: Fechamento de ciclo, auditoria de explain plan e execucao do quality gate completo
+- last_change: Fechamento de ciclo concluido, com cobertura global de branches em 97.02%, linter limpo e todas as verificacoes do Quality Gate com status passed.
+#### Files At Start
+- docs/process/task-ledger.md
+- docs/system/survival/30-codex-do-bastiao.md
+- drizzle/meta/_journal.json
+- llms-full.txt
+- llms.txt
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/equipment/__tests__/InventoryService.spec.ts
+- src/entities/equipment/domain/CraftingQualityDecorators.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/entities/equipment/model/craftingTypes.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/domain/ResearchService.ts
+- src/entities/quest/__tests__/QuestService.spec.ts
+- src/entities/siege/__tests__/SiegeService.spec.ts
+- src/entities/siege/domain/SiegeService.ts
+- src/entities/siege/model/siegeTypes.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/combat-encounter/__tests__/CombatMonteCarlo.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/CraftingRecipeSelector.svelte
+- src/features/crafting/ui/CraftingWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/quests/ui/QuestTracker.svelte
+- src/features/research/ui/ResearchPanel.svelte
+- src/features/social/index.ts
+- src/features/social/ui/SocialDemo.svelte
+- src/shared/architecture/__tests__/FsdArchitecture.spec.ts
+- ... 17 more
+#### Checkpoints
+#### Checkpoint 2026-06-12T12:13:21-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-12T12:13:25-03:00
+- Done: Fechamento de ciclo concluido, com cobertura global de branches em 97.02%, linter limpo e todas as verificacoes do Quality Gate com status passed.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-20 -->
+<!-- pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-19 -->
+### Tarefa 19: Combate de Chefes e Encontros de Elite Multiturno
+- id: e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-19
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-12T11:34:46-03:00
+- finished_at: 2026-06-12T11:34:50-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-12T11:34:50-03:00
+- branch: feat/fase3-lore-events
+- commit_at_start: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- summary: Estender TacticalAiService para chefes lendarios, quebra de ActionQueue, transicoes de fase e simulador Monte Carlo.
+- last_change: Implementado boss Araxas com HP segmentado, IA multiturno por fase, mitigacao de overflow de dano, quebra de action queue ao transicionar e simulações de Monte Carlo executando e validando perfeitamente.
+#### Files At Start
+- docs/process/task-ledger.md
+- docs/system/survival/30-codex-do-bastiao.md
+- drizzle/meta/_journal.json
+- llms-full.txt
+- llms.txt
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/equipment/domain/CraftingQualityDecorators.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/entities/equipment/model/craftingTypes.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/domain/ResearchService.ts
+- src/entities/siege/__tests__/SiegeService.spec.ts
+- src/entities/siege/domain/SiegeService.ts
+- src/entities/siege/model/siegeTypes.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/combat-encounter/__tests__/CombatMonteCarlo.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/CraftingRecipeSelector.svelte
+- src/features/crafting/ui/CraftingWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/quests/ui/QuestTracker.svelte
+- src/features/research/ui/ResearchPanel.svelte
+- src/features/social/index.ts
+- src/features/social/ui/SocialDemo.svelte
+- src/shared/architecture/__tests__/FsdArchitecture.spec.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- ... 14 more
+#### Checkpoints
+#### Checkpoint 2026-06-12T11:34:46-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-12T11:34:50-03:00
+- Done: Implementado boss Araxas com HP segmentado, IA multiturno por fase, mitigacao de overflow de dano, quebra de action queue ao transicionar e simulações de Monte Carlo executando e validando perfeitamente.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-19 -->
+<!-- pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-15 -->
+### Tarefa 15: Cerco Dinâmico e Ataque ao Bastião
+- id: e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-15
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-11T19:27:56-03:00
+- finished_at: 2026-06-11T19:36:30-03:00
+- model_started: Gemini 1.5 Pro
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-11T19:36:30-03:00
+- branch: feat/fase3-lore-events
+- commit_at_start: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- summary: Integrar eventos de cerco baseados em Clocks ao Bastião no SiegeService, aba Defesa de Cerco no BastionPanel e testes de dano estrutural.
+- last_change: Resolvida a falha de assercao de logMessage no SiegeService.spec.ts. Implementada a aba de Defesa de Cerco no BastionPanel.svelte com designacao de mercenarios, exibicao de clocks/ameacas da faccao agressora, rolagens de dados forcadas/deterministas para simulacao e historico de combate. Toda a suite de 1184 testes unitarios e o validador de sintaxe do Svelte 5 passaram com sucesso.
+#### Files At Start
+- docs/process/task-ledger.md
+- drizzle/meta/_journal.json
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/quests/ui/QuestTracker.svelte
+- src/features/social/index.ts
+- src/features/social/ui/SocialDemo.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- drizzle/0025_tan_greymalkin.sql
+- drizzle/meta/0025_snapshot.json
+- src/entities/social/infrastructure/WorkerFactionRepository.ts
+- src/features/social/ui/FactionTeiaPanel.svelte
+#### Checkpoints
+#### Checkpoint 2026-06-11T19:27:56-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: Gemini 1.5 Pro
+
+#### Checkpoint 2026-06-11T19:36:30-03:00
+- Done: Resolvida a falha de assercao de logMessage no SiegeService.spec.ts. Implementada a aba de Defesa de Cerco no BastionPanel.svelte com designacao de mercenarios, exibicao de clocks/ameacas da faccao agressora, rolagens de dados forcadas/deterministas para simulacao e historico de combate. Toda a suite de 1184 testes unitarios e o validador de sintaxe do Svelte 5 passaram com sucesso.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-15 -->
+<!-- pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-14 -->
+### Tarefa 14: Sistema de Patrocínio e Teia de Favores de Facções
+- id: e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-14
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-11T19:17:24-03:00
+- finished_at: 2026-06-11T19:17:27-03:00
+- model_started: Gemini 1.5 Pro
+- model_finished: Gemini 1.5 Pro
+- last_modified_at: 2026-06-11T19:17:27-03:00
+- branch: feat/fase3-lore-events
+- commit_at_start: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- summary: Modelar banco e implementar PatronageService com Result Pattern, FactionTeiaPanel.svelte e testes unitarios cobrindo relogios de ameaca.
+- last_change: Implementacao do sistema de pactos de patrocinio com faccoes, garantindo bonus passivos permanentes ao custo de inflar os relogios de ameaca de faccoes rivais de forma FSD-compliant. Resolvido import de ClockService no feature FactionTeiaPanel.svelte e adicionado migration 0025_tan_greymalkin nos assertions de teste da persistencia.
+#### Files At Start
+- docs/process/task-ledger.md
+- drizzle/meta/_journal.json
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/quests/ui/QuestTracker.svelte
+- src/features/social/index.ts
+- src/features/social/ui/SocialDemo.svelte
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- drizzle/0025_tan_greymalkin.sql
+- drizzle/meta/0025_snapshot.json
+- src/entities/social/infrastructure/WorkerFactionRepository.ts
+- src/features/social/ui/FactionTeiaPanel.svelte
+#### Checkpoints
+#### Checkpoint 2026-06-11T19:17:24-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: Gemini 1.5 Pro
+
+#### Checkpoint 2026-06-11T19:17:27-03:00
+- Done: Implementacao do sistema de pactos de patrocinio com faccoes, garantindo bonus passivos permanentes ao custo de inflar os relogios de ameaca de faccoes rivais de forma FSD-compliant. Resolvido import de ClockService no feature FactionTeiaPanel.svelte e adicionado migration 0025_tan_greymalkin nos assertions de teste da persistencia.
+- Next: Tarefa 15: Cerco Dinamico e Ataque ao Bastiao
+- Risks: Nenhum risco detectado
+- Improvements: Refatorado import de ClockService para obedecer as fronteiras de Feature-Sliced Design (FSD)
+- Model/config: Gemini 1.5 Pro
+<!-- /pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-14 -->
+<!-- pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-13 -->
+### Tarefa 13: Geracao de Eventos e Encontros Narrativos Dinamicos
+- id: e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-13
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-11T18:10:59-03:00
+- finished_at: 2026-06-11T18:11:04-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-11T18:11:04-03:00
+- branch: feat/fase3-lore-events
+- commit_at_start: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- summary: Sincronizar LoreService e DialogueService com Hexcrawl e Masmorra, reputacao de faccoes e polimento visual
+- last_change: Implementacao da Tarefa 13 com sincronizacao de Lore/Dialogue na Masmorra/Hexcrawl, reputacao de faccoes, correcao de imports FSD e polimento visual
+#### Files At Start
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/quests/ui/QuestTracker.svelte
+#### Checkpoints
+#### Checkpoint 2026-06-11T18:10:59-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-11T18:11:04-03:00
+- Done: Implementacao da Tarefa 13 com sincronizacao de Lore/Dialogue na Masmorra/Hexcrawl, reputacao de faccoes, correcao de imports FSD e polimento visual
+- Next: Tarefa 14: Sistema de Patrocinio e Teia de Favores de Faccoes
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-13 -->
 <!-- pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-11 -->
 ### Integracao de Perigos e Armadilhas nas Masmorras e Hexcrawl
 - id: e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-11
@@ -4435,6 +5016,253 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-12T11:34:58-03:00 - task_19_complete
+- branch: feat/fase3-lore-events
+- commit: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- changed_files_count: 54
+#### Changed Files
+- docs/process/task-ledger.md
+- docs/system/survival/30-codex-do-bastiao.md
+- drizzle/meta/_journal.json
+- llms-full.txt
+- llms.txt
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/equipment/domain/CraftingQualityDecorators.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/entities/equipment/model/craftingTypes.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/domain/ResearchService.ts
+- src/entities/siege/__tests__/SiegeService.spec.ts
+- src/entities/siege/domain/SiegeService.ts
+- src/entities/siege/model/siegeTypes.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/combat-encounter/__tests__/CombatMonteCarlo.spec.ts
+- src/features/combat-encounter/__tests__/TacticalAiService.spec.ts
+- src/features/combat-encounter/domain/TacticalAiService.ts
+- src/features/combat-encounter/model/monsterCatalog.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/CraftingRecipeSelector.svelte
+- src/features/crafting/ui/CraftingWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/quests/ui/QuestTracker.svelte
+- src/features/research/ui/ResearchPanel.svelte
+- src/features/social/index.ts
+- src/features/social/ui/SocialDemo.svelte
+- src/shared/architecture/__tests__/FsdArchitecture.spec.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- ... 14 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-12T09:20:30-03:00 - task_18_complete
+- branch: feat/fase3-lore-events
+- commit: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- changed_files_count: 50
+#### Changed Files
+- docs/process/task-ledger.md
+- docs/system/survival/30-codex-do-bastiao.md
+- drizzle/meta/_journal.json
+- llms-full.txt
+- llms.txt
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/equipment/domain/CraftingQualityDecorators.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/entities/equipment/model/craftingTypes.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/domain/ResearchService.ts
+- src/entities/siege/__tests__/SiegeService.spec.ts
+- src/entities/siege/domain/SiegeService.ts
+- src/entities/siege/model/siegeTypes.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/crafting/ui/CraftingRecipeSelector.svelte
+- src/features/crafting/ui/CraftingWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/quests/ui/QuestTracker.svelte
+- src/features/research/ui/ResearchPanel.svelte
+- src/features/social/index.ts
+- src/features/social/ui/SocialDemo.svelte
+- src/shared/architecture/__tests__/FsdArchitecture.spec.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- docs/adr/ADR-016-siege-event-resolution-loop.md
+- ... 10 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-12T09:09:59-03:00 - task_17_complete
+- branch: feat/fase3-lore-events
+- commit: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- changed_files_count: 49
+#### Changed Files
+- docs/process/task-ledger.md
+- docs/system/survival/30-codex-do-bastiao.md
+- drizzle/meta/_journal.json
+- llms-full.txt
+- llms.txt
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/equipment/domain/CraftingQualityDecorators.ts
+- src/entities/equipment/model/craftingSchema.ts
+- src/entities/equipment/model/craftingTypes.ts
+- src/entities/investigation/__tests__/ResearchService.spec.ts
+- src/entities/investigation/domain/ResearchService.ts
+- src/entities/siege/__tests__/SiegeService.spec.ts
+- src/entities/siege/domain/SiegeService.ts
+- src/entities/siege/model/siegeTypes.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/crafting/ui/CraftingRecipeSelector.svelte
+- src/features/crafting/ui/CraftingWorkshopPanel.svelte
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/quests/ui/QuestTracker.svelte
+- src/features/research/ui/ResearchPanel.svelte
+- src/features/social/index.ts
+- src/features/social/ui/SocialDemo.svelte
+- src/shared/architecture/__tests__/FsdArchitecture.spec.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- docs/adr/ADR-016-siege-event-resolution-loop.md
+- drizzle/0025_tan_greymalkin.sql
+- ... 9 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-11T20:04:13-03:00 - task_planning
+- branch: feat/fase3-lore-events
+- commit: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- changed_files_count: 37
+#### Changed Files
+- docs/process/task-ledger.md
+- docs/system/survival/30-codex-do-bastiao.md
+- drizzle/meta/_journal.json
+- llms-full.txt
+- llms.txt
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/siege/__tests__/SiegeService.spec.ts
+- src/entities/siege/domain/SiegeService.ts
+- src/entities/siege/model/siegeTypes.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/quests/ui/QuestTracker.svelte
+- src/features/social/index.ts
+- src/features/social/ui/SocialDemo.svelte
+- src/shared/architecture/__tests__/FsdArchitecture.spec.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- docs/adr/ADR-016-siege-event-resolution-loop.md
+- drizzle/0025_tan_greymalkin.sql
+- drizzle/meta/0025_snapshot.json
+- src/entities/siege/index.ts
+- src/entities/siege/infrastructure/WorkerSiegeRepository.ts
+- src/entities/social/infrastructure/WorkerFactionRepository.ts
+- src/features/social/ui/FactionTeiaPanel.svelte
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-11T19:56:38-03:00 - documentation_update
+- branch: feat/fase3-lore-events
+- commit: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors
+- changed_files_count: 37
+#### Changed Files
+- docs/process/task-ledger.md
+- docs/system/survival/30-codex-do-bastiao.md
+- drizzle/meta/_journal.json
+- llms-full.txt
+- llms.txt
+- src/app/styles.css
+- src/entities/dialogue/__tests__/DialogueService.spec.ts
+- src/entities/dialogue/domain/DialogueService.ts
+- src/entities/dialogue/domain/dialogueTypes.ts
+- src/entities/dungeon/domain/DungeonService.ts
+- src/entities/dungeon/domain/__tests__/DungeonService.spec.ts
+- src/entities/siege/__tests__/SiegeService.spec.ts
+- src/entities/siege/domain/SiegeService.ts
+- src/entities/siege/model/siegeTypes.ts
+- src/entities/social/__tests__/PatronageService.spec.ts
+- src/entities/social/domain/PatronageService.ts
+- src/entities/social/index.ts
+- src/entities/social/model/socialSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/bastion/ui/bastion.css
+- src/features/dialogue/ui/DialoguePanel.svelte
+- src/features/quests/ui/QuestTracker.svelte
+- src/features/social/index.ts
+- src/features/social/ui/SocialDemo.svelte
+- src/shared/architecture/__tests__/FsdArchitecture.spec.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- docs/adr/ADR-016-siege-event-resolution-loop.md
+- drizzle/0025_tan_greymalkin.sql
+- drizzle/meta/0025_snapshot.json
+- src/entities/siege/index.ts
+- src/entities/siege/infrastructure/WorkerSiegeRepository.ts
+- src/entities/social/infrastructure/WorkerFactionRepository.ts
+- src/features/social/ui/FactionTeiaPanel.svelte
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-10T12:57:13-03:00 - Conclusao da Tarefa 2: Padronizacao e Validacao dos Catalogos Estaticos
 - branch: master
 - commit: fb80afa docs: promote combat-survival merge to changelog
