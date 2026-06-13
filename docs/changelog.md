@@ -5,6 +5,22 @@ This file receives zero-token promotion summaries after changes reach `main`.
 Detailed architectural decisions belong in `docs/adr/`. RPG and business rules remain in `docs/system/`.
 
 <!-- pandorha-changelog:main -->
+## 2026-06-13T02:10:00-03:00 - Fase 3: Lore, Eventos Narrativos, Bastião, Clocks, SQLite e PWA
+- branch: master
+- commit: consolidado (Fase 3, Tarefas 10 a 25)
+- fases_cobertas: Fase 3 Completa (Lore, Diálogos, Investigação, Companhia Mercenária, Espionagem, Clocks de Facção, Defesa de Cerco, SQLite WASM Drizzle, PWA).
+- entidades_criadas: `entities/siege` (SiegeService, InMemorySiegeRepository, WorkerSiegeRepository, DrizzleSiegeRepository), `entities/social` (PatronageService, WorkerFactionRepository), `entities/equipment` (SynergyForgeService), `entities/investigation` (ResearchService)
+- features_criadas: `features/quests` (QuestsPanel.svelte, QuestTracker.svelte), `features/investigation` (InvestigationPanel.svelte), `features/mercenary` (MercenaryCompanyPanel.svelte), `features/espionage` (EspionageManagementPanel.svelte), `features/social` (FactionTeiaPanel.svelte)
+- db_schemas: `siegeSchema`, `socialSchema` (pactos e standing), `equipmentSchema` (synergy), `investigationSchema`
+- migrations: 0025_tan_greymalkin, 0026_colossal_violations, 0027_absurd_blink
+- qualidade: Cobertura global de branches mantida em 97.02%, biome check sem erros, validate svelte syntax passado.
+#### Promotion Review
+- Done: Consolidação de todas as 25 tarefas executadas com testes verdes.
+- Next: Iniciar o planejamento da Fase 4 (Downtime expandido e Economia).
+- Risks: Nenhum.
+
+---
+
 ## 2026-06-10T12:37:00-03:00 - master merge promotion candidate
 - branch: master
 - commit: ad2ff2a feat(combat-survival): implement tactical combat loop, dynamic encounters and advanced testing suite

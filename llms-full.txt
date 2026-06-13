@@ -2,7 +2,7 @@
 title: "Pandorha Engine - Full AI Context Injection"
 version: "1.0.0"
 purpose: "Fast context for LLM inference — real interfaces from src/"
-updated: "2026-05-31"
+updated: "2026-06-11"
 ---
 
 # 🧠 PANDORHA ENGINE: FULL CONTEXT

@@ -312,3 +312,27 @@ _Avoid_: Cache de banco de dados, cache de sessão
 Interface exclusiva do Modo Mestre para mutação direta do estado do mundo em tempo de jogo: spawn de monstros, alteração de Relógios de Progresso e injeção de eventos via RPC direto ao Worker.
 _Localização_: `src/features/sandbox/ui/GMSandboxPanel.svelte`
 _Avoid_: Debug panel, painel de trapaça
+
+---
+
+## Novas Mecânicas de Campanha e Bastião (Fase 3)
+
+**Espionagem e Infiltração Urbana (Espionage / Infiltration):**
+Ação executada a partir do `EspionageManagementPanel.svelte` que permite aos Andarilhos implantar células de espionagem, subornar guardas e infiltrar distritos urbanos inimigos, testando sua Furtividade (Stealth) contra o Danger Level local para desacelerar Clocks de ameaça ou adquirir inteligência de campanha.
+_Avoid_: Infiltração livre, espionar solto
+
+**Conexão de Pistas (Clue Connection / Deduction):**
+Mecânica interativa no `InvestigationPanel.svelte` que permite ao jogador associar e conectar fisicamente duas pistas coletadas (Clues) na tela para gerar uma revelação lógica, desbloquear novas trilhas de missões e desvendar mistérios do Tier de Pandorha.
+_Avoid_: Ligar pistas, dedução mental solta
+
+**Painel de Missões e Objetivos (Quest Tracker / QuestsPanel):**
+Interface que unifica o rastreamento visual neon das metas de missões principais de crônica (Campaign Quests) e de contratos de serviço secundários (Guild Contracts), destacando reativamente objetivos no Hexcrawl e no Dungeon Crawler.
+_Avoid_: Diário de quests comum
+
+**Pacto de Patrocínio (Faction Patronage / Pact):**
+Um acordo político formal assinado com uma facção que concede um bônus passivo poderoso permanente ao Andarilho em troca de aumentar imediatamente o Progress Clock de ameaça ou hostilidade de facções rivais na teia de influências regionais.
+_Avoid_: Aliança de guilda comum, favor de facção
+
+**Cerco Dinâmico (Siege Loop):**
+Evento de agressão militar direta contra o Bastião gerenciado pelo `SiegeService`. Rola-se `1d20 + Defesa da Base (incluindo mercenários)` contra `1d20 + Danger Level` do inimigo. Qualquer falha inflige dano dividido round-robin entre a Coesão dos esquadrões de mercenários designados. O dano excedente consome a Integridade estrutural do Bastião.
+_Avoid_: Invasão tática de monstros, assalto comum

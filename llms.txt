@@ -4,7 +4,7 @@ version: "2.1.0"
 stack: "Svelte 5 (Runes), Drizzle ORM, SQLite WASM, Web Workers, Vite"
 conventions: "Feature-Sliced Design (4 camadas), Strict TDD, Custom RPC Bridge"
 maintenance_protocol: "Hybrid (Agent suggests LLMS_DIFF, Human approves)"
-updated: "2026-06-09"
+updated: "2026-06-11"
 ---
 
 # 🗺️ PANDORHA ENGINE: AI ROOT MAP
@@ -53,7 +53,7 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 - [automation-spec.md](./docs/process/automation-spec.md): Zero-token maintenance, task ledger, inbox, and promotion protocol.
 - [task-ledger.md](./docs/process/task-ledger.md): Active, completed, unfinished, and snapshot records.
 - [change-inbox.md](./docs/process/change-inbox.md): Unplanned requests awaiting documentation promotion (currently empty — all promoted 2026-05-31).
-- **IN PROGRESS:** Task `loop-tatico-e-sobrevivencia` (Fases 68–72) — transição mapa↔combate local-first, IA inimiga via ActionQueue, loots atômicos SQLite, mercenários por ticks, climatologia reativa. Branch: `task/combat-survival`.
+- **CONSOLIDATED (Phase 3):** Traps (TrapService), Illnesses & Toxins (SurvivalService), Dialogue & Choice events (LoreService), Factions favors/patronage (PatronageService), and Siege/Invasion loop (SiegeService).
 
 ## 📐 TIER 1B: ARCHITECTURAL DECISIONS [REF:ADR]
 - [ADR-001](./docs/adr/ADR-001-worker-rpc-sem-comlink.md): Custom RPC bridge instead of Comlink.
@@ -70,6 +70,8 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 - [ADR-012](./docs/adr/ADR-012-mercenary-dispatch-time.md): Despacho de mercenários consome ticks de exploração reais, não timers artificiais.
 - [ADR-013](./docs/adr/ADR-013-reactive-weather-march.md): Climatologia reativa controlada por Progress Clock regional — penalidades de marcha e abrigo.
 - [ADR-014](./docs/adr/ADR-014-rpc-cache-main-thread.md): RPC Cache global na thread principal — latência < 16ms, invalidação pessimista por escrita.
+- [ADR-015](./docs/adr/ADR-015-advanced-testing-fase2.md): Diretrizes para testes de integração robustos, cobertura rigorosa de repositories e fakes em memória.
+- [ADR-016](./docs/adr/ADR-016-siege-event-resolution-loop.md): Loop de resolução de cerco no Bastião desacoplado por interfaces locais (FSD compliance).
 
 ## 🧱 TIER 2: SKILLS & AGENTS [REF:TIER2]
 - [.agents/skills/](./.agents/skills/): Directory containing all skill definitions for AI agents (32+ skills).

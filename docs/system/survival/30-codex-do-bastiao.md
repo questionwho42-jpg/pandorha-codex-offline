@@ -249,86 +249,44 @@ por semana (rumores e cobiça).
 
 #### Fundo de Reserva e Abandono:
 
-O grupo deve deixar ouro no cofre ao viajar. Se os fundos secarem: 1) NPCs desertam; 2) Ameaça ganha +1/semana extra; 3) Módulos quebram por deterioração.
-
---------------------------------------------------------------------------------
+O grupo deve deixar ouro no cofre ao viajar. Se os fundos secam: 1) NPCs desertam; 2) Ameaça ganha +1/semana extra; 3) Módulos quebram por deterioração.
 
 4. Invasões e Eventos de Bastião
 
-Barra de Ameaça
+Quando a Ameaça Passiva (Perigo) do Bastião atinge 10 (seja por acúmulo de riqueza, infâmia de acampamento ou progressão de Clocks de facções rivais), ocorre um Evento de Bastião ou o início de um Cerco Dinâmico.
 
-chega a 10 (seja por ouro excessivo or crises), ocorre um Evento de Bastião. O Mestre rola
+### O Loop de Resolução de Cerco Dinâmico (Siege Loop)
 
-na tabela abaixo:
+O cerco é um evento macro-tático estruturado em rodadas consecutivas de resolução onde as forças agressoras tentam romper as muralhas do Bastião.
 
-Evento de Bastião (Crise de Ameaça 10)
+#### Mecânica de Rodada de Cerco:
+A cada rodada de cerco, o combate é resolvido através de rolagens opostas:
+1. **Ataque do Inimigo:** Rola-se `1d20 + Nível de Perigo (Danger Level)` do cerco.
+2. **Defesa do Bastião:** Rola-se `1d20 + Bônus de Defesa (Estrutura do Chassi/Módulos) + Modificadores Extra + Bônus de Mercenários`.
 
-#### Cerco Frontal:
+#### Designação de Mercenários (Escudos Coesivos):
+O grupo pode designar esquadrões de mercenários ativos da guilda para atuar na linha de frente da defesa:
+- Cada esquadrão disponível designado adiciona seu atributo **Física (Physical)** diretamente ao bônus de defesa da base.
+- Se a rolagem de ataque superar a de defesa (gerando dano), o dano total da rodada (`diferença * Danger Level`) é dividido igualmente e deduzido primeiro da **Coesão Atual** dos esquadrões de mercenários designados (processo round-robin).
+- Se a coesão de um esquadrão é reduzida a 0, ele passa ao status `"dead"` (baixas definitivas).
+- Todo dano absorvido pela coesão dos mercenários é mitigado, poupando a estrutura do Bastião.
 
-Horda monstra ataca. O Bastião rola
+#### Dano Estrutural no Bastião:
+- Qualquer dano residual que não for absorvido pelos esquadrões mercenários (ou o dano integral caso não haja esquadrões designados) é aplicado diretamente à **Integridade Física (HP)** do Bastião.
+- Se a Integridade do Bastião atingir 0, a base cai e o evento é perdido.
 
-1d20+Estrutura
+#### Quebra de Cerco e Reset de Facções:
+- Se a rolagem de defesa superar a de ataque por uma margem de **5 ou mais** (`defesa - ataque >= 5`), o cerco é repelido com sucesso e resolvido.
+- A vitória definitiva reinicia imediatamente o Progress Clock de ameaça da facção agressora (ex: *Sectários da Ruína* ou *Guardiões do Ether*) para **0 segmentos**, acalmando as tensões geopolíticas locais, e limpa o nível de Ameaça do Bastião para 0.
+- Se a defesa vencer por menos de 5, ou se o ataque vencer mas a integridade não zerar, o cerco persiste nas fronteiras e uma nova rodada deve ser resolvida.
 
-vs Nível do Inimigo. Falha = Combate no pátio.
-
-#### Infiltração de Ladrões:
-
-Guilda local invade. Bastião rola
-
-1d20+Vigilância
-
-vs DC Média. Falha = 10% do ouro roubado.
-
-#### Auditoria do Reino:
-
-Cobrador de impostos chega. Pague 2.000 PO de taxa ou enfrente o exército do Rei.
-
-#### Motim Interno:
-
-NPCs se rebelam. Bastião rola
-
-1d20+Logística
-
-. Falha = 1 Módulo sabotado e NPCs fogem.
-
-#### Magia de Cerco:
-
-Dano ignorando defesas terrestres. Base perde 20% de Integridade (a menos que possua antiaéreo).
-
-#### Espionagem Rival:
-
-Plantas são roubadas. Invasores ganham Vantagem nos ataques à base por 2 meses in-game.
-
-#### Praga Contagiosa:
-
-Todos rolam resistência física. Falha = Iniciam a próxima missão com 1 Enfermidade Nível 1.
-
-#### Desastre Ambiental:
-
-Terremoto/Furacão. Integridade cai 30%. O Recesso deve ser gasto apagando incêndios/reparos.
-
-#### Assassinos na Calada:
-
-O grupo acorda (Condição: Desprevenido) direto em combate tático no dormitório. Sem Fase Macro.
-
-#### Convergência de Éter:
-
-Fenda dimensional abre no cofre. Combate Tático Boss contra demônios saqueando por dentro.
-</ai_context>
-</ai_context>
+--------------------------------------------------------------------------------
 
 ## Resolução Híbrida e Dano
-<ai_context>
-<ai_context>
-#### Eventos de Cerco possuem duas fases:
-
-(rolagens da base atirando nos invasores) e
-
-(combate tático padrão com os heróis contra os sobreviventes).
 
 #### Integridade Máxima (HP da Base):
-
-(Estrutura x 10) + (Tier x 20)
+O total de integridade estrutural do Bastião é calculado dinamicamente com base em seu chassi e tier:
+`Integridade Máxima = (Estrutura x 10) + (Tier x 20)`
 
 #### Quebra de Módulos:
 
