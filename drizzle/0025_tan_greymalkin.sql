@@ -1,0 +1,1 @@
+ALTER TABLE `faction_patronages` ADD `active_bonus` text;

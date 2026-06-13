@@ -2,6 +2,8 @@ export * from "./domain/AncestryCatalogService";
 export * from "./domain/AncestryRepository";
 export * from "./domain/AncestryTraitRepository";
 export * from "./domain/AncestryTraitSelectionService";
+export * from "./infrastructure/DrizzleAncestryRepository";
+export * from "./infrastructure/DrizzleAncestryTraitRepository";
 export * from "./model/ancestryCatalog";
 export * from "./model/ancestrySchema";
 export * from "./model/ancestryTraitCatalog";

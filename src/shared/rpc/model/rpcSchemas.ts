@@ -331,6 +331,36 @@ export const listFactionsRequestSchema = z.object({
 	payload: z.object({}),
 });
 
+export const saveFactionPatronageRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("SAVE_FACTION_PATRONAGE"),
+	payload: z.object({
+		patronage: jsonSerializableObjectSchema,
+	}),
+});
+
+export const findFactionPatronageRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_FACTION_PATRONAGE"),
+	payload: z.object({
+		id: z.string().min(1),
+	}),
+});
+
+export const findFactionPatronageByFactionRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_FACTION_PATRONAGE_BY_FACTION"),
+	payload: z.object({
+		factionId: z.string().min(1),
+	}),
+});
+
+export const listFactionPatronagesRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_FACTION_PATRONAGES"),
+	payload: z.object({}),
+});
+
 export const saveReputationRequestSchema = z.object({
 	messageId: rpcMessageIdSchema,
 	type: z.literal("SAVE_REPUTATION"),
@@ -1064,6 +1094,48 @@ export const updateDungeonDelveStatusRequestSchema = z.object({
 	}),
 });
 
+export const triggerSiegeRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("TRIGGER_SIEGE"),
+	payload: z.object({
+		campaignId: z.string().min(1),
+		bastionId: z.string().min(1),
+		factionId: z.string().min(1),
+		dangerLevel: z.number().int().min(1),
+		requestedAt: z.string().min(1),
+		uuid: z.string().uuid().optional(),
+	}),
+});
+
+export const resolveSiegeRoundRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("RESOLVE_SIEGE_ROUND"),
+	payload: z.object({
+		siegeId: z.string().uuid(),
+		defenseRollBonus: z.number().int(),
+		requestedAt: z.string().min(1),
+		forcedAttackRoll: z.number().int().optional(),
+		forcedDefenseRoll: z.number().int().optional(),
+		squadIdsToDefend: z.array(z.string()).optional(),
+	}),
+});
+
+export const findActiveSiegeRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("FIND_ACTIVE_SIEGE"),
+	payload: z.object({
+		campaignId: z.string().min(1),
+	}),
+});
+
+export const listSiegeHistoryRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("LIST_SIEGE_HISTORY"),
+	payload: z.object({
+		campaignId: z.string().min(1),
+	}),
+});
+
 export const rpcRequestSchema = z.discriminatedUnion("type", [
 	getAncestryCatalogRequestSchema,
 	getBackgroundCatalogRequestSchema,
@@ -1097,6 +1169,10 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	saveFactionRequestSchema,
 	findFactionRequestSchema,
 	listFactionsRequestSchema,
+	saveFactionPatronageRequestSchema,
+	findFactionPatronageRequestSchema,
+	findFactionPatronageByFactionRequestSchema,
+	listFactionPatronagesRequestSchema,
 	saveReputationRequestSchema,
 	findReputationRequestSchema,
 	listReputationsRequestSchema,
@@ -1177,6 +1253,10 @@ export const rpcRequestSchema = z.discriminatedUnion("type", [
 	findCombatMonstersByEncounterRequestSchema,
 	saveActiveSessionRequestSchema,
 	findActiveSessionRequestSchema,
+	triggerSiegeRequestSchema,
+	resolveSiegeRoundRequestSchema,
+	findActiveSiegeRequestSchema,
+	listSiegeHistoryRequestSchema,
 ]);
 
 const rpcErrorSchema = z.object({

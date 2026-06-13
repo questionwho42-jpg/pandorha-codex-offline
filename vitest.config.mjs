@@ -54,6 +54,7 @@ export default defineConfig({
 				"src/features/combat-encounter/model/combatTrainingTargetTurn.ts",
 				"src/features/spell-cast/model/spellCastView.ts",
 				"src/entities/equipment/domain/CraftingService.ts",
+				"src/entities/equipment/domain/SynergyForgeService.ts",
 				"src/entities/equipment/domain/InventoryService.ts",
 				"src/entities/equipment/domain/RepairService.ts",
 				"src/entities/traps/domain/TrapService.ts",

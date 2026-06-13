@@ -1,5 +1,20 @@
 /* istanbul ignore file */
 import { drizzle } from "drizzle-orm/sql-js";
+import { DrizzleAncestryRepository } from "$lib/entities/ancestry/infrastructure/DrizzleAncestryRepository";
+import { DrizzleAncestryTraitRepository } from "$lib/entities/ancestry/infrastructure/DrizzleAncestryTraitRepository";
+import { OFFICIAL_ANCESTRIES } from "$lib/entities/ancestry/model/ancestryCatalog";
+import {
+	ancestries,
+	ancestryTraitLinks,
+	ancestryTraits,
+} from "$lib/entities/ancestry/model/ancestrySchema";
+import {
+	OFFICIAL_ANCESTRY_TRAIT_LINKS,
+	OFFICIAL_ANCESTRY_TRAITS,
+} from "$lib/entities/ancestry/model/ancestryTraitCatalog";
+import { DrizzleBackgroundRepository } from "$lib/entities/background/infrastructure/DrizzleBackgroundRepository";
+import { OFFICIAL_BACKGROUNDS } from "$lib/entities/background/model/backgroundCatalog";
+import { backgrounds } from "$lib/entities/background/model/backgroundSchema";
 import { DrizzleBastionRepository } from "$lib/entities/bastion/infrastructure/DrizzleBastionRepository";
 import {
 	bastionModules,
@@ -18,6 +33,9 @@ import {
 	type LevelUpInput,
 	type NewCharacterStatusEffectRecord,
 } from "$lib/entities/character/model/characterSchema";
+import { DrizzleCharacterClassRepository } from "$lib/entities/character-class/infrastructure/DrizzleCharacterClassRepository";
+import { OFFICIAL_CHARACTER_CLASSES } from "$lib/entities/character-class/model/characterClassCatalog";
+import { characterClasses } from "$lib/entities/character-class/model/characterClassSchema";
 import { DrizzleClockRepository } from "$lib/entities/clocks/infrastructure/DrizzleClockRepository";
 import { progressClocks } from "$lib/entities/clocks/model/clockSchema";
 import { DrizzleCombatRepository } from "$lib/entities/combat/infrastructure/DrizzleCombatRepository";
@@ -49,6 +67,8 @@ import {
 	campaignQuests,
 	questObjectives,
 } from "$lib/entities/quest/model/questSchema";
+import { SiegeService } from "$lib/entities/siege/domain/SiegeService";
+import { DrizzleSiegeRepository } from "$lib/entities/siege/infrastructure/DrizzleSiegeRepository";
 import { DrizzleFactionRepository } from "$lib/entities/social/infrastructure/DrizzleFactionRepository";
 import { DrizzleSocialRepository } from "$lib/entities/social/infrastructure/DrizzleSocialRepository";
 import {
@@ -56,11 +76,14 @@ import {
 	characterReputation,
 	factions,
 } from "$lib/entities/social/model/socialSchema";
+import { DrizzleSpellCatalogRepository } from "$lib/entities/spell/infrastructure/DrizzleSpellCatalogRepository";
 import { OFFICIAL_SPELLS } from "$lib/entities/spell/model/spellCatalog";
+import { spell } from "$lib/entities/spell/model/spellSchema";
 import { DrizzleSynergyRepository } from "$lib/entities/synergy/infrastructure/DrizzleSynergyRepository";
 import { DrizzleTrapRepository } from "$lib/entities/traps/infrastructure/DrizzleTrapRepository";
 import { DrizzleWorldStateRepository } from "$lib/entities/world-state/infrastructure/DrizzleWorldStateRepository";
 import { worldStateEntries } from "$lib/entities/world-state/model/worldStateSchema";
+import { DiceService } from "$lib/shared/dice/domain/DiceService";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { SaveGameSnapshot } from "$lib/shared/rpc";
 import { PANDORHA_SQLITE_MIGRATIONS } from "../model/sqliteMigrations";
@@ -150,6 +173,7 @@ export class SqliteOpfsBootstrapService {
 				database.data,
 				parsedInput.data.requestedAt,
 			);
+			this.seedCatalogsIfEmpty(database.data);
 			const shouldWrite =
 				storedFile.data === null || appliedMigrationIds.length > 0;
 			if (shouldWrite) {
@@ -1749,6 +1773,190 @@ export class SqliteOpfsBootstrapService {
 		}
 	}
 
+	public async savePatronage(
+		patronage: any,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleFactionRepository(db as any);
+
+			const result = await repository.savePatronage(patronage);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not save patronage to SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findPatronage(
+		id: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleFactionRepository(db as any);
+
+			const result = await repository.findPatronage(id);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load patronage from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findPatronageByFaction(
+		factionId: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleFactionRepository(db as any);
+
+			const result = await repository.findPatronageByFaction(factionId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load patronage by faction from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listPatronages(): Promise<
+		Result<any[], SqliteBootstrapFailure>
+	> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleFactionRepository(db as any);
+
+			const result = await repository.listPatronages();
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data as any[]);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load patronages list from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
 	public async findSocialLedger(
 		id: string,
 	): Promise<Result<any, SqliteBootstrapFailure>> {
@@ -1873,6 +2081,144 @@ export class SqliteOpfsBootstrapService {
 				message: "Could not load factions list from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
+		}
+	}
+
+	public async listAncestries(): Promise<
+		Result<any[], SqliteBootstrapFailure>
+	> {
+		try {
+			const storedFile = await this.storage.readDatabaseFile();
+			if (!storedFile.success) {
+				return ok([...OFFICIAL_ANCESTRIES]);
+			}
+
+			const sqlite = await this.createSqliteModule();
+			if (!sqlite.success) {
+				return ok([...OFFICIAL_ANCESTRIES]);
+			}
+
+			const database = this.openDatabase(sqlite.data, storedFile.data);
+			if (!database.success) {
+				return ok([...OFFICIAL_ANCESTRIES]);
+			}
+
+			const db = drizzle(database.data);
+			const repository = new DrizzleAncestryRepository(db as any);
+
+			const result = await repository.list();
+			database.data.close();
+
+			if (!result.success) {
+				return ok([...OFFICIAL_ANCESTRIES]);
+			}
+
+			return ok(result.data as any[]);
+		} catch {
+			return ok([...OFFICIAL_ANCESTRIES]);
+		}
+	}
+
+	public async listBackgrounds(): Promise<
+		Result<any[], SqliteBootstrapFailure>
+	> {
+		try {
+			const storedFile = await this.storage.readDatabaseFile();
+			if (!storedFile.success) {
+				return ok([...OFFICIAL_BACKGROUNDS]);
+			}
+
+			const sqlite = await this.createSqliteModule();
+			if (!sqlite.success) {
+				return ok([...OFFICIAL_BACKGROUNDS]);
+			}
+
+			const database = this.openDatabase(sqlite.data, storedFile.data);
+			if (!database.success) {
+				return ok([...OFFICIAL_BACKGROUNDS]);
+			}
+
+			const db = drizzle(database.data);
+			const repository = new DrizzleBackgroundRepository(db as any);
+
+			const result = await repository.list();
+			database.data.close();
+
+			if (!result.success) {
+				return ok([...OFFICIAL_BACKGROUNDS]);
+			}
+
+			return ok(result.data as any[]);
+		} catch {
+			return ok([...OFFICIAL_BACKGROUNDS]);
+		}
+	}
+
+	public async listCharacterClasses(): Promise<
+		Result<any[], SqliteBootstrapFailure>
+	> {
+		try {
+			const storedFile = await this.storage.readDatabaseFile();
+			if (!storedFile.success) {
+				return ok([...OFFICIAL_CHARACTER_CLASSES]);
+			}
+
+			const sqlite = await this.createSqliteModule();
+			if (!sqlite.success) {
+				return ok([...OFFICIAL_CHARACTER_CLASSES]);
+			}
+
+			const database = this.openDatabase(sqlite.data, storedFile.data);
+			if (!database.success) {
+				return ok([...OFFICIAL_CHARACTER_CLASSES]);
+			}
+
+			const db = drizzle(database.data);
+			const repository = new DrizzleCharacterClassRepository(db as any);
+
+			const result = await repository.list();
+			database.data.close();
+
+			if (!result.success) {
+				return ok([...OFFICIAL_CHARACTER_CLASSES]);
+			}
+
+			return ok(result.data as any[]);
+		} catch {
+			return ok([...OFFICIAL_CHARACTER_CLASSES]);
+		}
+	}
+
+	public async listSpells(): Promise<Result<any[], SqliteBootstrapFailure>> {
+		try {
+			const storedFile = await this.storage.readDatabaseFile();
+			if (!storedFile.success) {
+				return ok([...OFFICIAL_SPELLS]);
+			}
+
+			const sqlite = await this.createSqliteModule();
+			if (!sqlite.success) {
+				return ok([...OFFICIAL_SPELLS]);
+			}
+
+			const database = this.openDatabase(sqlite.data, storedFile.data);
+			if (!database.success) {
+				return ok([...OFFICIAL_SPELLS]);
+			}
+
+			const db = drizzle(database.data);
+			const repository = new DrizzleSpellCatalogRepository(db as any);
+
+			const result = await repository.listSpells();
+			database.data.close();
+
+			if (!result.success) {
+				return ok([...OFFICIAL_SPELLS]);
+			}
+
+			return ok(result.data as any[]);
+		} catch {
+			return ok([...OFFICIAL_SPELLS]);
 		}
 	}
 
@@ -2013,6 +2359,336 @@ export class SqliteOpfsBootstrapService {
 			return fail({
 				code: "DATABASE_FILE_READ_FAILED",
 				message: "Could not load reputations list from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async triggerSiege(params: {
+		campaignId: string;
+		bastionId: string;
+		factionId: string;
+		dangerLevel: number;
+		requestedAt: string;
+		uuid?: string | undefined;
+	}): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const siegeRepo = new DrizzleSiegeRepository(db as any);
+			const diceService = new DiceService(
+				{
+					next: () => {
+						const array = new Uint32Array(1);
+						crypto.getRandomValues(array);
+						return (array[0] ?? 0) / 4294967296;
+					},
+				},
+				{
+					generate: (() => {
+						let id = 1;
+						return () => `siege-roll-${id++}`;
+					})(),
+				},
+				{ now: () => new Date().toISOString() },
+			);
+			const service = new SiegeService(siegeRepo, diceService);
+
+			const result = await service.triggerSiege(params);
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not trigger siege event in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async resolveSiegeRound(params: {
+		siegeId: string;
+		defenseRollBonus: number;
+		requestedAt: string;
+		forcedAttackRoll?: number | undefined;
+		forcedDefenseRoll?: number | undefined;
+		squadIdsToDefend?: string[] | undefined;
+	}): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const siegeRepo = new DrizzleSiegeRepository(db as any);
+			const bastionRepo = new DrizzleBastionRepository(db as any);
+			const mercenaryRepo = new DrizzleMercenaryRepository(db as any);
+			const clockRepo = new DrizzleClockRepository(db as any);
+
+			const diceService = new DiceService(
+				{
+					next: () => {
+						const array = new Uint32Array(1);
+						crypto.getRandomValues(array);
+						return (array[0] ?? 0) / 4294967296;
+					},
+				},
+				{
+					generate: (() => {
+						let id = 1;
+						return () => `siege-roll-${id++}`;
+					})(),
+				},
+				{ now: () => new Date().toISOString() },
+			);
+			const service = new SiegeService(siegeRepo, diceService);
+
+			// 1. Carrega dados do Bastião e Mercenários associados (se houver parameters)
+			const activeSiegeRes = await siegeRepo.findById(params.siegeId);
+			if (!activeSiegeRes.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: activeSiegeRes.error.message,
+				});
+			}
+			const activeSiege = activeSiegeRes.data;
+
+			const bastionRes = await bastionRepo.findById(activeSiege.bastionId);
+			if (!bastionRes.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: bastionRes.error.message,
+				});
+			}
+			const bastion = bastionRes.data;
+
+			const squads: any[] = [];
+			if (params.squadIdsToDefend && params.squadIdsToDefend.length > 0) {
+				const squadsPromises = params.squadIdsToDefend.map((id) =>
+					mercenaryRepo.findSquadById(id),
+				);
+				const squadsResults = await Promise.all(squadsPromises);
+				for (const sRes of squadsResults) {
+					if (sRes.success) {
+						squads.push(sRes.data);
+					}
+				}
+			}
+
+			// 2. Resolve a rodada de cerco
+			const result = await service.resolveSiegeRound({
+				siegeId: params.siegeId,
+				defenseRollBonus: params.defenseRollBonus,
+				requestedAt: params.requestedAt,
+				forcedAttackRoll: params.forcedAttackRoll,
+				forcedDefenseRoll: params.forcedDefenseRoll,
+				bastion,
+				squads,
+			});
+
+			if (!result.success) {
+				database.data.close();
+				return fail({
+					code: "DATABASE_FILE_WRITE_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			// 3. Salva Bastião e Mercenários modificados
+			if (result.data.updatedBastion) {
+				const saveBastionRes = await bastionRepo.save(
+					result.data.updatedBastion as any,
+				);
+				if (!saveBastionRes.success) {
+					database.data.close();
+					return fail({
+						code: "DATABASE_FILE_WRITE_FAILED",
+						message: saveBastionRes.error.message,
+					});
+				}
+			}
+
+			if (result.data.updatedSquads) {
+				for (const squad of result.data.updatedSquads) {
+					const saveSquadRes = await mercenaryRepo.saveSquad(squad as any);
+					if (!saveSquadRes.success) {
+						database.data.close();
+						return fail({
+							code: "DATABASE_FILE_WRITE_FAILED",
+							message: saveSquadRes.error.message,
+						});
+					}
+				}
+			}
+
+			// 4. Se houver reset de relógio de ameaça, zera os segmentos
+			if (result.data.resetClockName) {
+				const clocksListRes = await clockRepo.findAll();
+				if (clocksListRes.success) {
+					const targetClock = clocksListRes.data.find(
+						(c) => c.name === result.data.resetClockName,
+					);
+					if (targetClock) {
+						targetClock.filledSegments = 0;
+						targetClock.isCompleted = false;
+						await clockRepo.save(targetClock);
+					}
+				}
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not resolve siege round in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async findActiveSiege(
+		campaignId: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleSiegeRepository(db as any);
+
+			const result = await repository.findActiveSiege(campaignId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load active siege from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async listSiegeHistory(
+		campaignId: string,
+	): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const repository = new DrizzleSiegeRepository(db as any);
+
+			const result = await repository.listEventHistory(campaignId);
+			database.data.close();
+
+			if (!result.success) {
+				return fail({
+					code: "DATABASE_FILE_READ_FAILED",
+					message: result.error.message,
+				});
+			}
+
+			return ok(result.data as any[]);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load siege history from SQLite database.",
 				details: { cause: stringifyCause(error) },
 			});
 		}
@@ -6069,6 +6745,91 @@ export class SqliteOpfsBootstrapService {
 		}
 
 		return appliedNow;
+	}
+
+	private seedCatalogsIfEmpty(database: SqliteDatabase): void {
+		const db = drizzle(database);
+
+		// 1. Ancestries
+		try {
+			const existingAncestries = db
+				.select({ id: ancestries.id })
+				.from(ancestries)
+				.all();
+			if (existingAncestries.length === 0) {
+				for (const item of OFFICIAL_ANCESTRIES) {
+					db.insert(ancestries).values(item).run();
+				}
+			}
+		} catch {
+			// Tabela pode não existir (ex: testes sem migrations)
+		}
+
+		// 2. Ancestry Traits & Links
+		try {
+			const existingTraits = db
+				.select({ id: ancestryTraits.id })
+				.from(ancestryTraits)
+				.all();
+			if (existingTraits.length === 0) {
+				for (const item of OFFICIAL_ANCESTRY_TRAITS) {
+					db.insert(ancestryTraits).values(item).run();
+				}
+				for (const link of OFFICIAL_ANCESTRY_TRAIT_LINKS) {
+					db.insert(ancestryTraitLinks).values(link).run();
+				}
+			}
+		} catch {
+			// Ignorar se tabelas não existirem
+		}
+
+		// 3. Backgrounds
+		try {
+			const existingBackgrounds = db
+				.select({ id: backgrounds.id })
+				.from(backgrounds)
+				.all();
+			if (existingBackgrounds.length === 0) {
+				for (const item of OFFICIAL_BACKGROUNDS) {
+					db.insert(backgrounds)
+						.values(item as any)
+						.run();
+				}
+			}
+		} catch {
+			// Ignorar se tabela não existir
+		}
+
+		// 4. Character Classes
+		try {
+			const existingClasses = db
+				.select({ id: characterClasses.id })
+				.from(characterClasses)
+				.all();
+			if (existingClasses.length === 0) {
+				for (const item of OFFICIAL_CHARACTER_CLASSES) {
+					db.insert(characterClasses)
+						.values(item as any)
+						.run();
+				}
+			}
+		} catch {
+			// Ignorar se tabela não existir
+		}
+
+		// 5. Spells
+		try {
+			const existingSpells = db.select({ id: spell.id }).from(spell).all();
+			if (existingSpells.length === 0) {
+				for (const item of OFFICIAL_SPELLS) {
+					db.insert(spell)
+						.values(item as any)
+						.run();
+				}
+			}
+		} catch {
+			// Ignorar se tabela não existir
+		}
 	}
 
 	private exportDatabase(

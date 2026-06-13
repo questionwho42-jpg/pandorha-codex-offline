@@ -75,10 +75,17 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0026_add_tactical_combat_loop",
 				"0027_melted_norrin_radd",
 				"0028_add_foreign_key_indexes",
+				"0025_tan_greymalkin",
+				"0026_colossal_violations",
+				"0027_absurd_blink",
 			],
 			tableNames: [
 				"_pandorha_migrations",
 				"active_sessions",
+				"ancestries",
+				"ancestry_trait_links",
+				"ancestry_traits",
+				"backgrounds",
 				"bastion_modules",
 				"bastions",
 				"blood_debts",
@@ -92,6 +99,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"campaign_rumors",
 				"campaign_siege_events",
 				"campaign_social_ledger",
+				"character_classes",
 				"character_crafted_items",
 				"character_reputation",
 				"character_status_effects",
@@ -110,6 +118,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"progress_clocks",
 				"quest_objectives",
 				"registered_signatures",
+				"spells",
 				"summon_companions",
 				"traps",
 				"world_state_entries",
@@ -182,6 +191,9 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0026_add_tactical_combat_loop",
 			"0027_melted_norrin_radd",
 			"0028_add_foreign_key_indexes",
+			"0025_tan_greymalkin",
+			"0026_colossal_violations",
+			"0027_absurd_blink",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -317,6 +329,9 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0026_add_tactical_combat_loop",
 			"0027_melted_norrin_radd",
 			"0028_add_foreign_key_indexes",
+			"0025_tan_greymalkin",
+			"0026_colossal_violations",
+			"0027_absurd_blink",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});

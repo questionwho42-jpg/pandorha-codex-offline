@@ -38,30 +38,66 @@ export async function handleDatabaseWorkerRequest(
 	const command = parsedRequest.data;
 	switch (command.type) {
 		case "GET_ANCESTRY_CATALOG": {
+			const result = await input.bootstrapService.listAncestries();
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: OFFICIAL_ANCESTRIES as unknown as JsonValue,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
 		case "GET_BACKGROUND_CATALOG": {
+			const result = await input.bootstrapService.listBackgrounds();
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: OFFICIAL_BACKGROUNDS as unknown as JsonValue,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
 		case "GET_CHARACTER_CLASS_CATALOG": {
+			const result = await input.bootstrapService.listCharacterClasses();
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: OFFICIAL_CHARACTER_CLASSES as unknown as JsonValue,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
 		case "GET_SPELL_CATALOG": {
+			const result = await input.bootstrapService.listSpells();
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
-				data: OFFICIAL_SPELLS as unknown as JsonValue,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -684,6 +720,76 @@ export async function handleDatabaseWorkerRequest(
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
 				data: result.data,
+			});
+		}
+
+		case "SAVE_FACTION_PATRONAGE": {
+			const result = await input.bootstrapService.savePatronage(
+				command.payload.patronage,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_FACTION_PATRONAGE": {
+			const result = await input.bootstrapService.findPatronage(
+				command.payload.id,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_FACTION_PATRONAGE_BY_FACTION": {
+			const result = await input.bootstrapService.findPatronageByFaction(
+				command.payload.factionId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "LIST_FACTION_PATRONAGES": {
+			const result = await input.bootstrapService.listPatronages();
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
 			});
 		}
 
@@ -2064,6 +2170,76 @@ export async function handleDatabaseWorkerRequest(
 			return createRpcSuccessResponse({
 				messageId: command.messageId,
 				data: result.data,
+			});
+		}
+
+		case "TRIGGER_SIEGE": {
+			const result = await input.bootstrapService.triggerSiege(command.payload);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "RESOLVE_SIEGE_ROUND": {
+			const result = await input.bootstrapService.resolveSiegeRound(
+				command.payload,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "FIND_ACTIVE_SIEGE": {
+			const result = await input.bootstrapService.findActiveSiege(
+				command.payload.campaignId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "LIST_SIEGE_HISTORY": {
+			const result = await input.bootstrapService.listSiegeHistory(
+				command.payload.campaignId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as any,
 			});
 		}
 

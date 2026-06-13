@@ -1,5 +1,6 @@
 export * from "./domain/BackgroundCatalogService";
 export * from "./domain/BackgroundRepository";
+export * from "./infrastructure/DrizzleBackgroundRepository";
 export * from "./model/backgroundCatalog";
 export * from "./model/backgroundSchema";
 export * from "./model/backgroundTypes";
