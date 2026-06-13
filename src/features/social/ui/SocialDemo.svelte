@@ -18,6 +18,7 @@ import BargainWindow from "./BargainWindow.svelte";
 import DialogueWindow from "./DialogueWindow.svelte";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import FactionPanel from "./FactionPanel.svelte";
+import FactionTeiaPanel from "./FactionTeiaPanel.svelte";
 
 interface Props {
 	service?: SocialStandingService;
@@ -72,6 +73,10 @@ let oratorStats = $derived.by(() => {
 			activeEffects: [],
 		};
 	}
+
+	const charEffects = activeEffects.filter(
+		(e) => e.characterId === selectedOratorId,
+	);
 
 	const realClass = characterClasses.find((c) => c.id === realChar.classId);
 	const baseStats = new BaseCharacterStats(realChar, {
@@ -231,6 +236,9 @@ function handleOffer(offer: BargainOffer) {
 		<div class="flex gap-6">
 			<BargainWindow attitude={target.attitude} onOfferMade={handleOffer} />
 			<FactionPanel bind:service={service} onStandingChange={onStandingChange} />
+		</div>
+		<div class="w-full mt-4">
+			<FactionTeiaPanel characterId={selectedOratorId || 'char-wanderer'} />
 		</div>
 	</div>
 	

@@ -53,6 +53,7 @@ export const factionPatronages = sqliteTable("faction_patronages", {
 	isAlmaPledged: integer("is_alma_pledged", { mode: "boolean" })
 		.notNull()
 		.default(false),
+	activeBonus: text("active_bonus"), // 'economic' | 'military' | null
 });
 
 // Zod Schemas

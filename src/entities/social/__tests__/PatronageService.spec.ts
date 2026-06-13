@@ -118,4 +118,51 @@ describe("PatronageService", () => {
 			expect(check3.data).toBe(false);
 		}
 	});
+
+	it("deve assinar um patrocínio e aplicar bônus e mutações de relógio de ameaça rivais", async () => {
+		const repository = new InMemoryFactionRepository();
+		const service = new PatronageService(repository);
+
+		// Pacto com Guardiões do Ether (fac-ether)
+		const res1 = await service.pledgePatronage("fac-ether", "economic");
+		expect(res1.success).toBe(true);
+		if (res1.success) {
+			expect(res1.data.patronage.activeBonus).toBe("economic");
+			const mutations = res1.data.clockMutations;
+			expect(mutations).toHaveLength(1);
+			if (mutations[0]) {
+				expect(mutations[0].name).toBe("Ameaça: Sectários da Ruína");
+				expect(mutations[0].segments).toBe(2);
+			}
+		}
+
+		// Pacto com Sindicato de Bronze (fac-bronze)
+		const res2 = await service.pledgePatronage("fac-bronze", "military");
+		expect(res2.success).toBe(true);
+		if (res2.success) {
+			expect(res2.data.patronage.activeBonus).toBe("military");
+			expect(res2.data.clockMutations).toHaveLength(2);
+			expect(res2.data.clockMutations.map((m) => m.name)).toContain(
+				"Ameaça: Guardiões do Ether",
+			);
+			expect(res2.data.clockMutations.map((m) => m.name)).toContain(
+				"Ameaça: Sectários da Ruína",
+			);
+		}
+	});
+
+	it("deve permitir revogar um patrocínio contratado", async () => {
+		const repository = new InMemoryFactionRepository();
+		const service = new PatronageService(repository);
+
+		// Pactua
+		await service.pledgePatronage("fac-ether", "economic");
+
+		// Revoga
+		const revokeRes = await service.revokePatronage("fac-ether");
+		expect(revokeRes.success).toBe(true);
+		if (revokeRes.success) {
+			expect(revokeRes.data.activeBonus).toBeNull();
+		}
+	});
 });

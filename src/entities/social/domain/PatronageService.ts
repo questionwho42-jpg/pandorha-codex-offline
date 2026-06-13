@@ -28,6 +28,7 @@ export class PatronageService {
 			relicsCount: 0,
 			ultimatumWeeksRemaining: null,
 			isAlmaPledged: false,
+			activeBonus: null,
 		};
 
 		return this.repository.savePatronage(newPatronage);
@@ -137,6 +138,85 @@ export class PatronageService {
 			patronage.ultimatumWeeksRemaining = null;
 			patronage.isAlmaPledged = false;
 		}
+
+		return this.repository.savePatronage(patronage);
+	}
+
+	public async pledgePatronage(
+		factionId: string,
+		bonusType: "economic" | "military",
+	): Promise<
+		Result<
+			{
+				patronage: FactionPatronageRecord;
+				clockMutations: {
+					name: string;
+					segments: number;
+					triggerEvent: string;
+				}[];
+			},
+			FactionRepositoryFailure
+		>
+	> {
+		const patRes = await this.getOrCreatePatronage(factionId);
+		if (!patRes.success) {
+			return fail(patRes.error);
+		}
+		const patronage = patRes.data;
+
+		patronage.activeBonus = bonusType;
+
+		const saveRes = await this.repository.savePatronage(patronage);
+		if (!saveRes.success) {
+			return fail(saveRes.error);
+		}
+
+		const clockMutations: {
+			name: string;
+			segments: number;
+			triggerEvent: string;
+		}[] = [];
+		if (factionId === "fac-ether") {
+			clockMutations.push({
+				name: "Ameaça: Sectários da Ruína",
+				segments: 2,
+				triggerEvent: "siege_event",
+			});
+		} else if (factionId === "fac-ruin") {
+			clockMutations.push({
+				name: "Ameaça: Guardiões do Ether",
+				segments: 2,
+				triggerEvent: "siege_event",
+			});
+		} else if (factionId === "fac-bronze") {
+			clockMutations.push({
+				name: "Ameaça: Guardiões do Ether",
+				segments: 1,
+				triggerEvent: "siege_event",
+			});
+			clockMutations.push({
+				name: "Ameaça: Sectários da Ruína",
+				segments: 1,
+				triggerEvent: "siege_event",
+			});
+		}
+
+		return ok({
+			patronage: saveRes.data,
+			clockMutations,
+		});
+	}
+
+	public async revokePatronage(
+		factionId: string,
+	): Promise<Result<FactionPatronageRecord, FactionRepositoryFailure>> {
+		const patRes = await this.getOrCreatePatronage(factionId);
+		if (!patRes.success) {
+			return fail(patRes.error);
+		}
+		const patronage = patRes.data;
+
+		patronage.activeBonus = null;
 
 		return this.repository.savePatronage(patronage);
 	}
