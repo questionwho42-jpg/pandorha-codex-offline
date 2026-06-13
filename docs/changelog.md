@@ -5,6 +5,58 @@ This file receives zero-token promotion summaries after changes reach `main`.
 Detailed architectural decisions belong in `docs/adr/`. RPG and business rules remain in `docs/system/`.
 
 <!-- pandorha-changelog:main -->
+## 2026-06-12T23:13:21-03:00 - master merge promotion candidate
+- branch: master
+- commit: 9ad67a7 chore(ledger): atualiza logs de tarefas da Fase 3 no task ledger
+- changed_files_count: 140
+- review_model: gpt-5.5 high-reasoning final review; local automation zero-token
+#### Changed Files
+- "docs/antigravity criador de sdd a partir de projeto completo.code-workspace"
+- docs/system/rpg-rules-manifest.json
+- drizzle.config.mjs
+- drizzle/meta/0007_snapshot.json
+- drizzle/meta/0008_snapshot.json
+- drizzle/meta/0009_snapshot.json
+- drizzle/meta/0010_snapshot.json
+- drizzle/meta/0011_snapshot.json
+- drizzle/meta/0012_snapshot.json
+- drizzle/meta/0013_snapshot.json
+- drizzle/meta/0014_snapshot.json
+- drizzle/meta/0015_snapshot.json
+- drizzle/meta/0016_snapshot.json
+- drizzle/meta/0017_snapshot.json
+- drizzle/meta/0018_snapshot.json
+- drizzle/meta/0019_snapshot.json
+- drizzle/meta/0020_snapshot.json
+- drizzle/meta/0021_snapshot.json
+- drizzle/meta/0022_snapshot.json
+- drizzle/meta/0023_snapshot.json
+- drizzle/meta/0024_snapshot.json
+- drizzle/meta/0025_snapshot.json
+- drizzle/meta/0026_snapshot.json
+- drizzle/meta/0027_snapshot.json
+- drizzle/meta/_journal.json
+- mcp/pandorha-db-auditor/src/index.ts
+- mcp/pandorha-db-auditor/test/auditor.test.js
+- package.json
+- src/app/App.svelte
+- src/app/model/hexcrawlSession.ts
+- src/app/model/navigation.ts
+- src/app/styles.css
+- src/entities/ancestry/index.ts
+- src/entities/ancestry/infrastructure/DrizzleAncestryRepository.ts
+- src/entities/ancestry/infrastructure/DrizzleAncestryTraitRepository.ts
+- src/entities/ancestry/infrastructure/__tests__/DrizzleAncestryRepository.spec.ts
+- src/entities/background/index.ts
+- src/entities/background/infrastructure/DrizzleBackgroundRepository.ts
+- src/entities/background/infrastructure/__tests__/DrizzleBackgroundRepository.spec.ts
+- src/entities/character-class/index.ts
+- ... 100 more
+#### Promotion Review
+- Done: merge detected on main and changelog promotion candidate created
+- Next: model final review should decide whether ADR, system docs, conventions, or llms.txt need updates
+- Risks: semantic promotion still requires human/model judgment
+- Improvements: include task ids in commit messages for tighter traceability
 ## 2026-06-13T02:10:00-03:00 - Fase 3: Lore, Eventos Narrativos, Bastião, Clocks, SQLite e PWA
 - branch: master
 - commit: consolidado (Fase 3, Tarefas 10 a 25)

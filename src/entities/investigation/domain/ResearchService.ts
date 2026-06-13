@@ -284,7 +284,7 @@ export class ResearchService {
 					type: "rune_stone" | "ancient_relic" | "insight_scroll";
 					label: string;
 			  }
-			| undefined = undefined;
+			| undefined;
 		const isCompleted =
 			nextStatus === "completed_perfect" ||
 			nextStatus === "completed_standard" ||
