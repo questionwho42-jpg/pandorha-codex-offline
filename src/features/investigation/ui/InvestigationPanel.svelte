@@ -28,6 +28,12 @@ let selectedResearchType = $state<"short_rest" | "weekly_metropolis">(
 let selectedCharacterId = $state("");
 let useVigorCost = $state(false);
 
+// Sub-abas de Investigação (Projetos vs Teia de Pistas)
+let activeSubTab = $state<"projects" | "clues">("projects");
+let unlockedClues = $state<string[]>([]);
+let completedDeductions = $state<string[]>([]);
+let selectedClues = $state<string[]>([]);
+
 // World State da Reserva de Insight
 let insightTargetId = $state("");
 let insightTokensCount = $state(0);
@@ -97,6 +103,7 @@ let selectedMonster = $derived(
 
 onMount(async () => {
 	await loadAllData();
+	loadCluesAndDeductions();
 	if (characters.length > 0) {
 		selectedCharacterId = characters[0].id;
 	}
@@ -118,6 +125,127 @@ function triggerError(msg: string) {
 	setTimeout(() => {
 		errorNotification = null;
 	}, 4000);
+}
+
+function loadCluesAndDeductions() {
+	const storedClues = localStorage.getItem("pandorha_unlocked_clues");
+	if (storedClues) {
+		try {
+			unlockedClues = JSON.parse(storedClues);
+		} catch (e) {
+			console.error("Erro ao carregar pistas:", e);
+		}
+	} else {
+		unlockedClues = [];
+	}
+
+	const storedDeductions = localStorage.getItem(
+		"pandorha_completed_deductions",
+	);
+	if (storedDeductions) {
+		try {
+			completedDeductions = JSON.parse(storedDeductions);
+		} catch (e) {
+			console.error("Erro ao carregar deduções:", e);
+		}
+	} else {
+		completedDeductions = [];
+	}
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function handleAddDemoClues() {
+	const demoClues = [
+		"clue-secret-inventory",
+		"clue-magic-amulet",
+		"clue-elixir-mastery",
+		"clue-bastion-location",
+	];
+	unlockedClues = demoClues;
+	localStorage.setItem(
+		"pandorha_unlocked_clues",
+		JSON.stringify(unlockedClues),
+	);
+	triggerSuccess("Pistas de demonstração inseridas no diário local!");
+	log("[Depuração] Pistas de demonstração adicionadas para teste de conexões.");
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function handleToggleClue(id: string) {
+	if (selectedClues.includes(id)) {
+		selectedClues = selectedClues.filter((c) => c !== id);
+	} else {
+		if (selectedClues.length >= 2) {
+			selectedClues = [selectedClues[1], id];
+		} else {
+			selectedClues = [...selectedClues, id];
+		}
+	}
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function getClueLabel(id: string): string {
+	const labels: Record<string, string> = {
+		"clue-secret-inventory": "Inventário Secreto do Silas",
+		"clue-magic-amulet": "Inscrição Rúnica do Amuleto",
+		"clue-elixir-mastery": "Receita do Elixir das Névoas",
+		"clue-bastion-location": "Localização do Bastião Antigo",
+	};
+	return labels[id] || id;
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function handleConnectClues() {
+	if (selectedClues.length !== 2) {
+		triggerError("Selecione exatamente duas pistas para conectar!");
+		return;
+	}
+
+	const c1 = selectedClues[0];
+	const c2 = selectedClues[1];
+
+	let revelationName = "";
+	let rewardMessage = "";
+
+	const isRunicSegred =
+		(c1 === "clue-magic-amulet" && c2 === "clue-bastion-location") ||
+		(c2 === "clue-magic-amulet" && c1 === "clue-bastion-location");
+
+	const isContrabando =
+		(c1 === "clue-secret-inventory" && c2 === "clue-elixir-mastery") ||
+		(c2 === "clue-secret-inventory" && c1 === "clue-elixir-mastery");
+
+	if (isRunicSegred) {
+		revelationName = "Dedução: O Segredo de Selen-Ghar";
+		rewardMessage =
+			"Conexão estabelecida! Descoberto que a inscrição do amuleto atua como chave ressonante para abrir o cofre de Selen-Ghar no Bastião Antigo. (+100 XP)";
+	} else if (isContrabando) {
+		revelationName = "Dedução: Contrabando Alquímico";
+		rewardMessage =
+			"Conexão estabelecida! Eldrin está usando as entregas de poções de Silas para contrabandear éter destilado. (Ganhou 150 PO)";
+	}
+
+	if (revelationName) {
+		if (completedDeductions.includes(revelationName)) {
+			triggerError("Você já desvendou essa dedução anteriormente!");
+			selectedClues = [];
+			return;
+		}
+
+		completedDeductions = [...completedDeductions, revelationName];
+		localStorage.setItem(
+			"pandorha_completed_deductions",
+			JSON.stringify(completedDeductions),
+		);
+		triggerSuccess(`Nova dedução concluída: ${revelationName}!`);
+		log(`[Revelação] ${rewardMessage}`);
+		selectedClues = [];
+	} else {
+		triggerError(
+			"As pistas selecionadas não parecem se encaixar de forma lógica na sua mente.",
+		);
+		selectedClues = [];
+	}
 }
 
 // Carrega os projetos do SQLite e a reserva do WorldState via snapshot de jogo
@@ -427,193 +555,322 @@ async function handleClearInsightTarget() {
 		<p class="subtitle">Desvende a biologia e as fraquezas arcanas de monstros acumulando Tokens de Insight.</p>
 	</div>
 
-	<!-- Grade Principal -->
-	<div class="grid-layout">
-		<!-- Coluna da Esquerda: Projetos e Reserva de Insight -->
-		<div class="left-col">
-			<!-- Reserva Global de Insight (WorldState) -->
-			<div class="panel insight-panel glass">
-				<h2>Reserva de Insight do Grupo</h2>
-				{#if insightTargetId}
-					{@const monster = BESTIARY.find(m => m.id === insightTargetId)}
-					<div class="insight-active">
-						<div class="insight-meta">
-							<span class="label">Alvo Focado:</span>
-							<span class="value font-bold text-bronze">{monster ? monster.name : insightTargetId.replace("_", " ").toUpperCase()}</span>
-						</div>
-						<div class="insight-tokens">
-							<span class="label">Tokens de Insight:</span>
-							<div class="token-container">
-								{#each Array(3) as _, i}
-									<div class="token-dot" class:active={i < insightTokensCount}>
-										👁️
-									</div>
-								{/each}
-								<span class="token-text">({insightTokensCount} / 3)</span>
+	<!-- Navegação de Sub-Abas -->
+	<div class="tabs-header flex gap-3 mb-6">
+		<button class="tab-btn" class:active={activeSubTab === "projects"} onclick={() => activeSubTab = "projects"} data-testid="tab-projects">
+			Projetos de Pesquisa
+		</button>
+		<button class="tab-btn" class:active={activeSubTab === "clues"} onclick={() => { activeSubTab = "clues"; loadCluesAndDeductions(); }} data-testid="tab-clues">
+			Mesa de Deduções &amp; Pistas
+		</button>
+	</div>
+
+	{#if activeSubTab === "projects"}
+		<!-- Grade Principal -->
+		<div class="grid-layout">
+			<!-- Coluna da Esquerda: Projetos e Reserva de Insight -->
+			<div class="left-col">
+				<!-- Reserva Global de Insight (WorldState) -->
+				<div class="panel insight-panel glass">
+					<h2>Reserva de Insight do Grupo</h2>
+					{#if insightTargetId}
+						{@const monster = BESTIARY.find(m => m.id === insightTargetId)}
+						<div class="insight-active">
+							<div class="insight-meta">
+								<span class="label">Alvo Focado:</span>
+								<span class="value font-bold text-bronze">{monster ? monster.name : insightTargetId.replace("_", " ").toUpperCase()}</span>
 							</div>
-						</div>
-
-						<p class="insight-help">Gaste 1 Token durante o combate como Ação Grátis [F] para aplicar manobras do Códex.</p>
-						
-						<div class="btn-group">
-							<button class="btn btn-primary" onclick={handleUseInsightToken} disabled={insightTokensCount <= 0}>
-								Consumir Token
-							</button>
-							<button class="btn btn-outline" onclick={handleClearInsightTarget}>
-								Limpar Foco
-							</button>
-						</div>
-					</div>
-				{:else}
-					<div class="insight-empty">
-						<p>Nenhuma reserva de insight ativa. Conclua uma pesquisa para acumular tokens.</p>
-					</div>
-				{/if}
-			</div>
-
-			<!-- Projetos Ativos -->
-			<div class="panel active-panel glass">
-				<h2>Projetos de Pesquisa Ativos</h2>
-				{#if activeProjects.length === 0}
-					<p class="empty">Nenhuma pesquisa sendo executada no momento.</p>
-				{:else}
-					{#each activeProjects as p (p.id)}
-						<div class="project-card border border-bronze/20">
-							<div class="card-header">
-								<h3>{p.targetName}</h3>
-								<span class="badge type-badge">{p.type === 'short_rest' ? '1h Descanso' : 'Semanal'}</span>
-							</div>
-
-							<!-- Relógios de Progresso -->
-							<div class="clock-row">
-								<div class="clock-label">
-									<span>Sucessos Requeridos:</span>
-									<span class="font-bold">{p.successesAccumulated} / {p.successesRequired}</span>
-								</div>
-								<div class="bar-bg">
-									<div class="bar-fill success-fill" style="width: {(p.successesAccumulated / p.successesRequired) * 100}%"></div>
-								</div>
-							</div>
-
-							<div class="clock-row mt-2">
-								<div class="clock-label">
-									<span>Falhas Máximas (Tolerância):</span>
-									<span class="font-bold text-blood">{p.failuresAccumulated} / {p.failuresMax}</span>
-								</div>
-								<div class="bar-bg">
-									<div class="bar-fill failure-fill" style="width: {(p.failuresAccumulated / p.failuresMax) * 100}%"></div>
-								</div>
-							</div>
-
-							<!-- Seletor de Andarilho e Rolagem -->
-							<div class="roll-section border-t border-bronze/10 mt-4 pt-3">
-								<div class="input-group">
-									<label for="researcher">Pesquisador:</label>
-									<select id="researcher" bind:value={selectedCharacterId}>
-										{#each characters as char}
-											{@const bonus = char.level + char.mental + Math.max(char.interaction || 0, char.conflict || 0)}
-											<option value={char.id}>
-												{char.name} (Nível {char.level} | Mental +{char.mental} | Bônus: +{bonus})
-											</option>
-										{/each}
-									</select>
-								</div>
-
-								<div class="cost-checkbox mt-2">
-									<label class="flex items-center gap-2 cursor-pointer">
-										<input type="checkbox" bind:checked={useVigorCost} />
-										<span class="text-xs text-bone/80">Usar 1 PV de Vigor em vez de dobrar Ouro no Sucesso com Custo</span>
-									</label>
-								</div>
-
-								<div class="roll-actions mt-3">
-									<button class="btn btn-primary w-full btn-roll" onclick={() => handleRollTest(p)} disabled={isRolling}>
-										{#if isRolling}
-											⚙️ Pesquisando...
-										{:else}
-											🎲 Realizar Rolagem (DC {p.dc})
-										{/if}
-									</button>
-								</div>
-
-								{#if rolledD20Value !== null}
-									<div class="dice-box animate-scale mt-3">
-										<div class="dice-d20" class:rolling={isRolling}>
-											<span>{rolledD20Value}</span>
+							<div class="insight-tokens">
+								<span class="label">Tokens de Insight:</span>
+								<div class="token-container">
+									{#each Array(3) as _, i}
+										<div class="token-dot" class:active={i < insightTokensCount}>
+											👁️
 										</div>
-										<div class="dice-result">
-											<span class="text-xs text-bone/60">Dado ({rolledD20Value}) + Bônus</span>
-											<span class="total-val text-bronze">{rolledTotalValue}</span>
-										</div>
-									</div>
-								{/if}
+									{/each}
+									<span class="token-text">({insightTokensCount} / 3)</span>
+								</div>
+							</div>
+
+							<p class="insight-help">Gaste 1 Token durante o combate como Ação Grátis [F] para aplicar manobras do Códex.</p>
+							
+							<div class="btn-group">
+								<button class="btn btn-primary" onclick={handleUseInsightToken} disabled={insightTokensCount <= 0}>
+									Consumir Token
+								</button>
+								<button class="btn btn-outline" onclick={handleClearInsightTarget}>
+									Limpar Foco
+								</button>
 							</div>
 						</div>
-					{/each}
-				{/if}
-			</div>
-		</div>
+					{:else}
+						<div class="insight-empty">
+							<p>Nenhuma reserva de insight ativa. Conclua uma pesquisa para acumular tokens.</p>
+						</div>
+					{/if}
+				</div>
 
-		<!-- Coluna da Direita: Bestiário e Iniciar Pesquisa, Logs -->
-		<div class="right-col">
-			<!-- Bestiário para Iniciar Pesquisa -->
-			<div class="panel bestiary-panel glass">
-				<h2>Iniciar Nova Investigação</h2>
-				<p class="subtitle text-xs">Selecione uma criatura para focar os esforços intelectuais do grupo.</p>
+				<!-- Projetos Ativos -->
+				<div class="panel active-panel glass">
+					<h2>Projetos de Pesquisa Ativos</h2>
+					{#if activeProjects.length === 0}
+						<p class="empty">Nenhuma pesquisa sendo executada no momento.</p>
+					{:else}
+						{#each activeProjects as p (p.id)}
+							<div class="project-card border border-bronze/20" data-testid={`project-card-${p.id}`}>
+								<div class="card-header">
+									<h3>{p.targetName}</h3>
+									<span class="badge type-badge">{p.type === 'short_rest' ? '1h Descanso' : 'Semanal'}</span>
+								</div>
 
-				<div class="input-group mt-3">
-					<label for="monster-select">Monstro Alvo:</label>
-					<select id="monster-select" bind:value={selectedMonsterId}>
-						{#each BESTIARY as m}
-							<option value={m.id}>{m.name} (DC {m.dc})</option>
+								<!-- Relógios de Progresso -->
+								<div class="clock-row">
+									<div class="clock-label">
+										<span>Sucessos Requeridos:</span>
+										<span class="font-bold">{p.successesAccumulated} / {p.successesRequired}</span>
+									</div>
+									<div class="bar-bg">
+										<div class="bar-fill success-fill" style="width: {(p.successesAccumulated / p.successesRequired) * 100}%"></div>
+									</div>
+								</div>
+
+								<div class="clock-row mt-2">
+									<div class="clock-label">
+										<span>Falhas Máximas (Tolerância):</span>
+										<span class="font-bold text-blood">{p.failuresAccumulated} / {p.failuresMax}</span>
+									</div>
+									<div class="bar-bg">
+										<div class="bar-fill failure-fill" style="width: {(p.failuresAccumulated / p.failuresMax) * 100}%"></div>
+									</div>
+								</div>
+
+								<!-- Seletor de Andarilho e Rolagem -->
+								<div class="roll-section border-t border-bronze/10 mt-4 pt-3">
+									<div class="input-group">
+										<label for="researcher">Pesquisador:</label>
+										<select id="researcher" bind:value={selectedCharacterId}>
+											{#each characters as char}
+												{@const bonus = char.level + char.mental + Math.max(char.interaction || 0, char.conflict || 0)}
+												<option value={char.id}>
+													{char.name} (Nível {char.level} | Mental +{char.mental} | Bônus: +{bonus})
+												</option>
+											{/each}
+										</select>
+									</div>
+
+									<div class="cost-checkbox mt-2">
+										<label class="flex items-center gap-2 cursor-pointer">
+											<input type="checkbox" bind:checked={useVigorCost} />
+											<span class="text-xs text-bone/80">Usar 1 PV de Vigor em vez de dobrar Ouro no Sucesso com Custo</span>
+										</label>
+									</div>
+
+									<div class="roll-actions mt-3">
+										<button class="btn btn-primary w-full btn-roll" onclick={() => handleRollTest(p)} disabled={isRolling}>
+											{#if isRolling}
+												⚙️ Pesquisando...
+											{:else}
+												🎲 Realizar Rolagem (DC {p.dc})
+											{/if}
+										</button>
+									</div>
+
+									{#if rolledD20Value !== null}
+										<div class="dice-box animate-scale mt-3">
+											<div class="dice-d20" class:rolling={isRolling}>
+												<span>{rolledD20Value}</span>
+											</div>
+											<div class="dice-result">
+												<span class="text-xs text-bone/60">Dado ({rolledD20Value}) + Bônus</span>
+												<span class="total-val text-bronze">{rolledTotalValue}</span>
+											</div>
+										</div>
+									{/if}
+								</div>
+							</div>
 						{/each}
-					</select>
-				</div>
-
-				<div class="monster-desc-card mt-3 border border-bronze/15">
-					<p class="text-xs italic text-bone/90">"{selectedMonster.description}"</p>
-					<div class="stats-mini mt-2 text-xs flex gap-4 text-bronze">
-						<span>Nível: {selectedMonster.level}</span>
-						<span>Mental: +{selectedMonster.mental}</span>
-						<span>Resistência: +{selectedMonster.resistance}</span>
-					</div>
-				</div>
-
-				<div class="research-options mt-4">
-					<label class="option-card" class:selected={selectedResearchType === "short_rest"}>
-						<input type="radio" bind:group={selectedResearchType} value="short_rest" />
-						<div class="option-content">
-							<h4>Pesquisa Rápida (Descanso Curto)</h4>
-							<p class="text-xs text-bone/70">1h de descanso. Custo: 0 PO. Requer 3 sucessos. Tolerância a falhas: 1.</p>
-						</div>
-					</label>
-
-					<label class="option-card mt-2" class:selected={selectedResearchType === "weekly_metropolis"}>
-						<input type="radio" bind:group={selectedResearchType} value="weekly_metropolis" />
-						<div class="option-content">
-							<h4>Pesquisa de Campo (Semanal)</h4>
-							<p class="text-xs text-bone/70">1 semana de Downtime. Custo: 25 a 2000 PO/teste. Requer 6 ou 9 sucessos. Tolerância: 2 ou 3.</p>
-						</div>
-					</label>
-				</div>
-
-				<button class="btn btn-primary w-full mt-4" onclick={handleStartProject}>
-					Iniciar Projeto de Pesquisa
-				</button>
-			</div>
-
-			<!-- Histórico / Logs -->
-			<div class="panel log-panel glass">
-				<h2>Histórico Científico</h2>
-				<div class="logs-wrapper">
-					{#each logs as lMsg}
-						<div class="log-entry">{lMsg}</div>
-					{/each}
-					{#if logs.length === 0}
-						<p class="empty">Nenhuma pesquisa realizada nesta crônica.</p>
 					{/if}
 				</div>
 			</div>
+
+			<!-- Coluna da Direita: Bestiário e Iniciar Pesquisa, Logs -->
+			<div class="right-col">
+				<!-- Bestiário para Iniciar Pesquisa -->
+				<div class="panel bestiary-panel glass">
+					<h2>Iniciar Nova Investigação</h2>
+					<p class="subtitle text-xs">Selecione uma criatura para focar os esforços intelectuais do grupo.</p>
+
+					<div class="input-group mt-3">
+						<label for="monster-select">Monstro Alvo:</label>
+						<select id="monster-select" bind:value={selectedMonsterId}>
+							{#each BESTIARY as m}
+								<option value={m.id}>{m.name} (DC {m.dc})</option>
+							{/each}
+						</select>
+					</div>
+
+					<div class="monster-desc-card mt-3 border border-bronze/15">
+						<p class="text-xs italic text-bone/90">"{selectedMonster.description}"</p>
+						<div class="stats-mini mt-2 text-xs flex gap-4 text-bronze">
+							<span>Nível: {selectedMonster.level}</span>
+							<span>Mental: +{selectedMonster.mental}</span>
+							<span>Resistência: +{selectedMonster.resistance}</span>
+						</div>
+					</div>
+
+					<div class="research-options mt-4">
+						<label class="option-card" class:selected={selectedResearchType === "short_rest"}>
+							<input type="radio" bind:group={selectedResearchType} value="short_rest" />
+							<div class="option-content">
+								<h4>Pesquisa Rápida (Descanso Curto)</h4>
+								<p class="text-xs text-bone/70">1h de descanso. Custo: 0 PO. Requer 3 sucessos. Tolerância a falhas: 1.</p>
+							</div>
+						</label>
+
+						<label class="option-card mt-2" class:selected={selectedResearchType === "weekly_metropolis"}>
+							<input type="radio" bind:group={selectedResearchType} value="weekly_metropolis" />
+							<div class="option-content">
+								<h4>Pesquisa de Campo (Semanal)</h4>
+								<p class="text-xs text-bone/70">1 semana de Downtime. Custo: 25 a 2000 PO/teste. Requer 6 ou 9 sucessos. Tolerância: 2 ou 3.</p>
+							</div>
+						</label>
+					</div>
+
+					<button class="btn btn-primary w-full mt-4" onclick={handleStartProject} data-testid="start-project-btn">
+						Iniciar Projeto de Pesquisa
+					</button>
+				</div>
+
+				<!-- Histórico / Logs -->
+				<div class="panel log-panel glass">
+					<h2>Histórico Científico</h2>
+					<div class="logs-wrapper">
+						{#each logs as lMsg}
+							<div class="log-entry">{lMsg}</div>
+						{/each}
+						{#if logs.length === 0}
+							<p class="empty">Nenhuma pesquisa realizada nesta crônica.</p>
+						{/if}
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
+	{:else}
+		<!-- Grade de Deduções e Conexão de Pistas -->
+		<div class="grid-layout">
+			<!-- Coluna da Esquerda: Lista de Pistas -->
+			<div class="left-col">
+				<div class="panel clues-list-panel glass">
+					<h2>🔑 Pistas Disponíveis no Caderno</h2>
+					<p class="subtitle text-xs">Selecione duas pistas para tentar encontrar uma conexão lógica.</p>
+
+					{#if unlockedClues.length === 0}
+						<div class="empty-clues py-6 text-center">
+							<p class="text-bone/50 italic text-sm">Nenhuma pista no caderno de anotações.</p>
+							<p class="text-[10px] text-ether/60 mt-1">Interrogue Silas ou Eldrin na aba de Diálogos para encontrar pistas.</p>
+						</div>
+					{:else}
+						<div class="clues-grid flex flex-col gap-2.5 mt-4">
+							{#each unlockedClues as clueId}
+								{@const isSelected = selectedClues.includes(clueId)}
+								<button
+									type="button"
+									class="clue-item-btn p-3 bg-void border rounded text-left transition-all flex items-center justify-between gap-3 cursor-pointer
+										{isSelected 
+											? 'border-ether bg-ether/10 shadow-[0_0_12px_rgba(192,132,252,0.2)] text-ether font-bold' 
+											: 'border-bronze/30 hover:border-bronze hover:bg-ruin/20 text-bone/90'}"
+									onclick={() => handleToggleClue(clueId)}
+									data-testid={`clue-item-${clueId}`}
+								>
+									<div class="flex flex-col">
+										<span class="text-xs font-semibold">{getClueLabel(clueId)}</span>
+										<span class="text-[9px] text-bone/40 font-mono mt-0.5">{clueId}</span>
+									</div>
+									{#if isSelected}
+										<span class="text-xs text-ether">✔️</span>
+									{/if}
+								</button>
+							{/each}
+						</div>
+					{/if}
+
+					<!-- Botão de debug para homologação/testes -->
+					<div class="dev-controls mt-6 border-t border-bronze/10 pt-4 flex justify-between items-center">
+						<span class="text-[10px] text-bone/40 uppercase">Apenas para Testes</span>
+						<button
+							type="button"
+							class="btn btn-outline text-[10px] py-1 px-3"
+							onclick={handleAddDemoClues}
+							data-testid="add-demo-clues-btn"
+						>
+							🔍 Adicionar Pistas de Demonstração
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Coluna da Direita: Forja de Deduções e Revelações -->
+			<div class="right-col flex flex-col gap-6">
+				<!-- Conector Rúnico -->
+				<div class="panel connector-panel glass">
+					<h2>🔮 Forja de Revelações</h2>
+					<p class="subtitle text-xs">Forje deduções a partir de correlações arcanas e históricas.</p>
+
+					<div class="connector-visual bg-void/60 border border-bronze/20 rounded p-4 mt-4 min-h-[120px] flex flex-col items-center justify-center gap-3 relative">
+						{#if selectedClues.length === 0}
+							<p class="text-xs text-bone/40 italic">Selecione duas pistas na lista ao lado.</p>
+						{:else}
+							<div class="selected-clues-display flex flex-wrap gap-2 justify-center w-full">
+								{#each selectedClues as sc}
+									<div class="selected-clue-badge px-3 py-1.5 bg-ruin border border-ether/40 text-ether rounded text-xs animate-scale flex items-center gap-2">
+										<span>🔑</span>
+										<span>{getClueLabel(sc)}</span>
+										<button type="button" class="text-blood font-bold hover:text-blood/80 cursor-pointer" onclick={() => handleToggleClue(sc)}>×</button>
+									</div>
+								{/each}
+							</div>
+						{/if}
+					</div>
+
+					<button
+						type="button"
+						class="btn btn-primary w-full mt-4"
+						disabled={selectedClues.length !== 2}
+						onclick={handleConnectClues}
+						data-testid="connect-clues-btn"
+					>
+						🔮 Conectar Pistas
+					</button>
+				</div>
+
+				<!-- Revelações Concluídas -->
+				<div class="panel deductions-panel glass">
+					<h2>📜 Revelações Concluídas ({completedDeductions.length})</h2>
+					<p class="subtitle text-xs">Mitos resolvidos e mistérios desvendados nesta crônica.</p>
+
+					<div class="deductions-list flex flex-col gap-2 mt-3">
+						{#each completedDeductions as deduction}
+							<div class="deduction-card p-3 bg-void/50 border border-bronze/30 rounded text-xs flex flex-col gap-1 shadow-inner animate-fade-in" data-testid={`deduction-card-${deduction.replace(/[^a-zA-Z0-9]/g, "-")}`}>
+								<div class="flex items-center gap-2 text-bronze font-bold">
+									<span>✦</span>
+									<span>{deduction}</span>
+								</div>
+								<p class="text-[10px] text-bone/60">
+									{#if deduction.includes("Selen-Ghar")}
+										A chave rúnica foi decifrada e o cofre do Bastião pode ser aberto.
+									{:else}
+										Eldrin foi exposto por contrabando de éter através da rede de Silas.
+									{/if}
+								</p>
+							</div>
+						{/each}
+
+						{#if completedDeductions.length === 0}
+							<p class="text-xs text-bone/40 italic py-3 text-center">Nenhuma revelação forjada na teia até agora.</p>
+						{/if}
+					</div>
+				</div>
+			</div>
+		</div>
+	{/if}
 </div>

@@ -45,6 +45,8 @@ export const characterCraftedItems = sqliteTable("character_crafted_items", {
 	durabilityCurrent: integer("durability_current").notNull(),
 	durabilityMax: integer("durability_max").notNull(),
 	durability: text("durability").notNull().default("mint"), // "mint" | "damaged" | "broken"
+	elementalAffinity: text("elemental_affinity"), // "fire" | "frost" | "lightning" | "void" | null
+	infusedRunesJson: text("infused_runes_json"), // JSON string array of infused runes or null
 	createdAt: text("created_at").notNull(),
 });
 
@@ -84,6 +86,11 @@ export const characterCraftedItemInsertSchema = createInsertSchema(
 	durabilityCurrent: z.number().int().min(0).max(100),
 	durabilityMax: z.number().int().min(1).max(100),
 	durability: z.enum(["mint", "damaged", "broken"]).default("mint"),
+	elementalAffinity: z
+		.enum(["fire", "frost", "lightning", "void"])
+		.nullable()
+		.optional(),
+	infusedRunesJson: z.string().nullable().optional(),
 	createdAt: notBlankText,
 });
 
@@ -101,6 +108,11 @@ export const characterCraftedItemSelectSchema = createSelectSchema(
 	durabilityCurrent: z.number().int().min(0).max(100),
 	durabilityMax: z.number().int().min(1).max(100),
 	durability: z.enum(["mint", "damaged", "broken"]).default("mint"),
+	elementalAffinity: z
+		.enum(["fire", "frost", "lightning", "void"])
+		.nullable()
+		.optional(),
+	infusedRunesJson: z.string().nullable().optional(),
 	createdAt: notBlankText,
 });
 

@@ -46,6 +46,8 @@ export interface ICraftedEquipment {
 	getDefenseBonus(): number;
 	getRuneSlotsCount(): number;
 	getSlotCost(): number;
+	getElementalAffinity?(): "fire" | "frost" | "lightning" | "void" | undefined;
+	getInfusedRunesList?(): readonly string[] | undefined;
 }
 
 // 1. Componente Concreto Base
@@ -100,6 +102,19 @@ export class BaseCraftedEquipment implements ICraftedEquipment {
 
 	public getSlotCost(): number {
 		return this.slotCost;
+	}
+
+	public getElementalAffinity():
+		| "fire"
+		| "frost"
+		| "lightning"
+		| "void"
+		| undefined {
+		return undefined;
+	}
+
+	public getInfusedRunesList(): readonly string[] | undefined {
+		return undefined;
 	}
 }
 
@@ -165,6 +180,23 @@ export abstract class CraftedEquipmentDecorator implements ICraftedEquipment {
 
 	public getSlotCost(): number {
 		return this.wrapped.getSlotCost();
+	}
+
+	public getElementalAffinity():
+		| "fire"
+		| "frost"
+		| "lightning"
+		| "void"
+		| undefined {
+		return this.wrapped.getElementalAffinity
+			? this.wrapped.getElementalAffinity()
+			: undefined;
+	}
+
+	public getInfusedRunesList(): readonly string[] | undefined {
+		return this.wrapped.getInfusedRunesList
+			? this.wrapped.getInfusedRunesList()
+			: undefined;
 	}
 }
 
@@ -236,5 +268,97 @@ export class RunicEquipmentDecorator extends CraftedEquipmentDecorator {
 
 	public override getRuneSlotsCount(): number {
 		return this.wrapped.getRuneSlotsCount() + 1;
+	}
+}
+
+// 6. Decorador Concreto: Afinidade Elemental (ElementAffinity)
+// Bônus: Fogo concede +1 de Dano Físico, Vazio concede +1 de Margem Crítica a armas.
+export class ElementAffinityDecorator extends CraftedEquipmentDecorator {
+	private readonly affinity: "fire" | "frost" | "lightning" | "void";
+
+	public constructor(
+		wrapped: ICraftedEquipment,
+		affinity: "fire" | "frost" | "lightning" | "void",
+	) {
+		super(wrapped);
+		this.affinity = affinity;
+	}
+
+	public override get label(): string {
+		const cleaned = this.wrapped.label
+			.replace(" de Fogo", "")
+			.replace(" de Gelo", "")
+			.replace(" de Raio", "")
+			.replace(" do Vazio", "");
+
+		if (this.affinity === "fire") return `${cleaned} de Fogo`;
+		if (this.affinity === "frost") return `${cleaned} de Gelo`;
+		if (this.affinity === "lightning") return `${cleaned} de Raio`;
+		if (this.affinity === "void") return `${cleaned} do Vazio`;
+		return cleaned;
+	}
+
+	public override getDamageBonus(): number {
+		const base = this.wrapped.getDamageBonus();
+		return this.affinity === "fire" ? base + 1 : base;
+	}
+
+	public override getCriticalMarginBonus(): number {
+		const base = this.wrapped.getCriticalMarginBonus();
+		return this.affinity === "void" ? base + 1 : base;
+	}
+
+	public override getElementalAffinity():
+		| "fire"
+		| "frost"
+		| "lightning"
+		| "void"
+		| undefined {
+		return this.affinity;
+	}
+}
+
+// 7. Decorador Concreto: Runa Infundida (InfusedRune)
+// Bônus: rune_stone (+1 dano), ancient_relic (+1 defesa), insight_scroll (+2 margem crítica).
+export class InfusedRuneDecorator extends CraftedEquipmentDecorator {
+	private readonly runes: readonly string[];
+
+	public constructor(wrapped: ICraftedEquipment, runes: readonly string[]) {
+		super(wrapped);
+		this.runes = runes;
+	}
+
+	public override getDamageBonus(): number {
+		let bonus = this.wrapped.getDamageBonus();
+		for (const r of this.runes) {
+			if (r === "rune_stone") {
+				bonus += 1;
+			}
+		}
+		return bonus;
+	}
+
+	public override getDefenseBonus(): number {
+		let bonus = this.wrapped.getDefenseBonus();
+		for (const r of this.runes) {
+			if (r === "ancient_relic") {
+				bonus += 1;
+			}
+		}
+		return bonus;
+	}
+
+	public override getCriticalMarginBonus(): number {
+		let bonus = this.wrapped.getCriticalMarginBonus();
+		for (const r of this.runes) {
+			if (r === "insight_scroll") {
+				bonus += 2;
+			}
+		}
+		return bonus;
+	}
+
+	public override getInfusedRunesList(): readonly string[] | undefined {
+		return this.runes;
 	}
 }

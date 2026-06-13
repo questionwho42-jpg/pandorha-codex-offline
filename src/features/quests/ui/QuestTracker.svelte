@@ -107,6 +107,7 @@ onMount(async () => {
 			{:else}
 				<div class="quests-list">
 					{#each activeQuests as q (q.id)}
+						{@const objs = questObjectivesMap[q.id] || []}
 						<div class="quest-item">
 							<div class="quest-title-row">
 								<span class="quest-scope-badge" class:guild={q.scope === 'guild'}>
@@ -116,7 +117,6 @@ onMount(async () => {
 							</div>
 
 							<!-- Lista de Objetivos da Quest -->
-							{@const objs = questObjectivesMap[q.id] || []}
 							{#if objs.length === 0}
 								<p class="quest-no-objectives">Nenhum objetivo registrado.</p>
 							{:else}

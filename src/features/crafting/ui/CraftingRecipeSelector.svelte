@@ -51,6 +51,14 @@ function getMaterialName(id: string): string {
 			return "Ferro-Árvore";
 		case "ether-ore":
 			return "Cristal de Éter";
+		case "mystic-essence":
+			return "Essência Mística";
+		case "rune_stone":
+			return "Runa Eleriana";
+		case "ancient_relic":
+			return "Runa Ancestral";
+		case "insight_scroll":
+			return "Runa Insight";
 		default:
 			return id;
 	}

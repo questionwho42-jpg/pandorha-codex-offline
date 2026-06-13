@@ -7,7 +7,9 @@ export type CraftingFailureCode =
 	| "INSUFFICIENT_MATERIALS"
 	| "INSUFFICIENT_GOLD"
 	| "RESOLUTION_FAILED"
-	| "CRAFTING_DATABASE_ERROR";
+	| "CRAFTING_DATABASE_ERROR"
+	| "INSUFFICIENT_RUNE_SLOTS"
+	| "INVALID_ITEM_KIND";
 
 export type CraftingFailureDetails = Readonly<
 	Record<string, string | number | boolean | readonly string[]>

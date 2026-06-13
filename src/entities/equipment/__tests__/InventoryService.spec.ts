@@ -5,6 +5,7 @@ import type { CharacterRecord } from "../../character/model/characterSchema";
 import { InventoryService } from "../domain/InventoryService";
 import type { CharacterCraftedItemRecord } from "../model/craftingSchema";
 import type { CraftingFailure } from "../model/craftingTypes";
+import { OFFICIAL_EQUIPMENT } from "../model/equipmentCatalog";
 import { InMemoryCraftingRepository } from "./InMemoryCraftingRepository";
 
 describe("InventoryService - Testes de Regras do Inventário Tático", () => {
@@ -423,6 +424,109 @@ describe("InventoryService - Testes de Regras do Inventário Tático", () => {
 			expect(stats.armorClass).toBe(17);
 			expect(stats.movementSpeedBase).toBe(9); // sem penalidade
 			expect(stats.stealthPenalty).toBe(0);
+		}
+	});
+
+	it("deve cobrir ramos implicitos de armaduras e escudos desconhecidos no InventoryService", async () => {
+		const repo = new InMemoryCraftingRepository();
+		const service = new InventoryService(repo);
+
+		// Adiciona temporariamente itens ao catálogo
+		// biome-ignore lint/suspicious/noExplicitAny: dynamic catalog override
+		const list = OFFICIAL_EQUIPMENT as unknown as any[];
+		const customArmor = {
+			id: "custom-armor",
+			label: "Armadura Custom",
+			kind: "armor",
+			slotCost: 1,
+			priceCopper: 1000,
+			durabilityCurrent: 100,
+			durabilityMax: 100,
+			mechanicalSummary: "custom",
+		};
+		const customShield = {
+			id: "custom-shield",
+			label: "Escudo Custom",
+			kind: "shield",
+			slotCost: 1,
+			priceCopper: 1000,
+			durabilityCurrent: 100,
+			durabilityMax: 100,
+			mechanicalSummary: "custom",
+		};
+		list.push(customArmor, customShield);
+
+		try {
+			await repo.saveCraftedItem({
+				id: "crafted-custom-armor-1",
+				characterId: "char-1",
+				equipmentId: "custom-armor",
+				label: "Armadura Custom",
+				isSharp: 0,
+				isReinforced: 0,
+				isRunic: 0,
+				isEquipped: 1,
+				durabilityCurrent: 100,
+				durabilityMax: 100,
+				durability: "mint" as const,
+				createdAt: new Date().toISOString(),
+			});
+
+			await repo.saveCraftedItem({
+				id: "crafted-custom-shield-1",
+				characterId: "char-1",
+				equipmentId: "custom-shield",
+				label: "Escudo Custom",
+				isSharp: 0,
+				isReinforced: 0,
+				isRunic: 0,
+				isEquipped: 1,
+				durabilityCurrent: 100,
+				durabilityMax: 100,
+				durability: "mint" as const,
+				createdAt: new Date().toISOString(),
+			});
+
+			const character: CharacterRecord = {
+				id: "char-1",
+				name: "Aventureiro Teste",
+				concept: "Guerreiro",
+				ancestryId: "human",
+				classId: "vanguard",
+				backgroundId: "solitary",
+				level: 1,
+				experiencePoints: 0,
+				tensionMeter: 0,
+				physical: 1,
+				mental: 1,
+				social: 1,
+				conflict: 1,
+				interaction: 1,
+				resistance: 1,
+				createdAt: new Date().toISOString(),
+				updatedAt: new Date().toISOString(),
+			};
+			const baseStats = new BaseCharacterStats(character, {
+				id: "vanguard",
+				baseHp: 10,
+			});
+
+			const result = await service.getCharacterInventoryState(
+				"char-1",
+				baseStats,
+			);
+			expect(result.success).toBe(true);
+			if (result.success) {
+				// Ambas customizadas não aplicam bônus de CA adicionais definidos no if,
+				// então o armorBonus e shieldBonus devem ser 0.
+				expect(result.data.equippedWeight).toBe(2);
+			}
+		} finally {
+			// Remove os itens temporários
+			const idxArmor = list.indexOf(customArmor);
+			if (idxArmor !== -1) list.splice(idxArmor, 1);
+			const idxShield = list.indexOf(customShield);
+			if (idxShield !== -1) list.splice(idxShield, 1);
 		}
 	});
 });

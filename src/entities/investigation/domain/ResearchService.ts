@@ -9,6 +9,7 @@ export type ResearchFailureCode =
 	| "INVESTIGATION_NOT_FOUND"
 	| "INVALID_RESEARCH_STATE"
 	| "INSUFFICIENT_FUNDS"
+	| "INSUFFICIENT_MENTAL"
 	| "REPOSITORY_ERROR";
 
 export interface ResearchFailure {
@@ -23,6 +24,8 @@ export interface ResearchRollInput {
 	readonly hasPoliglotaSupremo?: boolean;
 	readonly spendGoldExtreme?: boolean;
 	readonly currentGold?: number;
+	readonly researcherEe?: number;
+	readonly advanceTimeTicks?: boolean;
 }
 
 export interface ResearchRollResult {
@@ -32,6 +35,14 @@ export interface ResearchRollResult {
 	readonly translatedPercent: number;
 	readonly log: string;
 	readonly goldSpent: number;
+	readonly eeConsumed: number;
+	readonly ticksConsumed: number;
+	readonly runicReward?:
+		| {
+				readonly type: "rune_stone" | "ancient_relic" | "insight_scroll";
+				readonly label: string;
+		  }
+		| undefined;
 }
 
 /**
@@ -107,6 +118,20 @@ export class ResearchService {
 			});
 		}
 
+		const isPoliglotaInstant =
+			project.type === "cryptography" && input.hasPoliglotaSupremo;
+		if (
+			!isPoliglotaInstant &&
+			input.researcherEe !== undefined &&
+			input.researcherEe < 1
+		) {
+			return fail({
+				code: "INSUFFICIENT_MENTAL",
+				message:
+					"Esforço Extra (EE) insuficiente para guiar a pesquisa (mínimo 1 EE).",
+			});
+		}
+
 		let goldSpent = 0;
 		if (input.spendGoldExtreme) {
 			if (input.currentGold !== undefined && input.currentGold < 25) {
@@ -119,8 +144,11 @@ export class ResearchService {
 			goldSpent = 25;
 		}
 
+		const eeConsumed = isPoliglotaInstant ? 0 : 1;
+		const ticksConsumed = input.advanceTimeTicks ? 1 : 0;
+
 		// 1. Caso de Tradução Instantânea (Poliglota Supremo) para Criptografia
-		if (project.type === "cryptography" && input.hasPoliglotaSupremo) {
+		if (isPoliglotaInstant) {
 			const updated: NewInvestigationRecord = {
 				...project,
 				successesAccumulated: project.successesRequired,
@@ -146,6 +174,12 @@ export class ResearchService {
 				translatedPercent: 100,
 				log: "Poliglota Supremo: Tradução instantânea realizada com sucesso em silêncio!",
 				goldSpent,
+				eeConsumed,
+				ticksConsumed,
+				runicReward: {
+					type: "rune_stone",
+					label: "Runa Eleriana de Combate",
+				},
 			});
 		}
 
@@ -245,6 +279,32 @@ export class ResearchService {
 			});
 		}
 
+		let runicReward:
+			| {
+					type: "rune_stone" | "ancient_relic" | "insight_scroll";
+					label: string;
+			  }
+			| undefined = undefined;
+		const isCompleted =
+			nextStatus === "completed_perfect" ||
+			nextStatus === "completed_standard" ||
+			nextStatus === "completed_poor";
+		if (isCompleted) {
+			if (project.type === "cryptography") {
+				runicReward = { type: "rune_stone", label: "Runa Eleriana de Combate" };
+			} else if (project.type === "great_enigma") {
+				runicReward = {
+					type: "ancient_relic",
+					label: "Fragmento do Bastião Ancestral",
+				};
+			} else if (project.type === "lore") {
+				runicReward = {
+					type: "insight_scroll",
+					label: "Papiro de Insight Oculto",
+				};
+			}
+		}
+
 		return ok({
 			record: saveResult.data,
 			success:
@@ -253,6 +313,9 @@ export class ResearchService {
 			translatedPercent: nextTranslatedPercent,
 			log: logMessage,
 			goldSpent,
+			eeConsumed,
+			ticksConsumed,
+			runicReward,
 		});
 	}
 }

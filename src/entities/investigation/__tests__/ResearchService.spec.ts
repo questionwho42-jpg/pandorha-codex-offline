@@ -625,5 +625,223 @@ describe("ResearchService", () => {
 			expect(result.data.record.successesAccumulated).toBe(1);
 		}
 	});
+
+	it("consome EE e avança ticks de acordo com as flags", async () => {
+		const repo = new InMemoryInvestigationRepository();
+		const service = new ResearchService(repo);
+
+		await service.createProject({
+			id: "project-1",
+			targetId: "target-123",
+			targetName: "Lore de Dragão",
+			type: "lore",
+			tier: 2,
+			dc: 15,
+			successesRequired: 3,
+			failuresMax: 3,
+			timestamp: "2026-05-30T00:00:00Z",
+		});
+
+		// Teste 1: avançando ticks e consumindo EE
+		const result1 = await service.executeResearchTest({
+			investigationId: "project-1",
+			rollValue: 15,
+			modifier: 0,
+			researcherEe: 5,
+			advanceTimeTicks: true,
+		});
+
+		expect(result1.success).toBe(true);
+		if (result1.success) {
+			expect(result1.data.eeConsumed).toBe(1);
+			expect(result1.data.ticksConsumed).toBe(1);
+		}
+
+		// Teste 2: sem avançar ticks
+		const result2 = await service.executeResearchTest({
+			investigationId: "project-1",
+			rollValue: 15,
+			modifier: 0,
+			researcherEe: 4,
+			advanceTimeTicks: false,
+		});
+
+		expect(result2.success).toBe(true);
+		if (result2.success) {
+			expect(result2.data.eeConsumed).toBe(1);
+			expect(result2.data.ticksConsumed).toBe(0);
+		}
+	});
+
+	it("retorna erro ao tentar testar com EE insuficiente", async () => {
+		const repo = new InMemoryInvestigationRepository();
+		const service = new ResearchService(repo);
+
+		await service.createProject({
+			id: "project-1",
+			targetId: "target-123",
+			targetName: "Lore de Dragão",
+			type: "lore",
+			tier: 2,
+			dc: 15,
+			successesRequired: 3,
+			failuresMax: 3,
+			timestamp: "2026-05-30T00:00:00Z",
+		});
+
+		const result = await service.executeResearchTest({
+			investigationId: "project-1",
+			rollValue: 15,
+			modifier: 0,
+			researcherEe: 0, // EE insuficiente
+		});
+
+		expect(result.success).toBe(false);
+		if (!result.success) {
+			expect(result.error.code).toBe("INSUFFICIENT_MENTAL");
+		}
+	});
+
+	it("concede as recompensas rúnicas apropriadas ao concluir projetos", async () => {
+		const repo = new InMemoryInvestigationRepository();
+		const service = new ResearchService(repo);
+
+		// 1. Cryptography -> rune_stone
+		await service.createProject({
+			id: "crypto-proj",
+			targetId: "t-1",
+			targetName: "Códice Rúnico",
+			type: "cryptography",
+			tier: 1,
+			dc: 10,
+			successesRequired: 1,
+			failuresMax: 3,
+			timestamp: "2026-05-30T00:00:00Z",
+		});
+
+		const res1 = await service.executeResearchTest({
+			investigationId: "crypto-proj",
+			rollValue: 15,
+			modifier: 0,
+		});
+		expect(res1.success).toBe(true);
+		if (res1.success) {
+			expect(res1.data.runicReward).toEqual({
+				type: "rune_stone",
+				label: "Runa Eleriana de Combate",
+			});
+		}
+
+		// 2. Great Enigma -> ancient_relic
+		await service.createProject({
+			id: "enigma-proj",
+			targetId: "t-2",
+			targetName: "Monólito",
+			type: "great_enigma",
+			tier: 1,
+			dc: 10,
+			successesRequired: 1,
+			failuresMax: 3,
+			timestamp: "2026-05-30T00:00:00Z",
+		});
+
+		const res2 = await service.executeResearchTest({
+			investigationId: "enigma-proj",
+			rollValue: 15,
+			modifier: 0,
+		});
+		expect(res2.success).toBe(true);
+		if (res2.success) {
+			expect(res2.data.runicReward).toEqual({
+				type: "ancient_relic",
+				label: "Fragmento do Bastião Ancestral",
+			});
+		}
+
+		// 3. Lore -> insight_scroll
+		await service.createProject({
+			id: "lore-proj",
+			targetId: "t-3",
+			targetName: "Papiro Antigo",
+			type: "lore",
+			tier: 1,
+			dc: 10,
+			successesRequired: 1,
+			failuresMax: 3,
+			timestamp: "2026-05-30T00:00:00Z",
+		});
+
+		const res3 = await service.executeResearchTest({
+			investigationId: "lore-proj",
+			rollValue: 15,
+			modifier: 0,
+		});
+		expect(res3.success).toBe(true);
+		if (res3.success) {
+			expect(res3.data.runicReward).toEqual({
+				type: "insight_scroll",
+				label: "Papiro de Insight Oculto",
+			});
+		}
+	});
+
+	it("executa Investigação Extrema com currentGold undefined", async () => {
+		const repo = new InMemoryInvestigationRepository();
+		const service = new ResearchService(repo);
+
+		await service.createProject({
+			id: "project-1",
+			targetId: "target-123",
+			targetName: "Lore de Dragão",
+			type: "lore",
+			tier: 2,
+			dc: 15,
+			successesRequired: 3,
+			failuresMax: 3,
+			timestamp: "2026-05-30T00:00:00Z",
+		});
+
+		const result = await service.executeResearchTest({
+			investigationId: "project-1",
+			rollValue: 5,
+			modifier: 0,
+			spendGoldExtreme: true,
+		});
+
+		expect(result.success).toBe(true);
+		if (result.success) {
+			expect(result.data.goldSpent).toBe(25);
+		}
+	});
+
+	it("executa sucesso normal (não crítico) em Criptografia", async () => {
+		const repo = new InMemoryInvestigationRepository();
+		const service = new ResearchService(repo);
+
+		await service.createProject({
+			id: "project-1",
+			targetId: "target-123",
+			targetName: "Glifos Antigos",
+			type: "cryptography",
+			tier: 2,
+			dc: 15,
+			successesRequired: 3,
+			failuresMax: 3,
+			timestamp: "2026-05-30T00:00:00Z",
+		});
+
+		const result = await service.executeResearchTest({
+			investigationId: "project-1",
+			rollValue: 15,
+			modifier: 0,
+		});
+
+		expect(result.success).toBe(true);
+		if (result.success) {
+			expect(result.data.record.successesAccumulated).toBe(1);
+			expect(result.data.isCritical).toBe(false);
+			expect(result.data.log).toContain("Sucesso no teste de pesquisa");
+		}
+	});
 });
 /* biome-ignore-end */

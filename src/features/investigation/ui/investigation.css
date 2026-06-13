@@ -423,3 +423,118 @@ select:focus {
 	font-size: 0.85rem;
 	padding: 1.5rem 0;
 }
+
+/* Sub-Tabs Navigation */
+.tabs-header {
+	display: flex;
+	gap: 0.5rem;
+	border-bottom: 1px solid rgba(168, 120, 50, 0.2);
+	padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+	background: transparent;
+	border: 1px solid transparent;
+	color: #b8b098;
+	font-family: "Outfit", sans-serif;
+	font-size: 0.85rem;
+	font-weight: 600;
+	padding: 0.5rem 1rem;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+	color: #e0d8c3;
+	border-color: rgba(168, 120, 50, 0.25);
+	background: rgba(168, 120, 50, 0.05);
+}
+
+.tab-btn.active {
+	color: #0f0a0a;
+	background: #a87832;
+	border-color: #c09040;
+	font-weight: 700;
+}
+
+/* Clue Items and Connections */
+.clue-item-btn {
+	width: 100%;
+	text-align: left;
+	padding: 0.75rem 1rem;
+	background: rgba(20, 15, 15, 0.5);
+	border: 1px solid rgba(168, 120, 50, 0.15);
+	border-radius: 6px;
+	transition: all 0.2s ease;
+	cursor: pointer;
+}
+
+.clue-item-btn:hover {
+	border-color: #a87832;
+	background: rgba(168, 120, 50, 0.08);
+}
+
+.clue-item-btn.selected {
+	border-color: #c09040;
+	background: rgba(168, 120, 50, 0.15);
+	box-shadow: 0 0 12px rgba(168, 120, 50, 0.15);
+}
+
+.connector-visual {
+	background: rgba(10, 5, 5, 0.5);
+	border: 1px solid rgba(168, 120, 50, 0.25);
+	border-radius: 8px;
+	padding: 1.5rem;
+	min-height: 140px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	margin-top: 1rem;
+}
+
+.selected-clues-display {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	justify-content: center;
+	width: 100%;
+}
+
+.selected-clue-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.4rem 0.8rem;
+	background: rgba(168, 120, 50, 0.1);
+	border: 1px solid #a87832;
+	border-radius: 99px;
+	font-size: 0.8rem;
+	color: #e0d8c3;
+}
+
+.selected-clue-badge button {
+	background: transparent;
+	border: none;
+	color: #702525;
+	font-weight: 700;
+	cursor: pointer;
+	padding: 0 0.2rem;
+}
+
+.selected-clue-badge button:hover {
+	color: #ff4d4d;
+}
+
+.deduction-card {
+	background: rgba(15, 10, 10, 0.45);
+	border: 1px solid rgba(168, 120, 50, 0.2);
+	border-radius: 6px;
+	padding: 0.75rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	border-left: 3px solid #a87832;
+}
