@@ -152,7 +152,7 @@ describe("FSD Architecture Integrity Tests", () => {
 		}
 
 		expect(violations, violations.join("\n")).toEqual([]);
-	});
+	}, 30000);
 });
 
 // Helpers

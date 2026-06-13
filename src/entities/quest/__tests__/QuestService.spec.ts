@@ -398,4 +398,73 @@ describe("QuestService", () => {
 			expect(q?.status).toBe("completed");
 		}
 	});
+
+	describe("QuestService - Uncovered Branches", () => {
+		it("should handle failures in findObjectivesByQuestId and findAll", async () => {
+			const mockRepo: QuestRepository = {
+				save: async (q) => ok(q),
+				// biome-ignore lint/suspicious/noExplicitAny: mock objects
+				findById: async (id) => ok({ id, status: "active" } as any),
+				findAll: async () =>
+					fail({
+						code: "QUEST_REPOSITORY_READ_FAILED",
+						message: "Error",
+					} as QuestRepositoryFailure),
+				delete: async () => ok(undefined),
+				saveObjective: async (o) => ok(o),
+				findObjectiveById: async (id) =>
+					ok({
+						id,
+						status: "active",
+						questId: "q1",
+						requiredAmount: 1,
+						currentAmount: 0,
+						// biome-ignore lint/suspicious/noExplicitAny: mock objects
+					} as any),
+				findObjectivesByQuestId: async () =>
+					fail({
+						code: "QUEST_REPOSITORY_READ_FAILED",
+						message: "Error",
+					} as QuestRepositoryFailure),
+				deleteObjective: async () => ok(undefined),
+			};
+
+			const service = new QuestService(mockRepo);
+
+			// 1. In updateObjectiveProgress, when allObjRes fails
+			const progressRes = await service.updateObjectiveProgress("obj1", 1);
+			expect(progressRes.success).toBe(true);
+
+			// 2. In evaluateObjectivesAgainstWorldState, when findAll fails
+			const evalRes1 = await service.evaluateObjectivesAgainstWorldState([
+				"clue",
+			]);
+			expect(evalRes1.success).toBe(false);
+
+			// 3. In evaluateObjectivesAgainstWorldState, when findObjectivesByQuestId fails but findAll succeeds
+			const mockRepo2: QuestRepository = {
+				...mockRepo,
+				// biome-ignore lint/suspicious/noExplicitAny: mock objects
+				findAll: async () => ok([{ id: "q1", status: "active" } as any]),
+			};
+			const service2 = new QuestService(mockRepo2);
+			const evalRes2 = await service2.evaluateObjectivesAgainstWorldState([
+				"clue",
+			]);
+			expect(evalRes2.success).toBe(true);
+
+			// 4. In updateObjectiveProgress, when saveObjective fails
+			const mockRepo3: QuestRepository = {
+				...mockRepo,
+				saveObjective: async () =>
+					fail({
+						code: "QUEST_REPOSITORY_WRITE_FAILED",
+						message: "Error",
+					} as QuestRepositoryFailure),
+			};
+			const service3 = new QuestService(mockRepo3);
+			const progressRes2 = await service3.updateObjectiveProgress("obj1", 1);
+			expect(progressRes2.success).toBe(false);
+		});
+	});
 });

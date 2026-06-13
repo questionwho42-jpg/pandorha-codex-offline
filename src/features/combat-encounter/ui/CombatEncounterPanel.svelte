@@ -9,7 +9,9 @@ import { OFFICIAL_EQUIPMENT } from "$lib/entities/equipment/model/equipmentCatal
 import { SynergyService } from "$lib/entities/synergy/domain/SynergyService";
 import { WorkerSynergyRepository } from "$lib/entities/synergy/infrastructure/WorkerSynergyRepository";
 import { chatState } from "$lib/features/chat";
+import { ActionQueueService } from "$lib/shared/action-queue";
 import { DiceService } from "$lib/shared/dice";
+import { ok } from "$lib/shared/lib/result";
 import type { CharacterCraftedItemRecord } from "../../crafting/model/craftingSchema";
 import { CombatEncounterService } from "../domain/CombatEncounterService";
 import { CombatLootService } from "../domain/CombatLootService";
@@ -150,21 +152,21 @@ let _limitBreakActive = $state(false);
 let selectedTrickId = $state("marca_presa");
 let masterEeSpent = $state(0);
 let familiarReactionUsed = $state(false);
-let _familiarFlickered = $state(false);
+let familiarFlickered = $state(false);
 
 let _isStealthMode = $state(false);
 let heatLevel = $state(0);
 let guardPosition = $state("flank");
 let useShadows = $state(false);
-let _isInPoleiro = $state(false);
-let _isHanging = $state(false);
+let isInPoleiro = $state(false);
+let isHanging = $state(false);
 let selectedTakedownType = $state("strike");
 
 let activeCompanions = $derived(
 	companions.filter((c) => c.characterId === selectedAttackerId),
 );
 
-let _activeCompanionStats = $derived(
+let activeCompanionStats = $derived(
 	activeCompanions.map((comp) => {
 		const char = characters.find((c) => c.id === selectedAttackerId);
 		if (!char) {
@@ -1445,7 +1447,7 @@ function resetEncounter(): void {
 	masterEeSpent = 0;
 	masterPvSpent = 0;
 	familiarReactionUsed = false;
-	_familiarFlickered = false;
+	familiarFlickered = false;
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -1463,7 +1465,7 @@ function selectAttacker(event: Event): void {
 	masterEeSpent = 0;
 	masterPvSpent = 0;
 	familiarReactionUsed = false;
-	_familiarFlickered = false;
+	familiarFlickered = false;
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -1482,7 +1484,7 @@ function selectTarget(event: Event): void {
 	masterEeSpent = 0;
 	masterPvSpent = 0;
 	familiarReactionUsed = false;
-	_familiarFlickered = false;
+	familiarFlickered = false;
 }
 
 function mapCombatEncounterFailure(failure: CombatEncounterFailure): string {
@@ -2130,6 +2132,43 @@ function _commandCompanionAttack(comp: CompanionRecord) {
 	}
 	damage += masterMatrix;
 
+	const actionQueue = new ActionQueueService();
+	const command = {
+		id: `companion-attack-${crypto
+			.randomUUID()
+			.replace(/[^a-z0-9-]/g, "")
+			.slice(0, 10)}`,
+		type: "companion-attack",
+		source: comp.name,
+		createdAt: new Date().toISOString(),
+		payload: {
+			companionId: comp.id,
+			targetId: selectedTarget.id,
+			damage: damage,
+			attackRoll: attackRollValue,
+			hit: attackRollValue >= selectedTarget.armorClass ? 1 : 0,
+		},
+	};
+	const enqueueResult = actionQueue.enqueue(command);
+	if (!enqueueResult.success) {
+		console.error("Failed to enqueue companion attack:", enqueueResult.error);
+		return;
+	}
+	const processor = {
+		process(cmd: any) {
+			return ok({
+				commandId: cmd.id,
+				commandType: cmd.type,
+				processedAt: new Date().toISOString(),
+			});
+		},
+	};
+	const processResult = actionQueue.processNext(processor);
+	if (!processResult.success) {
+		console.error("Failed to process companion attack:", processResult.error);
+		return;
+	}
+
 	if (attackRollValue >= selectedTarget.armorClass) {
 		targetHitPoints = Math.max(0, targetHitPoints - damage);
 		log = [
@@ -2152,12 +2191,48 @@ function _castFamiliarTrick(comp: CompanionRecord) {
 
 	masterEeSpent += cost;
 	familiarReactionUsed = true;
-	_familiarFlickered = true;
+	familiarFlickered = true;
 
 	const char = characters.find((c) => c.id === selectedAttackerId);
 	const mental = char ? char.mental : 1;
 	const level = char ? char.level : 1;
 	const cdTarget = 10 + level + mental;
+
+	const actionQueue = new ActionQueueService();
+	const command = {
+		id: `familiar-trick-${crypto
+			.randomUUID()
+			.replace(/[^a-z0-9-]/g, "")
+			.slice(0, 10)}`,
+		type: "familiar-trick",
+		source: comp.name,
+		createdAt: new Date().toISOString(),
+		payload: {
+			companionId: comp.id,
+			trickId: selectedTrickId,
+			eeCost: cost,
+			cdTarget: cdTarget,
+		},
+	};
+	const enqueueResult = actionQueue.enqueue(command);
+	if (!enqueueResult.success) {
+		console.error("Failed to enqueue familiar trick:", enqueueResult.error);
+		return;
+	}
+	const processor = {
+		process(cmd: any) {
+			return ok({
+				commandId: cmd.id,
+				commandType: cmd.type,
+				processedAt: new Date().toISOString(),
+			});
+		},
+	};
+	const processResult = actionQueue.processNext(processor);
+	if (!processResult.success) {
+		console.error("Failed to process familiar trick:", processResult.error);
+		return;
+	}
 
 	if (selectedTrickId === "marca_presa") {
 		log = [
@@ -2259,15 +2334,15 @@ function _handleClimbPoleiro(): void {
 		dc,
 	});
 	if (res.success) {
-		_isInPoleiro = true;
-		_isHanging = res.isHanging;
+		isInPoleiro = true;
+		isHanging = res.isHanging;
 		log = [
 			...log,
 			`🪜 Teste de Atletismo/Furtividade: Rolou ${roll} + ${physical} vs CD ${dc} (SUCESSO). ${res.isHanging ? "Ficou pendurado!" : "Subiu no poleiro com perfeição!"}`,
 		];
 	} else {
-		_isInPoleiro = false;
-		_isHanging = false;
+		isInPoleiro = false;
+		isHanging = false;
 		const nextClock = stealthService.addTensionSegments(
 			{
 				filledSegments: turnState.tensionClockSegmentsFilled || 0,
@@ -2448,6 +2523,27 @@ function _handleEvidenceCleanup(): void {
 		];
 	}
 }
+
+const helpHero = _helpHero;
+const commandCompanionAttack = _commandCompanionAttack;
+const castFamiliarTrick = _castFamiliarTrick;
+const toggleSensorySharing = _toggleSensorySharing;
+const damageCompanion = _damageCompanion;
+const healCompanion = _healCompanion;
+const enableStealthMode = _enableStealthMode;
+const disableStealthMode = _disableStealthMode;
+const activateLimitBreak = _activateLimitBreak;
+const handleTakedown = _handleTakedown;
+const handleClimbPoleiro = _handleClimbPoleiro;
+const handleGuardVisionCheck = _handleGuardVisionCheck;
+const handleStealthySlide = _handleStealthySlide;
+const handleEvidenceCleanup = _handleEvidenceCleanup;
+const handleOpenElo = _handleOpenElo;
+const handleReinforceElo = _handleReinforceElo;
+const handleDetonateElo = _handleDetonateElo;
+const handleRecoverCohesion = _handleRecoverCohesion;
+const damageHero = _damageHero;
+const healHero = _healHero;
 </script>
 
 <section aria-labelledby="combat-encounter-title" data-testid="combat-encounter-panel">

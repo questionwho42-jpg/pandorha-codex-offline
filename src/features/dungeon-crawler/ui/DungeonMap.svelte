@@ -6,6 +6,7 @@ import type {
 	DungeonDelveRecord,
 	DungeonRoomRecord,
 } from "../../../entities/dungeon/model/dungeonSchema";
+import type { QuestObjectiveRecord } from "../../../entities/quest/model/questSchema";
 import type { TrapRecord } from "../../../entities/traps";
 
 type Props = {
@@ -33,6 +34,7 @@ type Props = {
 		roll: number,
 		isTrained: boolean,
 	) => Promise<void>;
+	questObjectives?: readonly QuestObjectiveRecord[];
 };
 
 let props: Props = $props();
@@ -45,6 +47,8 @@ let onMoveParty = $derived(props.onMoveParty);
 let onEscapeDelve = $derived(props.onEscapeDelve);
 let onDetectTrap = $derived(props.onDetectTrap);
 let onDisarmTrap = $derived(props.onDisarmTrap);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+let questObjectives = $derived(props.questObjectives ?? []);
 
 // Controles locais de RPG
 let selectedCharacterId = $state("");
@@ -409,6 +413,13 @@ let selectedRoom = $derived(rooms.find((r) => r.roomId === selectedRoomId));
 										{#if isCurrent}
 											<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-ether border border-void text-void text-[8px] font-extrabold uppercase px-1.5 py-0.5 rounded shadow-[0_0_8px_#dab973] animate-bounce">
 												Grupo
+											</div>
+										{/if}
+
+										<!-- Marcador de Objetivo de Missão -->
+										{#if questObjectives.some((o) => o.target === room.roomId && o.status === "active" && room.status !== "hidden")}
+											<div class="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-sky-runic border border-void text-void text-[7px] font-extrabold uppercase px-1 py-0.5 rounded shadow-[0_0_8px_rgba(6,182,212,0.6)] animate-pulse z-20" data-testid={`quest-marker-${room.roomId}`}>
+												🎯 Missão
 											</div>
 										{/if}
 										

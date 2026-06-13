@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { fail, ok } from "$lib/shared/lib/result";
+import { InMemorySocialRepository } from "$lib/entities/social";
+import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { DialogueRepository } from "../domain/DialogueRepository";
 import { DialogueService } from "../domain/DialogueService";
 import type { DialogueTree } from "../domain/dialogueTypes";
@@ -61,6 +62,17 @@ describe("DialogueService", () => {
 							consumeEe: 3,
 							unlockClues: ["clue-magic-amulet"],
 							triggerEvent: "event-examine-amulets",
+						},
+					},
+					{
+						id: "opt-faction-affect",
+						playerText: "Apoiar abertamente os Guardiões do Ether.",
+						nextNodeId: "node-normal-store",
+						effects: {
+							factionReputation: [
+								{ factionId: "fac-ether", reputationChange: 10 },
+								{ factionId: "fac-ruin", reputationChange: -5 },
+							],
 						},
 					},
 				],
@@ -592,6 +604,123 @@ describe("DialogueService", () => {
 				{ ee: 5, social: 3, mental: 1 },
 			);
 			expect(resHigh.success).toBe(false);
+		});
+
+		it("deve aplicar consequências de reputação de facção ao escolher uma opção com esses efeitos", async () => {
+			const socialRepo = new InMemorySocialRepository();
+			const dialogueServiceWithSocial = new DialogueService(
+				repository,
+				socialRepo,
+			);
+
+			// 1. Inicializar reputação de fac-ruin com valor 2 para testar atualização
+			await socialRepo.saveReputation({
+				id: "rep-ruin-1",
+				characterId: testCharacterId,
+				factionId: "fac-ruin",
+				value: 2,
+				updatedAt: new Date().toISOString(),
+			});
+
+			const result = await dialogueServiceWithSocial.advance(
+				testCharacterId,
+				testNpcId,
+				mockTree,
+				"opt-faction-affect",
+			);
+
+			expect(result.success).toBe(true);
+			if (result.success) {
+				expect(result.data.effectsApplied?.factionReputation).toEqual([
+					{ factionId: "fac-ether", reputationChange: 10 },
+					{ factionId: "fac-ruin", reputationChange: -5 },
+				]);
+
+				// fac-ether deve ser criada com 10
+				const repEther = await socialRepo.findReputation(
+					testCharacterId,
+					"fac-ether",
+				);
+				expect(repEther.success).toBe(true);
+				if (repEther.success) {
+					expect(repEther.data.value).toBe(10);
+				}
+
+				// fac-ruin deve ser atualizada de 2 para -3 (2 + (-5) = -3)
+				const repRuin = await socialRepo.findReputation(
+					testCharacterId,
+					"fac-ruin",
+				);
+				expect(repRuin.success).toBe(true);
+				if (repRuin.success) {
+					expect(repRuin.data.value).toBe(-3);
+				}
+			}
+		});
+
+		it("deve falhar se a gravação de reputação no socialRepository retornar erro", async () => {
+			class FailingSocialRepo extends InMemorySocialRepository {
+				public override async saveReputation(
+					_reputation: any,
+				): Promise<Result<any, any>> {
+					return fail({
+						code: "SOCIAL_REPOSITORY_WRITE_FAILED",
+						message: "Erro de banco de dados simulado para reputação.",
+					});
+				}
+			}
+			const failingSocialRepo = new FailingSocialRepo();
+			const dialogueServiceWithFailingSocial = new DialogueService(
+				repository,
+				failingSocialRepo as any,
+			);
+
+			const result = await dialogueServiceWithFailingSocial.advance(
+				testCharacterId,
+				testNpcId,
+				mockTree,
+				"opt-faction-affect",
+			);
+
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.code).toBe("SOCIAL_REPOSITORY_WRITE_FAILED");
+				expect(result.error.message).toBe(
+					"Erro de banco de dados simulado para reputação.",
+				);
+			}
+		});
+
+		it("deve falhar se a busca de reputação no socialRepository retornar erro desconhecido", async () => {
+			class ReadFailingSocialRepo extends InMemorySocialRepository {
+				public override async findReputation(
+					_characterId: string,
+					_factionId: string,
+				): Promise<Result<any, any>> {
+					return fail({
+						code: "SOCIAL_REPOSITORY_READ_FAILED",
+						message: "Erro de leitura de reputação.",
+					});
+				}
+			}
+			const failingSocialRepo = new ReadFailingSocialRepo();
+			const dialogueServiceWithFailingSocial = new DialogueService(
+				repository,
+				failingSocialRepo as any,
+			);
+
+			const result = await dialogueServiceWithFailingSocial.advance(
+				testCharacterId,
+				testNpcId,
+				mockTree,
+				"opt-faction-affect",
+			);
+
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.code).toBe("SOCIAL_REPOSITORY_READ_FAILED");
+				expect(result.error.message).toBe("Erro de leitura de reputação.");
+			}
 		});
 	});
 });

@@ -1,3 +1,4 @@
+import type { SocialRepository } from "$lib/entities/social";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { DialogueStateData } from "../model/dialogueSchema";
 import type { DialogueRepository } from "./DialogueRepository";
@@ -12,12 +13,19 @@ export interface DialogueAdvanceResult {
 				consumeEe?: number;
 				unlockClues?: string[];
 				triggerEvent?: string;
+				factionReputation?: {
+					factionId: string;
+					reputationChange: number;
+				}[];
 		  }
 		| undefined;
 }
 
 export class DialogueService {
-	public constructor(private readonly repository: DialogueRepository) {}
+	public constructor(
+		private readonly repository: DialogueRepository,
+		private readonly socialRepository?: SocialRepository,
+	) {}
 
 	public async getOrCreateState(
 		characterId: string,
@@ -184,6 +192,57 @@ export class DialogueService {
 			}
 			if (option.effects.triggerEvent) {
 				effectsApplied.triggerEvent = option.effects.triggerEvent;
+			}
+			if (
+				option.effects.factionReputation &&
+				option.effects.factionReputation.length > 0
+			) {
+				effectsApplied.factionReputation = option.effects.factionReputation;
+				if (this.socialRepository) {
+					for (const repEffect of option.effects.factionReputation) {
+						const repResult = await this.socialRepository.findReputation(
+							characterId,
+							repEffect.factionId,
+						);
+						if (repResult.success) {
+							const currentRep = repResult.data;
+							const updatedRep = {
+								...currentRep,
+								value: currentRep.value + repEffect.reputationChange,
+								updatedAt: new Date().toISOString(),
+							};
+							const saveRepRes =
+								await this.socialRepository.saveReputation(updatedRep);
+							if (!saveRepRes.success) {
+								return fail({
+									code: "SOCIAL_REPOSITORY_WRITE_FAILED",
+									message: saveRepRes.error.message,
+								});
+							}
+						} else if (repResult.error.code === "REPUTATION_NOT_FOUND") {
+							const newRep = {
+								id: crypto.randomUUID(),
+								characterId,
+								factionId: repEffect.factionId,
+								value: repEffect.reputationChange,
+								updatedAt: new Date().toISOString(),
+							};
+							const saveRepRes =
+								await this.socialRepository.saveReputation(newRep);
+							if (!saveRepRes.success) {
+								return fail({
+									code: "SOCIAL_REPOSITORY_WRITE_FAILED",
+									message: saveRepRes.error.message,
+								});
+							}
+						} else {
+							return fail({
+								code: "SOCIAL_REPOSITORY_READ_FAILED",
+								message: repResult.error.message,
+							});
+						}
+					}
+				}
 			}
 		}
 

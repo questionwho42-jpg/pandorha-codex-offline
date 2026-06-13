@@ -578,6 +578,76 @@ describe("HexcrawlMovementService", () => {
 			"lore-encounter-triggered",
 		);
 	});
+
+	it("does not generate traps on ruins/marsh if target tile is already known", async () => {
+		const tilePort = new InMemoryWorldTileCatalogRepository({
+			worldTiles: [
+				...WORLD_TILE_CATALOG,
+				{
+					id: "known-ruins",
+					label: "Ruínas Conhecidas",
+					q: 1,
+					r: 0,
+					biome: "ruins",
+					regionTier: 1,
+					isKnown: true,
+					isMapped: false,
+					isBlocked: false,
+					encounterSignal: "none",
+					sourceFile: "map.json",
+					summary: "Known ruins",
+				},
+			],
+		});
+		const trapRepo = new SessionTrapRepository();
+		const service = new HexcrawlMovementService(tilePort, undefined, trapRepo);
+
+		const result = await service.moveParty(
+			createInput({ targetTileId: "known-ruins" }),
+		);
+		expectMovementSuccess(result);
+
+		const traps = await trapRepo.findByTileId("known-ruins");
+		expect(traps.success).toBe(true);
+		if (traps.success) {
+			expect(traps.data.length).toBe(0);
+		}
+	});
+
+	it("does not generate traps on other biomes even if unknown", async () => {
+		const tilePort = new InMemoryWorldTileCatalogRepository({
+			worldTiles: [
+				...WORLD_TILE_CATALOG,
+				{
+					id: "unknown-forest",
+					label: "Floresta Desconhecida",
+					q: 1,
+					r: 0,
+					biome: "forest",
+					regionTier: 1,
+					isKnown: false,
+					isMapped: false,
+					isBlocked: false,
+					encounterSignal: "none",
+					sourceFile: "map.json",
+					summary: "Unknown forest",
+				},
+			],
+		});
+		const trapRepo = new SessionTrapRepository();
+		const service = new HexcrawlMovementService(tilePort, undefined, trapRepo);
+
+		const result = await service.moveParty(
+			createInput({ targetTileId: "unknown-forest" }),
+		);
+		expectMovementSuccess(result);
+
+		const traps = await trapRepo.findByTileId("unknown-forest");
+		expect(traps.success).toBe(true);
+		if (traps.success) {
+			expect(traps.data.length).toBe(0);
+		}
+	});
 });
 
 function createTilePort(): InMemoryWorldTileCatalogRepository {

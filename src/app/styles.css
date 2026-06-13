@@ -511,3 +511,25 @@ button {
 		color: #000000 !important;
 	}
 }
+
+/* Estilos SVG de fluxos em neon/dashed para FactionTeiaPanel */
+@keyframes stroke-dash {
+	to {
+		stroke-dashoffset: -20;
+	}
+}
+.stroke-dasharray-\[5\,5\] {
+	stroke-dasharray: 5 5;
+}
+.stroke-dasharray-\[3\,3\] {
+	stroke-dasharray: 3 3;
+}
+.animate-\[dash_2s_linear_infinite\] {
+	animation: stroke-dash 2s linear infinite;
+}
+.animate-\[dash_3s_linear_infinite\] {
+	animation: stroke-dash 3s linear infinite;
+}
+.animate-\[dash_4s_linear_infinite\] {
+	animation: stroke-dash 4s linear infinite;
+}

@@ -19,6 +19,8 @@ let activeResearchProjects = $state<InvestigationRecord[]>([]);
 let selectedCharacterId = $state("");
 let hasPoliglotaSupremo = $state(false);
 let spendGoldExtreme = $state(false);
+let advanceTimeTicks = $state(false);
+let charactersEe = $state<Record<string, number>>({});
 
 // Formulário de Criação
 let targetNameInput = $state("Monólito Rúnico de Ouro");
@@ -29,13 +31,13 @@ let selectedTier = $state(1);
 let selectedDc = $state(12);
 
 // UI Alerts e Logs
-let _successNotification = $state<string | null>(null);
-let _errorNotification = $state<string | null>(null);
+let successNotification = $state<string | null>(null);
+let errorNotification = $state<string | null>(null);
 let researchLogs = $state<string[]>([]);
 
 // Estado de Animação de Rolagem
-let _isRolling = $state(false);
-let _rolledD20 = $state<number | null>(null);
+let isRolling = $state(false);
+let rolledD20 = $state<number | null>(null);
 let rolledTotal = $state<number | null>(null);
 
 // Alfabeto Rúnico para Criptografia Embaraçada
@@ -59,7 +61,7 @@ const RUNES_CHARACTERS = [
 ];
 
 // Textos Decifrados Originais para Criptografia de Demonstração
-const _CRYPTO_TEXTS: Record<string, string> = {
+const CRYPTO_TEXTS: Record<string, string> = {
 	lore: "O guardião do abismo tem fraqueza a dano espiritual. Suas escamas se rompem quando ele fita o olho do conjurador no momento da metamagia.",
 	cryptography:
 		"A chave rúnica sob as ruínas orientais abre o portal do Bastião Perdido às três badaladas da meia-noite sob a lua de éter.",
@@ -76,23 +78,42 @@ onMount(async () => {
 	if (characters.length > 0) {
 		selectedCharacterId = characters[0].id;
 	}
+
+	const storedEe = localStorage.getItem("pandorha_characters_ee");
+	if (storedEe) {
+		try {
+			charactersEe = JSON.parse(storedEe);
+		} catch (e) {
+			console.error(e);
+		}
+	}
+	for (const c of characters) {
+		if (charactersEe[c.id] === undefined) {
+			charactersEe[c.id] = 5;
+		}
+	}
+	saveEe();
 });
+
+function saveEe() {
+	localStorage.setItem("pandorha_characters_ee", JSON.stringify(charactersEe));
+}
 
 function addLog(msg: string) {
 	researchLogs = [msg, ...researchLogs].slice(0, 12);
 }
 
 function triggerSuccess(msg: string) {
-	_successNotification = msg;
+	successNotification = msg;
 	setTimeout(() => {
-		_successNotification = null;
+		successNotification = null;
 	}, 3500);
 }
 
 function triggerError(msg: string) {
-	_errorNotification = msg;
+	errorNotification = msg;
 	setTimeout(() => {
-		_errorNotification = null;
+		errorNotification = null;
 	}, 3500);
 }
 
@@ -114,7 +135,7 @@ async function reloadProjects() {
 }
 
 // Embaralha o texto dependendo do percentual traduzido
-function _obfuscateText(originalText: string, percent: number): string {
+function obfuscateText(originalText: string, percent: number): string {
 	if (percent >= 100) return originalText;
 	const words = originalText.split(" ");
 	return words
@@ -146,7 +167,7 @@ function _obfuscateText(originalText: string, percent: number): string {
 		.join(" ");
 }
 
-async function _handleCreateProject() {
+async function handleCreateProject() {
 	if (!targetNameInput.trim()) {
 		triggerError("Dê um nome ou descrição ao alvo do projeto de pesquisa!");
 		return;
@@ -198,9 +219,19 @@ function secureRandomD20(): number {
 	return (arr[0] % 20) + 1;
 }
 
-async function _handleRollResearch(project: InvestigationRecord) {
+async function handleRollResearch(project: InvestigationRecord) {
 	if (!selectedResearcher) {
 		triggerError("Selecione um Andarilho ativo para guiar a pesquisa!");
+		return;
+	}
+
+	const currentEe = charactersEe[selectedResearcher.id] ?? 5;
+	const isPoliglota = project.type === "cryptography" && hasPoliglotaSupremo;
+
+	if (!isPoliglota && currentEe < 1) {
+		triggerError(
+			`Esforço Extra (EE) insuficiente no Andarilho ${selectedResearcher.name}!`,
+		);
 		return;
 	}
 
@@ -223,8 +254,8 @@ async function _handleRollResearch(project: InvestigationRecord) {
 		return;
 	}
 
-	_isRolling = true;
-	_rolledD20 = null;
+	isRolling = true;
+	rolledD20 = null;
 	rolledTotal = null;
 
 	// Bônus do Pesquisador: Nível + Mental + Maior Eixo (Interação ou Conflito)
@@ -235,7 +266,7 @@ async function _handleRollResearch(project: InvestigationRecord) {
 
 	let animCount = 0;
 	const interval = setInterval(() => {
-		_rolledD20 = secureRandomD20();
+		rolledD20 = secureRandomD20();
 		animCount++;
 		if (animCount > 6) {
 			clearInterval(interval);
@@ -245,9 +276,9 @@ async function _handleRollResearch(project: InvestigationRecord) {
 
 	async function executeFinalRoll() {
 		const d20 = secureRandomD20();
-		_rolledD20 = d20;
+		rolledD20 = d20;
 		rolledTotal = d20 + modifier;
-		_isRolling = false;
+		isRolling = false;
 
 		const goldStateBefore = selectedResearcher.gold;
 
@@ -258,6 +289,8 @@ async function _handleRollResearch(project: InvestigationRecord) {
 			hasPoliglotaSupremo,
 			spendGoldExtreme,
 			currentGold: goldStateBefore,
+			researcherEe: currentEe,
+			advanceTimeTicks,
 		});
 
 		if (rollResult.success) {
@@ -275,6 +308,15 @@ async function _handleRollResearch(project: InvestigationRecord) {
 				});
 			}
 
+			// Atualiza EE consumido
+			if (data.eeConsumed > 0) {
+				charactersEe[selectedResearcher.id] = Math.max(
+					0,
+					currentEe - data.eeConsumed,
+				);
+				saveEe();
+			}
+
 			let logMsg = `[Pesquisa] ${selectedResearcher.name} rolou d20: ${d20} + Mod: ${modifier} = ${rolledTotal} vs DC ${project.dc}. `;
 			if (data.isCritical) {
 				logMsg += `CRÍTICO! Progresso duplicado. `;
@@ -290,7 +332,17 @@ async function _handleRollResearch(project: InvestigationRecord) {
 			}
 
 			if (spent > 0) {
-				logMsg += `Gasto de ${spent} PO.`;
+				logMsg += `Gasto de ${spent} PO. `;
+			}
+			if (data.eeConsumed > 0) {
+				logMsg += `Consumiu ${data.eeConsumed} EE. `;
+			}
+			if (data.ticksConsumed > 0) {
+				logMsg += `Avançou ${data.ticksConsumed} tick de tempo. `;
+			}
+			if (data.runicReward) {
+				logMsg += `Recompensa: ${data.runicReward.label}! `;
+				triggerSuccess(`Recompensa Rúnica: ${data.runicReward.label}`);
 			}
 
 			addLog(logMsg);
@@ -354,6 +406,9 @@ async function _handleRollResearch(project: InvestigationRecord) {
 								{#if p.status === 'completed_perfect' || p.status === 'completed_standard' || p.status === 'completed_poor'}
 									<div class="reveal-box mt-2 border-t border-ether/20 pt-2 text-xs text-bronze">
 										<strong>Segredo Revelado:</strong> {p.discoveredSecrets || "Nenhum segredo íntimo adicional desvelado."}
+										<div class="mt-1 text-ether">
+											✨ Recompensa: {#if p.type === 'cryptography'}Runa Eleriana de Combate{:else if p.type === 'great_enigma'}Fragmento do Bastião Ancestral{:else}Papiro de Insight Oculto{/if}
+										</div>
 									</div>
 								{/if}
 							</div>
@@ -386,7 +441,7 @@ async function _handleRollResearch(project: InvestigationRecord) {
 											<select id="char-select" class="runic-select" bind:value={selectedCharacterId}>
 												{#each characters as char}
 													<option value={char.id}>
-														{char.name} (Mod: +{char.level + char.mental + Math.max(char.interaction, char.conflict)})
+														{char.name} (EE: {charactersEe[char.id] ?? 5}, Mod: +{char.level + char.mental + Math.max(char.interaction, char.conflict)})
 													</option>
 												{/each}
 											</select>
@@ -401,6 +456,10 @@ async function _handleRollResearch(project: InvestigationRecord) {
 												<label class="flex items-center gap-1.5 cursor-pointer text-[10px] text-bone/80">
 													<input type="checkbox" bind:checked={spendGoldExtreme} />
 													Extrema (Gasta 25 PO)
+												</label>
+												<label class="flex items-center gap-1.5 cursor-pointer text-[10px] text-bone/80">
+													<input type="checkbox" bind:checked={advanceTimeTicks} />
+													Avançar Tempo (1 Tick)
 												</label>
 											</div>
 										</div>

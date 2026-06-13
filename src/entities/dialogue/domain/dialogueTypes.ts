@@ -10,6 +10,10 @@ export interface DialogueOption {
 		consumeEe?: number;
 		unlockClues?: string[];
 		triggerEvent?: string;
+		factionReputation?: {
+			factionId: string;
+			reputationChange: number;
+		}[];
 	};
 	socialChallenge?: {
 		matrix: "social" | "mental";

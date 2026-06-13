@@ -1,5 +1,7 @@
 <script lang="ts">
 import { onMount } from "svelte";
+// biome-ignore lint/correctness/noUnusedImports: used in Svelte template
+import { fade } from "svelte/transition";
 import {
 	applyStatusEffects,
 	BaseCharacterStats,
@@ -134,12 +136,10 @@ onMount(async () => {
 	await loadDialogueState();
 });
 
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function saveEe() {
 	localStorage.setItem("pandorha_characters_ee", JSON.stringify(charactersEe));
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function saveGlobalClues() {
 	localStorage.setItem(
 		"pandorha_unlocked_clues",
@@ -367,34 +367,34 @@ function _restParty() {
 
 		<!-- Log e Tela de Diálogo Físico -->
 		<div class="flex flex-col gap-4 flex-1 min-h-[220px] bg-void/70 border border-bronze/25 rounded p-4 overflow-y-auto leading-relaxed relative">
-			{#if currentNode}
-				<div class="border-l-2 border-ether pl-3 py-1 bg-ether/5 rounded-r">
+			{#if _currentNode}
+				<div transition:fade={{ duration: 250 }} class="border-l-2 border-ether pl-3 py-1 bg-ether/5 rounded-r">
 					<p class="text-[10px] uppercase font-bold text-ether tracking-widest">
 						{selectedTree.npcId === 'npc-merchant' ? 'Silas o Mercador' : selectedTree.npcId === 'npc-alchemist' ? 'Eldrin o Alquimista' : 'Silas o Escriba'} diz:
 					</p>
 					<p class="text-sm italic text-bone/90 mt-1">
-						"{currentNode.npcText}"
+						"{_currentNode.npcText}"
 					</p>
 				</div>
 			{:else}
 				<p class="text-xs text-bone/40 text-center my-auto">Diálogo não inicializado.</p>
 			{/if}
 
-			{#if currentNode && currentNode.options.length > 0}
-				<div class="flex flex-col gap-2 mt-4 pt-4 border-t border-bronze/10">
-					{#each currentNode.options as opt}
+			{#if _currentNode && _currentNode.options.length > 0}
+				<div transition:fade={{ duration: 200 }} class="flex flex-col gap-2 mt-4 pt-4 border-t border-bronze/10">
+					{#each _currentNode.options as opt}
 						{@const isEeBlocked = opt.conditions?.requiredMinEe !== undefined && (charactersEe[selectedCharacterId] ?? 5) < opt.conditions.requiredMinEe}
 						{@const isClueBlocked = opt.conditions?.requiredClues !== undefined && opt.conditions.requiredClues.some(c => !globalUnlockedClues.includes(c))}
 						{@const isBlocked = isEeBlocked || isClueBlocked}
 
 						<button
 							type="button"
-							onclick={() => selectOption(opt.id)}
+							onclick={() => _selectOption(opt.id)}
 							disabled={isBlocked || isRolling}
-							class="w-full text-left p-3 rounded border text-xs transition-all relative overflow-hidden group
+							class="w-full text-left p-3 rounded border text-xs relative overflow-hidden group transition-all duration-200
 								{isBlocked 
 									? 'bg-void/40 border-void/50 text-bone/35 cursor-not-allowed' 
-									: 'bg-ruin border-bronze/35 text-bone hover:border-ether hover:bg-void hover:text-ether'}"
+									: 'bg-ruin border-bronze/35 text-bone hover:border-ether hover:bg-void hover:text-ether hover:scale-[1.01] hover:shadow-[0_0_12px_rgba(192,132,252,0.15)] active:scale-[0.99]'}"
 						>
 							<div class="flex items-center justify-between gap-3">
 								<span class="flex-1 font-medium">{opt.playerText}</span>
@@ -422,12 +422,12 @@ function _restParty() {
 						</button>
 					{/each}
 				</div>
-			{:else if currentNode}
+			{:else if _currentNode}
 				<div class="text-center mt-6 py-4 border-t border-bronze/10">
 					<p class="text-xs text-bone/50 italic">A conversa chegou ao fim.</p>
 					<button
 						type="button"
-						onclick={resetDialogue}
+						onclick={_resetDialogue}
 						class="mt-3 bg-bronze hover:bg-ether text-void text-xs font-bold py-1.5 px-4 rounded transition-all uppercase tracking-wider"
 					>
 						Reiniciar Diálogo
@@ -460,14 +460,14 @@ function _restParty() {
 			{/if}
 			<button
 				type="button"
-				onclick={restParty}
+				onclick={_restParty}
 				class="bg-void border border-bronze/35 hover:border-bronze hover:text-bronze text-bone/80 px-3 py-1.5 rounded transition-all font-semibold uppercase tracking-wider text-[10px]"
 			>
 				⛺ Descansar Party (+EE)
 			</button>
 			<button
 				type="button"
-				onclick={resetDialogue}
+				onclick={_resetDialogue}
 				class="bg-void border border-blood/50 hover:bg-blood/10 text-blood px-3 py-1.5 rounded transition-all font-semibold uppercase tracking-wider text-[10px]"
 			>
 				⟲ Rebobinar Conversa
@@ -480,7 +480,7 @@ function _restParty() {
 		<ClueList unlockedClues={globalUnlockedClues} />
 		<DialogueHistoryLog
 			logs={dialogueLogs}
-			formatter={decoratedFormatter}
+			formatter={_decoratedFormatter}
 			onClear={() => {
 				dialogueLogs = [];
 			}}

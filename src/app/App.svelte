@@ -28,6 +28,9 @@ import type {
 	DungeonRoomRecord,
 } from "$lib/entities/dungeon/model/dungeonSchema";
 import type { CharacterCraftedItemRecord } from "$lib/entities/equipment/model/craftingSchema";
+import { QuestService } from "$lib/entities/quest/domain/QuestService";
+import { WorkerQuestRepository } from "$lib/entities/quest/infrastructure/WorkerQuestRepository";
+import type { QuestObjectiveRecord } from "$lib/entities/quest/model/questSchema";
 import { WorkerSocialRepository } from "$lib/entities/social";
 import type {
 	NewTrapRecord,
@@ -77,10 +80,13 @@ import EspionageManagementPanel from "$lib/features/espionage/ui/EspionageManage
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { InventoryPanel } from "$lib/features/inventory";
+import { InvestigationPanel } from "$lib/features/investigation";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { MercenaryCompanyPanel } from "$lib/features/mercenary";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
-import { QuestLogPanel } from "$lib/features/quests";
+// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
+import { QuestLogPanel, QuestsPanel } from "$lib/features/quests";
+import ResearchPanel from "$lib/features/research/ui/ResearchPanel.svelte";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SaveManagerPanel } from "$lib/features/saves";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
@@ -106,6 +112,8 @@ const trapService = new TrapService();
 const worldStateRepository = new WorkerWorldStateRepository();
 const dungeonRepository = new WorkerDungeonRepository();
 const dungeonService = new DungeonService(dungeonRepository, trapRepository);
+const questRepository = new WorkerQuestRepository();
+const questService = new QuestService(questRepository);
 
 const characterSession = createCharacterSession();
 
@@ -115,6 +123,34 @@ let characterHudStates = $state<
 		{ hp: number; pv: number; actionUsed: boolean; reactionUsed: boolean }
 	>
 >({});
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+let activeQuestObjectives = $state<QuestObjectiveRecord[]>([]);
+
+async function refreshQuestObjectives() {
+	const questsRes = await questService.listQuests();
+	if (questsRes.success) {
+		const activeQuests = questsRes.data.filter((q) => q.status === "active");
+		const tempObjectives: QuestObjectiveRecord[] = [];
+		for (const quest of activeQuests) {
+			const objRes = await questService.listObjectives(quest.id);
+			if (objRes.success) {
+				tempObjectives.push(...objRes.data);
+			}
+		}
+		activeQuestObjectives = tempObjectives;
+	}
+}
+
+$effect(() => {
+	if (
+		activeView === "exploration" ||
+		activeView === "dungeon" ||
+		activeView === "quests"
+	) {
+		refreshQuestObjectives().catch(console.error);
+	}
+});
 
 $effect(() => {
 	for (const char of viewItems) {
@@ -1783,6 +1819,7 @@ async function createCharacter(
 					characters={characterRecords}
 					onDetectTrap={handleManualDetectTrap}
 					onDisarmTrap={handleManualDisarmTrap}
+					questObjectives={activeQuestObjectives}
 				/>
 			{:else if activeView === "magic"}
 				<SpellbookPanel
@@ -1862,7 +1899,11 @@ async function createCharacter(
 					onEndRecess={handleGlobalEndRecess}
 				/>
 			{:else if activeView === "quests"}
-				<QuestLogPanel />
+				<QuestsPanel />
+			{:else if activeView === "investigation"}
+				<InvestigationPanel characters={characterRecords} />
+			{:else if activeView === "research"}
+				<ResearchPanel characters={characterRecords} />
 			{:else if activeView === "camp"}
 				<CampPanel 
 					isRestBlocked={isRestBlocked}
@@ -1961,6 +2002,7 @@ async function createCharacter(
 					characters={characterRecords}
 					onDetectTrap={handleManualDetectTrap}
 					onDisarmTrap={handleManualDisarmTrap}
+					questObjectives={activeQuestObjectives}
 				/>
 			{:else if activeView === "traps"}
 				<TrapDeploymentPanel

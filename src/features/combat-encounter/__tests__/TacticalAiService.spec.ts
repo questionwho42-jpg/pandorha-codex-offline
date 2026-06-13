@@ -1683,4 +1683,232 @@ describe("TacticalAiService", () => {
 
 		service.runMonsterTurns({ monsters: monsters2, party: party2 });
 	});
+
+	describe("Chefes Lendários (Araxas, o Devorador de Éter)", () => {
+		it("Fase 1: executa ataque físico Garra Lendária focado no menor HP", () => {
+			const diceService = createTestDiceService([0.45, 0.4, 0.4]);
+			const service = new TacticalAiService(diceService);
+
+			const party: TacticalAiActor[] = [
+				{
+					id: "wanderer-1",
+					name: "Valdo",
+					maxHp: 20,
+					currentHp: 15,
+					armorClass: 12,
+					level: 1,
+					physical: 1,
+					mental: 1,
+					resistance: 1,
+					isDying: false,
+					deathSuccesses: 0,
+					deathFailures: 0,
+				},
+				{
+					id: "wanderer-2",
+					name: "Willa",
+					maxHp: 20,
+					currentHp: 10,
+					armorClass: 10,
+					level: 1,
+					physical: 1,
+					mental: 1,
+					resistance: 1,
+					isDying: false,
+					deathSuccesses: 0,
+					deathFailures: 0,
+				},
+			];
+
+			const monsters: Monster[] = [
+				{
+					id: "araxas",
+					label: "Araxas",
+					description: "Boss",
+					maxHitPoints: 120,
+					currentHitPoints: 120,
+					armorClass: 16,
+					level: 5,
+					attackBonus: 5,
+					damageDice: "2d6",
+					damageBonus: 3,
+					initiativeBase: 5,
+					xpValue: 800,
+					isLegendary: true,
+					hpSegments: [40, 40, 40],
+					currentSegmentIndex: 0,
+					currentSegmentHp: 40,
+				},
+			];
+
+			const res = service.runMonsterTurns({ monsters, party });
+			expect(res.success).toBe(true);
+			if (res.success) {
+				const updatedWilla = res.data.updatedParty.find(
+					(p) => p.id === "wanderer-2",
+				);
+				expect(updatedWilla).toBeDefined();
+				expect(updatedWilla?.currentHp).toBe(1);
+				expect(res.data.logs[0]).toContain("Garra Lendária");
+				expect(res.data.logs[0]).toContain("Willa");
+			}
+		});
+
+		it("Fase 2: executa Sopro Etérico em área contra todos os Andarilhos", () => {
+			const diceService = createTestDiceService([0.4, 0.6]);
+			const service = new TacticalAiService(diceService);
+
+			const party: TacticalAiActor[] = [
+				{
+					id: "wanderer-1",
+					name: "Valdo",
+					maxHp: 20,
+					currentHp: 15,
+					armorClass: 12,
+					level: 1,
+					physical: 1,
+					mental: 1,
+					resistance: 1,
+					isDying: false,
+					deathSuccesses: 0,
+					deathFailures: 0,
+				},
+				{
+					id: "wanderer-2",
+					name: "Willa",
+					maxHp: 20,
+					currentHp: 10,
+					armorClass: 10,
+					level: 1,
+					physical: 1,
+					mental: 1,
+					resistance: 1,
+					isDying: false,
+					deathSuccesses: 0,
+					deathFailures: 0,
+				},
+			];
+
+			const monsters: Monster[] = [
+				{
+					id: "araxas",
+					label: "Araxas",
+					description: "Boss",
+					maxHitPoints: 120,
+					currentHitPoints: 80,
+					armorClass: 16,
+					level: 5,
+					attackBonus: 5,
+					damageDice: "2d6",
+					damageBonus: 3,
+					initiativeBase: 5,
+					xpValue: 800,
+					isLegendary: true,
+					hpSegments: [40, 40, 40],
+					currentSegmentIndex: 1,
+					currentSegmentHp: 40,
+				},
+			];
+
+			const res = service.runMonsterTurns({ monsters, party });
+			expect(res.success).toBe(true);
+			if (res.success) {
+				const updatedValdo = res.data.updatedParty.find(
+					(p) => p.id === "wanderer-1",
+				);
+				const updatedWilla = res.data.updatedParty.find(
+					(p) => p.id === "wanderer-2",
+				);
+				expect(updatedValdo?.currentHp).toBe(7);
+				expect(updatedWilla?.currentHp).toBe(1);
+				expect(res.data.logs[0]).toContain("canaliza um SOPRO ETÉRICO");
+			}
+		});
+
+		it("Fase 3: executa Fúria Lendária (dois ataques + debuff)", () => {
+			const diceService = createTestDiceService([0.45, 0.55]);
+			const service = new TacticalAiService(diceService);
+
+			const party: TacticalAiActor[] = [
+				{
+					id: "wanderer-1",
+					name: "Valdo",
+					maxHp: 20,
+					currentHp: 15,
+					armorClass: 10,
+					level: 1,
+					physical: 1,
+					mental: 1,
+					resistance: 1,
+					isDying: false,
+					deathSuccesses: 0,
+					deathFailures: 0,
+				},
+			];
+
+			const monsters: Monster[] = [
+				{
+					id: "araxas",
+					label: "Araxas",
+					description: "Boss",
+					maxHitPoints: 120,
+					currentHitPoints: 40,
+					armorClass: 16,
+					level: 5,
+					attackBonus: 5,
+					damageDice: "2d6",
+					damageBonus: 3,
+					initiativeBase: 5,
+					xpValue: 800,
+					isLegendary: true,
+					hpSegments: [40, 40, 40],
+					currentSegmentIndex: 2,
+					currentSegmentHp: 40,
+				},
+			];
+
+			const res = service.runMonsterTurns({ monsters, party });
+			expect(res.success).toBe(true);
+			if (res.success) {
+				const updatedValdo = res.data.updatedParty.find(
+					(p) => p.id === "wanderer-1",
+				);
+				expect(updatedValdo?.currentHp).toBe(0);
+				expect(updatedValdo?.isDying).toBe(true);
+				expect(updatedValdo?.debuffs).toContain("enfraquecido");
+				expect(res.data.logs[0]).toContain("FÚRIA LENDÁRIA");
+			}
+		});
+
+		it("applyDamageToMonster: realiza transição de fase, limpa debuffs e absorve overflow", () => {
+			const boss: Monster = {
+				id: "araxas",
+				label: "Araxas",
+				description: "Boss",
+				maxHitPoints: 120,
+				currentHitPoints: 120,
+				armorClass: 16,
+				level: 5,
+				attackBonus: 5,
+				damageDice: "2d6",
+				damageBonus: 3,
+				initiativeBase: 5,
+				xpValue: 800,
+				isLegendary: true,
+				hpSegments: [40, 40, 40],
+				currentSegmentIndex: 0,
+				currentSegmentHp: 10,
+				debuffs: ["queimando", "atordoado"],
+			};
+
+			const res = TacticalAiService.applyDamageToMonster(boss, 30);
+			expect(res.transitioned).toBe(true);
+			expect(res.nextSegmentIndex).toBe(1);
+			expect(res.newHp).toBe(40);
+			expect(boss.currentSegmentIndex).toBe(1);
+			expect(boss.currentSegmentHp).toBe(40);
+			expect(boss.currentHitPoints).toBe(40);
+			expect(boss.debuffs).toEqual([]);
+		});
+	});
 });

@@ -643,4 +643,85 @@ describe("DungeonService", () => {
 		const trapNames = allTraps.map((t) => t.name);
 		expect(trapNames.length).toBeGreaterThan(0);
 	});
+
+	it("deve invocar resolveLoreEncounter ao mover-se para uma sala revelada pela primeira vez se o LoreService estiver presente", async () => {
+		const repo = new InMemoryDungeonRepository();
+		let lastResolvedTileId: string | null = null;
+		let lastResolvedCharId: string | null = null;
+
+		const mockLoreService = {
+			resolveLoreEncounter: async (tileId: string, characterId: string) => {
+				lastResolvedTileId = tileId;
+				lastResolvedCharId = characterId;
+				return ok({
+					id: "encounter_1",
+					tileId,
+					title: "Encontro Narrativo de Teste",
+					content: "Conteúdo do encontro narrativo.",
+					isTriggered: true,
+					createdAt: new Date().toISOString(),
+					updatedAt: new Date().toISOString(),
+				});
+			},
+		} as any;
+
+		const service = new DungeonService(repo, undefined, mockLoreService);
+
+		const res = await service.generateDelve({
+			campaignId: "campaign_1",
+			biome: "ruins",
+			seed: 999,
+			dangerLevel: 2,
+		});
+
+		expect(res.success).toBe(true);
+		if (res.success) {
+			const delve = res.data.delve;
+
+			// Mover para (1,0) que começa revelada (revealed)
+			const moveRes = await service.moveParty(
+				delve.id,
+				"room_1_0",
+				"char_hero",
+			);
+			expect(moveRes.success).toBe(true);
+
+			if (moveRes.success) {
+				expect(lastResolvedTileId).toBe(`${delve.id}:room_1_0`);
+				expect(lastResolvedCharId).toBe("char_hero");
+				expect(moveRes.data.resolvedEncounter).toBeDefined();
+				expect(moveRes.data.resolvedEncounter?.id).toBe("encounter_1");
+			}
+		}
+	});
+
+	it("deve ignorar erro e prosseguir se a resolução do encontro de lore falhar", async () => {
+		const repo = new InMemoryDungeonRepository();
+		const mockLoreService = {
+			resolveLoreEncounter: async () => {
+				return fail(new Error("Erro simulado de lore."));
+			},
+		} as any;
+
+		const service = new DungeonService(repo, undefined, mockLoreService);
+
+		const res = await service.generateDelve({
+			campaignId: "campaign_1",
+			biome: "ruins",
+			seed: 999,
+			dangerLevel: 2,
+		});
+
+		expect(res.success).toBe(true);
+		if (res.success) {
+			const delve = res.data.delve;
+
+			// Mover para (1,0) que começa revelada (revealed)
+			const moveRes = await service.moveParty(delve.id, "room_1_0");
+			expect(moveRes.success).toBe(true);
+			if (moveRes.success) {
+				expect(moveRes.data.resolvedEncounter).toBeNull();
+			}
+		}
+	});
 });

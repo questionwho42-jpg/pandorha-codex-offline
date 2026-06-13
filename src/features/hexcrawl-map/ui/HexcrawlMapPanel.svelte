@@ -1,6 +1,7 @@
 <script lang="ts">
 import type { CharacterRecord } from "$lib/entities/character";
 import { BaseCharacterStats } from "$lib/entities/character/domain/StatusEffectDecorator";
+import type { QuestObjectiveRecord } from "$lib/entities/quest/model/questSchema";
 import type { TrapRecord } from "$lib/entities/traps";
 import type { WorldTileRecord } from "$lib/entities/world-tile";
 import { EncounterService } from "$lib/entities/world-tile/domain/EncounterService";
@@ -46,6 +47,7 @@ type Props = {
 		isTrained: boolean,
 	) => Promise<void>;
 	viewItems?: readonly any[];
+	questObjectives?: readonly QuestObjectiveRecord[];
 };
 
 let props: Props = $props();
@@ -59,6 +61,8 @@ let onDisarmTrap = $derived(props.onDisarmTrap);
 let initialTileId = $derived(props.initialTileId);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
 let viewItems = $derived(props.viewItems);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup
+let questObjectives = $derived(props.questObjectives ?? []);
 
 let currentTileId = $state("");
 let lastInitialTileId = "";
@@ -317,6 +321,7 @@ async function handleDisarm(trapId: string, isTrained: boolean) {
 			data-testid="hexcrawl-map-grid"
 		>
 			{#each view.tiles as tile (tile.id)}
+				{@const hasObjective = questObjectives.some((o) => o.target === tile.id && o.status === "active")}
 				<button
 					type="button"
 					disabled={!tile.canMove || isMoving}
@@ -327,7 +332,14 @@ async function handleDisarm(trapId: string, isTrained: boolean) {
 					<span class="block text-sm font-semibold">
 						{tile.stateLabel}
 					</span>
-					<span class="mt-2 block text-lg font-semibold">{tile.label}</span>
+					<span class="mt-2 block text-lg font-semibold">
+						{tile.label}
+						{#if hasObjective}
+							<span class="ml-1 inline-flex items-center gap-1 rounded bg-sky-runic/20 border border-sky-runic/50 px-1.5 py-0.5 text-[8px] font-extrabold uppercase tracking-wider text-sky-runic shadow-[0_0_10px_rgba(6,182,212,0.4)] animate-pulse" data-testid={`quest-marker-${tile.id}`}>
+								🎯 Missão
+							</span>
+						{/if}
+					</span>
 					<span class="mt-3 block text-sm">
 						{tile.biomeLabel} · {tile.regionTierLabel}
 					</span>

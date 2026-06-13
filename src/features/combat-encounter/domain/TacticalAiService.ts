@@ -64,7 +64,149 @@ export class TacticalAiService {
 				continue;
 			}
 
-			if (!monster.role) {
+			if (monster.isLegendary) {
+				// Comportamento Lendário de Chefe por Fase
+				const phase = monster.currentSegmentIndex ?? 0;
+				if (phase === 0) {
+					// Fase 1: Ataque Físico padrão focado no menor HP, mas com dano extra
+					let target = aliveTargets[0] as TacticalAiActor;
+					for (const candidate of aliveTargets) {
+						if (candidate.currentHp < target.currentHp) {
+							target = candidate;
+						}
+					}
+					const attackRollRes = this.diceService.rollD20({
+						reason: `Ataque Lendário (Fase 1) de ${monster.label} contra ${target.name}`,
+					});
+					if (!attackRollRes.success) {
+						return fail({
+							code: "DICE_ROLL_ERROR",
+							message: attackRollRes.error.message,
+						});
+					}
+					const naturalRoll = attackRollRes.data.naturalRoll;
+					const totalAttack = naturalRoll + monster.attackBonus;
+					const isCritical = naturalRoll === 20;
+					const isFumble = naturalRoll === 1;
+
+					let hit = false;
+					if (isCritical) hit = true;
+					else if (isFumble) hit = false;
+					else hit = totalAttack >= target.armorClass;
+
+					if (hit) {
+						const rollDamageRes = this.rollMonsterDamage(monster, isCritical);
+						if (!rollDamageRes.success) return fail(rollDamageRes.error);
+						const damage = rollDamageRes.data;
+						target.currentHp = Math.max(0, target.currentHp - damage);
+
+						let statusText = "";
+						if (target.currentHp === 0) {
+							target.isDying = true;
+							target.deathSuccesses = 0;
+							target.deathFailures = 0;
+							statusText = " (CAIU A 0 HP! Entrou em estado Moribundo)";
+						}
+						logs.push(
+							`👑 [Fase 1] ${monster.label} desferiu Garra Lendária em ${target.name}: rolou d20=${naturalRoll} + mod=${monster.attackBonus} | Total ${totalAttack} vs CA ${target.armorClass}. Dano: ${damage}. HP restante: ${target.currentHp}${statusText}`,
+						);
+					} else {
+						logs.push(
+							`💨 [Fase 1] ${monster.label} tentou desferir Garra Lendária em ${target.name}, mas errou (Total ${totalAttack} vs CA ${target.armorClass}).`,
+						);
+					}
+				} else if (phase === 1) {
+					// Fase 2: Sopro de Chamas Etéricas (Ataque em Área) contra TODOS os heróis vivos!
+					logs.push(
+						`🔥 [Fase 2] ${monster.label} canaliza um SOPRO ETÉRICO devastador!`,
+					);
+					for (const target of aliveTargets) {
+						const rollDamageRes = this.diceService.rollDie({
+							sides: 6,
+							reason: `Dano de sopro etérico contra ${target.name}`,
+						});
+						if (!rollDamageRes.success) {
+							return fail({
+								code: "DICE_ROLL_ERROR",
+								message: rollDamageRes.error.message,
+							});
+						}
+						const damage = rollDamageRes.data.naturalRoll + monster.level;
+						target.currentHp = Math.max(0, target.currentHp - damage);
+
+						let statusText = "";
+						if (target.currentHp === 0) {
+							target.isDying = true;
+							target.deathSuccesses = 0;
+							target.deathFailures = 0;
+							statusText = " (CAIU A 0 HP! Entrou em estado Moribundo)";
+						}
+						logs.push(
+							`💥 Sopro Etérico atingiu ${target.name} causando ${damage} de dano! HP restante: ${target.currentHp}${statusText}`,
+						);
+					}
+				} else {
+					// Fase 3: Fúria Lendária - Realiza dois ataques consecutivos (Garras + Cauda) e aplica debuff
+					logs.push(
+						`⚡ [Fase 3] ${monster.label} entra em FÚRIA LENDÁRIA, atacando duas vezes!`,
+					);
+					let target1 = aliveTargets[0] as TacticalAiActor;
+					for (const candidate of aliveTargets) {
+						if (candidate.currentHp < target1.currentHp) target1 = candidate;
+					}
+
+					const target2 =
+						aliveTargets.length > 1
+							? (aliveTargets[1] as TacticalAiActor)
+							: target1;
+
+					// Executar ataque 1
+					const roll1 = this.diceService.rollD20({
+						reason: `Fúria Garras de ${monster.label}`,
+					});
+					if (
+						roll1.success &&
+						roll1.data.naturalRoll + monster.attackBonus >= target1.armorClass
+					) {
+						const dmg1 = monster.damageBonus + monster.level;
+						target1.currentHp = Math.max(0, target1.currentHp - dmg1);
+						logs.push(
+							`🗡️ Fúria Garras atingiu ${target1.name} causando ${dmg1} de dano. HP: ${target1.currentHp}`,
+						);
+						if (target1.currentHp === 0) {
+							target1.isDying = true;
+							target1.deathSuccesses = 0;
+							target1.deathFailures = 0;
+						}
+					} else {
+						logs.push(`💨 Fúria Garras contra ${target1.name} errou.`);
+					}
+
+					// Executar ataque 2 e aplicar debuff
+					const roll2 = this.diceService.rollD20({
+						reason: `Fúria Cauda de ${monster.label}`,
+					});
+					if (
+						roll2.success &&
+						roll2.data.naturalRoll + monster.attackBonus >= target2.armorClass
+					) {
+						const dmg2 = monster.damageBonus + monster.level;
+						target2.currentHp = Math.max(0, target2.currentHp - dmg2);
+						if (!target2.debuffs) target2.debuffs = [];
+						target2.debuffs.push("enfraquecido");
+						logs.push(
+							`☄️ Fúria Cauda atingiu ${target2.name} causando ${dmg2} de dano e aplicando 'enfraquecido'. HP: ${target2.currentHp}`,
+						);
+						if (target2.currentHp === 0) {
+							target2.isDying = true;
+							target2.deathSuccesses = 0;
+							target2.deathFailures = 0;
+						}
+					} else {
+						logs.push(`💨 Fúria Cauda contra ${target2.name} errou.`);
+					}
+				}
+			} else if (!monster.role) {
 				// Comportamento Legacy/Default: focar o Andarilho vivo com menor HP atual
 				let target = aliveTargets[0] as TacticalAiActor;
 				for (const candidate of aliveTargets) {
@@ -369,6 +511,59 @@ export class TacticalAiService {
 			updatedMonsters,
 			logs,
 		});
+	}
+
+	public static applyDamageToMonster(
+		monster: Monster,
+		damage: number,
+	): {
+		readonly transitioned: boolean;
+		readonly nextSegmentIndex: number;
+		readonly newHp: number;
+		readonly logMessage?: string;
+	} {
+		if (!monster.isLegendary || !monster.hpSegments) {
+			const newHp = Math.max(
+				0,
+				(monster.currentHitPoints ?? monster.maxHitPoints) - damage,
+			);
+			monster.currentHitPoints = newHp;
+			return { transitioned: false, nextSegmentIndex: 0, newHp };
+		}
+
+		let currentIdx = monster.currentSegmentIndex ?? 0;
+		let currentHp = monster.currentSegmentHp ?? monster.currentHitPoints;
+
+		currentHp -= damage;
+
+		if (currentHp <= 0) {
+			if (currentIdx + 1 < monster.hpSegments.length) {
+				currentIdx += 1;
+				const nextMaxHp = monster.hpSegments[currentIdx]!;
+				monster.currentSegmentIndex = currentIdx;
+				monster.currentSegmentHp = nextMaxHp;
+				monster.currentHitPoints = nextMaxHp;
+				monster.debuffs = [];
+				return {
+					transitioned: true,
+					nextSegmentIndex: currentIdx,
+					newHp: nextMaxHp,
+					logMessage: `⚠️ FASE TRANSITION! ${monster.label} ativou a Fase ${currentIdx + 1}! O dano excedente foi mitigado, os debuffs foram limpos e a fila de ações foi quebrada! HP restaurado para ${nextMaxHp}!`,
+				};
+			} else {
+				monster.currentSegmentHp = 0;
+				monster.currentHitPoints = 0;
+				return { transitioned: false, nextSegmentIndex: currentIdx, newHp: 0 };
+			}
+		} else {
+			monster.currentSegmentHp = currentHp;
+			monster.currentHitPoints = currentHp;
+			return {
+				transitioned: false,
+				nextSegmentIndex: currentIdx,
+				newHp: currentHp,
+			};
+		}
 	}
 
 	private calculateDistance(

@@ -11,10 +11,15 @@ export interface Monster {
 	readonly damageBonus: number;
 	readonly initiativeBase: number;
 	readonly xpValue: number;
-	role?: "brute" | "sniper" | "controller";
+	role?: "brute" | "sniper" | "controller" | "boss";
 	position?: { x: number; y: number };
 	debuffs?: string[];
 	spellsCount?: number;
+	isLegendary?: boolean;
+	hpSegments?: number[];
+	currentSegmentIndex?: number;
+	currentSegmentHp?: number;
+	legendaryActionsUsed?: number;
 }
 
 export const MONSTER_TEMPLATES: Record<
@@ -221,6 +226,27 @@ export const MONSTER_TEMPLATES: Record<
 			xpValue: 1200,
 		},
 	],
+	"Araxas, o Devorador de Éter": [
+		{
+			id: "araxas-boss",
+			label: "Araxas, o Devorador de Éter",
+			description: "Um dragão colossal corrompido pela ruína etérica.",
+			maxHitPoints: 120,
+			armorClass: 16,
+			level: 5,
+			attackBonus: 5,
+			damageDice: "2d6",
+			damageBonus: 3,
+			initiativeBase: 5,
+			xpValue: 800,
+			role: "boss",
+			isLegendary: true,
+			hpSegments: [40, 40, 40],
+			currentSegmentIndex: 0,
+			currentSegmentHp: 40,
+			spellsCount: 3,
+		},
+	],
 } as const;
 
 export function instantiateMonsters(encounterName: string): Monster[] {
@@ -245,9 +271,20 @@ export function instantiateMonsters(encounterName: string): Monster[] {
 		];
 	}
 
-	return templates.map((t, idx) => ({
-		...t,
-		id: `${t.id}-${idx}`,
-		currentHitPoints: t.maxHitPoints,
-	}));
+	return templates.map((t, idx) => {
+		const m: Monster = {
+			...t,
+			id: `${t.id}-${idx}`,
+			currentHitPoints: t.maxHitPoints,
+		};
+		if ((t as any).isLegendary) {
+			m.isLegendary = true;
+		}
+		if ((t as any).hpSegments) {
+			m.hpSegments = [...(t as any).hpSegments];
+			m.currentSegmentIndex = 0;
+			m.currentSegmentHp = (t as any).hpSegments[0];
+		}
+		return m;
+	});
 }

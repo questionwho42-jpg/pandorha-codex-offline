@@ -1,3 +1,4 @@
+import type { LoreEncounterRecord, LoreService } from "$lib/entities/lore";
 import type { TrapRepository } from "$lib/entities/traps";
 import { DiceService } from "$lib/shared/dice/domain/DiceService";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
@@ -29,6 +30,7 @@ export class DungeonService {
 	public constructor(
 		private readonly repository: DungeonRepository,
 		private readonly trapRepository?: TrapRepository,
+		private readonly loreService?: LoreService,
 	) {}
 
 	/**
@@ -292,9 +294,14 @@ export class DungeonService {
 	public async moveParty(
 		delveId: string,
 		targetRoomId: string,
+		characterId?: string,
 	): Promise<
 		Result<
-			{ delve: DungeonDelveRecord; rooms: DungeonRoomRecord[] },
+			{
+				delve: DungeonDelveRecord;
+				rooms: DungeonRoomRecord[];
+				resolvedEncounter?: LoreEncounterRecord | null;
+			},
 			DungeonRepositoryFailure
 		>
 	> {
@@ -339,6 +346,8 @@ export class DungeonService {
 			});
 		}
 
+		let resolvedEncounter: LoreEncounterRecord | null = null;
+
 		// Se a sala de destino for visitada pela primeira vez, muda status para 'cleared'
 		if (targetRoom.status === "revealed") {
 			const updateRes = await this.repository.updateRoomStatus(
@@ -351,6 +360,19 @@ export class DungeonService {
 
 			// Atualiza no nosso array local
 			targetRoom.status = "cleared";
+
+			// Resolve lore encounter if loreService is present
+			if (this.loreService) {
+				const charId = characterId ?? "party-leader";
+				const tileId = `${delveId}:${targetRoomId}`;
+				const loreResult = await this.loreService.resolveLoreEncounter(
+					tileId,
+					charId,
+				);
+				if (loreResult.success) {
+					resolvedEncounter = loreResult.data;
+				}
+			}
 
 			// Revelar todas as salas conectadas a este novo ponto limpo que forem hidden
 			for (const connId of connectedRoomIds) {
@@ -381,6 +403,15 @@ export class DungeonService {
 		}
 
 		// Recarregar estado atualizado da masmorra
-		return this.getDelve(delveId);
+		const delveStateRes = await this.getDelve(delveId);
+		if (!delveStateRes.success) {
+			return fail(delveStateRes.error);
+		}
+
+		return ok({
+			delve: delveStateRes.data.delve,
+			rooms: delveStateRes.data.rooms,
+			resolvedEncounter,
+		});
 	}
 }

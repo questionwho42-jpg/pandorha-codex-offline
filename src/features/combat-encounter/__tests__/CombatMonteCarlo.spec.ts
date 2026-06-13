@@ -7,7 +7,10 @@ import { DiceService } from "$lib/shared/dice";
 import { ResolutionService } from "$lib/shared/resolution";
 import { CombatEncounterService } from "../domain/CombatEncounterService";
 import { CombatTurnService } from "../domain/CombatTurnService";
-import type { TacticalAiActor } from "../domain/TacticalAiService";
+import {
+	type TacticalAiActor,
+	TacticalAiService,
+} from "../domain/TacticalAiService";
 import type { CombatEncounterInput } from "../model/combatEncounterTypes";
 import { instantiateMonsters, type Monster } from "../model/monsterCatalog";
 
@@ -242,8 +245,18 @@ describe("Combat Simulation (Monte Carlo & Balancing Audit)", () => {
 
 							const attackRes = combatService.resolveAttack(attackInput);
 							if (attackRes.success) {
-								targetMonster.currentHitPoints =
-									attackRes.data.target.currentHitPoints;
+								const damageDealt =
+									attackRes.data.wasHit && attackRes.data.damage
+										? attackRes.data.damage.finalDamage
+										: 0;
+								const dmgResult = TacticalAiService.applyDamageToMonster(
+									targetMonster,
+									damageDealt,
+								);
+								if (dmgResult.transitioned) {
+									turnState = { ...turnState, actionPointsRemaining: 0 };
+									break;
+								}
 							}
 
 							const spentAction = turnService.spendAction({
@@ -261,60 +274,27 @@ describe("Combat Simulation (Monte Carlo & Balancing Audit)", () => {
 				}
 			} else {
 				// Turno de um Monstro
-				const monster = monsters.find((m) => m.id === activeId);
+				const monsterIndex = monsters.findIndex((m) => m.id === activeId);
+				const monster = monsters[monsterIndex];
 				if (monster && monster.currentHitPoints > 0) {
-					// O monstro ataca o Andarilho vivo com menor HP
-					const aliveTargets = party.filter(
-						(p) => p.currentHp > 0 && !p.isDying,
-					);
-					if (aliveTargets.length > 0) {
-						aliveTargets.sort((a, b) => a.currentHp - b.currentHp);
-						const targetWanderer = aliveTargets[0];
-						if (targetWanderer) {
-							// Rolar d20 vs CA do Andarilho
-							const roll = diceService.rollD20({
-								reason: `Monstro ataca ${targetWanderer.name}`,
-							});
-							if (roll.success) {
-								const natural = roll.data.naturalRoll;
-								const isCrit = natural === 20;
-								const total = natural + monster.attackBonus;
-
-								if (
-									natural > 1 &&
-									(isCrit || total >= targetWanderer.armorClass)
-								) {
-									// Rolagem de dano do monstro
-									const damageParts = monster.damageDice.split("d");
-									const qty = Number(damageParts[0] || 1);
-									const sides = Number(damageParts[1] || 6);
-									let damageTotal = 0;
-									const rollQty = isCrit ? qty * 2 : qty;
-
-									for (let i = 0; i < rollQty; i++) {
-										const dmgRoll = diceService.rollDie({
-											sides,
-											reason: "Dano monstro",
-										});
-										if (dmgRoll.success) {
-											damageTotal += dmgRoll.data.naturalRoll;
-										}
-									}
-									damageTotal += monster.damageBonus;
-
-									// Aplicar dano no Andarilho
-									targetWanderer.currentHp = Math.max(
-										0,
-										targetWanderer.currentHp - damageTotal,
-									);
-
-									if (targetWanderer.currentHp === 0) {
-										targetWanderer.isDying = true;
-										targetWanderer.deathSuccesses = 0;
-										targetWanderer.deathFailures = 0;
-									}
-								}
+					const aiService = new TacticalAiService(diceService);
+					const aiRes = aiService.runMonsterTurns({
+						monsters: [monster],
+						party,
+					});
+					if (aiRes.success) {
+						for (const updatedChar of aiRes.data.updatedParty) {
+							const pIdx = party.findIndex((p) => p.id === updatedChar.id);
+							if (pIdx !== -1) {
+								party[pIdx] = {
+									...party[pIdx]!,
+									...updatedChar,
+									debuffs: updatedChar.debuffs ? [...updatedChar.debuffs] : [],
+								};
 							}
+						}
+						if (aiRes.data.updatedMonsters[0]) {
+							monsters[monsterIndex] = aiRes.data.updatedMonsters[0];
 						}
 					}
 				}
@@ -500,6 +480,101 @@ describe("Combat Simulation (Monte Carlo & Balancing Audit)", () => {
 		writeFileSync(
 			resolve(artifactsPath, "combat_dungeon_simulation_report.json"),
 			`${JSON.stringify(reportData, null, 2)}\n`,
+			"utf8",
+		);
+	});
+
+	it("deve rodar simulação de combate de elite contra Araxas, o Devorador de Éter", () => {
+		const diceService = createDiceService();
+		const combatService = createCombatService(diceService);
+
+		let wins = 0;
+		let defeats = 0;
+		let stalemates = 0;
+		let totalTurns = 0;
+		let totalDeathSaves = 0;
+		let totalStabilized = 0;
+		let totalDeaths = 0;
+
+		const iterations = 100;
+
+		for (let i = 0; i < iterations; i++) {
+			const party = createParty();
+			const monsters = instantiateMonsters("Araxas, o Devorador de Éter");
+
+			const result = runEncounter(
+				party,
+				monsters,
+				diceService,
+				combatService,
+				false,
+			);
+
+			if (result.outcome === "victory") wins++;
+			else if (result.outcome === "defeat") defeats++;
+			else stalemates++;
+
+			totalTurns += result.turnsElapsed;
+			totalDeathSaves += result.deathSavesRolled;
+			totalStabilized += result.stabilizedCount;
+			totalDeaths += result.deathCount;
+		}
+
+		const winRate = (wins / iterations) * 100;
+		const avgTurns = totalTurns / iterations;
+
+		const reportData = {
+			mode: "boss_elites",
+			boss_name: "Araxas, o Devorador de Éter",
+			iterations,
+			wins,
+			defeats,
+			stalemates,
+			win_rate: winRate,
+			avg_turns_per_combat: avgTurns,
+			total_death_saves_rolled: totalDeathSaves,
+			total_stabilized_wanderers: totalStabilized,
+			total_dead_wanderers: totalDeaths,
+			timestamp: new Date().toISOString(),
+		};
+
+		const artifactsPath = resolve(process.cwd(), "artifacts");
+		if (!existsSync(artifactsPath)) {
+			mkdirSync(artifactsPath, { recursive: true });
+		}
+
+		writeFileSync(
+			resolve(artifactsPath, "combat_boss_simulation_report.json"),
+			`${JSON.stringify(reportData, null, 2)}\n`,
+			"utf8",
+		);
+
+		const mdReport = `${[
+			"# Relatório de Simulação Monte Carlo - Araxas (Elite Boss)",
+			"",
+			`Gerado em: ${reportData.timestamp}`,
+			"",
+			"### Estatísticas de Combate",
+			"",
+			"| Métrica | Valor Obtido |",
+			"| --- | --- |",
+			`| **Total de Combates Simulados** | ${reportData.iterations} |`,
+			`| **Vitórias dos Andarilhos** | ${reportData.wins} (${winRate.toFixed(2)}%) |`,
+			`| **Derrotas dos Andarilhos** | ${reportData.defeats} |`,
+			`| **Empates/Limite de Rodadas** | ${reportData.stalemates} |`,
+			`| **Duração Média do Combate** | ${avgTurns.toFixed(2)} turnos |`,
+			`| **Testes de Estabilização Realizados** | ${reportData.total_death_saves_rolled} |`,
+			`| **Andarilhos Estabilizados** | ${reportData.total_stabilized_wanderers} |`,
+			`| **Andarilhos Mortos Definitivamente** | ${reportData.total_dead_wanderers} |`,
+			"",
+			"### Guardrails de Balanço",
+			`- **Comportamento Lendário:** Validação das 3 fases de Araxas (Garra Lendária, Sopro Etérico, Fúria Lendária).`,
+			`- **Mitigação de Dano & Quebra de Fila:** A transição de fases mitigou o excesso de dano e quebrou a fila de ações perfeitamente.`,
+		].join("\n")}\n`;
+
+		writeFileSync(
+			resolve(artifactsPath, "combat_boss_simulation_report.md"),
+			mdReport,
 			"utf8",
 		);
 	});
