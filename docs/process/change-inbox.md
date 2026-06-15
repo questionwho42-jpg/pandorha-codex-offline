@@ -6,6 +6,69 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260615-future-inventory-combat-integration -->
+### Future inventory combat integration
+- id: 20260615-future-inventory-combat-integration
+- status: open
+- created_at: 2026-06-15T11:51:24-03:00
+- source: task-ledger
+- summary: Conectar loadout persistente do inventário aos perfis ativos de combate sem duplicar estado.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260615-future-inventory-combat-integration -->
+<!-- pandorha-inbox:20260615-future-inventory-starting-equipment -->
+### Future starting equipment
+- id: 20260615-future-inventory-starting-equipment
+- status: open
+- created_at: 2026-06-15T11:51:17-03:00
+- source: task-ledger
+- summary: Conceder equipamento inicial por personagem somente após contrato de criação, catálogo e ownership.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260615-future-inventory-starting-equipment -->
+<!-- pandorha-inbox:20260615-future-inventory-potion-belt -->
+### Future inventory potion belt
+- id: 20260615-future-inventory-potion-belt
+- status: open
+- created_at: 2026-06-15T11:51:10-03:00
+- source: task-ledger
+- summary: Criar cinto de poções após contrato de slots rápidos, consumíveis e execução em combate.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260615-future-inventory-potion-belt -->
+<!-- pandorha-inbox:20260615-future-inventory-durability -->
+### Future inventory durability
+- id: 20260615-future-inventory-durability
+- status: open
+- created_at: 2026-06-15T11:51:02-03:00
+- source: task-ledger
+- summary: Integrar desgaste e durabilidade somente após loadout persistente e regras soberanas revisadas.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260615-future-inventory-durability -->
+<!-- pandorha-inbox:20260615-future-inventory-equip-actions -->
+### Future inventory equip actions
+- id: 20260615-future-inventory-equip-actions
+- status: open
+- created_at: 2026-06-15T11:50:55-03:00
+- source: task-ledger
+- summary: Expor equipar e desequipar na UI somente após contrato persistente de loadout.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260615-future-inventory-equip-actions -->
+<!-- pandorha-inbox:20260615-future-inventory-persistent-loadout -->
+### Future persistent inventory loadout
+- id: 20260615-future-inventory-persistent-loadout
+- status: open
+- created_at: 2026-06-15T11:50:48-03:00
+- source: task-ledger
+- summary: Persistir loadout por personagem sem duplicar itens do ledger e sem antecipar efeitos de combate.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260615-future-inventory-persistent-loadout -->
+<!-- pandorha-inbox:20260615-114907-inventory-post-delivery-audit -->
+### Inventory post-delivery audit
+- id: 20260615-114907-inventory-post-delivery-audit
+- status: open
+- created_at: 2026-06-15T11:49:07-03:00
+- source: task-ledger
+- summary: Audit editable inventory delivery for regressions, inaccessible controls, known limitations, and readiness while preserving Browser do Codex rendered acceptance as mandatory.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260615-114907-inventory-post-delivery-audit -->
 <!-- pandorha-inbox:20260615-052210-editable-character-inventory-ui -->
 ### Editable character inventory UI
 - id: 20260615-052210-editable-character-inventory-ui
