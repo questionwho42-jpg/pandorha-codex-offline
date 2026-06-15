@@ -4860,6 +4860,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-15T05:10:35-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: cdde356 feat(inventory): add character-owned inventory ledger
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-12T23:13:36-03:00 - post-commit
 - branch: feat/inventory-ownership-core
 - commit: 6056566 merge: approve inventory ownership and save v6 gate
