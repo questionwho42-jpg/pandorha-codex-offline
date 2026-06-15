@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260615-051214-save-load-v6-inventory-ledger -->
+### Save-load v6 inventory ledger
+- id: 20260615-051214-save-load-v6-inventory-ledger
+- status: open
+- created_at: 2026-06-15T05:12:14-03:00
+- source: task-ledger
+- summary: Persistir inventoryEvents no save v6, RPC, worker e snapshot SQLite com migracao deterministica v5 para v6.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260615-051214-save-load-v6-inventory-ledger -->
 <!-- pandorha-inbox:20260606-inventory-ownership-core -->
 ### Character-owned inventory ledger core
 - id: 20260606-inventory-ownership-core

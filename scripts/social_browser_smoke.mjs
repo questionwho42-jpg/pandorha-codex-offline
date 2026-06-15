@@ -137,11 +137,12 @@ async function runSocialBrowserSmoke(root) {
 		root,
 		"src/features/save-load/model/saveLoadSchemas.ts",
 		[
-			"CURRENT_SAVE_VERSION = 5",
+			"CURRENT_SAVE_VERSION = 6",
 			"clocks",
 			"socialEncounters",
 			"socialEncounterEvents",
 			"npcRelationships",
+			"inventoryEvents",
 		],
 		errors,
 	);

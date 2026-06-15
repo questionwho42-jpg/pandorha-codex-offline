@@ -20,6 +20,60 @@ const LOAD_MESSAGE_ID = "e4360b10-b7dc-49b4-8bb5-227697030648";
 const SAVED_AT = "2026-05-15T18:59:00.000Z";
 
 describe("SaveLoadService", () => {
+	it("persists inventory events in v6 and migrates v5 with an empty ledger", async () => {
+		const saveBridge = new FakeWorkerBridge();
+		saveBridge.queueResponse(
+			createRpcSuccessResponse({
+				messageId: SAVE_MESSAGE_ID,
+				data: { saved: true },
+			}),
+		);
+		const saved = expectSaveSuccess(
+			await createService(saveBridge).saveSession({
+				characters: [buildCharacter()],
+				worldState: [],
+				inventoryEvents: [buildInventoryEvent()],
+				savedAt: SAVED_AT,
+			}),
+		);
+
+		expect(saved).toMatchObject({ version: 6, inventoryEventCount: 1 });
+		expect(saveBridge.requests[0]).toMatchObject({
+			payload: {
+				snapshot: {
+					version: 6,
+					inventoryEvents: [buildInventoryEvent()],
+				},
+			},
+		});
+
+		const loadBridge = new FakeWorkerBridge();
+		loadBridge.queueResponse(
+			createRpcSuccessResponse({
+				messageId: LOAD_MESSAGE_ID,
+				data: {
+					version: 5,
+					savedAt: SAVED_AT,
+					characters: [buildCharacter()],
+					worldState: [],
+					clocks: [],
+					campSessions: [],
+					campAssignments: [],
+					factionStandings: [],
+					socialEncounters: [],
+					socialEncounterEvents: [],
+					npcRelationships: [],
+				},
+			}),
+		);
+
+		expect(
+			expectLoadSuccess(
+				await createService(loadBridge, [LOAD_MESSAGE_ID]).loadSession(),
+			),
+		).toMatchObject({ version: 6, inventoryEvents: [] });
+	});
+
 	it("saves a versioned snapshot with validated Character and WorldState data", async () => {
 		const bridge = new FakeWorkerBridge();
 		bridge.queueResponse(
@@ -41,13 +95,14 @@ describe("SaveLoadService", () => {
 				socialEncounters: [buildSocialEncounter()],
 				socialEncounterEvents: [buildSocialEncounterEvent()],
 				npcRelationships: [buildNpcRelationship()],
+				inventoryEvents: [buildInventoryEvent()],
 				savedAt: SAVED_AT,
 			}),
 		);
 
 		expect(saved).toEqual({
 			saveId: "primary",
-			version: 5,
+			version: 6,
 			savedAt: SAVED_AT,
 			characterCount: 1,
 			worldStateCount: 1,
@@ -58,6 +113,7 @@ describe("SaveLoadService", () => {
 			socialEncounterCount: 1,
 			socialEncounterEventCount: 1,
 			npcRelationshipCount: 1,
+			inventoryEventCount: 1,
 		});
 		expect(bridge.requests).toEqual([
 			{
@@ -66,7 +122,7 @@ describe("SaveLoadService", () => {
 				payload: {
 					saveId: "primary",
 					snapshot: {
-						version: 5,
+						version: 6,
 						savedAt: SAVED_AT,
 						characters: [buildCharacter()],
 						worldState: [buildWorldStateFlag()],
@@ -77,6 +133,7 @@ describe("SaveLoadService", () => {
 						socialEncounters: [buildSocialEncounter()],
 						socialEncounterEvents: [buildSocialEncounterEvent()],
 						npcRelationships: [buildNpcRelationship()],
+						inventoryEvents: [buildInventoryEvent()],
 					},
 				},
 			},
@@ -89,7 +146,7 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 5,
+					version: 6,
 					savedAt: SAVED_AT,
 					characters: [buildCharacter()],
 					worldState: [buildWorldStateFlag()],
@@ -100,6 +157,7 @@ describe("SaveLoadService", () => {
 					socialEncounters: [buildSocialEncounter()],
 					socialEncounterEvents: [buildSocialEncounterEvent()],
 					npcRelationships: [buildNpcRelationship()],
+					inventoryEvents: [buildInventoryEvent()],
 				},
 			}),
 		);
@@ -108,7 +166,7 @@ describe("SaveLoadService", () => {
 		const loaded = expectLoadSuccess(await service.loadSession());
 
 		expect(loaded).toEqual({
-			version: 5,
+			version: 6,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
 			worldState: [buildWorldStateFlag()],
@@ -119,6 +177,7 @@ describe("SaveLoadService", () => {
 			socialEncounters: [buildSocialEncounter()],
 			socialEncounterEvents: [buildSocialEncounterEvent()],
 			npcRelationships: [buildNpcRelationship()],
+			inventoryEvents: [buildInventoryEvent()],
 		});
 		expect(bridge.requests).toEqual([
 			{
@@ -210,7 +269,7 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 5,
+					version: 6,
 					savedAt: SAVED_AT,
 					characters: [{ ...buildCharacter(), level: 0 }],
 					worldState: [buildWorldStateFlag()],
@@ -221,6 +280,7 @@ describe("SaveLoadService", () => {
 					socialEncounters: [],
 					socialEncounterEvents: [],
 					npcRelationships: [],
+					inventoryEvents: [],
 				},
 			}),
 		);
@@ -248,7 +308,7 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 6,
+					version: 7,
 					savedAt: SAVED_AT,
 					characters: [buildCharacter()],
 					worldState: [buildWorldStateFlag()],
@@ -259,6 +319,7 @@ describe("SaveLoadService", () => {
 					socialEncounters: [],
 					socialEncounterEvents: [],
 					npcRelationships: [],
+					inventoryEvents: [],
 				},
 			}),
 		);
@@ -434,6 +495,20 @@ function buildNpcRelationship() {
 	};
 }
 
+function buildInventoryEvent() {
+	return {
+		id: "inventory-event-1",
+		characterId: "session-character-1",
+		sequence: 1,
+		type: "inventory-item-added",
+		entryId: "inventory-entry-1",
+		catalogKind: "equipment",
+		catalogItemId: "dagger",
+		quantity: 1,
+		createdAt: SAVED_AT,
+	};
+}
+
 function expectSaveSuccess(
 	result: Result<SaveSessionResult, SaveLoadFailure>,
 ): SaveSessionResult {
@@ -497,7 +572,7 @@ it("migrates legacy v1 snapshots to v5 with empty structured data", async () => 
 	);
 
 	expect(loaded).toEqual({
-		version: 5,
+		version: 6,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
 		worldState: [buildWorldStateFlag()],
@@ -508,6 +583,7 @@ it("migrates legacy v1 snapshots to v5 with empty structured data", async () => 
 		socialEncounters: [],
 		socialEncounterEvents: [],
 		npcRelationships: [],
+		inventoryEvents: [],
 	});
 });
 
@@ -533,7 +609,7 @@ it("migrates legacy v2 snapshots to v5 with empty social data", async () => {
 	);
 
 	expect(loaded).toEqual({
-		version: 5,
+		version: 6,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
 		worldState: [buildWorldStateFlag()],
@@ -544,6 +620,7 @@ it("migrates legacy v2 snapshots to v5 with empty social data", async () => {
 		socialEncounters: [],
 		socialEncounterEvents: [],
 		npcRelationships: [],
+		inventoryEvents: [],
 	});
 });
 
@@ -570,7 +647,7 @@ it("migrates legacy v3 snapshots to v5 with empty social encounter state", async
 	);
 
 	expect(loaded).toEqual({
-		version: 5,
+		version: 6,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
 		worldState: [buildWorldStateFlag()],
@@ -581,6 +658,7 @@ it("migrates legacy v3 snapshots to v5 with empty social encounter state", async
 		socialEncounters: [],
 		socialEncounterEvents: [],
 		npcRelationships: [],
+		inventoryEvents: [],
 	});
 });
 
@@ -609,7 +687,7 @@ it("migrates legacy v4 snapshots to v5 with empty NPC relationships", async () =
 	);
 
 	expect(loaded).toEqual({
-		version: 5,
+		version: 6,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
 		worldState: [buildWorldStateFlag()],
@@ -620,5 +698,6 @@ it("migrates legacy v4 snapshots to v5 with empty NPC relationships", async () =
 		socialEncounters: [buildSocialEncounter()],
 		socialEncounterEvents: [buildSocialEncounterEvent()],
 		npcRelationships: [],
+		inventoryEvents: [],
 	});
 });

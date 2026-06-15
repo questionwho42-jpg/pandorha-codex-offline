@@ -262,8 +262,8 @@ const empty = view.npcFilterEmptyStateLabel;
 
 function renderSaveSchemas() {
 	return `
-export const CURRENT_SAVE_VERSION = 5;
-const fields = ["clocks", "socialEncounters", "socialEncounterEvents", "npcRelationships"];
+export const CURRENT_SAVE_VERSION = 6;
+const fields = ["clocks", "socialEncounters", "socialEncounterEvents", "npcRelationships", "inventoryEvents"];
 `;
 }
 

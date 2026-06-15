@@ -24,6 +24,12 @@ import {
 	factionStandings,
 } from "$lib/entities/faction";
 import {
+	type InventoryEventRecord,
+	inventoryEventInsertSchema,
+	inventoryEventSelectSchema,
+	inventoryEvents,
+} from "$lib/entities/inventory";
+import {
 	type NpcRelationshipRecord,
 	npcRelationshipInsertSchema,
 	npcRelationshipSelectSchema,
@@ -56,9 +62,10 @@ import {
 	loadedSessionStateV3Schema,
 	loadedSessionStateV4Schema,
 	loadedSessionStateV5Schema,
+	loadedSessionStateV6Schema,
 	migrateLoadedSessionToCurrent,
 	saveMetadataAnySchema,
-	saveMetadataV5Schema,
+	saveMetadataV6Schema,
 } from "../model/saveLoadSchemas";
 import type { LoadedSessionState } from "../model/saveLoadTypes";
 import type {
@@ -83,7 +90,7 @@ export class SqliteSaveSnapshotService {
 	public async saveSnapshot(
 		input: unknown,
 	): Promise<Result<SaveSnapshotResult, SaveSnapshotFailure>> {
-		const parsedSnapshot = loadedSessionStateV5Schema.safeParse(input);
+		const parsedSnapshot = loadedSessionStateV6Schema.safeParse(input);
 		if (!parsedSnapshot.success) {
 			return fail({
 				code: "INVALID_SAVE_SNAPSHOT",
@@ -124,6 +131,9 @@ export class SqliteSaveSnapshotService {
 			const npcRelationshipRecords = parsedSnapshot.data.npcRelationships.map(
 				(relationship) => npcRelationshipInsertSchema.parse(relationship),
 			);
+			const inventoryEventRecords = parsedSnapshot.data.inventoryEvents.map(
+				(event) => inventoryEventInsertSchema.parse(event),
+			);
 			const worldStateRecords = parsedSnapshot.data.worldState.map((flag) =>
 				worldStateEntryInsertSchema.parse({
 					key: flag.key,
@@ -134,7 +144,7 @@ export class SqliteSaveSnapshotService {
 			const metadataRecord = worldStateEntryInsertSchema.parse({
 				key: SAVE_METADATA_KEY,
 				valueJson: JSON.stringify(
-					saveMetadataV5Schema.parse({
+					saveMetadataV6Schema.parse({
 						version: parsedSnapshot.data.version,
 						savedAt: parsedSnapshot.data.savedAt,
 					}),
@@ -143,6 +153,7 @@ export class SqliteSaveSnapshotService {
 			});
 
 			db.transaction((tx) => {
+				tx.delete(inventoryEvents).run();
 				tx.delete(socialEncounterEvents).run();
 				tx.delete(socialEncounters).run();
 				tx.delete(npcRelationships).run();
@@ -178,6 +189,9 @@ export class SqliteSaveSnapshotService {
 				if (npcRelationshipRecords.length > 0) {
 					tx.insert(npcRelationships).values(npcRelationshipRecords).run();
 				}
+				if (inventoryEventRecords.length > 0) {
+					tx.insert(inventoryEvents).values(inventoryEventRecords).run();
+				}
 				tx.insert(worldStateEntries)
 					.values([...worldStateRecords, metadataRecord])
 					.run();
@@ -198,7 +212,7 @@ export class SqliteSaveSnapshotService {
 			database.close();
 			return ok({
 				saveId: "primary",
-				version: 5,
+				version: 6,
 				savedAt: parsedSnapshot.data.savedAt,
 				characterCount: parsedSnapshot.data.characters.length,
 				worldStateCount: parsedSnapshot.data.worldState.length,
@@ -210,6 +224,7 @@ export class SqliteSaveSnapshotService {
 				socialEncounterEventCount:
 					parsedSnapshot.data.socialEncounterEvents.length,
 				npcRelationshipCount: parsedSnapshot.data.npcRelationships.length,
+				inventoryEventCount: parsedSnapshot.data.inventoryEvents.length,
 			});
 		} catch (error: unknown) {
 			database.close();
@@ -402,7 +417,33 @@ export class SqliteSaveSnapshotService {
 				return parsedNpcRelationships;
 			}
 
-			const parsedLoaded = loadedSessionStateV5Schema.parse({
+			if (parsedMetadata.data.version === 5) {
+				const parsedLoaded = migrateLoadedSessionToCurrent(
+					loadedSessionStateV5Schema.parse({
+						version: parsedMetadata.data.version,
+						savedAt: parsedMetadata.data.savedAt,
+						characters: parsedCharacters,
+						worldState: parsedWorldState,
+						clocks: parsedClocks.data,
+						campSessions: parsedCampSessions.data,
+						campAssignments: parsedCampAssignments.data,
+						factionStandings: parsedFactionStandings.data,
+						socialEncounters: parsedSocialEncounters.data,
+						socialEncounterEvents: parsedSocialEncounterEvents.data,
+						npcRelationships: parsedNpcRelationships.data,
+					}),
+				);
+				database.close();
+				return ok(parsedLoaded);
+			}
+
+			const parsedInventoryEvents = readInventoryEvents(db);
+			if (!parsedInventoryEvents.success) {
+				database.close();
+				return parsedInventoryEvents;
+			}
+
+			const parsedLoaded = loadedSessionStateV6Schema.parse({
 				version: parsedMetadata.data.version,
 				savedAt: parsedMetadata.data.savedAt,
 				characters: parsedCharacters,
@@ -414,6 +455,7 @@ export class SqliteSaveSnapshotService {
 				socialEncounters: parsedSocialEncounters.data,
 				socialEncounterEvents: parsedSocialEncounterEvents.data,
 				npcRelationships: parsedNpcRelationships.data,
+				inventoryEvents: parsedInventoryEvents.data,
 			});
 			database.close();
 			return ok(parsedLoaded);
@@ -507,7 +549,8 @@ export class SqliteSaveSnapshotService {
 				!tableNames.has("faction_standings") ||
 				!tableNames.has("social_encounters") ||
 				!tableNames.has("social_encounter_events") ||
-				!tableNames.has("npc_relationships")
+				!tableNames.has("npc_relationships") ||
+				!tableNames.has("inventory_events")
 			) {
 				return fail({
 					code: "CORRUPTED_DATABASE_FILE",
@@ -651,6 +694,24 @@ function readNpcRelationships(
 		parsedRelationships.push(parsed.data);
 	}
 	return ok(parsedRelationships);
+}
+
+function readInventoryEvents(
+	db: ReturnType<typeof drizzle>,
+): Result<readonly InventoryEventRecord[], SaveSnapshotFailure> {
+	const parsedEvents: InventoryEventRecord[] = [];
+	for (const row of db
+		.select()
+		.from(inventoryEvents)
+		.orderBy(asc(inventoryEvents.characterId), asc(inventoryEvents.sequence))
+		.all()) {
+		const parsed = inventoryEventSelectSchema.safeParse(row);
+		if (!parsed.success) {
+			return corruptedSnapshotFailure("inventory event row failed validation");
+		}
+		parsedEvents.push(parsed.data);
+	}
+	return ok(parsedEvents);
 }
 
 function corruptedSnapshotFailure(

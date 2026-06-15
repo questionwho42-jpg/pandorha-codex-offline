@@ -498,12 +498,13 @@ function handleRuntimeRequest() {}
 
 function renderSaveSchemas() {
 	return `
-export const CURRENT_SAVE_VERSION = 5;
+export const CURRENT_SAVE_VERSION = 6;
 const save = {
   clocks: [],
   socialEncounters: [],
   socialEncounterEvents: [],
   npcRelationships: [],
+  inventoryEvents: [],
 };
 `;
 }

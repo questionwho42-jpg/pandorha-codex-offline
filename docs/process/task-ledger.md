@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260615-051214-save-load-v6-inventory-ledger -->
+### Save-load v6 inventory ledger
+- id: 20260615-051214-save-load-v6-inventory-ledger
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-15T05:12:14-03:00
+- finished_at: 2026-06-15T05:20:29-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-15T05:20:29-03:00
+- branch: feat/save-load-v6-inventory
+- commit_at_start: b0e4b5f merge: add character-owned inventory ledger
+- summary: Persistir inventoryEvents no save v6, RPC, worker e snapshot SQLite com migracao deterministica v5 para v6.
+- last_change: Save v6 persiste inventoryEvents com migracao v1-v5, RPC e transacao SQLite validados.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T05:12:14-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T05:20:28-03:00
+- Done: Save v6, RPC, Worker, Drizzle migration e snapshot SQLite implementados; 725 testes, cobertura integral, lint e build aprovados.
+- Next: Commitar e integrar a Fase 4; validar o fluxo renderizado junto da UI editavel quando o Browser do Codex estiver exposto.
+- Risks: Browser do Codex nao foi exposto como ferramenta controlavel nesta sessao; nenhum Playwright foi usado.
+- Improvements: Adicionar a validacao renderizada ao fechamento da Fase 5.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T05:20:29-03:00
+- Done: Save v6 persiste inventoryEvents com migracao v1-v5, RPC e transacao SQLite validados.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260615-051214-save-load-v6-inventory-ledger -->
 <!-- pandorha-task:20260606-inventory-ownership-core -->
 ### Character-owned inventory ledger core
 - id: 20260606-inventory-ownership-core
