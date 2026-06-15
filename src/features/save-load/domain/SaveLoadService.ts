@@ -48,6 +48,7 @@ export class SaveLoadService {
 			socialEncounters: parsedInput.data.socialEncounters,
 			socialEncounterEvents: parsedInput.data.socialEncounterEvents,
 			npcRelationships: parsedInput.data.npcRelationships,
+			inventoryEvents: parsedInput.data.inventoryEvents,
 		};
 
 		const response = await this.workerBridge.send({
@@ -87,6 +88,7 @@ export class SaveLoadService {
 			socialEncounterCount: parsedInput.data.socialEncounters.length,
 			socialEncounterEventCount: parsedInput.data.socialEncounterEvents.length,
 			npcRelationshipCount: parsedInput.data.npcRelationships.length,
+			inventoryEventCount: parsedInput.data.inventoryEvents.length,
 		});
 	}
 
@@ -155,6 +157,7 @@ export class SaveLoadService {
 			socialEncounters: currentSnapshot.socialEncounters,
 			socialEncounterEvents: currentSnapshot.socialEncounterEvents,
 			npcRelationships: currentSnapshot.npcRelationships,
+			inventoryEvents: currentSnapshot.inventoryEvents,
 		});
 	}
 }

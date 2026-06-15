@@ -41,6 +41,7 @@ const snapshotWorkerPort = {
 			socialEncounterCount: saved.data.socialEncounterCount,
 			socialEncounterEventCount: saved.data.socialEncounterEventCount,
 			npcRelationshipCount: saved.data.npcRelationshipCount,
+			inventoryEventCount: saved.data.inventoryEventCount,
 		});
 	},
 	loadSnapshot: async () => {
@@ -80,6 +81,9 @@ const snapshotWorkerPort = {
 			})),
 			npcRelationships: loaded.data.npcRelationships.map((relationship) => ({
 				...relationship,
+			})),
+			inventoryEvents: loaded.data.inventoryEvents.map((inventoryEvent) => ({
+				...inventoryEvent,
 			})),
 		});
 	},

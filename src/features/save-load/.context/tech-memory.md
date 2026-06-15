@@ -9,3 +9,5 @@
 - The RPC `SAVE_GAME_SNAPSHOT` contract now requires version 5 and includes `npcRelationships` so Worker and app snapshots stay aligned.
 - The approved v6 gate adds only per-character `inventoryEvents`.
 - Legacy v1-v5 snapshots must migrate to v6 with an empty inventory ledger; no other deferred feature may enter that migration.
+- Save v6 is implemented with `inventoryEvents` as its only new section; metadata, RPC, Worker mapping, and SQLite snapshots share the same literal version.
+- `SqliteSaveSnapshotService` orders restored inventory events by character and sequence and rejects malformed event rows before exposing the snapshot.

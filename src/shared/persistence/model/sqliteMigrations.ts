@@ -5,6 +5,7 @@ import campSessionMigrationSql from "../../../../drizzle/0003_public_tyger_tiger
 import factionMigrationSql from "../../../../drizzle/0004_abnormal_luke_cage.sql?raw";
 import socialEncounterMigrationSql from "../../../../drizzle/0005_perfect_sinister_six.sql?raw";
 import npcRelationshipMigrationSql from "../../../../drizzle/0006_bent_havok.sql?raw";
+import inventoryEventMigrationSql from "../../../../drizzle/0007_aromatic_moonstone.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -35,5 +36,9 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0006_bent_havok",
 		sql: npcRelationshipMigrationSql,
+	},
+	{
+		id: "0007_aromatic_moonstone",
+		sql: inventoryEventMigrationSql,
 	},
 ];

@@ -52,6 +52,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0004_abnormal_luke_cage",
 				"0005_perfect_sinister_six",
 				"0006_bent_havok",
+				"0007_aromatic_moonstone",
 			],
 			tableNames: [
 				"_pandorha_migrations",
@@ -61,6 +62,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"clocks",
 				"faction_standings",
 				"factions",
+				"inventory_events",
 				"npc_relationships",
 				"social_encounter_events",
 				"social_encounters",
@@ -112,6 +114,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0004_abnormal_luke_cage",
 			"0005_perfect_sinister_six",
 			"0006_bent_havok",
+			"0007_aromatic_moonstone",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -225,6 +228,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0004_abnormal_luke_cage",
 			"0005_perfect_sinister_six",
 			"0006_bent_havok",
+			"0007_aromatic_moonstone",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -255,7 +259,7 @@ describe("database worker request handler", () => {
 				payload: {
 					saveId: "primary",
 					snapshot: {
-						version: 5,
+						version: 6,
 						savedAt: REQUESTED_AT,
 						characters: [],
 						worldState: [],
@@ -266,6 +270,7 @@ describe("database worker request handler", () => {
 						socialEncounters: [],
 						socialEncounterEvents: [],
 						npcRelationships: [],
+						inventoryEvents: [],
 					},
 				},
 			},
@@ -295,7 +300,7 @@ describe("database worker request handler", () => {
 			messageId: MESSAGE_ID,
 			success: true,
 			data: {
-				version: 5,
+				version: 6,
 				savedAt: REQUESTED_AT,
 				characters: [],
 				worldState: [],
@@ -306,6 +311,7 @@ describe("database worker request handler", () => {
 				socialEncounters: [],
 				socialEncounterEvents: [],
 				npcRelationships: [],
+				inventoryEvents: [],
 			},
 		});
 	});
@@ -532,7 +538,7 @@ class FakeSnapshotWorkerPort {
 	public async loadSnapshot(): Promise<
 		Result<
 			{
-				readonly version: 5;
+				readonly version: 6;
 				readonly savedAt: string;
 				readonly characters: readonly [];
 				readonly worldState: readonly [];
@@ -543,12 +549,13 @@ class FakeSnapshotWorkerPort {
 				readonly socialEncounters: readonly [];
 				readonly socialEncounterEvents: readonly [];
 				readonly npcRelationships: readonly [];
+				readonly inventoryEvents: readonly [];
 			},
 			{ readonly code: string; readonly message: string }
 		>
 	> {
 		return ok({
-			version: 5,
+			version: 6,
 			savedAt: REQUESTED_AT,
 			characters: [],
 			worldState: [],
@@ -559,6 +566,7 @@ class FakeSnapshotWorkerPort {
 			socialEncounters: [],
 			socialEncounterEvents: [],
 			npcRelationships: [],
+			inventoryEvents: [],
 		});
 	}
 }

@@ -9,6 +9,7 @@ export default defineConfig({
 		"./src/entities/faction/model/factionSchema.ts",
 		"./src/entities/social-encounter/model/socialEncounterPersistenceSchema.ts",
 		"./src/entities/npc-relationship/model/npcRelationshipSchema.ts",
+		"./src/entities/inventory/model/inventoryEventSchema.ts",
 	],
 	out: "./drizzle",
 	dialect: "sqlite",

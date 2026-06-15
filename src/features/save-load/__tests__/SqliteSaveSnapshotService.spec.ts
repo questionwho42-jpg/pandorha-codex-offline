@@ -46,7 +46,7 @@ describe("SqliteSaveSnapshotService", () => {
 
 		expect(saved).toEqual({
 			saveId: "primary",
-			version: 5,
+			version: 6,
 			savedAt: SAVED_AT,
 			characterCount: 1,
 			worldStateCount: 1,
@@ -57,6 +57,7 @@ describe("SqliteSaveSnapshotService", () => {
 			socialEncounterCount: 1,
 			socialEncounterEventCount: 1,
 			npcRelationshipCount: 1,
+			inventoryEventCount: 1,
 		});
 		expect(loaded).toEqual(buildSnapshot());
 	});
@@ -103,6 +104,7 @@ describe("SqliteSaveSnapshotService", () => {
 			socialEncounters: [],
 			socialEncounterEvents: [],
 			npcRelationships: [],
+			inventoryEvents: [],
 		};
 
 		const saved = expectSaveSuccess(await service.saveSnapshot(emptySnapshot));
@@ -123,6 +125,7 @@ describe("SqliteSaveSnapshotService", () => {
 		expect(saved.socialEncounterCount).toBe(0);
 		expect(saved.socialEncounterEventCount).toBe(0);
 		expect(saved.npcRelationshipCount).toBe(0);
+		expect(saved.inventoryEventCount).toBe(0);
 		expect(expectLoadSuccess(await service.loadSnapshot())).toEqual(
 			emptySnapshot,
 		);
@@ -149,13 +152,13 @@ describe("SqliteSaveSnapshotService", () => {
 		expect(corrupted.code).toBe("CORRUPTED_SAVE_SNAPSHOT");
 	});
 
-	it("migrates a legacy v1 save to v5 with empty structured data", async () => {
+	it("migrates a legacy v1 save to v6 with empty structured data", async () => {
 		const loaded = expectLoadSuccess(
 			await createService(await createLegacyV1SaveStorage()).loadSnapshot(),
 		);
 
 		expect(loaded).toEqual({
-			version: 5,
+			version: 6,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
 			worldState: [
@@ -172,16 +175,17 @@ describe("SqliteSaveSnapshotService", () => {
 			socialEncounters: [],
 			socialEncounterEvents: [],
 			npcRelationships: [],
+			inventoryEvents: [],
 		});
 	});
 
-	it("migrates a legacy v2 save to v5 with empty social data", async () => {
+	it("migrates a legacy v2 save to v6 with empty social data", async () => {
 		const loaded = expectLoadSuccess(
 			await createService(await createLegacyV2SaveStorage()).loadSnapshot(),
 		);
 
 		expect(loaded).toEqual({
-			version: 5,
+			version: 6,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
 			worldState: [
@@ -198,16 +202,17 @@ describe("SqliteSaveSnapshotService", () => {
 			socialEncounters: [],
 			socialEncounterEvents: [],
 			npcRelationships: [],
+			inventoryEvents: [],
 		});
 	});
 
-	it("migrates a legacy v3 save to v5 with empty social encounter state", async () => {
+	it("migrates a legacy v3 save to v6 with empty social encounter state", async () => {
 		const loaded = expectLoadSuccess(
 			await createService(await createLegacyV3SaveStorage()).loadSnapshot(),
 		);
 
 		expect(loaded).toEqual({
-			version: 5,
+			version: 6,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
 			worldState: [
@@ -224,16 +229,17 @@ describe("SqliteSaveSnapshotService", () => {
 			socialEncounters: [],
 			socialEncounterEvents: [],
 			npcRelationships: [],
+			inventoryEvents: [],
 		});
 	});
 
-	it("migrates a legacy v4 save to v5 with empty NPC relationships", async () => {
+	it("migrates a legacy v4 save to v6 with empty NPC relationships", async () => {
 		const loaded = expectLoadSuccess(
 			await createService(await createLegacyV4SaveStorage()).loadSnapshot(),
 		);
 
 		expect(loaded).toEqual({
-			version: 5,
+			version: 6,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
 			worldState: [
@@ -250,6 +256,18 @@ describe("SqliteSaveSnapshotService", () => {
 			socialEncounters: [buildSocialEncounter()],
 			socialEncounterEvents: [buildSocialEncounterEvent()],
 			npcRelationships: [],
+			inventoryEvents: [],
+		});
+	});
+
+	it("migrates a legacy v5 save to v6 with an empty inventory ledger", async () => {
+		const loaded = expectLoadSuccess(
+			await createService(await createLegacyV5SaveStorage()).loadSnapshot(),
+		);
+
+		expect(loaded).toEqual({
+			...buildSnapshot(),
+			inventoryEvents: [],
 		});
 	});
 
@@ -300,6 +318,7 @@ describe("SqliteSaveSnapshotService", () => {
 		const invalidSocialEncounterStorage = await createMigratedStorage();
 		const invalidSocialEncounterEventStorage = await createMigratedStorage();
 		const invalidNpcRelationshipStorage = await createMigratedStorage();
+		const invalidInventoryEventStorage = await createMigratedStorage();
 		expectSaveSuccess(
 			await createService(invalidClockStorage).saveSnapshot(buildSnapshot()),
 		);
@@ -333,6 +352,11 @@ describe("SqliteSaveSnapshotService", () => {
 				buildSnapshot(),
 			),
 		);
+		expectSaveSuccess(
+			await createService(invalidInventoryEventStorage).saveSnapshot(
+				buildSnapshot(),
+			),
+		);
 
 		await corruptClockSlices(invalidClockStorage);
 		await corruptCampSessionHour(invalidCampSessionStorage);
@@ -343,6 +367,7 @@ describe("SqliteSaveSnapshotService", () => {
 			invalidSocialEncounterEventStorage,
 		);
 		await corruptNpcRelationshipStatus(invalidNpcRelationshipStorage);
+		await corruptInventoryEventSequence(invalidInventoryEventStorage);
 
 		expect(
 			expectFailure(await createService(invalidClockStorage).loadSnapshot())
@@ -376,6 +401,11 @@ describe("SqliteSaveSnapshotService", () => {
 		expect(
 			expectFailure(
 				await createService(invalidNpcRelationshipStorage).loadSnapshot(),
+			).code,
+		).toBe("CORRUPTED_SAVE_SNAPSHOT");
+		expect(
+			expectFailure(
+				await createService(invalidInventoryEventStorage).loadSnapshot(),
 			).code,
 		).toBe("CORRUPTED_SAVE_SNAPSHOT");
 	});
@@ -465,7 +495,7 @@ describe("SqliteSaveSnapshotService", () => {
 
 function buildSnapshot() {
 	return {
-		version: 5 as const,
+		version: 6 as const,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
 		worldState: [
@@ -482,6 +512,7 @@ function buildSnapshot() {
 		socialEncounters: [buildSocialEncounter()],
 		socialEncounterEvents: [buildSocialEncounterEvent()],
 		npcRelationships: [buildNpcRelationship()],
+		inventoryEvents: [buildInventoryEvent()],
 	};
 }
 
@@ -576,6 +607,20 @@ function buildNpcRelationship() {
 		pressureDamage: 0,
 		appliedPressureKeysJson: "[]",
 		updatedAt: SAVED_AT,
+	};
+}
+
+function buildInventoryEvent() {
+	return {
+		id: "inventory-event-1",
+		characterId: "session-character-1",
+		sequence: 1,
+		type: "inventory-item-added",
+		entryId: "inventory-entry-1",
+		catalogKind: "equipment",
+		catalogItemId: "dagger",
+		quantity: 1,
+		createdAt: SAVED_AT,
 	};
 }
 
@@ -700,6 +745,37 @@ async function createLegacyV4SaveStorage(): Promise<InMemoryDatabaseFileStorage>
 		[
 			"system:save:primary:metadata",
 			JSON.stringify({ version: 4, savedAt: SAVED_AT }),
+			SAVED_AT,
+		],
+	);
+	const storage = new InMemoryDatabaseFileStorage(database.export());
+	database.close();
+	return storage;
+}
+
+async function createLegacyV5SaveStorage(): Promise<InMemoryDatabaseFileStorage> {
+	const sqlite = await createSqlite();
+	const database = new sqlite.Database();
+	for (const migration of PANDORHA_SQLITE_MIGRATIONS) {
+		database.run(migration.sql);
+	}
+	insertCharacter(database);
+	insertClock(database);
+	insertCampSession(database);
+	insertCampAssignment(database);
+	insertFactionStanding(database);
+	insertSocialEncounter(database);
+	insertSocialEncounterEvent(database);
+	insertNpcRelationship(database);
+	database.run(
+		"INSERT INTO world_state_entries (key, value_json, updated_at) VALUES (?, ?, ?);",
+		["location:morden:gate-open", JSON.stringify(true), UPDATED_AT],
+	);
+	database.run(
+		"INSERT INTO world_state_entries (key, value_json, updated_at) VALUES (?, ?, ?);",
+		[
+			"system:save:primary:metadata",
+			JSON.stringify({ version: 5, savedAt: SAVED_AT }),
 			SAVED_AT,
 		],
 	);
@@ -864,6 +940,25 @@ function insertSocialEncounterEvent(
 	);
 }
 
+function insertNpcRelationship(
+	database: SqlJsStatic["Database"]["prototype"],
+): void {
+	const relationship = buildNpcRelationship();
+	database.run(
+		`INSERT INTO npc_relationships (
+			npc_id, attitude, status, pressure_damage, applied_pressure_keys_json, updated_at
+		) VALUES (?, ?, ?, ?, ?, ?);`,
+		[
+			relationship.npcId,
+			relationship.attitude,
+			relationship.status,
+			relationship.pressureDamage,
+			relationship.appliedPressureKeysJson,
+			relationship.updatedAt,
+		],
+	);
+}
+
 async function corruptCharacterLevel(
 	storage: InMemoryDatabaseFileStorage,
 ): Promise<void> {
@@ -892,7 +987,7 @@ async function corruptMetadataVersion(
 	const sqlite = await createSqlite();
 	const database = new sqlite.Database(storage.fileBytes);
 	database.run(
-		'UPDATE world_state_entries SET value_json = \'{"version":6,"savedAt":"2026-05-15T19:50:00.000Z"}\' WHERE key = \'system:save:primary:metadata\';',
+		'UPDATE world_state_entries SET value_json = \'{"version":7,"savedAt":"2026-05-15T19:50:00.000Z"}\' WHERE key = \'system:save:primary:metadata\';',
 	);
 	storage.fileBytes = database.export();
 	database.close();
@@ -982,6 +1077,16 @@ async function corruptNpcRelationshipStatus(
 	database.close();
 }
 
+async function corruptInventoryEventSequence(
+	storage: InMemoryDatabaseFileStorage,
+): Promise<void> {
+	const sqlite = await createSqlite();
+	const database = new sqlite.Database(storage.fileBytes);
+	database.run("UPDATE inventory_events SET sequence = 0;");
+	storage.fileBytes = database.export();
+	database.close();
+}
+
 async function createMalformedSchemaStorage(): Promise<InMemoryDatabaseFileStorage> {
 	const sqlite = await createSqlite();
 	const database = new sqlite.Database();
@@ -1004,6 +1109,7 @@ async function createMalformedSchemaStorage(): Promise<InMemoryDatabaseFileStora
 	database.run(
 		"CREATE TABLE npc_relationships (npc_id text PRIMARY KEY NOT NULL);",
 	);
+	database.run("CREATE TABLE inventory_events (id text PRIMARY KEY NOT NULL);");
 	const storage = new InMemoryDatabaseFileStorage(database.export());
 	database.close();
 	return storage;

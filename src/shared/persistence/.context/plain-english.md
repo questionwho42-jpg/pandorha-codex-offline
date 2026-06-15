@@ -1,5 +1,7 @@
 # Persistence In Plain Portuguese
 
+Na versao 6, o banco tambem guarda o historico usado para reconstruir o inventario de cada personagem.
+
 Persistência é a parte que prepara o arquivo de save local do Pandorha no navegador.
 
 Nesta etapa o jogo ainda não mostra botão de salvar. O que foi criado é o caminho técnico para abrir ou criar um banco SQLite dentro do armazenamento privado do navegador e aplicar as tabelas necessárias.

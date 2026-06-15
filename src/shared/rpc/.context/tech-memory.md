@@ -6,3 +6,4 @@
 - RPC DTOs accept only JSON-serializable values. Classes, functions, Date, Map, Set, and other object instances are rejected at schema boundaries.
 - `FakeWorkerBridge` validates requests and queued responses, mirrors message ids, and returns typed `Result` failures.
 - `BrowserWorkerBridge` owns real browser transport concerns: pending requests keyed by `messageId`, 30s init timeout, 5s standard timeout, response validation, and typed mismatch failures.
+- Save v6 requires `inventoryEvents` in `SAVE_GAME_SNAPSHOT`; the Worker returns the same ledger and its persisted count without derived capacity.

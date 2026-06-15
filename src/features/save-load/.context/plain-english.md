@@ -6,5 +6,5 @@ In version 4, it also saves active social negotiations so a conversation can com
 
 In version 5, it also saves individual NPC relationships. This means a pressured NPC can stay strained after saving, reloading, and loading the local save again.
 
-The approved version 6 will add only the event history that reconstructs each
-character's carried inventory. Older saves will load with an empty inventory.
+Version 6 saves the event history that reconstructs each character's carried
+inventory. Older saves load with an empty inventory.

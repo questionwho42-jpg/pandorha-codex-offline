@@ -6,6 +6,7 @@ import {
 import { characterSelectSchema } from "$lib/entities/character";
 import { clockSelectSchema } from "$lib/entities/clock";
 import { factionStandingSelectSchema } from "$lib/entities/faction";
+import { inventoryEventSelectSchema } from "$lib/entities/inventory";
 import { npcRelationshipSelectSchema } from "$lib/entities/npc-relationship";
 import {
 	socialEncounterEventSelectSchema,
@@ -14,7 +15,7 @@ import {
 import { worldStateValueSchema } from "$lib/entities/world-state";
 
 const isoTimestamp = z.string().trim().datetime({ offset: true });
-export const CURRENT_SAVE_VERSION = 5;
+export const CURRENT_SAVE_VERSION = 6;
 
 export const worldStateFlagSchema = z.object({
 	key: z.string().trim().min(1),
@@ -43,6 +44,11 @@ export const saveMetadataV4Schema = z.object({
 });
 
 export const saveMetadataV5Schema = z.object({
+	version: z.literal(5),
+	savedAt: isoTimestamp,
+});
+
+export const saveMetadataV6Schema = z.object({
 	version: z.literal(CURRENT_SAVE_VERSION),
 	savedAt: isoTimestamp,
 });
@@ -53,6 +59,7 @@ export const saveMetadataAnySchema = z.union([
 	saveMetadataV3Schema,
 	saveMetadataV4Schema,
 	saveMetadataV5Schema,
+	saveMetadataV6Schema,
 ]);
 
 export const saveMetadataSchema = saveMetadataAnySchema;
@@ -67,6 +74,7 @@ export const saveSessionInputSchema = z.object({
 	socialEncounters: z.array(socialEncounterSelectSchema).default([]),
 	socialEncounterEvents: z.array(socialEncounterEventSelectSchema).default([]),
 	npcRelationships: z.array(npcRelationshipSelectSchema).default([]),
+	inventoryEvents: z.array(inventoryEventSelectSchema).default([]),
 	savedAt: isoTimestamp,
 });
 
@@ -112,7 +120,7 @@ export const loadedSessionStateV4Schema = z.object({
 });
 
 export const loadedSessionStateV5Schema = z.object({
-	version: z.literal(CURRENT_SAVE_VERSION),
+	version: z.literal(5),
 	savedAt: isoTimestamp,
 	characters: z.array(characterSelectSchema),
 	worldState: z.array(worldStateFlagSchema),
@@ -125,12 +133,28 @@ export const loadedSessionStateV5Schema = z.object({
 	npcRelationships: z.array(npcRelationshipSelectSchema),
 });
 
+export const loadedSessionStateV6Schema = z.object({
+	version: z.literal(CURRENT_SAVE_VERSION),
+	savedAt: isoTimestamp,
+	characters: z.array(characterSelectSchema),
+	worldState: z.array(worldStateFlagSchema),
+	clocks: z.array(clockSelectSchema),
+	campSessions: z.array(campSessionSelectSchema),
+	campAssignments: z.array(campAssignmentSelectSchema),
+	factionStandings: z.array(factionStandingSelectSchema),
+	socialEncounters: z.array(socialEncounterSelectSchema),
+	socialEncounterEvents: z.array(socialEncounterEventSelectSchema),
+	npcRelationships: z.array(npcRelationshipSelectSchema),
+	inventoryEvents: z.array(inventoryEventSelectSchema),
+});
+
 export const loadedSessionStateSchema = z.union([
 	loadedSessionStateV1Schema,
 	loadedSessionStateV2Schema,
 	loadedSessionStateV3Schema,
 	loadedSessionStateV4Schema,
 	loadedSessionStateV5Schema,
+	loadedSessionStateV6Schema,
 ]);
 
 export function migrateSaveV1ToV2(
@@ -183,7 +207,7 @@ export function migrateSaveV4ToV5(
 	snapshot: z.infer<typeof loadedSessionStateV4Schema>,
 ): z.infer<typeof loadedSessionStateV5Schema> {
 	return {
-		version: CURRENT_SAVE_VERSION,
+		version: 5,
 		savedAt: snapshot.savedAt,
 		characters: snapshot.characters,
 		worldState: snapshot.worldState,
@@ -197,25 +221,43 @@ export function migrateSaveV4ToV5(
 	};
 }
 
+export function migrateSaveV5ToV6(
+	snapshot: z.infer<typeof loadedSessionStateV5Schema>,
+): z.infer<typeof loadedSessionStateV6Schema> {
+	return {
+		...snapshot,
+		version: CURRENT_SAVE_VERSION,
+		inventoryEvents: [],
+	};
+}
+
 export function migrateLoadedSessionToCurrent(
 	snapshot: z.infer<typeof loadedSessionStateSchema>,
-): z.infer<typeof loadedSessionStateV5Schema> {
+): z.infer<typeof loadedSessionStateV6Schema> {
 	if (snapshot.version === 1) {
-		return migrateSaveV4ToV5(
-			migrateSaveV3ToV4(migrateSaveV2ToV3(migrateSaveV1ToV2(snapshot))),
+		return migrateSaveV5ToV6(
+			migrateSaveV4ToV5(
+				migrateSaveV3ToV4(migrateSaveV2ToV3(migrateSaveV1ToV2(snapshot))),
+			),
 		);
 	}
 
 	if (snapshot.version === 2) {
-		return migrateSaveV4ToV5(migrateSaveV3ToV4(migrateSaveV2ToV3(snapshot)));
+		return migrateSaveV5ToV6(
+			migrateSaveV4ToV5(migrateSaveV3ToV4(migrateSaveV2ToV3(snapshot))),
+		);
 	}
 
 	if (snapshot.version === 3) {
-		return migrateSaveV4ToV5(migrateSaveV3ToV4(snapshot));
+		return migrateSaveV5ToV6(migrateSaveV4ToV5(migrateSaveV3ToV4(snapshot)));
 	}
 
 	if (snapshot.version === 4) {
-		return migrateSaveV4ToV5(snapshot);
+		return migrateSaveV5ToV6(migrateSaveV4ToV5(snapshot));
+	}
+
+	if (snapshot.version === 5) {
+		return migrateSaveV5ToV6(snapshot);
 	}
 
 	return snapshot;

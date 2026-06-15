@@ -1,5 +1,7 @@
 # RPC In Plain Portuguese
 
+Na versao 6, as mensagens de save tambem carregam o historico usado para reconstruir o inventario.
+
 RPC e o contrato de recados entre a tela do jogo e o Worker que vai cuidar do banco local.
 
 Nesta etapa o jogo ainda não salva no disco. O que existe agora é o formato seguro das mensagens: iniciar banco, salvar snapshot e carregar snapshot.
