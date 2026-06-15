@@ -4938,6 +4938,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-15T05:40:35-03:00 - post-commit
+- branch: feat/inventory-editable-ui
+- commit: ef8cc83 feat(inventory): add editable character inventory
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-15T05:21:09-03:00 - post-commit
 - branch: feat/save-load-v6-inventory
 - commit: 17377e4 feat(save-load): persist inventory ledger in v6
