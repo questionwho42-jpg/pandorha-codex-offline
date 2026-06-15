@@ -64,7 +64,7 @@ export default defineConfig({
 				"src/features/camp-hour/model/campHourView.ts",
 				"src/features/compendium-browser/model/compendiumBrowserView.ts",
 				"src/features/hexcrawl-map/model/hexcrawlMapView.ts",
-				"src/features/inventory-readonly/model/inventoryReadOnlyView.ts",
+				"src/features/inventory-management/model/inventoryManagementView.ts",
 				"src/features/save-load/model/saveLoadView.ts",
 				"src/features/social-encounter/model/socialDialogueChoiceProfile.ts",
 				"src/features/social-encounter/model/socialDialogueTreeView.ts",

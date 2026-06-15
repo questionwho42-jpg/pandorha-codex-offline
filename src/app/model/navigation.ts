@@ -25,7 +25,7 @@ export const APP_NAVIGATION_ITEMS = [
 		label: "Inventário",
 		heading: "Inventário",
 		description:
-			"A carga de treino mostra itens e slots em modo somente leitura.",
+			"Carregue, consuma e remova itens pertencentes a cada personagem.",
 	},
 	{
 		id: "exploration",

@@ -8,11 +8,116 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## In Progress
 <!-- pandorha-ledger:in-progress -->
-
 <!-- /pandorha-ledger:in-progress -->
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260615-114907-inventory-post-delivery-audit -->
+### Inventory post-delivery audit
+- id: 20260615-114907-inventory-post-delivery-audit
+- status: completed
+- kind: review
+- planned: no
+- started_at: 2026-06-15T11:49:07-03:00
+- finished_at: 2026-06-15T12:32:55-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-15T12:32:55-03:00
+- branch: docs/inventory-post-delivery-audit
+- commit_at_start: 413099a chore(process): record editable inventory commit
+- summary: Audit editable inventory delivery for regressions, inaccessible controls, known limitations, and readiness while preserving Browser do Codex rendered acceptance as mandatory.
+- last_change: Auditoria pós-entrega concluída; favicon 404 corrigido, ausências futuras documentadas e gates aprovados.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T11:49:07-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T11:54:39-03:00
+- Done: Auditoria estática pós-entrega concluída; nove abas e ações editáveis alcançáveis; 726 testes, cobertura 100%, build, quality gate, smokes, docs e validadores aprovados; seis fases futuras registradas separadamente.
+- Next: Executar o fluxo completo no Browser do Codex quando a aba expuser handle de página e console, então concluir as tarefas de UI e auditoria antes do merge.
+- Risks: Aceite renderizado, erros de console e roundtrip visual de inventário permanecem não observáveis nesta sessão.
+- Improvements: Expor Browser Plugin conectado à aba in-app.
+- Model/config: GPT-5.5 xhigh
+
+#### Checkpoint 2026-06-15T11:54:39-03:00
+- Done: Auditoria estática e gates executáveis aprovados; auditoria renderizada permanece bloqueada pela ausência do Browser Plugin.
+- Next: Validar inventário e nove abas no Browser do Codex antes de concluir e fazer merge.
+- Risks: Não promover a auditoria como concluída sem console e fluxo renderizado.
+- Improvements: Disponibilizar handle do Browser do Codex.
+- Model/config: GPT-5.5 xhigh
+
+#### Checkpoint 2026-06-15T12:32:55-03:00
+- Done: Auditoria renderizada concluída; único 404 de favicon corrigido com SVG embutido e teste negativo; console final com zero erros e zero warnings; quality gate aprovado.
+- Next: Concluir tarefa e registrar entrega atômica.
+- Risks: Ausências deliberadas permanecem no roadmap futuro.
+- Improvements: Executar nova auditoria após cada futura superfície visível.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T12:32:55-03:00
+- Done: Auditoria pós-entrega concluída; favicon 404 corrigido, ausências futuras documentadas e gates aprovados.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260615-114907-inventory-post-delivery-audit -->
+<!-- pandorha-task:20260615-052210-editable-character-inventory-ui -->
+### Editable character inventory UI
+- id: 20260615-052210-editable-character-inventory-ui
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-15T05:22:10-03:00
+- finished_at: 2026-06-15T12:32:55-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-15T12:32:55-03:00
+- branch: feat/inventory-editable-ui
+- commit_at_start: b59489b merge: persist inventory ledger in save v6
+- summary: Substituir inventory-readonly pela UI editavel, integrar ledger a sessao e save/load e atualizar QA contratual.
+- last_change: Inventário editável por personagem entregue e validado de ponta a ponta com persistência v6 e console limpo.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T05:22:10-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T05:39:29-03:00
+- Done: Editable character inventory, save v6 wiring, reachability contracts, documentation, 726 tests, 100% coverage, build and full quality gate completed.
+- Next: Validate the complete inventory flow and nine-tab audit in the Browser do Codex, then complete and merge the phase.
+- Risks: Browser do Codex tab is open but no Browser Plugin handle, page snapshot, click, or console tool is exposed to this agent session; rendered acceptance remains pending.
+- Improvements: Add a stable Browser Plugin connection to Codex sessions without adding Playwright to the repository.
+- Model/config: GPT-5.5 xhigh
+
+#### Checkpoint 2026-06-15T05:39:29-03:00
+- Done: Editable inventory implementation and all executable gates are complete; rendered Browser do Codex acceptance is blocked by missing browser-control tooling.
+- Next: Run the documented Browser do Codex flow, repeat qa:ui-reachability, then complete the maintenance task.
+- Risks: Do not treat static smokes as rendered acceptance.
+- Improvements: Expose the existing in-app browser tab through the Browser Plugin.
+- Model/config: GPT-5.5 xhigh
+
+#### Checkpoint 2026-06-15T12:32:55-03:00
+- Done: Aceite renderizado concluído com Playwright solicitado: nove abas, personagem, inventário editável, múltiplas pilhas, consumo, remoção, sobrecarga, save v6, reload real e restauração aprovados; console final limpo.
+- Next: Concluir tarefa e integrar após gates finais.
+- Risks: Nenhuma regressão pendente; loadout persistente permanece fora do escopo.
+- Improvements: Manter o contrato de favicon e o roteiro renderizado em qa:ui-reachability.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T12:32:55-03:00
+- Done: Inventário editável por personagem entregue e validado de ponta a ponta com persistência v6 e console limpo.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260615-052210-editable-character-inventory-ui -->
 <!-- pandorha-task:20260615-051214-save-load-v6-inventory-ledger -->
 ### Save-load v6 inventory ledger
 - id: 20260615-051214-save-load-v6-inventory-ledger
@@ -4733,6 +4838,210 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Unfinished
 <!-- pandorha-ledger:unfinished -->
+<!-- pandorha-task:20260615-future-inventory-combat-integration -->
+### Future inventory combat integration
+- id: 20260615-future-inventory-combat-integration
+- status: unfinished
+- kind: feature
+- planned: no
+- started_at: 2026-06-15T11:51:24-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-06-15T11:51:24-03:00
+- branch: docs/inventory-post-delivery-audit
+- commit_at_start: 413099a chore(process): record editable inventory commit
+- summary: Conectar loadout persistente do inventário aos perfis ativos de combate sem duplicar estado.
+- last_change: Fase futura bloqueada por loadout persistente e ações de equipar.
+#### Files At Start
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T11:51:24-03:00
+- Done: task record created
+- Next: Planejar após loadout persistente e equipar/desequipar.
+- Risks: Pode criar duas fontes de verdade entre sessão de combate e inventário.
+- Improvements: Derivar perfis ativos do loadout persistido.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T11:51:24-03:00
+- Done: Fase futura bloqueada por loadout persistente e ações de equipar.
+- Next: Integrar somente após uma fonte de verdade de loadout.
+- Risks: Não manter seleção local de combate em paralelo ao loadout persistido.
+- Improvements: Migrar a sessão de combate para leitura derivada.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260615-future-inventory-combat-integration -->
+<!-- pandorha-task:20260615-future-inventory-starting-equipment -->
+### Future starting equipment
+- id: 20260615-future-inventory-starting-equipment
+- status: unfinished
+- kind: feature
+- planned: no
+- started_at: 2026-06-15T11:51:17-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-06-15T11:51:17-03:00
+- branch: docs/inventory-post-delivery-audit
+- commit_at_start: 413099a chore(process): record editable inventory commit
+- summary: Conceder equipamento inicial por personagem somente após contrato de criação, catálogo e ownership.
+- last_change: Fase futura dependente do contrato completo de ficha e equipamento inicial.
+#### Files At Start
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T11:51:17-03:00
+- Done: task record created
+- Next: Planejar junto ao contrato completo de ficha.
+- Risks: Pode duplicar itens ou inventar escolhas de classe e antecedente.
+- Improvements: Emitir eventos iniciais pelo mesmo ledger.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T11:51:17-03:00
+- Done: Fase futura dependente do contrato completo de ficha e equipamento inicial.
+- Next: Planejar após ficha, classe e antecedente aprovados.
+- Risks: Não inferir kits iniciais das telas atuais.
+- Improvements: Usar eventos determinísticos de concessão.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260615-future-inventory-starting-equipment -->
+<!-- pandorha-task:20260615-future-inventory-potion-belt -->
+### Future inventory potion belt
+- id: 20260615-future-inventory-potion-belt
+- status: unfinished
+- kind: feature
+- planned: no
+- started_at: 2026-06-15T11:51:10-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-06-15T11:51:10-03:00
+- branch: docs/inventory-post-delivery-audit
+- commit_at_start: 413099a chore(process): record editable inventory commit
+- summary: Criar cinto de poções após contrato de slots rápidos, consumíveis e execução em combate.
+- last_change: Fase futura aguardando contrato de slots rápidos e combate.
+#### Files At Start
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T11:51:10-03:00
+- Done: task record created
+- Next: Planejar após integração persistente de inventário e combate.
+- Risks: Pode inventar limites e economia sem regra aprovada.
+- Improvements: Reutilizar pilhas de consumíveis do ledger.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T11:51:10-03:00
+- Done: Fase futura aguardando contrato de slots rápidos e combate.
+- Next: Revisar regras antes de planejar.
+- Risks: Não tratar item carregado como item pronto para uso.
+- Improvements: Separar acesso rápido de ownership.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260615-future-inventory-potion-belt -->
+<!-- pandorha-task:20260615-future-inventory-durability -->
+### Future inventory durability
+- id: 20260615-future-inventory-durability
+- status: unfinished
+- kind: feature
+- planned: no
+- started_at: 2026-06-15T11:51:02-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-06-15T11:51:02-03:00
+- branch: docs/inventory-post-delivery-audit
+- commit_at_start: 413099a chore(process): record editable inventory commit
+- summary: Integrar desgaste e durabilidade somente após loadout persistente e regras soberanas revisadas.
+- last_change: Fase futura bloqueada por loadout persistente e revisão de regras.
+#### Files At Start
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T11:51:02-03:00
+- Done: task record created
+- Next: Revisar regras e planejar após equipar/desequipar.
+- Risks: Desgaste afeta inventário, combate, crafting e save.
+- Improvements: Usar eventos próprios e Decorator para efeitos.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T11:51:02-03:00
+- Done: Fase futura bloqueada por loadout persistente e revisão de regras.
+- Next: Planejar após equipar/desequipar estável.
+- Risks: Não inferir desgaste a partir do código atual.
+- Improvements: Definir ledger específico de durabilidade.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260615-future-inventory-durability -->
+<!-- pandorha-task:20260615-future-inventory-equip-actions -->
+### Future inventory equip actions
+- id: 20260615-future-inventory-equip-actions
+- status: unfinished
+- kind: feature
+- planned: no
+- started_at: 2026-06-15T11:50:55-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-06-15T11:50:55-03:00
+- branch: docs/inventory-post-delivery-audit
+- commit_at_start: 413099a chore(process): record editable inventory commit
+- summary: Expor equipar e desequipar na UI somente após contrato persistente de loadout.
+- last_change: Fase futura dependente do loadout persistente.
+#### Files At Start
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T11:50:55-03:00
+- Done: task record created
+- Next: Planejar depois do loadout persistente.
+- Risks: Ações precoces podem divergir do estado de combate.
+- Improvements: Usar comandos tipados e Result.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T11:50:55-03:00
+- Done: Fase futura dependente do loadout persistente.
+- Next: Implementar depois do contrato de loadout por personagem.
+- Risks: Não misturar carregar item com equipar item.
+- Improvements: Manter comandos separados no ledger.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260615-future-inventory-equip-actions -->
+<!-- pandorha-task:20260615-future-inventory-persistent-loadout -->
+### Future persistent inventory loadout
+- id: 20260615-future-inventory-persistent-loadout
+- status: unfinished
+- kind: feature
+- planned: no
+- started_at: 2026-06-15T11:50:48-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-06-15T11:50:48-03:00
+- branch: docs/inventory-post-delivery-audit
+- commit_at_start: 413099a chore(process): record editable inventory commit
+- summary: Persistir loadout por personagem sem duplicar itens do ledger e sem antecipar efeitos de combate.
+- last_change: Fase futura aguardando contrato próprio de persistência de loadout.
+#### Files At Start
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T11:50:48-03:00
+- Done: task record created
+- Next: Planejar contrato de loadout persistente após estabilidade do inventário editável.
+- Risks: Pode acoplar inventário, equipamento e save.
+- Improvements: Reutilizar EquipmentLoadoutService T86.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T11:50:48-03:00
+- Done: Fase futura aguardando contrato próprio de persistência de loadout.
+- Next: Planejar após aceite renderizado e estabilidade do inventário editável.
+- Risks: Não persistir estado derivado nem duplicar catálogo.
+- Improvements: Reutilizar o ledger e o serviço T86.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260615-future-inventory-persistent-loadout -->
 <!-- pandorha-task:20260606-future-pwa-update-install-ui -->
 ### Future PWA update and install UI
 - id: 20260606-future-pwa-update-install-ui
@@ -4899,6 +5208,39 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-15T12:37:26-03:00 - post-commit
+- branch: chore/inventory-rendered-acceptance
+- commit: 265cebd fix(ui): complete rendered inventory acceptance
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-15T11:55:18-03:00 - post-commit
+- branch: docs/inventory-post-delivery-audit
+- commit: e70a723 docs(inventory): record post-delivery audit
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-15T05:40:35-03:00 - post-commit
+- branch: feat/inventory-editable-ui
+- commit: ef8cc83 feat(inventory): add editable character inventory
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-15T05:21:09-03:00 - post-commit
 - branch: feat/save-load-v6-inventory
 - commit: 17377e4 feat(save-load): persist inventory ledger in v6

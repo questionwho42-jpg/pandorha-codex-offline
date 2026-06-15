@@ -1,68 +1,113 @@
+import type { CharacterRepository } from "$lib/entities/character";
 import {
+	EquipmentCatalogService,
+	InMemoryEquipmentCatalogRepository,
 	OFFICIAL_CONSUMABLES,
 	OFFICIAL_EQUIPMENT,
 } from "$lib/entities/equipment";
-import type { InventoryReadOnlyItem } from "$lib/features/inventory-readonly";
 import {
-	type InventoryCapacityItemInput,
-	type InventoryCapacityResult,
-	InventoryCapacityService,
-} from "$lib/shared/inventory";
+	InMemoryInventoryEventRepository,
+	type InventoryEventRecord,
+	InventoryLedgerReplayService,
+	type InventoryRepositoryFailure,
+} from "$lib/entities/inventory";
+import { InventoryManagementService } from "$lib/features/inventory-management/domain/InventoryManagementService";
+import type { InventoryManagementIdProvider } from "$lib/features/inventory-management/model/inventoryManagementTypes";
+import { InventoryCapacityService } from "$lib/shared/inventory";
+import type { Result } from "$lib/shared/lib/result";
 
 export interface InventorySession {
-	readonly capacity: InventoryCapacityResult;
-	readonly items: readonly InventoryReadOnlyItem[];
+	readonly consumables: typeof OFFICIAL_CONSUMABLES;
+	readonly equipment: typeof OFFICIAL_EQUIPMENT;
+	getEvents(): readonly InventoryEventRecord[];
+	restoreEvents(
+		records: readonly InventoryEventRecord[],
+	): Result<readonly InventoryEventRecord[], InventoryRepositoryFailure>;
+	readonly service: InventoryManagementService;
 }
 
-const DEFAULT_TRAINING_PHYSICAL = 2;
-const DEFAULT_TRAINING_RESISTANCE = 2;
-const FALLBACK_CAPACITY: InventoryCapacityResult = {
-	excessSlots: 0,
-	movementPenaltyMeters: 0,
-	slotLimit: 0,
-	state: "normal",
-	usedSlots: 0,
-};
-
-export function createInventorySession(): InventorySession {
-	const service = new InventoryCapacityService();
-	const items = createTrainingInventoryItems();
-	const capacityItems = items.map(toCapacityItem);
-	const capacity = service.calculateCapacity({
-		physical: DEFAULT_TRAINING_PHYSICAL,
-		resistance: DEFAULT_TRAINING_RESISTANCE,
-		items: capacityItems,
+export function createInventorySession(
+	characterRepository: CharacterRepository,
+): InventorySession {
+	const inventoryRepository = new InMemoryInventoryEventRepository();
+	const ids = createInventoryIdState();
+	const service = new InventoryManagementService({
+		capacityService: new InventoryCapacityService(),
+		characterRepository,
+		clock: { now: () => new Date().toISOString() },
+		entryIdProvider: ids.entryIdProvider,
+		equipmentCatalogService: new EquipmentCatalogService(
+			new InMemoryEquipmentCatalogRepository({
+				consumables: OFFICIAL_CONSUMABLES,
+				equipment: OFFICIAL_EQUIPMENT,
+			}),
+		),
+		eventIdProvider: ids.eventIdProvider,
+		inventoryRepository,
+		replayService: new InventoryLedgerReplayService(),
 	});
 
 	return {
-		capacity: capacity.success ? capacity.data : FALLBACK_CAPACITY,
-		items,
+		consumables: OFFICIAL_CONSUMABLES,
+		equipment: OFFICIAL_EQUIPMENT,
+		getEvents: () => inventoryRepository.all(),
+		restoreEvents: (records) => {
+			const restored = inventoryRepository.replaceAll(records);
+			if (!restored.success) {
+				return restored;
+			}
+			ids.syncFromEvents(restored.data);
+			return restored;
+		},
+		service,
 	};
 }
 
-function createTrainingInventoryItems(): readonly InventoryReadOnlyItem[] {
-	return [
-		...OFFICIAL_EQUIPMENT.map((item) => ({
-			categoryLabel: "Equipamento",
-			id: item.id,
-			label: item.label,
-			slotCost: item.slotCost,
-		})),
-		...OFFICIAL_CONSUMABLES.map((item) => ({
-			categoryLabel: "Consumível",
-			id: item.id,
-			label: item.label,
-			slotCost: item.slotCostPerStack,
-		})),
-	];
-}
+function createInventoryIdState(): {
+	readonly entryIdProvider: InventoryManagementIdProvider;
+	readonly eventIdProvider: InventoryManagementIdProvider;
+	syncFromEvents(events: readonly InventoryEventRecord[]): void;
+} {
+	let nextEntryId = 1;
+	let nextEventId = 1;
 
-function toCapacityItem(
-	item: InventoryReadOnlyItem,
-): InventoryCapacityItemInput {
 	return {
-		id: item.id,
-		label: item.label,
-		slotCost: item.slotCost,
+		entryIdProvider: createSequentialIdProvider("inventory-entry", () => {
+			const current = nextEntryId;
+			nextEntryId += 1;
+			return current;
+		}),
+		eventIdProvider: createSequentialIdProvider("inventory-event", () => {
+			const current = nextEventId;
+			nextEventId += 1;
+			return current;
+		}),
+		syncFromEvents: (events) => {
+			nextEntryId = findNextNumericId(
+				events.map((event) => event.entryId),
+				"inventory-entry",
+			);
+			nextEventId = findNextNumericId(
+				events.map((event) => event.id),
+				"inventory-event",
+			);
+		},
 	};
+}
+
+function createSequentialIdProvider(
+	prefix: string,
+	next: () => number,
+): InventoryManagementIdProvider {
+	return {
+		generate: () => `${prefix}-${next()}`,
+	};
+}
+
+function findNextNumericId(ids: readonly string[], prefix: string): number {
+	const highestId = ids.reduce((currentMax, id) => {
+		const match = new RegExp(`^${prefix}-(\\d+)$`).exec(id);
+		return match ? Math.max(currentMax, Number(match[1])) : currentMax;
+	}, 0);
+	return highestId + 1;
 }

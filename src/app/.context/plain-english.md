@@ -49,3 +49,5 @@ Na T92, a aba Combate passou a receber tambem o servico que deixa o alvo de trei
 Esse ataque recebido ainda e de treino: ele aparece no log, usa a CA equipada do personagem e nao mexe no HP real nem no save.
 
 As descricoes da navegacao agora falam sobre o que ja esta disponivel no navegador. Uma verificacao automatica impede que avisos antigos de "sera implementado" voltem depois que uma tela ja existe.
+
+O Inventario agora pertence ao personagem selecionado. O usuario pode carregar, consumir e remover itens, salvar a sessao e recuperar o mesmo inventario depois de recarregar a pagina.

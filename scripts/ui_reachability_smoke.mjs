@@ -21,6 +21,20 @@ async function runUiReachabilitySmoke(root) {
 
 	await validateFileContains(
 		root,
+		"index.html",
+		['rel="icon"', 'href="/favicon.svg"'],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"public/favicon.svg",
+		["<svg", "#1c1917", "#dab973"],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
 		"src/app/App.svelte",
 		[
 			'activeView === "characters"',
@@ -29,7 +43,9 @@ async function runUiReachabilitySmoke(root) {
 			'activeView === "compendium"',
 			"CompendiumBrowser",
 			'activeView === "inventory"',
-			"InventoryReadOnlyPanel",
+			"InventoryManagementPanel",
+			"inventoryEvents: inventoryEventRecords",
+			"inventoryEventRecords = [...restoredInventory.data]",
 			'activeView === "exploration"',
 			"HexcrawlMapPanel",
 			'activeView === "camp"',
@@ -42,6 +58,22 @@ async function runUiReachabilitySmoke(root) {
 			'activeView === "combat"',
 			"CombatEncounterPanel",
 			"activeItem.description",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/inventory-management/ui/InventoryManagementPanel.svelte",
+		[
+			'data-testid="inventory-character-select"',
+			'data-testid="inventory-open-characters"',
+			'data-testid="inventory-catalog-list"',
+			'data-testid="inventory-add-equipment"',
+			'data-testid="inventory-add-consumable"',
+			'data-testid="inventory-increment-consumable"',
+			'data-testid="inventory-consume-consumable"',
+			'data-testid="inventory-remove-entry"',
 		],
 		errors,
 	);
@@ -94,7 +126,10 @@ async function runUiReachabilitySmoke(root) {
 	await validateFileContains(
 		root,
 		"docs/process/vertical-slice-qa.md",
-		["Inventário, magia, exploração e combate ainda usam dados de treino."],
+		[
+			"O inventário editável pertence ao personagem e persiste no save v6.",
+			"Magia, exploração e combate ainda usam dados de treino.",
+		],
 		errors,
 	);
 
