@@ -5208,6 +5208,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-15T12:37:26-03:00 - post-commit
+- branch: chore/inventory-rendered-acceptance
+- commit: 265cebd fix(ui): complete rendered inventory acceptance
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-15T11:55:18-03:00 - post-commit
 - branch: docs/inventory-post-delivery-audit
 - commit: e70a723 docs(inventory): record post-delivery audit
