@@ -5234,6 +5234,17 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-15T20:20:25-03:00 - post-commit
+- branch: codex/feat/equipment-loadout-save-v7
+- commit: 7546693 chore(process): record loadout gate commit
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-15T20:19:35-03:00 - post-commit
 - branch: codex/docs/equipment-loadout-save-v7-gate
 - commit: 193042d docs(equipment): approve loadout save v7 gate
