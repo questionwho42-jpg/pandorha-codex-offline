@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260615-052210-editable-character-inventory-ui -->
+### Editable character inventory UI
+- id: 20260615-052210-editable-character-inventory-ui
+- status: open
+- created_at: 2026-06-15T05:22:10-03:00
+- source: task-ledger
+- summary: Substituir inventory-readonly pela UI editavel, integrar ledger a sessao e save/load e atualizar QA contratual.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260615-052210-editable-character-inventory-ui -->
 <!-- pandorha-inbox:20260615-051214-save-load-v6-inventory-ledger -->
 ### Save-load v6 inventory ledger
 - id: 20260615-051214-save-load-v6-inventory-ledger

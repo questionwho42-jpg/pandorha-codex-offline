@@ -17,5 +17,5 @@
 ## UI Reachability Automation
 
 - `scripts/ui_reachability_smoke.mjs` is a contractual source-and-documentation gate; it does not automate a rendered browser.
-- The smoke protects tab mounting, current navigation copy, character save documentation, camp event-preservation order, known limitation classification, and the Browser do Codex acceptance requirement.
+- The smoke protects tab mounting, current navigation copy, character save documentation, camp event-preservation order, known limitation classification, editable inventory actions, inventory save/load wiring, and the Browser do Codex acceptance requirement.
 - `scripts/test_ui_reachability_smoke.mjs` uses temporary fixtures with one positive case and focused negative regressions.

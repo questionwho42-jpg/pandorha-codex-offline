@@ -61,6 +61,26 @@ export class InMemoryInventoryEventRepository
 		return this.records.map((record) => ({ ...record }));
 	}
 
+	public replaceAll(
+		records: readonly InventoryEventRecord[],
+	): Result<readonly InventoryEventRecord[], InventoryRepositoryFailure> {
+		const validatedRecords: InventoryEventRecord[] = [];
+		for (const record of records) {
+			const parsed = inventoryEventSelectSchema.safeParse(record);
+			if (!parsed.success) {
+				return fail({
+					code: "INVENTORY_EVENT_REPOSITORY_WRITE_FAILED",
+					message: "Inventory event repository received an invalid ledger.",
+				});
+			}
+			validatedRecords.push(parsed.data);
+		}
+
+		this.records.length = 0;
+		this.records.push(...validatedRecords);
+		return ok(this.all());
+	}
+
 	public failNextRead(failure: InventoryRepositoryFailure): void {
 		this.nextReadFailure = failure;
 	}

@@ -10,6 +10,7 @@ import type {
 } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
 import type { FactionStandingRecord } from "$lib/entities/faction";
+import type { InventoryEventRecord } from "$lib/entities/inventory";
 import type { NpcRelationshipRecord } from "$lib/entities/npc-relationship";
 import type {
 	SocialEncounterEventRecord,
@@ -33,7 +34,7 @@ import { CompendiumBrowser } from "$lib/features/compendium-browser";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { HexcrawlMapPanel } from "$lib/features/hexcrawl-map";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
-import { InventoryReadOnlyPanel } from "$lib/features/inventory-readonly";
+import { InventoryManagementPanel } from "$lib/features/inventory-management";
 import {
 	// biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 	SaveLoadControls,
@@ -77,8 +78,7 @@ const combatEncounterSession = createCombatEncounterSession();
 const compendiumSession = createCompendiumSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const hexcrawlSession = createHexcrawlSession();
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
-const inventorySession = createInventorySession();
+const inventorySession = createInventorySession(characterSession.repository);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const spellCastSession = createSpellCastSession();
 const saveLoadSession = createSaveLoadSession();
@@ -93,6 +93,7 @@ let clockRecords = $state<ClockRecord[]>([]);
 let factionStandingRecords = $state<FactionStandingRecord[]>(
 	socialRelationsSession.createInitialStandings(),
 );
+let inventoryEventRecords = $state<InventoryEventRecord[]>([]);
 let npcRelationshipRecords = $state<NpcRelationshipRecord[]>([]);
 let socialEncounterRecords = $state<SocialEncounterRecord[]>([]);
 let socialEncounterEventRecords = $state<SocialEncounterEventRecord[]>([]);
@@ -187,6 +188,7 @@ async function saveSession(): Promise<void> {
 		socialEncounters: socialEncounterRecords,
 		socialEncounterEvents: socialEncounterEventRecords,
 		npcRelationships: npcRelationshipRecords,
+		inventoryEvents: inventoryEventRecords,
 		savedAt: new Date().toISOString(),
 	});
 
@@ -215,6 +217,16 @@ async function loadSession(): Promise<void> {
 		};
 		return;
 	}
+	const restoredInventory = inventorySession.restoreEvents(
+		result.data.inventoryEvents,
+	);
+	if (!restoredInventory.success) {
+		saveLoadState = {
+			kind: "error",
+			message: "O save local contém um inventário inválido.",
+		};
+		return;
+	}
 
 	characterRecords = [...restored.data];
 	worldStateRecords = [...result.data.worldState];
@@ -227,6 +239,7 @@ async function loadSession(): Promise<void> {
 	socialEncounterRecords = [...result.data.socialEncounters];
 	socialEncounterEventRecords = [...result.data.socialEncounterEvents];
 	npcRelationshipRecords = [...result.data.npcRelationships];
+	inventoryEventRecords = [...restoredInventory.data];
 	saveLoadState = { kind: "loaded" };
 }
 
@@ -357,9 +370,18 @@ onMount(() => {
 						compendiumSession.searchService.searchEntries(input)}
 				/>
 			{:else if activeView === "inventory"}
-				<InventoryReadOnlyPanel
-					capacity={inventorySession.capacity}
-					items={inventorySession.items}
+				<InventoryManagementPanel
+					characters={characterRecords}
+					consumables={inventorySession.consumables}
+					equipment={inventorySession.equipment}
+					inventoryEvents={inventoryEventRecords}
+					onEventsChange={(records) => {
+						inventoryEventRecords = [...records];
+					}}
+					onOpenCharacters={() => {
+						activeView = "characters";
+					}}
+					service={inventorySession.service}
 				/>
 			{:else if activeView === "exploration"}
 				<HexcrawlMapPanel

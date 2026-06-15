@@ -151,3 +151,9 @@
 
 - Navigation descriptions must describe the current browser surface and must not retain future-task placeholders after a panel becomes reachable.
 - The Browser do Codex remains the rendered UI acceptance gate; `qa:ui-reachability` protects deterministic source and documentation contracts.
+
+## 2026-06-15 - Editable Character Inventory
+
+- `App.svelte` creates one inventory session with the same character repository used by character creation.
+- The app owns only the `inventoryEventRecords` transport array; current entries and capacity remain derived by `InventoryManagementService`.
+- Save sends `inventoryEvents`, load restores the ledger atomically, and an invalid restored ledger becomes a typed user-facing load error.

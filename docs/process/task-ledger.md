@@ -4733,6 +4733,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Unfinished
 <!-- pandorha-ledger:unfinished -->
+<!-- pandorha-task:20260615-052210-editable-character-inventory-ui -->
+### Editable character inventory UI
+- id: 20260615-052210-editable-character-inventory-ui
+- status: unfinished
+- kind: feature
+- planned: no
+- started_at: 2026-06-15T05:22:10-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-06-15T05:39:29-03:00
+- branch: feat/inventory-editable-ui
+- commit_at_start: b59489b merge: persist inventory ledger in save v6
+- summary: Substituir inventory-readonly pela UI editavel, integrar ledger a sessao e save/load e atualizar QA contratual.
+- last_change: Editable inventory implementation and all executable gates are complete; rendered Browser do Codex acceptance is blocked by missing browser-control tooling.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T05:22:10-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T05:39:29-03:00
+- Done: Editable character inventory, save v6 wiring, reachability contracts, documentation, 726 tests, 100% coverage, build and full quality gate completed.
+- Next: Validate the complete inventory flow and nine-tab audit in the Browser do Codex, then complete and merge the phase.
+- Risks: Browser do Codex tab is open but no Browser Plugin handle, page snapshot, click, or console tool is exposed to this agent session; rendered acceptance remains pending.
+- Improvements: Add a stable Browser Plugin connection to Codex sessions without adding Playwright to the repository.
+- Model/config: GPT-5.5 xhigh
+
+#### Checkpoint 2026-06-15T05:39:29-03:00
+- Done: Editable inventory implementation and all executable gates are complete; rendered Browser do Codex acceptance is blocked by missing browser-control tooling.
+- Next: Run the documented Browser do Codex flow, repeat qa:ui-reachability, then complete the maintenance task.
+- Risks: Do not treat static smokes as rendered acceptance.
+- Improvements: Expose the existing in-app browser tab through the Browser Plugin.
+- Model/config: GPT-5.5 xhigh
+<!-- /pandorha-task:20260615-052210-editable-character-inventory-ui -->
 <!-- pandorha-task:20260606-future-pwa-update-install-ui -->
 ### Future PWA update and install UI
 - id: 20260606-future-pwa-update-install-ui

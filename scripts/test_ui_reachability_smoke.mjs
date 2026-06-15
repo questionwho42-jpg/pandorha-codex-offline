@@ -26,7 +26,7 @@ test("ui reachability smoke fails when a required tab is not mounted", async () 
 	const root = await createFixtureRoot({
 		fileOverrides: {
 			"src/app/App.svelte": renderApp().replace(
-				"<InventoryReadOnlyPanel />",
+				"<InventoryManagementPanel />",
 				"<p>Inventário indisponível</p>",
 			),
 		},
@@ -36,7 +36,28 @@ test("ui reachability smoke fails when a required tab is not mounted", async () 
 		const result = runSmoke(root);
 
 		assert.notEqual(result.status, 0);
-		assert.match(result.stderr, /InventoryReadOnlyPanel/);
+		assert.match(result.stderr, /InventoryManagementPanel/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
+test("ui reachability smoke fails when an editable inventory action is unreachable", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/inventory-management/ui/InventoryManagementPanel.svelte":
+				renderInventoryPanel().replace(
+					'data-testid="inventory-consume-consumable"',
+					'data-testid="inventory-consume-unreachable"',
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /inventory-consume-consumable/);
 	} finally {
 		await rm(root, { recursive: true, force: true });
 	}
@@ -147,6 +168,8 @@ async function createFixtureRoot({ fileOverrides = {} } = {}) {
 		"src/app/App.svelte": renderApp(),
 		"src/app/model/navigation.ts": renderNavigation(),
 		"src/features/camp-hour/ui/CampHourPanel.svelte": renderCampPanel(),
+		"src/features/inventory-management/ui/InventoryManagementPanel.svelte":
+			renderInventoryPanel(),
 		"docs/user/character-creation.md": renderCharacterGuide(),
 		"docs/user/camp-training.md": renderCampGuide(),
 		"docs/process/vertical-slice-qa.md": renderQaGuide(),
@@ -164,9 +187,11 @@ async function createFixtureRoot({ fileOverrides = {} } = {}) {
 
 function renderApp() {
 	return `
+inventoryEvents: inventoryEventRecords;
+inventoryEventRecords = [...restoredInventory.data];
 {#if activeView === "characters"}<CharacterCreateForm /><CharacterList />
 {:else if activeView === "compendium"}<CompendiumBrowser />
-{:else if activeView === "inventory"}<InventoryReadOnlyPanel />
+{:else if activeView === "inventory"}<InventoryManagementPanel />
 {:else if activeView === "exploration"}<HexcrawlMapPanel />
 {:else if activeView === "camp"}<CampHourPanel />
 {:else if activeView === "relations"}<SocialRelationsPanel /><SocialEncounterPanel />
@@ -182,13 +207,26 @@ export const APP_NAVIGATION_ITEMS = [
 	{ id: "home", description: "Explore as áreas jogáveis atuais do Pandorha Engine." },
 	{ id: "characters", description: "Crie personagens e gerencie o save local." },
 	{ id: "compendium", description: "Consulte o catálogo curado de regras e lore." },
-	{ id: "inventory", description: "A carga de treino mostra itens e slots em modo somente leitura." },
+	{ id: "inventory", description: "Carregue, consuma e remova itens pertencentes a cada personagem." },
 	{ id: "exploration", description: "O mapa de treino permite mover o grupo entre hexes adjacentes." },
 	{ id: "camp", description: "O descanso ativo permite planejar uma hora de ações do grupo." },
 	{ id: "relations", description: "Facções de treino permitem testar fama, dívida e intriga." },
 	{ id: "magic", description: "A conjuração de treino prepara comandos sem executar efeitos." },
 	{ id: "combat", description: "O encontro de treino permite testar ataque, dano e log." },
 ];
+`;
+}
+
+function renderInventoryPanel() {
+	return `
+<select data-testid="inventory-character-select"></select>
+<button data-testid="inventory-open-characters">Abrir Personagens</button>
+<ul data-testid="inventory-catalog-list"></ul>
+<button data-testid="inventory-add-equipment">Carregar</button>
+<button data-testid="inventory-add-consumable">Carregar 1</button>
+<button data-testid="inventory-increment-consumable">+1</button>
+<button data-testid="inventory-consume-consumable">Consumir 1</button>
+<button data-testid="inventory-remove-entry">Remover</button>
 `;
 }
 
@@ -228,7 +266,8 @@ function renderQaGuide() {
 
 Execute npm.cmd run qa:ui-reachability.
 Mudanças visuais exigem validação renderizada pelo Browser do Codex.
-Inventário, magia, exploração e combate ainda usam dados de treino.
+O inventário editável pertence ao personagem e persiste no save v6.
+Magia, exploração e combate ainda usam dados de treino.
 `;
 }
 
