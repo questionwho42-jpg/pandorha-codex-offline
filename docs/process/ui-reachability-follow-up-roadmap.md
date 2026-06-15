@@ -30,8 +30,8 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 
 | Implementação futura | Evidência e impacto | Dependências e gates | Melhor momento para implementar | Risco arquitetural | Responsável e referência |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Loadout persistente por personagem | A aba persiste ownership e quantidades, mas ainda não persiste quais itens estão equipados. | Contrato de loadout por personagem, ownership aprovado, `EquipmentLoadoutService`, save e migration próprios. | Próxima fase elegível, depois de planejamento e gate próprios; antes de ações de equipar. | Alto: pode duplicar ownership ou estado derivado no save. | `inventory-management`/`equipment`; inbox `20260615-future-inventory-persistent-loadout`. |
-| Equipar e desequipar na UI | Carregar um item não o torna equipamento ativo; a UI ainda não oferece comandos de equipar. | Loadout persistente, comandos tipados, Result e feedback de conflito de mãos/slots. | Imediatamente depois do loadout persistente. | Alto: misturar carregar e equipar cria duas semânticas incompatíveis. | `inventory-management`/`equipment`; inbox `20260615-future-inventory-equip-actions`. |
+| Loadout persistente por personagem | A aba persiste ownership e quantidades, mas ainda não persiste quais itens estão equipados. | Gate aprovado em `docs/process/equipment-loadout-save-v7-gate.md`, ownership aprovado, `EquipmentLoadoutService`, save v7 e migration próprios. | Fase atual contratada antes de ações de equipar. | Alto: pode duplicar ownership ou estado derivado no save. | `inventory-management`/`equipment`; inbox `20260615-future-inventory-persistent-loadout`; tarefa `20260615-201706-persistent-equipment-loadout-save-v7`. |
+| Equipar e desequipar na UI | Carregar um item não o torna equipamento ativo; a UI ainda não oferece comandos de equipar. | Loadout persistente, comandos tipados, Result e feedback de conflito de mãos/slots. | Na mesma entrega econômica do loadout persistente, após o ledger e save v7. | Alto: misturar carregar e equipar cria duas semânticas incompatíveis. | `inventory-management`/`equipment`; inbox `20260615-future-inventory-equip-actions`; tarefa `20260615-201706-persistent-equipment-loadout-save-v7`. |
 | Integração do inventário com combate | Combate usa loadout local de treino e ainda não deriva perfis ativos do loadout persistido. | Loadout persistente, ações de equipar estáveis e migração da sessão de combate para uma fonte de verdade. | Depois de equipar/desequipar; antes de durabilidade em combate. | Muito alto: pode manter duas fontes de verdade para equipamento ativo. | `inventory-management`/`combat-encounter`; inbox `20260615-future-inventory-combat-integration`. |
 | Durabilidade e desgaste | O catálogo e o núcleo T86 conhecem durabilidade, mas o ledger de ownership não registra desgaste. | Loadout persistente, integração com combate, revisão de regras soberanas e ledger próprio. | Depois da integração estável com combate e antes de crafting reparar itens. | Muito alto: afeta combate, crafting, inventário e save. | `inventory-management`/`equipment`/`combat-encounter`; inbox `20260615-future-inventory-durability`. |
 | Cinto de poções | Consumíveis carregados podem ser gerenciados, mas não existe contrato de acesso rápido ou uso em combate. | Regras de slots rápidos, loadout persistente e execução de consumíveis em combate. | Depois da integração de inventário com combate. | Alto: pode inventar limites e economia sem regra aprovada. | `inventory-management`/`combat-encounter`; inbox `20260615-future-inventory-potion-belt`. |
@@ -61,7 +61,9 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 O gate de propriedade do inventario e save v6 foi aprovado em
 `docs/process/inventory-ownership-save-v6-gate.md`. Ledger, persistencia v6 e
 UI editavel foram entregues; qualquer loadout persistente exige fase e contrato
-proprios.
+proprios. O contrato de loadout persistente e save v7 foi aprovado em
+`docs/process/equipment-loadout-save-v7-gate.md` para a tarefa
+`20260615-201706-persistent-equipment-loadout-save-v7`.
 
 Uma futura tarefa só deve começar quando:
 
