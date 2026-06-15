@@ -8,6 +8,32 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## In Progress
 <!-- pandorha-ledger:in-progress -->
+<!-- pandorha-task:20260615-201706-persistent-equipment-loadout-save-v7 -->
+### Persistent equipment loadout save v7
+- id: 20260615-201706-persistent-equipment-loadout-save-v7
+- status: in-progress
+- kind: feature
+- planned: no
+- started_at: 2026-06-15T20:17:06-03:00
+- finished_at: pending
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: pending
+- last_modified_at: 2026-06-15T20:17:06-03:00
+- branch: codex/docs/equipment-loadout-save-v7-gate
+- commit_at_start: b763c4a chore(process): record main inventory merge
+- summary: Approve and implement character-owned persistent equipment loadout with save v7, inventory equip UI, rendered validation, and readiness.
+- last_change: created task record
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T20:17:06-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260615-201706-persistent-equipment-loadout-save-v7 -->
+
 <!-- /pandorha-ledger:in-progress -->
 
 ## Completed
@@ -5208,6 +5234,28 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-15T20:20:25-03:00 - post-commit
+- branch: codex/feat/equipment-loadout-save-v7
+- commit: 7546693 chore(process): record loadout gate commit
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-15T20:19:35-03:00 - post-commit
+- branch: codex/docs/equipment-loadout-save-v7-gate
+- commit: 193042d docs(equipment): approve loadout save v7 gate
+- changed_files_count: 1
+#### Changed Files
+- output/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-15T12:40:07-03:00 - post-commit
 - branch: main
 - commit: 34a6351 chore(process): record inventory merge

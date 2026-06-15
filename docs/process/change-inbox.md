@@ -4,8 +4,24 @@ This file tracks requests, implementations, features, improvements, and other mo
 
 The automation owns the marked sections below. Manual edits should stay outside markers unless intentionally correcting a record.
 
+## Cross-References
+
+- `20260615-201706-persistent-equipment-loadout-save-v7` implements the approved
+  next step for `20260615-future-inventory-persistent-loadout` and
+  `20260615-future-inventory-equip-actions` through
+  `docs/process/equipment-loadout-save-v7-gate.md`.
+
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260615-201706-persistent-equipment-loadout-save-v7 -->
+### Persistent equipment loadout save v7
+- id: 20260615-201706-persistent-equipment-loadout-save-v7
+- status: open
+- created_at: 2026-06-15T20:17:06-03:00
+- source: task-ledger
+- summary: Approve and implement character-owned persistent equipment loadout with save v7, inventory equip UI, rendered validation, and readiness.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260615-201706-persistent-equipment-loadout-save-v7 -->
 <!-- pandorha-inbox:20260615-future-inventory-combat-integration -->
 ### Future inventory combat integration
 - id: 20260615-future-inventory-combat-integration
