@@ -8,11 +8,116 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## In Progress
 <!-- pandorha-ledger:in-progress -->
-
 <!-- /pandorha-ledger:in-progress -->
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260615-114907-inventory-post-delivery-audit -->
+### Inventory post-delivery audit
+- id: 20260615-114907-inventory-post-delivery-audit
+- status: completed
+- kind: review
+- planned: no
+- started_at: 2026-06-15T11:49:07-03:00
+- finished_at: 2026-06-15T12:32:55-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-15T12:32:55-03:00
+- branch: docs/inventory-post-delivery-audit
+- commit_at_start: 413099a chore(process): record editable inventory commit
+- summary: Audit editable inventory delivery for regressions, inaccessible controls, known limitations, and readiness while preserving Browser do Codex rendered acceptance as mandatory.
+- last_change: Auditoria pós-entrega concluída; favicon 404 corrigido, ausências futuras documentadas e gates aprovados.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T11:49:07-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T11:54:39-03:00
+- Done: Auditoria estática pós-entrega concluída; nove abas e ações editáveis alcançáveis; 726 testes, cobertura 100%, build, quality gate, smokes, docs e validadores aprovados; seis fases futuras registradas separadamente.
+- Next: Executar o fluxo completo no Browser do Codex quando a aba expuser handle de página e console, então concluir as tarefas de UI e auditoria antes do merge.
+- Risks: Aceite renderizado, erros de console e roundtrip visual de inventário permanecem não observáveis nesta sessão.
+- Improvements: Expor Browser Plugin conectado à aba in-app.
+- Model/config: GPT-5.5 xhigh
+
+#### Checkpoint 2026-06-15T11:54:39-03:00
+- Done: Auditoria estática e gates executáveis aprovados; auditoria renderizada permanece bloqueada pela ausência do Browser Plugin.
+- Next: Validar inventário e nove abas no Browser do Codex antes de concluir e fazer merge.
+- Risks: Não promover a auditoria como concluída sem console e fluxo renderizado.
+- Improvements: Disponibilizar handle do Browser do Codex.
+- Model/config: GPT-5.5 xhigh
+
+#### Checkpoint 2026-06-15T12:32:55-03:00
+- Done: Auditoria renderizada concluída; único 404 de favicon corrigido com SVG embutido e teste negativo; console final com zero erros e zero warnings; quality gate aprovado.
+- Next: Concluir tarefa e registrar entrega atômica.
+- Risks: Ausências deliberadas permanecem no roadmap futuro.
+- Improvements: Executar nova auditoria após cada futura superfície visível.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T12:32:55-03:00
+- Done: Auditoria pós-entrega concluída; favicon 404 corrigido, ausências futuras documentadas e gates aprovados.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260615-114907-inventory-post-delivery-audit -->
+<!-- pandorha-task:20260615-052210-editable-character-inventory-ui -->
+### Editable character inventory UI
+- id: 20260615-052210-editable-character-inventory-ui
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-15T05:22:10-03:00
+- finished_at: 2026-06-15T12:32:55-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-15T12:32:55-03:00
+- branch: feat/inventory-editable-ui
+- commit_at_start: b59489b merge: persist inventory ledger in save v6
+- summary: Substituir inventory-readonly pela UI editavel, integrar ledger a sessao e save/load e atualizar QA contratual.
+- last_change: Inventário editável por personagem entregue e validado de ponta a ponta com persistência v6 e console limpo.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-15T05:22:10-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T05:39:29-03:00
+- Done: Editable character inventory, save v6 wiring, reachability contracts, documentation, 726 tests, 100% coverage, build and full quality gate completed.
+- Next: Validate the complete inventory flow and nine-tab audit in the Browser do Codex, then complete and merge the phase.
+- Risks: Browser do Codex tab is open but no Browser Plugin handle, page snapshot, click, or console tool is exposed to this agent session; rendered acceptance remains pending.
+- Improvements: Add a stable Browser Plugin connection to Codex sessions without adding Playwright to the repository.
+- Model/config: GPT-5.5 xhigh
+
+#### Checkpoint 2026-06-15T05:39:29-03:00
+- Done: Editable inventory implementation and all executable gates are complete; rendered Browser do Codex acceptance is blocked by missing browser-control tooling.
+- Next: Run the documented Browser do Codex flow, repeat qa:ui-reachability, then complete the maintenance task.
+- Risks: Do not treat static smokes as rendered acceptance.
+- Improvements: Expose the existing in-app browser tab through the Browser Plugin.
+- Model/config: GPT-5.5 xhigh
+
+#### Checkpoint 2026-06-15T12:32:55-03:00
+- Done: Aceite renderizado concluído com Playwright solicitado: nove abas, personagem, inventário editável, múltiplas pilhas, consumo, remoção, sobrecarga, save v6, reload real e restauração aprovados; console final limpo.
+- Next: Concluir tarefa e integrar após gates finais.
+- Risks: Nenhuma regressão pendente; loadout persistente permanece fora do escopo.
+- Improvements: Manter o contrato de favicon e o roteiro renderizado em qa:ui-reachability.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T12:32:55-03:00
+- Done: Inventário editável por personagem entregue e validado de ponta a ponta com persistência v6 e console limpo.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260615-052210-editable-character-inventory-ui -->
 <!-- pandorha-task:20260615-051214-save-load-v6-inventory-ledger -->
 ### Save-load v6 inventory ledger
 - id: 20260615-051214-save-load-v6-inventory-ledger
@@ -4733,45 +4838,6 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Unfinished
 <!-- pandorha-ledger:unfinished -->
-<!-- pandorha-task:20260615-114907-inventory-post-delivery-audit -->
-### Inventory post-delivery audit
-- id: 20260615-114907-inventory-post-delivery-audit
-- status: unfinished
-- kind: review
-- planned: no
-- started_at: 2026-06-15T11:49:07-03:00
-- finished_at: pending
-- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
-- model_finished: pending
-- last_modified_at: 2026-06-15T11:54:39-03:00
-- branch: docs/inventory-post-delivery-audit
-- commit_at_start: 413099a chore(process): record editable inventory commit
-- summary: Audit editable inventory delivery for regressions, inaccessible controls, known limitations, and readiness while preserving Browser do Codex rendered acceptance as mandatory.
-- last_change: Auditoria estática e gates executáveis aprovados; auditoria renderizada permanece bloqueada pela ausência do Browser Plugin.
-#### Files At Start
-- output/
-#### Checkpoints
-#### Checkpoint 2026-06-15T11:49:07-03:00
-- Done: task record created
-- Next: implement the requested change
-- Risks: unknown until implementation begins
-- Improvements: automate repeated manual steps where practical
-- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
-
-#### Checkpoint 2026-06-15T11:54:39-03:00
-- Done: Auditoria estática pós-entrega concluída; nove abas e ações editáveis alcançáveis; 726 testes, cobertura 100%, build, quality gate, smokes, docs e validadores aprovados; seis fases futuras registradas separadamente.
-- Next: Executar o fluxo completo no Browser do Codex quando a aba expuser handle de página e console, então concluir as tarefas de UI e auditoria antes do merge.
-- Risks: Aceite renderizado, erros de console e roundtrip visual de inventário permanecem não observáveis nesta sessão.
-- Improvements: Expor Browser Plugin conectado à aba in-app.
-- Model/config: GPT-5.5 xhigh
-
-#### Checkpoint 2026-06-15T11:54:39-03:00
-- Done: Auditoria estática e gates executáveis aprovados; auditoria renderizada permanece bloqueada pela ausência do Browser Plugin.
-- Next: Validar inventário e nove abas no Browser do Codex antes de concluir e fazer merge.
-- Risks: Não promover a auditoria como concluída sem console e fluxo renderizado.
-- Improvements: Disponibilizar handle do Browser do Codex.
-- Model/config: GPT-5.5 xhigh
-<!-- /pandorha-task:20260615-114907-inventory-post-delivery-audit -->
 <!-- pandorha-task:20260615-future-inventory-combat-integration -->
 ### Future inventory combat integration
 - id: 20260615-future-inventory-combat-integration
@@ -4976,45 +5042,6 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - Improvements: Reutilizar o ledger e o serviço T86.
 - Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
 <!-- /pandorha-task:20260615-future-inventory-persistent-loadout -->
-<!-- pandorha-task:20260615-052210-editable-character-inventory-ui -->
-### Editable character inventory UI
-- id: 20260615-052210-editable-character-inventory-ui
-- status: unfinished
-- kind: feature
-- planned: no
-- started_at: 2026-06-15T05:22:10-03:00
-- finished_at: pending
-- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
-- model_finished: pending
-- last_modified_at: 2026-06-15T05:39:29-03:00
-- branch: feat/inventory-editable-ui
-- commit_at_start: b59489b merge: persist inventory ledger in save v6
-- summary: Substituir inventory-readonly pela UI editavel, integrar ledger a sessao e save/load e atualizar QA contratual.
-- last_change: Editable inventory implementation and all executable gates are complete; rendered Browser do Codex acceptance is blocked by missing browser-control tooling.
-#### Files At Start
-- output/
-#### Checkpoints
-#### Checkpoint 2026-06-15T05:22:10-03:00
-- Done: task record created
-- Next: implement the requested change
-- Risks: unknown until implementation begins
-- Improvements: automate repeated manual steps where practical
-- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
-
-#### Checkpoint 2026-06-15T05:39:29-03:00
-- Done: Editable character inventory, save v6 wiring, reachability contracts, documentation, 726 tests, 100% coverage, build and full quality gate completed.
-- Next: Validate the complete inventory flow and nine-tab audit in the Browser do Codex, then complete and merge the phase.
-- Risks: Browser do Codex tab is open but no Browser Plugin handle, page snapshot, click, or console tool is exposed to this agent session; rendered acceptance remains pending.
-- Improvements: Add a stable Browser Plugin connection to Codex sessions without adding Playwright to the repository.
-- Model/config: GPT-5.5 xhigh
-
-#### Checkpoint 2026-06-15T05:39:29-03:00
-- Done: Editable inventory implementation and all executable gates are complete; rendered Browser do Codex acceptance is blocked by missing browser-control tooling.
-- Next: Run the documented Browser do Codex flow, repeat qa:ui-reachability, then complete the maintenance task.
-- Risks: Do not treat static smokes as rendered acceptance.
-- Improvements: Expose the existing in-app browser tab through the Browser Plugin.
-- Model/config: GPT-5.5 xhigh
-<!-- /pandorha-task:20260615-052210-editable-character-inventory-ui -->
 <!-- pandorha-task:20260606-future-pwa-update-install-ui -->
 ### Future PWA update and install UI
 - id: 20260606-future-pwa-update-install-ui

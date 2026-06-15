@@ -21,6 +21,20 @@ async function runUiReachabilitySmoke(root) {
 
 	await validateFileContains(
 		root,
+		"index.html",
+		['rel="icon"', 'href="/favicon.svg"'],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"public/favicon.svg",
+		["<svg", "#1c1917", "#dab973"],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
 		"src/app/App.svelte",
 		[
 			'activeView === "characters"',

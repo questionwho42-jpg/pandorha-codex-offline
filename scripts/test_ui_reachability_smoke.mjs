@@ -42,6 +42,26 @@ test("ui reachability smoke fails when a required tab is not mounted", async () 
 	}
 });
 
+test("ui reachability smoke fails when the static favicon is removed", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"index.html": renderIndex().replace(
+				'<link rel="icon" href="/favicon.svg" />',
+				"",
+			),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /rel="icon"/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("ui reachability smoke fails when an editable inventory action is unreachable", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -165,6 +185,8 @@ async function createFixtureRoot({ fileOverrides = {} } = {}) {
 		path.join(os.tmpdir(), "pandorha-ui-reachability-"),
 	);
 	const files = {
+		"index.html": renderIndex(),
+		"public/favicon.svg": renderFavicon(),
 		"src/app/App.svelte": renderApp(),
 		"src/app/model/navigation.ts": renderNavigation(),
 		"src/features/camp-hour/ui/CampHourPanel.svelte": renderCampPanel(),
@@ -183,6 +205,27 @@ async function createFixtureRoot({ fileOverrides = {} } = {}) {
 	}
 
 	return root;
+}
+
+function renderFavicon() {
+	return `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+	<rect width="64" height="64" fill="#1c1917" />
+	<path fill="#dab973" />
+</svg>
+`;
+}
+
+function renderIndex() {
+	return `
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<link rel="icon" href="/favicon.svg" />
+		<title>Pandorha Engine</title>
+	</head>
+</html>
+`;
 }
 
 function renderApp() {

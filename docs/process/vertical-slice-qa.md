@@ -70,7 +70,7 @@ Use:
 npm.cmd run qa:ui-reachability
 ```
 
-Esse comando executa `scripts/ui_reachability_smoke.mjs`. Ele protege o alcance das nove abas, as ações editáveis do inventário, a persistência do ledger no save atual, bloqueia placeholders obsoletos e verifica o contrato que preserva o log recém-resolvido do Acampamento antes do eco de estado do componente pai.
+Esse comando executa `scripts/ui_reachability_smoke.mjs`. Ele protege o alcance das nove abas, as ações editáveis do inventário, a persistência do ledger no save atual, o favicon estático sem request 404, bloqueia placeholders obsoletos e verifica o contrato que preserva o log recém-resolvido do Acampamento antes do eco de estado do componente pai.
 
 O smoke é contratual e não substitui a validação renderizada. Mudanças visuais ou de navegação continuam exigindo o Browser do Codex para abrir todas as abas, executar os fluxos afetados e confirmar ausência de erros no console.
 
