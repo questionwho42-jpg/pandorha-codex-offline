@@ -6,6 +6,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260606-inventory-ownership-core -->
+### Character-owned inventory ledger core
+- id: 20260606-inventory-ownership-core
+- status: open
+- created_at: 2026-06-06T06:53:19-03:00
+- source: task-ledger
+- summary: Implementar entidade, repository fake, replay e servico de gerenciamento de inventario por personagem sem UI ou save.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260606-inventory-ownership-core -->
 <!-- pandorha-inbox:20260606-inventory-ownership-save-v6-gate -->
 ### Inventory ownership and save v6 gate
 - id: 20260606-inventory-ownership-save-v6-gate

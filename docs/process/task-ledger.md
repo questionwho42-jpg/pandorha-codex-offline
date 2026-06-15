@@ -13,6 +13,59 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260606-inventory-ownership-core -->
+### Character-owned inventory ledger core
+- id: 20260606-inventory-ownership-core
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-06T06:53:19-03:00
+- finished_at: 2026-06-15T05:09:33-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-15T05:09:33-03:00
+- branch: feat/inventory-ownership-core
+- commit_at_start: 6056566 merge: approve inventory ownership and save v6 gate
+- summary: Implementar entidade, repository fake, replay e servico de gerenciamento de inventario por personagem sem UI ou save.
+- last_change: Nucleo event-sourced de inventario por personagem implementado com replay, repository fake, gerenciamento tipado e cobertura integral.
+#### Files At Start
+- output/
+#### Checkpoints
+#### Checkpoint 2026-06-06T06:53:19-03:00
+- Done: task record created
+- Next: Escrever testes RED para replay e gerenciamento.
+- Risks: Acoplamento FSD, sequencias invalidas e pilhas inconsistentes.
+- Improvements: Manter catalogos imutaveis e capacidade derivada.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-06T07:04:45-03:00
+- Done: Implementados ledger por personagem, replay multi-personagem, fake repository e servico de gerenciamento com pilhas e capacidade; lint, TypeScript, testes focados e validadores passaram.
+- Next: Fechar Fase 3 e iniciar persistencia save v6.
+- Risks: test:coverage e build estao intermitentemente bloqueados pelo sandbox/esbuild ao resolver configs na raiz.
+- Improvements: Reexecutar cobertura e build no gate final quando a politica permitir.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-06T07:05:28-03:00
+- Done: Implementados entidade event-sourced por personagem, replay multi-personagem, fake repository e servico de gerenciamento com pilhas, consumo, remocao e capacidade derivada.
+- Next: Implementar save v6 limitado a inventoryEvents.
+- Risks: Cobertura e build devem ser repetidos quando o sandbox/esbuild permitir resolver configs na raiz.
+- Improvements: Manter loadout e durabilidade fora do proximo snapshot.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-06T07:06:15-03:00
+- Done: Nucleo de inventario implementado e validado, mas fechamento bloqueado porque o ambiente recusou escrita em .git para stage/commit e a camada elevada atingiu limite externo de uso.
+- Next: Quando escrita Git estiver disponivel, executar coverage/build, stage explicito, commit feat(inventory): add character-owned inventory ledger, merge e iniciar save v6 em nova branch.
+- Risks: Mudancas da Fase 3 permanecem locais e nao commitadas; nao iniciar save v6 na mesma branch.
+- Improvements: Reexecutar gates bloqueados e retomar exatamente do stage explicito.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-15T05:09:33-03:00
+- Done: Nucleo event-sourced de inventario por personagem implementado com replay, repository fake, gerenciamento tipado e cobertura integral.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260606-inventory-ownership-core -->
 <!-- pandorha-task:20260606-inventory-ownership-save-v6-gate -->
 ### Inventory ownership and save v6 gate
 - id: 20260606-inventory-ownership-save-v6-gate
@@ -4807,6 +4860,214 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-12T23:13:36-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-12T23:10:36-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-12T23:10:18-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-12T23:09:51-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-12T23:09:37-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-12T23:09:29-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-12T23:09:21-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-12T23:09:13-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-12T23:09:05-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-12T23:08:57-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-11T14:59:16-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-10T12:37:24-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-10T12:36:40-03:00 - post-commit
+- branch: feat/inventory-ownership-core
+- commit: 6056566 merge: approve inventory ownership and save v6 gate
+- changed_files_count: 6
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- vitest.config.mjs
+- output/
+- src/entities/inventory/
+- src/features/inventory-management/
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-06T06:50:08-03:00 - post-commit
 - branch: task/inventory-ownership-save-v6-gate
 - commit: 8ed8772 docs(inventory): approve ownership and save v6 gate
