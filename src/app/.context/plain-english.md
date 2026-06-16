@@ -53,3 +53,9 @@ As descricoes da navegacao agora falam sobre o que ja esta disponivel no navegad
 O Inventario agora pertence ao personagem selecionado. O usuario pode carregar,
 equipar, desequipar, consumir e remover itens, salvar a sessao e recuperar o
 mesmo inventario e o equipamento ativo depois de recarregar a pagina.
+
+O Combate agora olha para esse equipamento ativo do Inventario. Se o personagem
+equipou uma espada, escudo e armadura no Inventario, a aba Combate usa esses
+itens para mostrar arma ativa, dano de treino e defesa equipada. Se nao houver
+arma equipada, a tela manda o usuario abrir o Inventario em vez de escolher uma
+arma local no proprio combate.

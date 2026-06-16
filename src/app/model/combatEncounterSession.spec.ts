@@ -66,7 +66,7 @@ describe("createCombatEncounterSession", () => {
 		expect(input.damage.extraModifierTotal).toBe(3);
 	});
 
-	it("builds the default weapon loadout for session-character combat", async () => {
+	it("builds an explicit persisted weapon loadout for session-character combat", async () => {
 		const session = createCombatEncounterSession();
 		const attacker = createCombatAttackerOptions([
 			createCharacterRecord({ physical: 3 }),
@@ -77,26 +77,10 @@ describe("createCombatEncounterSession", () => {
 			return;
 		}
 
-		expect(session.defaultWeaponId).toBe("longsword");
-		expect(session.defaultArmorId).toBe("leather-armor");
-		expect(session.defaultShieldId).toBe("round-shield");
-		expect(session.equipmentWeapons.map((weapon) => weapon.id)).toEqual([
-			"longsword",
-			"dagger",
-			"longbow",
-		]);
-		expect(session.equipmentArmors.map((armor) => armor.id)).toEqual([
-			"leather-armor",
-			"plate-armor",
-		]);
-		expect(session.equipmentShields.map((shield) => shield.id)).toEqual([
-			"round-shield",
-		]);
-
 		const loadout = await session.buildEquipmentLoadout({
-			armorId: session.defaultArmorId,
-			mainHandWeaponId: session.defaultWeaponId,
-			offHandShieldId: session.defaultShieldId,
+			armorId: "leather-armor",
+			mainHandWeaponId: "longsword",
+			offHandShieldId: "round-shield",
 		});
 
 		expect(loadout.success).toBe(true);
@@ -183,7 +167,7 @@ describe("createCombatEncounterSession", () => {
 		}
 
 		const loadout = await session.buildEquipmentLoadout({
-			mainHandWeaponId: session.defaultWeaponId,
+			mainHandWeaponId: "longsword",
 		});
 
 		expect(loadout.success).toBe(true);
@@ -236,9 +220,9 @@ describe("createCombatEncounterSession", () => {
 		}
 
 		const loadout = await session.buildEquipmentLoadout({
-			armorId: session.defaultArmorId,
-			mainHandWeaponId: session.defaultWeaponId,
-			offHandShieldId: session.defaultShieldId,
+			armorId: "leather-armor",
+			mainHandWeaponId: "longsword",
+			offHandShieldId: "round-shield",
 		});
 
 		expect(loadout.success).toBe(true);

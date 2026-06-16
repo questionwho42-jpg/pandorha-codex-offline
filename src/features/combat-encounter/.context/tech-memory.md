@@ -174,6 +174,14 @@
 - The rendered block is separate from `HP de treino`, uses `combatRealDamagePreviewView.ts` copy, and remains hidden for Aria.
 - T104 still does not save HP, mutate character records, create save v6, Worker/SQLite persistence, Moribundo, Inconsciente, concentration, DoT, durability, or official monsters.
 
+## 2026-06-16 - Persistent Inventory Loadout In Combat
+
+- `CombatEncounterPanel.svelte` no longer owns local weapon, armor, or shield selectors for session characters.
+- The panel receives a `CombatPersistentLoadoutResolver` prop and renders the persisted `mainHand`, `offHand`, and `armor` snapshot with `combat-persistent-loadout` test ids.
+- The resolver type lives in `combat-encounter`, but the app boundary implements it so this feature does not import sibling `inventory-management`.
+- Missing weapons now block attack and expose `Abrir Inventario`; changing equipment happens in the Inventory tab.
+- This step does not add save v8, durability, consumable use, real HP persistence, official monsters, or docs/system promotion.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

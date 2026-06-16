@@ -15,6 +15,7 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 - A auditoria estática do inventário confirmou seletor de personagem, catálogo, carregar equipamento, equipar/desequipar arma, escudo e armadura, bloquear remoção equipada, carregar/incrementar/consumir consumível, remover item, estado vazio e ação para abrir Personagens.
 - A auditoria renderizada foi concluída em 2026-06-15 com o Playwright solicitado pelo usuário: as nove abas abriram, o inventário editável executou carregar, incrementar, consumir, remover e sobrecarga, e o roundtrip de save v6 restaurou personagem, inventário, Acampamento e negociação social.
 - A auditoria renderizada foi repetida em 2026-06-16 com o Browser do Codex/Playwright usando Chrome local: as nove abas abriram sem erros de console, o inventário executou carregar, equipar arma/escudo/armadura, substituir arma, bloquear remoção equipada, desequipar, remover, criar duas pilhas de consumível, consumir e confirmar sobrecarga `Imobilizado`; o roundtrip de save v7 restaurou personagem, inventário com loadout, Acampamento e negociação social.
+- A entrega de integração de combate com loadout persistido removeu os seletores locais de arma/escudo/armadura da aba `Combate`; personagens da sessão agora derivam arma ativa e defesa equipada do ledger de inventário/loadout.
 - A auditoria encontrou um único erro de console: o request implícito de `favicon.ico` retornava 404. O favicon passou a ser declarado em `index.html` e servido por `public/favicon.svg`; uma sessão limpa confirmou zero erros e zero warnings ao abrir as nove abas.
 
 ## Classificação Pós-Correção
@@ -24,14 +25,13 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 | Regressão bloqueadora | Nenhuma encontrada após os gates e a auditoria renderizada. |
 | Regressão não bloqueadora | Request 404 de `favicon.ico`, corrigido com favicon SVG estático e protegido por `qa:ui-reachability`. |
 | Validação renderizada | Concluída em 2026-06-16 para save v7/loadout: nove abas, console limpo, inventário editável, loadout persistido, Acampamento e negociação restaurados. |
-| Limitações deliberadas | Combate ainda não consome loadout persistido, magia sem execução, compêndio curado, Acampamento de uma hora, relações Tier 1 e combate sem HP real persistido. |
+| Limitações deliberadas | Combate ainda usa alvos de treino, HP de treino local e não persiste dano real; magia sem execução, compêndio curado, Acampamento de uma hora e relações Tier 1 permanecem limites deliberados. |
 | Internos sem necessidade de UI própria | `ActionQueueService`, `DiceService`, `ResolutionService`, repositories e serviços puros consumidos indiretamente pelas telas. |
 
 ## Futuras Implementações Recomendadas
 
 | Implementação futura | Evidência e impacto | Dependências e gates | Melhor momento para implementar | Risco arquitetural | Responsável e referência |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Integração do inventário com combate | Combate usa loadout local de treino e ainda não deriva perfis ativos do loadout persistido. | Loadout persistente, ações de equipar estáveis e gate `docs/process/combat-persistent-loadout-gate.md`. | Próxima entrega aprovada; antes de durabilidade em combate. | Muito alto: pode manter duas fontes de verdade para equipamento ativo. | `inventory-management`/`combat-encounter`; inbox `20260615-future-inventory-combat-integration`. |
 | Durabilidade e desgaste | O catálogo e o núcleo T86 conhecem durabilidade, mas o ledger de ownership não registra desgaste. | Loadout persistente, integração com combate, revisão de regras soberanas e ledger próprio. | Depois da integração estável com combate e antes de crafting reparar itens. | Muito alto: afeta combate, crafting, inventário e save. | `inventory-management`/`equipment`/`combat-encounter`; inbox `20260615-future-inventory-durability`. |
 | Cinto de poções | Consumíveis carregados podem ser gerenciados, mas não existe contrato de acesso rápido ou uso em combate. | Regras de slots rápidos, loadout persistente e execução de consumíveis em combate. | Depois da integração de inventário com combate. | Alto: pode inventar limites e economia sem regra aprovada. | `inventory-management`/`combat-encounter`; inbox `20260615-future-inventory-potion-belt`. |
 | Equipamento inicial | Personagens começam sem eventos de inventário; classe e antecedente ainda não concedem kits. | Contrato completo de ficha, classes, antecedentes, catálogos e concessão determinística por ledger. | Junto da próxima evolução aprovada da criação de personagem. | Alto: pode duplicar itens ou inferir kits não oficiais. | `character-create`/`inventory-management`; inbox `20260615-future-inventory-starting-equipment`. |
@@ -46,7 +46,7 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 
 ## Ordem Recomendada
 
-1. Integrar o loadout persistido ao combate antes de durabilidade ou cinto de poções.
+1. Tratar durabilidade e cinto de poções somente depois de a integração de loadout persistido com combate permanecer estável nos gates e no Browser do Codex.
 2. Entregar equipamento inicial somente junto ao contrato completo de ficha.
 3. Persistir traços somente junto ao contrato completo de ficha e migration.
 4. Ampliar Compêndio após pipeline de ingestão, pois ele reduz dependência de consulta manual às regras.
@@ -63,8 +63,9 @@ UI editavel foram entregues. O contrato de loadout persistente e save v7 foi apr
 `20260615-201706-persistent-equipment-loadout-save-v7`; ele cobre apenas
 `equipmentLoadoutEvents`, equipar/desequipar e roundtrip de loadout. O contrato
 de integração do combate com esse loadout foi aprovado em
-`docs/process/combat-persistent-loadout-gate.md`; durabilidade, quick slots e
-efeitos de item continuam exigindo fases próprias.
+`docs/process/combat-persistent-loadout-gate.md` e implementado na entrega de
+combate com loadout persistido; durabilidade, quick slots e efeitos de item
+continuam exigindo fases próprias.
 
 Uma futura tarefa só deve começar quando:
 

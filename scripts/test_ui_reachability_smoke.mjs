@@ -83,6 +83,27 @@ test("ui reachability smoke fails when an editable inventory action is unreachab
 	}
 });
 
+test("ui reachability smoke fails when combat cannot open inventory for loadout", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
+				renderCombatPanel().replace(
+					'data-testid="combat-open-inventory-button"',
+					'data-testid="combat-open-inventory-missing"',
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /combat-open-inventory-button/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("ui reachability smoke fails when navigation returns to future placeholders", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -190,6 +211,8 @@ async function createFixtureRoot({ fileOverrides = {} } = {}) {
 		"src/app/App.svelte": renderApp(),
 		"src/app/model/navigation.ts": renderNavigation(),
 		"src/features/camp-hour/ui/CampHourPanel.svelte": renderCampPanel(),
+		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
+			renderCombatPanel(),
 		"src/features/inventory-management/ui/InventoryManagementPanel.svelte":
 			renderInventoryPanel(),
 		"docs/user/character-creation.md": renderCharacterGuide(),
@@ -236,6 +259,9 @@ inventoryEventRecords = [...restoredInventory.data];
 equipmentLoadoutEventRecords = [...restoredLoadout.data];
 equipmentLoadoutEvents={equipmentLoadoutEventRecords};
 onLoadoutEventsChange;
+createCombatPersistentLoadoutResolver;
+resolvePersistentLoadout={resolveCombatPersistentLoadout};
+onOpenInventory;
 {#if activeView === "characters"}<CharacterCreateForm /><CharacterList />
 {:else if activeView === "compendium"}<CompendiumBrowser />
 {:else if activeView === "inventory"}<InventoryManagementPanel />
@@ -261,6 +287,18 @@ export const APP_NAVIGATION_ITEMS = [
 	{ id: "magic", description: "A conjuração de treino prepara comandos sem executar efeitos." },
 	{ id: "combat", description: "O encontro de treino permite testar ataque, dano e log." },
 ];
+`;
+}
+
+function renderCombatPanel() {
+	return `
+export let resolvePersistentLoadout = () => undefined;
+<section data-testid="combat-persistent-loadout">
+	<p data-testid="combat-persistent-loadout-weapon">Arma equipada: Espada Longa.</p>
+	<p data-testid="combat-persistent-loadout-shield">Escudo equipado: Escudo Redondo.</p>
+	<p data-testid="combat-persistent-loadout-armor">Armadura equipada: Armadura de Couro.</p>
+	<button data-testid="combat-open-inventory-button">Abrir Inventario</button>
+</section>
 `;
 }
 
@@ -317,7 +355,7 @@ function renderQaGuide() {
 Execute npm.cmd run qa:ui-reachability.
 Mudanças visuais exigem validação renderizada pelo Browser do Codex.
  O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura, bloqueia remoção de item equipado e persiste inventário + loadout no save v7.
-Magia, exploração e combate ainda usam dados de treino.
+Magia e exploração ainda usam dados de treino; combate ainda usa alvos de treino e HP de treino local.
 `;
 }
 

@@ -162,4 +162,11 @@
 
 - `App.svelte` now owns `equipmentLoadoutEventRecords` beside `inventoryEventRecords`.
 - Save sends `equipmentLoadoutEvents` in v7 and load restores them through `inventorySession.restoreLoadoutEvents` before exposing the loaded state.
-- The app still does not connect persisted loadout to combat; the combat tab keeps its training selectors until a separate integration gate.
+- The initial v7 delivery kept combat integration behind a separate gate; the later integration records below supersede the old local-selector behavior.
+
+## 2026-06-16 - Combat Persistent Loadout Integration
+
+- `createCombatPersistentLoadoutResolver` lives in `src/app/model` because it composes `InventoryManagementService` with the combat session `buildEquipmentLoadout` bridge.
+- `App.svelte` passes `resolvePersistentLoadout` and `onOpenInventory` into `CombatEncounterPanel`; the combat feature does not import `inventory-management`.
+- The resolver maps inventory and equipment failures into combat-specific typed failures so UI copy stays local to the combat panel.
+- No save version, Worker RPC, migration, durability, consumable use, or real HP persistence was introduced.

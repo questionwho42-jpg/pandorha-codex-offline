@@ -39,6 +39,12 @@ export {
 	createCombatEncounterView,
 } from "./model/combatEncounterView";
 export type {
+	CombatPersistentLoadoutFailure,
+	CombatPersistentLoadoutFailureCode,
+	CombatPersistentLoadoutInput,
+	CombatPersistentLoadoutResolver,
+} from "./model/combatPersistentLoadout";
+export type {
 	CombatRealDamageActorRef,
 	CombatRealDamageEventFailure,
 	CombatRealDamageEventFailureCode,

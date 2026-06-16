@@ -14,7 +14,7 @@
 - T22G lets session characters influence training damage through Matriz Fisica without adding real equipment.
 - T22H logs the target's passive turn explicitly, still without enemy AI.
 - T22I shows a clear defeated state and keeps reset as the only available follow-up action.
-- Editable inventory now owns carried-item mutations per character and save v7 owns equipped loadout events; keep combat integration, equipment effects, durability, crafting, and potion-belt enforcement behind separate contracts.
+- Editable inventory now owns carried-item mutations per character and save v7 owns equipped loadout events; combat consumes that persisted loadout through an app-level resolver, while equipment effects, durability, crafting, consumable use in combat, and potion-belt enforcement remain behind separate contracts.
 - T28 adds a minimal Magia tab; future magic UI should connect session caster resources and real targets only after EE, targeting, and spell execution services exist.
 - T31 adds a minimal Exploracao tab; future exploration work should add world-state persistence before promising saved discovery or mapped routes.
 - T33D adds explicit local save/load controls in the `Personagens` tab; future persistence work should add multiple slots, autosave, and user-facing WorldState views only after their dedicated services are defined.

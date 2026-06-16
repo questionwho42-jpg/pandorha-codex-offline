@@ -61,8 +61,37 @@ async function runUiReachabilitySmoke(root) {
 			"SpellCastPanel",
 			'activeView === "combat"',
 			"CombatEncounterPanel",
+			"createCombatPersistentLoadoutResolver",
+			"resolvePersistentLoadout={resolveCombatPersistentLoadout}",
+			"onOpenInventory",
 			"activeItem.description",
 		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte",
+		[
+			'data-testid="combat-persistent-loadout"',
+			'data-testid="combat-persistent-loadout-weapon"',
+			'data-testid="combat-persistent-loadout-shield"',
+			'data-testid="combat-persistent-loadout-armor"',
+			'data-testid="combat-open-inventory-button"',
+			"resolvePersistentLoadout",
+		],
+		errors,
+	);
+
+	await validateFileDoesNotContain(
+		root,
+		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte",
+		[
+			'data-testid="combat-weapon-select"',
+			'data-testid="combat-armor-select"',
+			'data-testid="combat-shield-select"',
+		],
+		"seletor local de loadout de combate",
 		errors,
 	);
 
@@ -136,7 +165,7 @@ async function runUiReachabilitySmoke(root) {
 		[
 			"O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura",
 			"persiste inventário + loadout no save v7",
-			"Magia, exploração e combate ainda usam dados de treino.",
+			"combate ainda usa alvos de treino e HP de treino local",
 		],
 		errors,
 	);

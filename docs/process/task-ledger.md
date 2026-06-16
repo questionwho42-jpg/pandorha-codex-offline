@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260616-175040-combat-persistent-loadout-integration -->
+### Combat persistent loadout integration
+- id: 20260616-175040-combat-persistent-loadout-integration
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-16T17:50:40-03:00
+- finished_at: 2026-06-16T19:33:09-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 xhigh
+- last_modified_at: 2026-06-16T19:33:09-03:00
+- branch: codex/feat/combat-persistent-loadout
+- commit_at_start: d3d2e40 chore(process): record combat loadout gate merge
+- summary: Implement the Combat tab consuming persisted inventory loadout, with app boundary resolver, UI update, smokes, rendered validation, and readiness.
+- last_change: Combat now consumes the persisted inventory loadout through an app-boundary resolver; local weapon/armor/shield selectors were removed, reachability/vertical smokes were updated, docs and triple memories were refreshed, full gates passed, and Browser/Playwright validation restored the loadout after save/reload without console errors.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-16T17:50:40-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-16T19:33:01-03:00
+- Done: Implemented app-level combat persistent loadout resolver, removed local Combat equipment selectors, updated UI/docs/smokes/context memories, and validated rendered flow with Playwright on 127.0.0.1:5174.
+- Next: Complete task, commit atomically, merge to main, run readiness.
+- Risks: Vite/Vitest build and coverage require escalated execution outside sandbox because esbuild cannot read config files in the managed sandbox.
+- Improvements: Future combat phases should keep durability, potion belt, consumable use, and real HP persistence behind separate gates.
+- Model/config: gpt-5.5 xhigh
+
+#### Checkpoint 2026-06-16T19:33:09-03:00
+- Done: Combat now consumes the persisted inventory loadout through an app-boundary resolver; local weapon/armor/shield selectors were removed, reachability/vertical smokes were updated, docs and triple memories were refreshed, full gates passed, and Browser/Playwright validation restored the loadout after save/reload without console errors.
+- Next: Commit this branch, merge into main, run post-merge automation and qa:next-phase-readiness.
+- Risks: No new save version or RPG rule was introduced; durability, potion belt, consumable use in combat, and real HP persistence remain separate future gates.
+- Improvements: Consider a reusable rendered browser script only if this exact inventory-to-combat roundtrip repeats across several future combat phases.
+- Model/config: gpt-5.5 xhigh
+<!-- /pandorha-task:20260616-175040-combat-persistent-loadout-integration -->
 <!-- pandorha-task:20260616-172607-combat-persistent-loadout-gate -->
 ### Combat persistent loadout gate
 - id: 20260616-172607-combat-persistent-loadout-gate

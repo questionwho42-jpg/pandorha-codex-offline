@@ -12,6 +12,6 @@ Abra `http://127.0.0.1:5173/`, entre em `Inventario` e selecione um personagem c
 
 ## Limites Atuais
 
-- Equipar muda apenas o loadout persistido do inventario; o combate ainda usa seletores locais de treino.
-- Durabilidade, loadout de combate, cinto de pocoes, equipamento inicial e HP real persistido continuam fora desta entrega.
+- Equipar muda o loadout persistido do inventario; a aba `Combate` ja usa esse loadout para arma, escudo e armadura de treino.
+- Durabilidade, cinto de pocoes, equipamento inicial, consumo de itens em combate e HP real persistido continuam fora desta entrega.
 - O save usa um unico slot local `primary`.

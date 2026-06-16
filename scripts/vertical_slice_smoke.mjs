@@ -67,13 +67,12 @@ async function runVerticalSliceSmoke(root) {
 			"inventoryEventRecords = [...restoredInventory.data]",
 			"equipmentLoadoutEventRecords = [...restoredLoadout.data]",
 			"CompendiumBrowser",
-			"buildEquipmentLoadout={combatEncounterSession.buildEquipmentLoadout}",
-			"defaultWeaponId={combatEncounterSession.defaultWeaponId}",
-			"defaultArmorId={combatEncounterSession.defaultArmorId}",
-			"defaultShieldId={combatEncounterSession.defaultShieldId}",
-			"equipmentWeapons={combatEncounterSession.equipmentWeapons}",
-			"equipmentArmors={combatEncounterSession.equipmentArmors}",
-			"equipmentShields={combatEncounterSession.equipmentShields}",
+			"createCombatPersistentLoadoutResolver",
+			"resolveCombatPersistentLoadout",
+			"buildEquipmentLoadout: combatEncounterSession.buildEquipmentLoadout",
+			"inventoryService: inventorySession.service",
+			"resolvePersistentLoadout={resolveCombatPersistentLoadout}",
+			"onOpenInventory",
 			"resolveTrainingEnemyAttack",
 			"trainingEnemyAttackService.resolveTrainingEnemyAttack",
 			'data-testid="pwa-status"',
@@ -86,16 +85,7 @@ async function runVerticalSliceSmoke(root) {
 		"src/app/model/combatEncounterSession.ts",
 		[
 			"EquipmentLoadoutService",
-			'const DEFAULT_COMBAT_WEAPON_ID = "longsword"',
-			'const DEFAULT_COMBAT_ARMOR_ID = "leather-armor"',
-			'const DEFAULT_COMBAT_SHIELD_ID = "round-shield"',
 			"buildEquipmentLoadout",
-			"defaultWeaponId",
-			"defaultArmorId",
-			"defaultShieldId",
-			"equipmentWeapons",
-			"equipmentArmors",
-			"equipmentShields",
 			"CombatTrainingEnemyAttackService",
 			"trainingEnemyAttackService",
 		],
@@ -104,9 +94,24 @@ async function runVerticalSliceSmoke(root) {
 
 	await validateFileContains(
 		root,
+		"src/app/model/combatPersistentLoadoutResolver.ts",
+		[
+			"InventoryManagementService",
+			"toEquipmentLoadoutInput",
+			"inventory.loadout.mainHand?.catalogItemId",
+			"COMBAT_LOADOUT_INVENTORY_UNAVAILABLE",
+			"COMBAT_LOADOUT_EQUIPMENT_INVALID",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
 		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte",
 		[
-			"buildEquipmentLoadout",
+			"resolvePersistentLoadout",
+			"refreshPersistentLoadout",
+			"CombatPersistentLoadoutFailure",
 			"activeWeaponProfile",
 			"activeDefenseProfile",
 			"createCombatTrainingEnemyDefenseProfile",
@@ -114,19 +119,35 @@ async function runVerticalSliceSmoke(root) {
 			"createCombatTrainingDefenderHitPointsView",
 			"applyCombatTrainingDefenderDamage",
 			"resolveTrainingEnemyAttack",
-			'data-testid="combat-weapon-select"',
-			'data-testid="combat-armor-select"',
-			'data-testid="combat-shield-select"',
+			'data-testid="combat-persistent-loadout"',
+			'data-testid="combat-persistent-loadout-weapon"',
+			'data-testid="combat-persistent-loadout-shield"',
+			'data-testid="combat-persistent-loadout-armor"',
+			'data-testid="combat-open-inventory-button"',
 			'data-testid="combat-equipped-weapon-helper"',
 			'data-testid="combat-equipped-defense-profile"',
 			'data-testid="combat-training-enemy-defense-summary"',
 			'data-testid="combat-training-defender-hp"',
 			'data-testid="combat-training-defender-terminal"',
+			"Loadout do Inventário",
+			"Equipe uma arma no Invent\\u00e1rio antes de atacar.",
 			"Aria usa perfil fixo de treino.",
 			"HP de treino",
 			"Arma ativa:",
 			"Defesa equipada",
 		],
+		errors,
+	);
+
+	await validateFileDoesNotContain(
+		root,
+		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte",
+		[
+			'data-testid="combat-weapon-select"',
+			'data-testid="combat-armor-select"',
+			'data-testid="combat-shield-select"',
+		],
+		"seletor local de loadout de combate",
 		errors,
 	);
 
@@ -372,6 +393,26 @@ async function validateFileContainsAny(root, relativePath, snippets, errors) {
 
 	if (!snippets.some((snippet) => contentResult.content.includes(snippet))) {
 		errors.push(`${relativePath} is missing one of: ${snippets.join(" | ")}`);
+	}
+}
+
+async function validateFileDoesNotContain(
+	root,
+	relativePath,
+	forbiddenSnippets,
+	label,
+	errors,
+) {
+	const contentResult = await readText(path.join(root, relativePath));
+	if (!contentResult.success) {
+		errors.push(contentResult.error);
+		return;
+	}
+
+	for (const snippet of forbiddenSnippets) {
+		if (contentResult.content.includes(snippet)) {
+			errors.push(`${relativePath} contains ${label}: ${snippet}`);
+		}
 	}
 }
 

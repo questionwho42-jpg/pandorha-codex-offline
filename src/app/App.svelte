@@ -53,6 +53,7 @@ import { SpellCastPanel } from "$lib/features/spell-cast";
 import { createCampSession } from "./model/campSession";
 import { createCharacterSession } from "./model/characterSession";
 import { createCombatEncounterSession } from "./model/combatEncounterSession";
+import { createCombatPersistentLoadoutResolver } from "./model/combatPersistentLoadoutResolver";
 import { createCompendiumSession } from "./model/compendiumSession";
 import { createHexcrawlSession } from "./model/hexcrawlSession";
 import { createInventorySession } from "./model/inventorySession";
@@ -73,7 +74,6 @@ import { createSpellCastSession } from "./model/spellCastSession";
 const characterSession = createCharacterSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const campSession = createCampSession();
-// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const combatEncounterSession = createCombatEncounterSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const compendiumSession = createCompendiumSession();
@@ -85,6 +85,11 @@ const spellCastSession = createSpellCastSession();
 const saveLoadSession = createSaveLoadSession();
 const socialEncounterSession = createSocialEncounterSession();
 const socialRelationsSession = createSocialRelationsSession();
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const resolveCombatPersistentLoadout = createCombatPersistentLoadoutResolver({
+	buildEquipmentLoadout: combatEncounterSession.buildEquipmentLoadout,
+	inventoryService: inventorySession.service,
+});
 
 let activeView = $state<AppNavigationId>("home");
 let campAssignmentRecords = $state<CampAssignmentRecord[]>([]);
@@ -486,17 +491,14 @@ onMount(() => {
 			{:else if activeView === "combat"}
 				<CombatEncounterPanel
 					attacker={combatEncounterSession.attacker}
-					buildEquipmentLoadout={combatEncounterSession.buildEquipmentLoadout}
 					characterClasses={characterSession.characterClasses}
 					characters={characterRecords}
 					createAttackInput={combatEncounterSession.createAttackInput}
-					defaultArmorId={combatEncounterSession.defaultArmorId}
-					defaultShieldId={combatEncounterSession.defaultShieldId}
-					defaultWeaponId={combatEncounterSession.defaultWeaponId}
-					equipmentArmors={combatEncounterSession.equipmentArmors}
-					equipmentShields={combatEncounterSession.equipmentShields}
-					equipmentWeapons={combatEncounterSession.equipmentWeapons}
 					initialTarget={combatEncounterSession.initialTarget}
+					onOpenInventory={() => {
+						activeView = "inventory";
+					}}
+					resolvePersistentLoadout={resolveCombatPersistentLoadout}
 					resolveAttack={(input) =>
 						combatEncounterSession.service.resolveAttack(input)}
 					resolveTrainingEnemyAttack={(input) =>

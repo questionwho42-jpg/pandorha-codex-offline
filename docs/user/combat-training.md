@@ -1,6 +1,6 @@
 # Guia De Usuario: Combate De Treino
 
-Este guia mostra como testar a vertical slice de combate no navegador. O objetivo e validar um combate de treino simples, deterministico e sem persistencia.
+Este guia mostra como testar a vertical slice de combate no navegador. O objetivo e validar um combate de treino simples, deterministico, usando o loadout persistido do personagem no `Inventario`.
 
 ## O Que Ja Funciona
 
@@ -8,13 +8,13 @@ Este guia mostra como testar a vertical slice de combate no navegador. O objetiv
 - A aba `Combate` permite escolher um atacante e um alvo de treino.
 - `Aria` sempre aparece como atacante de treino.
 - Personagens criados na sessao atual aparecem como atacantes adicionais.
-- Personagens da sessao usam o seletor `Arma equipada`; a arma padrao e `Espada Longa`.
-- Personagens da sessao tambem usam `Armadura equipada` e `Escudo equipado`; os padroes sao `Armadura de Couro` e `Escudo Redondo`.
-- A ficha do atacante mostra `Defesa equipada` com o bonus de CA local, por exemplo `CA equipada +3`.
+- Personagens da sessao usam o bloco `Loadout do Inventario`, derivado da arma, escudo e armadura equipados na aba `Inventario`.
+- Sem arma equipada, `Atacar` fica indisponivel e a tela oferece `Abrir Inventario`.
+- Quando o personagem equipa `Espada Longa`, `Armadura de Couro` e `Escudo Redondo` no inventario, o combate mostra `Arma ativa: Espada Longa (1d8)` e `Defesa equipada` com `CA equipada +3`.
 - Personagens da sessao tambem mostram `HP de treino`, um medidor local que usa o HP maximo derivado da ficha.
-- `Aria usa perfil fixo de treino`, mesmo quando o seletor mostra uma arma da sessao.
+- `Aria usa perfil fixo de treino` e nao depende do inventario.
 - A tela mostra `Rodada`, `Turno de ...` e `Acoes 3/3`.
-- `Atacar` gasta 1 acao e registra resultado, rolagem de dado da arma quando houver, dano, HP restante e log.
+- `Atacar` gasta 1 acao e registra resultado, rolagem de dado da arma equipada quando houver, dano, HP restante e log.
 - Alvos de treino podem aplicar RD e afinidades defensivas ja suportadas pelo pipeline de dano.
 - Quando Aria e a atacante, o turno do alvo de treino continua passivo e registra que ele manteve posicao.
 - Quando um personagem da sessao e o atacante, encerrar o turno do alvo resolve um ataque de treino contra a CA equipada do personagem, calcula dano de treino e reduz apenas o `HP de treino`.
@@ -22,15 +22,12 @@ Este guia mostra como testar a vertical slice de combate no navegador. O objetiv
 - Quando o `HP de treino` chega a 0, a tela mostra `Teste recebido encerrado`; para testar outro dano recebido, use `Reiniciar encontro`.
 - Quando o alvo chega a 0 HP, a tela mostra `Alvo derrotado`, bloqueia novos ataques e mantem `Reiniciar encontro` disponivel.
 
-## Proxima Mudanca Aprovada
+## Loadout Persistido
 
-O gate `docs/process/combat-persistent-loadout-gate.md` aprova a proxima
-entrega: personagens da sessao devem deixar de usar seletores locais de
-equipamento no combate e passar a consumir a arma, o escudo e a armadura
-equipados no `Inventario`.
-
-Enquanto essa entrega nao for implementada, os seletores locais abaixo ainda
-descrevem o comportamento vigente da tela de treino.
+O gate `docs/process/combat-persistent-loadout-gate.md` foi implementado nesta
+superficie: personagens da sessao nao usam mais seletores locais de equipamento
+no combate. Para mudar arma, escudo ou armadura, altere o loadout na aba
+`Inventario` e volte para `Combate`.
 
 ## Teste Rapido Com Aria
 
@@ -68,29 +65,28 @@ Crie um personagem antes de entrar no combate:
 
 Depois:
 
-1. Clique em `Combate`.
-2. No seletor `Atacante`, escolha `Nara`.
-3. Confirme que a ficha resumida mostra HP maximo, Iniciativa e Carga.
-4. Confirme que `Arma equipada` mostra `Espada Longa`.
-5. Confirme que `Armadura equipada` mostra `Armadura de Couro` e `Escudo equipado` mostra `Escudo Redondo`.
-6. Confirme que o helper mostra `Arma ativa: Espada Longa (1d8)`.
-7. Confirme que `Defesa equipada` mostra `CA equipada +3 (Armadura de Couro +2, Escudo Redondo +1)`.
-8. Confirme que o `Perfil de dano` mostra `Matriz Fisica: 3`.
-9. Confirme que o resumo de dano mostra `Espada Longa: 1d8 (rolado no ataque) + Fisico 3`.
-10. Troque `Arma equipada` para `Adaga` e confirme que o resumo muda para `Adaga: 1d4 (rolado no ataque) + Fisico 3`.
-11. Troque `Arma equipada` para `Arco Longo` mantendo o escudo e confirme que a tela bloqueia o ataque por conflito de maos; depois escolha `Sem escudo`.
-12. Clique em `Atacar`.
-13. Confirme que o log usa o nome `Nara`.
-14. Confirme que o log registra a rolagem auditavel da arma, por exemplo `Arco Longo rolou ... em 1d8`.
-15. Confirme que o dano final usa a arma selecionada e a Matriz do personagem.
-16. Troque a arma para `Espada Longa`, troque o alvo para `Duelista de Treino` e clique em `Atacar`.
-17. Confirme que o dano final e reduzido pela defesa do alvo: a rolagem deterministica gera dano base 7, RD 1 reduz para 6 e resistencia fisica reduz para 3.
-18. Clique em `Encerrar turno` para passar ao alvo.
-19. Confirme que a instrucao do turno avisa que o alvo resolvera o ataque contra a CA equipada de `Nara`.
-20. Clique em `Encerrar turno` de novo.
-21. Confirme que o log registra o ataque do alvo contra a CA do personagem, calcula dano de treino e atualiza `HP de treino`.
-22. Confirme que a ficha real continua intacta; se o `HP de treino` chegar a 0, a tela informa que Moribundo e Inconsciente nao foram aplicados.
-23. Quando aparecer `Teste recebido encerrado`, confirme que o proximo dano recebido de treino exige `Reiniciar encontro`.
+1. Clique em `Inventario`, selecione `Nara` e carregue `Espada Longa`, `Escudo Redondo` e `Armadura de Couro`.
+2. Use `Equipar arma`, `Equipar escudo` e `Vestir armadura`.
+3. Clique em `Combate`.
+4. No seletor `Atacante`, escolha `Nara`.
+5. Confirme que a ficha resumida mostra HP maximo, Iniciativa e Carga.
+6. Confirme que `Loadout do Inventario` mostra `Arma equipada: Espada Longa`, `Escudo equipado: Escudo Redondo` e `Armadura equipada: Armadura de Couro`.
+7. Confirme que o helper mostra `Arma ativa: Espada Longa (1d8)`.
+8. Confirme que `Defesa equipada` mostra `CA equipada +3 (Armadura de Couro +2, Escudo Redondo +1)`.
+9. Confirme que o `Perfil de dano` mostra `Matriz Fisica: 3`.
+10. Confirme que o resumo de dano mostra `Espada Longa: 1d8 (rolado no ataque) + Fisico 3`.
+11. Clique em `Atacar`.
+12. Confirme que o log usa o nome `Nara`.
+13. Confirme que o log registra a rolagem auditavel da arma.
+14. Confirme que o dano final usa a arma equipada e a Matriz do personagem.
+15. Troque o alvo para `Duelista de Treino` e clique em `Atacar` em um encontro reiniciado.
+16. Confirme que o dano final e reduzido pela defesa do alvo: a rolagem deterministica gera dano base 7, RD 1 reduz para 6 e resistencia fisica reduz para 3.
+17. Clique em `Encerrar turno` para passar ao alvo.
+18. Confirme que a instrucao do turno avisa que o alvo resolvera o ataque contra a CA equipada de `Nara`.
+19. Clique em `Encerrar turno` de novo.
+20. Confirme que o log registra o ataque do alvo contra a CA do personagem, calcula dano de treino e atualiza `HP de treino`.
+21. Confirme que a ficha real continua intacta; se o `HP de treino` chegar a 0, a tela informa que Moribundo e Inconsciente nao foram aplicados.
+22. Quando aparecer `Teste recebido encerrado`, confirme que o proximo dano recebido de treino exige `Reiniciar encontro`.
 
 ## Escolhendo Alvos
 
@@ -119,9 +115,9 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - `Turno`: mostra quem pode agir agora.
 - `Acoes`: mostra quantas acoes restam no turno atual.
 - `Ficha no combate`: mostra dados resumidos do atacante selecionado.
-- `Arma equipada`: escolhe uma arma local para personagens criados na sessao.
-- `Armadura equipada` e `Escudo equipado`: escolhem defesa local para personagens criados na sessao.
-- `Defesa equipada`: mostra o bonus de CA local da armadura e do escudo, a `CA contra treino` usada no ataque recebido e o `HP de treino` local do personagem da sessao.
+- `Loadout do Inventario`: mostra a arma, o escudo e a armadura persistidos no inventario do personagem.
+- `Abrir Inventario`: aparece quando o personagem da sessao nao possui arma equipada para atacar.
+- `Defesa equipada`: mostra o bonus de CA derivado da armadura e do escudo persistidos, a `CA contra treino` usada no ataque recebido e o `HP de treino` local do personagem da sessao.
 - `Previa local de HP real`: aparece separada do `HP de treino` para mostrar o replay local dos eventos de dano real; ela nao salva a ficha e nao aplica Moribundo ou Inconsciente.
 - `Teste recebido encerrado`: aparece quando o `HP de treino` chegou a 0 e bloqueia novo dano recebido de treino ate `Reiniciar encontro`.
 - `Perfil de dano`: mostra qual Matriz esta sendo usada no dano de treino.
@@ -130,13 +126,13 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 
 ## Limites Desta Versao
 
-- O combate existe apenas na sessao atual do navegador.
-- Recarregar a pagina reinicia o encontro e remove personagens criados na sessao.
+- O encontro de combate existe apenas na sessao atual do navegador.
+- Recarregar a pagina reinicia o encontro, o turno, o log e o `HP de treino`; personagens, inventario e loadout voltam apenas depois de `Carregar save`.
 - O HP real do personagem ainda nao e alterado por combate; apenas o `HP de treino` local muda durante o encontro.
 - A `Previa local de HP real` tambem e local ao encontro: ela vem de eventos em memoria, nao grava save, nao muda a ficha e nao aplica estados oficiais.
-- A arma selecionada entra apenas como loadout local e dado de dano auditavel; ela nao e salva, nao gasta durabilidade e ainda nao usa proficiencia.
+- A arma equipada vem do loadout persistido do inventario, mas o ataque ainda nao gasta durabilidade, nao consome municao e ainda nao usa proficiencia.
 - As defesas dos alvos de treino entram como RD e afinidades fixas; vulnerabilidade com `+1d6` auditavel ainda nao entra.
-- Armaduras e escudos do personagem entram apenas como CA alvo para o ataque de treino recebido; nao entram em dano, save ou durabilidade por rodada.
+- Armaduras e escudos do personagem entram como CA alvo para o ataque de treino recebido; nao entram em dano, durabilidade por rodada ou estados oficiais.
 - Talentos, magia e condicoes ainda nao entram no calculo.
 - A iniciativa ainda e fixa: atacante primeiro, alvo depois.
 - O alvo de treino ataca apenas personagens da sessao no turno dele; ele calcula dano de treino local, nao causa dano persistente e nao possui IA complexa.
@@ -144,7 +140,7 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - Depois de 0 no `HP de treino`, o app nao calcula outro dano recebido de treino para o mesmo encontro; reinicie para repetir o teste.
 - Reinicie o encontro para testar outro dano recebido.
 - Os alvos sao ficticios para teste; ainda nao sao monstros oficiais.
-- Nao ha XP, loot, recompensa, banco, Worker, OPFS ou save.
+- Nao ha XP, loot, recompensa, consumo de item em combate, IA complexa ou dano persistido.
 
 ## Fontes
 

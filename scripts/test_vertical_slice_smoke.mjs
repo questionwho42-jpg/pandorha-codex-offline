@@ -78,12 +78,12 @@ test("vertical slice smoke fails when social choice UI contract is missing", asy
 	}
 });
 
-test("vertical slice smoke fails when combat weapon selector contract is missing", async () => {
+test("vertical slice smoke fails when combat persistent loadout contract is missing", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
 			"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
 				renderCombatEncounterPanel().replace(
-					'data-testid="combat-weapon-select"',
+					'data-testid="combat-persistent-loadout"',
 					'data-testid="combat-target-select"',
 				),
 		},
@@ -97,7 +97,28 @@ test("vertical slice smoke fails when combat weapon selector contract is missing
 			result.stderr,
 			/src\/features\/combat-encounter\/ui\/CombatEncounterPanel\.svelte/,
 		);
-		assert.match(result.stderr, /combat-weapon-select/);
+		assert.match(result.stderr, /combat-persistent-loadout/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
+test("vertical slice smoke fails when obsolete combat loadout selectors remain", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/combat-encounter/ui/CombatEncounterPanel.svelte": `${renderCombatEncounterPanel()}\n<select data-testid="combat-weapon-select"></select>`,
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(
+			result.stderr,
+			/src\/features\/combat-encounter\/ui\/CombatEncounterPanel\.svelte/,
+		);
+		assert.match(result.stderr, /seletor local de loadout de combate/);
 	} finally {
 		await rm(root, { recursive: true, force: true });
 	}
@@ -237,6 +258,8 @@ async function createFixtureRoot({
 		"src/app/model/navigation.ts": navigationText,
 		"src/app/App.svelte": renderApp(),
 		"src/app/model/combatEncounterSession.ts": renderCombatEncounterSession(),
+		"src/app/model/combatPersistentLoadoutResolver.ts":
+			renderCombatPersistentLoadoutResolver(),
 		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
 			renderCombatEncounterPanel(),
 		"src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts":
@@ -313,13 +336,13 @@ equipmentLoadoutEvents: equipmentLoadoutEventRecords;
 inventoryEventRecords = [...restoredInventory.data];
 equipmentLoadoutEventRecords = [...restoredLoadout.data];
 CompendiumBrowser;
-buildEquipmentLoadout={combatEncounterSession.buildEquipmentLoadout};
-defaultWeaponId={combatEncounterSession.defaultWeaponId};
-defaultArmorId={combatEncounterSession.defaultArmorId};
-defaultShieldId={combatEncounterSession.defaultShieldId};
-equipmentWeapons={combatEncounterSession.equipmentWeapons};
-equipmentArmors={combatEncounterSession.equipmentArmors};
-equipmentShields={combatEncounterSession.equipmentShields};
+createCombatPersistentLoadoutResolver;
+const resolveCombatPersistentLoadout = createCombatPersistentLoadoutResolver({
+  buildEquipmentLoadout: combatEncounterSession.buildEquipmentLoadout,
+  inventoryService: inventorySession.service,
+});
+onOpenInventory={() => { activeView = "inventory"; }};
+resolvePersistentLoadout={resolveCombatPersistentLoadout};
 resolveTrainingEnemyAttack={(input) => combatEncounterSession.trainingEnemyAttackService.resolveTrainingEnemyAttack(input)};
 </script>
 <p data-testid="pwa-status">Offline disponível neste navegador.</p>
@@ -330,40 +353,53 @@ function renderCombatEncounterSession() {
 	return `
 import { EquipmentLoadoutService } from "$lib/entities/equipment";
 import { CombatTrainingEnemyAttackService } from "$lib/features/combat-encounter";
-const DEFAULT_COMBAT_WEAPON_ID = "longsword";
-const DEFAULT_COMBAT_ARMOR_ID = "leather-armor";
-const DEFAULT_COMBAT_SHIELD_ID = "round-shield";
 const session = {
   buildEquipmentLoadout: () => new EquipmentLoadoutService().buildLoadout(),
-  defaultWeaponId: DEFAULT_COMBAT_WEAPON_ID,
-  defaultArmorId: DEFAULT_COMBAT_ARMOR_ID,
-  defaultShieldId: DEFAULT_COMBAT_SHIELD_ID,
-  equipmentWeapons: [],
-  equipmentArmors: [],
-  equipmentShields: [],
   trainingEnemyAttackService: new CombatTrainingEnemyAttackService(),
 };
+`;
+}
+
+function renderCombatPersistentLoadoutResolver() {
+	return `
+import type { InventoryManagementService } from "$lib/features/inventory-management";
+function toEquipmentLoadoutInput(inventory) {
+  return {
+    mainHandWeaponId: inventory.loadout.mainHand?.catalogItemId,
+    offHandShieldId: inventory.loadout.offHand?.catalogItemId,
+    armorId: inventory.loadout.armor?.catalogItemId,
+  };
+}
+const inventoryFailure = "COMBAT_LOADOUT_INVENTORY_UNAVAILABLE";
+const equipmentFailure = "COMBAT_LOADOUT_EQUIPMENT_INVALID";
 `;
 }
 
 function renderCombatEncounterPanel() {
 	return `
 <script>
-export let buildEquipmentLoadout = () => undefined;
+export let resolvePersistentLoadout = () => undefined;
 export let resolveTrainingEnemyAttack = () => undefined;
+const failure = "CombatPersistentLoadoutFailure";
 const activeWeaponProfile = {};
 const activeDefenseProfile = {};
+refreshPersistentLoadout();
 createCombatTrainingEnemyDefenseProfile();
 createCombatTrainingDefenderHitPoints();
 createCombatTrainingDefenderHitPointsView();
 applyCombatTrainingDefenderDamage();
 </script>
-<select data-testid="combat-weapon-select"></select>
-<select data-testid="combat-armor-select"></select>
-<select data-testid="combat-shield-select"></select>
+<section data-testid="combat-persistent-loadout">
+  <p>Loadout do Inventário</p>
+  <p data-testid="combat-persistent-loadout-weapon">Arma equipada: Espada Longa.</p>
+  <p data-testid="combat-persistent-loadout-shield">Escudo equipado: Escudo Redondo.</p>
+  <p data-testid="combat-persistent-loadout-armor">Armadura equipada: Armadura de Couro.</p>
+  <button data-testid="combat-open-inventory-button">Abrir Inventário</button>
+</section>
 <p data-testid="combat-equipped-weapon-helper">
   Aria usa perfil fixo de treino.
   Arma ativa: Espada Longa.
+  Equipe uma arma no Invent\\u00e1rio antes de atacar.
 </p>
 <p data-testid="combat-equipped-defense-profile">Defesa equipada</p>
 <p data-testid="combat-training-enemy-defense-summary">CA contra treino</p>

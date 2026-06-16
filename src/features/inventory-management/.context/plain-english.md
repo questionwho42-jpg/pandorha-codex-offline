@@ -11,3 +11,7 @@ antes de remover.
 O save v7 guarda o historico de itens carregados e tambem o historico separado
 do que esta equipado. Depois do load, o sistema reconstrui os itens e os slots
 equipados sem copiar dados do catalogo para o save.
+
+A aba Combate agora consulta esse equipamento ativo. O Inventario continua sendo
+o lugar onde o usuario muda arma, escudo e armadura; o Combate apenas le o
+resultado para calcular o treino.

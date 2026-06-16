@@ -15,7 +15,7 @@ Este roteiro valida o MVP navegavel atual do Pandorha Engine depois da T80. Ele 
 5. Entre em `Inventário`, selecione o personagem, carregue arma, escudo, armadura e consumíveis até criar mais de uma pilha; confirme slots usados, limite e penalidade atual.
 6. Equipe arma, escudo e armadura, substitua a arma no mesmo slot, confirme que remover item equipado mostra `Desequipe antes de remover`, desequipe e remova o item.
 7. Incremente, consuma e remova consumíveis; salve a sessão, recarregue realmente a página, carregue o save e confirme que o inventário e o loadout equipado do personagem foram restaurados.
-8. Entre em `Combate`, selecione o personagem como atacante, ataque um alvo de treino e confirme log, dano, HP e ações.
+8. Entre em `Combate`, selecione o personagem como atacante, confirme `Loadout do Inventário` com arma/escudo/armadura restaurados, ataque um alvo de treino e confirme log, dano, HP e ações.
 9. Entre em `Exploração`, mova para um hex adjacente e confirme log em pt-BR sem mudança de URL.
 10. Entre em `Acampamento`, atribua ações para personagens, resolva 1 hora e confirme perigo, relógio e log.
 11. Entre em `Relações`, invoque `Favor Tier 1`, confirme `Dívida 1/3` e `Intriga 1`.
@@ -113,7 +113,7 @@ O smoke T65 é estático e não substitui o Browser do Codex quando uma mudança
 
 - Criação e listagem de personagens básicos.
 - Save/load local real com SQLite WASM, OPFS e Worker.
-- Combate de treino com atacante da sessão, alvos fixos, turno, ações, rolagem auditável de arma, RD/afinidades de alvo, defesa equipada local, ataque passivo do alvo contra CA de treino, HP de treino local não persistido, estado `Teste recebido encerrado` em 0 HP de treino e derrota do alvo.
+- Combate de treino com atacante da sessão, loadout persistido do inventário para arma/escudo/armadura, alvos fixos, turno, ações, rolagem auditável de arma, RD/afinidades de alvo, ataque passivo do alvo contra CA de treino, HP de treino local não persistido, estado `Teste recebido encerrado` em 0 HP de treino e derrota do alvo.
 - O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura, bloqueia remoção de item equipado e persiste inventário + loadout no save v7.
 - Magia mínima que prepara comando sem executar efeito.
 - Exploração hexcrawl mínima com mapa de 7 hexes.
@@ -132,7 +132,7 @@ O smoke T65 é estático e não substitui o Browser do Codex quando uma mudança
 - O modo offline ainda não tem automação de rede confiável dentro do Browser do Codex atual.
 - As árvores de diálogo ainda são curtas, cobrem apenas a `Corretora de Treino`, o `Informante de Treino` e o `Capitão de Treino`, e preparam o argumento antes do apelo social.
 - `Pressionar` altera a relação individual por NPC e avança clocks de retaliação apenas por gatilho explícito `social-pressure`; não há avanço automático por tempo.
-- Magia, exploração e combate ainda usam dados de treino.
+- Magia e exploração ainda usam dados de treino; combate ainda usa alvos de treino e HP de treino local, mas deriva arma/escudo/armadura do loadout persistido.
 - O ataque do alvo de treino contra personagens da sessão calcula dano e reduz apenas `HP de treino` local; ao chegar a 0, exige `Reiniciar encontro` para outro dano recebido e não altera HP real, dano persistente, save, durabilidade, Moribundo, Inconsciente ou monstros oficiais.
 - O save usa um único slot local `primary`.
 - Não há autosave, cloud sync, push, atualização avançada de cache ou PWA instalável com ícones.

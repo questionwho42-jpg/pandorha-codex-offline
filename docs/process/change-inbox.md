@@ -13,9 +13,21 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - `20260616-172607-combat-persistent-loadout-gate` approves the next step for
   `20260615-future-inventory-combat-integration` through
   `docs/process/combat-persistent-loadout-gate.md`.
+- `20260616-175040-combat-persistent-loadout-integration` implements
+  `20260615-future-inventory-combat-integration` by deriving Combat weapon and
+  defense profiles from the persisted inventory loadout without save v8.
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260616-175040-combat-persistent-loadout-integration -->
+### Combat persistent loadout integration
+- id: 20260616-175040-combat-persistent-loadout-integration
+- status: open
+- created_at: 2026-06-16T17:50:40-03:00
+- source: task-ledger
+- summary: Implement the Combat tab consuming persisted inventory loadout, with app boundary resolver, UI update, smokes, rendered validation, and readiness.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260616-175040-combat-persistent-loadout-integration -->
 <!-- pandorha-inbox:20260616-172607-combat-persistent-loadout-gate -->
 ### Combat persistent loadout gate
 - id: 20260616-172607-combat-persistent-loadout-gate

@@ -3,7 +3,6 @@ import {
 	type EquipmentLoadoutInput,
 	EquipmentLoadoutService,
 	type EquipmentLoadoutSnapshot,
-	type EquipmentRecord,
 	InMemoryEquipmentCatalogRepository,
 	OFFICIAL_EQUIPMENT,
 } from "$lib/entities/equipment";
@@ -31,10 +30,6 @@ import {
 import type { Result } from "$lib/shared/lib/result";
 import { ResolutionService } from "$lib/shared/resolution";
 
-const DEFAULT_COMBAT_WEAPON_ID = "longsword";
-const DEFAULT_COMBAT_ARMOR_ID = "leather-armor";
-const DEFAULT_COMBAT_SHIELD_ID = "round-shield";
-
 export type CombatEncounterSession = Readonly<{
 	attacker: CombatEncounterActorRef;
 	buildEquipmentLoadout: (
@@ -46,12 +41,6 @@ export type CombatEncounterSession = Readonly<{
 		targetHitPoints: number,
 		attackProfile: CombatTrainingAttackProfile,
 	) => CombatEncounterInput;
-	defaultArmorId: string;
-	defaultShieldId: string;
-	defaultWeaponId: string;
-	equipmentArmors: readonly EquipmentRecord[];
-	equipmentShields: readonly EquipmentRecord[];
-	equipmentWeapons: readonly EquipmentRecord[];
 	initialTarget: CombatTrainingTarget;
 	service: CombatEncounterService;
 	trainingEnemyAttackService: CombatTrainingEnemyAttackService;
@@ -76,10 +65,6 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 	return {
 		attacker: DEFAULT_COMBAT_TRAINING_ATTACKER,
 		buildEquipmentLoadout: (input) => loadoutService.buildLoadout(input),
-		defaultWeaponId: DEFAULT_COMBAT_WEAPON_ID,
-		equipmentWeapons: OFFICIAL_EQUIPMENT.filter(
-			(equipment) => equipment.kind === "weapon",
-		),
 		initialTarget: DEFAULT_TRAINING_TARGET,
 		service: new CombatEncounterService(
 			new ResolutionService(diceService),
@@ -91,15 +76,7 @@ export function createCombatEncounterSession(): CombatEncounterSession {
 			new ResolutionService(diceService),
 			new DamagePipelineService(),
 		),
-		defaultArmorId: DEFAULT_COMBAT_ARMOR_ID,
-		defaultShieldId: DEFAULT_COMBAT_SHIELD_ID,
 		trainingTargets: TRAINING_TARGETS,
-		equipmentArmors: OFFICIAL_EQUIPMENT.filter(
-			(equipment) => equipment.kind === "armor",
-		),
-		equipmentShields: OFFICIAL_EQUIPMENT.filter(
-			(equipment) => equipment.kind === "shield",
-		),
 		createAttackInput: (attacker, target, targetHitPoints, attackProfile) => {
 			const commandId = `training-attack-${nextCommandId}`;
 			nextCommandId += 1;

@@ -72,6 +72,11 @@ Na T104, essa previa local passou a aparecer na aba Combate para personagens cri
 
 Essa previa ainda nao e o HP salvo da ficha. Trocar atacante, trocar alvo, trocar equipamento ou reiniciar o encontro limpa a previa local.
 
+Na integracao de 2026-06-16, a aba Combate deixou de ter seletores proprios de
+arma, escudo e armadura. Agora ela le o que o personagem equipou no Inventario.
+Se nao houver arma equipada, o botao de ataque fica bloqueado e a tela oferece
+abrir o Inventario.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.
@@ -88,3 +93,6 @@ Essa previa ainda nao e o HP salvo da ficha. Trocar atacante, trocar alvo, troca
 - Juntar evento e replay em uma funcao pura: facilita ligar uma futura UI sem inventar regra no componente, mas ainda nao resolve persistencia nem estados oficiais.
 - Preparar a copy em um view model: reduz risco visual, mas ainda exige validacao renderizada no navegador antes de entregar para usuario.
 - Mostrar a previa local na tela: da feedback visual, mas continua propositalmente separada do `HP de treino` e do save real.
+- Ler o loadout persistido do Inventario: evita duas fontes de verdade para
+  equipamento ativo, mas exige que o usuario ajuste arma e defesa fora da aba
+  Combate.

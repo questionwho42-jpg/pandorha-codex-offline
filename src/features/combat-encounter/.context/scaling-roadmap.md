@@ -23,8 +23,9 @@
 - T102 adds the event+replay bridge for local ledger updates, still without UI, save v6, persistence, or official terminal-state application.
 - T103 adds safe preview copy for local real HP rendering before any Svelte UI consumes the bridge.
 - T104 adds the Svelte preview panel as local, non-persistent UI for session characters only.
+- The 2026-06-16 integration removes local combat equipment selectors and derives session-character weapon/defense from the persisted inventory loadout through an app-level resolver.
 - Add save v6, Worker/SQLite persistence, and official terminal-state application only after a separate persistence gate.
-- Add vulnerability `+1d6`, proficiency, and durability wear only after the audited weapon roll and target-defense contracts remain stable.
+- Add vulnerability `+1d6`, proficiency, consumable use in combat, and durability wear only after the persisted loadout integration remains stable in Browser validation.
 - Expose real incoming damage in UI only after T100/T103 approve copy, replay boundaries, and Playwright validation scope.
 - Add armor-category caps for the limited axis only after the exact cap table is represented in `docs/system/` and covered by tests.
 - Add real initiative only after equipment selection and fixed turn order remain stable in browser tests.
@@ -37,5 +38,6 @@
 - This feature should not own dice, damage, or universal-test math. Those stay in `shared`.
 - T88 still avoids persistence, Worker, grid, dynamic monsters, inventory mutation, magic, full equipment math, durability wear, and rolled initiative.
 - Combat may consume equipment snapshots/profiles through props or lower-layer contracts, but equipment rules should remain in `entities/equipment`.
+- Combat may depend on a loadout resolver contract, but the app boundary must compose inventory and combat services to avoid sibling feature imports.
 - Equipped defense and `HP de treino` can be used as transient incoming-attack targets, but must remain non-persistent until a save-version phase and official character-damage contract are approved.
 - Real damage events may exist as append-only contracts before HP mutation exists, but UI must not imply persisted HP until replay and save-version policy are approved.
