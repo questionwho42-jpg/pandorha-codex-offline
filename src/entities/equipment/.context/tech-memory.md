@@ -39,3 +39,10 @@
 - Equipment and consumable tables remain immutable catalog definitions.
 - Inventory persistence references catalog ids from a separate per-character event ledger.
 - Catalog durability and quantities are not copied into inventory events; active durability and persisted loadout remain separate future gates.
+
+## 2026-06-16 - Persisted Equipment Loadout Ledger
+
+- `equipment_loadout_events` stores only slot events by character and `inventoryEntryId`.
+- `EquipmentLoadoutLedgerReplayService` validates contiguous sequence per character, unique event ids, and equipped/cleared payload shape before exposing current slots.
+- The ledger does not duplicate catalog ids, labels, durability, HP, capacity, or combat profiles; those remain derived from inventory entries and catalog services.
+- UI equip actions and save v7 consume the ledger, but combat still uses its local training loadout until a separate integration gate.

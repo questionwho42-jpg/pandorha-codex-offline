@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { SessionCharacterRepository } from "$lib/entities/character";
 import { CharacterBuilder } from "$lib/entities/character/testing/CharacterBuilder";
+import type { EquipmentLoadoutEventRecord } from "$lib/entities/equipment";
 import type { InventoryEventRecord } from "$lib/entities/inventory";
 import { createInventorySession } from "./inventorySession";
 
@@ -31,6 +32,45 @@ describe("createInventorySession", () => {
 		expect(session.getEvents()).toHaveLength(1);
 		expect(session.equipment).not.toHaveLength(0);
 		expect(session.consumables).not.toHaveLength(0);
+	});
+
+	it("coordinates persistent loadout events and advances restored loadout ids", async () => {
+		const session = createInventorySession(await createCharacters());
+		const added = await session.service.addEquipment({
+			characterId: "session-character-1",
+			catalogItemId: "dagger",
+		});
+		if (!added.success) {
+			expect.fail(`Expected equipment add success: ${added.error.code}`);
+		}
+		expect(
+			session.restoreLoadoutEvents([
+				buildLoadoutEvent({ id: "equipment-loadout-event-4" }),
+			]),
+		).toMatchObject({ success: true });
+
+		const equipped = await session.service.equipEntry({
+			characterId: "session-character-1",
+			entryId: added.data.inventory.entries[0]?.entryId,
+			slot: "mainHand",
+		});
+
+		expect(equipped).toMatchObject({ success: true });
+		if (!equipped.success) {
+			expect.fail(`Expected equip success: ${equipped.error.code}`);
+		}
+		expect(equipped.data.appendedLoadoutEvents[0]).toMatchObject({
+			id: "equipment-loadout-event-5",
+			sequence: 2,
+		});
+		expect(session.getLoadoutEvents()).toEqual([
+			buildLoadoutEvent({ id: "equipment-loadout-event-4" }),
+			expect.objectContaining({
+				id: "equipment-loadout-event-5",
+				sequence: 2,
+				inventoryEntryId: "inventory-entry-1",
+			}),
+		]);
 	});
 
 	it("restores events atomically and advances generated ids", async () => {
@@ -103,6 +143,21 @@ function buildEvent(
 		catalogKind: "equipment",
 		catalogItemId: "longsword",
 		quantity: 1,
+		createdAt: CREATED_AT,
+		...patch,
+	};
+}
+
+function buildLoadoutEvent(
+	patch: Partial<EquipmentLoadoutEventRecord> = {},
+): EquipmentLoadoutEventRecord {
+	return {
+		id: "equipment-loadout-event-1",
+		characterId: "session-character-1",
+		sequence: 1,
+		type: "equipment-loadout-slot-equipped",
+		slot: "mainHand",
+		inventoryEntryId: "inventory-entry-1",
 		createdAt: CREATED_AT,
 		...patch,
 	};

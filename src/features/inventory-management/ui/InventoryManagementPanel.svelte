@@ -2,6 +2,8 @@
 import type { CharacterRecord } from "$lib/entities/character";
 import type {
 	ConsumableRecord,
+	EquipmentLoadoutEventRecord,
+	EquipmentLoadoutEventSlot,
 	EquipmentRecord,
 } from "$lib/entities/equipment";
 import type { InventoryEventRecord } from "$lib/entities/inventory";
@@ -9,6 +11,7 @@ import type { Result } from "$lib/shared/lib/result";
 import type { InventoryManagementService } from "../domain/InventoryManagementService";
 import type {
 	InventoryManagementFailure,
+	InventoryManagementLoadoutMutationResult,
 	InventoryManagementMutationResult,
 	InventoryManagementSnapshot,
 } from "../model/inventoryManagementTypes";
@@ -17,13 +20,20 @@ import { createInventoryManagementView } from "../model/inventoryManagementView"
 type InventoryMutation = () => Promise<
 	Result<InventoryManagementMutationResult, InventoryManagementFailure>
 >;
+type LoadoutMutation = () => Promise<
+	Result<InventoryManagementLoadoutMutationResult, InventoryManagementFailure>
+>;
 
 type Props = {
 	characters?: readonly CharacterRecord[];
 	consumables?: readonly ConsumableRecord[];
 	equipment?: readonly EquipmentRecord[];
+	equipmentLoadoutEvents?: readonly EquipmentLoadoutEventRecord[];
 	inventoryEvents?: readonly InventoryEventRecord[];
 	onEventsChange: (records: readonly InventoryEventRecord[]) => void;
+	onLoadoutEventsChange: (
+		records: readonly EquipmentLoadoutEventRecord[],
+	) => void;
 	onOpenCharacters: () => void;
 	service: InventoryManagementService;
 };
@@ -34,8 +44,10 @@ let {
 	consumables = [],
 	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 	equipment = [],
+	equipmentLoadoutEvents = [],
 	inventoryEvents = [],
 	onEventsChange,
+	onLoadoutEventsChange,
 	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 	onOpenCharacters,
 	service,
@@ -54,6 +66,11 @@ let _inventorySignature = $derived(
 		.map((event) => `${event.id}:${event.sequence}:${event.quantity}`)
 		.join("|"),
 );
+let _loadoutSignature = $derived(
+	equipmentLoadoutEvents
+		.map((event) => `${event.id}:${event.sequence}:${event.inventoryEntryId}`)
+		.join("|"),
+);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let selectedCharacter = $derived(
 	characters.find((character) => character.id === selectedCharacterId) ?? null,
@@ -63,6 +80,7 @@ let view = $derived(snapshot ? createInventoryManagementView(snapshot) : null);
 
 $effect(() => {
 	_inventorySignature;
+	_loadoutSignature;
 	const nextCharacterId = characters.some(
 		(character) => character.id === selectedCharacterId,
 	)
@@ -92,7 +110,7 @@ async function refreshInventory(characterId: string): Promise<void> {
 	if (!result.success) {
 		snapshot = null;
 		errorMessage =
-			"Não foi possível reconstruir o inventário deste personagem.";
+			"Nao foi possivel reconstruir o inventario deste personagem.";
 		return;
 	}
 	snapshot = result.data;
@@ -153,6 +171,53 @@ async function removeEntry(entryId: string): Promise<void> {
 	);
 }
 
+async function equipEntry(
+	entryId: string,
+	slot: EquipmentLoadoutEventSlot,
+): Promise<void> {
+	if (!selectedCharacterId) {
+		return;
+	}
+	await runLoadoutMutation(`equip:${slot}:${entryId}`, () =>
+		service.equipEntry({
+			characterId: selectedCharacterId,
+			entryId,
+			slot,
+		}),
+	);
+}
+
+async function clearEquipmentSlot(
+	slot: EquipmentLoadoutEventSlot,
+): Promise<void> {
+	if (!selectedCharacterId) {
+		return;
+	}
+	await runLoadoutMutation(`clear:${slot}`, () =>
+		service.clearEquipmentSlot({
+			characterId: selectedCharacterId,
+			slot,
+		}),
+	);
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function equipEntrySlot(
+	entryId: string,
+	slot: EquipmentLoadoutEventSlot | null,
+): void {
+	if (slot) {
+		void equipEntry(entryId, slot);
+	}
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function clearEntrySlot(slot: EquipmentLoadoutEventSlot | null): void {
+	if (slot) {
+		void clearEquipmentSlot(slot);
+	}
+}
+
 async function runMutation(
 	actionId: string,
 	mutate: InventoryMutation,
@@ -161,19 +226,54 @@ async function runMutation(
 	const result = await mutate();
 	busyAction = null;
 	if (!result.success) {
-		errorMessage = "A alteração do inventário não pôde ser concluída.";
+		errorMessage = mapInventoryFailure(result.error);
 		return;
 	}
 	snapshot = result.data.inventory;
 	onEventsChange([...inventoryEvents, ...result.data.appendedEvents]);
 	errorMessage = null;
 }
+
+async function runLoadoutMutation(
+	actionId: string,
+	mutate: LoadoutMutation,
+): Promise<void> {
+	busyAction = actionId;
+	const result = await mutate();
+	busyAction = null;
+	if (!result.success) {
+		errorMessage = mapInventoryFailure(result.error);
+		return;
+	}
+	snapshot = result.data.inventory;
+	onLoadoutEventsChange([
+		...equipmentLoadoutEvents,
+		...result.data.appendedLoadoutEvents,
+	]);
+	errorMessage = null;
+}
+
+function mapInventoryFailure(failure: InventoryManagementFailure): string {
+	switch (failure.code) {
+		case "INVENTORY_ENTRY_EQUIPPED":
+			return "Desequipe antes de remover.";
+		case "INVENTORY_LOADOUT_SLOT_CONFLICT":
+			return "Conflito entre maos: desequipe o item incompativel antes de equipar.";
+		case "INVENTORY_LOADOUT_ENTRY_NOT_FOUND":
+			return "O equipamento salvo nao esta mais no inventario carregado.";
+		case "INVENTORY_LOADOUT_SLOT_INVALID":
+		case "INVENTORY_ENTRY_KIND_INVALID":
+			return "Este item nao pode ser equipado nesse slot.";
+		default:
+			return "A alteracao do inventario nao pode ser concluida.";
+	}
+}
 </script>
 
 <section aria-labelledby="inventory-management-title" data-testid="inventory-panel">
 	<div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 		<div>
-			<p class="text-sm font-semibold text-ether">Inventário</p>
+			<p class="text-sm font-semibold text-ether">Inventario</p>
 			<h2
 				id="inventory-management-title"
 				class="mt-2 text-2xl font-semibold text-bone"
@@ -181,7 +281,8 @@ async function runMutation(
 				Carga por personagem
 			</h2>
 			<p class="mt-3 max-w-3xl leading-7 text-bone">
-				Carregue itens do catálogo e acompanhe a capacidade derivada.
+				Carregue itens do catalogo, equipe o que estiver em uso e acompanhe a
+				capacidade derivada.
 			</p>
 		</div>
 
@@ -207,7 +308,7 @@ async function runMutation(
 			class="mt-6 border border-bronze bg-blood-shadow px-5 py-6"
 			data-testid="inventory-character-empty-state"
 		>
-			<h3 class="text-lg font-semibold text-bone">Nenhum personagem disponível</h3>
+			<h3 class="text-lg font-semibold text-bone">Nenhum personagem disponivel</h3>
 			<p class="mt-3 leading-7 text-bone">
 				Crie um personagem antes de organizar itens carregados.
 			</p>
@@ -256,11 +357,49 @@ async function runMutation(
 				{view.stateDescription}
 			</p>
 
+			<section aria-labelledby="inventory-equipped-title" class="mt-7">
+				<div class="flex items-end justify-between gap-3">
+					<h3 id="inventory-equipped-title" class="text-lg font-semibold text-bone">
+						Equipado
+					</h3>
+					<p class="text-sm font-semibold text-ether">
+						Arma, escudo e armadura
+					</p>
+				</div>
+				<div
+					class="mt-4 grid gap-3 md:grid-cols-3"
+					data-testid="inventory-equipped-loadout"
+				>
+					{#each view.loadoutSlots as slotView (slotView.slot)}
+						<div
+							class="border border-bronze bg-blood-shadow px-4 py-3"
+							data-testid="inventory-loadout-slot"
+						>
+							<p class="text-sm font-semibold text-ether">{slotView.label}</p>
+							{#if slotView.entry}
+								<p class="mt-1 font-semibold text-bone">{slotView.entry.label}</p>
+								<button
+									type="button"
+									class="mt-3 border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone hover:border-ether hover:text-ether disabled:cursor-wait disabled:opacity-60"
+									data-testid="inventory-unequip-entry"
+									disabled={busyAction !== null}
+									onclick={() => void clearEquipmentSlot(slotView.slot)}
+								>
+									Desequipar
+								</button>
+							{:else}
+								<p class="mt-1 text-sm text-bone">{slotView.emptyLabel}</p>
+							{/if}
+						</div>
+					{/each}
+				</div>
+			</section>
+
 			<div class="mt-7 grid gap-7 xl:grid-cols-2">
 				<section aria-labelledby="inventory-catalog-title">
 					<div class="flex items-end justify-between gap-3">
 						<h3 id="inventory-catalog-title" class="text-lg font-semibold text-bone">
-							Catálogo disponível
+							Catalogo disponivel
 						</h3>
 						<p class="text-sm font-semibold text-ether">
 							{equipment.length + consumables.length} itens
@@ -271,7 +410,7 @@ async function runMutation(
 							<li class="grid gap-3 py-4 sm:grid-cols-[1fr_auto] sm:items-center">
 								<div>
 									<p class="font-semibold text-bone">{item.label}</p>
-									<p class="mt-1 text-sm text-ether">Equipamento · {item.slotCost} slots</p>
+									<p class="mt-1 text-sm text-ether">Equipamento - {item.slotCost} slots</p>
 								</div>
 								<button
 									type="button"
@@ -288,7 +427,7 @@ async function runMutation(
 							<li class="grid gap-3 py-4 sm:grid-cols-[1fr_auto] sm:items-center">
 								<div>
 									<p class="font-semibold text-bone">{item.label}</p>
-									<p class="mt-1 text-sm text-ether">Consumível · pilha até {item.maxQuantityPerStack}</p>
+									<p class="mt-1 text-sm text-ether">Consumivel - pilha ate {item.maxQuantityPerStack}</p>
 								</div>
 								<button
 									type="button"
@@ -315,7 +454,7 @@ async function runMutation(
 					</div>
 					{#if view.entries.length === 0}
 						<div class="mt-4 border border-bronze bg-blood-shadow px-5 py-6" data-testid="inventory-item-empty-state">
-							<p class="leading-7 text-bone">Este personagem ainda não carrega itens.</p>
+							<p class="leading-7 text-bone">Este personagem ainda nao carrega itens.</p>
 						</div>
 					{:else}
 						<ul class="mt-4 divide-y divide-bronze border-y border-bronze" data-testid="inventory-item-list">
@@ -325,10 +464,38 @@ async function runMutation(
 										<div>
 											<p class="font-semibold text-bone">{entry.label}</p>
 											<p class="mt-1 text-sm text-ether">
-												{entry.categoryLabel} · {entry.quantityLabel} · {entry.slotCost} slots
+												{entry.categoryLabel} - {entry.quantityLabel} - {entry.slotCost} slots
 											</p>
+											{#if entry.isEquipped}
+												<p class="mt-2 text-sm font-semibold text-ether">
+													Equipado
+												</p>
+											{/if}
 										</div>
 										<div class="flex flex-wrap gap-2">
+											{#if entry.catalogKind === "equipment" && entry.equipSlot}
+												{#if entry.isEquipped}
+													<button
+														type="button"
+														class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone hover:border-ether hover:text-ether disabled:cursor-wait disabled:opacity-60"
+														data-testid="inventory-unequip-entry"
+														disabled={busyAction !== null}
+														onclick={() => clearEntrySlot(entry.equippedSlot)}
+													>
+														Desequipar
+													</button>
+												{:else}
+													<button
+														type="button"
+														class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone hover:border-ether hover:text-ether disabled:cursor-wait disabled:opacity-60"
+														data-testid="inventory-equip-entry"
+														disabled={busyAction !== null}
+														onclick={() => equipEntrySlot(entry.entryId, entry.equipSlot)}
+													>
+														{entry.equipActionLabel}
+													</button>
+												{/if}
+											{/if}
 											{#if entry.catalogKind === "consumable"}
 												<button
 													type="button"
@@ -351,12 +518,13 @@ async function runMutation(
 											{/if}
 											<button
 												type="button"
-												class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone hover:border-ether hover:text-ether disabled:cursor-wait disabled:opacity-60"
+												class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone hover:border-ether hover:text-ether disabled:cursor-not-allowed disabled:opacity-60"
 												data-testid="inventory-remove-entry"
-												disabled={busyAction !== null}
+												disabled={busyAction !== null || entry.isEquipped}
+												title={entry.isEquipped ? "Desequipe antes de remover" : undefined}
 												onclick={() => void removeEntry(entry.entryId)}
 											>
-												Remover
+												{entry.isEquipped ? "Desequipe antes de remover" : "Remover"}
 											</button>
 										</div>
 									</div>

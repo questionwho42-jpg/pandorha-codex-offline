@@ -4,3 +4,4 @@
 - Catalog definitions stay in `entities/equipment`; inventory events reference catalog ids.
 - `InventoryLedgerReplayService` validates contiguous sequence, stable entry identity, and quantity invariants before exposing current entries.
 - Derived capacity and catalog labels are outside this entity.
+- Equipment loadout events live in `entities/equipment` and reference inventory `entryId`; inventory remains the ownership ledger and does not store equipped slots.

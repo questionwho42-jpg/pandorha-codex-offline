@@ -231,7 +231,11 @@ function renderIndex() {
 function renderApp() {
 	return `
 inventoryEvents: inventoryEventRecords;
+equipmentLoadoutEvents: equipmentLoadoutEventRecords;
 inventoryEventRecords = [...restoredInventory.data];
+equipmentLoadoutEventRecords = [...restoredLoadout.data];
+equipmentLoadoutEvents={equipmentLoadoutEventRecords};
+onLoadoutEventsChange;
 {#if activeView === "characters"}<CharacterCreateForm /><CharacterList />
 {:else if activeView === "compendium"}<CompendiumBrowser />
 {:else if activeView === "inventory"}<InventoryManagementPanel />
@@ -267,6 +271,9 @@ function renderInventoryPanel() {
 <ul data-testid="inventory-catalog-list"></ul>
 <button data-testid="inventory-add-equipment">Carregar</button>
 <button data-testid="inventory-add-consumable">Carregar 1</button>
+<section data-testid="inventory-equipped-loadout"></section>
+<button data-testid="inventory-equip-entry">Equipar arma</button>
+<button data-testid="inventory-unequip-entry">Desequipar</button>
 <button data-testid="inventory-increment-consumable">+1</button>
 <button data-testid="inventory-consume-consumable">Consumir 1</button>
 <button data-testid="inventory-remove-entry">Remover</button>
@@ -309,7 +316,7 @@ function renderQaGuide() {
 
 Execute npm.cmd run qa:ui-reachability.
 Mudanças visuais exigem validação renderizada pelo Browser do Codex.
-O inventário editável pertence ao personagem e persiste no save v6.
+ O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura, bloqueia remoção de item equipado e persiste inventário + loadout no save v7.
 Magia, exploração e combate ainda usam dados de treino.
 `;
 }

@@ -11,3 +11,6 @@
 - Legacy v1-v5 snapshots must migrate to v6 with an empty inventory ledger; no other deferred feature may enter that migration.
 - Save v6 is implemented with `inventoryEvents` as its only new section; metadata, RPC, Worker mapping, and SQLite snapshots share the same literal version.
 - `SqliteSaveSnapshotService` orders restored inventory events by character and sequence and rejects malformed event rows before exposing the snapshot.
+- The approved v7 gate adds only `equipmentLoadoutEvents`.
+- Legacy v1-v6 snapshots migrate to v7; v6 keeps its inventory ledger and receives an empty equipment loadout ledger.
+- Save v7 writes `equipment_loadout_events` in the same SQLite snapshot transaction and rejects malformed loadout rows before exposing loaded state.

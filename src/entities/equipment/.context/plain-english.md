@@ -3,8 +3,9 @@
 This module is the technical catalog for the first equipment and consumable records in Pandorha.
 
 Persisted inventory does not alter these definitions. It stores events saying
-which catalog items each character carries. Equipping items, saving loadouts,
-and spending durability remain separate deliveries.
+which catalog items each character carries. A separate save v7 history stores
+which carried entry is equipped in weapon, shield, and armor slots. Spending
+durability remains a separate delivery.
 
 It answers simple questions such as:
 
@@ -23,16 +24,19 @@ In T86, the module gained the first loadout service. It answers: "what is curren
 
 It refuses combinations that should not happen, such as putting a dagger in the shield slot, putting a shield in the armor slot, using a broken item, or equipping an `Arco Longo` together with an off-hand shield.
 
-This is still not a full inventory screen. Nothing is saved, no item is repaired or damaged, no proficiency is checked, and no armor class is recalculated yet.
+This service alone is still not a full inventory screen. It validates loadout
+rules, while inventory and save/load decide which carried entries are equipped.
+No item is repaired or damaged, no proficiency is checked, and combat still
+does not automatically consume the persisted loadout.
 
 In T91, the module learned how to read simple defensive equipment. Leather armor gives `+2 CA`, plate armor gives `+5 CA`, and a round shield gives `+1 CA`.
 
-The loadout can now say, for example: "this character has leather armor and a round shield, so the equipped defense summary is `CA equipada +3`." This is only a visible and auditable profile. It does not make enemies attack the character yet, does not reduce damage, does not save the chosen equipment, and does not spend durability.
+The loadout can now say, for example: "this character has leather armor and a round shield, so the equipped defense summary is `CA equipada +3`." This is only a visible and auditable profile. It does not make enemies attack the character yet, does not reduce damage, and does not spend durability.
 
 ## Alternatives
 
 - Read the weapon summary text: faster at first, but fragile because prose can change.
 - Put weapon facts directly inside combat: fewer files now, but it mixes item rules with attack rules.
 - Use structured catalog weapon profiles: current approach, because it prepares future UI without changing save or database.
-- Save selected equipment immediately: convenient for players sooner, but it would require a save-version decision before the loadout contract is proven in UI.
+- Save selected equipment in a separate ledger: current approach, because it avoids copying catalog facts into the save.
 - Apply defense directly inside combat now: tempting for a visible result, but too early because no official enemy-attack flow exists yet.

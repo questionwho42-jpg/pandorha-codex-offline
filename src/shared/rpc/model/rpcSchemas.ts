@@ -28,7 +28,7 @@ export const jsonSerializableObjectSchema = z.custom<JsonObject>(
 );
 
 export const saveGameSnapshotSchema = z.object({
-	version: z.literal(6),
+	version: z.literal(7),
 	savedAt: isoTimestamp,
 	characters: z.array(jsonSerializableObjectSchema),
 	worldState: z.array(jsonSerializableObjectSchema),
@@ -40,6 +40,7 @@ export const saveGameSnapshotSchema = z.object({
 	socialEncounterEvents: z.array(jsonSerializableObjectSchema),
 	npcRelationships: z.array(jsonSerializableObjectSchema),
 	inventoryEvents: z.array(jsonSerializableObjectSchema),
+	equipmentLoadoutEvents: z.array(jsonSerializableObjectSchema),
 });
 
 export const initDatabaseRequestSchema = z.object({

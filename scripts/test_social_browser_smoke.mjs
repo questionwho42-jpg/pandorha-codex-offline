@@ -173,11 +173,13 @@ const snapshot = {
   socialEncounters: socialEncounterRecords,
   socialEncounterEvents: socialEncounterEventRecords,
   npcRelationships: npcRelationshipRecords,
+  equipmentLoadoutEvents: equipmentLoadoutEventRecords,
 };
 worldStateRecords = [...result.data.worldState];
 socialEncounterRecords = [...result.data.socialEncounters];
 socialEncounterEventRecords = [...result.data.socialEncounterEvents];
 npcRelationshipRecords = [...result.data.npcRelationships];
+equipmentLoadoutEventRecords = [...restoredLoadout.data];
 `;
 }
 
@@ -262,8 +264,8 @@ const empty = view.npcFilterEmptyStateLabel;
 
 function renderSaveSchemas() {
 	return `
-export const CURRENT_SAVE_VERSION = 6;
-const fields = ["clocks", "socialEncounters", "socialEncounterEvents", "npcRelationships", "inventoryEvents"];
+export const CURRENT_SAVE_VERSION = 7;
+const fields = ["clocks", "socialEncounters", "socialEncounterEvents", "npcRelationships", "inventoryEvents", "equipmentLoadoutEvents"];
 `;
 }
 

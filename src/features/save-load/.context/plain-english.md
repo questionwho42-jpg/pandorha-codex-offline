@@ -8,3 +8,7 @@ In version 5, it also saves individual NPC relationships. This means a pressured
 
 Version 6 saves the event history that reconstructs each character's carried
 inventory. Older saves load with an empty inventory.
+
+Version 7 saves a second event history for equipped items. It remembers which
+carried inventory entry is in the weapon, shield, or armor slot, while the item
+details still come from the official catalog.

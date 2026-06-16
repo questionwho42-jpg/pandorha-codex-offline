@@ -8,21 +8,26 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## In Progress
 <!-- pandorha-ledger:in-progress -->
+
+<!-- /pandorha-ledger:in-progress -->
+
+## Completed
+<!-- pandorha-ledger:completed -->
 <!-- pandorha-task:20260615-201706-persistent-equipment-loadout-save-v7 -->
 ### Persistent equipment loadout save v7
 - id: 20260615-201706-persistent-equipment-loadout-save-v7
-- status: in-progress
+- status: completed
 - kind: feature
 - planned: no
 - started_at: 2026-06-15T20:17:06-03:00
-- finished_at: pending
+- finished_at: 2026-06-16T13:14:39-03:00
 - model_started: gpt-5.5 high-reasoning final review; local automation zero-token
-- model_finished: pending
-- last_modified_at: 2026-06-15T20:17:06-03:00
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-16T13:14:39-03:00
 - branch: codex/docs/equipment-loadout-save-v7-gate
 - commit_at_start: b763c4a chore(process): record main inventory merge
 - summary: Approve and implement character-owned persistent equipment loadout with save v7, inventory equip UI, rendered validation, and readiness.
-- last_change: created task record
+- last_change: Loadout persistente entregue no save v7: ledger de equipmentLoadoutEvents, replay e fake em memória, UI de equipar/desequipar no inventário, bloqueio de remoção equipada, roundtrip SQLite/OPFS, smokes atualizados, Browser do Codex/Playwright validado sem erros de console e futuras integrações documentadas.
 #### Files At Start
 - output/
 #### Checkpoints
@@ -32,12 +37,21 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - Risks: unknown until implementation begins
 - Improvements: automate repeated manual steps where practical
 - Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-16T13:14:32-03:00
+- Done: Implemented equipment loadout ledger, save v7 persistence, inventory equip/unequip UI, contractual smokes, documentation, and rendered Browser validation.
+- Next: Complete maintenance task and prepare atomic commit.
+- Risks: Combat still intentionally uses local training loadout; future integration remains documented outside docs/system.
+- Improvements: Consider dedicated rendered smoke only after this flow repeats enough to justify a stable browser automation dependency.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-16T13:14:39-03:00
+- Done: Loadout persistente entregue no save v7: ledger de equipmentLoadoutEvents, replay e fake em memória, UI de equipar/desequipar no inventário, bloqueio de remoção equipada, roundtrip SQLite/OPFS, smokes atualizados, Browser do Codex/Playwright validado sem erros de console e futuras integrações documentadas.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
 <!-- /pandorha-task:20260615-201706-persistent-equipment-loadout-save-v7 -->
-
-<!-- /pandorha-ledger:in-progress -->
-
-## Completed
-<!-- pandorha-ledger:completed -->
 <!-- pandorha-task:20260615-114907-inventory-post-delivery-audit -->
 ### Inventory post-delivery audit
 - id: 20260615-114907-inventory-post-delivery-audit

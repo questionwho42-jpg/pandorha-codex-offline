@@ -1,4 +1,5 @@
 import { z } from "zod/v4";
+import { equipmentLoadoutEventSlotSchema } from "$lib/entities/equipment";
 
 const technicalId = z
 	.string()
@@ -29,4 +30,14 @@ export const inventoryEntryMutationInputSchema =
 export const inventoryConsumeInputSchema =
 	inventoryEntryMutationInputSchema.extend({
 		quantity,
+	});
+
+export const inventoryEquipEntryInputSchema =
+	inventoryEntryMutationInputSchema.extend({
+		slot: equipmentLoadoutEventSlotSchema,
+	});
+
+export const inventoryClearEquipmentSlotInputSchema =
+	inventoryCharacterInputSchema.extend({
+		slot: equipmentLoadoutEventSlotSchema,
 	});

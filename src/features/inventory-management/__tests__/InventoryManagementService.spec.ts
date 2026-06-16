@@ -2,7 +2,13 @@ import { describe, expect, it } from "vitest";
 import { InMemoryCharacterRepository } from "$lib/entities/character/testing/InMemoryCharacterRepository";
 import {
 	EquipmentCatalogService,
+	type EquipmentLoadoutEventRecord,
+	EquipmentLoadoutLedgerReplayService,
+	EquipmentLoadoutService,
+	type EquipmentRecord,
+	type EquipmentRepositoryFailure,
 	InMemoryEquipmentCatalogRepository,
+	InMemoryEquipmentLoadoutEventRepository,
 	OFFICIAL_CONSUMABLES,
 	OFFICIAL_EQUIPMENT,
 } from "$lib/entities/equipment";
@@ -20,6 +26,7 @@ import { fail, type Result } from "$lib/shared/lib/result";
 import { InventoryManagementService } from "../domain/InventoryManagementService";
 import type {
 	InventoryManagementFailure,
+	InventoryManagementLoadoutMutationResult,
 	InventoryManagementMutationResult,
 } from "../model/inventoryManagementTypes";
 
@@ -182,6 +189,195 @@ describe("InventoryManagementService", () => {
 		expect(removed.inventory.entries).toEqual([]);
 	});
 
+	it("equips carried equipment and exposes the current loadout", async () => {
+		const harness = await createHarness();
+		const added = expectMutationSuccess(
+			await harness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "longsword",
+			}),
+		);
+		const entryId = added.inventory.entries[0]?.entryId ?? "";
+
+		const equipped = expectLoadoutMutationSuccess(
+			await harness.service.equipEntry({
+				characterId: "session-character-1",
+				entryId,
+				slot: "mainHand",
+			}),
+		);
+
+		expect(equipped.appendedLoadoutEvents).toEqual([
+			expect.objectContaining({
+				type: "equipment-loadout-slot-equipped",
+				slot: "mainHand",
+				inventoryEntryId: entryId,
+				sequence: 1,
+			}),
+		]);
+		expect(equipped.inventory.loadout.mainHand).toMatchObject({
+			entryId,
+			catalogItemId: "longsword",
+			label: "Espada Longa",
+		});
+	});
+
+	it("replaces equipment in the same slot without duplicating inventory ownership", async () => {
+		const harness = await createHarness();
+		const longsword = expectMutationSuccess(
+			await harness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "longsword",
+			}),
+		).inventory.entries[0];
+		const dagger = expectMutationSuccess(
+			await harness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "dagger",
+			}),
+		).inventory.entries.find((entry) => entry.catalogItemId === "dagger");
+		expectLoadoutMutationSuccess(
+			await harness.service.equipEntry({
+				characterId: "session-character-1",
+				entryId: longsword?.entryId,
+				slot: "mainHand",
+			}),
+		);
+
+		const replaced = expectLoadoutMutationSuccess(
+			await harness.service.equipEntry({
+				characterId: "session-character-1",
+				entryId: dagger?.entryId,
+				slot: "mainHand",
+			}),
+		);
+
+		expect(replaced.appendedLoadoutEvents[0]).toMatchObject({
+			sequence: 2,
+			inventoryEntryId: dagger?.entryId,
+		});
+		expect(replaced.inventory.entries).toHaveLength(2);
+		expect(replaced.inventory.loadout.mainHand?.entryId).toBe(dagger?.entryId);
+	});
+
+	it("rejects hand conflicts without clearing existing slots", async () => {
+		const harness = await createHarness();
+		const longbow = expectMutationSuccess(
+			await harness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "longbow",
+			}),
+		).inventory.entries[0];
+		const shield = expectMutationSuccess(
+			await harness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "round-shield",
+			}),
+		).inventory.entries.find((entry) => entry.catalogItemId === "round-shield");
+		expectLoadoutMutationSuccess(
+			await harness.service.equipEntry({
+				characterId: "session-character-1",
+				entryId: longbow?.entryId,
+				slot: "mainHand",
+			}),
+		);
+
+		const failure = expectFailure(
+			await harness.service.equipEntry({
+				characterId: "session-character-1",
+				entryId: shield?.entryId,
+				slot: "offHand",
+			}),
+		);
+		const snapshot = expectMutationSuccess(
+			await harness.service.addConsumable({
+				characterId: "session-character-1",
+				catalogItemId: "rope-stack",
+				quantity: 1,
+			}),
+		).inventory;
+
+		expect(failure.code).toBe("INVENTORY_LOADOUT_SLOT_CONFLICT");
+		expect(snapshot.loadout.mainHand?.entryId).toBe(longbow?.entryId);
+		expect(snapshot.loadout.offHand).toBeNull();
+	});
+
+	it("blocks removal of equipped items until the slot is cleared", async () => {
+		const harness = await createHarness();
+		const added = expectMutationSuccess(
+			await harness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "dagger",
+			}),
+		);
+		const entryId = added.inventory.entries[0]?.entryId ?? "";
+		expectLoadoutMutationSuccess(
+			await harness.service.equipEntry({
+				characterId: "session-character-1",
+				entryId,
+				slot: "mainHand",
+			}),
+		);
+
+		expect(
+			expectFailure(
+				await harness.service.removeEntry({
+					characterId: "session-character-1",
+					entryId,
+				}),
+			).code,
+		).toBe("INVENTORY_ENTRY_EQUIPPED");
+
+		expectLoadoutMutationSuccess(
+			await harness.service.clearEquipmentSlot({
+				characterId: "session-character-1",
+				slot: "mainHand",
+			}),
+		);
+		expect(
+			expectMutationSuccess(
+				await harness.service.removeEntry({
+					characterId: "session-character-1",
+					entryId,
+				}),
+			).inventory.entries,
+		).toEqual([]);
+	});
+
+	it("equips armor and clears the armor slot", async () => {
+		const harness = await createHarness();
+		const added = expectMutationSuccess(
+			await harness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "leather-armor",
+			}),
+		);
+		const entryId = added.inventory.entries[0]?.entryId ?? "";
+
+		const equipped = expectLoadoutMutationSuccess(
+			await harness.service.equipEntry({
+				characterId: "session-character-1",
+				entryId,
+				slot: "armor",
+			}),
+		);
+		expect(equipped.inventory.loadout.armor?.entryId).toBe(entryId);
+
+		const cleared = expectLoadoutMutationSuccess(
+			await harness.service.clearEquipmentSlot({
+				characterId: "session-character-1",
+				slot: "armor",
+			}),
+		);
+		expect(cleared.appendedLoadoutEvents[0]).toMatchObject({
+			type: "equipment-loadout-slot-cleared",
+			slot: "armor",
+			inventoryEntryId: null,
+			sequence: 2,
+		});
+		expect(cleared.inventory.loadout.armor).toBeNull();
+	});
+
 	it("rejects invalid input, missing character, and missing catalog items", async () => {
 		const harness = await createHarness();
 
@@ -224,6 +420,12 @@ describe("InventoryManagementService", () => {
 		).toBe("INVALID_INVENTORY_MANAGEMENT_INPUT");
 		expect(
 			expectFailure(await harness.service.removeEntry(undefined)).code,
+		).toBe("INVALID_INVENTORY_MANAGEMENT_INPUT");
+		expect(
+			expectFailure(await harness.service.equipEntry(undefined)).code,
+		).toBe("INVALID_INVENTORY_MANAGEMENT_INPUT");
+		expect(
+			expectFailure(await harness.service.clearEquipmentSlot(undefined)).code,
 		).toBe("INVALID_INVENTORY_MANAGEMENT_INPUT");
 	});
 
@@ -321,6 +523,72 @@ describe("InventoryManagementService", () => {
 				}),
 			).code,
 		).toBe("INVENTORY_CHARACTER_NOT_FOUND");
+		expect(
+			expectFailure(
+				await harness.service.equipEntry({
+					characterId: "missing-character",
+					entryId: "missing-entry",
+					slot: "mainHand",
+				}),
+			).code,
+		).toBe("INVENTORY_CHARACTER_NOT_FOUND");
+		expect(
+			expectFailure(
+				await harness.service.clearEquipmentSlot({
+					characterId: "missing-character",
+					slot: "mainHand",
+				}),
+			).code,
+		).toBe("INVENTORY_CHARACTER_NOT_FOUND");
+	});
+
+	it("rejects invalid loadout targets and slot types", async () => {
+		const harness = await createHarness();
+
+		expect(
+			expectFailure(
+				await harness.service.equipEntry({
+					characterId: "session-character-1",
+					entryId: "missing-entry",
+					slot: "mainHand",
+				}),
+			).code,
+		).toBe("INVENTORY_ENTRY_NOT_FOUND");
+
+		const consumable = expectMutationSuccess(
+			await harness.service.addConsumable({
+				characterId: "session-character-1",
+				catalogItemId: "ration-stack",
+				quantity: 1,
+			}),
+		);
+		expect(
+			expectFailure(
+				await harness.service.equipEntry({
+					characterId: "session-character-1",
+					entryId: consumable.inventory.entries[0]?.entryId,
+					slot: "mainHand",
+				}),
+			).code,
+		).toBe("INVENTORY_ENTRY_KIND_INVALID");
+
+		const shield = expectMutationSuccess(
+			await harness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "round-shield",
+			}),
+		);
+		expect(
+			expectFailure(
+				await harness.service.equipEntry({
+					characterId: "session-character-1",
+					entryId: shield.inventory.entries.find(
+						(entry) => entry.catalogItemId === "round-shield",
+					)?.entryId,
+					slot: "mainHand",
+				}),
+			).code,
+		).toBe("INVENTORY_LOADOUT_SLOT_INVALID");
 	});
 
 	it("maps repository, replay, and capacity failures", async () => {
@@ -385,6 +653,179 @@ describe("InventoryManagementService", () => {
 		).toBe("INVENTORY_CAPACITY_FAILED");
 	});
 
+	it("maps loadout repository, replay, and post-append snapshot failures", async () => {
+		const harness = await createHarness();
+		harness.equipmentLoadoutRepository.failNextRead({
+			code: "EQUIPMENT_LOADOUT_EVENT_REPOSITORY_READ_FAILED",
+			message: "loadout read failed",
+		});
+		expect(
+			expectFailure(
+				await harness.service.getInventory({
+					characterId: "session-character-1",
+				}),
+			).code,
+		).toBe("INVENTORY_LOADOUT_REPOSITORY_FAILED");
+
+		const added = expectMutationSuccess(
+			await harness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "dagger",
+			}),
+		);
+		harness.equipmentLoadoutRepository.failNextWrite({
+			code: "EQUIPMENT_LOADOUT_EVENT_REPOSITORY_WRITE_FAILED",
+			message: "loadout write failed",
+		});
+		expect(
+			expectFailure(
+				await harness.service.equipEntry({
+					characterId: "session-character-1",
+					entryId: added.inventory.entries[0]?.entryId,
+					slot: "mainHand",
+				}),
+			).code,
+		).toBe("INVENTORY_LOADOUT_REPOSITORY_FAILED");
+
+		const corruptHarness = await createHarness(
+			[buildEvent()],
+			new InventoryCapacityService(),
+			[buildLoadoutEvent({ id: "loadout-event-2", sequence: 2 })],
+		);
+		expect(
+			expectFailure(
+				await corruptHarness.service.getInventory({
+					characterId: "session-character-1",
+				}),
+			).code,
+		).toBe("INVENTORY_LOADOUT_LEDGER_INVALID");
+
+		const capacityHarness = await createHarness([buildEvent()], {
+			calculateCapacity: () =>
+				fail({
+					code: "INVALID_INVENTORY_CAPACITY_INPUT",
+					message: "capacity failed after loadout append",
+				}),
+		});
+		expect(
+			expectFailure(
+				await capacityHarness.service.equipEntry({
+					characterId: "session-character-1",
+					entryId: "entry-1",
+					slot: "mainHand",
+				}),
+			).code,
+		).toBe("INVENTORY_CAPACITY_FAILED");
+	});
+
+	it("rejects loadout ledgers that reference invalid carried entries", async () => {
+		const missingEntryHarness = await createHarness(
+			[buildEvent()],
+			new InventoryCapacityService(),
+			[buildLoadoutEvent({ inventoryEntryId: "missing-entry" })],
+		);
+		expect(
+			expectFailure(
+				await missingEntryHarness.service.getInventory({
+					characterId: "session-character-1",
+				}),
+			).code,
+		).toBe("INVENTORY_LOADOUT_ENTRY_NOT_FOUND");
+
+		const consumableHarness = await createHarness(
+			[
+				buildEvent({
+					catalogKind: "consumable",
+					catalogItemId: "ration-stack",
+				}),
+			],
+			new InventoryCapacityService(),
+			[buildLoadoutEvent()],
+		);
+		expect(
+			expectFailure(
+				await consumableHarness.service.getInventory({
+					characterId: "session-character-1",
+				}),
+			).code,
+		).toBe("INVENTORY_LOADOUT_SLOT_INVALID");
+
+		const wrongSlotHarness = await createHarness(
+			[buildEvent({ catalogItemId: "round-shield" })],
+			new InventoryCapacityService(),
+			[buildLoadoutEvent()],
+		);
+		expect(
+			expectFailure(
+				await wrongSlotHarness.service.getInventory({
+					characterId: "session-character-1",
+				}),
+			).code,
+		).toBe("INVENTORY_LOADOUT_SLOT_INVALID");
+	});
+
+	it("rejects proposed loadouts when existing slot references are invalid", async () => {
+		const harness = await createHarness(
+			[
+				buildEvent({ entryId: "entry-1", catalogItemId: "missing-shield" }),
+				buildEvent({
+					id: "event-2",
+					sequence: 2,
+					entryId: "entry-2",
+					catalogItemId: "dagger",
+				}),
+			],
+			new InventoryCapacityService(),
+			[buildLoadoutEvent({ slot: "offHand" })],
+		);
+
+		expect(
+			expectFailure(
+				await harness.service.equipEntry({
+					characterId: "session-character-1",
+					entryId: "entry-2",
+					slot: "mainHand",
+				}),
+			).code,
+		).toBe("INVENTORY_LOADOUT_SLOT_INVALID");
+
+		const missingEntryHarness = await createHarness(
+			[buildEvent()],
+			new InventoryCapacityService(),
+			[
+				buildLoadoutEvent({
+					slot: "offHand",
+					inventoryEntryId: "missing-entry",
+				}),
+			],
+		);
+		expect(
+			expectFailure(
+				await missingEntryHarness.service.equipEntry({
+					characterId: "session-character-1",
+					entryId: "entry-1",
+					slot: "mainHand",
+				}),
+			).code,
+		).toBe("INVENTORY_LOADOUT_ENTRY_NOT_FOUND");
+	});
+
+	it("rejects equipping a carried entry whose catalog definition disappeared", async () => {
+		const harness = await createHarness([
+			buildEvent({ catalogItemId: "missing-equipment" }),
+		]);
+
+		expect(
+			expectFailure(
+				await harness.service.equipEntry({
+					characterId: "session-character-1",
+					entryId: "entry-1",
+					slot: "mainHand",
+				}),
+			).code,
+		).toBe("INVENTORY_CATALOG_ITEM_NOT_FOUND");
+	});
+
 	it("rejects ledger entries whose catalog definition disappeared", async () => {
 		const missingEquipment = await createHarness([
 			buildEvent({ catalogItemId: "missing-equipment" }),
@@ -411,6 +852,26 @@ describe("InventoryManagementService", () => {
 			).code,
 		).toBe("INVENTORY_CATALOG_ITEM_NOT_FOUND");
 	});
+
+	it("rejects loadout resolution when the catalog fails after entry resolution", async () => {
+		const harness = await createHarness(
+			[buildEvent()],
+			new InventoryCapacityService(),
+			[buildLoadoutEvent()],
+			new FailsAfterFirstEquipmentLookupRepository({
+				equipment: OFFICIAL_EQUIPMENT,
+				consumables: OFFICIAL_CONSUMABLES,
+			}),
+		);
+
+		expect(
+			expectFailure(
+				await harness.service.getInventory({
+					characterId: "session-character-1",
+				}),
+			).code,
+		).toBe("INVENTORY_CATALOG_ITEM_NOT_FOUND");
+	});
 });
 
 async function createHarness(
@@ -420,6 +881,11 @@ async function createHarness(
 			input: unknown,
 		): Result<InventoryCapacityResult, InventoryCapacityFailure>;
 	} = new InventoryCapacityService(),
+	loadoutEvents: readonly EquipmentLoadoutEventRecord[] = [],
+	equipmentCatalogRepository = new InMemoryEquipmentCatalogRepository({
+		equipment: OFFICIAL_EQUIPMENT,
+		consumables: OFFICIAL_CONSUMABLES,
+	}),
 ) {
 	const characterRepository = new InMemoryCharacterRepository();
 	await characterRepository.save({
@@ -440,27 +906,50 @@ async function createHarness(
 		updatedAt: CREATED_AT,
 	});
 	const inventoryRepository = new InMemoryInventoryEventRepository(events);
+	const equipmentLoadoutRepository =
+		new InMemoryEquipmentLoadoutEventRepository(loadoutEvents);
 	const eventIds = createIdProvider("event");
 	const entryIds = createIdProvider("entry");
+	const loadoutEventIds = createIdProvider("loadout-event");
 
 	return {
 		inventoryRepository,
+		equipmentLoadoutRepository,
 		service: new InventoryManagementService({
 			capacityService,
 			characterRepository,
 			clock: { now: () => CREATED_AT },
 			entryIdProvider: entryIds,
 			equipmentCatalogService: new EquipmentCatalogService(
-				new InMemoryEquipmentCatalogRepository({
-					equipment: OFFICIAL_EQUIPMENT,
-					consumables: OFFICIAL_CONSUMABLES,
-				}),
+				equipmentCatalogRepository,
+			),
+			equipmentLoadoutRepository,
+			equipmentLoadoutService: new EquipmentLoadoutService(
+				equipmentCatalogRepository,
 			),
 			eventIdProvider: eventIds,
 			inventoryRepository,
+			loadoutEventIdProvider: loadoutEventIds,
+			loadoutReplayService: new EquipmentLoadoutLedgerReplayService(),
 			replayService: new InventoryLedgerReplayService(),
 		}),
 	};
+}
+
+class FailsAfterFirstEquipmentLookupRepository extends InMemoryEquipmentCatalogRepository {
+	public override async findEquipmentById(
+		id: Parameters<InMemoryEquipmentCatalogRepository["findEquipmentById"]>[0],
+	): Promise<Result<EquipmentRecord, EquipmentRepositoryFailure>> {
+		const result = await super.findEquipmentById(id);
+		if (this.equipmentLookupCount > 1) {
+			return fail({
+				code: "EQUIPMENT_NOT_FOUND",
+				message: "Equipment record disappeared after entry resolution.",
+				details: { id },
+			});
+		}
+		return result;
+	}
 }
 
 function createIdProvider(prefix: string): { generate(): string } {
@@ -491,6 +980,21 @@ function buildEvent(
 	};
 }
 
+function buildLoadoutEvent(
+	patch: Partial<EquipmentLoadoutEventRecord> = {},
+): EquipmentLoadoutEventRecord {
+	return {
+		id: "loadout-event-1",
+		characterId: "session-character-1",
+		sequence: 1,
+		type: "equipment-loadout-slot-equipped",
+		slot: "mainHand",
+		inventoryEntryId: "entry-1",
+		createdAt: CREATED_AT,
+		...patch,
+	};
+}
+
 function expectMutationSuccess(
 	result: Result<InventoryManagementMutationResult, InventoryManagementFailure>,
 ): InventoryManagementMutationResult {
@@ -503,4 +1007,14 @@ function expectFailure<Success>(
 ): InventoryManagementFailure {
 	expect(result.success).toBe(false);
 	return (result as Extract<typeof result, { readonly success: false }>).error;
+}
+
+function expectLoadoutMutationSuccess(
+	result: Result<
+		InventoryManagementLoadoutMutationResult,
+		InventoryManagementFailure
+	>,
+): InventoryManagementLoadoutMutationResult {
+	expect(result.success).toBe(true);
+	return (result as Extract<typeof result, { readonly success: true }>).data;
 }

@@ -157,3 +157,9 @@
 - `App.svelte` creates one inventory session with the same character repository used by character creation.
 - The app owns only the `inventoryEventRecords` transport array; current entries and capacity remain derived by `InventoryManagementService`.
 - Save sends `inventoryEvents`, load restores the ledger atomically, and an invalid restored ledger becomes a typed user-facing load error.
+
+## 2026-06-16 - Persistent Equipment Loadout
+
+- `App.svelte` now owns `equipmentLoadoutEventRecords` beside `inventoryEventRecords`.
+- Save sends `equipmentLoadoutEvents` in v7 and load restores them through `inventorySession.restoreLoadoutEvents` before exposing the loaded state.
+- The app still does not connect persisted loadout to combat; the combat tab keeps its training selectors until a separate integration gate.

@@ -4,6 +4,7 @@ import type {
 } from "$lib/entities/camp-session";
 import type { CharacterRecord } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
+import type { EquipmentLoadoutEventRecord } from "$lib/entities/equipment";
 import type { FactionStandingRecord } from "$lib/entities/faction";
 import type { InventoryEventRecord } from "$lib/entities/inventory";
 import type { NpcRelationshipRecord } from "$lib/entities/npc-relationship";
@@ -19,7 +20,7 @@ export interface SaveLoadMessageIdProvider {
 
 export interface SaveSessionResult {
 	readonly saveId: "primary";
-	readonly version: 6;
+	readonly version: 7;
 	readonly savedAt: string;
 	readonly characterCount: number;
 	readonly worldStateCount: number;
@@ -31,10 +32,11 @@ export interface SaveSessionResult {
 	readonly socialEncounterEventCount: number;
 	readonly npcRelationshipCount: number;
 	readonly inventoryEventCount: number;
+	readonly equipmentLoadoutEventCount: number;
 }
 
 export interface LoadedSessionState {
-	readonly version: 6;
+	readonly version: 7;
 	readonly savedAt: string;
 	readonly characters: readonly CharacterRecord[];
 	readonly worldState: readonly WorldStateFlagView[];
@@ -46,6 +48,7 @@ export interface LoadedSessionState {
 	readonly socialEncounterEvents: readonly SocialEncounterEventRecord[];
 	readonly npcRelationships: readonly NpcRelationshipRecord[];
 	readonly inventoryEvents: readonly InventoryEventRecord[];
+	readonly equipmentLoadoutEvents: readonly EquipmentLoadoutEventRecord[];
 }
 
 export type SaveLoadFailureCode =

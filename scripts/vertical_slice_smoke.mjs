@@ -63,7 +63,9 @@ async function runVerticalSliceSmoke(root) {
 			"SpellCastPanel",
 			"InventoryManagementPanel",
 			"inventoryEvents: inventoryEventRecords",
+			"equipmentLoadoutEvents: equipmentLoadoutEventRecords",
 			"inventoryEventRecords = [...restoredInventory.data]",
+			"equipmentLoadoutEventRecords = [...restoredLoadout.data]",
 			"CompendiumBrowser",
 			"buildEquipmentLoadout={combatEncounterSession.buildEquipmentLoadout}",
 			"defaultWeaponId={combatEncounterSession.defaultWeaponId}",
@@ -250,18 +252,20 @@ async function runVerticalSliceSmoke(root) {
 		root,
 		"src/features/save-load/model/saveLoadSchemas.ts",
 		[
-			"CURRENT_SAVE_VERSION = 6",
+			"CURRENT_SAVE_VERSION = 7",
 			"clocks",
 			"socialEncounters",
 			"socialEncounterEvents",
 			"npcRelationships",
 			"inventoryEvents",
+			"equipmentLoadoutEvents",
 		],
 		errors,
 	);
 
 	for (const docPath of [
 		"docs/user/character-creation.md",
+		"docs/user/inventory-management.md",
 		"docs/user/combat-training.md",
 		"docs/user/camp-training.md",
 		"docs/user/social-relations.md",
@@ -275,6 +279,19 @@ async function runVerticalSliceSmoke(root) {
 			errors,
 		);
 	}
+
+	await validateFileContains(
+		root,
+		"docs/user/inventory-management.md",
+		[
+			"Equipar arma",
+			"Equipar escudo",
+			"Vestir armadura",
+			"Desequipe antes de remover",
+			"save local",
+		],
+		errors,
+	);
 
 	await validateFileContains(
 		root,

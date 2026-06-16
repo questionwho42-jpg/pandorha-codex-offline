@@ -1,5 +1,14 @@
 import type { CharacterRepository } from "$lib/entities/character";
-import type { EquipmentCatalogService } from "$lib/entities/equipment";
+import type {
+	EquipmentCatalogService,
+	EquipmentLoadoutEventRecord,
+	EquipmentLoadoutEventRepository,
+	EquipmentLoadoutEventSlot,
+	EquipmentLoadoutLedgerReplayService,
+	EquipmentLoadoutLedgerSnapshot,
+	EquipmentLoadoutService,
+	EquipmentRecord,
+} from "$lib/entities/equipment";
 import type {
 	InventoryCatalogKind,
 	InventoryEntrySnapshot,
@@ -21,8 +30,14 @@ export type InventoryManagementFailureCode =
 	| "INVENTORY_REPOSITORY_FAILED"
 	| "INVENTORY_ENTRY_NOT_FOUND"
 	| "INVENTORY_ENTRY_KIND_INVALID"
+	| "INVENTORY_ENTRY_EQUIPPED"
 	| "INVENTORY_QUANTITY_EXCEEDED"
-	| "INVENTORY_CAPACITY_FAILED";
+	| "INVENTORY_CAPACITY_FAILED"
+	| "INVENTORY_LOADOUT_LEDGER_INVALID"
+	| "INVENTORY_LOADOUT_REPOSITORY_FAILED"
+	| "INVENTORY_LOADOUT_ENTRY_NOT_FOUND"
+	| "INVENTORY_LOADOUT_SLOT_INVALID"
+	| "INVENTORY_LOADOUT_SLOT_CONFLICT";
 
 export interface InventoryManagementFailure {
 	readonly code: InventoryManagementFailureCode;
@@ -31,18 +46,39 @@ export interface InventoryManagementFailure {
 }
 
 export interface InventoryResolvedEntry extends InventoryEntrySnapshot {
+	readonly equipmentKind?: EquipmentRecord["kind"];
 	readonly label: string;
 	readonly slotCost: number;
+}
+
+export interface InventoryEquippedEntry {
+	readonly slot: EquipmentLoadoutEventSlot;
+	readonly entryId: string;
+	readonly catalogItemId: string;
+	readonly label: string;
+	readonly slotCost: number;
+}
+
+export interface InventoryEquippedLoadoutSnapshot {
+	readonly mainHand: InventoryEquippedEntry | null;
+	readonly offHand: InventoryEquippedEntry | null;
+	readonly armor: InventoryEquippedEntry | null;
 }
 
 export interface InventoryManagementSnapshot {
 	readonly characterId: string;
 	readonly entries: readonly InventoryResolvedEntry[];
 	readonly capacity: InventoryCapacityResult;
+	readonly loadout: InventoryEquippedLoadoutSnapshot;
 }
 
 export interface InventoryManagementMutationResult {
 	readonly appendedEvents: readonly InventoryEventRecord[];
+	readonly inventory: InventoryManagementSnapshot;
+}
+
+export interface InventoryManagementLoadoutMutationResult {
+	readonly appendedLoadoutEvents: readonly EquipmentLoadoutEventRecord[];
 	readonly inventory: InventoryManagementSnapshot;
 }
 
@@ -66,8 +102,12 @@ export interface InventoryManagementServiceInput {
 	readonly clock: InventoryManagementClock;
 	readonly entryIdProvider: InventoryManagementIdProvider;
 	readonly equipmentCatalogService: EquipmentCatalogService;
+	readonly equipmentLoadoutRepository: EquipmentLoadoutEventRepository;
+	readonly equipmentLoadoutService: EquipmentLoadoutService;
 	readonly eventIdProvider: InventoryManagementIdProvider;
 	readonly inventoryRepository: InventoryEventRepository;
+	readonly loadoutEventIdProvider: InventoryManagementIdProvider;
+	readonly loadoutReplayService: EquipmentLoadoutLedgerReplayService;
 	readonly replayService: InventoryLedgerReplayService;
 }
 
@@ -79,6 +119,8 @@ export interface InventoryLoadedState {
 	};
 	readonly entries: readonly InventoryEntrySnapshot[];
 	readonly events: readonly InventoryEventRecord[];
+	readonly loadoutEvents: readonly EquipmentLoadoutEventRecord[];
+	readonly loadoutSlots: readonly EquipmentLoadoutLedgerSnapshot[];
 }
 
 export type InventoryCatalogIdentity = Readonly<{

@@ -9,6 +9,7 @@ import type {
 	CharacterRecord,
 } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
+import type { EquipmentLoadoutEventRecord } from "$lib/entities/equipment";
 import type { FactionStandingRecord } from "$lib/entities/faction";
 import type { InventoryEventRecord } from "$lib/entities/inventory";
 import type { NpcRelationshipRecord } from "$lib/entities/npc-relationship";
@@ -93,6 +94,7 @@ let clockRecords = $state<ClockRecord[]>([]);
 let factionStandingRecords = $state<FactionStandingRecord[]>(
 	socialRelationsSession.createInitialStandings(),
 );
+let equipmentLoadoutEventRecords = $state<EquipmentLoadoutEventRecord[]>([]);
 let inventoryEventRecords = $state<InventoryEventRecord[]>([]);
 let npcRelationshipRecords = $state<NpcRelationshipRecord[]>([]);
 let socialEncounterRecords = $state<SocialEncounterRecord[]>([]);
@@ -189,6 +191,7 @@ async function saveSession(): Promise<void> {
 		socialEncounterEvents: socialEncounterEventRecords,
 		npcRelationships: npcRelationshipRecords,
 		inventoryEvents: inventoryEventRecords,
+		equipmentLoadoutEvents: equipmentLoadoutEventRecords,
 		savedAt: new Date().toISOString(),
 	});
 
@@ -227,6 +230,16 @@ async function loadSession(): Promise<void> {
 		};
 		return;
 	}
+	const restoredLoadout = inventorySession.restoreLoadoutEvents(
+		result.data.equipmentLoadoutEvents,
+	);
+	if (!restoredLoadout.success) {
+		saveLoadState = {
+			kind: "error",
+			message: "O save local contÃ©m equipamento invÃ¡lido.",
+		};
+		return;
+	}
 
 	characterRecords = [...restored.data];
 	worldStateRecords = [...result.data.worldState];
@@ -240,6 +253,7 @@ async function loadSession(): Promise<void> {
 	socialEncounterEventRecords = [...result.data.socialEncounterEvents];
 	npcRelationshipRecords = [...result.data.npcRelationships];
 	inventoryEventRecords = [...restoredInventory.data];
+	equipmentLoadoutEventRecords = [...restoredLoadout.data];
 	saveLoadState = { kind: "loaded" };
 }
 
@@ -374,9 +388,13 @@ onMount(() => {
 					characters={characterRecords}
 					consumables={inventorySession.consumables}
 					equipment={inventorySession.equipment}
+					equipmentLoadoutEvents={equipmentLoadoutEventRecords}
 					inventoryEvents={inventoryEventRecords}
 					onEventsChange={(records) => {
 						inventoryEventRecords = [...records];
+					}}
+					onLoadoutEventsChange={(records) => {
+						equipmentLoadoutEventRecords = [...records];
 					}}
 					onOpenCharacters={() => {
 						activeView = "characters";

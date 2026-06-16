@@ -256,6 +256,7 @@ async function createFixtureRoot({
 		"public/pandorha-sw.js": renderServiceWorker(),
 		"src/features/save-load/model/saveLoadSchemas.ts": renderSaveSchemas(),
 		"docs/user/character-creation.md": renderDoc("Personagens"),
+		"docs/user/inventory-management.md": renderInventoryDoc(),
 		"docs/user/combat-training.md": renderCombatTrainingDoc(),
 		"docs/user/camp-training.md": renderDoc("Acampamento"),
 		"docs/user/social-relations.md": renderDoc("Relações"),
@@ -308,7 +309,9 @@ npcRelationships={npcRelationshipRecords};
 SpellCastPanel;
 InventoryManagementPanel;
 inventoryEvents: inventoryEventRecords;
+equipmentLoadoutEvents: equipmentLoadoutEventRecords;
 inventoryEventRecords = [...restoredInventory.data];
+equipmentLoadoutEventRecords = [...restoredLoadout.data];
 CompendiumBrowser;
 buildEquipmentLoadout={combatEncounterSession.buildEquipmentLoadout};
 defaultWeaponId={combatEncounterSession.defaultWeaponId};
@@ -500,19 +503,33 @@ function handleRuntimeRequest() {}
 
 function renderSaveSchemas() {
 	return `
-export const CURRENT_SAVE_VERSION = 6;
+export const CURRENT_SAVE_VERSION = 7;
 const save = {
   clocks: [],
   socialEncounters: [],
   socialEncounterEvents: [],
   npcRelationships: [],
   inventoryEvents: [],
+  equipmentLoadoutEvents: [],
 };
 `;
 }
 
 function renderDoc(title) {
 	return `# ${title}\n\nAbra http://127.0.0.1:5173/ para testar.\n`;
+}
+
+function renderInventoryDoc() {
+	return `# Inventario
+
+Abra http://127.0.0.1:5173/ para testar.
+
+Equipar arma
+Equipar escudo
+Vestir armadura
+Desequipe antes de remover
+save local
+`;
 }
 
 function renderCombatTrainingDoc() {

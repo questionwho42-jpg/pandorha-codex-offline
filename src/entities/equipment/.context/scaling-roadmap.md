@@ -5,7 +5,7 @@
 - Add `InventoryCapacityService` to calculate used slots, slow state, and immobilized state from character stats and carried records.
 - Add repository contract tests before introducing real SQLite or OPFS persistence.
 - Connect equipment summaries to the compendium before surfacing editable inventory UI.
-- Connect `EquipmentLoadoutService` to the combat UI with a local selector before adding persisted equipment slots.
+- Persisted equipment slots now exist through save v7; connect combat to that loadout only after a dedicated combat-inventory integration gate.
 - Move from deterministic `baseDiceTotal` to real weapon dice only when the damage pipeline accepts dice rolls or a dice port.
 - Feed equipped defense profiles into an official "target attacks character" rule only after that combat contract exists.
 
@@ -23,6 +23,6 @@
 - Do not parse free-text mechanical summaries for combat rules.
 - Do not let equipment import combat feature code; combat can consume equipment profiles through FSD direction.
 - Do not add crafting, runes, or repair workflows until a phase explicitly scopes them.
-- Do not persist selected loadout ids until a save-version phase explicitly approves the migration.
-- Save v6 is approved only for inventory ownership events and does not approve selected loadout ids.
+- Do not add more persisted equipment state beyond `equipmentLoadoutEvents` without a new save-version gate.
+- Save v7 persists selected loadout entry ids only; it does not approve durability, combat loadout application, quick slots, or item effects.
 - Do not let `activeDefenseProfile` change incoming damage before official character-targeting rules are implemented.

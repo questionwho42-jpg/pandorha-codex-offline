@@ -42,9 +42,11 @@ async function runSocialBrowserSmoke(root) {
 			"worldState: worldStateRecords",
 			"socialEncounters: socialEncounterRecords",
 			"socialEncounterEvents: socialEncounterEventRecords",
+			"equipmentLoadoutEvents: equipmentLoadoutEventRecords",
 			"worldStateRecords = [...result.data.worldState]",
 			"socialEncounterRecords = [...result.data.socialEncounters]",
 			"socialEncounterEventRecords = [...result.data.socialEncounterEvents]",
+			"equipmentLoadoutEventRecords = [...restoredLoadout.data]",
 		],
 		errors,
 	);
@@ -137,12 +139,13 @@ async function runSocialBrowserSmoke(root) {
 		root,
 		"src/features/save-load/model/saveLoadSchemas.ts",
 		[
-			"CURRENT_SAVE_VERSION = 6",
+			"CURRENT_SAVE_VERSION = 7",
 			"clocks",
 			"socialEncounters",
 			"socialEncounterEvents",
 			"npcRelationships",
 			"inventoryEvents",
+			"equipmentLoadoutEvents",
 		],
 		errors,
 	);

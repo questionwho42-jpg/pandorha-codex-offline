@@ -50,4 +50,6 @@ Esse ataque recebido ainda e de treino: ele aparece no log, usa a CA equipada do
 
 As descricoes da navegacao agora falam sobre o que ja esta disponivel no navegador. Uma verificacao automatica impede que avisos antigos de "sera implementado" voltem depois que uma tela ja existe.
 
-O Inventario agora pertence ao personagem selecionado. O usuario pode carregar, consumir e remover itens, salvar a sessao e recuperar o mesmo inventario depois de recarregar a pagina.
+O Inventario agora pertence ao personagem selecionado. O usuario pode carregar,
+equipar, desequipar, consumir e remover itens, salvar a sessao e recuperar o
+mesmo inventario e o equipamento ativo depois de recarregar a pagina.

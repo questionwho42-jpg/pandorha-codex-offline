@@ -1,7 +1,12 @@
 import type { CharacterRepository } from "$lib/entities/character";
 import {
 	EquipmentCatalogService,
+	type EquipmentLoadoutEventRecord,
+	EquipmentLoadoutLedgerReplayService,
+	type EquipmentLoadoutRepositoryFailure,
+	EquipmentLoadoutService,
 	InMemoryEquipmentCatalogRepository,
+	InMemoryEquipmentLoadoutEventRepository,
 	OFFICIAL_CONSUMABLES,
 	OFFICIAL_EQUIPMENT,
 } from "$lib/entities/equipment";
@@ -20,9 +25,16 @@ export interface InventorySession {
 	readonly consumables: typeof OFFICIAL_CONSUMABLES;
 	readonly equipment: typeof OFFICIAL_EQUIPMENT;
 	getEvents(): readonly InventoryEventRecord[];
+	getLoadoutEvents(): readonly EquipmentLoadoutEventRecord[];
 	restoreEvents(
 		records: readonly InventoryEventRecord[],
 	): Result<readonly InventoryEventRecord[], InventoryRepositoryFailure>;
+	restoreLoadoutEvents(
+		records: readonly EquipmentLoadoutEventRecord[],
+	): Result<
+		readonly EquipmentLoadoutEventRecord[],
+		EquipmentLoadoutRepositoryFailure
+	>;
 	readonly service: InventoryManagementService;
 }
 
@@ -30,20 +42,30 @@ export function createInventorySession(
 	characterRepository: CharacterRepository,
 ): InventorySession {
 	const inventoryRepository = new InMemoryInventoryEventRepository();
+	const equipmentLoadoutRepository =
+		new InMemoryEquipmentLoadoutEventRepository();
+	const equipmentCatalogRepository = new InMemoryEquipmentCatalogRepository({
+		consumables: OFFICIAL_CONSUMABLES,
+		equipment: OFFICIAL_EQUIPMENT,
+	});
 	const ids = createInventoryIdState();
+	const loadoutIds = createLoadoutIdState();
 	const service = new InventoryManagementService({
 		capacityService: new InventoryCapacityService(),
 		characterRepository,
 		clock: { now: () => new Date().toISOString() },
 		entryIdProvider: ids.entryIdProvider,
 		equipmentCatalogService: new EquipmentCatalogService(
-			new InMemoryEquipmentCatalogRepository({
-				consumables: OFFICIAL_CONSUMABLES,
-				equipment: OFFICIAL_EQUIPMENT,
-			}),
+			equipmentCatalogRepository,
+		),
+		equipmentLoadoutRepository,
+		equipmentLoadoutService: new EquipmentLoadoutService(
+			equipmentCatalogRepository,
 		),
 		eventIdProvider: ids.eventIdProvider,
 		inventoryRepository,
+		loadoutEventIdProvider: loadoutIds.eventIdProvider,
+		loadoutReplayService: new EquipmentLoadoutLedgerReplayService(),
 		replayService: new InventoryLedgerReplayService(),
 	});
 
@@ -51,12 +73,21 @@ export function createInventorySession(
 		consumables: OFFICIAL_CONSUMABLES,
 		equipment: OFFICIAL_EQUIPMENT,
 		getEvents: () => inventoryRepository.all(),
+		getLoadoutEvents: () => equipmentLoadoutRepository.all(),
 		restoreEvents: (records) => {
 			const restored = inventoryRepository.replaceAll(records);
 			if (!restored.success) {
 				return restored;
 			}
 			ids.syncFromEvents(restored.data);
+			return restored;
+		},
+		restoreLoadoutEvents: (records) => {
+			const restored = equipmentLoadoutRepository.replaceAll(records);
+			if (!restored.success) {
+				return restored;
+			}
+			loadoutIds.syncFromEvents(restored.data);
 			return restored;
 		},
 		service,
@@ -90,6 +121,30 @@ function createInventoryIdState(): {
 			nextEventId = findNextNumericId(
 				events.map((event) => event.id),
 				"inventory-event",
+			);
+		},
+	};
+}
+
+function createLoadoutIdState(): {
+	readonly eventIdProvider: InventoryManagementIdProvider;
+	syncFromEvents(events: readonly EquipmentLoadoutEventRecord[]): void;
+} {
+	let nextEventId = 1;
+
+	return {
+		eventIdProvider: createSequentialIdProvider(
+			"equipment-loadout-event",
+			() => {
+				const current = nextEventId;
+				nextEventId += 1;
+				return current;
+			},
+		),
+		syncFromEvents: (events) => {
+			nextEventId = findNextNumericId(
+				events.map((event) => event.id),
+				"equipment-loadout-event",
 			);
 		},
 	};
