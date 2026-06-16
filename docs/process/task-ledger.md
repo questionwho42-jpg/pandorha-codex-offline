@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260616-172607-combat-persistent-loadout-gate -->
+### Combat persistent loadout gate
+- id: 20260616-172607-combat-persistent-loadout-gate
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-16T17:26:07-03:00
+- finished_at: 2026-06-16T17:48:33-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-16T17:48:33-03:00
+- branch: codex/docs/combat-persistent-loadout-gate
+- commit_at_start: de5e317 chore(process): record loadout promotion merge
+- summary: Approve the contract for the Combat tab to consume character inventory loadout without save v8, migrations, durability, or real HP persistence.
+- last_change: Approved the technical gate for Combat to consume persisted inventory loadout without save v8, migrations, durability, or real HP persistence.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-16T17:26:07-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-16T17:48:33-03:00
+- Done: Approved the technical gate for Combat to consume persisted inventory loadout without save v8, migrations, durability, or real HP persistence.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260616-172607-combat-persistent-loadout-gate -->
 <!-- pandorha-task:20260616-172054-loadout-v7-promotion-review -->
 ### Loadout v7 promotion review
 - id: 20260616-172054-loadout-v7-promotion-review

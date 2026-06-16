@@ -22,6 +22,16 @@ Este guia mostra como testar a vertical slice de combate no navegador. O objetiv
 - Quando o `HP de treino` chega a 0, a tela mostra `Teste recebido encerrado`; para testar outro dano recebido, use `Reiniciar encontro`.
 - Quando o alvo chega a 0 HP, a tela mostra `Alvo derrotado`, bloqueia novos ataques e mantem `Reiniciar encontro` disponivel.
 
+## Proxima Mudanca Aprovada
+
+O gate `docs/process/combat-persistent-loadout-gate.md` aprova a proxima
+entrega: personagens da sessao devem deixar de usar seletores locais de
+equipamento no combate e passar a consumir a arma, o escudo e a armadura
+equipados no `Inventario`.
+
+Enquanto essa entrega nao for implementada, os seletores locais abaixo ainda
+descrevem o comportamento vigente da tela de treino.
+
 ## Teste Rapido Com Aria
 
 1. Abra `http://localhost:5173/`.

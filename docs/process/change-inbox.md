@@ -10,9 +10,21 @@ The automation owns the marked sections below. Manual edits should stay outside 
   next step for `20260615-future-inventory-persistent-loadout` and
   `20260615-future-inventory-equip-actions` through
   `docs/process/equipment-loadout-save-v7-gate.md`.
+- `20260616-172607-combat-persistent-loadout-gate` approves the next step for
+  `20260615-future-inventory-combat-integration` through
+  `docs/process/combat-persistent-loadout-gate.md`.
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260616-172607-combat-persistent-loadout-gate -->
+### Combat persistent loadout gate
+- id: 20260616-172607-combat-persistent-loadout-gate
+- status: open
+- created_at: 2026-06-16T17:26:07-03:00
+- source: task-ledger
+- summary: Approve the contract for the Combat tab to consume character inventory loadout without save v8, migrations, durability, or real HP persistence.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260616-172607-combat-persistent-loadout-gate -->
 <!-- pandorha-inbox:20260616-172054-loadout-v7-promotion-review -->
 ### Loadout v7 promotion review
 - id: 20260616-172054-loadout-v7-promotion-review
