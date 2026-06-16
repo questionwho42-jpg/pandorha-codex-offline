@@ -13,15 +13,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
-<!-- pandorha-inbox:20260615-201706-persistent-equipment-loadout-save-v7 -->
-### Persistent equipment loadout save v7
-- id: 20260615-201706-persistent-equipment-loadout-save-v7
+<!-- pandorha-inbox:20260616-172054-loadout-v7-promotion-review -->
+### Loadout v7 promotion review
+- id: 20260616-172054-loadout-v7-promotion-review
 - status: open
-- created_at: 2026-06-15T20:17:06-03:00
+- created_at: 2026-06-16T17:20:54-03:00
 - source: task-ledger
-- summary: Approve and implement character-owned persistent equipment loadout with save v7, inventory equip UI, rendered validation, and readiness.
+- summary: Promote completed loadout v7 inbox records after main merge while keeping future combat integration open.
 - expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260615-201706-persistent-equipment-loadout-save-v7 -->
+<!-- /pandorha-inbox:20260616-172054-loadout-v7-promotion-review -->
 <!-- pandorha-inbox:20260615-future-inventory-combat-integration -->
 ### Future inventory combat integration
 - id: 20260615-future-inventory-combat-integration
@@ -58,24 +58,6 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - summary: Integrar desgaste e durabilidade somente após loadout persistente e regras soberanas revisadas.
 - expected_promotion: official docs after merge to main
 <!-- /pandorha-inbox:20260615-future-inventory-durability -->
-<!-- pandorha-inbox:20260615-future-inventory-equip-actions -->
-### Future inventory equip actions
-- id: 20260615-future-inventory-equip-actions
-- status: open
-- created_at: 2026-06-15T11:50:55-03:00
-- source: task-ledger
-- summary: Expor equipar e desequipar na UI somente após contrato persistente de loadout.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260615-future-inventory-equip-actions -->
-<!-- pandorha-inbox:20260615-future-inventory-persistent-loadout -->
-### Future persistent inventory loadout
-- id: 20260615-future-inventory-persistent-loadout
-- status: open
-- created_at: 2026-06-15T11:50:48-03:00
-- source: task-ledger
-- summary: Persistir loadout por personagem sem duplicar itens do ledger e sem antecipar efeitos de combate.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260615-future-inventory-persistent-loadout -->
 <!-- pandorha-inbox:20260615-114907-inventory-post-delivery-audit -->
 ### Inventory post-delivery audit
 - id: 20260615-114907-inventory-post-delivery-audit
@@ -989,4 +971,31 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Promoted
 <!-- pandorha-inbox:promoted -->
+<!-- pandorha-inbox:20260615-201706-persistent-equipment-loadout-save-v7 -->
+### Persistent equipment loadout save v7
+- id: 20260615-201706-persistent-equipment-loadout-save-v7
+- status: promoted
+- created_at: 2026-06-15T20:17:06-03:00
+- source: task-ledger
+- summary: Approve and implement character-owned persistent equipment loadout with save v7, inventory equip UI, rendered validation, and readiness.
+- expected_promotion: promoted to docs/process/equipment-loadout-save-v7-gate.md, docs/user/inventory-management.md, docs/process/vertical-slice-qa.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260615-201706-persistent-equipment-loadout-save-v7 -->
+<!-- pandorha-inbox:20260615-future-inventory-equip-actions -->
+### Future inventory equip actions
+- id: 20260615-future-inventory-equip-actions
+- status: promoted
+- created_at: 2026-06-15T11:50:55-03:00
+- source: task-ledger
+- summary: Expor equipar e desequipar na UI somente após contrato persistente de loadout.
+- expected_promotion: promoted to docs/process/equipment-loadout-save-v7-gate.md, docs/user/inventory-management.md, and docs/process/vertical-slice-qa.md after main merge
+<!-- /pandorha-inbox:20260615-future-inventory-equip-actions -->
+<!-- pandorha-inbox:20260615-future-inventory-persistent-loadout -->
+### Future persistent inventory loadout
+- id: 20260615-future-inventory-persistent-loadout
+- status: promoted
+- created_at: 2026-06-15T11:50:48-03:00
+- source: task-ledger
+- summary: Persistir loadout por personagem sem duplicar itens do ledger e sem antecipar efeitos de combate.
+- expected_promotion: promoted to docs/process/equipment-loadout-save-v7-gate.md, docs/user/inventory-management.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260615-future-inventory-persistent-loadout -->
 <!-- /pandorha-inbox:promoted -->

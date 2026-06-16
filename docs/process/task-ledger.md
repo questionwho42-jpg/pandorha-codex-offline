@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260616-172054-loadout-v7-promotion-review -->
+### Loadout v7 promotion review
+- id: 20260616-172054-loadout-v7-promotion-review
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-16T17:20:54-03:00
+- finished_at: 2026-06-16T17:23:38-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-16T17:23:38-03:00
+- branch: codex/docs/loadout-v7-promotion-review
+- commit_at_start: 7da551c chore(process): record loadout merge promotion
+- summary: Promote completed loadout v7 inbox records after main merge while keeping future combat integration open.
+- last_change: Promoted the completed loadout v7, persistent loadout, and equip action inbox records while keeping future combat integration open.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-16T17:20:54-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-16T17:23:38-03:00
+- Done: Promoted the completed loadout v7, persistent loadout, and equip action inbox records while keeping future combat integration open.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260616-172054-loadout-v7-promotion-review -->
 <!-- pandorha-task:20260615-201706-persistent-equipment-loadout-save-v7 -->
 ### Persistent equipment loadout save v7
 - id: 20260615-201706-persistent-equipment-loadout-save-v7
