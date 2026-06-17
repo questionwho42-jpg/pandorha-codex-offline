@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260616-195116-post-combat-promotion-sweep -->
+### Post combat promotion sweep
+- id: 20260616-195116-post-combat-promotion-sweep
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-16T19:51:16-03:00
+- finished_at: 2026-06-16T19:54:24-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-16T19:54:24-03:00
+- branch: codex/docs/post-combat-promotion-sweep
+- commit_at_start: 43514ba chore(process): record combat loadout promotion
+- summary: Promote delivered inventory, loadout, and combat integration records after main merge while keeping future limitations open.
+- last_change: Promoted delivered inventory v6, editable inventory, loadout v7, and Combat inventory integration records while keeping potion belt, durability, real HP, starting equipment, PWA, and other future limitations open.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-16T19:51:16-03:00
+- Done: task record created
+- Next: Review change inbox and promote only delivered records.
+- Risks: Do not promote future potion belt, durability, HP real, or RPG rules by inference.
+- Improvements: Keep future feature entries linked to explicit gates.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-16T19:54:24-03:00
+- Done: Promoted delivered inventory v6, editable inventory, loadout v7, and Combat inventory integration records while keeping potion belt, durability, real HP, starting equipment, PWA, and other future limitations open.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260616-195116-post-combat-promotion-sweep -->
 <!-- pandorha-task:20260616-175040-combat-persistent-loadout-integration -->
 ### Combat persistent loadout integration
 - id: 20260616-175040-combat-persistent-loadout-integration

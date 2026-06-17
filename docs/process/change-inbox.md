@@ -16,45 +16,23 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - `20260616-175040-combat-persistent-loadout-integration` implements
   `20260615-future-inventory-combat-integration` by deriving Combat weapon and
   defense profiles from the persisted inventory loadout without save v8.
+- Inventory ownership, save v6, editable inventory, loadout v7, and Combat
+  integration records were promoted after merge to `main` through their process
+  gates, user guides, QA scripts, and post-audit roadmap. Future potion belt,
+  durability, real HP persistence, starting equipment, PWA, and other deliberate
+  limitations remain open until their own gates are approved.
 
 ## Open
 <!-- pandorha-inbox:open -->
-<!-- pandorha-inbox:20260616-175040-combat-persistent-loadout-integration -->
-### Combat persistent loadout integration
-- id: 20260616-175040-combat-persistent-loadout-integration
+<!-- pandorha-inbox:20260616-195116-post-combat-promotion-sweep -->
+### Post combat promotion sweep
+- id: 20260616-195116-post-combat-promotion-sweep
 - status: open
-- created_at: 2026-06-16T17:50:40-03:00
+- created_at: 2026-06-16T19:51:16-03:00
 - source: task-ledger
-- summary: Implement the Combat tab consuming persisted inventory loadout, with app boundary resolver, UI update, smokes, rendered validation, and readiness.
+- summary: Promote delivered inventory, loadout, and combat integration records after main merge while keeping future limitations open.
 - expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260616-175040-combat-persistent-loadout-integration -->
-<!-- pandorha-inbox:20260616-172607-combat-persistent-loadout-gate -->
-### Combat persistent loadout gate
-- id: 20260616-172607-combat-persistent-loadout-gate
-- status: open
-- created_at: 2026-06-16T17:26:07-03:00
-- source: task-ledger
-- summary: Approve the contract for the Combat tab to consume character inventory loadout without save v8, migrations, durability, or real HP persistence.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260616-172607-combat-persistent-loadout-gate -->
-<!-- pandorha-inbox:20260616-172054-loadout-v7-promotion-review -->
-### Loadout v7 promotion review
-- id: 20260616-172054-loadout-v7-promotion-review
-- status: open
-- created_at: 2026-06-16T17:20:54-03:00
-- source: task-ledger
-- summary: Promote completed loadout v7 inbox records after main merge while keeping future combat integration open.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260616-172054-loadout-v7-promotion-review -->
-<!-- pandorha-inbox:20260615-future-inventory-combat-integration -->
-### Future inventory combat integration
-- id: 20260615-future-inventory-combat-integration
-- status: open
-- created_at: 2026-06-15T11:51:24-03:00
-- source: task-ledger
-- summary: Conectar loadout persistente do inventário aos perfis ativos de combate sem duplicar estado.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260615-future-inventory-combat-integration -->
+<!-- /pandorha-inbox:20260616-195116-post-combat-promotion-sweep -->
 <!-- pandorha-inbox:20260615-future-inventory-starting-equipment -->
 ### Future starting equipment
 - id: 20260615-future-inventory-starting-equipment
@@ -82,51 +60,6 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - summary: Integrar desgaste e durabilidade somente após loadout persistente e regras soberanas revisadas.
 - expected_promotion: official docs after merge to main
 <!-- /pandorha-inbox:20260615-future-inventory-durability -->
-<!-- pandorha-inbox:20260615-114907-inventory-post-delivery-audit -->
-### Inventory post-delivery audit
-- id: 20260615-114907-inventory-post-delivery-audit
-- status: open
-- created_at: 2026-06-15T11:49:07-03:00
-- source: task-ledger
-- summary: Audit editable inventory delivery for regressions, inaccessible controls, known limitations, and readiness while preserving Browser do Codex rendered acceptance as mandatory.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260615-114907-inventory-post-delivery-audit -->
-<!-- pandorha-inbox:20260615-052210-editable-character-inventory-ui -->
-### Editable character inventory UI
-- id: 20260615-052210-editable-character-inventory-ui
-- status: open
-- created_at: 2026-06-15T05:22:10-03:00
-- source: task-ledger
-- summary: Substituir inventory-readonly pela UI editavel, integrar ledger a sessao e save/load e atualizar QA contratual.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260615-052210-editable-character-inventory-ui -->
-<!-- pandorha-inbox:20260615-051214-save-load-v6-inventory-ledger -->
-### Save-load v6 inventory ledger
-- id: 20260615-051214-save-load-v6-inventory-ledger
-- status: open
-- created_at: 2026-06-15T05:12:14-03:00
-- source: task-ledger
-- summary: Persistir inventoryEvents no save v6, RPC, worker e snapshot SQLite com migracao deterministica v5 para v6.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260615-051214-save-load-v6-inventory-ledger -->
-<!-- pandorha-inbox:20260606-inventory-ownership-core -->
-### Character-owned inventory ledger core
-- id: 20260606-inventory-ownership-core
-- status: open
-- created_at: 2026-06-06T06:53:19-03:00
-- source: task-ledger
-- summary: Implementar entidade, repository fake, replay e servico de gerenciamento de inventario por personagem sem UI ou save.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260606-inventory-ownership-core -->
-<!-- pandorha-inbox:20260606-inventory-ownership-save-v6-gate -->
-### Inventory ownership and save v6 gate
-- id: 20260606-inventory-ownership-save-v6-gate
-- status: open
-- created_at: 2026-06-06T06:45:53-03:00
-- source: task-ledger
-- summary: Aprovar contrato event-sourced de inventario pertencente ao personagem e limitar save v6 a inventoryEvents antes de qualquer implementacao.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260606-inventory-ownership-save-v6-gate -->
 <!-- pandorha-inbox:20260606-future-pwa-update-install-ui -->
 ### Future PWA update and install UI
 - id: 20260606-future-pwa-update-install-ui
@@ -995,6 +928,87 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Promoted
 <!-- pandorha-inbox:promoted -->
+<!-- pandorha-inbox:20260616-175040-combat-persistent-loadout-integration -->
+### Combat persistent loadout integration
+- id: 20260616-175040-combat-persistent-loadout-integration
+- status: promoted
+- created_at: 2026-06-16T17:50:40-03:00
+- source: task-ledger
+- summary: Implement the Combat tab consuming persisted inventory loadout, with app boundary resolver, UI update, smokes, rendered validation, and readiness.
+- expected_promotion: promoted to docs/process/combat-persistent-loadout-gate.md, docs/user/combat-training.md, docs/user/inventory-management.md, docs/process/vertical-slice-qa.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260616-175040-combat-persistent-loadout-integration -->
+<!-- pandorha-inbox:20260616-172607-combat-persistent-loadout-gate -->
+### Combat persistent loadout gate
+- id: 20260616-172607-combat-persistent-loadout-gate
+- status: promoted
+- created_at: 2026-06-16T17:26:07-03:00
+- source: task-ledger
+- summary: Approve the contract for the Combat tab to consume character inventory loadout without save v8, migrations, durability, or real HP persistence.
+- expected_promotion: promoted to docs/process/combat-persistent-loadout-gate.md, docs/user/combat-training.md, docs/process/vertical-slice-qa.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260616-172607-combat-persistent-loadout-gate -->
+<!-- pandorha-inbox:20260616-172054-loadout-v7-promotion-review -->
+### Loadout v7 promotion review
+- id: 20260616-172054-loadout-v7-promotion-review
+- status: promoted
+- created_at: 2026-06-16T17:20:54-03:00
+- source: task-ledger
+- summary: Promote completed loadout v7 inbox records after main merge while keeping future combat integration open.
+- expected_promotion: promoted to docs/process/change-inbox.md after main merge
+<!-- /pandorha-inbox:20260616-172054-loadout-v7-promotion-review -->
+<!-- pandorha-inbox:20260615-future-inventory-combat-integration -->
+### Future inventory combat integration
+- id: 20260615-future-inventory-combat-integration
+- status: promoted
+- created_at: 2026-06-15T11:51:24-03:00
+- source: task-ledger
+- summary: Conectar loadout persistente do inventário aos perfis ativos de combate sem duplicar estado.
+- expected_promotion: promoted to docs/process/combat-persistent-loadout-gate.md, docs/user/combat-training.md, docs/user/inventory-management.md, docs/process/vertical-slice-qa.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260615-future-inventory-combat-integration -->
+<!-- pandorha-inbox:20260615-114907-inventory-post-delivery-audit -->
+### Inventory post-delivery audit
+- id: 20260615-114907-inventory-post-delivery-audit
+- status: promoted
+- created_at: 2026-06-15T11:49:07-03:00
+- source: task-ledger
+- summary: Audit editable inventory delivery for regressions, inaccessible controls, known limitations, and readiness while preserving Browser do Codex rendered acceptance as mandatory.
+- expected_promotion: promoted to docs/process/ui-reachability-follow-up-roadmap.md and docs/process/vertical-slice-qa.md after main merge
+<!-- /pandorha-inbox:20260615-114907-inventory-post-delivery-audit -->
+<!-- pandorha-inbox:20260615-052210-editable-character-inventory-ui -->
+### Editable character inventory UI
+- id: 20260615-052210-editable-character-inventory-ui
+- status: promoted
+- created_at: 2026-06-15T05:22:10-03:00
+- source: task-ledger
+- summary: Substituir inventory-readonly pela UI editavel, integrar ledger a sessao e save/load e atualizar QA contratual.
+- expected_promotion: promoted to docs/user/inventory-management.md, docs/process/vertical-slice-qa.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260615-052210-editable-character-inventory-ui -->
+<!-- pandorha-inbox:20260615-051214-save-load-v6-inventory-ledger -->
+### Save-load v6 inventory ledger
+- id: 20260615-051214-save-load-v6-inventory-ledger
+- status: promoted
+- created_at: 2026-06-15T05:12:14-03:00
+- source: task-ledger
+- summary: Persistir inventoryEvents no save v6, RPC, worker e snapshot SQLite com migracao deterministica v5 para v6.
+- expected_promotion: promoted to docs/process/inventory-ownership-save-v6-gate.md, docs/user/inventory-management.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260615-051214-save-load-v6-inventory-ledger -->
+<!-- pandorha-inbox:20260606-inventory-ownership-core -->
+### Character-owned inventory ledger core
+- id: 20260606-inventory-ownership-core
+- status: promoted
+- created_at: 2026-06-06T06:53:19-03:00
+- source: task-ledger
+- summary: Implementar entidade, repository fake, replay e servico de gerenciamento de inventario por personagem sem UI ou save.
+- expected_promotion: promoted to docs/process/inventory-ownership-save-v6-gate.md and docs/user/inventory-management.md after main merge
+<!-- /pandorha-inbox:20260606-inventory-ownership-core -->
+<!-- pandorha-inbox:20260606-inventory-ownership-save-v6-gate -->
+### Inventory ownership and save v6 gate
+- id: 20260606-inventory-ownership-save-v6-gate
+- status: promoted
+- created_at: 2026-06-06T06:45:53-03:00
+- source: task-ledger
+- summary: Aprovar contrato event-sourced de inventario pertencente ao personagem e limitar save v6 a inventoryEvents antes de qualquer implementacao.
+- expected_promotion: promoted to docs/process/inventory-ownership-save-v6-gate.md and docs/user/inventory-management.md after main merge
+<!-- /pandorha-inbox:20260606-inventory-ownership-save-v6-gate -->
 <!-- pandorha-inbox:20260615-201706-persistent-equipment-loadout-save-v7 -->
 ### Persistent equipment loadout save v7
 - id: 20260615-201706-persistent-equipment-loadout-save-v7
