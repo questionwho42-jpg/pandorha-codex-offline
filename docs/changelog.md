@@ -5,6 +5,21 @@ This file receives zero-token promotion summaries after changes reach `main`.
 Detailed architectural decisions belong in `docs/adr/`. RPG and business rules remain in `docs/system/`.
 
 <!-- pandorha-changelog:main -->
+## 2026-06-17T12:11:43-03:00 - main merge promotion candidate
+- branch: main
+- commit: 556019a docs(character): approve trait selections save v8 gate
+- changed_files_count: 4
+- review_model: gpt-5.5 high-reasoning final review; local automation zero-token
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/character-traits-save-v8-gate.md
+- docs/process/task-ledger.md
+- docs/process/ui-reachability-follow-up-roadmap.md
+#### Promotion Review
+- Done: merge detected on main and changelog promotion candidate created
+- Next: model final review should decide whether ADR, system docs, conventions, or llms.txt need updates
+- Risks: semantic promotion still requires human/model judgment
+- Improvements: include task ids in commit messages for tighter traceability
 ## 2026-06-17T12:05:29-03:00 - main merge promotion candidate
 - branch: main
 - commit: 4539c0c docs(process): promote potion belt quick access records
