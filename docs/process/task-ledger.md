@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260617-120814-character-traits-save-v8-gate -->
+### Character traits save v8 gate
+- id: 20260617-120814-character-traits-save-v8-gate
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-17T12:08:14-03:00
+- finished_at: 2026-06-17T12:10:21-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-17T12:10:21-03:00
+- branch: codex/docs/character-traits-save-v8-gate
+- commit_at_start: 3bd118c docs(process): record potion belt promotion merge
+- summary: Approve save v8 contract for persisted ancestry trait selections and starting equipment catalog gap map.
+- last_change: Approved the save v8 contract for persisted ancestry trait selections, including invariants, migration boundaries, UI expectations, and a starting equipment catalog gap map without changing docs/system.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-17T12:08:14-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-17T12:10:21-03:00
+- Done: Approved the save v8 contract for persisted ancestry trait selections, including invariants, migration boundaries, UI expectations, and a starting equipment catalog gap map without changing docs/system.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260617-120814-character-traits-save-v8-gate -->
 <!-- pandorha-task:20260617-120327-potion-belt-promotion-sweep -->
 ### Potion belt promotion sweep
 - id: 20260617-120327-potion-belt-promotion-sweep

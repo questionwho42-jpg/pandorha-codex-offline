@@ -37,7 +37,7 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 | Efeitos reais de consumíveis | O cinto pode virar atalho, mas não existe contrato para cura, alvo, overdose, estado oficial ou economia de ação. | Gate próprio de efeitos de item, HP real persistido, alvos, condições e revisão das regras soberanas. | Depois do acesso rápido estar estável e depois da aprovação explícita de HP real/efeitos. | Muito alto: pode alterar combate, Character, save e regras soberanas. | `inventory-management`/`combat-encounter`/`character`; inbox `20260615-future-inventory-potion-belt` e gates futuros de HP real. |
 | Equipamento inicial | Personagens começam sem eventos de inventário; classe e antecedente ainda não concedem kits. | Contrato completo de ficha, classes, antecedentes, catálogos e concessão determinística por ledger. | Junto da próxima evolução aprovada da criação de personagem. | Alto: pode duplicar itens ou inferir kits não oficiais. | `character-create`/`inventory-management`; inbox `20260615-future-inventory-starting-equipment`. |
 | Execução real de Magia | A UI apenas prepara `cast-spell`; não gasta EE, escolhe personagem conjurador ou aplica efeitos. | Serviços de EE, seleção de alvos, execução de efeitos, ActionQueue e revisão de regras mágicas. | Depois dos contratos de recursos, alvos e efeitos; antes de integrar magia ao combate real. | Alto: regras, recursos e efeitos atravessam múltiplas features. | `spell-cast`/`magic`; inbox `20260513-233033-t27-spellcastbuilder-core` e `20260513-234107-t28-ui-de-conjuracao-minima`. |
-| Persistência e aplicação dos traços | Os traços são validados na criação, mas não aparecem na listagem, não entram no save e não aplicam mecânicas. | Contrato de ficha, relação persistida personagem-traço, migration aprovada e Decorator para efeitos mecânicos. | Depois que o contrato completo da ficha e a migration forem aprovados. | Alto: altera Character, save e múltiplas mecânicas. | `character-create`/`character-list`/`ancestry`; inbox `20260505-081342-t13a-character-ancestry-trait-selection` e `20260503-221203-t12-ancestry-traits`. |
+| Persistência e aplicação dos traços | Os traços são validados na criação, mas ainda precisam ser preservados no save, aparecer na listagem e aplicar mecânicas em fase futura. | Gate v8 para relação persistida personagem-traço; Decorator e efeitos mecânicos permanecem em gate separado. | Persistência textual após aprovação do gate v8; efeitos mecânicos somente depois de contrato próprio. | Alto: altera Character, save e múltiplas mecânicas. | `character-create`/`character-list`/`ancestry`; gate `docs/process/character-traits-save-v8-gate.md`; inbox `20260505-081342-t13a-character-ancestry-trait-selection` e `20260503-221203-t12-ancestry-traits`. |
 | Compêndio completo e indexado | O navegador expõe somente o catálogo curado atual, não todo o corpus de regras e lore. | Pipeline validado de ingestão, indexação, proveniência e limites de conteúdo carregado no navegador. | Depois que o pipeline de ingestão e a política de fontes forem estáveis. | Médio: conteúdo extenso pode degradar busca, bundle e precisão. | `compendium`; inbox `20260505-185244-t16a-compendium-base-catalog` e `20260505-190555-t17a-compendium-browser-ui`. |
 | HP real persistido e estados oficiais | Combate mostra prévia local de HP real, mas não grava ficha nem aplica Moribundo/Inconsciente. | Aprovação do gate de dano real, gate de versão de save próprio, ledger persistido, estados oficiais e regras soberanas de 0 HP. | Somente depois da aprovação explícita do gate de save e estados oficiais. | Muito alto: afeta regras soberanas, Character, Combate, save e replay. | `combat-encounter`/`character`; inbox `20260605-173410-t98-official-incoming-damage-gate` até `20260605-201308-t104-combat-real-damage-preview-ui`. |
 | Acampamento multi-hora | A sessão resolvida fica corretamente encerrada após uma hora e não oferece nova hora ou noite completa. | Orquestração explícita de nova hora, transições de sessão, persistência e revisão de atividades avançadas. | Depois que o fluxo atual de uma hora permanecer estável e o contrato de nova hora for aprovado. | Alto: pode confundir estado restaurado, clocks e histórico de atividades. | `camp-hour`; inbox `20260606-future-camp-multi-hour`. |
@@ -48,7 +48,7 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 ## Ordem Recomendada
 
 1. Entregar equipamento inicial somente junto ao contrato completo de ficha.
-2. Persistir traços somente junto ao contrato completo de ficha e migration.
+2. Persistir traços textuais somente com o gate de save v8; aplicar efeitos mecânicos apenas em fase posterior com Decorator.
 3. Ampliar Compêndio após pipeline de ingestão, pois ele reduz dependência de consulta manual às regras.
 4. Implementar Acampamento multi-hora e Relações superiores apenas após seus contratos explícitos.
 5. Manter efeitos reais de consumíveis, execução de Magia e HP real persistido para fases posteriores, pois possuem maior risco de regra, save e integração.
@@ -69,7 +69,11 @@ em `docs/process/potion-belt-quick-access-gate.md` e implementado na fatia
 `20260617-060205-combat-potion-belt-quick-access`; ele cobre apenas acesso
 rapido e decremento de `potion-belt-stack` pelo ledger existente. Durabilidade,
 efeitos reais de item, cura, HP real e economia de acao oficial continuam
-exigindo fases proprias e contrato novo antes de qualquer código.
+exigindo fases proprias e contrato novo antes de qualquer código. O gate de
+tracos persistidos e save v8 foi aprovado em
+`docs/process/character-traits-save-v8-gate.md`; ele cobre apenas as 3 escolhas
+textuais de tracos por personagem, enquanto efeitos mecanicos, Decorator e
+equipamento inicial continuam exigindo fases proprias.
 
 Uma futura tarefa só deve começar quando:
 

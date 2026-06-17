@@ -30,6 +30,13 @@ The automation owns the marked sections below. Manual edits should stay outside 
   quick-access slice in the Combat tab. Future healing, HP real, item effects,
   conditions, overdose, durability, and official action economy remain open under
   `20260615-future-inventory-potion-belt`.
+- `20260617-120814-character-traits-save-v8-gate` approves the bounded save v8
+  step for `20260505-081342-t13a-character-ancestry-trait-selection` and
+  `20260503-221203-t12-ancestry-traits` through
+  `docs/process/character-traits-save-v8-gate.md`: persist the 3 textual
+  ancestry trait choices, without mechanical effects, HP real, talents, starting
+  equipment, gold, passives, Decorator, editable sheet, or `docs/system/`
+  promotion.
 
 ## Open
 <!-- pandorha-inbox:open -->
