@@ -182,6 +182,13 @@
 - Missing weapons now block attack and expose `Abrir Inventario`; changing equipment happens in the Inventory tab.
 - This step does not add save v8, durability, consumable use, real HP persistence, official monsters, or docs/system promotion.
 
+## 2026-06-17 - Potion Belt Quick Access
+
+- `combatPotionBelt.ts` defines resolver and consumer ports owned by Combat; the app implements them with the inventory ledger.
+- `CombatEncounterPanel.svelte` renders `combat-potion-belt`, `combat-potion-belt-summary`, and `combat-use-potion-belt-button` only for session-character attackers.
+- Using the potion belt appends the returned log entry and refreshes the snapshot, but it does not change `HP de treino`, real HP preview, conditions, durability, or turn state.
+- The UI maps inventory/ledger/entry failures into pt-BR combat copy while keeping technical failures typed.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

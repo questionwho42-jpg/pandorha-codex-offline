@@ -54,6 +54,10 @@ import { createCampSession } from "./model/campSession";
 import { createCharacterSession } from "./model/characterSession";
 import { createCombatEncounterSession } from "./model/combatEncounterSession";
 import { createCombatPersistentLoadoutResolver } from "./model/combatPersistentLoadoutResolver";
+import {
+	createCombatPotionBeltConsumer,
+	createCombatPotionBeltResolver,
+} from "./model/combatPotionBeltBridge";
 import { createCompendiumSession } from "./model/compendiumSession";
 import { createHexcrawlSession } from "./model/hexcrawlSession";
 import { createInventorySession } from "./model/inventorySession";
@@ -90,6 +94,10 @@ const resolveCombatPersistentLoadout = createCombatPersistentLoadoutResolver({
 	buildEquipmentLoadout: combatEncounterSession.buildEquipmentLoadout,
 	inventoryService: inventorySession.service,
 });
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const resolveCombatPotionBelt = createCombatPotionBeltResolver({
+	inventoryService: inventorySession.service,
+});
 
 let activeView = $state<AppNavigationId>("home");
 let campAssignmentRecords = $state<CampAssignmentRecord[]>([]);
@@ -101,6 +109,14 @@ let factionStandingRecords = $state<FactionStandingRecord[]>(
 );
 let equipmentLoadoutEventRecords = $state<EquipmentLoadoutEventRecord[]>([]);
 let inventoryEventRecords = $state<InventoryEventRecord[]>([]);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const consumeCombatPotionBelt = createCombatPotionBeltConsumer({
+	getInventoryEvents: () => inventoryEventRecords,
+	inventoryService: inventorySession.service,
+	onInventoryEventsChange: (records) => {
+		inventoryEventRecords = [...records];
+	},
+});
 let npcRelationshipRecords = $state<NpcRelationshipRecord[]>([]);
 let socialEncounterRecords = $state<SocialEncounterRecord[]>([]);
 let socialEncounterEventRecords = $state<SocialEncounterEventRecord[]>([]);
@@ -498,7 +514,9 @@ onMount(() => {
 					onOpenInventory={() => {
 						activeView = "inventory";
 					}}
+					consumePotionBelt={consumeCombatPotionBelt}
 					resolvePersistentLoadout={resolveCombatPersistentLoadout}
+					resolvePotionBelt={resolveCombatPotionBelt}
 					resolveAttack={(input) =>
 						combatEncounterSession.service.resolveAttack(input)}
 					resolveTrainingEnemyAttack={(input) =>

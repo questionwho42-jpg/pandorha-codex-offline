@@ -11,6 +11,8 @@ Este guia mostra como testar a vertical slice de combate no navegador. O objetiv
 - Personagens da sessao usam o bloco `Loadout do Inventario`, derivado da arma, escudo e armadura equipados na aba `Inventario`.
 - Sem arma equipada, `Atacar` fica indisponivel e a tela oferece `Abrir Inventario`.
 - Quando o personagem equipa `Espada Longa`, `Armadura de Couro` e `Escudo Redondo` no inventario, o combate mostra `Arma ativa: Espada Longa (1d8)` e `Defesa equipada` com `CA equipada +3`.
+- Quando o personagem carrega `Cinto de Poções` no inventario, o combate mostra `Cinto de poções: 5/5` ao atingir a pilha cheia.
+- `Usar poção do cinto` consome 1 unidade do inventario e registra `Poção do cinto usada em treino. HP real não foi alterado.`.
 - Personagens da sessao tambem mostram `HP de treino`, um medidor local que usa o HP maximo derivado da ficha.
 - `Aria usa perfil fixo de treino` e nao depende do inventario.
 - A tela mostra `Rodada`, `Turno de ...` e `Acoes 3/3`.
@@ -65,7 +67,7 @@ Crie um personagem antes de entrar no combate:
 
 Depois:
 
-1. Clique em `Inventario`, selecione `Nara` e carregue `Espada Longa`, `Escudo Redondo` e `Armadura de Couro`.
+1. Clique em `Inventario`, selecione `Nara` e carregue `Espada Longa`, `Escudo Redondo`, `Armadura de Couro` e `Cinto de Poções` 5 vezes.
 2. Use `Equipar arma`, `Equipar escudo` e `Vestir armadura`.
 3. Clique em `Combate`.
 4. No seletor `Atacante`, escolha `Nara`.
@@ -73,20 +75,24 @@ Depois:
 6. Confirme que `Loadout do Inventario` mostra `Arma equipada: Espada Longa`, `Escudo equipado: Escudo Redondo` e `Armadura equipada: Armadura de Couro`.
 7. Confirme que o helper mostra `Arma ativa: Espada Longa (1d8)`.
 8. Confirme que `Defesa equipada` mostra `CA equipada +3 (Armadura de Couro +2, Escudo Redondo +1)`.
-9. Confirme que o `Perfil de dano` mostra `Matriz Fisica: 3`.
-10. Confirme que o resumo de dano mostra `Espada Longa: 1d8 (rolado no ataque) + Fisico 3`.
-11. Clique em `Atacar`.
-12. Confirme que o log usa o nome `Nara`.
-13. Confirme que o log registra a rolagem auditavel da arma.
-14. Confirme que o dano final usa a arma equipada e a Matriz do personagem.
-15. Troque o alvo para `Duelista de Treino` e clique em `Atacar` em um encontro reiniciado.
-16. Confirme que o dano final e reduzido pela defesa do alvo: a rolagem deterministica gera dano base 7, RD 1 reduz para 6 e resistencia fisica reduz para 3.
-17. Clique em `Encerrar turno` para passar ao alvo.
-18. Confirme que a instrucao do turno avisa que o alvo resolvera o ataque contra a CA equipada de `Nara`.
-19. Clique em `Encerrar turno` de novo.
-20. Confirme que o log registra o ataque do alvo contra a CA do personagem, calcula dano de treino e atualiza `HP de treino`.
-21. Confirme que a ficha real continua intacta; se o `HP de treino` chegar a 0, a tela informa que Moribundo e Inconsciente nao foram aplicados.
-22. Quando aparecer `Teste recebido encerrado`, confirme que o proximo dano recebido de treino exige `Reiniciar encontro`.
+9. Confirme que `Cinto de poções: 5/5` aparece no bloco `Loadout do Inventario`.
+10. Clique em `Usar poção do cinto`.
+11. Confirme que o resumo muda para `Cinto de poções: 4/5` e que o log mostra `Poção do cinto usada em treino. HP real não foi alterado.`.
+12. Confirme que o uso de treino não altera HP real, HP de treino ou estados oficiais.
+13. Confirme que o `Perfil de dano` mostra `Matriz Fisica: 3`.
+14. Confirme que o resumo de dano mostra `Espada Longa: 1d8 (rolado no ataque) + Fisico 3`.
+15. Clique em `Atacar`.
+16. Confirme que o log usa o nome `Nara`.
+17. Confirme que o log registra a rolagem auditavel da arma.
+18. Confirme que o dano final usa a arma equipada e a Matriz do personagem.
+19. Troque o alvo para `Duelista de Treino` e clique em `Atacar` em um encontro reiniciado.
+20. Confirme que o dano final e reduzido pela defesa do alvo: a rolagem deterministica gera dano base 7, RD 1 reduz para 6 e resistencia fisica reduz para 3.
+21. Clique em `Encerrar turno` para passar ao alvo.
+22. Confirme que a instrucao do turno avisa que o alvo resolvera o ataque contra a CA equipada de `Nara`.
+23. Clique em `Encerrar turno` de novo.
+24. Confirme que o log registra o ataque do alvo contra a CA do personagem, calcula dano de treino e atualiza `HP de treino`.
+25. Confirme que a ficha real continua intacta; se o `HP de treino` chegar a 0, a tela informa que Moribundo e Inconsciente nao foram aplicados.
+26. Quando aparecer `Teste recebido encerrado`, confirme que o proximo dano recebido de treino exige `Reiniciar encontro`.
 
 ## Escolhendo Alvos
 
@@ -116,6 +122,7 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - `Acoes`: mostra quantas acoes restam no turno atual.
 - `Ficha no combate`: mostra dados resumidos do atacante selecionado.
 - `Loadout do Inventario`: mostra a arma, o escudo e a armadura persistidos no inventario do personagem.
+- `Cinto de poções`: mostra a pilha persistida de `Cinto de Poções` e permite consumir 1 unidade em treino.
 - `Abrir Inventario`: aparece quando o personagem da sessao nao possui arma equipada para atacar.
 - `Defesa equipada`: mostra o bonus de CA derivado da armadura e do escudo persistidos, a `CA contra treino` usada no ataque recebido e o `HP de treino` local do personagem da sessao.
 - `Previa local de HP real`: aparece separada do `HP de treino` para mostrar o replay local dos eventos de dano real; ela nao salva a ficha e nao aplica Moribundo ou Inconsciente.
@@ -130,6 +137,7 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - Recarregar a pagina reinicia o encontro, o turno, o log e o `HP de treino`; personagens, inventario e loadout voltam apenas depois de `Carregar save`.
 - O HP real do personagem ainda nao e alterado por combate; apenas o `HP de treino` local muda durante o encontro.
 - A `Previa local de HP real` tambem e local ao encontro: ela vem de eventos em memoria, nao grava save, nao muda a ficha e nao aplica estados oficiais.
+- O cinto de poções consome apenas a pilha persistida no inventario; ele nao cura, nao altera HP real, nao altera HP de treino e nao aplica estados oficiais.
 - A arma equipada vem do loadout persistido do inventario, mas o ataque ainda nao gasta durabilidade, nao consome municao e ainda nao usa proficiencia.
 - As defesas dos alvos de treino entram como RD e afinidades fixas; vulnerabilidade com `+1d6` auditavel ainda nao entra.
 - Armaduras e escudos do personagem entram como CA alvo para o ataque de treino recebido; nao entram em dano, durabilidade por rodada ou estados oficiais.

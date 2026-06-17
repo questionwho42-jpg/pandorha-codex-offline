@@ -45,8 +45,7 @@ export function createInventoryManagementView(
 	return {
 		entries: snapshot.entries.map((entry) => ({
 			...entry,
-			categoryLabel:
-				entry.catalogKind === "equipment" ? "Equipamento" : "Consumivel",
+			categoryLabel: mapCategoryLabel(entry),
 			equipActionLabel: mapEquipActionLabel(entry.equipmentKind),
 			equipSlot: mapEquipSlot(entry.equipmentKind),
 			equippedSlot: equippedSlotByEntryId.get(entry.entryId) ?? null,
@@ -67,6 +66,17 @@ export function createInventoryManagementView(
 		stateDescription: mapInventoryStateDescription(snapshot.capacity.state),
 		stateLabel: mapInventoryStateLabel(snapshot.capacity.state),
 	};
+}
+
+function mapCategoryLabel(entry: InventoryResolvedEntry): string {
+	if (
+		entry.catalogKind === "consumable" &&
+		entry.catalogItemId === "potion-belt-stack"
+	) {
+		return "Cinto de Po\u00e7\u00f5es";
+	}
+
+	return entry.catalogKind === "equipment" ? "Equipamento" : "Consumivel";
 }
 
 function createLoadoutSlotViews(

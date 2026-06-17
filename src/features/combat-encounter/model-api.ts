@@ -45,6 +45,16 @@ export type {
 	CombatPersistentLoadoutResolver,
 } from "./model/combatPersistentLoadout";
 export type {
+	CombatPotionBeltConsumeInput,
+	CombatPotionBeltConsumer,
+	CombatPotionBeltFailure,
+	CombatPotionBeltFailureCode,
+	CombatPotionBeltInput,
+	CombatPotionBeltResolver,
+	CombatPotionBeltSnapshot,
+	CombatPotionBeltUseResult,
+} from "./model/combatPotionBelt";
+export type {
 	CombatRealDamageActorRef,
 	CombatRealDamageEventFailure,
 	CombatRealDamageEventFailureCode,

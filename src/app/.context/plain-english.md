@@ -59,3 +59,8 @@ equipou uma espada, escudo e armadura no Inventario, a aba Combate usa esses
 itens para mostrar arma ativa, dano de treino e defesa equipada. Se nao houver
 arma equipada, a tela manda o usuario abrir o Inventario em vez de escolher uma
 arma local no proprio combate.
+
+O Combate tambem consegue olhar para o `Cinto de Pocoes` carregado no
+Inventario. Quando o usuario usa uma pocao do cinto, o app consome 1 unidade do
+inventario e registra no log que isso foi apenas treino: HP real e HP de treino
+nao mudam.

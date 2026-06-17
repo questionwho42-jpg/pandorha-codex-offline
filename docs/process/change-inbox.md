@@ -18,7 +18,7 @@ The automation owns the marked sections below. Manual edits should stay outside 
   defense profiles from the persisted inventory loadout without save v8.
 - Inventory ownership, save v6, editable inventory, loadout v7, and Combat
   integration records were promoted after merge to `main` through their process
-  gates, user guides, QA scripts, and post-audit roadmap. Future potion belt,
+  gates, user guides, QA scripts, and post-audit roadmap. Future potion belt effects,
   durability, real HP persistence, starting equipment, PWA, and other deliberate
   limitations remain open until their own gates are approved.
 - `20260617-055721-potion-belt-quick-access-gate` approves the first bounded
@@ -26,9 +26,22 @@ The automation owns the marked sections below. Manual edits should stay outside 
   `docs/process/potion-belt-quick-access-gate.md`: quick access and decrement
   through the existing inventory ledger, without healing, save v8, HP real, item
   effects, conditions, overdose, durability, or official action economy.
+- `20260617-060205-combat-potion-belt-quick-access` implements that bounded
+  quick-access slice in the Combat tab. Future healing, HP real, item effects,
+  conditions, overdose, durability, and official action economy remain open under
+  `20260615-future-inventory-potion-belt`.
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260617-060205-combat-potion-belt-quick-access -->
+### Combat potion belt quick access
+- id: 20260617-060205-combat-potion-belt-quick-access
+- status: open
+- created_at: 2026-06-17T06:02:05-03:00
+- source: task-ledger
+- summary: Implement the Combat tab potion belt quick access using the existing inventory ledger, without save v8, real healing, HP real persistence, conditions, overdose, durability, item effects, or official action economy.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260617-060205-combat-potion-belt-quick-access -->
 <!-- pandorha-inbox:20260617-055721-potion-belt-quick-access-gate -->
 ### Potion belt quick access gate
 - id: 20260617-055721-potion-belt-quick-access-gate
@@ -62,7 +75,7 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - status: open
 - created_at: 2026-06-15T11:51:10-03:00
 - source: task-ledger
-- summary: Criar cinto de poções em fatias: primeiro acesso rápido sem cura real via ledger existente; efeitos, HP real e economia de ação ficam para gates futuros.
+- summary: Acesso rápido sem cura real foi entregue via ledger existente; efeitos, HP real e economia de ação ficam para gates futuros.
 - expected_promotion: official docs after merge to main
 <!-- /pandorha-inbox:20260615-future-inventory-potion-belt -->
 <!-- pandorha-inbox:20260615-future-inventory-durability -->

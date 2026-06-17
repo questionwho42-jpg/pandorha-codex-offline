@@ -104,6 +104,27 @@ test("ui reachability smoke fails when combat cannot open inventory for loadout"
 	}
 });
 
+test("ui reachability smoke fails when combat potion belt use is unreachable", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
+				renderCombatPanel().replace(
+					'data-testid="combat-use-potion-belt-button"',
+					'data-testid="combat-use-potion-belt-unreachable"',
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /combat-use-potion-belt-button/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("ui reachability smoke fails when navigation returns to future placeholders", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -260,7 +281,11 @@ equipmentLoadoutEventRecords = [...restoredLoadout.data];
 equipmentLoadoutEvents={equipmentLoadoutEventRecords};
 onLoadoutEventsChange;
 createCombatPersistentLoadoutResolver;
+createCombatPotionBeltConsumer;
+createCombatPotionBeltResolver;
 resolvePersistentLoadout={resolveCombatPersistentLoadout};
+resolvePotionBelt={resolveCombatPotionBelt};
+consumePotionBelt={consumeCombatPotionBelt};
 onOpenInventory;
 {#if activeView === "characters"}<CharacterCreateForm /><CharacterList />
 {:else if activeView === "compendium"}<CompendiumBrowser />
@@ -293,11 +318,18 @@ export const APP_NAVIGATION_ITEMS = [
 function renderCombatPanel() {
 	return `
 export let resolvePersistentLoadout = () => undefined;
+export let resolvePotionBelt = () => undefined;
+export let consumePotionBelt = () => undefined;
 <section data-testid="combat-persistent-loadout">
 	<p data-testid="combat-persistent-loadout-weapon">Arma equipada: Espada Longa.</p>
 	<p data-testid="combat-persistent-loadout-shield">Escudo equipado: Escudo Redondo.</p>
 	<p data-testid="combat-persistent-loadout-armor">Armadura equipada: Armadura de Couro.</p>
 	<button data-testid="combat-open-inventory-button">Abrir Inventario</button>
+</section>
+<section data-testid="combat-potion-belt">
+	<p data-testid="combat-potion-belt-summary">Cinto de poções: 5/5</p>
+	<button data-testid="combat-use-potion-belt-button">Usar poção do cinto</button>
+	<p>Uso de treino: não altera HP real, HP de treino ou estados oficiais.</p>
 </section>
 `;
 }
@@ -355,6 +387,7 @@ function renderQaGuide() {
 Execute npm.cmd run qa:ui-reachability.
 Mudanças visuais exigem validação renderizada pelo Browser do Codex.
  O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura, bloqueia remoção de item equipado e persiste inventário + loadout no save v7.
+O cinto de poções consome 1 unidade pelo inventário persistido sem alterar HP real.
 Magia e exploração ainda usam dados de treino; combate ainda usa alvos de treino e HP de treino local.
 `;
 }

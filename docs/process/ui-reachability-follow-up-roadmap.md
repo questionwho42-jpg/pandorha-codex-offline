@@ -16,6 +16,7 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 - A auditoria renderizada foi concluída em 2026-06-15 com o Playwright solicitado pelo usuário: as nove abas abriram, o inventário editável executou carregar, incrementar, consumir, remover e sobrecarga, e o roundtrip de save v6 restaurou personagem, inventário, Acampamento e negociação social.
 - A auditoria renderizada foi repetida em 2026-06-16 com o Browser do Codex/Playwright usando Chrome local: as nove abas abriram sem erros de console, o inventário executou carregar, equipar arma/escudo/armadura, substituir arma, bloquear remoção equipada, desequipar, remover, criar duas pilhas de consumível, consumir e confirmar sobrecarga `Imobilizado`; o roundtrip de save v7 restaurou personagem, inventário com loadout, Acampamento e negociação social.
 - A entrega de integração de combate com loadout persistido removeu os seletores locais de arma/escudo/armadura da aba `Combate`; personagens da sessão agora derivam arma ativa e defesa equipada do ledger de inventário/loadout.
+- A entrega de cinto de poções em 2026-06-17 adicionou acesso rápido no `Combate` para `potion-belt-stack`, consumindo 1 unidade pelo ledger de inventário existente sem cura, HP real, HP de treino ou estados oficiais.
 - A auditoria encontrou um único erro de console: o request implícito de `favicon.ico` retornava 404. O favicon passou a ser declarado em `index.html` e servido por `public/favicon.svg`; uma sessão limpa confirmou zero erros e zero warnings ao abrir as nove abas.
 
 ## Classificação Pós-Correção
@@ -33,7 +34,6 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 | Implementação futura | Evidência e impacto | Dependências e gates | Melhor momento para implementar | Risco arquitetural | Responsável e referência |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | Durabilidade e desgaste | O catálogo e o núcleo T86 conhecem durabilidade, mas o ledger de ownership não registra desgaste. | Loadout persistente, integração com combate, revisão de regras soberanas e ledger próprio. | Depois da integração estável com combate e antes de crafting reparar itens. | Muito alto: afeta combate, crafting, inventário e save. | `inventory-management`/`equipment`/`combat-encounter`; inbox `20260615-future-inventory-durability`. |
-| Cinto de poções - acesso rápido sem cura | Consumíveis carregados podem ser gerenciados, e o gate `docs/process/potion-belt-quick-access-gate.md` aprova apenas exibir e consumir `potion-belt-stack` no combate de treino. | Inventário persistido, loadout integrado ao combate e uso do ledger existente; sem save v8, cura, HP real ou economia de ação oficial. | Imediatamente após este gate, como primeira fatia segura do cinto. | Médio: precisa impedir que decremento de pilha seja interpretado como cura real ou efeito oficial. | `inventory-management`/`combat-encounter`; inbox `20260615-future-inventory-potion-belt`. |
 | Efeitos reais de consumíveis | O cinto pode virar atalho, mas não existe contrato para cura, alvo, overdose, estado oficial ou economia de ação. | Gate próprio de efeitos de item, HP real persistido, alvos, condições e revisão das regras soberanas. | Depois do acesso rápido estar estável e depois da aprovação explícita de HP real/efeitos. | Muito alto: pode alterar combate, Character, save e regras soberanas. | `inventory-management`/`combat-encounter`/`character`; inbox `20260615-future-inventory-potion-belt` e gates futuros de HP real. |
 | Equipamento inicial | Personagens começam sem eventos de inventário; classe e antecedente ainda não concedem kits. | Contrato completo de ficha, classes, antecedentes, catálogos e concessão determinística por ledger. | Junto da próxima evolução aprovada da criação de personagem. | Alto: pode duplicar itens ou inferir kits não oficiais. | `character-create`/`inventory-management`; inbox `20260615-future-inventory-starting-equipment`. |
 | Execução real de Magia | A UI apenas prepara `cast-spell`; não gasta EE, escolhe personagem conjurador ou aplica efeitos. | Serviços de EE, seleção de alvos, execução de efeitos, ActionQueue e revisão de regras mágicas. | Depois dos contratos de recursos, alvos e efeitos; antes de integrar magia ao combate real. | Alto: regras, recursos e efeitos atravessam múltiplas features. | `spell-cast`/`magic`; inbox `20260513-233033-t27-spellcastbuilder-core` e `20260513-234107-t28-ui-de-conjuracao-minima`. |
@@ -47,13 +47,12 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 
 ## Ordem Recomendada
 
-1. Entregar primeiro o cinto de poções como acesso rápido sem cura real, porque a integração de loadout persistido com combate já passou nos gates e no Browser do Codex.
-2. Entregar equipamento inicial somente junto ao contrato completo de ficha.
-3. Persistir traços somente junto ao contrato completo de ficha e migration.
-4. Ampliar Compêndio após pipeline de ingestão, pois ele reduz dependência de consulta manual às regras.
-5. Implementar Acampamento multi-hora e Relações superiores apenas após seus contratos explícitos.
-6. Manter execução de Magia e HP real persistido para fases posteriores, pois possuem maior risco de regra, save e integração.
-7. Criar painel de WorldState e UI PWA quando houver demanda recorrente e contratos de visibilidade/atualização definidos.
+1. Entregar equipamento inicial somente junto ao contrato completo de ficha.
+2. Persistir traços somente junto ao contrato completo de ficha e migration.
+3. Ampliar Compêndio após pipeline de ingestão, pois ele reduz dependência de consulta manual às regras.
+4. Implementar Acampamento multi-hora e Relações superiores apenas após seus contratos explícitos.
+5. Manter efeitos reais de consumíveis, execução de Magia e HP real persistido para fases posteriores, pois possuem maior risco de regra, save e integração.
+6. Criar painel de WorldState e UI PWA quando houver demanda recorrente e contratos de visibilidade/atualização definidos.
 
 ## Gate Para Retomar Cada Item
 
@@ -66,10 +65,11 @@ UI editavel foram entregues. O contrato de loadout persistente e save v7 foi apr
 de integração do combate com esse loadout foi aprovado em
 `docs/process/combat-persistent-loadout-gate.md` e implementado na entrega de
 combate com loadout persistido. O primeiro gate do cinto de pocoes foi aprovado
-em `docs/process/potion-belt-quick-access-gate.md`; ele cobre apenas acesso
+em `docs/process/potion-belt-quick-access-gate.md` e implementado na fatia
+`20260617-060205-combat-potion-belt-quick-access`; ele cobre apenas acesso
 rapido e decremento de `potion-belt-stack` pelo ledger existente. Durabilidade,
 efeitos reais de item, cura, HP real e economia de acao oficial continuam
-exigindo fases proprias.
+exigindo fases proprias e contrato novo antes de qualquer código.
 
 Uma futura tarefa só deve começar quando:
 

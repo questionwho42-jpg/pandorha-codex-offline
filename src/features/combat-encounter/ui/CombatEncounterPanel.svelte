@@ -23,6 +23,12 @@ import type {
 	CombatPersistentLoadoutFailure,
 	CombatPersistentLoadoutResolver,
 } from "../model/combatPersistentLoadout";
+import type {
+	CombatPotionBeltConsumer,
+	CombatPotionBeltFailure,
+	CombatPotionBeltResolver,
+	CombatPotionBeltSnapshot,
+} from "../model/combatPotionBelt";
 import type { CombatRealDamageReceivedEvent } from "../model/combatRealDamageEvent";
 import {
 	type CombatRealDamageLedgerUpdateFailure,
@@ -65,6 +71,7 @@ type Props = {
 	attacker: CombatEncounterActorRef;
 	characterClasses: readonly CharacterClassRecord[];
 	characters: readonly CharacterRecord[];
+	consumePotionBelt: CombatPotionBeltConsumer;
 	createAttackInput: (
 		attacker: CombatEncounterActorRef,
 		target: CombatTrainingTarget,
@@ -74,6 +81,7 @@ type Props = {
 	initialTarget: CombatTrainingTarget;
 	onOpenInventory: () => void;
 	resolvePersistentLoadout: CombatPersistentLoadoutResolver;
+	resolvePotionBelt: CombatPotionBeltResolver;
 	resolveAttack: (
 		input: CombatEncounterInput,
 	) => ReturnType<CombatEncounterStateResolver>;
@@ -109,10 +117,12 @@ let {
 	attacker,
 	characterClasses,
 	characters,
+	consumePotionBelt,
 	createAttackInput,
 	initialTarget,
 	onOpenInventory,
 	resolvePersistentLoadout,
+	resolvePotionBelt,
 	resolveAttack,
 	resolveTrainingEnemyAttack,
 	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -127,9 +137,14 @@ let selectedTargetId = $state(initialTarget.id);
 let selectedAttackerId = $state(attacker.id);
 let selectedLoadout = $state<EquipmentLoadoutSnapshot | null>(null);
 let loadoutErrorMessage = $state<string | null>(null);
+let selectedPotionBelt = $state<CombatPotionBeltSnapshot | null>(null);
+let potionBeltErrorMessage = $state<string | null>(null);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let isLoadingLoadout = $state(false);
+let isLoadingPotionBelt = $state(false);
+let isUsingPotionBelt = $state(false);
 let loadoutRequestId = 0;
+let potionBeltRequestId = 0;
 let lastState = $state<CombatEncounterState | null>(null);
 let errorMessage = $state<string | null>(null);
 let log = $state<readonly string[]>([]);
@@ -215,6 +230,17 @@ let canUseSelectedWeapon = $derived(
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let visibleLoadoutErrorMessage = $derived(
 	selectedAttackerIsSessionCharacter ? loadoutErrorMessage : null,
+);
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let visiblePotionBeltErrorMessage = $derived(
+	selectedAttackerIsSessionCharacter ? potionBeltErrorMessage : null,
+);
+let canUsePotionBelt = $derived(
+	selectedAttackerIsSessionCharacter &&
+		selectedPotionBelt?.canUse === true &&
+		selectedPotionBelt.entryId !== null &&
+		!isLoadingPotionBelt &&
+		!isUsingPotionBelt,
 );
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let attackerStatsView = $derived(
@@ -333,6 +359,7 @@ function resetEncounter(): void {
 	resetTrainingDefenderHitPoints();
 	resetRealDamagePreview();
 	void refreshPersistentLoadout();
+	void refreshPotionBelt();
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -350,6 +377,7 @@ function selectAttacker(event: Event): void {
 	resetTrainingDefenderHitPoints(selectedAttackerId);
 	resetRealDamagePreview();
 	void refreshPersistentLoadout();
+	void refreshPotionBelt();
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -368,6 +396,7 @@ function selectTarget(event: Event): void {
 	resetTrainingDefenderHitPoints();
 	resetRealDamagePreview();
 	void refreshPersistentLoadout();
+	void refreshPotionBelt();
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -408,6 +437,62 @@ async function refreshPersistentLoadout(): Promise<void> {
 	loadoutErrorMessage = null;
 }
 
+async function refreshPotionBelt(): Promise<void> {
+	const requestId = potionBeltRequestId + 1;
+	potionBeltRequestId = requestId;
+
+	if (!selectedAttackerIsSessionCharacter) {
+		selectedPotionBelt = null;
+		potionBeltErrorMessage = null;
+		isLoadingPotionBelt = false;
+		return;
+	}
+
+	selectedPotionBelt = null;
+	potionBeltErrorMessage = null;
+	isLoadingPotionBelt = true;
+
+	const result = await resolvePotionBelt({
+		characterId: selectedAttacker.id,
+	});
+	if (requestId !== potionBeltRequestId) {
+		return;
+	}
+
+	isLoadingPotionBelt = false;
+	if (!result.success) {
+		selectedPotionBelt = null;
+		potionBeltErrorMessage = mapPotionBeltFailure(result.error);
+		return;
+	}
+
+	selectedPotionBelt = result.data;
+	potionBeltErrorMessage = null;
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function usePotionBelt(): Promise<void> {
+	if (!canUsePotionBelt || !selectedPotionBelt?.entryId) {
+		return;
+	}
+
+	isUsingPotionBelt = true;
+	const result = await consumePotionBelt({
+		characterId: selectedAttacker.id,
+		entryId: selectedPotionBelt.entryId,
+	});
+	isUsingPotionBelt = false;
+	if (!result.success) {
+		potionBeltErrorMessage = mapPotionBeltFailure(result.error);
+		return;
+	}
+
+	selectedPotionBelt = result.data.snapshot;
+	log = [...log, result.data.logEntry];
+	potionBeltErrorMessage = null;
+	errorMessage = null;
+}
+
 function mapPersistentLoadoutFailure(
 	failure: CombatPersistentLoadoutFailure,
 ): string {
@@ -419,6 +504,17 @@ function mapPersistentLoadoutFailure(
 		case "COMBAT_LOADOUT_ENTRY_INVALID":
 		case "COMBAT_LOADOUT_EQUIPMENT_INVALID":
 			return "Ajuste o equipamento no Invent\u00e1rio antes de usar no combate.";
+	}
+}
+
+function mapPotionBeltFailure(failure: CombatPotionBeltFailure): string {
+	switch (failure.code) {
+		case "COMBAT_POTION_BELT_INVENTORY_UNAVAILABLE":
+			return "N\u00e3o foi poss\u00edvel ler o cinto de po\u00e7\u00f5es do personagem.";
+		case "COMBAT_POTION_BELT_LEDGER_INVALID":
+			return "O cinto de po\u00e7\u00f5es salvo est\u00e1 inv\u00e1lido.";
+		case "COMBAT_POTION_BELT_ENTRY_INVALID":
+			return "Carregue um Cinto de Po\u00e7\u00f5es v\u00e1lido no Invent\u00e1rio antes de usar.";
 	}
 }
 
@@ -690,6 +786,7 @@ function createInitialTurnState(
 onMount(() => {
 	resetTrainingDefenderHitPoints();
 	void refreshPersistentLoadout();
+	void refreshPotionBelt();
 });
 </script>
 
@@ -832,6 +929,44 @@ onMount(() => {
 							"Equipe uma arma no Invent\u00e1rio antes de atacar."}
 					{/if}
 				</p>
+			{/if}
+			{#if selectedAttackerIsSessionCharacter}
+				<div
+					class="mt-4 border-t border-bronze pt-3"
+					data-testid="combat-potion-belt"
+				>
+					<div class="flex flex-wrap items-center justify-between gap-3">
+						<div>
+							<p class="text-sm font-semibold text-ether">Cinto de po&ccedil;&otilde;es</p>
+							<p
+								class="mt-2 text-sm leading-6 text-bone"
+								data-testid="combat-potion-belt-summary"
+							>
+								{#if isLoadingPotionBelt}
+									Cinto de po&ccedil;&otilde;es: carregando.
+								{:else}
+									Cinto de po&ccedil;&otilde;es: {selectedPotionBelt?.quantity ?? 0}/{selectedPotionBelt?.capacity ?? 5}
+								{/if}
+							</p>
+						</div>
+						<button
+							type="button"
+							disabled={!canUsePotionBelt}
+							onclick={() => {
+								void usePotionBelt();
+							}}
+							data-testid="combat-use-potion-belt-button"
+							class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone transition-colors hover:border-ether hover:text-ether focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:cursor-not-allowed disabled:border-bronze disabled:bg-blood-shadow disabled:text-bone"
+						>
+							{isUsingPotionBelt
+								? "Usando po\u00e7\u00e3o"
+								: "Usar po\u00e7\u00e3o do cinto"}
+						</button>
+					</div>
+					<p class="mt-2 text-sm leading-6 text-bone">
+						Uso de treino: n&atilde;o altera HP real, HP de treino ou estados oficiais.
+					</p>
+				</div>
 			{/if}
 		</section>
 
@@ -1071,12 +1206,12 @@ onMount(() => {
 		</div>
 	{/if}
 
-	{#if view.errorMessage || visibleLoadoutErrorMessage}
+	{#if view.errorMessage || visibleLoadoutErrorMessage || visiblePotionBeltErrorMessage}
 		<div
 			class="mt-5 border border-bronze bg-blood-shadow px-4 py-3 text-bone"
 			data-testid="combat-error"
 		>
-			{view.errorMessage ?? visibleLoadoutErrorMessage}
+			{view.errorMessage ?? visibleLoadoutErrorMessage ?? visiblePotionBeltErrorMessage}
 		</div>
 	{/if}
 

@@ -24,8 +24,9 @@
 - T103 adds safe preview copy for local real HP rendering before any Svelte UI consumes the bridge.
 - T104 adds the Svelte preview panel as local, non-persistent UI for session characters only.
 - The 2026-06-16 integration removes local combat equipment selectors and derives session-character weapon/defense from the persisted inventory loadout through an app-level resolver.
+- The 2026-06-17 potion-belt slice consumes `potion-belt-stack` through an app-level port and stays non-healing; future real effects need HP real, target, condition, and action-economy gates.
 - Add save v6, Worker/SQLite persistence, and official terminal-state application only after a separate persistence gate.
-- Add vulnerability `+1d6`, proficiency, consumable use in combat, and durability wear only after the persisted loadout integration remains stable in Browser validation.
+- Add vulnerability `+1d6`, proficiency, real consumable effects in combat, and durability wear only after the persisted loadout and potion-belt quick access remain stable in Browser validation.
 - Expose real incoming damage in UI only after T100/T103 approve copy, replay boundaries, and Playwright validation scope.
 - Add armor-category caps for the limited axis only after the exact cap table is represented in `docs/system/` and covered by tests.
 - Add real initiative only after equipment selection and fixed turn order remain stable in browser tests.
@@ -41,3 +42,4 @@
 - Combat may depend on a loadout resolver contract, but the app boundary must compose inventory and combat services to avoid sibling feature imports.
 - Equipped defense and `HP de treino` can be used as transient incoming-attack targets, but must remain non-persistent until a save-version phase and official character-damage contract are approved.
 - Real damage events may exist as append-only contracts before HP mutation exists, but UI must not imply persisted HP until replay and save-version policy are approved.
+- Potion-belt quick access may consume inventory units, but Combat must not apply healing, HP mutation, conditions, durability, or official action economy until those contracts are approved.

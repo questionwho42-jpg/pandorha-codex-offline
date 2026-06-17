@@ -103,6 +103,31 @@ test("vertical slice smoke fails when combat persistent loadout contract is miss
 	}
 });
 
+test("vertical slice smoke fails when combat potion belt access is missing", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
+				renderCombatEncounterPanel().replace(
+					'data-testid="combat-use-potion-belt-button"',
+					'data-testid="combat-use-potion-belt-missing"',
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(
+			result.stderr,
+			/src\/features\/combat-encounter\/ui\/CombatEncounterPanel\.svelte/,
+		);
+		assert.match(result.stderr, /combat-use-potion-belt-button/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("vertical slice smoke fails when obsolete combat loadout selectors remain", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -258,12 +283,17 @@ async function createFixtureRoot({
 		"src/app/model/navigation.ts": navigationText,
 		"src/app/App.svelte": renderApp(),
 		"src/app/model/combatEncounterSession.ts": renderCombatEncounterSession(),
+		"src/app/model/combatPotionBeltBridge.ts": renderCombatPotionBeltBridge(),
 		"src/app/model/combatPersistentLoadoutResolver.ts":
 			renderCombatPersistentLoadoutResolver(),
 		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
 			renderCombatEncounterPanel(),
+		"src/features/combat-encounter/model/combatPotionBelt.ts":
+			renderCombatPotionBeltModel(),
 		"src/features/combat-encounter/model/combatTrainingDefenderHitPoints.ts":
 			renderCombatTrainingDefenderHitPoints(),
+		"src/features/inventory-management/model/inventoryManagementView.ts":
+			renderInventoryManagementView(),
 		"src/features/social-encounter/ui/SocialEncounterPanel.svelte":
 			renderSocialEncounterPanel(),
 		"src/entities/dialogue-tree/model/dialogueTreeCatalog.ts":
@@ -337,12 +367,26 @@ inventoryEventRecords = [...restoredInventory.data];
 equipmentLoadoutEventRecords = [...restoredLoadout.data];
 CompendiumBrowser;
 createCombatPersistentLoadoutResolver;
+createCombatPotionBeltConsumer;
+createCombatPotionBeltResolver;
 const resolveCombatPersistentLoadout = createCombatPersistentLoadoutResolver({
   buildEquipmentLoadout: combatEncounterSession.buildEquipmentLoadout,
   inventoryService: inventorySession.service,
 });
+const resolveCombatPotionBelt = createCombatPotionBeltResolver({
+  inventoryService: inventorySession.service,
+});
+const consumeCombatPotionBelt = createCombatPotionBeltConsumer({
+  getInventoryEvents: () => inventoryEventRecords,
+  inventoryService: inventorySession.service,
+  onInventoryEventsChange: (records) => {
+    inventoryEventRecords = [...records];
+  },
+});
 onOpenInventory={() => { activeView = "inventory"; }};
 resolvePersistentLoadout={resolveCombatPersistentLoadout};
+resolvePotionBelt={resolveCombatPotionBelt};
+consumePotionBelt={consumeCombatPotionBelt};
 resolveTrainingEnemyAttack={(input) => combatEncounterSession.trainingEnemyAttackService.resolveTrainingEnemyAttack(input)};
 </script>
 <p data-testid="pwa-status">Offline disponível neste navegador.</p>
@@ -375,15 +419,32 @@ const equipmentFailure = "COMBAT_LOADOUT_EQUIPMENT_INVALID";
 `;
 }
 
+function renderCombatPotionBeltBridge() {
+	return `
+const POTION_BELT_CATALOG_ITEM_ID = "potion-belt-stack";
+const POTION_BELT_CAPACITY = PANDORHA_RULES.LOGISTICS.POTION_BELT_CAPACITY;
+const log = "Po\\u00e7\\u00e3o do cinto usada em treino. HP real n\\u00e3o foi alterado.";
+function consume(input) {
+  input.inventoryService.consumeConsumable({ entryId: input.entryId, quantity: 1 });
+  input.onInventoryEventsChange([]);
+}
+`;
+}
+
 function renderCombatEncounterPanel() {
 	return `
 <script>
 export let resolvePersistentLoadout = () => undefined;
+export let resolvePotionBelt = () => undefined;
+export let consumePotionBelt = () => undefined;
 export let resolveTrainingEnemyAttack = () => undefined;
 const failure = "CombatPersistentLoadoutFailure";
+const potionFailure = "CombatPotionBeltFailure";
 const activeWeaponProfile = {};
 const activeDefenseProfile = {};
 refreshPersistentLoadout();
+refreshPotionBelt();
+usePotionBelt();
 createCombatTrainingEnemyDefenseProfile();
 createCombatTrainingDefenderHitPoints();
 createCombatTrainingDefenderHitPointsView();
@@ -395,6 +456,12 @@ applyCombatTrainingDefenderDamage();
   <p data-testid="combat-persistent-loadout-shield">Escudo equipado: Escudo Redondo.</p>
   <p data-testid="combat-persistent-loadout-armor">Armadura equipada: Armadura de Couro.</p>
   <button data-testid="combat-open-inventory-button">Abrir Inventário</button>
+</section>
+<section data-testid="combat-potion-belt">
+  <p>Cinto de po&ccedil;&otilde;es</p>
+  <p data-testid="combat-potion-belt-summary">Cinto de po&ccedil;&otilde;es: 5/5</p>
+  <button data-testid="combat-use-potion-belt-button">Usar poção do cinto</button>
+  <p>Uso de treino: não altera HP real, HP de treino ou estados oficiais.</p>
 </section>
 <p data-testid="combat-equipped-weapon-helper">
   Aria usa perfil fixo de treino.
@@ -408,6 +475,26 @@ applyCombatTrainingDefenderDamage();
   <p>Teste recebido encerrado</p>
   <p>Reinicie o encontro para testar outro dano recebido.</p>
 </div>
+`;
+}
+
+function renderCombatPotionBeltModel() {
+	return `
+export type CombatPotionBeltResolver = unknown;
+export type CombatPotionBeltConsumer = unknown;
+export type CombatPotionBeltSnapshot = unknown;
+const code = "COMBAT_POTION_BELT_INVENTORY_UNAVAILABLE";
+`;
+}
+
+function renderInventoryManagementView() {
+	return `
+function mapCategoryLabel(entry) {
+  if (entry.catalogItemId === "potion-belt-stack") {
+    return "Cinto de Po\\u00e7\\u00f5es";
+  }
+  return "Consumivel";
+}
 `;
 }
 
@@ -564,6 +651,7 @@ Equipar arma
 Equipar escudo
 Vestir armadura
 Desequipe antes de remover
+Cinto de Poções
 save local
 `;
 }
@@ -581,6 +669,9 @@ Defesa equipada mostra CA equipada +3.
 CA contra treino aparece para ataque recebido.
 HP de treino aparece como medidor local.
 HP real permanece intacto.
+Cinto de poções: 5/5.
+Poção do cinto usada em treino. HP real não foi alterado.
+O uso de treino não altera HP real, HP de treino ou estados oficiais.
 Teste recebido encerrado aparece quando o HP de treino chega a 0.
 Reinicie o encontro para testar outro dano recebido.
 Aria usa perfil fixo de treino.

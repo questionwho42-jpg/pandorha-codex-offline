@@ -77,6 +77,11 @@ arma, escudo e armadura. Agora ela le o que o personagem equipou no Inventario.
 Se nao houver arma equipada, o botao de ataque fica bloqueado e a tela oferece
 abrir o Inventario.
 
+Na integracao de 2026-06-17, a aba Combate tambem mostra o Cinto de Pocoes do
+personagem. O botao de usar pocao diminui a quantidade carregada no Inventario,
+mas a frase no log deixa claro que foi apenas treino: nao cura, nao muda HP real
+e nao muda HP de treino.
+
 ## Alternativas
 
 - Calcular tudo direto no botão da interface: seria mais rápido, mas misturaria UI e regra de combate.
@@ -96,3 +101,6 @@ abrir o Inventario.
 - Ler o loadout persistido do Inventario: evita duas fontes de verdade para
   equipamento ativo, mas exige que o usuario ajuste arma e defesa fora da aba
   Combate.
+- Usar o cinto como acesso rapido sem cura: entrega o caminho visivel no
+  navegador com menos risco, mas deixa efeitos reais de item para um contrato
+  futuro.

@@ -170,3 +170,10 @@
 - `App.svelte` passes `resolvePersistentLoadout` and `onOpenInventory` into `CombatEncounterPanel`; the combat feature does not import `inventory-management`.
 - The resolver maps inventory and equipment failures into combat-specific typed failures so UI copy stays local to the combat panel.
 - No save version, Worker RPC, migration, durability, consumable use, or real HP persistence was introduced.
+
+## 2026-06-17 - Combat Potion Belt Quick Access
+
+- `createCombatPotionBeltResolver` and `createCombatPotionBeltConsumer` live in `src/app/model` because the app composes Combat with `InventoryManagementService`.
+- `App.svelte` passes `resolvePotionBelt` and `consumePotionBelt` into `CombatEncounterPanel`; Combat still does not import `inventory-management`.
+- The consumer appends inventory ledger events through the app-owned `inventoryEventRecords` array and returns a combat log entry.
+- No save v8, migration, healing, HP real mutation, HP de treino mutation, conditions, durability, or official action economy was introduced.

@@ -12,10 +12,10 @@ Este roteiro valida o MVP navegavel atual do Pandorha Engine depois da T80. Ele 
 2. Confirme que o cabeçalho mostra `Offline disponível neste navegador.`.
 3. Entre em `Personagens`, crie um personagem válido e confirme que ele aparece na lista.
 4. Clique em `Salvar sessão`, recarregue a página, clique em `Carregar save` e confirme que o personagem voltou.
-5. Entre em `Inventário`, selecione o personagem, carregue arma, escudo, armadura e consumíveis até criar mais de uma pilha; confirme slots usados, limite e penalidade atual.
+5. Entre em `Inventário`, selecione o personagem, carregue arma, escudo, armadura e `Cinto de Poções` até `5/5`; carregue outros consumíveis até criar mais de uma pilha; confirme slots usados, limite e penalidade atual.
 6. Equipe arma, escudo e armadura, substitua a arma no mesmo slot, confirme que remover item equipado mostra `Desequipe antes de remover`, desequipe e remova o item.
 7. Incremente, consuma e remova consumíveis; salve a sessão, recarregue realmente a página, carregue o save e confirme que o inventário e o loadout equipado do personagem foram restaurados.
-8. Entre em `Combate`, selecione o personagem como atacante, confirme `Loadout do Inventário` com arma/escudo/armadura restaurados, ataque um alvo de treino e confirme log, dano, HP e ações.
+8. Entre em `Combate`, selecione o personagem como atacante, confirme `Loadout do Inventário` com arma/escudo/armadura restaurados, confirme `Cinto de poções: 5/5`, use uma poção do cinto, confirme `Poção do cinto usada em treino. HP real não foi alterado.`, confirme `4/5`, ataque um alvo de treino e confirme log, dano, HP e ações.
 9. Entre em `Exploração`, mova para um hex adjacente e confirme log em pt-BR sem mudança de URL.
 10. Entre em `Acampamento`, atribua ações para personagens, resolva 1 hora e confirme perigo, relógio e log.
 11. Entre em `Relações`, invoque `Favor Tier 1`, confirme `Dívida 1/3` e `Intriga 1`.
@@ -59,6 +59,7 @@ Esse comando executa `scripts/vertical_slice_smoke.mjs`. Ele valida contratos m�
 - contrato de consequência social com `dialogueOptionId`, `dialogueChoiceId`, `dialogueChoiceLabel` e resumo específico por escolha;
 - contrato T63-T76 de `Pressionar` com flag `social-pressure-fame-penalty`, perda de 1 nível de `Fama`, ganho de `Infâmia` quando a Fama já está em 0, relação individual por NPC e clock de retaliação salvo/avançado em `clocks`;
 - save/load v7 com `socialEncounters`, `socialEncounterEvents`, `npcRelationships`, `inventoryEvents` e `equipmentLoadoutEvents`;
+- cinto de poções consome 1 unidade pelo inventário persistido sem alterar HP real;
 - service worker presente com eventos básicos de PWA e runtime cacheado com fallback.
 
 O script é um smoke estático/contratual, não substitui o Browser do Codex. Ele existe para falhar cedo quando uma aba, guia ou peça central do MVP desaparecer sem intenção.
@@ -71,7 +72,7 @@ Use:
 npm.cmd run qa:ui-reachability
 ```
 
-Esse comando executa `scripts/ui_reachability_smoke.mjs`. Ele protege o alcance das nove abas, as ações editáveis do inventário, a persistência do ledger no save atual, o favicon estático sem request 404, bloqueia placeholders obsoletos e verifica o contrato que preserva o log recém-resolvido do Acampamento antes do eco de estado do componente pai.
+Esse comando executa `scripts/ui_reachability_smoke.mjs`. Ele protege o alcance das nove abas, as ações editáveis do inventário, a persistência do ledger no save atual, o acesso ao cinto de poções no combate de treino, o favicon estático sem request 404, bloqueia placeholders obsoletos e verifica o contrato que preserva o log recém-resolvido do Acampamento antes do eco de estado do componente pai.
 
 O smoke é contratual e não substitui a validação renderizada. Mudanças visuais ou de navegação continuam exigindo o Browser do Codex para abrir todas as abas, executar os fluxos afetados e confirmar ausência de erros no console.
 
@@ -115,6 +116,7 @@ O smoke T65 é estático e não substitui o Browser do Codex quando uma mudança
 - Save/load local real com SQLite WASM, OPFS e Worker.
 - Combate de treino com atacante da sessão, loadout persistido do inventário para arma/escudo/armadura, alvos fixos, turno, ações, rolagem auditável de arma, RD/afinidades de alvo, ataque passivo do alvo contra CA de treino, HP de treino local não persistido, estado `Teste recebido encerrado` em 0 HP de treino e derrota do alvo.
 - O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura, bloqueia remoção de item equipado e persiste inventário + loadout no save v7.
+- Cinto de poções de treino: o combate exibe a pilha `potion-belt-stack`, consome 1 unidade pelo ledger de inventário existente e registra que HP real não foi alterado.
 - Magia mínima que prepara comando sem executar efeito.
 - Exploração hexcrawl mínima com mapa de 7 hexes.
 - Acampamento de 1 hora com perigo e relógio coletivo.
@@ -132,8 +134,9 @@ O smoke T65 é estático e não substitui o Browser do Codex quando uma mudança
 - O modo offline ainda não tem automação de rede confiável dentro do Browser do Codex atual.
 - As árvores de diálogo ainda são curtas, cobrem apenas a `Corretora de Treino`, o `Informante de Treino` e o `Capitão de Treino`, e preparam o argumento antes do apelo social.
 - `Pressionar` altera a relação individual por NPC e avança clocks de retaliação apenas por gatilho explícito `social-pressure`; não há avanço automático por tempo.
-- Magia e exploração ainda usam dados de treino; combate ainda usa alvos de treino e HP de treino local, mas deriva arma/escudo/armadura do loadout persistido.
+- Magia e exploração ainda usam dados de treino; combate ainda usa alvos de treino e HP de treino local, mas deriva arma/escudo/armadura do loadout persistido e cinto de poções do inventário persistido.
 - O ataque do alvo de treino contra personagens da sessão calcula dano e reduz apenas `HP de treino` local; ao chegar a 0, exige `Reiniciar encontro` para outro dano recebido e não altera HP real, dano persistente, save, durabilidade, Moribundo, Inconsciente ou monstros oficiais.
+- Usar `Cinto de poções` no combate não cura, não altera HP real, não altera HP de treino, não aplica estados oficiais e não define economia de ação oficial.
 - O save usa um único slot local `primary`.
 - Não há autosave, cloud sync, push, atualização avançada de cache ou PWA instalável com ícones.
 

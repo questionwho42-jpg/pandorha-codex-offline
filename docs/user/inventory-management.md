@@ -5,7 +5,7 @@ Abra `http://127.0.0.1:5173/`, entre em `Inventario` e selecione um personagem c
 ## Fluxo Atual
 
 1. Use `Carregar` para adicionar armas, escudos e armaduras do catalogo.
-2. Use `Carregar 1`, `+1` e `Consumir 1` para gerenciar consumiveis.
+2. Use `Carregar 1`, `+1` e `Consumir 1` para gerenciar consumiveis, incluindo `Cinto de Poções`.
 3. Use `Equipar arma`, `Equipar escudo` e `Vestir armadura` para preencher `Arma`, `Escudo` e `Armadura`.
 4. Use `Desequipar` antes de remover qualquer item equipado; a tela mostra `Desequipe antes de remover` quando o item ainda está ativo.
 5. Salve a sessao, recarregue a pagina e use `Carregar save` para confirmar que inventario e equipamento voltam no save local.
@@ -13,5 +13,7 @@ Abra `http://127.0.0.1:5173/`, entre em `Inventario` e selecione um personagem c
 ## Limites Atuais
 
 - Equipar muda o loadout persistido do inventario; a aba `Combate` ja usa esse loadout para arma, escudo e armadura de treino.
-- Durabilidade, cinto de pocoes, equipamento inicial, consumo de itens em combate e HP real persistido continuam fora desta entrega.
+- `Cinto de Poções` pode ser carregado como consumivel persistido e usado no `Combate` como acesso rapido de treino.
+- Usar o cinto no combate consome 1 unidade do inventario, mas nao cura, nao altera HP real, nao altera HP de treino e nao aplica estados oficiais.
+- Durabilidade, equipamento inicial, cura real por consumivel e HP real persistido continuam fora desta entrega.
 - O save usa um unico slot local `primary`.

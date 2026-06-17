@@ -127,6 +127,30 @@ describe("createInventoryManagementView", () => {
 		expect(view.loadoutSlots[2]?.entry?.entryId).toBe("entry-armor");
 	});
 
+	it("labels the potion belt stack as quick-access belt copy", () => {
+		const view = createInventoryManagementView({
+			...buildSnapshot(),
+			entries: [
+				{
+					characterId: "session-character-1",
+					entryId: "entry-potion-belt",
+					catalogKind: "consumable",
+					catalogItemId: "potion-belt-stack",
+					quantity: 5,
+					lastSequence: 1,
+					label: "Cinto de Pocoes",
+					slotCost: 1,
+				},
+			],
+		});
+
+		expect(view.entries[0]).toMatchObject({
+			categoryLabel: "Cinto de Po\u00e7\u00f5es",
+			entryId: "entry-potion-belt",
+			quantityLabel: "5 unidades",
+		});
+	});
+
 	it("maps every capacity state to visible feedback", () => {
 		expect(mapInventoryStateLabel("normal")).toBe("Normal");
 		expect(mapInventoryStateLabel("slowed")).toBe("Lento");

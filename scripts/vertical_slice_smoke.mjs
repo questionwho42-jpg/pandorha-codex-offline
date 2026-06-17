@@ -68,10 +68,16 @@ async function runVerticalSliceSmoke(root) {
 			"equipmentLoadoutEventRecords = [...restoredLoadout.data]",
 			"CompendiumBrowser",
 			"createCombatPersistentLoadoutResolver",
+			"createCombatPotionBeltConsumer",
+			"createCombatPotionBeltResolver",
 			"resolveCombatPersistentLoadout",
+			"resolveCombatPotionBelt",
+			"consumeCombatPotionBelt",
 			"buildEquipmentLoadout: combatEncounterSession.buildEquipmentLoadout",
 			"inventoryService: inventorySession.service",
 			"resolvePersistentLoadout={resolveCombatPersistentLoadout}",
+			"resolvePotionBelt={resolveCombatPotionBelt}",
+			"consumePotionBelt={consumeCombatPotionBelt}",
 			"onOpenInventory",
 			"resolveTrainingEnemyAttack",
 			"trainingEnemyAttackService.resolveTrainingEnemyAttack",
@@ -110,8 +116,13 @@ async function runVerticalSliceSmoke(root) {
 		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte",
 		[
 			"resolvePersistentLoadout",
+			"resolvePotionBelt",
+			"consumePotionBelt",
 			"refreshPersistentLoadout",
+			"refreshPotionBelt",
+			"usePotionBelt",
 			"CombatPersistentLoadoutFailure",
+			"CombatPotionBeltFailure",
 			"activeWeaponProfile",
 			"activeDefenseProfile",
 			"createCombatTrainingEnemyDefenseProfile",
@@ -129,12 +140,52 @@ async function runVerticalSliceSmoke(root) {
 			'data-testid="combat-training-enemy-defense-summary"',
 			'data-testid="combat-training-defender-hp"',
 			'data-testid="combat-training-defender-terminal"',
+			'data-testid="combat-potion-belt"',
+			'data-testid="combat-potion-belt-summary"',
+			'data-testid="combat-use-potion-belt-button"',
 			"Loadout do Inventário",
+			"Cinto de po&ccedil;&otilde;es",
 			"Equipe uma arma no Invent\\u00e1rio antes de atacar.",
 			"Aria usa perfil fixo de treino.",
 			"HP de treino",
+			"HP real",
 			"Arma ativa:",
 			"Defesa equipada",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/app/model/combatPotionBeltBridge.ts",
+		[
+			'POTION_BELT_CATALOG_ITEM_ID = "potion-belt-stack"',
+			"PANDORHA_RULES.LOGISTICS.POTION_BELT_CAPACITY",
+			"consumeConsumable",
+			"onInventoryEventsChange",
+			"Po\\u00e7\\u00e3o do cinto usada em treino. HP real n\\u00e3o foi alterado.",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/combat-encounter/model/combatPotionBelt.ts",
+		[
+			"CombatPotionBeltResolver",
+			"CombatPotionBeltConsumer",
+			"CombatPotionBeltSnapshot",
+			"COMBAT_POTION_BELT_INVENTORY_UNAVAILABLE",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/inventory-management/model/inventoryManagementView.ts",
+		[
+			'entry.catalogItemId === "potion-belt-stack"',
+			"Cinto de Po\\u00e7\\u00f5es",
 		],
 		errors,
 	);
@@ -309,6 +360,7 @@ async function runVerticalSliceSmoke(root) {
 			"Equipar escudo",
 			"Vestir armadura",
 			"Desequipe antes de remover",
+			"Cinto de Poções",
 			"save local",
 		],
 		errors,
@@ -358,6 +410,9 @@ async function runVerticalSliceSmoke(root) {
 			"Teste recebido encerrado",
 			"Reinicie o encontro para testar outro dano recebido",
 			"Aria usa perfil fixo de treino",
+			"Cinto de poções: 5/5",
+			"Poção do cinto usada em treino. HP real não foi alterado.",
+			"não altera HP real, HP de treino ou estados oficiais",
 		],
 		errors,
 	);

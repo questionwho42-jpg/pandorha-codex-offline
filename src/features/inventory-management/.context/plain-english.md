@@ -15,3 +15,8 @@ equipados sem copiar dados do catalogo para o save.
 A aba Combate agora consulta esse equipamento ativo. O Inventario continua sendo
 o lugar onde o usuario muda arma, escudo e armadura; o Combate apenas le o
 resultado para calcular o treino.
+
+O Cinto de Pocoes continua sendo um consumivel carregado pelo personagem. Quando
+o Combate usa uma pocao do cinto, ele pede ao Inventario para consumir 1 unidade
+da mesma pilha salva. Isso nao cria cura real nem muda HP; apenas baixa a
+quantidade do item.
