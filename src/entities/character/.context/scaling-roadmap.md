@@ -2,9 +2,11 @@
 
 ## Next Steps
 
-- Add relations for `ancestries`, `classes`, `backgrounds`, traits, talents, maneuvers, and tactics after their tables exist.
+- Add relations for `ancestries`, `classes`, `backgrounds`, talents, maneuvers, and tactics after their tables exist.
 - Extend `CharacterDerivedStatsService` in small steps after each source system exists: class passives, ancestry traits, background talents, equipment, magic resources, and status effects.
 - Keep derived resources such as HP, PV, EE, CA, initiative, and load recalculated instead of persisted.
+- Apply ancestry trait effects only after a future Decorator-based mechanics gate. The v8 trait selection relation records the chosen trait IDs but intentionally does not apply bonuses.
+- Starting equipment remains blocked until the official kit item IDs either exist in the catalog or explicit substitutions are approved.
 - Extend `pandorha-arch-guard` to recognize `src/entities` and public entity APIs.
 - Reuse the migration verification pattern for each new persisted entity before connecting it to UI workflows.
 - Add integration tests with the real SQLite WASM/OPFS stack only after migrations and worker boot are formalized.

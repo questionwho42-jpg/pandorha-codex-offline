@@ -33,6 +33,7 @@ const snapshotWorkerPort = {
 			version: saved.data.version,
 			savedAt: saved.data.savedAt,
 			characterCount: saved.data.characterCount,
+			characterTraitSelectionCount: saved.data.characterTraitSelectionCount,
 			worldStateCount: saved.data.worldStateCount,
 			clockCount: saved.data.clockCount,
 			campSessionCount: saved.data.campSessionCount,
@@ -57,6 +58,11 @@ const snapshotWorkerPort = {
 			characters: loaded.data.characters.map((character) => ({
 				...character,
 			})),
+			characterTraitSelections: loaded.data.characterTraitSelections.map(
+				(selection) => ({
+					...selection,
+				}),
+			),
 			worldState: loaded.data.worldState.map((flag) => ({
 				key: flag.key,
 				value: flag.value,

@@ -626,7 +626,7 @@ function handleRuntimeRequest() {}
 
 function renderSaveSchemas() {
 	return `
-export const CURRENT_SAVE_VERSION = 7;
+export const CURRENT_SAVE_VERSION = 8;
 const save = {
   clocks: [],
   socialEncounters: [],
@@ -634,6 +634,7 @@ const save = {
   npcRelationships: [],
   inventoryEvents: [],
   equipmentLoadoutEvents: [],
+  characterTraitSelections: [],
 };
 `;
 }

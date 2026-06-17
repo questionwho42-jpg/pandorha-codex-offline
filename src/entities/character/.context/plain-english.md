@@ -11,3 +11,7 @@ The current version still does not calculate armor, magic energy, inventory effe
 The Drizzle repository now has its own contract tests. These tests prove that the database adapter saves, finds, and rejects bad database rows without needing a real browser database.
 
 The project now also has the first real database migration for characters. In practice, this means the app has an official SQL recipe for creating the `characters` table, and an automated test checks that this recipe works before any screen depends on it.
+
+The module now also has a small record for the three ancestry traits chosen when a character is created. These records remember the choices so save/load can bring them back later.
+
+Those traits are still only written on the sheet. They do not change HP, damage, defenses, passive bonuses, or starting equipment yet. That needs a later rules gate because applying a trait is different from remembering which trait the player picked.

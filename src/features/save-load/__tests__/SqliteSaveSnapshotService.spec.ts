@@ -46,7 +46,7 @@ describe("SqliteSaveSnapshotService", () => {
 
 		expect(saved).toEqual({
 			saveId: "primary",
-			version: 7,
+			version: 8,
 			savedAt: SAVED_AT,
 			characterCount: 1,
 			worldStateCount: 1,
@@ -59,6 +59,7 @@ describe("SqliteSaveSnapshotService", () => {
 			npcRelationshipCount: 1,
 			inventoryEventCount: 1,
 			equipmentLoadoutEventCount: 1,
+			characterTraitSelectionCount: 1,
 		});
 		expect(loaded).toEqual(buildSnapshot());
 	});
@@ -107,6 +108,7 @@ describe("SqliteSaveSnapshotService", () => {
 			npcRelationships: [],
 			inventoryEvents: [],
 			equipmentLoadoutEvents: [],
+			characterTraitSelections: [],
 		};
 
 		const saved = expectSaveSuccess(await service.saveSnapshot(emptySnapshot));
@@ -155,15 +157,16 @@ describe("SqliteSaveSnapshotService", () => {
 		expect(corrupted.code).toBe("CORRUPTED_SAVE_SNAPSHOT");
 	});
 
-	it("migrates a legacy v1 save to v7 with empty structured data", async () => {
+	it("migrates a legacy v1 save to v8 with empty structured data", async () => {
 		const loaded = expectLoadSuccess(
 			await createService(await createLegacyV1SaveStorage()).loadSnapshot(),
 		);
 
 		expect(loaded).toEqual({
-			version: 7,
+			version: 8,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
+			characterTraitSelections: [],
 			worldState: [
 				{
 					key: "location:morden:gate-open",
@@ -183,15 +186,16 @@ describe("SqliteSaveSnapshotService", () => {
 		});
 	});
 
-	it("migrates a legacy v2 save to v7 with empty social data", async () => {
+	it("migrates a legacy v2 save to v8 with empty social data", async () => {
 		const loaded = expectLoadSuccess(
 			await createService(await createLegacyV2SaveStorage()).loadSnapshot(),
 		);
 
 		expect(loaded).toEqual({
-			version: 7,
+			version: 8,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
+			characterTraitSelections: [],
 			worldState: [
 				{
 					key: "location:morden:gate-open",
@@ -211,15 +215,16 @@ describe("SqliteSaveSnapshotService", () => {
 		});
 	});
 
-	it("migrates a legacy v3 save to v7 with empty social encounter state", async () => {
+	it("migrates a legacy v3 save to v8 with empty social encounter state", async () => {
 		const loaded = expectLoadSuccess(
 			await createService(await createLegacyV3SaveStorage()).loadSnapshot(),
 		);
 
 		expect(loaded).toEqual({
-			version: 7,
+			version: 8,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
+			characterTraitSelections: [],
 			worldState: [
 				{
 					key: "location:morden:gate-open",
@@ -239,15 +244,16 @@ describe("SqliteSaveSnapshotService", () => {
 		});
 	});
 
-	it("migrates a legacy v4 save to v7 with empty NPC relationships", async () => {
+	it("migrates a legacy v4 save to v8 with empty NPC relationships", async () => {
 		const loaded = expectLoadSuccess(
 			await createService(await createLegacyV4SaveStorage()).loadSnapshot(),
 		);
 
 		expect(loaded).toEqual({
-			version: 7,
+			version: 8,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
+			characterTraitSelections: [],
 			worldState: [
 				{
 					key: "location:morden:gate-open",
@@ -267,26 +273,39 @@ describe("SqliteSaveSnapshotService", () => {
 		});
 	});
 
-	it("migrates a legacy v5 save to v7 with empty ledgers", async () => {
+	it("migrates a legacy v5 save to v8 with empty ledgers", async () => {
 		const loaded = expectLoadSuccess(
 			await createService(await createLegacyV5SaveStorage()).loadSnapshot(),
 		);
 
 		expect(loaded).toEqual({
 			...buildSnapshot(),
+			characterTraitSelections: [],
 			inventoryEvents: [],
 			equipmentLoadoutEvents: [],
 		});
 	});
 
-	it("migrates a legacy v6 save to v7 with an empty equipment loadout ledger", async () => {
+	it("migrates a legacy v6 save to v8 with empty later ledgers", async () => {
 		const loaded = expectLoadSuccess(
 			await createService(await createLegacyV6SaveStorage()).loadSnapshot(),
 		);
 
 		expect(loaded).toEqual({
 			...buildSnapshot(),
+			characterTraitSelections: [],
 			equipmentLoadoutEvents: [],
+		});
+	});
+
+	it("migrates a legacy v7 save to v8 with empty trait selections", async () => {
+		const loaded = expectLoadSuccess(
+			await createService(await createLegacyV7SaveStorage()).loadSnapshot(),
+		);
+
+		expect(loaded).toEqual({
+			...buildSnapshot(),
+			characterTraitSelections: [],
 		});
 	});
 
@@ -339,6 +358,7 @@ describe("SqliteSaveSnapshotService", () => {
 		const invalidNpcRelationshipStorage = await createMigratedStorage();
 		const invalidInventoryEventStorage = await createMigratedStorage();
 		const invalidEquipmentLoadoutEventStorage = await createMigratedStorage();
+		const invalidCharacterTraitSelectionStorage = await createMigratedStorage();
 		expectSaveSuccess(
 			await createService(invalidClockStorage).saveSnapshot(buildSnapshot()),
 		);
@@ -382,6 +402,11 @@ describe("SqliteSaveSnapshotService", () => {
 				buildSnapshot(),
 			),
 		);
+		expectSaveSuccess(
+			await createService(invalidCharacterTraitSelectionStorage).saveSnapshot(
+				buildSnapshot(),
+			),
+		);
 
 		await corruptClockSlices(invalidClockStorage);
 		await corruptCampSessionHour(invalidCampSessionStorage);
@@ -395,6 +420,9 @@ describe("SqliteSaveSnapshotService", () => {
 		await corruptInventoryEventSequence(invalidInventoryEventStorage);
 		await corruptEquipmentLoadoutEventSequence(
 			invalidEquipmentLoadoutEventStorage,
+		);
+		await corruptCharacterTraitSelectionSequence(
+			invalidCharacterTraitSelectionStorage,
 		);
 
 		expect(
@@ -439,6 +467,13 @@ describe("SqliteSaveSnapshotService", () => {
 		expect(
 			expectFailure(
 				await createService(invalidEquipmentLoadoutEventStorage).loadSnapshot(),
+			).code,
+		).toBe("CORRUPTED_SAVE_SNAPSHOT");
+		expect(
+			expectFailure(
+				await createService(
+					invalidCharacterTraitSelectionStorage,
+				).loadSnapshot(),
 			).code,
 		).toBe("CORRUPTED_SAVE_SNAPSHOT");
 	});
@@ -528,9 +563,10 @@ describe("SqliteSaveSnapshotService", () => {
 
 function buildSnapshot() {
 	return {
-		version: 7 as const,
+		version: 8 as const,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
+		characterTraitSelections: [buildCharacterTraitSelection()],
 		worldState: [
 			{
 				key: "location:morden:gate-open",
@@ -547,6 +583,16 @@ function buildSnapshot() {
 		npcRelationships: [buildNpcRelationship()],
 		inventoryEvents: [buildInventoryEvent()],
 		equipmentLoadoutEvents: [buildEquipmentLoadoutEvent()],
+	};
+}
+
+function buildCharacterTraitSelection() {
+	return {
+		id: "character-trait-selection-1",
+		characterId: "session-character-1",
+		sequence: 1,
+		traitId: "human-diligencia-erudita",
+		createdAt: SAVED_AT,
 	};
 }
 
@@ -862,6 +908,39 @@ async function createLegacyV6SaveStorage(): Promise<InMemoryDatabaseFileStorage>
 	return storage;
 }
 
+async function createLegacyV7SaveStorage(): Promise<InMemoryDatabaseFileStorage> {
+	const sqlite = await createSqlite();
+	const database = new sqlite.Database();
+	for (const migration of PANDORHA_SQLITE_MIGRATIONS) {
+		database.run(migration.sql);
+	}
+	insertCharacter(database);
+	insertClock(database);
+	insertCampSession(database);
+	insertCampAssignment(database);
+	insertFactionStanding(database);
+	insertSocialEncounter(database);
+	insertSocialEncounterEvent(database);
+	insertNpcRelationship(database);
+	insertInventoryEvent(database);
+	insertEquipmentLoadoutEvent(database);
+	database.run(
+		"INSERT INTO world_state_entries (key, value_json, updated_at) VALUES (?, ?, ?);",
+		["location:morden:gate-open", JSON.stringify(true), UPDATED_AT],
+	);
+	database.run(
+		"INSERT INTO world_state_entries (key, value_json, updated_at) VALUES (?, ?, ?);",
+		[
+			"system:save:primary:metadata",
+			JSON.stringify({ version: 7, savedAt: SAVED_AT }),
+			SAVED_AT,
+		],
+	);
+	const storage = new InMemoryDatabaseFileStorage(database.export());
+	database.close();
+	return storage;
+}
+
 function insertCharacter(database: SqlJsStatic["Database"]["prototype"]): void {
 	const character = buildCharacter();
 	database.run(
@@ -1060,6 +1139,26 @@ function insertInventoryEvent(
 	);
 }
 
+function insertEquipmentLoadoutEvent(
+	database: SqlJsStatic["Database"]["prototype"],
+): void {
+	const event = buildEquipmentLoadoutEvent();
+	database.run(
+		`INSERT INTO equipment_loadout_events (
+			id, character_id, sequence, type, slot, inventory_entry_id, created_at
+		) VALUES (?, ?, ?, ?, ?, ?, ?);`,
+		[
+			event.id,
+			event.characterId,
+			event.sequence,
+			event.type,
+			event.slot,
+			event.inventoryEntryId,
+			event.createdAt,
+		],
+	);
+}
+
 async function corruptCharacterLevel(
 	storage: InMemoryDatabaseFileStorage,
 ): Promise<void> {
@@ -1088,7 +1187,7 @@ async function corruptMetadataVersion(
 	const sqlite = await createSqlite();
 	const database = new sqlite.Database(storage.fileBytes);
 	database.run(
-		'UPDATE world_state_entries SET value_json = \'{"version":8,"savedAt":"2026-05-15T19:50:00.000Z"}\' WHERE key = \'system:save:primary:metadata\';',
+		'UPDATE world_state_entries SET value_json = \'{"version":9,"savedAt":"2026-05-15T19:50:00.000Z"}\' WHERE key = \'system:save:primary:metadata\';',
 	);
 	storage.fileBytes = database.export();
 	database.close();
@@ -1198,6 +1297,16 @@ async function corruptEquipmentLoadoutEventSequence(
 	database.close();
 }
 
+async function corruptCharacterTraitSelectionSequence(
+	storage: InMemoryDatabaseFileStorage,
+): Promise<void> {
+	const sqlite = await createSqlite();
+	const database = new sqlite.Database(storage.fileBytes);
+	database.run("UPDATE character_trait_selections SET sequence = 0;");
+	storage.fileBytes = database.export();
+	database.close();
+}
+
 async function createMalformedSchemaStorage(): Promise<InMemoryDatabaseFileStorage> {
 	const sqlite = await createSqlite();
 	const database = new sqlite.Database();
@@ -1223,6 +1332,9 @@ async function createMalformedSchemaStorage(): Promise<InMemoryDatabaseFileStora
 	database.run("CREATE TABLE inventory_events (id text PRIMARY KEY NOT NULL);");
 	database.run(
 		"CREATE TABLE equipment_loadout_events (id text PRIMARY KEY NOT NULL);",
+	);
+	database.run(
+		"CREATE TABLE character_trait_selections (id text PRIMARY KEY NOT NULL);",
 	);
 	const storage = new InMemoryDatabaseFileStorage(database.export());
 	database.close();

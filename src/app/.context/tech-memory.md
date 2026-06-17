@@ -177,3 +177,10 @@
 - `App.svelte` passes `resolvePotionBelt` and `consumePotionBelt` into `CombatEncounterPanel`; Combat still does not import `inventory-management`.
 - The consumer appends inventory ledger events through the app-owned `inventoryEventRecords` array and returns a combat log entry.
 - No save v8, migration, healing, HP real mutation, HP de treino mutation, conditions, durability, or official action economy was introduced.
+
+## 2026-06-17 - Character Trait Selections Save V8
+
+- `characterSession` owns the session trait-selection repository beside the character repository.
+- `App.svelte` creates trait selection records immediately after successful character creation and includes them in the save v8 snapshot.
+- Load restores trait selections through `characterSession.restoreTraitSelections()` before exposing loaded records back to app state.
+- The app stores trait choices only; no ancestry trait effect, HP real mutation, starting equipment, Decorator, or editable sheet expansion was added.

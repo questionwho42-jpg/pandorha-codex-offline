@@ -10,6 +10,7 @@ export {
 	loadedSessionStateV5Schema,
 	loadedSessionStateV6Schema,
 	loadedSessionStateV7Schema,
+	loadedSessionStateV8Schema,
 	migrateLoadedSessionToCurrent,
 	migrateSaveV1ToV2,
 	migrateSaveV2ToV3,
@@ -17,6 +18,7 @@ export {
 	migrateSaveV4ToV5,
 	migrateSaveV5ToV6,
 	migrateSaveV6ToV7,
+	migrateSaveV7ToV8,
 	saveMetadataAnySchema,
 	saveMetadataSchema,
 	saveMetadataV1Schema,
@@ -26,6 +28,7 @@ export {
 	saveMetadataV5Schema,
 	saveMetadataV6Schema,
 	saveMetadataV7Schema,
+	saveMetadataV8Schema,
 	saveSessionInputSchema,
 	worldStateFlagSchema,
 } from "./model/saveLoadSchemas";

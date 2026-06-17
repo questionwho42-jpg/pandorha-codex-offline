@@ -19,3 +19,10 @@
 - The service calculates `maxHp`, `initiativeBase`, and `carrySlotLimit` only; it does not apply class passives, ancestry traits, background talents, equipment, magic resources, or status effects.
 - To preserve FSD boundaries, `character` does not import the sibling `character-class` slice. Callers must resolve the class source before asking for derived stats.
 - Derived values remain outputs, not fields stored in the `characters` table.
+
+## 2026-06-17 - Character Trait Selections Save V8
+
+- Added `characterTraitSelections` as a dedicated relation owned by `entities/character`, not as JSON inside `characters`.
+- Each persisted selection stores `characterId`, contiguous `sequence` 1-3, `traitId`, and `createdAt`; ancestry ownership is validated at creation time by the app/session flow.
+- `SessionCharacterTraitSelectionRepository` mirrors the existing session repository pattern and exposes `all()` / `replaceAll()` for save-load orchestration.
+- Trait selections are persisted as sheet choices only. No trait mechanic, Decorator, HP, passive bonus, starting equipment, or editable sheet behavior was added.

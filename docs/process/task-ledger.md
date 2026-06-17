@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260617-121308-character-trait-selections-save-v8 -->
+### Character trait selections save v8
+- id: 20260617-121308-character-trait-selections-save-v8
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-17T12:13:08-03:00
+- finished_at: 2026-06-17T20:45:30-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-17T20:45:30-03:00
+- branch: codex/feat/character-trait-selections-save-v8
+- commit_at_start: 151addc docs(process): record trait gate merge
+- summary: Persist ancestry trait selections in save v8 with character-owned records, migrations, app session state, and focused tests without trait mechanics or starting equipment.
+- last_change: Persisted ancestry trait selections in save v8 with a character-owned relation, SQLite migration, v1-v7 migrations, RPC/worker snapshot wiring, app session restore/save state, focused tests, QA smoke contract updates, and module memories. Verified lint, tests, 100 percent coverage, build, quality automation, quality gate, docs audit, QA smokes, core conventions, self-review hard stop, process validation, and diff check.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-17T12:13:08-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-17T12:34:30-03:00
+- Done: Implemented save v8 characterTraitSelections persistence, SQLite migration/table wiring, app session restore/save wiring, RPC/worker contracts, focused tests, v8 QA smoke contracts, and module memories. Passed focused tests, npm test, lint, docs:audit, process validate, core-conventions, self-review hard stop, qa:vertical-slice, qa:ui-reachability, qa:social-browser-smoke, qa:dialogue-seeds, quality:automation, and git diff --check.
+- Next: Resume by running npm.cmd run test:coverage and npm.cmd run build outside the sandbox, then complete the automation task, commit feat(character): persist ancestry trait selections in v8, merge to main, push, and run qa:next-phase-readiness.
+- Risks: test:coverage and build fail inside sandbox with esbuild Access is denied for vitest.config.mjs/vite.config.mjs. Escalated execution was requested but rejected by account usage limit, so this phase must remain uncommitted until those gates can run.
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-17T20:45:30-03:00
+- Done: Persisted ancestry trait selections in save v8 with a character-owned relation, SQLite migration, v1-v7 migrations, RPC/worker snapshot wiring, app session restore/save state, focused tests, QA smoke contract updates, and module memories. Verified lint, tests, 100 percent coverage, build, quality automation, quality gate, docs audit, QA smokes, core conventions, self-review hard stop, process validation, and diff check.
+- Next: Create the UI branch for visible persisted ancestry traits from clean main after this commit is merged and readiness passes.
+- Risks: No trait mechanics, HP real, starting equipment, Decorator, talents, passives, or editable sheet behavior were added; those remain gated future work.
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260617-121308-character-trait-selections-save-v8 -->
 <!-- pandorha-task:20260617-120814-character-traits-save-v8-gate -->
 ### Character traits save v8 gate
 - id: 20260617-120814-character-traits-save-v8-gate

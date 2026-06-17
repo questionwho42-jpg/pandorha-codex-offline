@@ -32,9 +32,10 @@ describe("RPC save/load contract", () => {
 			payload: {
 				saveId: "primary",
 				snapshot: {
-					version: 7,
+					version: 8,
 					savedAt: CREATED_AT,
 					characters: [{ id: "lia", name: "Lia", level: 1 }],
+					characterTraitSelections: [{ id: "trait-selection-1", sequence: 1 }],
 					worldState: [
 						{
 							key: "location:morden:gate-open",
@@ -81,9 +82,10 @@ describe("RPC save/load contract", () => {
 			payload: {
 				saveId: "primary",
 				snapshot: {
-					version: 7,
+					version: 8,
 					savedAt: CREATED_AT,
 					characters: [{ id: "lia", createdAt: new Date(CREATED_AT) }],
+					characterTraitSelections: [],
 					worldState: [],
 					clocks: [],
 					campSessions: [],

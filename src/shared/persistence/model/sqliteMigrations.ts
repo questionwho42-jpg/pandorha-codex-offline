@@ -7,6 +7,7 @@ import socialEncounterMigrationSql from "../../../../drizzle/0005_perfect_sinist
 import npcRelationshipMigrationSql from "../../../../drizzle/0006_bent_havok.sql?raw";
 import inventoryEventMigrationSql from "../../../../drizzle/0007_aromatic_moonstone.sql?raw";
 import equipmentLoadoutEventMigrationSql from "../../../../drizzle/0008_equipment_loadout_events.sql?raw";
+import characterTraitSelectionMigrationSql from "../../../../drizzle/0009_character_trait_selections.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -45,5 +46,9 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0008_equipment_loadout_events",
 		sql: equipmentLoadoutEventMigrationSql,
+	},
+	{
+		id: "0009_character_trait_selections",
+		sql: characterTraitSelectionMigrationSql,
 	},
 ];

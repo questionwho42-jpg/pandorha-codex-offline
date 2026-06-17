@@ -14,3 +14,6 @@
 - The approved v7 gate adds only `equipmentLoadoutEvents`.
 - Legacy v1-v6 snapshots migrate to v7; v6 keeps its inventory ledger and receives an empty equipment loadout ledger.
 - Save v7 writes `equipment_loadout_events` in the same SQLite snapshot transaction and rejects malformed loadout rows before exposing loaded state.
+- The approved v8 gate adds only `characterTraitSelections`.
+- Legacy v1-v7 snapshots migrate to v8 with an empty trait selection list; no HP real, trait effects, starting equipment, talents, passives, or editable sheet state enters the migration.
+- Save v8 writes `character_trait_selections` in the same SQLite snapshot transaction and rejects malformed trait rows before exposing loaded state.

@@ -2,7 +2,10 @@ import type {
 	CampAssignmentRecord,
 	CampSessionRecord,
 } from "$lib/entities/camp-session";
-import type { CharacterRecord } from "$lib/entities/character";
+import type {
+	CharacterRecord,
+	CharacterTraitSelectionRecord,
+} from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
 import type { EquipmentLoadoutEventRecord } from "$lib/entities/equipment";
 import type { FactionStandingRecord } from "$lib/entities/faction";
@@ -20,9 +23,10 @@ export interface SaveLoadMessageIdProvider {
 
 export interface SaveSessionResult {
 	readonly saveId: "primary";
-	readonly version: 7;
+	readonly version: 8;
 	readonly savedAt: string;
 	readonly characterCount: number;
+	readonly characterTraitSelectionCount: number;
 	readonly worldStateCount: number;
 	readonly clockCount: number;
 	readonly campSessionCount: number;
@@ -36,9 +40,10 @@ export interface SaveSessionResult {
 }
 
 export interface LoadedSessionState {
-	readonly version: 7;
+	readonly version: 8;
 	readonly savedAt: string;
 	readonly characters: readonly CharacterRecord[];
+	readonly characterTraitSelections: readonly CharacterTraitSelectionRecord[];
 	readonly worldState: readonly WorldStateFlagView[];
 	readonly clocks: readonly ClockRecord[];
 	readonly campSessions: readonly CampSessionRecord[];

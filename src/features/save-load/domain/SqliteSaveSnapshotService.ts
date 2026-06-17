@@ -10,7 +10,14 @@ import {
 	campSessionSelectSchema,
 	campSessions,
 } from "$lib/entities/camp-session";
-import { characterSelectSchema, characters } from "$lib/entities/character";
+import {
+	type CharacterTraitSelectionRecord,
+	characterSelectSchema,
+	characters,
+	characterTraitSelectionInsertSchema,
+	characterTraitSelectionSelectSchema,
+	characterTraitSelections,
+} from "$lib/entities/character";
 import {
 	type ClockRecord,
 	clockInsertSchema,
@@ -70,9 +77,10 @@ import {
 	loadedSessionStateV5Schema,
 	loadedSessionStateV6Schema,
 	loadedSessionStateV7Schema,
+	loadedSessionStateV8Schema,
 	migrateLoadedSessionToCurrent,
 	saveMetadataAnySchema,
-	saveMetadataV7Schema,
+	saveMetadataV8Schema,
 } from "../model/saveLoadSchemas";
 import type { LoadedSessionState } from "../model/saveLoadTypes";
 import type {
@@ -97,7 +105,7 @@ export class SqliteSaveSnapshotService {
 	public async saveSnapshot(
 		input: unknown,
 	): Promise<Result<SaveSnapshotResult, SaveSnapshotFailure>> {
-		const parsedSnapshot = loadedSessionStateV7Schema.safeParse(input);
+		const parsedSnapshot = loadedSessionStateV8Schema.safeParse(input);
 		if (!parsedSnapshot.success) {
 			return fail({
 				code: "INVALID_SAVE_SNAPSHOT",
@@ -145,6 +153,10 @@ export class SqliteSaveSnapshotService {
 				parsedSnapshot.data.equipmentLoadoutEvents.map((event) =>
 					equipmentLoadoutEventInsertSchema.parse(event),
 				);
+			const characterTraitSelectionRecords =
+				parsedSnapshot.data.characterTraitSelections.map((selection) =>
+					characterTraitSelectionInsertSchema.parse(selection),
+				);
 			const worldStateRecords = parsedSnapshot.data.worldState.map((flag) =>
 				worldStateEntryInsertSchema.parse({
 					key: flag.key,
@@ -155,7 +167,7 @@ export class SqliteSaveSnapshotService {
 			const metadataRecord = worldStateEntryInsertSchema.parse({
 				key: SAVE_METADATA_KEY,
 				valueJson: JSON.stringify(
-					saveMetadataV7Schema.parse({
+					saveMetadataV8Schema.parse({
 						version: parsedSnapshot.data.version,
 						savedAt: parsedSnapshot.data.savedAt,
 					}),
@@ -164,6 +176,7 @@ export class SqliteSaveSnapshotService {
 			});
 
 			db.transaction((tx) => {
+				tx.delete(characterTraitSelections).run();
 				tx.delete(equipmentLoadoutEvents).run();
 				tx.delete(inventoryEvents).run();
 				tx.delete(socialEncounterEvents).run();
@@ -186,6 +199,11 @@ export class SqliteSaveSnapshotService {
 				}
 				if (parsedSnapshot.data.characters.length > 0) {
 					tx.insert(characters).values(parsedSnapshot.data.characters).run();
+				}
+				if (characterTraitSelectionRecords.length > 0) {
+					tx.insert(characterTraitSelections)
+						.values(characterTraitSelectionRecords)
+						.run();
 				}
 				if (factionStandingRecords.length > 0) {
 					tx.insert(factionStandings).values(factionStandingRecords).run();
@@ -232,6 +250,8 @@ export class SqliteSaveSnapshotService {
 				version: parsedSnapshot.data.version,
 				savedAt: parsedSnapshot.data.savedAt,
 				characterCount: parsedSnapshot.data.characters.length,
+				characterTraitSelectionCount:
+					parsedSnapshot.data.characterTraitSelections.length,
 				worldStateCount: parsedSnapshot.data.worldState.length,
 				clockCount: parsedSnapshot.data.clocks.length,
 				campSessionCount: parsedSnapshot.data.campSessions.length,
@@ -489,10 +509,39 @@ export class SqliteSaveSnapshotService {
 				return parsedEquipmentLoadoutEvents;
 			}
 
-			const parsedLoaded = loadedSessionStateV7Schema.parse({
+			if (parsedMetadata.data.version === 7) {
+				const parsedLoaded = migrateLoadedSessionToCurrent(
+					loadedSessionStateV7Schema.parse({
+						version: parsedMetadata.data.version,
+						savedAt: parsedMetadata.data.savedAt,
+						characters: parsedCharacters,
+						worldState: parsedWorldState,
+						clocks: parsedClocks.data,
+						campSessions: parsedCampSessions.data,
+						campAssignments: parsedCampAssignments.data,
+						factionStandings: parsedFactionStandings.data,
+						socialEncounters: parsedSocialEncounters.data,
+						socialEncounterEvents: parsedSocialEncounterEvents.data,
+						npcRelationships: parsedNpcRelationships.data,
+						inventoryEvents: parsedInventoryEvents.data,
+						equipmentLoadoutEvents: parsedEquipmentLoadoutEvents.data,
+					}),
+				);
+				database.close();
+				return ok(parsedLoaded);
+			}
+
+			const parsedCharacterTraitSelections = readCharacterTraitSelections(db);
+			if (!parsedCharacterTraitSelections.success) {
+				database.close();
+				return parsedCharacterTraitSelections;
+			}
+
+			const parsedLoaded = loadedSessionStateV8Schema.parse({
 				version: parsedMetadata.data.version,
 				savedAt: parsedMetadata.data.savedAt,
 				characters: parsedCharacters,
+				characterTraitSelections: parsedCharacterTraitSelections.data,
 				worldState: parsedWorldState,
 				clocks: parsedClocks.data,
 				campSessions: parsedCampSessions.data,
@@ -598,7 +647,8 @@ export class SqliteSaveSnapshotService {
 				!tableNames.has("social_encounter_events") ||
 				!tableNames.has("npc_relationships") ||
 				!tableNames.has("inventory_events") ||
-				!tableNames.has("equipment_loadout_events")
+				!tableNames.has("equipment_loadout_events") ||
+				!tableNames.has("character_trait_selections")
 			) {
 				return fail({
 					code: "CORRUPTED_DATABASE_FILE",
@@ -783,6 +833,29 @@ function readEquipmentLoadoutEvents(
 		parsedEvents.push(parsed.data);
 	}
 	return ok(parsedEvents);
+}
+
+function readCharacterTraitSelections(
+	db: ReturnType<typeof drizzle>,
+): Result<readonly CharacterTraitSelectionRecord[], SaveSnapshotFailure> {
+	const parsedSelections: CharacterTraitSelectionRecord[] = [];
+	for (const row of db
+		.select()
+		.from(characterTraitSelections)
+		.orderBy(
+			asc(characterTraitSelections.characterId),
+			asc(characterTraitSelections.sequence),
+		)
+		.all()) {
+		const parsed = characterTraitSelectionSelectSchema.safeParse(row);
+		if (!parsed.success) {
+			return corruptedSnapshotFailure(
+				"character trait selection row failed validation",
+			);
+		}
+		parsedSelections.push(parsed.data);
+	}
+	return ok(parsedSelections);
 }
 
 function corruptedSnapshotFailure(

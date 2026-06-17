@@ -20,7 +20,71 @@ const LOAD_MESSAGE_ID = "e4360b10-b7dc-49b4-8bb5-227697030648";
 const SAVED_AT = "2026-05-15T18:59:00.000Z";
 
 describe("SaveLoadService", () => {
-	it("persists equipment loadout events in v7 and migrates v6 with an empty ledger", async () => {
+	it("persists character trait selections in v8 and migrates v7 with an empty selection list", async () => {
+		const saveBridge = new FakeWorkerBridge();
+		saveBridge.queueResponse(
+			createRpcSuccessResponse({
+				messageId: SAVE_MESSAGE_ID,
+				data: { saved: true },
+			}),
+		);
+		const saved = expectSaveSuccess(
+			await createService(saveBridge).saveSession({
+				characters: [buildCharacter()],
+				worldState: [],
+				inventoryEvents: [buildInventoryEvent()],
+				equipmentLoadoutEvents: [buildEquipmentLoadoutEvent()],
+				characterTraitSelections: [buildCharacterTraitSelection()],
+				savedAt: SAVED_AT,
+			}),
+		);
+
+		expect(saved).toMatchObject({
+			version: 8,
+			characterTraitSelectionCount: 1,
+		});
+		expect(saveBridge.requests[0]).toMatchObject({
+			payload: {
+				snapshot: {
+					version: 8,
+					characterTraitSelections: [buildCharacterTraitSelection()],
+				},
+			},
+		});
+
+		const loadBridge = new FakeWorkerBridge();
+		loadBridge.queueResponse(
+			createRpcSuccessResponse({
+				messageId: LOAD_MESSAGE_ID,
+				data: {
+					version: 7,
+					savedAt: SAVED_AT,
+					characters: [buildCharacter()],
+					worldState: [],
+					clocks: [],
+					campSessions: [],
+					campAssignments: [],
+					factionStandings: [],
+					socialEncounters: [],
+					socialEncounterEvents: [],
+					npcRelationships: [],
+					inventoryEvents: [buildInventoryEvent()],
+					equipmentLoadoutEvents: [buildEquipmentLoadoutEvent()],
+				},
+			}),
+		);
+
+		expect(
+			expectLoadSuccess(
+				await createService(loadBridge, [LOAD_MESSAGE_ID]).loadSession(),
+			),
+		).toMatchObject({
+			version: 8,
+			characterTraitSelections: [],
+		});
+	});
+
+	it("persists equipment loadout events in v8 and migrates v6 with empty ledgers", async () => {
 		const saveBridge = new FakeWorkerBridge();
 		saveBridge.queueResponse(
 			createRpcSuccessResponse({
@@ -39,15 +103,17 @@ describe("SaveLoadService", () => {
 		);
 
 		expect(saved).toMatchObject({
-			version: 7,
+			version: 8,
 			inventoryEventCount: 1,
 			equipmentLoadoutEventCount: 1,
+			characterTraitSelectionCount: 0,
 		});
 		expect(saveBridge.requests[0]).toMatchObject({
 			payload: {
 				snapshot: {
-					version: 7,
+					version: 8,
 					equipmentLoadoutEvents: [buildEquipmentLoadoutEvent()],
+					characterTraitSelections: [],
 				},
 			},
 		});
@@ -78,13 +144,14 @@ describe("SaveLoadService", () => {
 				await createService(loadBridge, [LOAD_MESSAGE_ID]).loadSession(),
 			),
 		).toMatchObject({
-			version: 7,
+			version: 8,
 			inventoryEvents: [buildInventoryEvent()],
 			equipmentLoadoutEvents: [],
+			characterTraitSelections: [],
 		});
 	});
 
-	it("persists inventory events in v7 and migrates v5 with empty ledgers", async () => {
+	it("persists inventory events in v8 and migrates v5 with empty ledgers", async () => {
 		const saveBridge = new FakeWorkerBridge();
 		saveBridge.queueResponse(
 			createRpcSuccessResponse({
@@ -102,16 +169,18 @@ describe("SaveLoadService", () => {
 		);
 
 		expect(saved).toMatchObject({
-			version: 7,
+			version: 8,
 			inventoryEventCount: 1,
 			equipmentLoadoutEventCount: 0,
+			characterTraitSelectionCount: 0,
 		});
 		expect(saveBridge.requests[0]).toMatchObject({
 			payload: {
 				snapshot: {
-					version: 7,
+					version: 8,
 					inventoryEvents: [buildInventoryEvent()],
 					equipmentLoadoutEvents: [],
+					characterTraitSelections: [],
 				},
 			},
 		});
@@ -141,9 +210,10 @@ describe("SaveLoadService", () => {
 				await createService(loadBridge, [LOAD_MESSAGE_ID]).loadSession(),
 			),
 		).toMatchObject({
-			version: 7,
+			version: 8,
 			inventoryEvents: [],
 			equipmentLoadoutEvents: [],
+			characterTraitSelections: [],
 		});
 	});
 
@@ -175,9 +245,10 @@ describe("SaveLoadService", () => {
 
 		expect(saved).toEqual({
 			saveId: "primary",
-			version: 7,
+			version: 8,
 			savedAt: SAVED_AT,
 			characterCount: 1,
+			characterTraitSelectionCount: 0,
 			worldStateCount: 1,
 			clockCount: 1,
 			campSessionCount: 1,
@@ -196,9 +267,10 @@ describe("SaveLoadService", () => {
 				payload: {
 					saveId: "primary",
 					snapshot: {
-						version: 7,
+						version: 8,
 						savedAt: SAVED_AT,
 						characters: [buildCharacter()],
+						characterTraitSelections: [],
 						worldState: [buildWorldStateFlag()],
 						clocks: [buildClock()],
 						campSessions: [buildCampSession()],
@@ -221,9 +293,10 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 7,
+					version: 8,
 					savedAt: SAVED_AT,
 					characters: [buildCharacter()],
+					characterTraitSelections: [buildCharacterTraitSelection()],
 					worldState: [buildWorldStateFlag()],
 					clocks: [buildClock()],
 					campSessions: [buildCampSession()],
@@ -242,9 +315,10 @@ describe("SaveLoadService", () => {
 		const loaded = expectLoadSuccess(await service.loadSession());
 
 		expect(loaded).toEqual({
-			version: 7,
+			version: 8,
 			savedAt: SAVED_AT,
 			characters: [buildCharacter()],
+			characterTraitSelections: [buildCharacterTraitSelection()],
 			worldState: [buildWorldStateFlag()],
 			clocks: [buildClock()],
 			campSessions: [buildCampSession()],
@@ -386,7 +460,7 @@ describe("SaveLoadService", () => {
 			createRpcSuccessResponse({
 				messageId: LOAD_MESSAGE_ID,
 				data: {
-					version: 8,
+					version: 9,
 					savedAt: SAVED_AT,
 					characters: [buildCharacter()],
 					worldState: [buildWorldStateFlag()],
@@ -600,6 +674,16 @@ function buildEquipmentLoadoutEvent() {
 	};
 }
 
+function buildCharacterTraitSelection() {
+	return {
+		id: "character-trait-selection-1",
+		characterId: "session-character-1",
+		sequence: 1,
+		traitId: "human-diligencia-erudita",
+		createdAt: SAVED_AT,
+	};
+}
+
 function expectSaveSuccess(
 	result: Result<SaveSessionResult, SaveLoadFailure>,
 ): SaveSessionResult {
@@ -644,7 +728,7 @@ class SequenceMessageIdProvider implements SaveLoadMessageIdProvider {
 		return id;
 	}
 }
-it("migrates legacy v1 snapshots to v7 with empty structured data", async () => {
+it("migrates legacy v1 snapshots to v8 with empty structured data", async () => {
 	const bridge = new FakeWorkerBridge();
 	bridge.queueResponse(
 		createRpcSuccessResponse({
@@ -663,9 +747,10 @@ it("migrates legacy v1 snapshots to v7 with empty structured data", async () => 
 	);
 
 	expect(loaded).toEqual({
-		version: 7,
+		version: 8,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
+		characterTraitSelections: [],
 		worldState: [buildWorldStateFlag()],
 		clocks: [],
 		campSessions: [],
@@ -679,7 +764,7 @@ it("migrates legacy v1 snapshots to v7 with empty structured data", async () => 
 	});
 });
 
-it("migrates legacy v2 snapshots to v7 with empty social data", async () => {
+it("migrates legacy v2 snapshots to v8 with empty social data", async () => {
 	const bridge = new FakeWorkerBridge();
 	bridge.queueResponse(
 		createRpcSuccessResponse({
@@ -701,9 +786,10 @@ it("migrates legacy v2 snapshots to v7 with empty social data", async () => {
 	);
 
 	expect(loaded).toEqual({
-		version: 7,
+		version: 8,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
+		characterTraitSelections: [],
 		worldState: [buildWorldStateFlag()],
 		clocks: [buildClock()],
 		campSessions: [buildCampSession()],
@@ -717,7 +803,7 @@ it("migrates legacy v2 snapshots to v7 with empty social data", async () => {
 	});
 });
 
-it("migrates legacy v3 snapshots to v7 with empty social encounter state", async () => {
+it("migrates legacy v3 snapshots to v8 with empty social encounter state", async () => {
 	const bridge = new FakeWorkerBridge();
 	bridge.queueResponse(
 		createRpcSuccessResponse({
@@ -740,9 +826,10 @@ it("migrates legacy v3 snapshots to v7 with empty social encounter state", async
 	);
 
 	expect(loaded).toEqual({
-		version: 7,
+		version: 8,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
+		characterTraitSelections: [],
 		worldState: [buildWorldStateFlag()],
 		clocks: [buildClock()],
 		campSessions: [buildCampSession()],
@@ -756,7 +843,7 @@ it("migrates legacy v3 snapshots to v7 with empty social encounter state", async
 	});
 });
 
-it("migrates legacy v4 snapshots to v7 with empty NPC relationships", async () => {
+it("migrates legacy v4 snapshots to v8 with empty NPC relationships", async () => {
 	const bridge = new FakeWorkerBridge();
 	bridge.queueResponse(
 		createRpcSuccessResponse({
@@ -781,9 +868,10 @@ it("migrates legacy v4 snapshots to v7 with empty NPC relationships", async () =
 	);
 
 	expect(loaded).toEqual({
-		version: 7,
+		version: 8,
 		savedAt: SAVED_AT,
 		characters: [buildCharacter()],
+		characterTraitSelections: [],
 		worldState: [buildWorldStateFlag()],
 		clocks: [buildClock()],
 		campSessions: [buildCampSession()],

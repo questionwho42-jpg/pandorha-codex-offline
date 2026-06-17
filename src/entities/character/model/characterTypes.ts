@@ -27,6 +27,16 @@ export interface CharacterRepositoryFailure {
 	readonly details?: CharacterFailureDetails;
 }
 
+export type CharacterTraitSelectionRepositoryFailureCode =
+	| "CHARACTER_TRAIT_SELECTION_REPOSITORY_READ_FAILED"
+	| "CHARACTER_TRAIT_SELECTION_REPOSITORY_WRITE_FAILED";
+
+export interface CharacterTraitSelectionRepositoryFailure {
+	readonly code: CharacterTraitSelectionRepositoryFailureCode;
+	readonly message: string;
+	readonly details?: CharacterFailureDetails;
+}
+
 export type CharacterTier = 1 | 2 | 3 | 4;
 
 export interface CharacterIdProvider {

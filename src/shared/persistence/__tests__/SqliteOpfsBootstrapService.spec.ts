@@ -54,11 +54,13 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0006_bent_havok",
 				"0007_aromatic_moonstone",
 				"0008_equipment_loadout_events",
+				"0009_character_trait_selections",
 			],
 			tableNames: [
 				"_pandorha_migrations",
 				"camp_assignments",
 				"camp_sessions",
+				"character_trait_selections",
 				"characters",
 				"clocks",
 				"equipment_loadout_events",
@@ -118,6 +120,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0006_bent_havok",
 			"0007_aromatic_moonstone",
 			"0008_equipment_loadout_events",
+			"0009_character_trait_selections",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -233,6 +236,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0006_bent_havok",
 			"0007_aromatic_moonstone",
 			"0008_equipment_loadout_events",
+			"0009_character_trait_selections",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -263,9 +267,10 @@ describe("database worker request handler", () => {
 				payload: {
 					saveId: "primary",
 					snapshot: {
-						version: 7,
+						version: 8,
 						savedAt: REQUESTED_AT,
 						characters: [],
+						characterTraitSelections: [],
 						worldState: [],
 						clocks: [],
 						campSessions: [],
@@ -305,9 +310,10 @@ describe("database worker request handler", () => {
 			messageId: MESSAGE_ID,
 			success: true,
 			data: {
-				version: 7,
+				version: 8,
 				savedAt: REQUESTED_AT,
 				characters: [],
+				characterTraitSelections: [],
 				worldState: [],
 				clocks: [],
 				campSessions: [],
@@ -544,9 +550,10 @@ class FakeSnapshotWorkerPort {
 	public async loadSnapshot(): Promise<
 		Result<
 			{
-				readonly version: 7;
+				readonly version: 8;
 				readonly savedAt: string;
 				readonly characters: readonly [];
+				readonly characterTraitSelections: readonly [];
 				readonly worldState: readonly [];
 				readonly clocks: readonly [];
 				readonly campSessions: readonly [];
@@ -562,9 +569,10 @@ class FakeSnapshotWorkerPort {
 		>
 	> {
 		return ok({
-			version: 7,
+			version: 8,
 			savedAt: REQUESTED_AT,
 			characters: [],
+			characterTraitSelections: [],
 			worldState: [],
 			clocks: [],
 			campSessions: [],

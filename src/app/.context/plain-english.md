@@ -64,3 +64,11 @@ O Combate tambem consegue olhar para o `Cinto de Pocoes` carregado no
 Inventario. Quando o usuario usa uma pocao do cinto, o app consome 1 unidade do
 inventario e registra no log que isso foi apenas treino: HP real e HP de treino
 nao mudam.
+
+Quando o usuario cria um personagem, o app agora tambem guarda os tres tracos de
+ancestralidade escolhidos. Eles entram no save v8 e podem voltar depois de
+salvar, recarregar a pagina e carregar o save.
+
+Esses tracos ainda nao aplicam efeitos automaticos. Por enquanto o app apenas
+lembra a escolha da ficha; bonus, passivas e equipamento inicial continuam para
+etapas futuras.

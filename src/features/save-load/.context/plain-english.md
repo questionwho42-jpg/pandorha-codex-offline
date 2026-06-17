@@ -12,3 +12,7 @@ inventory. Older saves load with an empty inventory.
 Version 7 saves a second event history for equipped items. It remembers which
 carried inventory entry is in the weapon, shield, or armor slot, while the item
 details still come from the official catalog.
+
+Version 8 saves the three ancestry traits picked during character creation.
+Older saves still open, but they start with an empty trait-selection list because
+that information did not exist in earlier save versions.

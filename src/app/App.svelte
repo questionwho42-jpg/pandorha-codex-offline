@@ -7,6 +7,7 @@ import type {
 import type {
 	CharacterCreateInput,
 	CharacterRecord,
+	CharacterTraitSelectionRecord,
 } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
 import type { EquipmentLoadoutEventRecord } from "$lib/entities/equipment";
@@ -103,6 +104,9 @@ let activeView = $state<AppNavigationId>("home");
 let campAssignmentRecords = $state<CampAssignmentRecord[]>([]);
 let campSessionRecords = $state<CampSessionRecord[]>([]);
 let characterRecords = $state<CharacterRecord[]>([]);
+let characterTraitSelectionRecords = $state<CharacterTraitSelectionRecord[]>(
+	[],
+);
 let clockRecords = $state<ClockRecord[]>([]);
 let factionStandingRecords = $state<FactionStandingRecord[]>(
 	socialRelationsSession.createInitialStandings(),
@@ -172,7 +176,23 @@ async function createCharacter(
 		return false;
 	}
 
+	const persistedTraits = await characterSession.createTraitSelections({
+		characterId: result.data.id,
+		ancestryId: input.ancestryId,
+		traitIds: ancestryTraitIds,
+	});
+	if (!persistedTraits.success) {
+		characterCreateError =
+			"NÃ£o foi possÃ­vel salvar os traÃ§os do personagem nesta sessÃ£o.";
+		characterCreateSuccess = null;
+		return false;
+	}
+
 	characterRecords = [...characterRecords, result.data];
+	characterTraitSelectionRecords = [
+		...characterTraitSelectionRecords,
+		...persistedTraits.data,
+	];
 	characterCreateError = null;
 	characterCreateSuccess = `${result.data.name} foi criado e adicionado à lista.`;
 	return true;
@@ -203,6 +223,7 @@ async function saveSession(): Promise<void> {
 	saveLoadState = { kind: "saving" };
 	const result = await saveLoadSession.service.saveSession({
 		characters: characterRecords,
+		characterTraitSelections: characterTraitSelectionRecords,
 		worldState: worldStateRecords,
 		clocks: clockRecords,
 		campSessions: campSessionRecords,
@@ -241,6 +262,16 @@ async function loadSession(): Promise<void> {
 		};
 		return;
 	}
+	const restoredTraitSelections = characterSession.restoreTraitSelections(
+		result.data.characterTraitSelections,
+	);
+	if (!restoredTraitSelections.success) {
+		saveLoadState = {
+			kind: "error",
+			message: "O save local contÃ©m traÃ§os de personagem invÃ¡lidos.",
+		};
+		return;
+	}
 	const restoredInventory = inventorySession.restoreEvents(
 		result.data.inventoryEvents,
 	);
@@ -263,6 +294,7 @@ async function loadSession(): Promise<void> {
 	}
 
 	characterRecords = [...restored.data];
+	characterTraitSelectionRecords = [...restoredTraitSelections.data];
 	worldStateRecords = [...result.data.worldState];
 	clockRecords = [...result.data.clocks];
 	campSessionRecords = [...result.data.campSessions];
