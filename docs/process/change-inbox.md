@@ -33,24 +33,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
-<!-- pandorha-inbox:20260617-060205-combat-potion-belt-quick-access -->
-### Combat potion belt quick access
-- id: 20260617-060205-combat-potion-belt-quick-access
+<!-- pandorha-inbox:20260617-120327-potion-belt-promotion-sweep -->
+### Potion belt promotion sweep
+- id: 20260617-120327-potion-belt-promotion-sweep
 - status: open
-- created_at: 2026-06-17T06:02:05-03:00
+- created_at: 2026-06-17T12:03:27-03:00
 - source: task-ledger
-- summary: Implement the Combat tab potion belt quick access using the existing inventory ledger, without save v8, real healing, HP real persistence, conditions, overdose, durability, item effects, or official action economy.
+- summary: Promote the delivered potion belt quick access gate and implementation records after main merge without changing docs/system or opening new mechanics.
 - expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260617-060205-combat-potion-belt-quick-access -->
-<!-- pandorha-inbox:20260617-055721-potion-belt-quick-access-gate -->
-### Potion belt quick access gate
-- id: 20260617-055721-potion-belt-quick-access-gate
-- status: open
-- created_at: 2026-06-17T05:57:21-03:00
-- source: task-ledger
-- summary: Approve the minimal potion belt quick access contract using the existing inventory ledger without save v8, HP real, healing effects, conditions, overdose, durability, or official action economy.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260617-055721-potion-belt-quick-access-gate -->
+<!-- /pandorha-inbox:20260617-120327-potion-belt-promotion-sweep -->
 <!-- pandorha-inbox:20260616-195116-post-combat-promotion-sweep -->
 ### Post combat promotion sweep
 - id: 20260616-195116-post-combat-promotion-sweep
@@ -955,6 +946,24 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Promoted
 <!-- pandorha-inbox:promoted -->
+<!-- pandorha-inbox:20260617-060205-combat-potion-belt-quick-access -->
+### Combat potion belt quick access
+- id: 20260617-060205-combat-potion-belt-quick-access
+- status: promoted
+- created_at: 2026-06-17T06:02:05-03:00
+- source: task-ledger
+- summary: Implement the Combat tab potion belt quick access using the existing inventory ledger, without save v8, real healing, HP real persistence, conditions, overdose, durability, item effects, or official action economy.
+- expected_promotion: promoted to docs/process/potion-belt-quick-access-gate.md, docs/user/combat-training.md, docs/user/inventory-management.md, docs/process/vertical-slice-qa.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260617-060205-combat-potion-belt-quick-access -->
+<!-- pandorha-inbox:20260617-055721-potion-belt-quick-access-gate -->
+### Potion belt quick access gate
+- id: 20260617-055721-potion-belt-quick-access-gate
+- status: promoted
+- created_at: 2026-06-17T05:57:21-03:00
+- source: task-ledger
+- summary: Approve the minimal potion belt quick access contract using the existing inventory ledger without save v8, HP real, healing effects, conditions, overdose, durability, or official action economy.
+- expected_promotion: promoted to docs/process/potion-belt-quick-access-gate.md and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260617-055721-potion-belt-quick-access-gate -->
 <!-- pandorha-inbox:20260616-175040-combat-persistent-loadout-integration -->
 ### Combat persistent loadout integration
 - id: 20260616-175040-combat-persistent-loadout-integration

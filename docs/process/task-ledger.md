@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260617-120327-potion-belt-promotion-sweep -->
+### Potion belt promotion sweep
+- id: 20260617-120327-potion-belt-promotion-sweep
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-17T12:03:27-03:00
+- finished_at: 2026-06-17T12:04:16-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-17T12:04:16-03:00
+- branch: codex/docs/potion-belt-promotion-sweep
+- commit_at_start: b0dda33 docs(process): record potion belt quick access merge
+- summary: Promote the delivered potion belt quick access gate and implementation records after main merge without changing docs/system or opening new mechanics.
+- last_change: Promoted only the delivered potion belt quick access gate and implementation records after main merge, keeping future healing, HP real, item effects, durability, and official action economy open.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-17T12:03:27-03:00
+- Done: task record created
+- Next: Move only the two potion belt records from open to promoted and validate docs/process records.
+- Risks: Do not promote healing, HP real, item effects, durability, or official action economy by inference.
+- Improvements: Keep future potion effects behind their own gate.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-17T12:04:16-03:00
+- Done: Promoted only the delivered potion belt quick access gate and implementation records after main merge, keeping future healing, HP real, item effects, durability, and official action economy open.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260617-120327-potion-belt-promotion-sweep -->
 <!-- pandorha-task:20260617-060205-combat-potion-belt-quick-access -->
 ### Combat potion belt quick access
 - id: 20260617-060205-combat-potion-belt-quick-access
