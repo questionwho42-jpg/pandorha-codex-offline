@@ -5,6 +5,44 @@ This file receives zero-token promotion summaries after changes reach `main`.
 Detailed architectural decisions belong in `docs/adr/`. RPG and business rules remain in `docs/system/`.
 
 <!-- pandorha-changelog:main -->
+## 2026-06-17T11:48:30-03:00 - main merge promotion candidate
+- branch: main
+- commit: b6e5485 feat(combat): add potion belt quick access
+- changed_files_count: 27
+- review_model: gpt-5.5 high-reasoning final review; local automation zero-token
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/ui-reachability-follow-up-roadmap.md
+- docs/process/vertical-slice-qa.md
+- docs/user/combat-training.md
+- docs/user/inventory-management.md
+- scripts/test_ui_reachability_smoke.mjs
+- scripts/test_vertical_slice_smoke.mjs
+- scripts/ui_reachability_smoke.mjs
+- scripts/vertical_slice_smoke.mjs
+- src/app/.context/plain-english.md
+- src/app/.context/scaling-roadmap.md
+- src/app/.context/tech-memory.md
+- src/app/App.svelte
+- src/app/model/combatPotionBeltBridge.spec.ts
+- src/app/model/combatPotionBeltBridge.ts
+- src/features/combat-encounter/.context/plain-english.md
+- src/features/combat-encounter/.context/scaling-roadmap.md
+- src/features/combat-encounter/.context/tech-memory.md
+- src/features/combat-encounter/model-api.ts
+- src/features/combat-encounter/model/combatPotionBelt.ts
+- src/features/combat-encounter/ui/CombatEncounterPanel.svelte
+- src/features/inventory-management/.context/plain-english.md
+- src/features/inventory-management/.context/scaling-roadmap.md
+- src/features/inventory-management/.context/tech-memory.md
+- src/features/inventory-management/__tests__/inventoryManagementView.spec.ts
+- src/features/inventory-management/model/inventoryManagementView.ts
+#### Promotion Review
+- Done: merge detected on main and changelog promotion candidate created
+- Next: model final review should decide whether ADR, system docs, conventions, or llms.txt need updates
+- Risks: semantic promotion still requires human/model judgment
+- Improvements: include task ids in commit messages for tighter traceability
 ## 2026-06-17T05:59:50-03:00 - main merge promotion candidate
 - branch: main
 - commit: 8b2e124 docs(inventory): approve potion belt quick access gate
