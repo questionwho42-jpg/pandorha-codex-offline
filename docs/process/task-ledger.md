@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260617-055721-potion-belt-quick-access-gate -->
+### Potion belt quick access gate
+- id: 20260617-055721-potion-belt-quick-access-gate
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-17T05:57:21-03:00
+- finished_at: 2026-06-17T05:58:37-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-17T05:58:37-03:00
+- branch: codex/docs/potion-belt-quick-access-gate
+- commit_at_start: 3609176 chore(process): record promotion sweep merge
+- summary: Approve the minimal potion belt quick access contract using the existing inventory ledger without save v8, HP real, healing effects, conditions, overdose, durability, or official action economy.
+- last_change: Approved the minimal potion belt quick access gate using the existing inventory ledger, explicitly excluding save v8, healing, HP real, conditions, overdose, durability, item effects, and official action economy.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-17T05:57:21-03:00
+- Done: task record created
+- Next: Create the process gate and update roadmap/change inbox links.
+- Risks: Do not infer healing, HP persistence, action economy, or docs/system changes from this technical gate.
+- Improvements: Keep future real consumable effects behind explicit HP and item-effect gates.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-17T05:58:37-03:00
+- Done: Approved the minimal potion belt quick access gate using the existing inventory ledger, explicitly excluding save v8, healing, HP real, conditions, overdose, durability, item effects, and official action economy.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260617-055721-potion-belt-quick-access-gate -->
 <!-- pandorha-task:20260616-195116-post-combat-promotion-sweep -->
 ### Post combat promotion sweep
 - id: 20260616-195116-post-combat-promotion-sweep
