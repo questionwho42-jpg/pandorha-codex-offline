@@ -24,3 +24,7 @@ quantidade do item.
 A tela tambem pode mostrar itens de kit inicial que ainda nao tem perfil de
 combate. Eles aparecem como itens carregados e contam para carga, mas nao
 mostram botao de equipar enquanto o catalogo nao aprovar o perfil mecanico.
+
+Quando o app cria um personagem novo, ele usa o mesmo Inventario para adicionar
+o kit inicial da classe. Isso cria eventos iguais aos de carregar itens
+manualmente, entao o save e o load continuam funcionando pelo mesmo caminho.

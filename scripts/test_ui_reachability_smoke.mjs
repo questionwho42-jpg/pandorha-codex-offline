@@ -252,11 +252,17 @@ async function createFixtureRoot({ fileOverrides = {} } = {}) {
 		"public/favicon.svg": renderFavicon(),
 		"src/app/App.svelte": renderApp(),
 		"src/app/model/navigation.ts": renderNavigation(),
+		"src/entities/equipment/model/equipmentCatalog.ts":
+			renderEquipmentCatalog(),
 		"src/features/camp-hour/ui/CampHourPanel.svelte": renderCampPanel(),
+		"src/features/character-starting-equipment/model/startingEquipmentKit.ts":
+			renderStartingEquipmentKit(),
 		"src/features/character-list/ui/CharacterList.svelte":
 			renderCharacterList(),
 		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
 			renderCombatPanel(),
+		"src/features/inventory-management/model/inventoryManagementView.ts":
+			renderInventoryManagementView(),
 		"src/features/inventory-management/ui/InventoryManagementPanel.svelte":
 			renderInventoryPanel(),
 		"docs/user/character-creation.md": renderCharacterGuide(),
@@ -309,6 +315,15 @@ onLoadoutEventsChange;
 createCombatPersistentLoadoutResolver;
 createCombatPotionBeltConsumer;
 createCombatPotionBeltResolver;
+grantStartingEquipment;
+const startingEquipment = await grantStartingEquipment({
+	characterId: result.data.id,
+	classId: input.classId,
+});
+inventoryEventRecords = [
+	...inventoryEventRecords,
+	...startingEquipment.data.appendedEvents,
+];
 resolvePersistentLoadout={resolveCombatPersistentLoadout};
 resolvePotionBelt={resolveCombatPotionBelt};
 consumePotionBelt={consumeCombatPotionBelt};
@@ -322,6 +337,45 @@ onOpenInventory;
 {:else if activeView === "magic"}<SpellCastPanel />
 {:else if activeView === "combat"}<CombatEncounterPanel />
 {:else}<p>{activeItem.description}</p>{/if}
+`;
+}
+
+function renderEquipmentCatalog() {
+	return `
+const OFFICIAL_EQUIPMENT = [
+	{ id: "chainmail" },
+	{ id: "shortbow" },
+	{ id: "staff" },
+	{ id: "rapier" },
+	{ id: "luxury-padded-armor" },
+];
+const OFFICIAL_CONSUMABLES = [
+	{ id: "adventurer-kit-stack" },
+	{ id: "grimoire-stack" },
+	{ id: "nobility-letter-stack" },
+];
+const OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_IDS = ["longsword"];
+function isOfficialLoadoutSupportedEquipmentId(id) {
+	return OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_IDS.includes(id);
+}
+`;
+}
+
+function renderStartingEquipmentKit() {
+	return `
+export function resolveStartingEquipmentKit() {
+	return {
+		success: true,
+		data: {
+			classId: "vanguard",
+			items: [
+				{ catalogKind: "equipment", catalogItemId: "chainmail", count: 1 },
+				{ catalogKind: "consumable", catalogItemId: "adventurer-kit-stack", quantity: 1 },
+				{ catalogKind: "equipment", catalogItemId: "dagger", count: 2 },
+			],
+		},
+	};
+}
 `;
 }
 
@@ -387,6 +441,14 @@ function renderInventoryPanel() {
 `;
 }
 
+function renderInventoryManagementView() {
+	return `
+if (isOfficialLoadoutSupportedEquipmentId(entry.catalogItemId)) {
+	return "equip-action";
+}
+`;
+}
+
 function renderCampPanel() {
 	return `
 events = [...result.data.events];
@@ -413,6 +475,7 @@ function renderCharacterGuide() {
 - O save usa um único slot local.
 - Os controles preservam personagens e traços escolhidos.
 - Recarregue e confirme a listagem com os mesmos 3 traços.
+- Confirme o kit inicial da classe no Inventario.
 - Os efeitos mecânicos dos traços ainda não são aplicados.
 
 Use Salvar sessão, recarregue a página e use Carregar save para restaurar o personagem.

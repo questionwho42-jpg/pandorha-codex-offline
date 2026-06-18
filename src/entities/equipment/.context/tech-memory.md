@@ -53,3 +53,4 @@
 - `chainmail`, `shortbow`, `staff`, `rapier`, and `luxury-padded-armor` are valid equipment ownership records but intentionally have no attack/defense profile yet.
 - `adventurer-kit-stack`, `grimoire-stack`, and `nobility-letter-stack` are stackable adventuring-item consumables for initial-kit ownership.
 - `OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_IDS` is the UI-facing allowlist for equip actions; kind alone is not enough to expose loadout controls.
+- Character starting-kit grants reference these catalog ids by stable technical id; the equipment entity still does not grant, equip, or persist ownership by itself.

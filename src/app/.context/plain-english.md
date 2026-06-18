@@ -70,8 +70,11 @@ ancestralidade escolhidos. Eles entram no save v8 e podem voltar depois de
 salvar, recarregar a pagina e carregar o save.
 
 Esses tracos ainda nao aplicam efeitos automaticos. Por enquanto o app apenas
-lembra a escolha da ficha; bonus, passivas e equipamento inicial continuam para
-etapas futuras.
+lembra a escolha da ficha; bonus e passivas continuam para etapas futuras.
 
 A lista de personagens agora mostra esses tres tracos salvos. Assim o usuario
 consegue conferir a ficha depois de criar, salvar, recarregar e carregar o save.
+
+Quando um personagem novo e criado, o app tambem pede ao Inventario para carregar
+o kit inicial da classe. Isso nao equipa nada automaticamente: os itens aparecem
+no Inventario e o usuario decide o que equipar quando houver perfil aprovado.

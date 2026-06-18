@@ -51,6 +51,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260618-130238-character-starting-equipment-grant -->
+### Character starting equipment grant
+- id: 20260618-130238-character-starting-equipment-grant
+- status: open
+- created_at: 2026-06-18T13:02:38-03:00
+- source: task-ledger
+- summary: Grant approved starting equipment kits to newly created characters through the existing inventory ledger without save v9, auto-loadout, gold, durability, HP real, or docs/system changes.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260618-130238-character-starting-equipment-grant -->
 <!-- pandorha-inbox:20260618-065745-starting-equipment-catalog-implementation -->
 ### Starting equipment catalog implementation
 - id: 20260618-065745-starting-equipment-catalog-implementation

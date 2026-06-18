@@ -13,3 +13,5 @@ The form now also shows the official class and background lists. The user sees P
 For now, the character only exists during the current browser session. Reloading the app clears it because permanent storage is planned for a later Worker/SQLite task.
 
 The three selected ancestry traits are now saved by the app and shown later in the character list. The form still only collects the choice; it does not apply any automatic trait effect.
+
+When a character is created, the app now gives that character the class starting kit in the Inventory. The form does not do that work itself; it only reports whether creation finished with the kit or with a warning.

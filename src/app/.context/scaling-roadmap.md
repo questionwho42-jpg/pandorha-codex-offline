@@ -18,7 +18,7 @@
 - Combat potion belt quick access now uses an app-level resolver/consumer over the existing inventory ledger; future healing, HP real changes, item effects, conditions, and official action economy still need their own gate.
 - Character creation now records the three selected ancestry traits for save v8. Future visible sheet work should render those persisted choices before adding trait mechanics.
 - The visible sheet now renders persisted ancestry trait choices in the character list. Future work can move the display into a fuller sheet view when editing, progression, or trait mechanics exist.
-- Trait mechanics should wait for a Decorator-based contract, and starting equipment should wait for the catalog gap map to be resolved.
+- Trait mechanics should wait for a Decorator-based contract. Starting equipment is now granted through inventory events; future work should add choices, auto-loadout, or price handling only after dedicated gates.
 - T28 adds a minimal Magia tab; future magic UI should connect session caster resources and real targets only after EE, targeting, and spell execution services exist.
 - T31 adds a minimal Exploracao tab; future exploration work should add world-state persistence before promising saved discovery or mapped routes.
 - T33D adds explicit local save/load controls in the `Personagens` tab; future persistence work should add multiple slots, autosave, and user-facing WorldState views only after their dedicated services are defined.

@@ -286,6 +286,8 @@ async function createFixtureRoot({
 		"src/app/model/combatPotionBeltBridge.ts": renderCombatPotionBeltBridge(),
 		"src/app/model/combatPersistentLoadoutResolver.ts":
 			renderCombatPersistentLoadoutResolver(),
+		"src/features/character-starting-equipment/model/startingEquipmentKit.ts":
+			renderStartingEquipmentKit(),
 		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
 			renderCombatEncounterPanel(),
 		"src/features/combat-encounter/model/combatPotionBelt.ts":
@@ -370,6 +372,15 @@ inventoryEvents: inventoryEventRecords;
 equipmentLoadoutEvents: equipmentLoadoutEventRecords;
 inventoryEventRecords = [...restoredInventory.data];
 equipmentLoadoutEventRecords = [...restoredLoadout.data];
+grantStartingEquipment;
+const startingEquipment = await grantStartingEquipment({
+	characterId: result.data.id,
+	classId: input.classId,
+});
+inventoryEventRecords = [
+	...inventoryEventRecords,
+	...startingEquipment.data.appendedEvents,
+];
 CompendiumBrowser;
 createCombatPersistentLoadoutResolver;
 createCombatPotionBeltConsumer;
@@ -395,6 +406,23 @@ consumePotionBelt={consumeCombatPotionBelt};
 resolveTrainingEnemyAttack={(input) => combatEncounterSession.trainingEnemyAttackService.resolveTrainingEnemyAttack(input)};
 </script>
 <p data-testid="pwa-status">Offline disponível neste navegador.</p>
+`;
+}
+
+function renderStartingEquipmentKit() {
+	return `
+export function resolveStartingEquipmentKit() {
+	return {
+		success: true,
+		data: {
+			classId: "vanguard",
+			items: [
+				{ catalogKind: "equipment", catalogItemId: "chainmail", count: 1 },
+				{ catalogKind: "equipment", catalogItemId: "dagger", count: 2 },
+			],
+		},
+	};
+}
 `;
 }
 
@@ -664,6 +692,7 @@ function renderInventoryDoc() {
 
 Abra http://127.0.0.1:5173/ para testar.
 
+Personagens novos recebem o kit inicial da classe.
 Equipar arma
 Equipar escudo
 Vestir armadura

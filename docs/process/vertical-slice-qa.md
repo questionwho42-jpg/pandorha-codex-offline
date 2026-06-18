@@ -10,9 +10,9 @@ Este roteiro valida o MVP navegavel atual do Pandorha Engine depois da T80. Ele 
 
 1. Abra `http://127.0.0.1:5173/`.
 2. Confirme que o cabeçalho mostra `Offline disponível neste navegador.`.
-3. Entre em `Personagens`, crie um personagem válido e confirme que ele aparece na lista.
+3. Entre em `Personagens`, crie um personagem válido e confirme que ele aparece na lista com os 3 traços escolhidos e mensagem de kit inicial concedido.
 4. Clique em `Salvar sessão`, recarregue a página, clique em `Carregar save` e confirme que o personagem voltou.
-5. Entre em `Inventário`, selecione o personagem, carregue arma, escudo, armadura e `Cinto de Poções` até `5/5`; carregue outros consumíveis até criar mais de uma pilha; confirme slots usados, limite e penalidade atual.
+5. Entre em `Inventário`, selecione o personagem, confirme o kit inicial já carregado, carregue arma, escudo, armadura e `Cinto de Poções` até `5/5`; carregue outros consumíveis até criar mais de uma pilha; confirme slots usados, limite e penalidade atual.
 6. Equipe arma, escudo e armadura, substitua a arma no mesmo slot, confirme que remover item equipado mostra `Desequipe antes de remover`, desequipe e remova o item.
 7. Incremente, consuma e remova consumíveis; salve a sessão, recarregue realmente a página, carregue o save e confirme que o inventário e o loadout equipado do personagem foram restaurados.
 8. Entre em `Combate`, selecione o personagem como atacante, confirme `Loadout do Inventário` com arma/escudo/armadura restaurados, confirme `Cinto de poções: 5/5`, use uma poção do cinto, confirme `Poção do cinto usada em treino. HP real não foi alterado.`, confirme `4/5`, ataque um alvo de treino e confirme log, dano, HP e ações.
@@ -112,10 +112,10 @@ O smoke T65 é estático e não substitui o Browser do Codex quando uma mudança
 
 ## O Que Funciona Hoje
 
-- Criação e listagem de personagens básicos.
+- Criação e listagem de personagens básicos com 3 traços persistidos e kit inicial concedido pelo ledger de inventário.
 - Save/load local real com SQLite WASM, OPFS e Worker.
 - Combate de treino com atacante da sessão, loadout persistido do inventário para arma/escudo/armadura, alvos fixos, turno, ações, rolagem auditável de arma, RD/afinidades de alvo, ataque passivo do alvo contra CA de treino, HP de treino local não persistido, estado `Teste recebido encerrado` em 0 HP de treino e derrota do alvo.
-- O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura, bloqueia remoção de item equipado e persiste inventário + loadout no save v7.
+- O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura, recebe o kit inicial de personagens novos, bloqueia remoção de item equipado e persiste inventário + loadout no save v7.
 - Cinto de poções de treino: o combate exibe a pilha `potion-belt-stack`, consome 1 unidade pelo ledger de inventário existente e registra que HP real não foi alterado.
 - Magia mínima que prepara comando sem executar efeito.
 - Exploração hexcrawl mínima com mapa de 7 hexes.

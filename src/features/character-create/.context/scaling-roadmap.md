@@ -14,4 +14,4 @@
 - Apply trait effects through a future decorator/modifier pipeline rather than embedding mechanical effects in the form.
 - Class and background selectors now use official read-only catalogs. Next, add user-facing summaries and later validate class/background references through a dedicated orchestration service before persistence.
 - The v8 flow now persists and displays selected ancestry traits after creation. Future work should add trait mechanics through a Decorator-based domain service, not through form-side calculations.
-- Starting equipment remains blocked until the catalog gap map is approved; do not grant kit items during creation as an implicit side effect.
+- Starting equipment is now granted by app-level orchestration after creation; keep the form free of inventory imports and add future equipment choices through a dedicated feature, not form-side side effects.

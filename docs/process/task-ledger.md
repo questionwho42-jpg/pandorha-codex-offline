@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260618-130238-character-starting-equipment-grant -->
+### Character starting equipment grant
+- id: 20260618-130238-character-starting-equipment-grant
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-18T13:02:38-03:00
+- finished_at: 2026-06-18T20:43:39-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-18T20:43:39-03:00
+- branch: codex/feat/character-starting-equipment-grant
+- commit_at_start: 684dac9 docs(process): record starting equipment catalog merge
+- summary: Grant approved starting equipment kits to newly created characters through the existing inventory ledger without save v9, auto-loadout, gold, durability, HP real, or docs/system changes.
+- last_change: Implemented character starting equipment grant through the existing inventory ledger; Browser do Codex validated character creation, initial kit restoration, save/load and all nine tabs; full gates passed.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-18T13:02:38-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-18T13:27:42-03:00
+- Done: Implemented starting equipment grant through the existing inventory ledger; focused tests, lint, docs audit, ui reachability, vertical slice, core conventions, self-review and Browser do Codex validation passed on 127.0.0.1:5174.
+- Next: Rerun npm.cmd run test:coverage outside the sandbox when execution budget is available; then continue build, full quality gates, complete task, commit, merge, push and qa:next-phase-readiness.
+- Risks: test:coverage is blocked in sandbox by esbuild access denied to vitest.config.mjs; elevated execution was refused by environment usage limit.
+- Improvements: Keep using a fresh Vite port for rendered validation when 5173 serves an old static build.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-18T20:43:39-03:00
+- Done: Implemented character starting equipment grant through the existing inventory ledger; Browser do Codex validated character creation, initial kit restoration, save/load and all nine tabs; full gates passed.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260618-130238-character-starting-equipment-grant -->
 <!-- pandorha-task:20260618-065745-starting-equipment-catalog-implementation -->
 ### Starting equipment catalog implementation
 - id: 20260618-065745-starting-equipment-catalog-implementation

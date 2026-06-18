@@ -2,6 +2,8 @@
 
 Abra `http://127.0.0.1:5173/`, entre em `Inventario` e selecione um personagem criado na sessao.
 
+Personagens novos recebem automaticamente o kit inicial da classe quando sao criados. Esses itens aparecem como itens carregados no Inventario e sao salvos pelo mesmo ledger de inventario.
+
 ## Fluxo Atual
 
 1. Use `Carregar` para adicionar armas, escudos e armaduras do catalogo.

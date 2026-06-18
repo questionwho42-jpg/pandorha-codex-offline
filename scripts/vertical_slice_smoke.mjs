@@ -51,6 +51,9 @@ async function runVerticalSliceSmoke(root) {
 			"CharacterList",
 			"characterAncestryTraits",
 			"traitSelections={characterTraitSelectionRecords}",
+			"grantStartingEquipment",
+			"const startingEquipment = await grantStartingEquipment({",
+			"...startingEquipment.data.appendedEvents",
 			"SaveLoadControls",
 			"CombatEncounterPanel",
 			"HexcrawlMapPanel",
@@ -200,6 +203,18 @@ async function runVerticalSliceSmoke(root) {
 		[
 			'entry.catalogItemId === "potion-belt-stack"',
 			"Cinto de Po\\u00e7\\u00f5es",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/character-starting-equipment/model/startingEquipmentKit.ts",
+		[
+			"resolveStartingEquipmentKit",
+			'classId: "vanguard"',
+			'catalogItemId: "chainmail"',
+			'catalogItemId: "dagger", count: 2',
 		],
 		errors,
 	);
@@ -371,6 +386,7 @@ async function runVerticalSliceSmoke(root) {
 		root,
 		"docs/user/inventory-management.md",
 		[
+			"kit inicial da classe",
 			"Equipar arma",
 			"Equipar escudo",
 			"Vestir armadura",

@@ -63,6 +63,7 @@ export default defineConfig({
 				"src/features/character-create/model/characterCreateView.ts",
 				"src/features/character-list/model/characterListView.ts",
 				"src/features/camp-hour/model/campHourView.ts",
+				"src/features/character-starting-equipment/model/startingEquipmentKit.ts",
 				"src/features/compendium-browser/model/compendiumBrowserView.ts",
 				"src/features/hexcrawl-map/model/hexcrawlMapView.ts",
 				"src/features/inventory-management/model/inventoryManagementView.ts",
@@ -83,6 +84,7 @@ export default defineConfig({
 				"src/features/combat-encounter/model/combatTrainingTargetTurn.ts",
 				"src/features/spell-cast/model/spellCastView.ts",
 				"src/app/model/pwaStatusView.ts",
+				"src/app/model/startingEquipmentGrant.ts",
 			],
 			exclude: [
 				"src/entities/character/testing/**/*.ts",

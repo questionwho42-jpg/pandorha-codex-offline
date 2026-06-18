@@ -12,6 +12,7 @@ Este guia mostra como testar a criação de personagem que existe hoje no Pandor
 - O formulário permite escolher exatamente 3 traços da ancestralidade selecionada.
 - Os 3 traços escolhidos aparecem na `Listagem de personagens` com nome e descrição do catálogo atual.
 - O formulário permite escolher classes e antecedentes do catálogo atual.
+- Ao criar um personagem novo, o app concede o kit inicial da classe no Inventário usando o ledger persistido existente.
 - Os controles `Salvar sessão` e `Carregar save` preservam personagens e traços escolhidos no armazenamento local SQLite WASM/OPFS do navegador.
 - A aba `Compêndio` permite consultar o catálogo curado atual.
 - Os erros aparecem em português e dizem o que precisa ser corrigido.
@@ -20,6 +21,7 @@ Este guia mostra como testar a criação de personagem que existe hoje no Pandor
 
 - O save usa um único slot local chamado `primary`; não há autosave, múltiplos slots ou sincronização em nuvem.
 - Os traços escolhidos ficam registrados na ficha salva, mas seus efeitos mecânicos ainda não são aplicados.
+- O kit inicial não é equipado automaticamente; itens sem perfil aprovado aparecem no Inventário sem botão de equipar.
 - A ficha exibida ainda é parcial e não oferece edição de personagem depois da criação.
 
 ## Como Criar Um Personagem Válido
@@ -35,9 +37,10 @@ Este guia mostra como testar a criação de personagem que existe hoje no Pandor
 9. Distribua as `Aplicações` para somarem exatamente `6`.
 10. Clique em `Criar personagem`.
 11. Confirme que o personagem aparece na `Listagem de personagens` com os 3 traços escolhidos.
-12. Clique em `Salvar sessão`.
-13. Recarregue a página, volte para `Personagens` e clique em `Carregar save`.
-14. Confirme que o personagem salvo voltou para a listagem com os mesmos 3 traços.
+12. Entre em `Inventário`, selecione o personagem e confirme que o kit inicial da classe aparece como itens carregados.
+13. Clique em `Salvar sessão`.
+14. Recarregue a página, volte para `Personagens` e clique em `Carregar save`.
+15. Confirme que o personagem salvo voltou para a listagem com os mesmos 3 traços e que o Inventário restaurou o kit inicial.
 
 ## Exemplo Para Testar
 

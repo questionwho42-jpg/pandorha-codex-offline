@@ -190,3 +190,10 @@
 - `App.svelte` now passes `characterTraitSelectionRecords` and a flattened official ancestry trait catalog into `CharacterList`.
 - The app remains the composition point for creation, save/load, and read-only display; `character-list` does not query save state directly.
 - Browser validation must confirm that created and loaded characters show the same three saved ancestry traits.
+
+## 2026-06-18 - Starting Equipment Grant Composition
+
+- `grantStartingEquipment` lives in `src/app/model` because it composes the character creation flow with `InventoryManagementService`.
+- `App.svelte` grants the kit only after the character and three trait selections persist successfully.
+- Successful grants append `startingEquipment.data.appendedEvents` into `inventoryEventRecords`; failures keep the character and traits visible and show a warning copy.
+- No save v9, migration, auto-loadout, gold, durability, HP real, or trait effect was introduced.

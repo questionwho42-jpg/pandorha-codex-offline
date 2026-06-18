@@ -43,6 +43,10 @@ async function runUiReachabilitySmoke(root) {
 			"characterAncestryTraits",
 			"ancestryTraits={characterAncestryTraits}",
 			"traitSelections={characterTraitSelectionRecords}",
+			"grantStartingEquipment",
+			"const startingEquipment = await grantStartingEquipment({",
+			"inventoryEventRecords = [",
+			"...startingEquipment.data.appendedEvents",
 			'activeView === "compendium"',
 			"CompendiumBrowser",
 			'activeView === "inventory"',
@@ -158,6 +162,19 @@ async function runUiReachabilitySmoke(root) {
 
 	await validateFileContains(
 		root,
+		"src/features/character-starting-equipment/model/startingEquipmentKit.ts",
+		[
+			"resolveStartingEquipmentKit",
+			'classId: "vanguard"',
+			'catalogItemId: "chainmail"',
+			'catalogItemId: "adventurer-kit-stack"',
+			'catalogItemId: "dagger", count: 2',
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
 		"src/features/inventory-management/model/inventoryManagementView.ts",
 		["isOfficialLoadoutSupportedEquipmentId(entry.catalogItemId)"],
 		errors,
@@ -191,7 +208,11 @@ async function runUiReachabilitySmoke(root) {
 	await validateFileContains(
 		root,
 		"docs/user/character-creation.md",
-		["preservam personagens e traços escolhidos", "com os mesmos 3 traços"],
+		[
+			"preservam personagens e traços escolhidos",
+			"com os mesmos 3 traços",
+			"kit inicial da classe",
+		],
 		errors,
 	);
 

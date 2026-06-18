@@ -27,3 +27,9 @@
 - Character creation still validates exactly 3 ancestry trait ids through `AncestryTraitSelectionService`.
 - The app persists the validated choices into `characterTraitSelections`; `character-create` still does not store them in `CharacterRecord`.
 - Display of saved choices belongs to `character-list`, so this form remains focused on collecting and validating the creation draft.
+
+## 2026-06-18 - Starting Equipment Grant Handoff
+
+- `CharacterCreateForm.svelte` still only collects the creation draft and trait choices.
+- Starting equipment is granted after successful character and trait persistence by app-level composition, not inside the form.
+- The form shows the resulting success or warning copy through the existing `successMessage`/`errorMessage` props.

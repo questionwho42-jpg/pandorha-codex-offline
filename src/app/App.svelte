@@ -75,6 +75,7 @@ import { createSocialEncounterSession } from "./model/socialEncounterSession";
 import { applySocialPressurePenaltyIntent } from "./model/socialPressurePenaltySession";
 import { createSocialRelationsSession } from "./model/socialRelationsSession";
 import { createSpellCastSession } from "./model/spellCastSession";
+import { grantStartingEquipment } from "./model/startingEquipmentGrant";
 
 const characterSession = createCharacterSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -197,8 +198,26 @@ async function createCharacter(
 		...characterTraitSelectionRecords,
 		...persistedTraits.data,
 	];
+	const startingEquipment = await grantStartingEquipment({
+		characterId: result.data.id,
+		classId: input.classId,
+		consumableCatalogIds: inventorySession.consumables.map((item) => item.id),
+		equipmentCatalogIds: inventorySession.equipment.map((item) => item.id),
+		inventoryService: inventorySession.service,
+	});
+	if (!startingEquipment.success) {
+		inventoryEventRecords = [...inventorySession.getEvents()];
+		characterCreateError = null;
+		characterCreateSuccess = `${result.data.name} foi criado, mas o kit inicial nao foi concedido. Use o Inventario para carregar itens manualmente.`;
+		return true;
+	}
+
+	inventoryEventRecords = [
+		...inventoryEventRecords,
+		...startingEquipment.data.appendedEvents,
+	];
 	characterCreateError = null;
-	characterCreateSuccess = `${result.data.name} foi criado e adicionado à lista.`;
+	characterCreateSuccess = `${result.data.name} foi criado, recebeu tracos e kit inicial.`;
 	return true;
 }
 

@@ -12,3 +12,4 @@
 - 2026-06-17: `potion-belt-stack` is displayed as `Cinto de Poções` in the inventory view and consumed by Combat through the existing `consumeConsumable` command.
 - 2026-06-17: the inventory ledger remains the single owner of potion-belt quantity; no save v8, new ledger, healing, HP mutation, or item-effect state was added.
 - 2026-06-18: equip actions are gated by `isOfficialLoadoutSupportedEquipmentId`, not by equipment kind alone. Starting-kit records without profiles remain carryable/removable but do not expose equip controls.
+- 2026-06-18: starting equipment grants call `addEquipment`/`addConsumable` through app-level orchestration; inventory remains the owner of all resulting `inventoryEvents`.
