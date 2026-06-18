@@ -45,15 +45,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
-<!-- pandorha-inbox:20260618-061502-starting-equipment-catalog-gap -->
-### Starting equipment catalog gap
-- id: 20260618-061502-starting-equipment-catalog-gap
+<!-- pandorha-inbox:20260618-064748-starting-equipment-promotion-sweep -->
+### Starting equipment promotion sweep
+- id: 20260618-064748-starting-equipment-promotion-sweep
 - status: open
-- created_at: 2026-06-18T06:15:02-03:00
+- created_at: 2026-06-18T06:47:48-03:00
 - source: task-ledger
-- summary: Create a process gate mapping official starting equipment kits against the current catalog and keep starting equipment blocked until catalog coverage or explicit substitutions are approved.
+- summary: Promote the delivered starting equipment catalog gap record after main merge without changing docs/system or implementing starting equipment.
 - expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260618-061502-starting-equipment-catalog-gap -->
+<!-- /pandorha-inbox:20260618-064748-starting-equipment-promotion-sweep -->
 <!-- pandorha-inbox:20260617-120327-potion-belt-promotion-sweep -->
 ### Potion belt promotion sweep
 - id: 20260617-120327-potion-belt-promotion-sweep
@@ -967,6 +967,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Promoted
 <!-- pandorha-inbox:promoted -->
+<!-- pandorha-inbox:20260618-061502-starting-equipment-catalog-gap -->
+### Starting equipment catalog gap
+- id: 20260618-061502-starting-equipment-catalog-gap
+- status: promoted
+- created_at: 2026-06-18T06:15:02-03:00
+- source: task-ledger
+- summary: Create a process gate mapping official starting equipment kits against the current catalog and keep starting equipment blocked until catalog coverage or explicit substitutions are approved.
+- expected_promotion: promoted to docs/process/starting-equipment-catalog-gap.md after main merge
+<!-- /pandorha-inbox:20260618-061502-starting-equipment-catalog-gap -->
 <!-- pandorha-inbox:20260617-060205-combat-potion-belt-quick-access -->
 ### Combat potion belt quick access
 - id: 20260617-060205-combat-potion-belt-quick-access

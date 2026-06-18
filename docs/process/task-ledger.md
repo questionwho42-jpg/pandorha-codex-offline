@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260618-064748-starting-equipment-promotion-sweep -->
+### Starting equipment promotion sweep
+- id: 20260618-064748-starting-equipment-promotion-sweep
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-18T06:47:48-03:00
+- finished_at: 2026-06-18T06:48:35-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-18T06:48:35-03:00
+- branch: codex/docs/starting-equipment-promotion-sweep
+- commit_at_start: ae919d0 docs(process): record starting equipment gap merge
+- summary: Promote the delivered starting equipment catalog gap record after main merge without changing docs/system or implementing starting equipment.
+- last_change: Promoted the delivered starting equipment catalog gap record to the process gate documentation after main merge, kept future starting equipment implementation open, and did not change docs/system.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-18T06:47:48-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-18T06:48:35-03:00
+- Done: Promoted the delivered starting equipment catalog gap record to the process gate documentation after main merge, kept future starting equipment implementation open, and did not change docs/system.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260618-064748-starting-equipment-promotion-sweep -->
 <!-- pandorha-task:20260618-061502-starting-equipment-catalog-gap -->
 ### Starting equipment catalog gap
 - id: 20260618-061502-starting-equipment-catalog-gap
