@@ -6,6 +6,7 @@ import { EquipmentCatalogService } from "../domain/EquipmentCatalogService";
 import {
 	OFFICIAL_CONSUMABLES,
 	OFFICIAL_EQUIPMENT,
+	OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_IDS,
 } from "../model/equipmentCatalog";
 import {
 	type ConsumableRecord,
@@ -21,8 +22,8 @@ import { InMemoryEquipmentCatalogRepository } from "../testing/InMemoryEquipment
 
 describe("Official equipment catalog", () => {
 	it("contains the minimum validated equipment and consumable records", () => {
-		expect(OFFICIAL_EQUIPMENT).toHaveLength(6);
-		expect(OFFICIAL_CONSUMABLES).toHaveLength(5);
+		expect(OFFICIAL_EQUIPMENT).toHaveLength(11);
+		expect(OFFICIAL_CONSUMABLES).toHaveLength(8);
 		expect(OFFICIAL_EQUIPMENT.map((item) => item.id)).toEqual([
 			"longsword",
 			"dagger",
@@ -30,6 +31,11 @@ describe("Official equipment catalog", () => {
 			"leather-armor",
 			"plate-armor",
 			"round-shield",
+			"chainmail",
+			"shortbow",
+			"staff",
+			"rapier",
+			"luxury-padded-armor",
 		]);
 		expect(OFFICIAL_CONSUMABLES.map((item) => item.id)).toEqual([
 			"rope-stack",
@@ -37,6 +43,17 @@ describe("Official equipment catalog", () => {
 			"ration-stack",
 			"potion-belt-stack",
 			"gold-coins-stack",
+			"adventurer-kit-stack",
+			"grimoire-stack",
+			"nobility-letter-stack",
+		]);
+		expect(OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_IDS).toEqual([
+			"longsword",
+			"dagger",
+			"longbow",
+			"leather-armor",
+			"plate-armor",
+			"round-shield",
 		]);
 
 		for (const item of OFFICIAL_EQUIPMENT) {
@@ -58,7 +75,7 @@ describe("EquipmentCatalogService", () => {
 		const result = await service.listEquipment();
 		const equipment = expectEquipmentSuccess(result);
 
-		expect(equipment).toHaveLength(6);
+		expect(equipment).toHaveLength(11);
 		expect(equipment[0]).toMatchObject({
 			id: "longsword",
 			label: "Espada Longa",
@@ -66,6 +83,15 @@ describe("EquipmentCatalogService", () => {
 			slotCost: 2,
 			priceCopper: 5000,
 		});
+		expect(equipment).toContainEqual(
+			expect.objectContaining({
+				id: "chainmail",
+				label: "Cota de Malha",
+				kind: "armor",
+				slotCost: 2,
+				priceCopper: 0,
+			}),
+		);
 	});
 
 	it("finds longsword by its English technical id", async () => {
@@ -87,13 +113,22 @@ describe("EquipmentCatalogService", () => {
 		const result = await service.listConsumables();
 		const consumables = expectEquipmentSuccess(result);
 
-		expect(consumables).toHaveLength(5);
+		expect(consumables).toHaveLength(8);
 		expect(consumables).toContainEqual(
 			expect.objectContaining({
 				id: "potion-belt-stack",
 				label: "Cinto de Pocoes",
 				quantity: 5,
 				maxQuantityPerStack: 5,
+				slotCostPerStack: 1,
+			}),
+		);
+		expect(consumables).toContainEqual(
+			expect.objectContaining({
+				id: "adventurer-kit-stack",
+				label: "Kit de Aventureiro",
+				quantity: 1,
+				maxQuantityPerStack: 1,
 				slotCostPerStack: 1,
 			}),
 		);

@@ -1,4 +1,7 @@
-import type { EquipmentLoadoutEventSlot } from "$lib/entities/equipment";
+import {
+	type EquipmentLoadoutEventSlot,
+	isOfficialLoadoutSupportedEquipmentId,
+} from "$lib/entities/equipment";
 import type { InventoryCapacityState } from "$lib/shared/inventory";
 import type {
 	InventoryEquippedEntry,
@@ -43,17 +46,21 @@ export function createInventoryManagementView(
 	);
 
 	return {
-		entries: snapshot.entries.map((entry) => ({
-			...entry,
-			categoryLabel: mapCategoryLabel(entry),
-			equipActionLabel: mapEquipActionLabel(entry.equipmentKind),
-			equipSlot: mapEquipSlot(entry.equipmentKind),
-			equippedSlot: equippedSlotByEntryId.get(entry.entryId) ?? null,
-			isEquipped: equippedSlotByEntryId.has(entry.entryId),
-			quantityLabel: `${entry.quantity} ${
-				entry.quantity === 1 ? "unidade" : "unidades"
-			}`,
-		})),
+		entries: snapshot.entries.map((entry) => {
+			const equipSlot = mapEquipSlot(entry);
+
+			return {
+				...entry,
+				categoryLabel: mapCategoryLabel(entry),
+				equipActionLabel: mapEquipActionLabel(equipSlot),
+				equipSlot,
+				equippedSlot: equippedSlotByEntryId.get(entry.entryId) ?? null,
+				isEquipped: equippedSlotByEntryId.has(entry.entryId),
+				quantityLabel: `${entry.quantity} ${
+					entry.quantity === 1 ? "unidade" : "unidades"
+				}`,
+			};
+		}),
 		itemCountLabel: `${snapshot.entries.length} ${
 			snapshot.entries.length === 1 ? "item" : "itens"
 		}`,
@@ -105,12 +112,12 @@ function createLoadoutSlotViews(
 }
 
 function mapEquipActionLabel(
-	kind: InventoryResolvedEntry["equipmentKind"],
+	slot: EquipmentLoadoutEventSlot | null,
 ): string | null {
-	switch (kind) {
-		case "weapon":
+	switch (slot) {
+		case "mainHand":
 			return "Equipar arma";
-		case "shield":
+		case "offHand":
 			return "Equipar escudo";
 		case "armor":
 			return "Vestir armadura";
@@ -120,9 +127,16 @@ function mapEquipActionLabel(
 }
 
 function mapEquipSlot(
-	kind: InventoryResolvedEntry["equipmentKind"],
+	entry: InventoryResolvedEntry,
 ): EquipmentLoadoutEventSlot | null {
-	switch (kind) {
+	if (
+		entry.catalogKind !== "equipment" ||
+		!isOfficialLoadoutSupportedEquipmentId(entry.catalogItemId)
+	) {
+		return null;
+	}
+
+	switch (entry.equipmentKind) {
 		case "weapon":
 			return "mainHand";
 		case "shield":

@@ -138,6 +138,31 @@ async function runUiReachabilitySmoke(root) {
 		errors,
 	);
 
+	await validateFileContains(
+		root,
+		"src/entities/equipment/model/equipmentCatalog.ts",
+		[
+			'id: "chainmail"',
+			'id: "shortbow"',
+			'id: "staff"',
+			'id: "rapier"',
+			'id: "luxury-padded-armor"',
+			'id: "adventurer-kit-stack"',
+			'id: "grimoire-stack"',
+			'id: "nobility-letter-stack"',
+			"OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_IDS",
+			"isOfficialLoadoutSupportedEquipmentId",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/inventory-management/model/inventoryManagementView.ts",
+		["isOfficialLoadoutSupportedEquipmentId(entry.catalogItemId)"],
+		errors,
+	);
+
 	await validateFileDoesNotContain(
 		root,
 		"src/app/model/navigation.ts",

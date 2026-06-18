@@ -51,6 +51,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260618-065745-starting-equipment-catalog-implementation -->
+### Starting equipment catalog implementation
+- id: 20260618-065745-starting-equipment-catalog-implementation
+- status: open
+- created_at: 2026-06-18T06:57:45-03:00
+- source: task-ledger
+- summary: Add conservative starting equipment catalog records and keep unsupported items without equip actions.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260618-065745-starting-equipment-catalog-implementation -->
 <!-- pandorha-inbox:20260618-065116-starting-equipment-ledger-grant-gate -->
 ### Starting equipment ledger grant gate
 - id: 20260618-065116-starting-equipment-ledger-grant-gate

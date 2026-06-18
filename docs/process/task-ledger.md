@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260618-065745-starting-equipment-catalog-implementation -->
+### Starting equipment catalog implementation
+- id: 20260618-065745-starting-equipment-catalog-implementation
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-18T06:57:45-03:00
+- finished_at: 2026-06-18T12:59:42-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-18T12:59:42-03:00
+- branch: codex/feat/starting-equipment-catalog
+- commit_at_start: b53592c docs(process): record starting equipment gate merge
+- summary: Add conservative starting equipment catalog records and keep unsupported items without equip actions.
+- last_change: Added conservative starting equipment catalog records, kept unsupported starting-kit equipment without loadout actions, updated ui reachability smoke, user docs, and triple memories, and validated focused specs, full coverage, lint, docs audit, and core conventions.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-18T06:57:45-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-18T07:03:11-03:00
+- Done: Implemented starting equipment catalog records and loadout-action gating; focused specs, qa:ui-reachability, docs:audit, and core-conventions passed.
+- Next: Rerun npm.cmd run test:coverage outside sandbox when escalation is available, then complete task, self-review, commit, merge, push, and run qa:next-phase-readiness.
+- Risks: test:coverage failed in sandbox with esbuild access denied; required escalated rerun was rejected by environment usage limit.
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-18T12:59:42-03:00
+- Done: Added conservative starting equipment catalog records, kept unsupported starting-kit equipment without loadout actions, updated ui reachability smoke, user docs, and triple memories, and validated focused specs, full coverage, lint, docs audit, and core conventions.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260618-065745-starting-equipment-catalog-implementation -->
 <!-- pandorha-task:20260618-065116-starting-equipment-ledger-grant-gate -->
 ### Starting equipment ledger grant gate
 - id: 20260618-065116-starting-equipment-ledger-grant-gate

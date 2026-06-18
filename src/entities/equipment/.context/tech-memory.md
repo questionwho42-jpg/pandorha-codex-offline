@@ -46,3 +46,10 @@
 - `EquipmentLoadoutLedgerReplayService` validates contiguous sequence per character, unique event ids, and equipped/cleared payload shape before exposing current slots.
 - The ledger does not duplicate catalog ids, labels, durability, HP, capacity, or combat profiles; those remain derived from inventory entries and catalog services.
 - UI equip actions and save v7 consume the ledger, but combat still uses its local training loadout until a separate integration gate.
+
+## 2026-06-18 - Starting Equipment Catalog Records
+
+- Added the conservative catalog ids from `docs/process/starting-equipment-ledger-grant-gate.md` without changing save version, migrations, durability, gold, or item effects.
+- `chainmail`, `shortbow`, `staff`, `rapier`, and `luxury-padded-armor` are valid equipment ownership records but intentionally have no attack/defense profile yet.
+- `adventurer-kit-stack`, `grimoire-stack`, and `nobility-letter-stack` are stackable adventuring-item consumables for initial-kit ownership.
+- `OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_IDS` is the UI-facing allowlist for equip actions; kind alone is not enough to expose loadout controls.

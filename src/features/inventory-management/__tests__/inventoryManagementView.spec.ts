@@ -127,6 +127,116 @@ describe("createInventoryManagementView", () => {
 		expect(view.loadoutSlots[2]?.entry?.entryId).toBe("entry-armor");
 	});
 
+	it("hides equip actions for starting kit equipment without loadout profiles", () => {
+		const view = createInventoryManagementView({
+			...buildSnapshot(),
+			entries: [
+				{
+					characterId: "session-character-1",
+					entryId: "entry-chainmail",
+					catalogKind: "equipment",
+					catalogItemId: "chainmail",
+					equipmentKind: "armor",
+					quantity: 1,
+					lastSequence: 1,
+					label: "Cota de Malha",
+					slotCost: 2,
+				},
+				{
+					characterId: "session-character-1",
+					entryId: "entry-shortbow",
+					catalogKind: "equipment",
+					catalogItemId: "shortbow",
+					equipmentKind: "weapon",
+					quantity: 1,
+					lastSequence: 2,
+					label: "Arco Curto",
+					slotCost: 2,
+				},
+				{
+					characterId: "session-character-1",
+					entryId: "entry-rapier",
+					catalogKind: "equipment",
+					catalogItemId: "rapier",
+					equipmentKind: "weapon",
+					quantity: 1,
+					lastSequence: 3,
+					label: "Rapieira",
+					slotCost: 1,
+				},
+				{
+					characterId: "session-character-1",
+					entryId: "entry-supported",
+					catalogKind: "equipment",
+					catalogItemId: "dagger",
+					equipmentKind: "weapon",
+					quantity: 1,
+					lastSequence: 4,
+					label: "Adaga",
+					slotCost: 1,
+				},
+			],
+			loadout: {
+				mainHand: null,
+				offHand: null,
+				armor: null,
+			},
+		});
+
+		expect(view.entries).toEqual([
+			expect.objectContaining({
+				entryId: "entry-chainmail",
+				equipActionLabel: null,
+				equipSlot: null,
+			}),
+			expect.objectContaining({
+				entryId: "entry-shortbow",
+				equipActionLabel: null,
+				equipSlot: null,
+			}),
+			expect.objectContaining({
+				entryId: "entry-rapier",
+				equipActionLabel: null,
+				equipSlot: null,
+			}),
+			expect.objectContaining({
+				entryId: "entry-supported",
+				equipActionLabel: "Equipar arma",
+				equipSlot: "mainHand",
+			}),
+		]);
+	});
+
+	it("hides equip actions when a supported equipment entry has no resolved kind", () => {
+		const view = createInventoryManagementView({
+			...buildSnapshot(),
+			entries: [
+				{
+					characterId: "session-character-1",
+					entryId: "entry-incomplete-equipment",
+					catalogKind: "equipment",
+					catalogItemId: "longsword",
+					quantity: 1,
+					lastSequence: 1,
+					label: "Espada Longa",
+					slotCost: 2,
+				},
+			],
+			loadout: {
+				mainHand: null,
+				offHand: null,
+				armor: null,
+			},
+		});
+
+		expect(view.entries[0]).toMatchObject({
+			entryId: "entry-incomplete-equipment",
+			equipActionLabel: null,
+			equipSlot: null,
+			isEquipped: false,
+		});
+	});
+
 	it("labels the potion belt stack as quick-access belt copy", () => {
 		const view = createInventoryManagementView({
 			...buildSnapshot(),

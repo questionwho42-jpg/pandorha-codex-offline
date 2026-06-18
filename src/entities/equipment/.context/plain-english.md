@@ -33,6 +33,10 @@ In T91, the module learned how to read simple defensive equipment. Leather armor
 
 The loadout can now say, for example: "this character has leather armor and a round shield, so the equipped defense summary is `CA equipada +3`." This is only a visible and auditable profile. It does not make enemies attack the character yet, does not reduce damage, and does not spend durability.
 
+In the starting-equipment catalog slice, the module added the remaining kit items that were missing from the app catalog: `Cota de Malha`, `Arco Curto`, `Cajado`, `Rapieira`, `Armadura Acolchoada de Luxo`, `Kit de Aventureiro`, `Grimorio`, and `Carta de Nobreza`.
+
+Those records let inventory say "this character carries this item" and count slots. They do not automatically make the item usable in combat. Items without a structured profile stay visible in inventory but do not show an equip button.
+
 ## Alternatives
 
 - Read the weapon summary text: faster at first, but fragile because prose can change.
@@ -40,3 +44,4 @@ The loadout can now say, for example: "this character has leather armor and a ro
 - Use structured catalog weapon profiles: current approach, because it prepares future UI without changing save or database.
 - Save selected equipment in a separate ledger: current approach, because it avoids copying catalog facts into the save.
 - Apply defense directly inside combat now: tempting for a visible result, but too early because no official enemy-attack flow exists yet.
+- Let every weapon or armor be equipped as soon as it exists in the catalog: tempting, but rejected because some starting-kit items still lack approved combat profiles.

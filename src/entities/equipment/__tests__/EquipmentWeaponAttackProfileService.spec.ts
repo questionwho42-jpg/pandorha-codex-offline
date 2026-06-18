@@ -150,6 +150,20 @@ describe("[GDD 4] EquipmentWeaponAttackProfileService", () => {
 			details: { id: "training-hammer" },
 		});
 	});
+
+	it("keeps starting kit weapons without structured attack profiles", async () => {
+		const service = createService();
+
+		for (const id of ["shortbow", "staff", "rapier"]) {
+			const result = await service.buildWeaponAttackProfile(id);
+			const failure = expectWeaponProfileFailure(result);
+
+			expect(failure).toMatchObject({
+				code: "WEAPON_ATTACK_PROFILE_NOT_FOUND",
+				details: { id },
+			});
+		}
+	});
 });
 
 function createService(

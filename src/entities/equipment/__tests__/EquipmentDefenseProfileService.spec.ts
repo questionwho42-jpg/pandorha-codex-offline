@@ -153,6 +153,20 @@ describe("[Survival 04] EquipmentDefenseProfileService", () => {
 			details: { id: "tower-shield" },
 		});
 	});
+
+	it("keeps starting kit armor without structured defense profiles", async () => {
+		const service = createService();
+
+		for (const id of ["chainmail", "luxury-padded-armor"]) {
+			const result = await service.buildDefenseProfile(id);
+			const failure = expectDefenseProfileFailure(result);
+
+			expect(failure).toMatchObject({
+				code: "DEFENSE_PROFILE_NOT_FOUND",
+				details: { id },
+			});
+		}
+	});
 });
 
 function createService(

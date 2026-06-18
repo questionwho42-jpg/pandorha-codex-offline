@@ -83,6 +83,76 @@ export const OFFICIAL_EQUIPMENT = [
 		durabilityMax: 100,
 		mechanicalSummary: "+1 CA, Leve, permite interagir com a mao. Item unico.",
 	},
+	{
+		id: "chainmail",
+		label: "Cota de Malha",
+		kind: "armor",
+		sourceFile: "docs/process/starting-equipment-ledger-grant-gate.md",
+		slotCost: 2,
+		priceCopper: 0,
+		qualityTier: "mundane",
+		runeSlots: 1,
+		durabilityCurrent: 100,
+		durabilityMax: 100,
+		mechanicalSummary:
+			"Item inicial sem perfil defensivo nesta fatia. Preco individual nao implementado.",
+	},
+	{
+		id: "shortbow",
+		label: "Arco Curto",
+		kind: "weapon",
+		sourceFile: "docs/process/starting-equipment-ledger-grant-gate.md",
+		slotCost: 2,
+		priceCopper: 0,
+		qualityTier: "mundane",
+		runeSlots: 1,
+		durabilityCurrent: 100,
+		durabilityMax: 100,
+		mechanicalSummary:
+			"Item inicial sem perfil de ataque nesta fatia. Preco individual nao implementado.",
+	},
+	{
+		id: "staff",
+		label: "Cajado",
+		kind: "weapon",
+		sourceFile: "docs/process/starting-equipment-ledger-grant-gate.md",
+		slotCost: 2,
+		priceCopper: 0,
+		qualityTier: "mundane",
+		runeSlots: 1,
+		durabilityCurrent: 100,
+		durabilityMax: 100,
+		mechanicalSummary:
+			"Item inicial sem perfil de ataque nesta fatia. Preco individual nao implementado.",
+	},
+	{
+		id: "rapier",
+		label: "Rapieira",
+		kind: "weapon",
+		sourceFile: "docs/process/starting-equipment-ledger-grant-gate.md",
+		slotCost: 1,
+		priceCopper: 0,
+		qualityTier: "mundane",
+		runeSlots: 1,
+		durabilityCurrent: 100,
+		durabilityMax: 100,
+		mechanicalSummary:
+			"Item inicial sem perfil de ataque nesta fatia. Preco individual nao implementado.",
+	},
+	{
+		id: "luxury-padded-armor",
+		label: "Armadura Acolchoada de Luxo",
+		kind: "armor",
+		sourceFile: "docs/process/starting-equipment-ledger-grant-gate.md",
+		slotCost: 1,
+		priceCopper: 0,
+		qualityTier: "mundane",
+		runeSlots: 1,
+		durabilityCurrent: 100,
+		durabilityMax: 100,
+		mechanicalSummary:
+			"Item inicial sem perfil defensivo nesta fatia. Preco individual nao implementado.",
+	},
 ] as const satisfies readonly EquipmentRecord[];
 
 export const OFFICIAL_CONSUMABLES = [
@@ -131,6 +201,33 @@ export const OFFICIAL_CONSUMABLES = [
 		maxQuantityPerStack: 100,
 		slotCostPerStack: 0,
 	},
+	{
+		id: "adventurer-kit-stack",
+		label: "Kit de Aventureiro",
+		kind: "adventuring-item",
+		sourceFile: "docs/process/starting-equipment-ledger-grant-gate.md",
+		quantity: 1,
+		maxQuantityPerStack: 1,
+		slotCostPerStack: 1,
+	},
+	{
+		id: "grimoire-stack",
+		label: "Grimorio",
+		kind: "adventuring-item",
+		sourceFile: "docs/process/starting-equipment-ledger-grant-gate.md",
+		quantity: 1,
+		maxQuantityPerStack: 1,
+		slotCostPerStack: 1,
+	},
+	{
+		id: "nobility-letter-stack",
+		label: "Carta de Nobreza",
+		kind: "adventuring-item",
+		sourceFile: "docs/process/starting-equipment-ledger-grant-gate.md",
+		quantity: 1,
+		maxQuantityPerStack: 1,
+		slotCostPerStack: 0,
+	},
 ] as const satisfies readonly ConsumableRecord[];
 
 export const OFFICIAL_EQUIPMENT_IDS = OFFICIAL_EQUIPMENT.map((item) => item.id);
@@ -138,6 +235,22 @@ export const OFFICIAL_EQUIPMENT_IDS = OFFICIAL_EQUIPMENT.map((item) => item.id);
 export const OFFICIAL_CONSUMABLE_IDS = OFFICIAL_CONSUMABLES.map(
 	(item) => item.id,
 );
+
+export const OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_IDS = [
+	"longsword",
+	"dagger",
+	"longbow",
+	"leather-armor",
+	"plate-armor",
+	"round-shield",
+] as const;
+
+const OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_ID_SET: ReadonlySet<string> =
+	new Set(OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_IDS);
+
+export function isOfficialLoadoutSupportedEquipmentId(id: string): boolean {
+	return OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_ID_SET.has(id);
+}
 
 export const OFFICIAL_WEAPON_ATTACK_PROFILE_DEFINITIONS: Readonly<
 	Record<string, EquipmentWeaponAttackProfileDefinition>

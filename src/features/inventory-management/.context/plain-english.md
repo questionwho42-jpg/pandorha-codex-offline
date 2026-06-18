@@ -20,3 +20,7 @@ O Cinto de Pocoes continua sendo um consumivel carregado pelo personagem. Quando
 o Combate usa uma pocao do cinto, ele pede ao Inventario para consumir 1 unidade
 da mesma pilha salva. Isso nao cria cura real nem muda HP; apenas baixa a
 quantidade do item.
+
+A tela tambem pode mostrar itens de kit inicial que ainda nao tem perfil de
+combate. Eles aparecem como itens carregados e contam para carga, mas nao
+mostram botao de equipar enquanto o catalogo nao aprovar o perfil mecanico.
