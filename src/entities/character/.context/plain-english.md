@@ -15,3 +15,5 @@ The project now also has the first real database migration for characters. In pr
 The module now also has a small record for the three ancestry traits chosen when a character is created. These records remember the choices so save/load can bring them back later.
 
 Those traits are still only written on the sheet. They do not change HP, damage, defenses, passive bonuses, or starting equipment yet. That needs a later rules gate because applying a trait is different from remembering which trait the player picked.
+
+The browser list can now read those saved records and show the selected trait names back to the user.

@@ -294,6 +294,8 @@ async function createFixtureRoot({
 			renderCombatTrainingDefenderHitPoints(),
 		"src/features/inventory-management/model/inventoryManagementView.ts":
 			renderInventoryManagementView(),
+		"src/features/character-list/ui/CharacterList.svelte":
+			renderCharacterList(),
 		"src/features/social-encounter/ui/SocialEncounterPanel.svelte":
 			renderSocialEncounterPanel(),
 		"src/entities/dialogue-tree/model/dialogueTreeCatalog.ts":
@@ -347,6 +349,9 @@ function renderApp() {
 	return `
 <script>
 CharacterCreateForm;
+CharacterList;
+const characterAncestryTraits = [];
+traitSelections={characterTraitSelectionRecords};
 SaveLoadControls;
 CombatEncounterPanel;
 HexcrawlMapPanel;
@@ -390,6 +395,17 @@ consumePotionBelt={consumeCombatPotionBelt};
 resolveTrainingEnemyAttack={(input) => combatEncounterSession.trainingEnemyAttackService.resolveTrainingEnemyAttack(input)};
 </script>
 <p data-testid="pwa-status">Offline disponível neste navegador.</p>
+`;
+}
+
+function renderCharacterList() {
+	return `
+<section data-testid="character-list">
+	<div data-testid="character-trait-selection-list">
+		<p>Traços de ancestralidade</p>
+		<div data-testid="character-trait-selection-item">Diligência Erudita</div>
+	</div>
+</section>
 `;
 }
 

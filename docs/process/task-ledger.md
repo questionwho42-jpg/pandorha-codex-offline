@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260617-204900-character-traits-visible-ui -->
+### Character traits visible UI
+- id: 20260617-204900-character-traits-visible-ui
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-17T20:49:00-03:00
+- finished_at: 2026-06-18T06:10:41-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-18T06:10:41-03:00
+- branch: codex/feat/character-traits-visible-ui
+- commit_at_start: 3e5a315 docs(process): record character trait selection merge
+- summary: Show persisted ancestry trait selections in the character list, keep creation validation at exactly three traits, update QA contracts, user docs, and module memories without trait mechanics or starting equipment.
+- last_change: Character list now renders the persisted ancestry trait selections saved in v8. Browser do Codex validated creating a character with three traits, saving, real reload, loading, restoring the same traits, opening all nine tabs without severe console logs, and the narrow trait layout regression was corrected without adding trait mechanics, HP, or starting equipment.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-17T20:49:00-03:00
+- Done: task record created
+- Next: Add focused failing tests for character-list trait display, then wire CharacterList and App props to persisted characterTraitSelections.
+- Risks: UI must display persisted sheet choices only; no trait effects, HP real, editable sheet, or starting equipment should be introduced.
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-17T21:13:05-03:00
+- Done: UI de traços persistidos implementada; Browser do Codex validou criação, save, reload, load, restauração dos três traços e nove abas sem logs severos; layout estreito dos traços foi corrigido e revalidado por métricas DOM.
+- Next: Reexecutar npm.cmd run quality:gate fora do sandbox quando o limite de uso permitir; se passar, completar tarefa, commitar, fazer merge em main, push e qa:next-phase-readiness.
+- Risks: quality:gate completo não foi aprovado nesta sessão porque a execução escalada foi bloqueada por limite de uso; não há commit até esse gate passar.
+- Improvements: Considerar manter evidência de Browser em roteiro textual quando CDP screenshot timeout ocorrer.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-18T06:10:41-03:00
+- Done: Character list now renders the persisted ancestry trait selections saved in v8. Browser do Codex validated creating a character with three traits, saving, real reload, loading, restoring the same traits, opening all nine tabs without severe console logs, and the narrow trait layout regression was corrected without adding trait mechanics, HP, or starting equipment.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260617-204900-character-traits-visible-ui -->
 <!-- pandorha-task:20260617-121308-character-trait-selections-save-v8 -->
 ### Character trait selections save v8
 - id: 20260617-121308-character-trait-selections-save-v8

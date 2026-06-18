@@ -21,3 +21,9 @@
 - Draft defaults use English technical ids: `classId: "vanguard"` and `backgroundId: "acolyte"`.
 - The browser shows pt-BR labels from the catalogs, while `CharacterCreateInput` keeps stable English ids.
 - Class passives, background benefits, and derived stat display remain outside this feature.
+
+## 2026-06-17 - V8 Trait Selection Visibility Handoff
+
+- Character creation still validates exactly 3 ancestry trait ids through `AncestryTraitSelectionService`.
+- The app persists the validated choices into `characterTraitSelections`; `character-create` still does not store them in `CharacterRecord`.
+- Display of saved choices belongs to `character-list`, so this form remains focused on collecting and validating the creation draft.

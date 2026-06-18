@@ -125,6 +125,27 @@ test("ui reachability smoke fails when combat potion belt use is unreachable", a
 	}
 });
 
+test("ui reachability smoke fails when persisted character traits are unreachable", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/character-list/ui/CharacterList.svelte":
+				renderCharacterList().replace(
+					'data-testid="character-trait-selection-list"',
+					'data-testid="character-trait-selection-missing"',
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /character-trait-selection-list/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("ui reachability smoke fails when navigation returns to future placeholders", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -232,6 +253,8 @@ async function createFixtureRoot({ fileOverrides = {} } = {}) {
 		"src/app/App.svelte": renderApp(),
 		"src/app/model/navigation.ts": renderNavigation(),
 		"src/features/camp-hour/ui/CampHourPanel.svelte": renderCampPanel(),
+		"src/features/character-list/ui/CharacterList.svelte":
+			renderCharacterList(),
 		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
 			renderCombatPanel(),
 		"src/features/inventory-management/ui/InventoryManagementPanel.svelte":
@@ -279,6 +302,9 @@ equipmentLoadoutEvents: equipmentLoadoutEventRecords;
 inventoryEventRecords = [...restoredInventory.data];
 equipmentLoadoutEventRecords = [...restoredLoadout.data];
 equipmentLoadoutEvents={equipmentLoadoutEventRecords};
+const characterAncestryTraits = [];
+ancestryTraits={characterAncestryTraits};
+traitSelections={characterTraitSelectionRecords};
 onLoadoutEventsChange;
 createCombatPersistentLoadoutResolver;
 createCombatPotionBeltConsumer;
@@ -312,6 +338,17 @@ export const APP_NAVIGATION_ITEMS = [
 	{ id: "magic", description: "A conjuração de treino prepara comandos sem executar efeitos." },
 	{ id: "combat", description: "O encontro de treino permite testar ataque, dano e log." },
 ];
+`;
+}
+
+function renderCharacterList() {
+	return `
+<section data-testid="character-list">
+	<div data-testid="character-trait-selection-list">
+		<p>Traços de ancestralidade</p>
+		<div data-testid="character-trait-selection-item">Diligência Erudita</div>
+	</div>
+</section>
 `;
 }
 
@@ -374,7 +411,9 @@ function renderCharacterGuide() {
 ## Limites Desta Versão
 
 - O save usa um único slot local.
-- Os traços escolhidos ainda não aparecem na listagem e seus efeitos mecânicos ainda não são aplicados.
+- Os controles preservam personagens e traços escolhidos.
+- Recarregue e confirme a listagem com os mesmos 3 traços.
+- Os efeitos mecânicos dos traços ainda não são aplicados.
 
 Use Salvar sessão, recarregue a página e use Carregar save para restaurar o personagem.
 `;

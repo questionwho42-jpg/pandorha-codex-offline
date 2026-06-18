@@ -6,6 +6,7 @@
 - Extend `CharacterDerivedStatsService` in small steps after each source system exists: class passives, ancestry traits, background talents, equipment, magic resources, and status effects.
 - Keep derived resources such as HP, PV, EE, CA, initiative, and load recalculated instead of persisted.
 - Apply ancestry trait effects only after a future Decorator-based mechanics gate. The v8 trait selection relation records the chosen trait IDs but intentionally does not apply bonuses.
+- The current visible UI proves the relation can roundtrip into the sheet display; future mechanics should reuse the same relation instead of duplicating trait IDs in another save section.
 - Starting equipment remains blocked until the official kit item IDs either exist in the catalog or explicit substitutions are approved.
 - Extend `pandorha-arch-guard` to recognize `src/entities` and public entity APIs.
 - Reuse the migration verification pattern for each new persisted entity before connecting it to UI workflows.

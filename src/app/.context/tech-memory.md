@@ -184,3 +184,9 @@
 - `App.svelte` creates trait selection records immediately after successful character creation and includes them in the save v8 snapshot.
 - Load restores trait selections through `characterSession.restoreTraitSelections()` before exposing loaded records back to app state.
 - The app stores trait choices only; no ancestry trait effect, HP real mutation, starting equipment, Decorator, or editable sheet expansion was added.
+
+## 2026-06-17 - Persisted Trait Display Wiring
+
+- `App.svelte` now passes `characterTraitSelectionRecords` and a flattened official ancestry trait catalog into `CharacterList`.
+- The app remains the composition point for creation, save/load, and read-only display; `character-list` does not query save state directly.
+- Browser validation must confirm that created and loaded characters show the same three saved ancestry traits.

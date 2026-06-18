@@ -40,6 +40,9 @@ async function runUiReachabilitySmoke(root) {
 			'activeView === "characters"',
 			"CharacterCreateForm",
 			"CharacterList",
+			"characterAncestryTraits",
+			"ancestryTraits={characterAncestryTraits}",
+			"traitSelections={characterTraitSelectionRecords}",
 			'activeView === "compendium"',
 			"CompendiumBrowser",
 			'activeView === "inventory"',
@@ -69,6 +72,17 @@ async function runUiReachabilitySmoke(root) {
 			"consumePotionBelt={consumeCombatPotionBelt}",
 			"onOpenInventory",
 			"activeItem.description",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/character-list/ui/CharacterList.svelte",
+		[
+			'data-testid="character-trait-selection-list"',
+			'data-testid="character-trait-selection-item"',
+			"Traços de ancestralidade",
 		],
 		errors,
 	);
@@ -139,8 +153,20 @@ async function runUiReachabilitySmoke(root) {
 	await validateFileDoesNotContain(
 		root,
 		"docs/user/character-creation.md",
-		["personagem será perdido", "persistência real, banco SQLite/OPFS"],
+		[
+			"personagem será perdido",
+			"persistência real, banco SQLite/OPFS",
+			"ainda não aparecem na listagem",
+			"não são persistidos na ficha salva",
+		],
 		"documentação obsoleta",
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"docs/user/character-creation.md",
+		["preservam personagens e traços escolhidos", "com os mesmos 3 traços"],
 		errors,
 	);
 

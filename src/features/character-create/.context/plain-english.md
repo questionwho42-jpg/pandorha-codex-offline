@@ -11,3 +11,5 @@ The form now also lets the user choose an ancestry and exactly 3 traits from tha
 The form now also shows the official class and background lists. The user sees Portuguese names, while the saved technical ids stay in English.
 
 For now, the character only exists during the current browser session. Reloading the app clears it because permanent storage is planned for a later Worker/SQLite task.
+
+The three selected ancestry traits are now saved by the app and shown later in the character list. The form still only collects the choice; it does not apply any automatic trait effect.

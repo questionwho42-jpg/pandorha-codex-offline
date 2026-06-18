@@ -10,15 +10,16 @@ Este guia mostra como testar a criação de personagem que existe hoje no Pandor
 - O formulário valida a Regra dos 6/6 antes de aceitar o personagem.
 - O formulário permite escolher uma das 6 ancestralidades oficiais.
 - O formulário permite escolher exatamente 3 traços da ancestralidade selecionada.
+- Os 3 traços escolhidos aparecem na `Listagem de personagens` com nome e descrição do catálogo atual.
 - O formulário permite escolher classes e antecedentes do catálogo atual.
-- Os controles `Salvar sessão` e `Carregar save` preservam personagens no armazenamento local SQLite WASM/OPFS do navegador.
+- Os controles `Salvar sessão` e `Carregar save` preservam personagens e traços escolhidos no armazenamento local SQLite WASM/OPFS do navegador.
 - A aba `Compêndio` permite consultar o catálogo curado atual.
 - Os erros aparecem em português e dizem o que precisa ser corrigido.
 
 ## Limites Desta Versão
 
 - O save usa um único slot local chamado `primary`; não há autosave, múltiplos slots ou sincronização em nuvem.
-- Os traços escolhidos são validados na criação, mas ainda não aparecem na listagem, não são persistidos na ficha salva e seus efeitos mecânicos ainda não são aplicados.
+- Os traços escolhidos ficam registrados na ficha salva, mas seus efeitos mecânicos ainda não são aplicados.
 - A ficha exibida ainda é parcial e não oferece edição de personagem depois da criação.
 
 ## Como Criar Um Personagem Válido
@@ -33,10 +34,10 @@ Este guia mostra como testar a criação de personagem que existe hoje no Pandor
 8. Distribua os `Eixos` para somarem exatamente `6`.
 9. Distribua as `Aplicações` para somarem exatamente `6`.
 10. Clique em `Criar personagem`.
-11. Confirme que o personagem aparece na `Listagem de personagens`.
+11. Confirme que o personagem aparece na `Listagem de personagens` com os 3 traços escolhidos.
 12. Clique em `Salvar sessão`.
 13. Recarregue a página, volte para `Personagens` e clique em `Carregar save`.
-14. Confirme que o personagem salvo voltou para a listagem.
+14. Confirme que o personagem salvo voltou para a listagem com os mesmos 3 traços.
 
 ## Exemplo Para Testar
 
@@ -58,7 +59,7 @@ Use estes valores para confirmar que o fluxo está funcionando:
 | Interação | 1 |
 | Resistência | 2 |
 
-Depois de clicar em `Criar personagem`, a lista deve mostrar `Lira da Ponte`, o conceito informado, o nível e os valores de Eixos e Aplicações.
+Depois de clicar em `Criar personagem`, a lista deve mostrar `Lira da Ponte`, o conceito informado, o nível, os 3 traços escolhidos e os valores de Eixos e Aplicações.
 
 ## Regra Dos 6/6
 

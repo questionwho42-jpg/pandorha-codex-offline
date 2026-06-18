@@ -1,29 +1,41 @@
 <script lang="ts">
-import type { AncestryRecord } from "$lib/entities/ancestry";
+import type {
+	AncestryRecord,
+	AncestryTraitRecord,
+} from "$lib/entities/ancestry";
 import type { BackgroundRecord } from "$lib/entities/background";
-import type { CharacterRecord } from "$lib/entities/character";
+import type {
+	CharacterRecord,
+	CharacterTraitSelectionRecord,
+} from "$lib/entities/character";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import { createCharacterListView } from "../model/characterListView";
 
 type Props = {
 	ancestries?: readonly AncestryRecord[];
+	ancestryTraits?: readonly AncestryTraitRecord[];
 	backgrounds?: readonly BackgroundRecord[];
 	characterClasses?: readonly CharacterClassRecord[];
 	records?: readonly CharacterRecord[];
+	traitSelections?: readonly CharacterTraitSelectionRecord[];
 };
 
 let {
 	ancestries = [],
+	ancestryTraits = [],
 	backgrounds = [],
 	characterClasses = [],
 	records = [],
+	traitSelections = [],
 }: Props = $props();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let view = $derived(
 	createCharacterListView(records, {
 		ancestries,
+		ancestryTraits,
 		backgrounds,
 		characterClasses,
+		traitSelections,
 	}),
 );
 </script>
@@ -58,7 +70,7 @@ let view = $derived(
 		<ul class="mt-6 divide-y divide-bronze border-y border-bronze">
 			{#each view.items as character (character.id)}
 				<li class="py-5" data-testid="character-list-item">
-					<div class="flex flex-col gap-4 lg:flex-row lg:justify-between">
+					<div class="flex flex-col gap-4">
 						<div>
 							<p class="text-sm font-semibold text-ether">
 								{character.levelLabel}
@@ -70,9 +82,31 @@ let view = $derived(
 								{character.concept}
 							</p>
 							<p class="mt-2 text-sm text-ether">{character.identityLabel}</p>
+							{#if character.ancestryTraits?.length}
+								<div class="mt-4" data-testid="character-trait-selection-list">
+									<p class="text-sm font-semibold text-ether">
+										Traços de ancestralidade
+									</p>
+									<ul class="mt-2 grid gap-2">
+										{#each character.ancestryTraits as trait (trait.id)}
+											<li
+												class="border border-bronze px-3 py-2"
+												data-testid="character-trait-selection-item"
+											>
+												<p class="text-sm font-semibold text-bone">
+													{trait.label}
+												</p>
+												<p class="mt-1 text-sm leading-6 text-bone">
+													{trait.description}
+												</p>
+											</li>
+										{/each}
+									</ul>
+								</div>
+							{/if}
 						</div>
 
-						<div class="grid gap-3 sm:grid-cols-2 lg:min-w-96">
+						<div class="grid gap-3 sm:grid-cols-2">
 							<div>
 								<p class="text-sm font-semibold text-ether">Eixos</p>
 								<div class="mt-2 grid grid-cols-3 gap-2">

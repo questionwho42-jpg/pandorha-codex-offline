@@ -17,6 +17,7 @@
 - Editable inventory now owns carried-item mutations per character and save v7 owns equipped loadout events; combat consumes that persisted loadout through an app-level resolver, while equipment effects, durability, crafting, and real consumable effects remain behind separate contracts.
 - Combat potion belt quick access now uses an app-level resolver/consumer over the existing inventory ledger; future healing, HP real changes, item effects, conditions, and official action economy still need their own gate.
 - Character creation now records the three selected ancestry traits for save v8. Future visible sheet work should render those persisted choices before adding trait mechanics.
+- The visible sheet now renders persisted ancestry trait choices in the character list. Future work can move the display into a fuller sheet view when editing, progression, or trait mechanics exist.
 - Trait mechanics should wait for a Decorator-based contract, and starting equipment should wait for the catalog gap map to be resolved.
 - T28 adds a minimal Magia tab; future magic UI should connect session caster resources and real targets only after EE, targeting, and spell execution services exist.
 - T31 adds a minimal Exploracao tab; future exploration work should add world-state persistence before promising saved discovery or mapped routes.

@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
-import type { AncestryRecord } from "$lib/entities/ancestry";
+import type {
+	AncestryRecord,
+	AncestryTraitRecord,
+} from "$lib/entities/ancestry";
 import type { BackgroundRecord } from "$lib/entities/background";
-import type { CharacterRecord } from "$lib/entities/character";
+import type {
+	CharacterRecord,
+	CharacterTraitSelectionRecord,
+} from "$lib/entities/character";
 import type { CharacterClassRecord } from "$lib/entities/character-class";
 import { createCharacterListView } from "../model/characterListView";
 
@@ -76,6 +82,46 @@ describe("createCharacterListView", () => {
 		expect(view.items[0]?.identityLabel).toBe("human · vanguard · acolyte");
 	});
 
+	it("maps persisted ancestry trait selections with catalog labels and id fallbacks", () => {
+		const view = createCharacterListView([character], {
+			ancestryTraits: [
+				{
+					id: "human-lingua-de-prata",
+					label: "LÃ­ngua de Prata",
+					description: "Sabe escolher as palavras certas.",
+				} as AncestryTraitRecord,
+				{
+					id: "human-diligencia-erudita",
+					label: "DiligÃªncia Erudita",
+					description: "Aprende com disciplina rara.",
+				} as AncestryTraitRecord,
+			],
+			traitSelections: [
+				createTraitSelection("human-lingua-de-prata", 2),
+				createTraitSelection("human-missing-trait", 3),
+				createTraitSelection("human-diligencia-erudita", 1),
+			],
+		});
+
+		expect(view.items[0]?.ancestryTraits).toEqual([
+			{
+				id: "human-diligencia-erudita",
+				label: "DiligÃªncia Erudita",
+				description: "Aprende com disciplina rara.",
+			},
+			{
+				id: "human-lingua-de-prata",
+				label: "LÃ­ngua de Prata",
+				description: "Sabe escolher as palavras certas.",
+			},
+			{
+				id: "human-missing-trait",
+				label: "human-missing-trait",
+				description: "human-missing-trait",
+			},
+		]);
+	});
+
 	it("uses plural count copy for multiple characters", () => {
 		const view = createCharacterListView([
 			character,
@@ -85,3 +131,16 @@ describe("createCharacterListView", () => {
 		expect(view.countLabel).toBe("2 personagens");
 	});
 });
+
+function createTraitSelection(
+	traitId: string,
+	sequence: 1 | 2 | 3,
+): CharacterTraitSelectionRecord {
+	return {
+		id: `trait-selection-${sequence}`,
+		characterId: character.id,
+		sequence,
+		traitId,
+		createdAt: "2026-06-17T20:49:00.000Z",
+	};
+}

@@ -78,6 +78,10 @@ import { createSpellCastSession } from "./model/spellCastSession";
 
 const characterSession = createCharacterSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+const characterAncestryTraits = Object.values(
+	characterSession.traitsByAncestryId,
+).flat();
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 const campSession = createCampSession();
 const combatEncounterSession = createCombatEncounterSession();
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -425,9 +429,11 @@ onMount(() => {
 						/>
 						<CharacterList
 							ancestries={characterSession.ancestries}
+							ancestryTraits={characterAncestryTraits}
 							backgrounds={characterSession.backgrounds}
 							characterClasses={characterSession.characterClasses}
 							records={characterRecords}
+							traitSelections={characterTraitSelectionRecords}
 						/>
 					</div>
 				</div>

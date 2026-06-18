@@ -48,6 +48,9 @@ async function runVerticalSliceSmoke(root) {
 		"src/app/App.svelte",
 		[
 			"CharacterCreateForm",
+			"CharacterList",
+			"characterAncestryTraits",
+			"traitSelections={characterTraitSelectionRecords}",
 			"SaveLoadControls",
 			"CombatEncounterPanel",
 			"HexcrawlMapPanel",
@@ -82,6 +85,17 @@ async function runVerticalSliceSmoke(root) {
 			"resolveTrainingEnemyAttack",
 			"trainingEnemyAttackService.resolveTrainingEnemyAttack",
 			'data-testid="pwa-status"',
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/character-list/ui/CharacterList.svelte",
+		[
+			'data-testid="character-trait-selection-list"',
+			'data-testid="character-trait-selection-item"',
+			"Traços de ancestralidade",
 		],
 		errors,
 	);

@@ -26,3 +26,4 @@
 - Each persisted selection stores `characterId`, contiguous `sequence` 1-3, `traitId`, and `createdAt`; ancestry ownership is validated at creation time by the app/session flow.
 - `SessionCharacterTraitSelectionRepository` mirrors the existing session repository pattern and exposes `all()` / `replaceAll()` for save-load orchestration.
 - Trait selections are persisted as sheet choices only. No trait mechanic, Decorator, HP, passive bonus, starting equipment, or editable sheet behavior was added.
+- The UI display phase consumes the persisted relation read-only through `character-list`; the entity layer still owns records only, not presentation labels.

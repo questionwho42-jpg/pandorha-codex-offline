@@ -72,3 +72,6 @@ salvar, recarregar a pagina e carregar o save.
 Esses tracos ainda nao aplicam efeitos automaticos. Por enquanto o app apenas
 lembra a escolha da ficha; bonus, passivas e equipamento inicial continuam para
 etapas futuras.
+
+A lista de personagens agora mostra esses tres tracos salvos. Assim o usuario
+consegue conferir a ficha depois de criar, salvar, recarregar e carregar o save.
