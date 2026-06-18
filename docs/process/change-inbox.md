@@ -42,9 +42,24 @@ The automation owns the marked sections below. Manual edits should stay outside 
   `docs/process/starting-equipment-catalog-gap.md`: no automatic starting
   equipment is allowed until the catalog covers every official kit item or
   explicit substitutions are approved.
+- `20260618-065116-starting-equipment-ledger-grant-gate` approves the
+  conservative next step for `20260615-future-inventory-starting-equipment`
+  through `docs/process/starting-equipment-ledger-grant-gate.md`: new
+  characters may receive class kits through the existing inventory ledger,
+  without save v9, auto-loadout, gold, durability, HP real or `docs/system`
+  changes.
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260618-065116-starting-equipment-ledger-grant-gate -->
+### Starting equipment ledger grant gate
+- id: 20260618-065116-starting-equipment-ledger-grant-gate
+- status: open
+- created_at: 2026-06-18T06:51:16-03:00
+- source: task-ledger
+- summary: Approve a conservative starting equipment grant contract using the existing inventory ledger, catalog metadata, and no save v9 or docs/system changes.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260618-065116-starting-equipment-ledger-grant-gate -->
 <!-- pandorha-inbox:20260618-064748-starting-equipment-promotion-sweep -->
 ### Starting equipment promotion sweep
 - id: 20260618-064748-starting-equipment-promotion-sweep

@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260618-065116-starting-equipment-ledger-grant-gate -->
+### Starting equipment ledger grant gate
+- id: 20260618-065116-starting-equipment-ledger-grant-gate
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-18T06:51:16-03:00
+- finished_at: 2026-06-18T06:53:19-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-18T06:53:19-03:00
+- branch: codex/docs/starting-equipment-ledger-grant-gate
+- commit_at_start: c8220c5 docs(process): record starting equipment promotion merge
+- summary: Approve a conservative starting equipment grant contract using the existing inventory ledger, catalog metadata, and no save v9 or docs/system changes.
+- last_change: Approved the conservative starting equipment grant gate using the existing inventory ledger, fixed minimal catalog metadata, kept no-profile items unequippable, and excluded save v9, auto-loadout, gold, durability, HP real, and docs/system changes.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-18T06:51:16-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-18T06:53:19-03:00
+- Done: Approved the conservative starting equipment grant gate using the existing inventory ledger, fixed minimal catalog metadata, kept no-profile items unequippable, and excluded save v9, auto-loadout, gold, durability, HP real, and docs/system changes.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260618-065116-starting-equipment-ledger-grant-gate -->
 <!-- pandorha-task:20260618-064748-starting-equipment-promotion-sweep -->
 ### Starting equipment promotion sweep
 - id: 20260618-064748-starting-equipment-promotion-sweep

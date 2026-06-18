@@ -75,6 +75,11 @@ tracos persistidos e save v8 foi aprovado em
 textuais de tracos por personagem, enquanto efeitos mecanicos, Decorator e
 equipamento inicial continuam exigindo fases proprias.
 
+O gate conservador de equipamento inicial foi aprovado em
+`docs/process/starting-equipment-ledger-grant-gate.md`; ele cobre apenas
+catalogo minimo, concessao para personagens novos pelo ledger de inventario
+existente e bloqueio de auto-loadout para itens sem perfil seguro.
+
 Uma futura tarefa só deve começar quando:
 
 - a entrada correspondente do `change-inbox` tiver um plano aprovado;
