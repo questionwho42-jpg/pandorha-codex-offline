@@ -37,9 +37,23 @@ The automation owns the marked sections below. Manual edits should stay outside 
   ancestry trait choices, without mechanical effects, HP real, talents, starting
   equipment, gold, passives, Decorator, editable sheet, or `docs/system/`
   promotion.
+- `20260618-061502-starting-equipment-catalog-gap` expands the starting
+  equipment gap map for `20260615-future-inventory-starting-equipment` through
+  `docs/process/starting-equipment-catalog-gap.md`: no automatic starting
+  equipment is allowed until the catalog covers every official kit item or
+  explicit substitutions are approved.
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260618-061502-starting-equipment-catalog-gap -->
+### Starting equipment catalog gap
+- id: 20260618-061502-starting-equipment-catalog-gap
+- status: open
+- created_at: 2026-06-18T06:15:02-03:00
+- source: task-ledger
+- summary: Create a process gate mapping official starting equipment kits against the current catalog and keep starting equipment blocked until catalog coverage or explicit substitutions are approved.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260618-061502-starting-equipment-catalog-gap -->
 <!-- pandorha-inbox:20260617-120327-potion-belt-promotion-sweep -->
 ### Potion belt promotion sweep
 - id: 20260617-120327-potion-belt-promotion-sweep

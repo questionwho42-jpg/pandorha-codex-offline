@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260618-061502-starting-equipment-catalog-gap -->
+### Starting equipment catalog gap
+- id: 20260618-061502-starting-equipment-catalog-gap
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-18T06:15:02-03:00
+- finished_at: 2026-06-18T06:18:00-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-18T06:18:00-03:00
+- branch: codex/docs/starting-equipment-catalog-gap
+- commit_at_start: 7729fb0 docs(process): record character traits UI merge
+- summary: Create a process gate mapping official starting equipment kits against the current catalog and keep starting equipment blocked until catalog coverage or explicit substitutions are approved.
+- last_change: Documented starting equipment catalog gaps against the current equipment and consumable catalog, kept automatic grants blocked until full catalog coverage or explicit substitutions are approved, and did not change docs/system or code.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-18T06:15:02-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-18T06:18:00-03:00
+- Done: Documented starting equipment catalog gaps against the current equipment and consumable catalog, kept automatic grants blocked until full catalog coverage or explicit substitutions are approved, and did not change docs/system or code.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260618-061502-starting-equipment-catalog-gap -->
 <!-- pandorha-task:20260617-204900-character-traits-visible-ui -->
 ### Character traits visible UI
 - id: 20260617-204900-character-traits-visible-ui
