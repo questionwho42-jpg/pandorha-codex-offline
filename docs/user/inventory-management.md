@@ -19,5 +19,5 @@ Personagens novos recebem automaticamente o kit inicial da classe quando sao cri
 - `Cinto de Poções` pode ser carregado como consumivel persistido e usado no `Combate` como acesso rapido de treino.
 - `Cota de Malha`, `Arco Curto`, `Cajado`, `Rapieira` e `Armadura Acolchoada de Luxo` sao catalogados para ownership e carga, mas ainda nao tem perfil de combate/loadout.
 - Usar o cinto no combate consome 1 unidade do inventario, mas nao cura, nao altera HP real, nao altera HP de treino e nao aplica estados oficiais.
-- Durabilidade, equipamento inicial, cura real por consumivel e HP real persistido continuam fora desta entrega.
+- Durabilidade mutavel, cura real por consumivel, HP real persistido e perfis completos para todos os itens de kit inicial continuam fora desta entrega.
 - O save usa um unico slot local `primary`.

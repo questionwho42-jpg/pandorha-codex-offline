@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260618-213320-starting-equipment-promotion-sweep -->
+### Starting equipment promotion sweep
+- id: 20260618-213320-starting-equipment-promotion-sweep
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-18T21:33:20-03:00
+- finished_at: 2026-06-18T21:36:45-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-18T21:36:45-03:00
+- branch: codex/docs/starting-equipment-promotion-sweep-v2
+- commit_at_start: 0d4921b docs(process): record starting equipment grant merge
+- summary: Promote delivered starting equipment catalog and grant records after main merge while keeping durability, HP real, auto-loadout and docs/system changes out of scope.
+- last_change: Promoted delivered starting equipment catalog, gate, grant, and future-starting-equipment records after main merge; kept durability, HP real, auto-loadout, gold and docs/system changes out of scope.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-18T21:33:20-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-18T21:36:45-03:00
+- Done: Promoted delivered starting equipment catalog, gate, grant, and future-starting-equipment records after main merge; kept durability, HP real, auto-loadout, gold and docs/system changes out of scope.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260618-213320-starting-equipment-promotion-sweep -->
 <!-- pandorha-task:20260618-130238-character-starting-equipment-grant -->
 ### Character starting equipment grant
 - id: 20260618-130238-character-starting-equipment-grant

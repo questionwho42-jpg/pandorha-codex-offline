@@ -16,11 +16,12 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - `20260616-175040-combat-persistent-loadout-integration` implements
   `20260615-future-inventory-combat-integration` by deriving Combat weapon and
   defense profiles from the persisted inventory loadout without save v8.
-- Inventory ownership, save v6, editable inventory, loadout v7, and Combat
-  integration records were promoted after merge to `main` through their process
-  gates, user guides, QA scripts, and post-audit roadmap. Future potion belt effects,
-  durability, real HP persistence, starting equipment, PWA, and other deliberate
-  limitations remain open until their own gates are approved.
+- Inventory ownership, save v6, editable inventory, loadout v7, Combat
+  integration, and starting equipment records were promoted after merge to
+  `main` through their process gates, user guides, QA scripts, and post-audit
+  roadmap. Future potion belt effects, durability, real HP persistence, PWA,
+  and other deliberate limitations remain open until their own gates are
+  approved.
 - `20260617-055721-potion-belt-quick-access-gate` approves the first bounded
   step for `20260615-future-inventory-potion-belt` through
   `docs/process/potion-belt-quick-access-gate.md`: quick access and decrement
@@ -48,45 +49,23 @@ The automation owns the marked sections below. Manual edits should stay outside 
   characters may receive class kits through the existing inventory ledger,
   without save v9, auto-loadout, gold, durability, HP real or `docs/system`
   changes.
+- `20260618-065745-starting-equipment-catalog-implementation` and
+  `20260618-130238-character-starting-equipment-grant` implement that bounded
+  starting-equipment slice: new characters receive class kits through the
+  existing inventory ledger, while auto-loadout, gold, durability, HP real,
+  expanded item profiles and `docs/system` changes remain outside the delivery.
 
 ## Open
 <!-- pandorha-inbox:open -->
-<!-- pandorha-inbox:20260618-130238-character-starting-equipment-grant -->
-### Character starting equipment grant
-- id: 20260618-130238-character-starting-equipment-grant
-- status: open
-- created_at: 2026-06-18T13:02:38-03:00
-- source: task-ledger
-- summary: Grant approved starting equipment kits to newly created characters through the existing inventory ledger without save v9, auto-loadout, gold, durability, HP real, or docs/system changes.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260618-130238-character-starting-equipment-grant -->
-<!-- pandorha-inbox:20260618-065745-starting-equipment-catalog-implementation -->
-### Starting equipment catalog implementation
-- id: 20260618-065745-starting-equipment-catalog-implementation
-- status: open
-- created_at: 2026-06-18T06:57:45-03:00
-- source: task-ledger
-- summary: Add conservative starting equipment catalog records and keep unsupported items without equip actions.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260618-065745-starting-equipment-catalog-implementation -->
-<!-- pandorha-inbox:20260618-065116-starting-equipment-ledger-grant-gate -->
-### Starting equipment ledger grant gate
-- id: 20260618-065116-starting-equipment-ledger-grant-gate
-- status: open
-- created_at: 2026-06-18T06:51:16-03:00
-- source: task-ledger
-- summary: Approve a conservative starting equipment grant contract using the existing inventory ledger, catalog metadata, and no save v9 or docs/system changes.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260618-065116-starting-equipment-ledger-grant-gate -->
-<!-- pandorha-inbox:20260618-064748-starting-equipment-promotion-sweep -->
+<!-- pandorha-inbox:20260618-213320-starting-equipment-promotion-sweep -->
 ### Starting equipment promotion sweep
-- id: 20260618-064748-starting-equipment-promotion-sweep
+- id: 20260618-213320-starting-equipment-promotion-sweep
 - status: open
-- created_at: 2026-06-18T06:47:48-03:00
+- created_at: 2026-06-18T21:33:20-03:00
 - source: task-ledger
-- summary: Promote the delivered starting equipment catalog gap record after main merge without changing docs/system or implementing starting equipment.
+- summary: Promote delivered starting equipment catalog and grant records after main merge while keeping durability, HP real, auto-loadout and docs/system changes out of scope.
 - expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260618-064748-starting-equipment-promotion-sweep -->
+<!-- /pandorha-inbox:20260618-213320-starting-equipment-promotion-sweep -->
 <!-- pandorha-inbox:20260617-120327-potion-belt-promotion-sweep -->
 ### Potion belt promotion sweep
 - id: 20260617-120327-potion-belt-promotion-sweep
@@ -105,15 +84,6 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - summary: Promote delivered inventory, loadout, and combat integration records after main merge while keeping future limitations open.
 - expected_promotion: official docs after merge to main
 <!-- /pandorha-inbox:20260616-195116-post-combat-promotion-sweep -->
-<!-- pandorha-inbox:20260615-future-inventory-starting-equipment -->
-### Future starting equipment
-- id: 20260615-future-inventory-starting-equipment
-- status: open
-- created_at: 2026-06-15T11:51:17-03:00
-- source: task-ledger
-- summary: Conceder equipamento inicial por personagem somente após contrato de criação, catálogo e ownership.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260615-future-inventory-starting-equipment -->
 <!-- pandorha-inbox:20260615-future-inventory-potion-belt -->
 ### Future inventory potion belt
 - id: 20260615-future-inventory-potion-belt
@@ -1000,6 +970,51 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Promoted
 <!-- pandorha-inbox:promoted -->
+<!-- pandorha-inbox:20260618-130238-character-starting-equipment-grant -->
+### Character starting equipment grant
+- id: 20260618-130238-character-starting-equipment-grant
+- status: promoted
+- created_at: 2026-06-18T13:02:38-03:00
+- source: task-ledger
+- summary: Grant approved starting equipment kits to newly created characters through the existing inventory ledger without save v9, auto-loadout, gold, durability, HP real, or docs/system changes.
+- expected_promotion: promoted to docs/process/starting-equipment-ledger-grant-gate.md, docs/user/character-creation.md, docs/user/inventory-management.md, docs/process/vertical-slice-qa.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260618-130238-character-starting-equipment-grant -->
+<!-- pandorha-inbox:20260618-065745-starting-equipment-catalog-implementation -->
+### Starting equipment catalog implementation
+- id: 20260618-065745-starting-equipment-catalog-implementation
+- status: promoted
+- created_at: 2026-06-18T06:57:45-03:00
+- source: task-ledger
+- summary: Add conservative starting equipment catalog records and keep unsupported items without equip actions.
+- expected_promotion: promoted to docs/process/starting-equipment-ledger-grant-gate.md, docs/user/inventory-management.md, docs/process/vertical-slice-qa.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260618-065745-starting-equipment-catalog-implementation -->
+<!-- pandorha-inbox:20260618-065116-starting-equipment-ledger-grant-gate -->
+### Starting equipment ledger grant gate
+- id: 20260618-065116-starting-equipment-ledger-grant-gate
+- status: promoted
+- created_at: 2026-06-18T06:51:16-03:00
+- source: task-ledger
+- summary: Approve a conservative starting equipment grant contract using the existing inventory ledger, catalog metadata, and no save v9 or docs/system changes.
+- expected_promotion: promoted to docs/process/starting-equipment-ledger-grant-gate.md and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260618-065116-starting-equipment-ledger-grant-gate -->
+<!-- pandorha-inbox:20260618-064748-starting-equipment-promotion-sweep -->
+### Starting equipment promotion sweep
+- id: 20260618-064748-starting-equipment-promotion-sweep
+- status: promoted
+- created_at: 2026-06-18T06:47:48-03:00
+- source: task-ledger
+- summary: Promote the delivered starting equipment catalog gap record after main merge without changing docs/system or implementing starting equipment.
+- expected_promotion: promoted to docs/process/change-inbox.md after main merge
+<!-- /pandorha-inbox:20260618-064748-starting-equipment-promotion-sweep -->
+<!-- pandorha-inbox:20260615-future-inventory-starting-equipment -->
+### Future starting equipment
+- id: 20260615-future-inventory-starting-equipment
+- status: promoted
+- created_at: 2026-06-15T11:51:17-03:00
+- source: task-ledger
+- summary: Conceder equipamento inicial por personagem somente após contrato de criação, catálogo e ownership.
+- expected_promotion: promoted to docs/process/starting-equipment-ledger-grant-gate.md, docs/user/character-creation.md, docs/user/inventory-management.md, docs/process/vertical-slice-qa.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260615-future-inventory-starting-equipment -->
 <!-- pandorha-inbox:20260618-061502-starting-equipment-catalog-gap -->
 ### Starting equipment catalog gap
 - id: 20260618-061502-starting-equipment-catalog-gap
