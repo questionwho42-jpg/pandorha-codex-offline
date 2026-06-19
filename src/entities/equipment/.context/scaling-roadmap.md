@@ -29,3 +29,4 @@
 - Save v7 persists selected loadout entry ids only; it does not approve durability, combat loadout application, quick slots, or item effects.
 - Do not let `activeDefenseProfile` change incoming damage before official character-targeting rules are implemented.
 - Do not infer loadout support from `equipment.kind`; use `OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_IDS` until profile coverage expands.
+- Save v9 persists `equipmentDurabilityEvents`; future automatic wear, repair costs, camp repair, crafting repair, and damaged-item modifiers need separate Decorator/rule gates.

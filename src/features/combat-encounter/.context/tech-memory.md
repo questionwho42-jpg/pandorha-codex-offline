@@ -189,6 +189,12 @@
 - Using the potion belt appends the returned log entry and refreshes the snapshot, but it does not change `HP de treino`, real HP preview, conditions, durability, or turn state.
 - The UI maps inventory/ledger/entry failures into pt-BR combat copy while keeping technical failures typed.
 
+## 2026-06-18 - Broken Equipment Gate
+
+- Combat still does not import `inventory-management`; the app-level persistent loadout resolver inspects durability on the derived loadout.
+- If any equipped slot resolves as `broken`, the resolver returns `COMBAT_LOADOUT_EQUIPMENT_INVALID` before attack or defense profiles are built.
+- `damaged` has no combat modifier in this slice, and Combat still does not consume durability automatically.
+
 ## Sources
 
 - `docs/architecture/feature_state_machines.md`

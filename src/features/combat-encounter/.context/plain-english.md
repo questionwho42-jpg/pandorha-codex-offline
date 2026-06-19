@@ -104,3 +104,11 @@ e nao muda HP de treino.
 - Usar o cinto como acesso rapido sem cura: entrega o caminho visivel no
   navegador com menos risco, mas deixa efeitos reais de item para um contrato
   futuro.
+## 2026-06-18 - Item Quebrado No Combate
+
+O Combate agora respeita quando o Inventario diz que um equipamento esta
+quebrado. Se a arma, escudo ou armadura equipada estiver quebrada, o treino
+orienta o usuario a voltar ao Inventario e reparar ou trocar o item.
+
+Item danificado ainda nao muda ataque, defesa ou dano. O sistema apenas mostra a
+condicao e bloqueia o que esta quebrado.

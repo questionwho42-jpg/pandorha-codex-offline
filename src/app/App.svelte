@@ -10,7 +10,10 @@ import type {
 	CharacterTraitSelectionRecord,
 } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
-import type { EquipmentLoadoutEventRecord } from "$lib/entities/equipment";
+import type {
+	EquipmentDurabilityEventRecord,
+	EquipmentLoadoutEventRecord,
+} from "$lib/entities/equipment";
 import type { FactionStandingRecord } from "$lib/entities/faction";
 import type { InventoryEventRecord } from "$lib/entities/inventory";
 import type { NpcRelationshipRecord } from "$lib/entities/npc-relationship";
@@ -115,6 +118,9 @@ let characterTraitSelectionRecords = $state<CharacterTraitSelectionRecord[]>(
 let clockRecords = $state<ClockRecord[]>([]);
 let factionStandingRecords = $state<FactionStandingRecord[]>(
 	socialRelationsSession.createInitialStandings(),
+);
+let equipmentDurabilityEventRecords = $state<EquipmentDurabilityEventRecord[]>(
+	[],
 );
 let equipmentLoadoutEventRecords = $state<EquipmentLoadoutEventRecord[]>([]);
 let inventoryEventRecords = $state<InventoryEventRecord[]>([]);
@@ -257,6 +263,7 @@ async function saveSession(): Promise<void> {
 		npcRelationships: npcRelationshipRecords,
 		inventoryEvents: inventoryEventRecords,
 		equipmentLoadoutEvents: equipmentLoadoutEventRecords,
+		equipmentDurabilityEvents: equipmentDurabilityEventRecords,
 		savedAt: new Date().toISOString(),
 	});
 
@@ -315,6 +322,16 @@ async function loadSession(): Promise<void> {
 		};
 		return;
 	}
+	const restoredDurability = inventorySession.restoreDurabilityEvents(
+		result.data.equipmentDurabilityEvents,
+	);
+	if (!restoredDurability.success) {
+		saveLoadState = {
+			kind: "error",
+			message: "O save local contem durabilidade invalida.",
+		};
+		return;
+	}
 
 	characterRecords = [...restored.data];
 	characterTraitSelectionRecords = [...restoredTraitSelections.data];
@@ -330,6 +347,7 @@ async function loadSession(): Promise<void> {
 	npcRelationshipRecords = [...result.data.npcRelationships];
 	inventoryEventRecords = [...restoredInventory.data];
 	equipmentLoadoutEventRecords = [...restoredLoadout.data];
+	equipmentDurabilityEventRecords = [...restoredDurability.data];
 	saveLoadState = { kind: "loaded" };
 }
 
@@ -466,8 +484,12 @@ onMount(() => {
 					characters={characterRecords}
 					consumables={inventorySession.consumables}
 					equipment={inventorySession.equipment}
+					equipmentDurabilityEvents={equipmentDurabilityEventRecords}
 					equipmentLoadoutEvents={equipmentLoadoutEventRecords}
 					inventoryEvents={inventoryEventRecords}
+					onDurabilityEventsChange={(records) => {
+						equipmentDurabilityEventRecords = [...records];
+					}}
 					onEventsChange={(records) => {
 						inventoryEventRecords = [...records];
 					}}

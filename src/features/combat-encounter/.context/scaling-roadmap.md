@@ -43,3 +43,8 @@
 - Equipped defense and `HP de treino` can be used as transient incoming-attack targets, but must remain non-persistent until a save-version phase and official character-damage contract are approved.
 - Real damage events may exist as append-only contracts before HP mutation exists, but UI must not imply persisted HP until replay and save-version policy are approved.
 - Potion-belt quick access may consume inventory units, but Combat must not apply healing, HP mutation, conditions, durability, or official action economy until those contracts are approved.
+## 2026-06-18 - Durability Follow-Up
+
+- Keep broken-equipment blocking at the app resolver boundary until Combat owns a richer equipment-read model.
+- Add `damaged` penalties only after a Decorator/modifier gate defines how equipment condition affects attack, CA, damage, or action economy.
+- Automatic wear from natural 1, enemy effects, or target traits should remain separate from the manual durability ledger.

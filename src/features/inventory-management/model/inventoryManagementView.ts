@@ -10,8 +10,13 @@ import type {
 } from "./inventoryManagementTypes";
 
 export interface InventoryManagementEntryView extends InventoryResolvedEntry {
+	readonly canMarkBroken: boolean;
+	readonly canMarkDamaged: boolean;
+	readonly canRepair: boolean;
 	readonly categoryLabel: string;
+	readonly durabilityLabel: string | null;
 	readonly equipActionLabel: string | null;
+	readonly equipBlockedLabel: string | null;
 	readonly equipSlot: EquipmentLoadoutEventSlot | null;
 	readonly equippedSlot: EquipmentLoadoutEventSlot | null;
 	readonly isEquipped: boolean;
@@ -48,11 +53,18 @@ export function createInventoryManagementView(
 	return {
 		entries: snapshot.entries.map((entry) => {
 			const equipSlot = mapEquipSlot(entry);
+			const durability = mapDurabilityView(entry);
 
 			return {
 				...entry,
+				...durability,
 				categoryLabel: mapCategoryLabel(entry),
 				equipActionLabel: mapEquipActionLabel(equipSlot),
+				equipBlockedLabel:
+					entry.catalogKind === "equipment" &&
+					entry.durabilityCondition === "broken"
+						? "Repare antes de equipar"
+						: null,
 				equipSlot,
 				equippedSlot: equippedSlotByEntryId.get(entry.entryId) ?? null,
 				isEquipped: equippedSlotByEntryId.has(entry.entryId),
@@ -73,6 +85,43 @@ export function createInventoryManagementView(
 		stateDescription: mapInventoryStateDescription(snapshot.capacity.state),
 		stateLabel: mapInventoryStateLabel(snapshot.capacity.state),
 	};
+}
+
+function mapDurabilityView(
+	entry: InventoryResolvedEntry,
+): Pick<
+	InventoryManagementEntryView,
+	"canMarkBroken" | "canMarkDamaged" | "canRepair" | "durabilityLabel"
+> {
+	if (entry.catalogKind !== "equipment") {
+		return {
+			canMarkBroken: false,
+			canMarkDamaged: false,
+			canRepair: false,
+			durabilityLabel: null,
+		};
+	}
+
+	const condition = entry.durabilityCondition ?? "intact";
+	return {
+		canMarkBroken: condition !== "broken",
+		canMarkDamaged: condition !== "damaged",
+		canRepair: condition !== "intact",
+		durabilityLabel: mapDurabilityLabel(condition),
+	};
+}
+
+function mapDurabilityLabel(
+	condition: NonNullable<InventoryResolvedEntry["durabilityCondition"]>,
+): string {
+	switch (condition) {
+		case "intact":
+			return "\u00cdntegro";
+		case "damaged":
+			return "Danificado";
+		case "broken":
+			return "Quebrado";
+	}
 }
 
 function mapCategoryLabel(entry: InventoryResolvedEntry): string {

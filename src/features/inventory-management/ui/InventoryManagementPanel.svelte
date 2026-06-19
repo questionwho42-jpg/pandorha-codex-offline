@@ -2,6 +2,8 @@
 import type { CharacterRecord } from "$lib/entities/character";
 import type {
 	ConsumableRecord,
+	EquipmentDurabilityCondition,
+	EquipmentDurabilityEventRecord,
 	EquipmentLoadoutEventRecord,
 	EquipmentLoadoutEventSlot,
 	EquipmentRecord,
@@ -10,6 +12,7 @@ import type { InventoryEventRecord } from "$lib/entities/inventory";
 import type { Result } from "$lib/shared/lib/result";
 import type { InventoryManagementService } from "../domain/InventoryManagementService";
 import type {
+	InventoryManagementDurabilityMutationResult,
 	InventoryManagementFailure,
 	InventoryManagementLoadoutMutationResult,
 	InventoryManagementMutationResult,
@@ -23,13 +26,23 @@ type InventoryMutation = () => Promise<
 type LoadoutMutation = () => Promise<
 	Result<InventoryManagementLoadoutMutationResult, InventoryManagementFailure>
 >;
+type DurabilityMutation = () => Promise<
+	Result<
+		InventoryManagementDurabilityMutationResult,
+		InventoryManagementFailure
+	>
+>;
 
 type Props = {
 	characters?: readonly CharacterRecord[];
 	consumables?: readonly ConsumableRecord[];
 	equipment?: readonly EquipmentRecord[];
+	equipmentDurabilityEvents?: readonly EquipmentDurabilityEventRecord[];
 	equipmentLoadoutEvents?: readonly EquipmentLoadoutEventRecord[];
 	inventoryEvents?: readonly InventoryEventRecord[];
+	onDurabilityEventsChange: (
+		records: readonly EquipmentDurabilityEventRecord[],
+	) => void;
 	onEventsChange: (records: readonly InventoryEventRecord[]) => void;
 	onLoadoutEventsChange: (
 		records: readonly EquipmentLoadoutEventRecord[],
@@ -44,8 +57,10 @@ let {
 	consumables = [],
 	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 	equipment = [],
+	equipmentDurabilityEvents = [],
 	equipmentLoadoutEvents = [],
 	inventoryEvents = [],
+	onDurabilityEventsChange,
 	onEventsChange,
 	onLoadoutEventsChange,
 	// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -71,6 +86,11 @@ let _loadoutSignature = $derived(
 		.map((event) => `${event.id}:${event.sequence}:${event.inventoryEntryId}`)
 		.join("|"),
 );
+let _durabilitySignature = $derived(
+	equipmentDurabilityEvents
+		.map((event) => `${event.id}:${event.sequence}:${event.condition}`)
+		.join("|"),
+);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let selectedCharacter = $derived(
 	characters.find((character) => character.id === selectedCharacterId) ?? null,
@@ -81,6 +101,7 @@ let view = $derived(snapshot ? createInventoryManagementView(snapshot) : null);
 $effect(() => {
 	_inventorySignature;
 	_loadoutSignature;
+	_durabilitySignature;
 	const nextCharacterId = characters.some(
 		(character) => character.id === selectedCharacterId,
 	)
@@ -202,6 +223,23 @@ async function clearEquipmentSlot(
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function setEquipmentCondition(
+	entryId: string,
+	condition: EquipmentDurabilityCondition,
+): Promise<void> {
+	if (!selectedCharacterId) {
+		return;
+	}
+	await runDurabilityMutation(`durability:${condition}:${entryId}`, () =>
+		service.setEquipmentCondition({
+			characterId: selectedCharacterId,
+			entryId,
+			condition,
+		}),
+	);
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function equipEntrySlot(
 	entryId: string,
 	slot: EquipmentLoadoutEventSlot | null,
@@ -253,6 +291,25 @@ async function runLoadoutMutation(
 	errorMessage = null;
 }
 
+async function runDurabilityMutation(
+	actionId: string,
+	mutate: DurabilityMutation,
+): Promise<void> {
+	busyAction = actionId;
+	const result = await mutate();
+	busyAction = null;
+	if (!result.success) {
+		errorMessage = mapInventoryFailure(result.error);
+		return;
+	}
+	snapshot = result.data.inventory;
+	onDurabilityEventsChange([
+		...equipmentDurabilityEvents,
+		...result.data.appendedDurabilityEvents,
+	]);
+	errorMessage = null;
+}
+
 function mapInventoryFailure(failure: InventoryManagementFailure): string {
 	switch (failure.code) {
 		case "INVENTORY_ENTRY_EQUIPPED":
@@ -264,6 +321,8 @@ function mapInventoryFailure(failure: InventoryManagementFailure): string {
 		case "INVENTORY_LOADOUT_SLOT_INVALID":
 		case "INVENTORY_ENTRY_KIND_INVALID":
 			return "Este item nao pode ser equipado nesse slot.";
+		case "INVENTORY_DURABILITY_BROKEN":
+			return "Repare antes de equipar.";
 		default:
 			return "A alteracao do inventario nao pode ser concluida.";
 	}
@@ -378,6 +437,13 @@ function mapInventoryFailure(failure: InventoryManagementFailure): string {
 							<p class="text-sm font-semibold text-ether">{slotView.label}</p>
 							{#if slotView.entry}
 								<p class="mt-1 font-semibold text-bone">{slotView.entry.label}</p>
+								<p class="mt-1 text-sm text-ether">
+									Durabilidade: {slotView.entry.durabilityCondition === "intact"
+										? "\u00cdntegro"
+										: slotView.entry.durabilityCondition === "damaged"
+											? "Danificado"
+											: "Quebrado"}
+								</p>
 								<button
 									type="button"
 									class="mt-3 border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone hover:border-ether hover:text-ether disabled:cursor-wait disabled:opacity-60"
@@ -466,6 +532,11 @@ function mapInventoryFailure(failure: InventoryManagementFailure): string {
 											<p class="mt-1 text-sm text-ether">
 												{entry.categoryLabel} - {entry.quantityLabel} - {entry.slotCost} slots
 											</p>
+											{#if entry.durabilityLabel}
+												<p class="mt-1 text-sm text-ether">
+													Durabilidade: {entry.durabilityLabel}
+												</p>
+											{/if}
 											{#if entry.isEquipped}
 												<p class="mt-2 text-sm font-semibold text-ether">
 													Equipado
@@ -487,12 +558,48 @@ function mapInventoryFailure(failure: InventoryManagementFailure): string {
 												{:else}
 													<button
 														type="button"
-														class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone hover:border-ether hover:text-ether disabled:cursor-wait disabled:opacity-60"
+														class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone hover:border-ether hover:text-ether disabled:cursor-not-allowed disabled:opacity-60"
 														data-testid="inventory-equip-entry"
-														disabled={busyAction !== null}
+														disabled={busyAction !== null || entry.equipBlockedLabel !== null}
+														title={entry.equipBlockedLabel ?? undefined}
 														onclick={() => equipEntrySlot(entry.entryId, entry.equipSlot)}
 													>
-														{entry.equipActionLabel}
+														{entry.equipBlockedLabel ?? entry.equipActionLabel}
+													</button>
+												{/if}
+											{/if}
+											{#if entry.catalogKind === "equipment"}
+												{#if entry.canMarkDamaged}
+													<button
+														type="button"
+														class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone hover:border-ether hover:text-ether disabled:cursor-wait disabled:opacity-60"
+														data-testid="inventory-mark-damaged"
+														disabled={busyAction !== null}
+														onclick={() => void setEquipmentCondition(entry.entryId, "damaged")}
+													>
+														Marcar danificado
+													</button>
+												{/if}
+												{#if entry.canMarkBroken}
+													<button
+														type="button"
+														class="border border-bronze bg-ruin px-3 py-2 text-sm font-semibold text-bone hover:border-ether hover:text-ether disabled:cursor-wait disabled:opacity-60"
+														data-testid="inventory-mark-broken"
+														disabled={busyAction !== null}
+														onclick={() => void setEquipmentCondition(entry.entryId, "broken")}
+													>
+														Marcar quebrado
+													</button>
+												{/if}
+												{#if entry.canRepair}
+													<button
+														type="button"
+														class="border border-ether bg-ether px-3 py-2 text-sm font-semibold text-void hover:text-void disabled:cursor-wait disabled:opacity-60"
+														data-testid="inventory-repair-equipment"
+														disabled={busyAction !== null}
+														onclick={() => void setEquipmentCondition(entry.entryId, "intact")}
+													>
+														Reparar
 													</button>
 												{/if}
 											{/if}

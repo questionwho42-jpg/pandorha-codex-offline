@@ -31,6 +31,14 @@ export function createCombatPersistentLoadoutResolver(
 		if (!inventory.success) {
 			return fail(mapInventoryFailure(inventory.error));
 		}
+		const brokenEntry = findBrokenLoadoutEntry(inventory.data);
+		if (brokenEntry) {
+			return fail({
+				code: "COMBAT_LOADOUT_EQUIPMENT_INVALID",
+				message: "Combat cannot use broken equipment from inventory.",
+				details: brokenEntry,
+			});
+		}
 
 		const loadout = await input.buildEquipmentLoadout(
 			toEquipmentLoadoutInput(inventory.data),
@@ -41,6 +49,24 @@ export function createCombatPersistentLoadoutResolver(
 
 		return loadout;
 	};
+}
+
+function findBrokenLoadoutEntry(inventory: InventoryManagementSnapshot): {
+	readonly entryId: string;
+	readonly slot: keyof InventoryManagementSnapshot["loadout"];
+	readonly durabilityCondition: "broken";
+} | null {
+	for (const slot of ["mainHand", "offHand", "armor"] as const) {
+		const entry = inventory.loadout[slot];
+		if (entry?.durabilityCondition === "broken") {
+			return {
+				entryId: entry.entryId,
+				slot,
+				durabilityCondition: "broken",
+			};
+		}
+	}
+	return null;
 }
 
 function toEquipmentLoadoutInput(
@@ -60,6 +86,7 @@ function mapInventoryFailure(
 		case "INVENTORY_CHARACTER_NOT_FOUND":
 		case "INVENTORY_REPOSITORY_FAILED":
 		case "INVENTORY_LOADOUT_REPOSITORY_FAILED":
+		case "INVENTORY_DURABILITY_REPOSITORY_FAILED":
 			return {
 				code: "COMBAT_LOADOUT_INVENTORY_UNAVAILABLE",
 				message: "Combat could not read the character inventory loadout.",
@@ -67,6 +94,7 @@ function mapInventoryFailure(
 			};
 		case "INVENTORY_LEDGER_INVALID":
 		case "INVENTORY_LOADOUT_LEDGER_INVALID":
+		case "INVENTORY_DURABILITY_LEDGER_INVALID":
 			return {
 				code: "COMBAT_LOADOUT_LEDGER_INVALID",
 				message: "Combat received an invalid inventory loadout ledger.",
@@ -77,6 +105,7 @@ function mapInventoryFailure(
 		case "INVENTORY_LOADOUT_SLOT_INVALID":
 		case "INVENTORY_LOADOUT_SLOT_CONFLICT":
 		case "INVENTORY_ENTRY_KIND_INVALID":
+		case "INVENTORY_DURABILITY_BROKEN":
 			return {
 				code: "COMBAT_LOADOUT_ENTRY_INVALID",
 				message: "Combat received an inventory loadout entry it cannot use.",

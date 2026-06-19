@@ -53,10 +53,14 @@ async function runUiReachabilitySmoke(root) {
 			"InventoryManagementPanel",
 			"inventoryEvents: inventoryEventRecords",
 			"equipmentLoadoutEvents: equipmentLoadoutEventRecords",
+			"equipmentDurabilityEvents: equipmentDurabilityEventRecords",
 			"inventoryEventRecords = [...restoredInventory.data]",
 			"equipmentLoadoutEventRecords = [...restoredLoadout.data]",
+			"equipmentDurabilityEventRecords = [...restoredDurability.data]",
 			"equipmentLoadoutEvents={equipmentLoadoutEventRecords}",
+			"equipmentDurabilityEvents={equipmentDurabilityEventRecords}",
 			"onLoadoutEventsChange",
+			"onDurabilityEventsChange",
 			'activeView === "exploration"',
 			"HexcrawlMapPanel",
 			'activeView === "camp"',
@@ -138,6 +142,9 @@ async function runUiReachabilitySmoke(root) {
 			'data-testid="inventory-increment-consumable"',
 			'data-testid="inventory-consume-consumable"',
 			'data-testid="inventory-remove-entry"',
+			'data-testid="inventory-mark-damaged"',
+			'data-testid="inventory-mark-broken"',
+			'data-testid="inventory-repair-equipment"',
 		],
 		errors,
 	);
@@ -176,7 +183,11 @@ async function runUiReachabilitySmoke(root) {
 	await validateFileContains(
 		root,
 		"src/features/inventory-management/model/inventoryManagementView.ts",
-		["isOfficialLoadoutSupportedEquipmentId(entry.catalogItemId)"],
+		[
+			"isOfficialLoadoutSupportedEquipmentId(entry.catalogItemId)",
+			"mapDurabilityLabel",
+			"Repare antes de equipar",
+		],
 		errors,
 	);
 
@@ -246,7 +257,7 @@ async function runUiReachabilitySmoke(root) {
 		"docs/process/vertical-slice-qa.md",
 		[
 			"O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura",
-			"persiste inventário + loadout no save v7",
+			"persiste inventário + loadout + durabilidade no save v9",
 			"cinto de poções consome 1 unidade pelo inventário persistido sem alterar HP real",
 			"combate ainda usa alvos de treino e HP de treino local",
 		],

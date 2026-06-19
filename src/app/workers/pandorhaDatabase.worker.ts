@@ -44,6 +44,7 @@ const snapshotWorkerPort = {
 			npcRelationshipCount: saved.data.npcRelationshipCount,
 			inventoryEventCount: saved.data.inventoryEventCount,
 			equipmentLoadoutEventCount: saved.data.equipmentLoadoutEventCount,
+			equipmentDurabilityEventCount: saved.data.equipmentDurabilityEventCount,
 		});
 	},
 	loadSnapshot: async () => {
@@ -95,6 +96,11 @@ const snapshotWorkerPort = {
 			equipmentLoadoutEvents: loaded.data.equipmentLoadoutEvents.map(
 				(loadoutEvent) => ({
 					...loadoutEvent,
+				}),
+			),
+			equipmentDurabilityEvents: loaded.data.equipmentDurabilityEvents.map(
+				(durabilityEvent) => ({
+					...durabilityEvent,
 				}),
 			),
 		});

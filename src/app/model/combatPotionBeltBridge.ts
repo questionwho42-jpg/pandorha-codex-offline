@@ -111,6 +111,7 @@ function mapInventoryFailure(
 		case "INVENTORY_CHARACTER_NOT_FOUND":
 		case "INVENTORY_REPOSITORY_FAILED":
 		case "INVENTORY_LOADOUT_REPOSITORY_FAILED":
+		case "INVENTORY_DURABILITY_REPOSITORY_FAILED":
 			return {
 				code: "COMBAT_POTION_BELT_INVENTORY_UNAVAILABLE",
 				message: "Combat could not read the character potion belt.",
@@ -118,6 +119,7 @@ function mapInventoryFailure(
 			};
 		case "INVENTORY_LEDGER_INVALID":
 		case "INVENTORY_LOADOUT_LEDGER_INVALID":
+		case "INVENTORY_DURABILITY_LEDGER_INVALID":
 			return {
 				code: "COMBAT_POTION_BELT_LEDGER_INVALID",
 				message: "Combat received an invalid potion belt inventory ledger.",
@@ -130,6 +132,7 @@ function mapInventoryFailure(
 		case "INVENTORY_LOADOUT_ENTRY_NOT_FOUND":
 		case "INVENTORY_LOADOUT_SLOT_INVALID":
 		case "INVENTORY_LOADOUT_SLOT_CONFLICT":
+		case "INVENTORY_DURABILITY_BROKEN":
 			return {
 				code: "COMBAT_POTION_BELT_ENTRY_INVALID",
 				message: "Combat received a potion belt entry it cannot use.",

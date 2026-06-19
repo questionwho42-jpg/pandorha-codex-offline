@@ -2,12 +2,15 @@ import { describe, expect, it } from "vitest";
 import { InMemoryCharacterRepository } from "$lib/entities/character/testing/InMemoryCharacterRepository";
 import {
 	EquipmentCatalogService,
+	type EquipmentDurabilityEventRecord,
+	EquipmentDurabilityLedgerReplayService,
 	type EquipmentLoadoutEventRecord,
 	EquipmentLoadoutLedgerReplayService,
 	EquipmentLoadoutService,
 	type EquipmentRecord,
 	type EquipmentRepositoryFailure,
 	InMemoryEquipmentCatalogRepository,
+	InMemoryEquipmentDurabilityEventRepository,
 	InMemoryEquipmentLoadoutEventRepository,
 	OFFICIAL_CONSUMABLES,
 	OFFICIAL_EQUIPMENT,
@@ -25,6 +28,7 @@ import {
 import { fail, type Result } from "$lib/shared/lib/result";
 import { InventoryManagementService } from "../domain/InventoryManagementService";
 import type {
+	InventoryManagementDurabilityMutationResult,
 	InventoryManagementFailure,
 	InventoryManagementLoadoutMutationResult,
 	InventoryManagementMutationResult,
@@ -220,6 +224,231 @@ describe("InventoryManagementService", () => {
 			catalogItemId: "longsword",
 			label: "Espada Longa",
 		});
+	});
+
+	it("marks equipment condition and exposes the derived durability snapshot", async () => {
+		const harness = await createHarness();
+		const added = expectMutationSuccess(
+			await harness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "dagger",
+			}),
+		);
+		const entryId = added.inventory.entries[0]?.entryId ?? "";
+		expect(added.inventory.entries[0]?.durabilityCondition).toBe("intact");
+
+		const damaged = expectDurabilityMutationSuccess(
+			await harness.service.setEquipmentCondition({
+				characterId: "session-character-1",
+				entryId,
+				condition: "damaged",
+			}),
+		);
+		expect(damaged.appendedDurabilityEvents).toEqual([
+			expect.objectContaining({
+				type: "equipment-durability-condition-set",
+				inventoryEntryId: entryId,
+				condition: "damaged",
+				sequence: 1,
+			}),
+		]);
+		expect(damaged.inventory.entries[0]?.durabilityCondition).toBe("damaged");
+
+		const broken = expectDurabilityMutationSuccess(
+			await harness.service.setEquipmentCondition({
+				characterId: "session-character-1",
+				entryId,
+				condition: "broken",
+			}),
+		);
+		expect(broken.appendedDurabilityEvents[0]).toMatchObject({
+			condition: "broken",
+			sequence: 2,
+		});
+		expect(broken.inventory.entries[0]?.durabilityCondition).toBe("broken");
+
+		const repaired = expectDurabilityMutationSuccess(
+			await harness.service.setEquipmentCondition({
+				characterId: "session-character-1",
+				entryId,
+				condition: "intact",
+			}),
+		);
+		expect(repaired.appendedDurabilityEvents[0]).toMatchObject({
+			condition: "intact",
+			sequence: 3,
+		});
+		expect(repaired.inventory.entries[0]?.durabilityCondition).toBe("intact");
+	});
+
+	it("rejects durability changes for missing entries and consumables", async () => {
+		const harness = await createHarness();
+		expect(
+			expectFailure(
+				await harness.service.setEquipmentCondition({
+					characterId: "session-character-1",
+					entryId: "entry-1",
+					condition: "rusted",
+				}),
+			).code,
+		).toBe("INVALID_INVENTORY_MANAGEMENT_INPUT");
+
+		expect(
+			expectFailure(
+				await harness.service.setEquipmentCondition({
+					characterId: "session-character-1",
+					entryId: "missing-entry",
+					condition: "broken",
+				}),
+			).code,
+		).toBe("INVENTORY_ENTRY_NOT_FOUND");
+
+		const consumable = expectMutationSuccess(
+			await harness.service.addConsumable({
+				characterId: "session-character-1",
+				catalogItemId: "ration-stack",
+				quantity: 1,
+			}),
+		);
+		expect(
+			expectFailure(
+				await harness.service.setEquipmentCondition({
+					characterId: "session-character-1",
+					entryId: consumable.inventory.entries[0]?.entryId,
+					condition: "damaged",
+				}),
+			).code,
+		).toBe("INVENTORY_ENTRY_KIND_INVALID");
+	});
+
+	it("blocks broken equipment from being equipped", async () => {
+		const harness = await createHarness();
+		const added = expectMutationSuccess(
+			await harness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "dagger",
+			}),
+		);
+		const entryId = added.inventory.entries[0]?.entryId ?? "";
+		expectDurabilityMutationSuccess(
+			await harness.service.setEquipmentCondition({
+				characterId: "session-character-1",
+				entryId,
+				condition: "broken",
+			}),
+		);
+
+		expect(
+			expectFailure(
+				await harness.service.equipEntry({
+					characterId: "session-character-1",
+					entryId,
+					slot: "mainHand",
+				}),
+			).code,
+		).toBe("INVENTORY_DURABILITY_BROKEN");
+	});
+
+	it("maps durability repository, replay, and post-append snapshot failures", async () => {
+		const harness = await createHarness();
+		harness.equipmentDurabilityRepository.failNextRead({
+			code: "EQUIPMENT_DURABILITY_EVENT_REPOSITORY_READ_FAILED",
+			message: "durability read failed",
+		});
+		expect(
+			expectFailure(
+				await harness.service.getInventory({
+					characterId: "session-character-1",
+				}),
+			).code,
+		).toBe("INVENTORY_DURABILITY_REPOSITORY_FAILED");
+
+		const added = expectMutationSuccess(
+			await harness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "dagger",
+			}),
+		);
+		harness.equipmentDurabilityRepository.failNextWrite({
+			code: "EQUIPMENT_DURABILITY_EVENT_REPOSITORY_WRITE_FAILED",
+			message: "durability write failed",
+		});
+		expect(
+			expectFailure(
+				await harness.service.setEquipmentCondition({
+					characterId: "session-character-1",
+					entryId: added.inventory.entries[0]?.entryId,
+					condition: "damaged",
+				}),
+			).code,
+		).toBe("INVENTORY_DURABILITY_REPOSITORY_FAILED");
+
+		const corruptHarness = await createHarness(
+			[buildEvent()],
+			new InventoryCapacityService(),
+			[],
+			new InMemoryEquipmentCatalogRepository({
+				equipment: OFFICIAL_EQUIPMENT,
+				consumables: OFFICIAL_CONSUMABLES,
+			}),
+			[buildDurabilityEvent({ id: "durability-event-2", sequence: 2 })],
+		);
+		expect(
+			expectFailure(
+				await corruptHarness.service.getInventory({
+					characterId: "session-character-1",
+				}),
+			).code,
+		).toBe("INVENTORY_DURABILITY_LEDGER_INVALID");
+
+		const failingPostAppendDurabilityRepository =
+			new FailsOnDurabilityReadNumberRepository(3);
+		const postAppendFailureHarness = await createHarness(
+			[],
+			new InventoryCapacityService(),
+			[],
+			new InMemoryEquipmentCatalogRepository({
+				equipment: OFFICIAL_EQUIPMENT,
+				consumables: OFFICIAL_CONSUMABLES,
+			}),
+			[],
+			failingPostAppendDurabilityRepository,
+		);
+		const postAppendEntry = expectMutationSuccess(
+			await postAppendFailureHarness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "dagger",
+			}),
+		).inventory.entries[0];
+		expect(
+			expectFailure(
+				await postAppendFailureHarness.service.setEquipmentCondition({
+					characterId: "session-character-1",
+					entryId: postAppendEntry?.entryId,
+					condition: "damaged",
+				}),
+			).code,
+		).toBe("INVENTORY_DURABILITY_REPOSITORY_FAILED");
+
+		const failingPostAppendCapacityHarness = await createHarness(
+			[],
+			new FailsOnCapacityCalculationNumberService(2),
+		);
+		const postAppendCapacityEntry = expectMutationSuccess(
+			await failingPostAppendCapacityHarness.service.addEquipment({
+				characterId: "session-character-1",
+				catalogItemId: "dagger",
+			}),
+		).inventory.entries[0];
+		expect(
+			expectFailure(
+				await failingPostAppendCapacityHarness.service.setEquipmentCondition({
+					characterId: "session-character-1",
+					entryId: postAppendCapacityEntry?.entryId,
+					condition: "damaged",
+				}),
+			).code,
+		).toBe("INVENTORY_CAPACITY_FAILED");
 	});
 
 	it("replaces equipment in the same slot without duplicating inventory ownership", async () => {
@@ -886,6 +1115,10 @@ async function createHarness(
 		equipment: OFFICIAL_EQUIPMENT,
 		consumables: OFFICIAL_CONSUMABLES,
 	}),
+	durabilityEvents: readonly EquipmentDurabilityEventRecord[] = [],
+	equipmentDurabilityRepository = new InMemoryEquipmentDurabilityEventRepository(
+		durabilityEvents,
+	),
 ) {
 	const characterRepository = new InMemoryCharacterRepository();
 	await characterRepository.save({
@@ -911,24 +1144,29 @@ async function createHarness(
 	const eventIds = createIdProvider("event");
 	const entryIds = createIdProvider("entry");
 	const loadoutEventIds = createIdProvider("loadout-event");
+	const durabilityEventIds = createIdProvider("durability-event");
 
 	return {
 		inventoryRepository,
 		equipmentLoadoutRepository,
+		equipmentDurabilityRepository,
 		service: new InventoryManagementService({
 			capacityService,
 			characterRepository,
 			clock: { now: () => CREATED_AT },
+			durabilityEventIdProvider: durabilityEventIds,
 			entryIdProvider: entryIds,
 			equipmentCatalogService: new EquipmentCatalogService(
 				equipmentCatalogRepository,
 			),
+			equipmentDurabilityRepository,
 			equipmentLoadoutRepository,
 			equipmentLoadoutService: new EquipmentLoadoutService(
 				equipmentCatalogRepository,
 			),
 			eventIdProvider: eventIds,
 			inventoryRepository,
+			durabilityReplayService: new EquipmentDurabilityLedgerReplayService(),
 			loadoutEventIdProvider: loadoutEventIds,
 			loadoutReplayService: new EquipmentLoadoutLedgerReplayService(),
 			replayService: new InventoryLedgerReplayService(),
@@ -949,6 +1187,52 @@ class FailsAfterFirstEquipmentLookupRepository extends InMemoryEquipmentCatalogR
 			});
 		}
 		return result;
+	}
+}
+
+class FailsOnDurabilityReadNumberRepository extends InMemoryEquipmentDurabilityEventRepository {
+	private readCount = 0;
+
+	public constructor(private readonly failureReadNumber: number) {
+		super();
+	}
+
+	public override async listByCharacterId(
+		characterId: Parameters<
+			InMemoryEquipmentDurabilityEventRepository["listByCharacterId"]
+		>[0],
+	): ReturnType<
+		InMemoryEquipmentDurabilityEventRepository["listByCharacterId"]
+	> {
+		this.readCount += 1;
+		if (this.readCount === this.failureReadNumber) {
+			return fail({
+				code: "EQUIPMENT_DURABILITY_EVENT_REPOSITORY_READ_FAILED",
+				message: "durability post-append read failed",
+			});
+		}
+		return super.listByCharacterId(characterId);
+	}
+}
+
+class FailsOnCapacityCalculationNumberService extends InventoryCapacityService {
+	private calculationCount = 0;
+
+	public constructor(private readonly failureCalculationNumber: number) {
+		super();
+	}
+
+	public override calculateCapacity(
+		input: Parameters<InventoryCapacityService["calculateCapacity"]>[0],
+	): ReturnType<InventoryCapacityService["calculateCapacity"]> {
+		this.calculationCount += 1;
+		if (this.calculationCount === this.failureCalculationNumber) {
+			return fail({
+				code: "INVALID_INVENTORY_CAPACITY_INPUT",
+				message: "capacity failed after durability append",
+			});
+		}
+		return super.calculateCapacity(input);
 	}
 }
 
@@ -995,6 +1279,21 @@ function buildLoadoutEvent(
 	};
 }
 
+function buildDurabilityEvent(
+	patch: Partial<EquipmentDurabilityEventRecord> = {},
+): EquipmentDurabilityEventRecord {
+	return {
+		id: "durability-event-1",
+		characterId: "session-character-1",
+		sequence: 1,
+		inventoryEntryId: "entry-1",
+		type: "equipment-durability-condition-set",
+		condition: "damaged",
+		createdAt: CREATED_AT,
+		...patch,
+	};
+}
+
 function expectMutationSuccess(
 	result: Result<InventoryManagementMutationResult, InventoryManagementFailure>,
 ): InventoryManagementMutationResult {
@@ -1015,6 +1314,16 @@ function expectLoadoutMutationSuccess(
 		InventoryManagementFailure
 	>,
 ): InventoryManagementLoadoutMutationResult {
+	expect(result.success).toBe(true);
+	return (result as Extract<typeof result, { readonly success: true }>).data;
+}
+
+function expectDurabilityMutationSuccess(
+	result: Result<
+		InventoryManagementDurabilityMutationResult,
+		InventoryManagementFailure
+	>,
+): InventoryManagementDurabilityMutationResult {
 	expect(result.success).toBe(true);
 	return (result as Extract<typeof result, { readonly success: true }>).data;
 }

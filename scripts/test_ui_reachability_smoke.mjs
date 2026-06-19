@@ -305,13 +305,17 @@ function renderApp() {
 	return `
 inventoryEvents: inventoryEventRecords;
 equipmentLoadoutEvents: equipmentLoadoutEventRecords;
+equipmentDurabilityEvents: equipmentDurabilityEventRecords;
 inventoryEventRecords = [...restoredInventory.data];
 equipmentLoadoutEventRecords = [...restoredLoadout.data];
+equipmentDurabilityEventRecords = [...restoredDurability.data];
 equipmentLoadoutEvents={equipmentLoadoutEventRecords};
+equipmentDurabilityEvents={equipmentDurabilityEventRecords};
 const characterAncestryTraits = [];
 ancestryTraits={characterAncestryTraits};
 traitSelections={characterTraitSelectionRecords};
 onLoadoutEventsChange;
+onDurabilityEventsChange;
 createCombatPersistentLoadoutResolver;
 createCombatPotionBeltConsumer;
 createCombatPotionBeltResolver;
@@ -438,6 +442,9 @@ function renderInventoryPanel() {
 <button data-testid="inventory-increment-consumable">+1</button>
 <button data-testid="inventory-consume-consumable">Consumir 1</button>
 <button data-testid="inventory-remove-entry">Remover</button>
+<button data-testid="inventory-mark-damaged">Marcar danificado</button>
+<button data-testid="inventory-mark-broken">Marcar quebrado</button>
+<button data-testid="inventory-repair-equipment">Reparar</button>
 `;
 }
 
@@ -446,6 +453,8 @@ function renderInventoryManagementView() {
 if (isOfficialLoadoutSupportedEquipmentId(entry.catalogItemId)) {
 	return "equip-action";
 }
+function mapDurabilityLabel() {}
+const message = "Repare antes de equipar";
 `;
 }
 
@@ -488,7 +497,7 @@ function renderQaGuide() {
 
 Execute npm.cmd run qa:ui-reachability.
 Mudanças visuais exigem validação renderizada pelo Browser do Codex.
- O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura, bloqueia remoção de item equipado e persiste inventário + loadout no save v7.
+ O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura, bloqueia remoção de item equipado e persiste inventário + loadout + durabilidade no save v9.
 O cinto de poções consome 1 unidade pelo inventário persistido sem alterar HP real.
 Magia e exploração ainda usam dados de treino; combate ainda usa alvos de treino e HP de treino local.
 `;

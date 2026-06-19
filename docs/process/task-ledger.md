@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260618-214701-equipment-durability-v9-ui -->
+### Equipment durability v9 UI
+- id: 20260618-214701-equipment-durability-v9-ui
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-18T21:47:01-03:00
+- finished_at: 2026-06-19T07:01:50-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: GPT-5 Codex
+- last_modified_at: 2026-06-19T07:01:50-03:00
+- branch: codex/feat/equipment-durability-v9-ui
+- commit_at_start: fc56dd5 docs(process): record durability gate merge
+- summary: Implement persisted equipment durability events in save v9, manual inventory condition controls, and broken-item loadout/combat blocking without automatic wear, damaged penalties, camp repair, crafting, HP real or docs/system changes.
+- last_change: Durabilidade v9 entregue com ledger persistido, save/load v9, controles manuais no Inventario, bloqueio de item quebrado no loadout de Combate e documentacao/QA atualizadas. Browser do Codex validou o fluxo renderizado com save/load real e console limpo.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-18T21:47:01-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-19T07:01:43-03:00
+- Done: Durabilidade v9 implementada no core, save/load, Inventario e Combate; Browser do Codex validou nove abas, personagem com kit inicial, marcar danificado/quebrado/reparar, bloqueio de item quebrado no Combate, save, reload real e load restaurando condicao; gates finais lint, test, coverage 100, build, quality:automation, quality:gate, qa vertical/ui/social/dialogue, docs:audit, skills e process validate aprovados.
+- Next: Completar tarefa, revisar diff, criar commit atomico, mergear em main, push e rodar qa:next-phase-readiness.
+- Risks: Coverage/build/test/quality:gate exigiram execucao fora do sandbox por bloqueio conhecido do esbuild; docs:audit mantem avisos historicos de referencias ausentes sem erro estrutural.
+- Improvements: Combat agora mostra copy explicita para item quebrado: Repare ou desequipe o item quebrado no Inventario antes de usar no combate.
+- Model/config: GPT-5 Codex
+
+#### Checkpoint 2026-06-19T07:01:50-03:00
+- Done: Durabilidade v9 entregue com ledger persistido, save/load v9, controles manuais no Inventario, bloqueio de item quebrado no loadout de Combate e documentacao/QA atualizadas. Browser do Codex validou o fluxo renderizado com save/load real e console limpo.
+- Next: Criar commit atomico, mergear em main, push e validar qa:next-phase-readiness em main limpa.
+- Risks: Build, coverage e quality:gate precisam rodar fora do sandbox neste ambiente devido ao bloqueio de esbuild Cannot read directory ../...
+- Improvements: Copy do Combate explicita o motivo do bloqueio quando o loadout contem item quebrado.
+- Model/config: GPT-5 Codex
+<!-- /pandorha-task:20260618-214701-equipment-durability-v9-ui -->
 <!-- pandorha-task:20260618-214152-equipment-durability-save-v9-gate -->
 ### Equipment durability save v9 gate
 - id: 20260618-214152-equipment-durability-save-v9-gate

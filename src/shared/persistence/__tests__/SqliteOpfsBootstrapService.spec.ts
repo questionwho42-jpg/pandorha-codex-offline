@@ -55,6 +55,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0007_aromatic_moonstone",
 				"0008_equipment_loadout_events",
 				"0009_character_trait_selections",
+				"0010_equipment_durability_events",
 			],
 			tableNames: [
 				"_pandorha_migrations",
@@ -63,6 +64,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"character_trait_selections",
 				"characters",
 				"clocks",
+				"equipment_durability_events",
 				"equipment_loadout_events",
 				"faction_standings",
 				"factions",
@@ -121,6 +123,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0007_aromatic_moonstone",
 			"0008_equipment_loadout_events",
 			"0009_character_trait_selections",
+			"0010_equipment_durability_events",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -237,6 +240,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0007_aromatic_moonstone",
 			"0008_equipment_loadout_events",
 			"0009_character_trait_selections",
+			"0010_equipment_durability_events",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -267,7 +271,7 @@ describe("database worker request handler", () => {
 				payload: {
 					saveId: "primary",
 					snapshot: {
-						version: 8,
+						version: 9,
 						savedAt: REQUESTED_AT,
 						characters: [],
 						characterTraitSelections: [],
@@ -281,6 +285,7 @@ describe("database worker request handler", () => {
 						npcRelationships: [],
 						inventoryEvents: [],
 						equipmentLoadoutEvents: [],
+						equipmentDurabilityEvents: [],
 					},
 				},
 			},
@@ -310,7 +315,7 @@ describe("database worker request handler", () => {
 			messageId: MESSAGE_ID,
 			success: true,
 			data: {
-				version: 8,
+				version: 9,
 				savedAt: REQUESTED_AT,
 				characters: [],
 				characterTraitSelections: [],
@@ -324,6 +329,7 @@ describe("database worker request handler", () => {
 				npcRelationships: [],
 				inventoryEvents: [],
 				equipmentLoadoutEvents: [],
+				equipmentDurabilityEvents: [],
 			},
 		});
 	});
@@ -550,7 +556,7 @@ class FakeSnapshotWorkerPort {
 	public async loadSnapshot(): Promise<
 		Result<
 			{
-				readonly version: 8;
+				readonly version: 9;
 				readonly savedAt: string;
 				readonly characters: readonly [];
 				readonly characterTraitSelections: readonly [];
@@ -564,12 +570,13 @@ class FakeSnapshotWorkerPort {
 				readonly npcRelationships: readonly [];
 				readonly inventoryEvents: readonly [];
 				readonly equipmentLoadoutEvents: readonly [];
+				readonly equipmentDurabilityEvents: readonly [];
 			},
 			{ readonly code: string; readonly message: string }
 		>
 	> {
 		return ok({
-			version: 8,
+			version: 9,
 			savedAt: REQUESTED_AT,
 			characters: [],
 			characterTraitSelections: [],
@@ -583,6 +590,7 @@ class FakeSnapshotWorkerPort {
 			npcRelationships: [],
 			inventoryEvents: [],
 			equipmentLoadoutEvents: [],
+			equipmentDurabilityEvents: [],
 		});
 	}
 }

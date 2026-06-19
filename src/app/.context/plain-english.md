@@ -78,3 +78,8 @@ consegue conferir a ficha depois de criar, salvar, recarregar e carregar o save.
 Quando um personagem novo e criado, o app tambem pede ao Inventario para carregar
 o kit inicial da classe. Isso nao equipa nada automaticamente: os itens aparecem
 no Inventario e o usuario decide o que equipar quando houver perfil aprovado.
+
+Agora o app tambem salva a durabilidade manual dos equipamentos. Ao carregar o
+save, ele devolve para o Inventario se cada equipamento estava integro,
+danificado ou quebrado. O Combate recebe essa leitura pelo app e bloqueia o uso
+de item quebrado sem misturar o codigo de Combate com o codigo de Inventario.

@@ -189,7 +189,7 @@ function buildSaveRequest() {
 		payload: {
 			saveId: "primary" as const,
 			snapshot: {
-				version: 8 as const,
+				version: 9 as const,
 				savedAt: "2026-05-15T20:14:00.000Z",
 				characters: [],
 				characterTraitSelections: [],
@@ -203,6 +203,7 @@ function buildSaveRequest() {
 				npcRelationships: [],
 				inventoryEvents: [],
 				equipmentLoadoutEvents: [],
+				equipmentDurabilityEvents: [],
 			},
 		},
 	};

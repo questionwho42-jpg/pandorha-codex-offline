@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { SessionCharacterRepository } from "$lib/entities/character";
 import { CharacterBuilder } from "$lib/entities/character/testing/CharacterBuilder";
-import type { EquipmentLoadoutEventRecord } from "$lib/entities/equipment";
+import type {
+	EquipmentDurabilityEventRecord,
+	EquipmentLoadoutEventRecord,
+} from "$lib/entities/equipment";
 import type { InventoryEventRecord } from "$lib/entities/inventory";
 import { createInventorySession } from "./inventorySession";
 
@@ -69,6 +72,42 @@ describe("createInventorySession", () => {
 				id: "equipment-loadout-event-5",
 				sequence: 2,
 				inventoryEntryId: "inventory-entry-1",
+			}),
+		]);
+	});
+
+	it("coordinates persistent durability events and advances restored durability ids", async () => {
+		const session = createInventorySession(await createCharacters());
+		const restoredEvent = buildEvent();
+		expect(session.restoreEvents([restoredEvent]).success).toBe(true);
+		expect(
+			session.restoreDurabilityEvents([
+				buildDurabilityEvent({ id: "equipment-durability-event-4" }),
+			]),
+		).toMatchObject({ success: true });
+
+		const marked = await session.service.setEquipmentCondition({
+			characterId: "session-character-1",
+			entryId: restoredEvent.entryId,
+			condition: "broken",
+		});
+
+		expect(marked).toMatchObject({ success: true });
+		if (!marked.success) {
+			expect.fail(`Expected durability update success: ${marked.error.code}`);
+		}
+		expect(marked.data.appendedDurabilityEvents[0]).toMatchObject({
+			id: "equipment-durability-event-5",
+			sequence: 2,
+			condition: "broken",
+		});
+		expect(session.getDurabilityEvents()).toEqual([
+			buildDurabilityEvent({ id: "equipment-durability-event-4" }),
+			expect.objectContaining({
+				id: "equipment-durability-event-5",
+				sequence: 2,
+				inventoryEntryId: "inventory-entry-1",
+				condition: "broken",
 			}),
 		]);
 	});
@@ -158,6 +197,21 @@ function buildLoadoutEvent(
 		type: "equipment-loadout-slot-equipped",
 		slot: "mainHand",
 		inventoryEntryId: "inventory-entry-1",
+		createdAt: CREATED_AT,
+		...patch,
+	};
+}
+
+function buildDurabilityEvent(
+	patch: Partial<EquipmentDurabilityEventRecord> = {},
+): EquipmentDurabilityEventRecord {
+	return {
+		id: "equipment-durability-event-1",
+		characterId: "session-character-1",
+		sequence: 1,
+		type: "equipment-durability-condition-set",
+		inventoryEntryId: "inventory-entry-1",
+		condition: "damaged",
 		createdAt: CREATED_AT,
 		...patch,
 	};

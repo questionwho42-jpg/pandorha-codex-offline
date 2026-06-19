@@ -7,7 +7,10 @@ import type {
 	CharacterTraitSelectionRecord,
 } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
-import type { EquipmentLoadoutEventRecord } from "$lib/entities/equipment";
+import type {
+	EquipmentDurabilityEventRecord,
+	EquipmentLoadoutEventRecord,
+} from "$lib/entities/equipment";
 import type { FactionStandingRecord } from "$lib/entities/faction";
 import type { InventoryEventRecord } from "$lib/entities/inventory";
 import type { NpcRelationshipRecord } from "$lib/entities/npc-relationship";
@@ -23,7 +26,7 @@ export interface SaveLoadMessageIdProvider {
 
 export interface SaveSessionResult {
 	readonly saveId: "primary";
-	readonly version: 8;
+	readonly version: 9;
 	readonly savedAt: string;
 	readonly characterCount: number;
 	readonly characterTraitSelectionCount: number;
@@ -37,10 +40,11 @@ export interface SaveSessionResult {
 	readonly npcRelationshipCount: number;
 	readonly inventoryEventCount: number;
 	readonly equipmentLoadoutEventCount: number;
+	readonly equipmentDurabilityEventCount: number;
 }
 
 export interface LoadedSessionState {
-	readonly version: 8;
+	readonly version: 9;
 	readonly savedAt: string;
 	readonly characters: readonly CharacterRecord[];
 	readonly characterTraitSelections: readonly CharacterTraitSelectionRecord[];
@@ -54,6 +58,7 @@ export interface LoadedSessionState {
 	readonly npcRelationships: readonly NpcRelationshipRecord[];
 	readonly inventoryEvents: readonly InventoryEventRecord[];
 	readonly equipmentLoadoutEvents: readonly EquipmentLoadoutEventRecord[];
+	readonly equipmentDurabilityEvents: readonly EquipmentDurabilityEventRecord[];
 }
 
 export type SaveLoadFailureCode =

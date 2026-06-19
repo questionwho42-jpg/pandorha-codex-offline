@@ -16,3 +16,7 @@ details still come from the official catalog.
 Version 8 saves the three ancestry traits picked during character creation.
 Older saves still open, but they start with an empty trait-selection list because
 that information did not exist in earlier save versions.
+
+Version 9 saves the manual durability history for equipment. Older saves still
+open, but every equipment item starts as intact because earlier saves did not
+store damaged or broken conditions.

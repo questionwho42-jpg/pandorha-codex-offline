@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { SessionCharacterRepository } from "$lib/entities/character";
 import { CharacterBuilder } from "$lib/entities/character/testing/CharacterBuilder";
 import type {
+	EquipmentDurabilityEventRecord,
 	EquipmentLoadoutEventRecord,
 	EquipmentLoadoutEventSlot,
 } from "$lib/entities/equipment";
@@ -140,6 +141,37 @@ describe("createCombatPersistentLoadoutResolver", () => {
 			},
 		});
 	});
+
+	it("blocks persisted combat loadout when equipped equipment is broken", async () => {
+		const { inventorySession, resolver } = await createResolverFixture();
+		await addAndEquip(inventorySession, {
+			catalogItemId: "longsword",
+			slot: "mainHand",
+		});
+		expect(
+			inventorySession.restoreDurabilityEvents([
+				buildDurabilityEvent({
+					inventoryEntryId: "inventory-entry-1",
+					condition: "broken",
+				}),
+			]).success,
+		).toBe(true);
+
+		const result = await resolver({ characterId: "session-character-1" });
+
+		expect(result).toEqual({
+			success: false,
+			error: {
+				code: "COMBAT_LOADOUT_EQUIPMENT_INVALID",
+				message: "Combat cannot use broken equipment from inventory.",
+				details: {
+					entryId: "inventory-entry-1",
+					slot: "mainHand",
+					durabilityCondition: "broken",
+				},
+			},
+		});
+	});
 });
 
 async function createResolverFixture(): Promise<{
@@ -221,6 +253,21 @@ function buildLoadoutEvent(
 		type: "equipment-loadout-slot-equipped",
 		slot: "mainHand",
 		inventoryEntryId: "inventory-entry-1",
+		createdAt: CREATED_AT,
+		...patch,
+	};
+}
+
+function buildDurabilityEvent(
+	patch: Partial<EquipmentDurabilityEventRecord> = {},
+): EquipmentDurabilityEventRecord {
+	return {
+		id: "equipment-durability-event-1",
+		characterId: "session-character-1",
+		sequence: 1,
+		type: "equipment-durability-condition-set",
+		inventoryEntryId: "inventory-entry-1",
+		condition: "broken",
 		createdAt: CREATED_AT,
 		...patch,
 	};

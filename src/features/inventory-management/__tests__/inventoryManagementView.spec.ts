@@ -18,7 +18,12 @@ describe("createInventoryManagementView", () => {
 			expect.objectContaining({
 				entryId: "entry-equipment",
 				categoryLabel: "Equipamento",
+				canMarkBroken: true,
+				canMarkDamaged: true,
+				canRepair: false,
+				durabilityLabel: "\u00cdntegro",
 				equipActionLabel: "Equipar arma",
+				equipBlockedLabel: null,
 				equipSlot: "mainHand",
 				equippedSlot: "mainHand",
 				isEquipped: true,
@@ -27,7 +32,12 @@ describe("createInventoryManagementView", () => {
 			expect.objectContaining({
 				entryId: "entry-consumable",
 				categoryLabel: "Consumivel",
+				canMarkBroken: false,
+				canMarkDamaged: false,
+				canRepair: false,
+				durabilityLabel: null,
 				equipActionLabel: null,
+				equipBlockedLabel: null,
 				equipSlot: null,
 				equippedSlot: null,
 				isEquipped: false,
@@ -94,6 +104,7 @@ describe("createInventoryManagementView", () => {
 					slot: "offHand",
 					entryId: "entry-shield",
 					catalogItemId: "round-shield",
+					durabilityCondition: "intact",
 					label: "Escudo Redondo",
 					slotCost: 1,
 				},
@@ -101,6 +112,7 @@ describe("createInventoryManagementView", () => {
 					slot: "armor",
 					entryId: "entry-armor",
 					catalogItemId: "leather-armor",
+					durabilityCondition: "intact",
 					label: "Armadura de Couro",
 					slotCost: 1,
 				},
@@ -125,6 +137,62 @@ describe("createInventoryManagementView", () => {
 		]);
 		expect(view.loadoutSlots[1]?.entry?.entryId).toBe("entry-shield");
 		expect(view.loadoutSlots[2]?.entry?.entryId).toBe("entry-armor");
+	});
+
+	it("maps equipment durability to visible labels and repair actions", () => {
+		const view = createInventoryManagementView({
+			...buildSnapshot(),
+			entries: [
+				{
+					characterId: "session-character-1",
+					entryId: "entry-damaged",
+					catalogKind: "equipment",
+					catalogItemId: "longsword",
+					equipmentKind: "weapon",
+					quantity: 1,
+					lastSequence: 1,
+					label: "Espada Longa",
+					slotCost: 2,
+					durabilityCondition: "damaged",
+				},
+				{
+					characterId: "session-character-1",
+					entryId: "entry-broken",
+					catalogKind: "equipment",
+					catalogItemId: "dagger",
+					equipmentKind: "weapon",
+					quantity: 1,
+					lastSequence: 2,
+					label: "Adaga",
+					slotCost: 1,
+					durabilityCondition: "broken",
+				},
+			],
+			loadout: {
+				mainHand: null,
+				offHand: null,
+				armor: null,
+			},
+		});
+
+		expect(view.entries).toEqual([
+			expect.objectContaining({
+				entryId: "entry-damaged",
+				canMarkBroken: true,
+				canMarkDamaged: false,
+				canRepair: true,
+				durabilityLabel: "Danificado",
+				equipBlockedLabel: null,
+			}),
+			expect.objectContaining({
+				entryId: "entry-broken",
+				canMarkBroken: false,
+				canMarkDamaged: true,
+				canRepair: true,
+				durabilityLabel: "Quebrado",
+				equipBlockedLabel: "Repare antes de equipar",
+			}),
+		]);
 	});
 
 	it("hides equip actions for starting kit equipment without loadout profiles", () => {
@@ -310,6 +378,7 @@ function buildSnapshot(): InventoryManagementSnapshot {
 				slot: "mainHand",
 				entryId: "entry-equipment",
 				catalogItemId: "longsword",
+				durabilityCondition: "intact",
 				label: "Espada Longa",
 				slotCost: 2,
 			},
@@ -327,6 +396,7 @@ function buildSnapshot(): InventoryManagementSnapshot {
 				lastSequence: 1,
 				label: "Espada Longa",
 				slotCost: 2,
+				durabilityCondition: "intact",
 			},
 			{
 				characterId: "session-character-1",

@@ -370,8 +370,10 @@ SpellCastPanel;
 InventoryManagementPanel;
 inventoryEvents: inventoryEventRecords;
 equipmentLoadoutEvents: equipmentLoadoutEventRecords;
+equipmentDurabilityEvents: equipmentDurabilityEventRecords;
 inventoryEventRecords = [...restoredInventory.data];
 equipmentLoadoutEventRecords = [...restoredLoadout.data];
+equipmentDurabilityEventRecords = [...restoredDurability.data];
 grantStartingEquipment;
 const startingEquipment = await grantStartingEquipment({
 	characterId: result.data.id,
@@ -460,6 +462,8 @@ function toEquipmentLoadoutInput(inventory) {
 }
 const inventoryFailure = "COMBAT_LOADOUT_INVENTORY_UNAVAILABLE";
 const equipmentFailure = "COMBAT_LOADOUT_EQUIPMENT_INVALID";
+function findBrokenLoadoutEntry() {}
+const brokenMessage = "Combat cannot use broken equipment from inventory.";
 `;
 }
 
@@ -511,6 +515,7 @@ applyCombatTrainingDefenderDamage();
   Aria usa perfil fixo de treino.
   Arma ativa: Espada Longa.
   Equipe uma arma no Invent\\u00e1rio antes de atacar.
+  Repare ou desequipe o item quebrado no Invent\\u00e1rio antes de usar no combate.
 </p>
 <p data-testid="combat-equipped-defense-profile">Defesa equipada</p>
 <p data-testid="combat-training-enemy-defense-summary">CA contra treino</p>
@@ -539,6 +544,8 @@ function mapCategoryLabel(entry) {
   }
   return "Consumivel";
 }
+function mapDurabilityLabel() {}
+const message = "Repare antes de equipar";
 `;
 }
 
@@ -670,7 +677,7 @@ function handleRuntimeRequest() {}
 
 function renderSaveSchemas() {
 	return `
-export const CURRENT_SAVE_VERSION = 8;
+export const CURRENT_SAVE_VERSION = 9;
 const save = {
   clocks: [],
   socialEncounters: [],
@@ -678,6 +685,7 @@ const save = {
   npcRelationships: [],
   inventoryEvents: [],
   equipmentLoadoutEvents: [],
+  equipmentDurabilityEvents: [],
   characterTraitSelections: [],
 };
 `;
@@ -697,6 +705,9 @@ Equipar arma
 Equipar escudo
 Vestir armadura
 Desequipe antes de remover
+Marcar danificado
+Marcar quebrado
+Reparar
 Cinto de Poções
 save local
 `;
@@ -717,6 +728,8 @@ HP de treino aparece como medidor local.
 HP real permanece intacto.
 Cinto de poções: 5/5.
 Poção do cinto usada em treino. HP real não foi alterado.
+item quebrado
+Inventário
 O uso de treino não altera HP real, HP de treino ou estados oficiais.
 Teste recebido encerrado aparece quando o HP de treino chega a 0.
 Reinicie o encontro para testar outro dano recebido.

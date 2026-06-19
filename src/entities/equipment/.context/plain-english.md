@@ -45,3 +45,12 @@ Those records let inventory say "this character carries this item" and count slo
 - Save selected equipment in a separate ledger: current approach, because it avoids copying catalog facts into the save.
 - Apply defense directly inside combat now: tempting for a visible result, but too early because no official enemy-attack flow exists yet.
 - Let every weapon or armor be equipped as soon as it exists in the catalog: tempting, but rejected because some starting-kit items still lack approved combat profiles.
+## 2026-06-18 - Durabilidade Persistida
+
+O modulo de equipamento agora tambem sabe ler um historico de durabilidade:
+integro, danificado ou quebrado. Se nao existir historico, o item e tratado
+como integro.
+
+Isso ainda nao gasta durabilidade sozinho. O usuario marca a condicao pela tela
+de Inventario, e o sistema guarda esse historico para o save. Itens quebrados
+nao podem ser usados como equipamento ate serem reparados manualmente.

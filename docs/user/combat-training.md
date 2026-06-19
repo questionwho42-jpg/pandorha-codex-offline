@@ -10,6 +10,7 @@ Este guia mostra como testar a vertical slice de combate no navegador. O objetiv
 - Personagens criados na sessao atual aparecem como atacantes adicionais.
 - Personagens da sessao usam o bloco `Loadout do Inventario`, derivado da arma, escudo e armadura equipados na aba `Inventario`.
 - Sem arma equipada, `Atacar` fica indisponivel e a tela oferece `Abrir Inventario`.
+- Se arma, escudo ou armadura equipada estiver como item quebrado, o combate bloqueia o uso desse loadout e orienta ajuste no `Inventário`.
 - Quando o personagem equipa `Espada Longa`, `Armadura de Couro` e `Escudo Redondo` no inventario, o combate mostra `Arma ativa: Espada Longa (1d8)` e `Defesa equipada` com `CA equipada +3`.
 - Quando o personagem carrega `Cinto de Poções` no inventario, o combate mostra `Cinto de poções: 5/5` ao atingir a pilha cheia.
 - `Usar poção do cinto` consome 1 unidade do inventario e registra `Poção do cinto usada em treino. HP real não foi alterado.`.
@@ -69,8 +70,9 @@ Depois:
 
 1. Clique em `Inventario`, selecione `Nara` e carregue `Espada Longa`, `Escudo Redondo`, `Armadura de Couro` e `Cinto de Poções` 5 vezes.
 2. Use `Equipar arma`, `Equipar escudo` e `Vestir armadura`.
-3. Clique em `Combate`.
-4. No seletor `Atacante`, escolha `Nara`.
+3. Use `Marcar quebrado` na arma equipada, clique em `Combate` e confirme que o item quebrado bloqueia o loadout e orienta voltar ao `Inventário`; depois volte ao inventario e use `Reparar`.
+4. Clique em `Combate`.
+5. No seletor `Atacante`, escolha `Nara`.
 5. Confirme que a ficha resumida mostra HP maximo, Iniciativa e Carga.
 6. Confirme que `Loadout do Inventario` mostra `Arma equipada: Espada Longa`, `Escudo equipado: Escudo Redondo` e `Armadura equipada: Armadura de Couro`.
 7. Confirme que o helper mostra `Arma ativa: Espada Longa (1d8)`.
@@ -140,7 +142,7 @@ Ao trocar o alvo, o HP, o ultimo resultado, o log e o turno reiniciam.
 - O cinto de poções consome apenas a pilha persistida no inventario; ele nao cura, nao altera HP real, nao altera HP de treino e nao aplica estados oficiais.
 - A arma equipada vem do loadout persistido do inventario, mas o ataque ainda nao gasta durabilidade, nao consome municao e ainda nao usa proficiencia.
 - As defesas dos alvos de treino entram como RD e afinidades fixas; vulnerabilidade com `+1d6` auditavel ainda nao entra.
-- Armaduras e escudos do personagem entram como CA alvo para o ataque de treino recebido; nao entram em dano, durabilidade por rodada ou estados oficiais.
+- Armaduras e escudos do personagem entram como CA alvo para o ataque de treino recebido; item quebrado bloqueia uso no combate, mas nao ha desgaste automatico, penalidade mecanica de item danificado, reparo por Acampamento, dano, durabilidade por rodada ou estados oficiais.
 - Talentos, magia e condicoes ainda nao entram no calculo.
 - A iniciativa ainda e fixa: atacante primeiro, alvo depois.
 - O alvo de treino ataca apenas personagens da sessao no turno dele; ele calcula dano de treino local, nao causa dano persistente e nao possui IA complexa.

@@ -25,6 +25,7 @@ export default defineConfig({
 				"src/entities/compendium/domain/CompendiumSearchService.ts",
 				"src/entities/equipment/domain/EquipmentCatalogService.ts",
 				"src/entities/equipment/domain/EquipmentDefenseProfileService.ts",
+				"src/entities/equipment/domain/EquipmentDurabilityLedgerReplayService.ts",
 				"src/entities/equipment/domain/EquipmentLoadoutLedgerReplayService.ts",
 				"src/entities/equipment/domain/EquipmentLoadoutService.ts",
 				"src/entities/equipment/domain/EquipmentWeaponAttackProfileService.ts",

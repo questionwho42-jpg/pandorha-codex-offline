@@ -62,6 +62,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260618-214701-equipment-durability-v9-ui -->
+### Equipment durability v9 UI
+- id: 20260618-214701-equipment-durability-v9-ui
+- status: open
+- created_at: 2026-06-18T21:47:01-03:00
+- source: task-ledger
+- summary: Implement persisted equipment durability events in save v9, manual inventory condition controls, and broken-item loadout/combat blocking without automatic wear, damaged penalties, camp repair, crafting, HP real or docs/system changes.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260618-214701-equipment-durability-v9-ui -->
 <!-- pandorha-inbox:20260618-214152-equipment-durability-save-v9-gate -->
 ### Equipment durability save v9 gate
 - id: 20260618-214152-equipment-durability-save-v9-gate

@@ -1,7 +1,9 @@
 import type { ZodIssue } from "zod/v4";
 import type {
+	EquipmentDurabilityCondition,
 	EquipmentLoadoutEventRecord,
 	EquipmentLoadoutEventSlot,
+	NewEquipmentDurabilityEventRecord,
 	NewEquipmentLoadoutEventRecord,
 } from "$lib/entities/equipment";
 import type {
@@ -18,11 +20,13 @@ import {
 	inventoryConsumeInputSchema,
 	inventoryEntryMutationInputSchema,
 	inventoryEquipEntryInputSchema,
+	inventorySetEquipmentConditionInputSchema,
 } from "../model/inventoryManagementSchemas";
 import type {
 	InventoryCatalogIdentity,
 	InventoryEquippedLoadoutSnapshot,
 	InventoryLoadedState,
+	InventoryManagementDurabilityMutationResult,
 	InventoryManagementFailure,
 	InventoryManagementLoadoutMutationResult,
 	InventoryManagementMutationResult,
@@ -251,6 +255,17 @@ export class InventoryManagementService {
 				details: { entryId: entry.entryId, catalogKind: entry.catalogKind },
 			});
 		}
+		const entryCondition = resolveEquipmentCondition(
+			entry,
+			state.data.durabilityConditions,
+		);
+		if (entryCondition === "broken") {
+			return fail({
+				code: "INVENTORY_DURABILITY_BROKEN",
+				message: "Broken equipment must be repaired before it can be equipped.",
+				details: { entryId: entry.entryId },
+			});
+		}
 
 		const equipment =
 			await this.input.equipmentCatalogService.findEquipmentById(
@@ -312,6 +327,47 @@ export class InventoryManagementService {
 		return this.appendLoadoutAndSnapshot(parsed.data.characterId, [event]);
 	}
 
+	public async setEquipmentCondition(
+		input: unknown,
+	): Promise<
+		Result<
+			InventoryManagementDurabilityMutationResult,
+			InventoryManagementFailure
+		>
+	> {
+		const parsed = inventorySetEquipmentConditionInputSchema.safeParse(input);
+		if (!parsed.success) {
+			return invalidInput(parsed.error.issues);
+		}
+
+		const state = await this.loadState(parsed.data.characterId);
+		if (!state.success) {
+			return state;
+		}
+
+		const entry = state.data.entries.find(
+			(candidate) => candidate.entryId === parsed.data.entryId,
+		);
+		if (!entry) {
+			return entryNotFound(parsed.data.entryId);
+		}
+		if (entry.catalogKind !== "equipment") {
+			return fail({
+				code: "INVENTORY_ENTRY_KIND_INVALID",
+				message: "Only equipment inventory entries can receive durability.",
+				details: { entryId: entry.entryId, catalogKind: entry.catalogKind },
+			});
+		}
+
+		const event = this.createDurabilityEvent({
+			characterId: parsed.data.characterId,
+			sequence: state.data.durabilityEvents.length + 1,
+			inventoryEntryId: entry.entryId,
+			condition: parsed.data.condition,
+		});
+		return this.appendDurabilityAndSnapshot(parsed.data.characterId, [event]);
+	}
+
 	private async loadState(
 		characterId: string,
 	): Promise<Result<InventoryLoadedState, InventoryManagementFailure>> {
@@ -365,8 +421,32 @@ export class InventoryManagementService {
 			});
 		}
 
+		const listedDurability =
+			await this.input.equipmentDurabilityRepository.listByCharacterId(
+				characterId,
+			);
+		if (!listedDurability.success) {
+			return durabilityRepositoryFailure(listedDurability.error.code);
+		}
+
+		const replayedDurability = this.input.durabilityReplayService.replay(
+			listedDurability.data,
+		);
+		if (!replayedDurability.success) {
+			return fail({
+				code: "INVENTORY_DURABILITY_LEDGER_INVALID",
+				message: "Equipment durability ledger could not be replayed.",
+				details: {
+					characterId,
+					ledgerCode: replayedDurability.error.code,
+				},
+			});
+		}
+
 		return ok({
 			character: character.data,
+			durabilityConditions: replayedDurability.data,
+			durabilityEvents: listedDurability.data,
 			entries: replayed.data,
 			events: listed.data,
 			loadoutEvents: listedLoadout.data,
@@ -379,7 +459,10 @@ export class InventoryManagementService {
 	): Promise<Result<InventoryManagementSnapshot, InventoryManagementFailure>> {
 		const entries: InventoryResolvedEntry[] = [];
 		for (const entry of state.entries) {
-			const resolved = await this.resolveEntry(entry);
+			const resolved = await this.resolveEntry(
+				entry,
+				state.durabilityConditions,
+			);
 			if (!resolved.success) {
 				return resolved;
 			}
@@ -417,6 +500,7 @@ export class InventoryManagementService {
 
 	private async resolveEntry(
 		entry: InventoryEntrySnapshot,
+		durabilityConditions: InventoryLoadedState["durabilityConditions"],
 	): Promise<Result<InventoryResolvedEntry, InventoryManagementFailure>> {
 		if (entry.catalogKind === "equipment") {
 			const found = await this.input.equipmentCatalogService.findEquipmentById(
@@ -427,6 +511,10 @@ export class InventoryManagementService {
 			}
 			return ok({
 				...entry,
+				durabilityCondition: resolveEquipmentCondition(
+					entry,
+					durabilityConditions,
+				),
 				equipmentKind: found.data.kind,
 				label: found.data.label,
 				slotCost: found.data.slotCost,
@@ -503,6 +591,8 @@ export class InventoryManagementService {
 				slot: slot.slot,
 				entryId: entry.entryId,
 				catalogItemId: entry.catalogItemId,
+				durabilityCondition:
+					entry.durabilityCondition as EquipmentDurabilityCondition,
 				label: entry.label,
 				slotCost: entry.slotCost,
 			};
@@ -601,6 +691,32 @@ export class InventoryManagementService {
 
 		return ok({
 			appendedLoadoutEvents: appended.data,
+			inventory: inventory.data,
+		});
+	}
+
+	private async appendDurabilityAndSnapshot(
+		characterId: string,
+		events: readonly NewEquipmentDurabilityEventRecord[],
+	): Promise<
+		Result<
+			InventoryManagementDurabilityMutationResult,
+			InventoryManagementFailure
+		>
+	> {
+		const appended =
+			await this.input.equipmentDurabilityRepository.append(events);
+		if (!appended.success) {
+			return durabilityRepositoryFailure(appended.error.code);
+		}
+
+		const inventory = await this.getInventory({ characterId });
+		if (!inventory.success) {
+			return inventory;
+		}
+
+		return ok({
+			appendedDurabilityEvents: appended.data,
 			inventory: inventory.data,
 		});
 	}
@@ -705,6 +821,33 @@ export class InventoryManagementService {
 			createdAt: this.input.clock.now(),
 		};
 	}
+
+	private createDurabilityEvent(input: {
+		readonly characterId: string;
+		readonly sequence: number;
+		readonly inventoryEntryId: string;
+		readonly condition: EquipmentDurabilityCondition;
+	}): NewEquipmentDurabilityEventRecord {
+		return {
+			id: this.input.durabilityEventIdProvider.generate(),
+			characterId: input.characterId,
+			sequence: input.sequence,
+			inventoryEntryId: input.inventoryEntryId,
+			type: "equipment-durability-condition-set",
+			condition: input.condition,
+			createdAt: this.input.clock.now(),
+		};
+	}
+}
+
+function resolveEquipmentCondition(
+	entry: Pick<InventoryEntrySnapshot, "entryId">,
+	conditions: InventoryLoadedState["durabilityConditions"],
+): EquipmentDurabilityCondition {
+	return (
+		conditions.find((condition) => condition.inventoryEntryId === entry.entryId)
+			?.condition ?? "intact"
+	);
 }
 
 function slotMatchesEquipmentKind(
@@ -784,6 +927,16 @@ function loadoutRepositoryFailure(
 	return fail({
 		code: "INVENTORY_LOADOUT_REPOSITORY_FAILED",
 		message: "Equipment loadout event repository operation failed.",
+		details: { repositoryCode },
+	});
+}
+
+function durabilityRepositoryFailure(
+	repositoryCode: string,
+): Result<never, InventoryManagementFailure> {
+	return fail({
+		code: "INVENTORY_DURABILITY_REPOSITORY_FAILED",
+		message: "Equipment durability event repository operation failed.",
 		details: { repositoryCode },
 	});
 }

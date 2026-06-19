@@ -28,3 +28,8 @@ mostram botao de equipar enquanto o catalogo nao aprovar o perfil mecanico.
 Quando o app cria um personagem novo, ele usa o mesmo Inventario para adicionar
 o kit inicial da classe. Isso cria eventos iguais aos de carregar itens
 manualmente, entao o save e o load continuam funcionando pelo mesmo caminho.
+
+Agora o Inventario tambem mostra a durabilidade dos equipamentos. O usuario pode
+marcar um item como danificado, quebrado ou reparado. Consumiveis nao recebem
+esses botoes. Se um equipamento estiver quebrado, o Inventario impede equipar ate
+que ele seja reparado.

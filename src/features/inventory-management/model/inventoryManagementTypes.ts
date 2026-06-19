@@ -1,6 +1,11 @@
 import type { CharacterRepository } from "$lib/entities/character";
 import type {
 	EquipmentCatalogService,
+	EquipmentDurabilityCondition,
+	EquipmentDurabilityEventRecord,
+	EquipmentDurabilityEventRepository,
+	EquipmentDurabilityLedgerReplayService,
+	EquipmentDurabilityLedgerSnapshot,
 	EquipmentLoadoutEventRecord,
 	EquipmentLoadoutEventRepository,
 	EquipmentLoadoutEventSlot,
@@ -37,7 +42,10 @@ export type InventoryManagementFailureCode =
 	| "INVENTORY_LOADOUT_REPOSITORY_FAILED"
 	| "INVENTORY_LOADOUT_ENTRY_NOT_FOUND"
 	| "INVENTORY_LOADOUT_SLOT_INVALID"
-	| "INVENTORY_LOADOUT_SLOT_CONFLICT";
+	| "INVENTORY_LOADOUT_SLOT_CONFLICT"
+	| "INVENTORY_DURABILITY_LEDGER_INVALID"
+	| "INVENTORY_DURABILITY_REPOSITORY_FAILED"
+	| "INVENTORY_DURABILITY_BROKEN";
 
 export interface InventoryManagementFailure {
 	readonly code: InventoryManagementFailureCode;
@@ -46,6 +54,7 @@ export interface InventoryManagementFailure {
 }
 
 export interface InventoryResolvedEntry extends InventoryEntrySnapshot {
+	readonly durabilityCondition?: EquipmentDurabilityCondition;
 	readonly equipmentKind?: EquipmentRecord["kind"];
 	readonly label: string;
 	readonly slotCost: number;
@@ -55,6 +64,7 @@ export interface InventoryEquippedEntry {
 	readonly slot: EquipmentLoadoutEventSlot;
 	readonly entryId: string;
 	readonly catalogItemId: string;
+	readonly durabilityCondition: EquipmentDurabilityCondition;
 	readonly label: string;
 	readonly slotCost: number;
 }
@@ -82,6 +92,11 @@ export interface InventoryManagementLoadoutMutationResult {
 	readonly inventory: InventoryManagementSnapshot;
 }
 
+export interface InventoryManagementDurabilityMutationResult {
+	readonly appendedDurabilityEvents: readonly EquipmentDurabilityEventRecord[];
+	readonly inventory: InventoryManagementSnapshot;
+}
+
 export interface InventoryManagementIdProvider {
 	generate(): string;
 }
@@ -100,8 +115,11 @@ export interface InventoryManagementServiceInput {
 	readonly capacityService: InventoryCapacityPort;
 	readonly characterRepository: CharacterRepository;
 	readonly clock: InventoryManagementClock;
+	readonly durabilityEventIdProvider: InventoryManagementIdProvider;
+	readonly durabilityReplayService: EquipmentDurabilityLedgerReplayService;
 	readonly entryIdProvider: InventoryManagementIdProvider;
 	readonly equipmentCatalogService: EquipmentCatalogService;
+	readonly equipmentDurabilityRepository: EquipmentDurabilityEventRepository;
 	readonly equipmentLoadoutRepository: EquipmentLoadoutEventRepository;
 	readonly equipmentLoadoutService: EquipmentLoadoutService;
 	readonly eventIdProvider: InventoryManagementIdProvider;
@@ -117,6 +135,8 @@ export interface InventoryLoadedState {
 		readonly physical: number;
 		readonly resistance: number;
 	};
+	readonly durabilityConditions: readonly EquipmentDurabilityLedgerSnapshot[];
+	readonly durabilityEvents: readonly EquipmentDurabilityEventRecord[];
 	readonly entries: readonly InventoryEntrySnapshot[];
 	readonly events: readonly InventoryEventRecord[];
 	readonly loadoutEvents: readonly EquipmentLoadoutEventRecord[];

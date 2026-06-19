@@ -503,6 +503,9 @@ function mapPersistentLoadoutFailure(
 			return "O loadout persistido do personagem est\u00e1 inv\u00e1lido.";
 		case "COMBAT_LOADOUT_ENTRY_INVALID":
 		case "COMBAT_LOADOUT_EQUIPMENT_INVALID":
+			if (failure.details?.durabilityCondition === "broken") {
+				return "Repare ou desequipe o item quebrado no Invent\u00e1rio antes de usar no combate.";
+			}
 			return "Ajuste o equipamento no Invent\u00e1rio antes de usar no combate.";
 	}
 }

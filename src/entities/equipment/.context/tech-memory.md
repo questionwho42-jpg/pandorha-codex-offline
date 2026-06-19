@@ -54,3 +54,11 @@
 - `adventurer-kit-stack`, `grimoire-stack`, and `nobility-letter-stack` are stackable adventuring-item consumables for initial-kit ownership.
 - `OFFICIAL_LOADOUT_SUPPORTED_EQUIPMENT_IDS` is the UI-facing allowlist for equip actions; kind alone is not enough to expose loadout controls.
 - Character starting-kit grants reference these catalog ids by stable technical id; the equipment entity still does not grant, equip, or persist ownership by itself.
+
+## 2026-06-18 - Equipment Durability Ledger V9
+
+- `equipment_durability_events` stores manual condition changes by character and `inventoryEntryId`.
+- Conditions are `intact`, `damaged`, and `broken`; replaying an empty ledger resolves equipment as `intact`.
+- `EquipmentDurabilityLedgerReplayService` validates contiguous sequence per character and unique event ids before exposing the latest condition per entry.
+- The ledger does not duplicate catalog ids, labels, combat profile, repair cost, HP, capacity, or automatic wear rules.
+- `broken` is an availability gate for equip/combat; `damaged` is visible only and deliberately has no `-1` modifier in this slice.

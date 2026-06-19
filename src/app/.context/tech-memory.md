@@ -197,3 +197,9 @@
 - `App.svelte` grants the kit only after the character and three trait selections persist successfully.
 - Successful grants append `startingEquipment.data.appendedEvents` into `inventoryEventRecords`; failures keep the character and traits visible and show a warning copy.
 - No save v9, migration, auto-loadout, gold, durability, HP real, or trait effect was introduced.
+
+## 2026-06-18 - Equipment Durability V9 Wiring
+
+- `App.svelte` owns `equipmentDurabilityEventRecords` beside inventory and loadout events and sends them through save/load v9.
+- `inventorySession` injects `InMemoryEquipmentDurabilityEventRepository`, `EquipmentDurabilityLedgerReplayService`, and sequential `equipment-durability-event-*` ids.
+- `createCombatPersistentLoadoutResolver` blocks `broken` equipped entries at the app boundary so Combat does not import Inventory.

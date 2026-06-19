@@ -25,7 +25,11 @@ import {
 	clocks,
 } from "$lib/entities/clock";
 import {
+	type EquipmentDurabilityEventRecord,
 	type EquipmentLoadoutEventRecord,
+	equipmentDurabilityEventInsertSchema,
+	equipmentDurabilityEventSelectSchema,
+	equipmentDurabilityEvents,
 	equipmentLoadoutEventInsertSchema,
 	equipmentLoadoutEventSelectSchema,
 	equipmentLoadoutEvents,
@@ -78,9 +82,10 @@ import {
 	loadedSessionStateV6Schema,
 	loadedSessionStateV7Schema,
 	loadedSessionStateV8Schema,
+	loadedSessionStateV9Schema,
 	migrateLoadedSessionToCurrent,
 	saveMetadataAnySchema,
-	saveMetadataV8Schema,
+	saveMetadataV9Schema,
 } from "../model/saveLoadSchemas";
 import type { LoadedSessionState } from "../model/saveLoadTypes";
 import type {
@@ -105,7 +110,7 @@ export class SqliteSaveSnapshotService {
 	public async saveSnapshot(
 		input: unknown,
 	): Promise<Result<SaveSnapshotResult, SaveSnapshotFailure>> {
-		const parsedSnapshot = loadedSessionStateV8Schema.safeParse(input);
+		const parsedSnapshot = loadedSessionStateV9Schema.safeParse(input);
 		if (!parsedSnapshot.success) {
 			return fail({
 				code: "INVALID_SAVE_SNAPSHOT",
@@ -153,6 +158,10 @@ export class SqliteSaveSnapshotService {
 				parsedSnapshot.data.equipmentLoadoutEvents.map((event) =>
 					equipmentLoadoutEventInsertSchema.parse(event),
 				);
+			const equipmentDurabilityEventRecords =
+				parsedSnapshot.data.equipmentDurabilityEvents.map((event) =>
+					equipmentDurabilityEventInsertSchema.parse(event),
+				);
 			const characterTraitSelectionRecords =
 				parsedSnapshot.data.characterTraitSelections.map((selection) =>
 					characterTraitSelectionInsertSchema.parse(selection),
@@ -167,7 +176,7 @@ export class SqliteSaveSnapshotService {
 			const metadataRecord = worldStateEntryInsertSchema.parse({
 				key: SAVE_METADATA_KEY,
 				valueJson: JSON.stringify(
-					saveMetadataV8Schema.parse({
+					saveMetadataV9Schema.parse({
 						version: parsedSnapshot.data.version,
 						savedAt: parsedSnapshot.data.savedAt,
 					}),
@@ -176,6 +185,7 @@ export class SqliteSaveSnapshotService {
 			});
 
 			db.transaction((tx) => {
+				tx.delete(equipmentDurabilityEvents).run();
 				tx.delete(characterTraitSelections).run();
 				tx.delete(equipmentLoadoutEvents).run();
 				tx.delete(inventoryEvents).run();
@@ -227,6 +237,11 @@ export class SqliteSaveSnapshotService {
 						.values(equipmentLoadoutEventRecords)
 						.run();
 				}
+				if (equipmentDurabilityEventRecords.length > 0) {
+					tx.insert(equipmentDurabilityEvents)
+						.values(equipmentDurabilityEventRecords)
+						.run();
+				}
 				tx.insert(worldStateEntries)
 					.values([...worldStateRecords, metadataRecord])
 					.run();
@@ -264,6 +279,8 @@ export class SqliteSaveSnapshotService {
 				inventoryEventCount: parsedSnapshot.data.inventoryEvents.length,
 				equipmentLoadoutEventCount:
 					parsedSnapshot.data.equipmentLoadoutEvents.length,
+				equipmentDurabilityEventCount:
+					parsedSnapshot.data.equipmentDurabilityEvents.length,
 			});
 		} catch (error: unknown) {
 			database.close();
@@ -537,7 +554,36 @@ export class SqliteSaveSnapshotService {
 				return parsedCharacterTraitSelections;
 			}
 
-			const parsedLoaded = loadedSessionStateV8Schema.parse({
+			if (parsedMetadata.data.version === 8) {
+				const parsedLoaded = migrateLoadedSessionToCurrent(
+					loadedSessionStateV8Schema.parse({
+						version: parsedMetadata.data.version,
+						savedAt: parsedMetadata.data.savedAt,
+						characters: parsedCharacters,
+						characterTraitSelections: parsedCharacterTraitSelections.data,
+						worldState: parsedWorldState,
+						clocks: parsedClocks.data,
+						campSessions: parsedCampSessions.data,
+						campAssignments: parsedCampAssignments.data,
+						factionStandings: parsedFactionStandings.data,
+						socialEncounters: parsedSocialEncounters.data,
+						socialEncounterEvents: parsedSocialEncounterEvents.data,
+						npcRelationships: parsedNpcRelationships.data,
+						inventoryEvents: parsedInventoryEvents.data,
+						equipmentLoadoutEvents: parsedEquipmentLoadoutEvents.data,
+					}),
+				);
+				database.close();
+				return ok(parsedLoaded);
+			}
+
+			const parsedEquipmentDurabilityEvents = readEquipmentDurabilityEvents(db);
+			if (!parsedEquipmentDurabilityEvents.success) {
+				database.close();
+				return parsedEquipmentDurabilityEvents;
+			}
+
+			const parsedLoaded = loadedSessionStateV9Schema.parse({
 				version: parsedMetadata.data.version,
 				savedAt: parsedMetadata.data.savedAt,
 				characters: parsedCharacters,
@@ -552,6 +598,7 @@ export class SqliteSaveSnapshotService {
 				npcRelationships: parsedNpcRelationships.data,
 				inventoryEvents: parsedInventoryEvents.data,
 				equipmentLoadoutEvents: parsedEquipmentLoadoutEvents.data,
+				equipmentDurabilityEvents: parsedEquipmentDurabilityEvents.data,
 			});
 			database.close();
 			return ok(parsedLoaded);
@@ -648,6 +695,7 @@ export class SqliteSaveSnapshotService {
 				!tableNames.has("npc_relationships") ||
 				!tableNames.has("inventory_events") ||
 				!tableNames.has("equipment_loadout_events") ||
+				!tableNames.has("equipment_durability_events") ||
 				!tableNames.has("character_trait_selections")
 			) {
 				return fail({
@@ -828,6 +876,29 @@ function readEquipmentLoadoutEvents(
 		if (!parsed.success) {
 			return corruptedSnapshotFailure(
 				"equipment loadout event row failed validation",
+			);
+		}
+		parsedEvents.push(parsed.data);
+	}
+	return ok(parsedEvents);
+}
+
+function readEquipmentDurabilityEvents(
+	db: ReturnType<typeof drizzle>,
+): Result<readonly EquipmentDurabilityEventRecord[], SaveSnapshotFailure> {
+	const parsedEvents: EquipmentDurabilityEventRecord[] = [];
+	for (const row of db
+		.select()
+		.from(equipmentDurabilityEvents)
+		.orderBy(
+			asc(equipmentDurabilityEvents.characterId),
+			asc(equipmentDurabilityEvents.sequence),
+		)
+		.all()) {
+		const parsed = equipmentDurabilityEventSelectSchema.safeParse(row);
+		if (!parsed.success) {
+			return corruptedSnapshotFailure(
+				"equipment durability event row failed validation",
 			);
 		}
 		parsedEvents.push(parsed.data);

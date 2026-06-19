@@ -51,6 +51,7 @@ export class SaveLoadService {
 			npcRelationships: parsedInput.data.npcRelationships,
 			inventoryEvents: parsedInput.data.inventoryEvents,
 			equipmentLoadoutEvents: parsedInput.data.equipmentLoadoutEvents,
+			equipmentDurabilityEvents: parsedInput.data.equipmentDurabilityEvents,
 		};
 
 		const response = await this.workerBridge.send({
@@ -95,6 +96,8 @@ export class SaveLoadService {
 			inventoryEventCount: parsedInput.data.inventoryEvents.length,
 			equipmentLoadoutEventCount:
 				parsedInput.data.equipmentLoadoutEvents.length,
+			equipmentDurabilityEventCount:
+				parsedInput.data.equipmentDurabilityEvents.length,
 		});
 	}
 
@@ -166,6 +169,7 @@ export class SaveLoadService {
 			npcRelationships: currentSnapshot.npcRelationships,
 			inventoryEvents: currentSnapshot.inventoryEvents,
 			equipmentLoadoutEvents: currentSnapshot.equipmentLoadoutEvents,
+			equipmentDurabilityEvents: currentSnapshot.equipmentDurabilityEvents,
 		});
 	}
 }

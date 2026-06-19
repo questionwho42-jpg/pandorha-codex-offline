@@ -8,7 +8,10 @@ import {
 	characterTraitSelectionSelectSchema,
 } from "$lib/entities/character";
 import { clockSelectSchema } from "$lib/entities/clock";
-import { equipmentLoadoutEventSelectSchema } from "$lib/entities/equipment";
+import {
+	equipmentDurabilityEventSelectSchema,
+	equipmentLoadoutEventSelectSchema,
+} from "$lib/entities/equipment";
 import { factionStandingSelectSchema } from "$lib/entities/faction";
 import { inventoryEventSelectSchema } from "$lib/entities/inventory";
 import { npcRelationshipSelectSchema } from "$lib/entities/npc-relationship";
@@ -19,7 +22,7 @@ import {
 import { worldStateValueSchema } from "$lib/entities/world-state";
 
 const isoTimestamp = z.string().trim().datetime({ offset: true });
-export const CURRENT_SAVE_VERSION = 8;
+export const CURRENT_SAVE_VERSION = 9;
 
 export const worldStateFlagSchema = z.object({
 	key: z.string().trim().min(1),
@@ -63,6 +66,11 @@ export const saveMetadataV7Schema = z.object({
 });
 
 export const saveMetadataV8Schema = z.object({
+	version: z.literal(8),
+	savedAt: isoTimestamp,
+});
+
+export const saveMetadataV9Schema = z.object({
 	version: z.literal(CURRENT_SAVE_VERSION),
 	savedAt: isoTimestamp,
 });
@@ -76,6 +84,7 @@ export const saveMetadataAnySchema = z.union([
 	saveMetadataV6Schema,
 	saveMetadataV7Schema,
 	saveMetadataV8Schema,
+	saveMetadataV9Schema,
 ]);
 
 export const saveMetadataSchema = saveMetadataAnySchema;
@@ -96,6 +105,9 @@ export const saveSessionInputSchema = z.object({
 		.default([]),
 	characterTraitSelections: z
 		.array(characterTraitSelectionSelectSchema)
+		.default([]),
+	equipmentDurabilityEvents: z
+		.array(equipmentDurabilityEventSelectSchema)
 		.default([]),
 	savedAt: isoTimestamp,
 });
@@ -187,7 +199,7 @@ export const loadedSessionStateV7Schema = z.object({
 });
 
 export const loadedSessionStateV8Schema = z.object({
-	version: z.literal(CURRENT_SAVE_VERSION),
+	version: z.literal(8),
 	savedAt: isoTimestamp,
 	characters: z.array(characterSelectSchema),
 	characterTraitSelections: z.array(characterTraitSelectionSelectSchema),
@@ -203,6 +215,24 @@ export const loadedSessionStateV8Schema = z.object({
 	equipmentLoadoutEvents: z.array(equipmentLoadoutEventSelectSchema),
 });
 
+export const loadedSessionStateV9Schema = z.object({
+	version: z.literal(CURRENT_SAVE_VERSION),
+	savedAt: isoTimestamp,
+	characters: z.array(characterSelectSchema),
+	characterTraitSelections: z.array(characterTraitSelectionSelectSchema),
+	worldState: z.array(worldStateFlagSchema),
+	clocks: z.array(clockSelectSchema),
+	campSessions: z.array(campSessionSelectSchema),
+	campAssignments: z.array(campAssignmentSelectSchema),
+	factionStandings: z.array(factionStandingSelectSchema),
+	socialEncounters: z.array(socialEncounterSelectSchema),
+	socialEncounterEvents: z.array(socialEncounterEventSelectSchema),
+	npcRelationships: z.array(npcRelationshipSelectSchema),
+	inventoryEvents: z.array(inventoryEventSelectSchema),
+	equipmentLoadoutEvents: z.array(equipmentLoadoutEventSelectSchema),
+	equipmentDurabilityEvents: z.array(equipmentDurabilityEventSelectSchema),
+});
+
 export const loadedSessionStateSchema = z.union([
 	loadedSessionStateV1Schema,
 	loadedSessionStateV2Schema,
@@ -212,6 +242,7 @@ export const loadedSessionStateSchema = z.union([
 	loadedSessionStateV6Schema,
 	loadedSessionStateV7Schema,
 	loadedSessionStateV8Schema,
+	loadedSessionStateV9Schema,
 ]);
 
 export function migrateSaveV1ToV2(
@@ -303,20 +334,32 @@ export function migrateSaveV7ToV8(
 ): z.infer<typeof loadedSessionStateV8Schema> {
 	return {
 		...snapshot,
-		version: CURRENT_SAVE_VERSION,
+		version: 8,
 		characterTraitSelections: [],
+	};
+}
+
+export function migrateSaveV8ToV9(
+	snapshot: z.infer<typeof loadedSessionStateV8Schema>,
+): z.infer<typeof loadedSessionStateV9Schema> {
+	return {
+		...snapshot,
+		version: CURRENT_SAVE_VERSION,
+		equipmentDurabilityEvents: [],
 	};
 }
 
 export function migrateLoadedSessionToCurrent(
 	snapshot: z.infer<typeof loadedSessionStateSchema>,
-): z.infer<typeof loadedSessionStateV8Schema> {
+): z.infer<typeof loadedSessionStateV9Schema> {
 	if (snapshot.version === 1) {
-		return migrateSaveV7ToV8(
-			migrateSaveV6ToV7(
-				migrateSaveV5ToV6(
-					migrateSaveV4ToV5(
-						migrateSaveV3ToV4(migrateSaveV2ToV3(migrateSaveV1ToV2(snapshot))),
+		return migrateSaveV8ToV9(
+			migrateSaveV7ToV8(
+				migrateSaveV6ToV7(
+					migrateSaveV5ToV6(
+						migrateSaveV4ToV5(
+							migrateSaveV3ToV4(migrateSaveV2ToV3(migrateSaveV1ToV2(snapshot))),
+						),
 					),
 				),
 			),
@@ -324,39 +367,51 @@ export function migrateLoadedSessionToCurrent(
 	}
 
 	if (snapshot.version === 2) {
-		return migrateSaveV7ToV8(
-			migrateSaveV6ToV7(
-				migrateSaveV5ToV6(
-					migrateSaveV4ToV5(migrateSaveV3ToV4(migrateSaveV2ToV3(snapshot))),
+		return migrateSaveV8ToV9(
+			migrateSaveV7ToV8(
+				migrateSaveV6ToV7(
+					migrateSaveV5ToV6(
+						migrateSaveV4ToV5(migrateSaveV3ToV4(migrateSaveV2ToV3(snapshot))),
+					),
 				),
 			),
 		);
 	}
 
 	if (snapshot.version === 3) {
-		return migrateSaveV7ToV8(
-			migrateSaveV6ToV7(
-				migrateSaveV5ToV6(migrateSaveV4ToV5(migrateSaveV3ToV4(snapshot))),
+		return migrateSaveV8ToV9(
+			migrateSaveV7ToV8(
+				migrateSaveV6ToV7(
+					migrateSaveV5ToV6(migrateSaveV4ToV5(migrateSaveV3ToV4(snapshot))),
+				),
 			),
 		);
 	}
 
 	if (snapshot.version === 4) {
-		return migrateSaveV7ToV8(
-			migrateSaveV6ToV7(migrateSaveV5ToV6(migrateSaveV4ToV5(snapshot))),
+		return migrateSaveV8ToV9(
+			migrateSaveV7ToV8(
+				migrateSaveV6ToV7(migrateSaveV5ToV6(migrateSaveV4ToV5(snapshot))),
+			),
 		);
 	}
 
 	if (snapshot.version === 5) {
-		return migrateSaveV7ToV8(migrateSaveV6ToV7(migrateSaveV5ToV6(snapshot)));
+		return migrateSaveV8ToV9(
+			migrateSaveV7ToV8(migrateSaveV6ToV7(migrateSaveV5ToV6(snapshot))),
+		);
 	}
 
 	if (snapshot.version === 6) {
-		return migrateSaveV7ToV8(migrateSaveV6ToV7(snapshot));
+		return migrateSaveV8ToV9(migrateSaveV7ToV8(migrateSaveV6ToV7(snapshot)));
 	}
 
 	if (snapshot.version === 7) {
-		return migrateSaveV7ToV8(snapshot);
+		return migrateSaveV8ToV9(migrateSaveV7ToV8(snapshot));
+	}
+
+	if (snapshot.version === 8) {
+		return migrateSaveV8ToV9(snapshot);
 	}
 
 	return snapshot;

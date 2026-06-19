@@ -17,3 +17,6 @@
 - The approved v8 gate adds only `characterTraitSelections`.
 - Legacy v1-v7 snapshots migrate to v8 with an empty trait selection list; no HP real, trait effects, starting equipment, talents, passives, or editable sheet state enters the migration.
 - Save v8 writes `character_trait_selections` in the same SQLite snapshot transaction and rejects malformed trait rows before exposing loaded state.
+- The approved v9 gate adds only `equipmentDurabilityEvents`.
+- Legacy v1-v8 snapshots migrate to v9 with an empty durability ledger; no automatic wear, repair cost, damaged modifier, HP, crafting, or camp repair enters the migration.
+- Save v9 writes `equipment_durability_events` in the same SQLite snapshot transaction as inventory/loadout so broken equipment can be restored without duplicating catalog data.
