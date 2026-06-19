@@ -30,6 +30,7 @@ import colossalViolationsMigrationSql from "../../../../drizzle/0026_colossal_vi
 import catalogsMigrationSql from "../../../../drizzle/0027_absurd_blink.sql?raw";
 import questObjectivesMigrationSql from "../../../../drizzle/0027_melted_norrin_radd.sql?raw";
 import foreignKeyIndexesMigrationSql from "../../../../drizzle/0028_add_foreign_key_indexes.sql?raw";
+import downtimeMigrationSql from "../../../../drizzle/0028_nasty_beast.sql?raw";
 import type { SqliteMigration } from "./sqliteOpfsTypes";
 
 export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
@@ -160,5 +161,9 @@ export const PANDORHA_SQLITE_MIGRATIONS: readonly SqliteMigration[] = [
 	{
 		id: "0027_absurd_blink",
 		sql: catalogsMigrationSql,
+	},
+	{
+		id: "0028_nasty_beast",
+		sql: downtimeMigrationSql,
 	},
 ];

@@ -1,7 +1,9 @@
+import type {
+	CampaignEventRecord as EventHistoryRecord,
+	NewCampaignEventRecord as NewEventHistoryRecord,
+} from "$lib/entities/campaign";
 import type { Result } from "$lib/shared/lib/result";
 import type {
-	EventHistoryRecord,
-	NewEventHistoryRecord,
 	NewSiegeEventRecord,
 	SiegeEventRecord,
 } from "../model/siegeSchema";

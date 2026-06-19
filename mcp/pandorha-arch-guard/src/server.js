@@ -99,6 +99,7 @@ export async function validateImplementation(input, options = {}) {
 export function analyzeSource(source, relativePath) {
 	const lines = source.split(/\r?\n/);
 	const currentFeature = findFeatureName(relativePath);
+	const currentEntity = findEntityName(relativePath);
 	const runes = findRunes(lines);
 	const violations = [
 		...findFsdImportViolations(lines, relativePath, currentFeature),
@@ -116,6 +117,7 @@ export function analyzeSource(source, relativePath) {
 				occurrences: runes,
 			},
 			feature: currentFeature,
+			entity: currentEntity,
 		},
 		violations,
 	};
@@ -142,21 +144,78 @@ export function findRunes(lines) {
 
 export function findFsdImportViolations(lines, relativePath, currentFeature) {
 	const violations = [];
+	const currentEntity = findEntityName(relativePath);
 
 	lines.forEach((line, index) => {
 		for (const match of line.matchAll(IMPORT_PATTERN)) {
 			const specifier = match[1] || match[2];
-			const resolved = resolveFeatureImport(specifier, relativePath);
-			if (!resolved?.feature || !resolved.privateSegment) continue;
-			if (currentFeature && resolved.feature === currentFeature) continue;
+			
+			// 1. Validar imports de feature
+			const resolvedFeature = resolveFeatureImport(specifier, relativePath);
+			let isFeatureImport = false;
+			if (resolvedFeature?.feature) {
+				isFeatureImport = true;
+				if (currentEntity) {
+					// Entidades não podem importar de camadas superiores (features)
+					violations.push({
+						type: "fsd-layer-violation",
+						severity: "error",
+						line: index + 1,
+						match: specifier,
+						message: `Entidade "${currentEntity}" nao pode importar de uma camada superior: ${specifier}`,
+					});
+				} else if (resolvedFeature.privateSegment) {
+					if (!currentFeature || resolvedFeature.feature !== currentFeature) {
+						violations.push({
+							type: "fsd-private-import",
+							severity: "error",
+							line: index + 1,
+							match: specifier,
+							message: `Import direto da pasta privada "${resolvedFeature.privateSegment}" de outra feature: ${resolvedFeature.feature}. Use a API publica da feature.`,
+						});
+					}
+				}
+			}
 
-			violations.push({
-				type: "fsd-private-import",
-				severity: "error",
-				line: index + 1,
-				match: specifier,
-				message: `Import direto da pasta privada "${resolved.privateSegment}" de outra feature: ${resolved.feature}. Use a API publica da feature.`,
-			});
+			// 2. Validar imports de outras camadas superiores genéricas se for entidade
+			if (currentEntity) {
+				const isUpperLayer =
+					!isFeatureImport && (
+					specifier.includes("/features/") ||
+					specifier.includes("/widgets/") ||
+					specifier.includes("/pages/") ||
+					specifier.includes("/app/") ||
+					specifier.startsWith("@/features/") ||
+					specifier.startsWith("@/widgets/") ||
+					specifier.startsWith("@/pages/") ||
+					specifier.startsWith("@/app/")
+				);
+				
+				if (isUpperLayer) {
+					violations.push({
+						type: "fsd-layer-violation",
+						severity: "error",
+						line: index + 1,
+						match: specifier,
+						message: `Entidade "${currentEntity}" nao pode importar de uma camada superior: ${specifier}`,
+					});
+				}
+
+				// 3. Validar imports de outras entidades vizinhas (deve ser schema apenas)
+				const resolvedEntity = resolveEntityImport(specifier, relativePath);
+				if (resolvedEntity && resolvedEntity.entity !== currentEntity) {
+					const isSchema = /schema/i.test(specifier);
+					if (!isSchema) {
+						violations.push({
+							type: "fsd-entity-cross-import",
+							severity: "error",
+							line: index + 1,
+							match: specifier,
+							message: `Entidade "${currentEntity}" tentou importar a entidade vizinha "${resolvedEntity.entity}" de forma ilegal. Imports entre entidades vizinhas sao permitidos apenas para esquemas de banco (*Schema).`,
+						});
+					}
+				}
+			}
 		}
 	});
 
@@ -232,10 +291,60 @@ export function normalizeSpecifier(specifier, importerRelativePath) {
 	return null;
 }
 
+export function resolveEntityImport(specifier, importerRelativePath) {
+	const normalized = normalizeEntitySpecifier(specifier, importerRelativePath);
+	if (!normalized) return null;
+
+	const parts = normalized.split("/").filter(Boolean);
+	const srcIndex = parts.findIndex(
+		(part, index) => part === "src" && parts[index + 1] === "entities",
+	);
+	if (srcIndex === -1) return null;
+
+	const entity = parts[srcIndex + 2];
+	return entity ? { entity, normalized } : null;
+}
+
+export function normalizeEntitySpecifier(specifier, importerRelativePath) {
+	if (specifier.startsWith("@/entities/")) {
+		return `src/entities/${specifier.slice("@/entities/".length)}`;
+	}
+
+	if (specifier.startsWith("$lib/entities/")) {
+		return `src/entities/${specifier.slice("$lib/entities/".length)}`;
+	}
+
+	if (specifier.startsWith("src/entities/")) {
+		return specifier;
+	}
+
+	if (specifier.startsWith("/src/entities/")) {
+		return specifier.slice(1);
+	}
+
+	if (specifier.startsWith(".")) {
+		const importerDir = path.posix.dirname(toPosix(importerRelativePath));
+		const normalized = path.posix.normalize(path.posix.join(importerDir, specifier));
+		if (normalized.includes("src/entities/")) {
+			return normalized;
+		}
+	}
+
+	return null;
+}
+
 export function findFeatureName(relativePath) {
 	const parts = toPosix(relativePath).split("/");
 	const srcIndex = parts.findIndex(
 		(part, index) => part === "src" && parts[index + 1] === "features",
+	);
+	return srcIndex === -1 ? null : parts[srcIndex + 2] || null;
+}
+
+export function findEntityName(relativePath) {
+	const parts = toPosix(relativePath).split("/");
+	const srcIndex = parts.findIndex(
+		(part, index) => part === "src" && parts[index + 1] === "entities",
 	);
 	return srcIndex === -1 ? null : parts[srcIndex + 2] || null;
 }

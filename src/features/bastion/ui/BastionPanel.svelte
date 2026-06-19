@@ -14,14 +14,12 @@ import type {
 	BastionModuleRecord,
 	BastionRecord,
 } from "$lib/entities/bastion/model/bastionSchema";
+import type { CampaignEventRecord as EventHistoryRecord } from "$lib/entities/campaign";
 import type { CharacterRecord } from "$lib/entities/character/model/characterSchema";
 import { WorkerMercenaryRepository } from "$lib/entities/mercenary/infrastructure/WorkerMercenaryRepository";
 import type { MercenarySquadRecord } from "$lib/entities/mercenary/model/mercenarySchema";
+import type { SiegeEventRecord } from "$lib/entities/siege";
 import { WorkerSiegeRepository } from "$lib/entities/siege";
-import type {
-	EventHistoryRecord,
-	SiegeEventRecord,
-} from "$lib/entities/siege/model/siegeSchema";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup
 import DowntimeProjectList from "./DowntimeProjectList.svelte";
 import { moduleCatalog } from "./moduleCatalog";

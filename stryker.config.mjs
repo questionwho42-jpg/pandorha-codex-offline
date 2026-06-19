@@ -7,6 +7,8 @@ export default {
 	reporters: ["html", "clear-text", "progress"],
 	testRunner: "vitest",
 	coverageAnalysis: "perTest",
+	ignoreStatic: true,
+	disableTypeChecks: true,
 	mutate: [
 		"src/shared/dice/domain/**/*.ts",
 		"src/shared/resolution/domain/**/*.ts",

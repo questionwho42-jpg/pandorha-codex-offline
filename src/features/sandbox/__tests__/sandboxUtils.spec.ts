@@ -139,4 +139,12 @@ describe("validateSpawnPayload", () => {
 		});
 		expect(errors).toHaveLength(3);
 	});
+
+	it("reporta erro quando perfil tático é inválido", () => {
+		const errors = validateSpawnPayload({
+			...basePayload,
+			profile: "mage" as any,
+		});
+		expect(errors).toContain("Perfil tático inválido: mage.");
+	});
 });

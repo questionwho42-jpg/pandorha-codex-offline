@@ -1,9 +1,11 @@
+import {
+	type CampaignEventRecord as EventHistoryRecord,
+	campaignEventSelectSchema as eventHistorySelectSchema,
+	type NewCampaignEventRecord as NewEventHistoryRecord,
+} from "$lib/entities/campaign";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { SiegeRepository } from "../domain/SiegeRepository";
 import {
-	type EventHistoryRecord,
-	eventHistorySelectSchema,
-	type NewEventHistoryRecord,
 	type NewSiegeEventRecord,
 	type SiegeEventRecord,
 	siegeEventSelectSchema,

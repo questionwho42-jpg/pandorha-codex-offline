@@ -26,6 +26,8 @@ export default defineConfig({
 		"./src/entities/background/model/backgroundSchema.ts",
 		"./src/entities/character-class/model/characterClassSchema.ts",
 		"./src/entities/spell/model/spellSchema.ts",
+		"./src/entities/downtime/model/downtimeSchema.ts",
+		"./src/entities/campaign/model/campaignSchema.ts",
 	],
 	out: "./drizzle",
 	dialect: "sqlite",

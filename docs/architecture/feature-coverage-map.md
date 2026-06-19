@@ -1,7 +1,7 @@
 # Feature Coverage Map
 
 > **Propósito:** Mapa vivo do estado de implementação do Pandorha Engine.
-> **Atualizado em:** 2026-06-09
+> **Atualizado em:** 2026-06-15
 > **Legenda:** ✅ Implementado · 🔧 Parcial · ❌ Não implementado · 📋 System doc existe
 
 ---
@@ -26,9 +26,11 @@
 
 | Entidade | Service | Repository | Tests | DB Schema | System Doc | Notes |
 |:---|:---:|:---:|:---:|:---:|:---:|:---|
+| `campaign` | ✅ CampaignEventService | ✅ InMemory + Drizzle | ✅ | ✅ | 📋 ADR-018 | Barramento de efeitos colaterais cross-domain (cerco, clima, emboscada) |
+| `downtime` | ✅ DowntimeService | ✅ InMemory + Worker | ✅ | ✅ | 📋 ADR-017 | 8 Atividades de Recesso semanais (Tags A–H) |
 | `ancestry` | ✅ AncestryCatalogService | ✅ InMemory | ✅ | ❌ (catalog only) | ✅ | 6 ancestralidades oficiais |
 | `background` | ✅ BackgroundCatalogService | ✅ InMemory | ✅ | ❌ (catalog only) | ✅ | Catálogo read-only |
-| `bastion` | ✅ BastionService | ✅ InMemory | ✅ | ✅ | ✅ | Módulos e projetos de downtime |
+| `bastion` | ✅ BastionService | ✅ InMemory | ✅ | ✅ | ✅ | Módulos e projetos de infraestrutura do Bastião |
 | `camp` | ✅ CampService | ✅ InMemory | ✅ | ✅ | ✅ | Atividades de descanso, recoveryDecorators |
 | `character` | ✅ CharacterService + DerivedStatsService + IllnessService + StatusEffectDecorator | ✅ InMemory | ✅ | ✅ | ✅ | Entidade core do projeto |
 | `character-class` | ✅ CharacterClassCatalogService | ✅ InMemory | ✅ | ❌ (catalog only) | ✅ | 4 classes oficiais |
@@ -37,7 +39,7 @@
 | `compendium` | ✅ CompendiumCatalogService + SearchService | ✅ InMemory | ✅ | ❌ (catalog) | ✅ | Catálogo de itens, magias, criaturas |
 | `dialogue` | ✅ DialogueService | ✅ InMemory | ✅ | ✅ | 📋 | AST de diálogos com HP Mental |
 | `domain-regional` | ✅ RegionalDomainService | ✅ InMemory | ✅ | ✅ | 📋 | Conselho e projetos regionais |
-| `dungeon` | 🔧 DungeonService (parcial) | 🔧 | ✅ | ❌ | 📋 | Em progresso |
+| `dungeon` | 🔧 DungeonService (parcial) | 🔧 | ✅ | ❌ | 📋 | Service parcial; UI de DungeonMap na feature `dungeon-crawler` |
 | `equipment` | ✅ EquipmentCatalogService + CraftingService + InventoryService | ✅ InMemory | ✅ | ✅ | ✅ | Itens únicos e consumíveis |
 | `espionage` | ✅ EspionageService | ✅ InMemory | ✅ | ✅ | 📋 | Missões de espionagem e infiltração |
 | `investigation` | ✅ InvestigationService | ✅ InMemory | ✅ | ✅ | 📋 | Pistas, revelações, resolução |
@@ -49,11 +51,11 @@
 | `traps` | ✅ TrapService | ✅ InMemory | ✅ | ✅ | ✅ | Detecção e resolução de armadilhas |
 | `world-state` | ✅ WorldStateService | ✅ InMemory | ✅ | ✅ | 📋 | Key-Value do estado do mundo |
 | `world-tile` | ✅ WorldTileService + EncounterService | ✅ InMemory | ✅ | ✅ | ✅ | Grid axial (q,r), encontros por tier |
-| `siege` | ✅ SiegeService | ✅ InMemory | ✅ | ✅ | 📋 | Eventos de cerco ao Bastião (Fase 51) |
-| `lore` | ✅ LoreService | ✅ InMemory | ✅ | ✅ | 📋 | Encontros narrativos via lore_encounters + campaign_rumors (Fase 57) |
-| `combat` | 🔧 CombatService (domain) | 🔧 | ✅ | 🔧 | ✅ ADR-009/010 | Combate tático em progresso (Fases 68–72); IA inimiga, loot, transição mapa↔combate |
+| `siege` | ✅ SiegeService | ✅ InMemory | ✅ | ✅ | 📋 ADR-016 | Eventos de cerco ao Bastião |
+| `lore` | ✅ LoreService | ✅ InMemory | ✅ | ✅ | 📋 | Encontros narrativos via lore_encounters + campaign_rumors |
+| `combat` | 🔧 Infra completa (3 repos + schema); **CombatService ausente** | 🔧 InMemory + Drizzle + Worker | ❌ | ✅ | ✅ ADR-009/010/011 | Infra pronta; domain service ainda não implementado |
 
-**Total entities:** 26 · **Completos:** 23 · **Parciais:** 2 · **Não iniciados:** 0 · **Sem schema DB:** 6 (catalog-only)
+**Total entities:** 28 · **Completos:** 25 · **Parciais:** 2 (`dungeon`, `combat`) · **Não iniciados:** 0 · **Sem schema DB:** 6 (catalog-only)
 
 ---
 
@@ -61,12 +63,15 @@
 
 | Feature | Orquestra | UI (Svelte) | Tests Integração | System Doc | Notes |
 |:---|:---:|:---:|:---:|:---:|:---|
+| `campaign-timeline` | ✅ CampaignTimelinePanel | ✅ CampaignTimelinePanel.svelte | ✅ | 📋 ADR-018 | Linha do Tempo de Eventos de Campanha |
+| `downtime` | ✅ DowntimePanel (orquestra DowntimeService) | ✅ DowntimePanel.svelte | ✅ | 📋 ADR-017 | 8 Atividades de Recesso semanais (Tags A–H) |
+| `dungeon-crawler` | ❌ sem orquestração | 🔧 DungeonMap.svelte (26KB, sem spec) | ❌ | 📋 | UI parcial; domain service ausente |
 | `bastion` | ✅ | ✅ BastionPanel, DowntimeProjectList | ✅ | ✅ | Integrado à sessão |
 | `camp` | ✅ | ✅ CampPanel | ✅ | ✅ | Atividades + recoveryDecorators |
 | `character-create` | ✅ | ✅ | ✅ | ✅ | Fluxo 6/6 com catálogos |
 | `character-list` | ✅ | ✅ | ✅ | ✅ | Read-only com estado vazio |
 | `clocks` | ✅ | 🔧 ClockDemo | ✅ | 📋 | UI demo apenas |
-| `combat` | 🔧 | 🔧 | 🔧 | ✅ | Combate tático real (AI de inimigos em progresso) |
+| `combat` | ❌ | ❌ | ❌ | ✅ | Vazio (só .agents/); aguardando CombatService |
 | `combat-encounter` | ✅ CombatEncounterService + TacticalAiService | ✅ CombatEncounterPanel | ✅ | ✅ | Training mode funcional |
 | `compendium-browser` | ✅ | ✅ | ✅ | ✅ | Busca e exibição read-only |
 | `crafting` | ✅ CraftingService | ✅ CraftingWorkshopPanel | ✅ | ✅ | Forja de itens |
@@ -82,14 +87,14 @@
 | `quests` | ✅ | 🔧 | ✅ | 📋 | Lógica pronta, UI parcial |
 | `research` | 🔧 | 🔧 | 🔧 | 📋 | Em progresso |
 | `saves` | ✅ SaveService | 🔧 SavePanel | ✅ | ✅ | Import/export JSON |
-| `social` | ✅ SocialCombatService + SocialStandingService + NegotiationPanel | ✅ NegotiationPanel, FactionPanel, SocialDemo | ✅ | ✅ | Lógica e UI completas, NegotiationPanel integrado (Fase 65) |
+| `social` | ✅ SocialCombatService + SocialStandingService + NegotiationPanel | ✅ NegotiationPanel, FactionPanel, SocialDemo | ✅ | ✅ | Lógica e UI completas |
 | `spell-cast` | ✅ SpellCastBuilderService | ✅ SpellCastPanel | ✅ | ✅ | Builder com Weaving + Metamagia |
-| `survival` | ❌ | ❌ | ❌ | ✅ | Não iniciado (68 system docs prontos) |
+| `survival` | ❌ | ❌ | ❌ | ✅ | Vazio (só .agents/); 68 system docs prontos |
 | `traps` | ✅ | 🔧 | ✅ | ✅ | Lógica completa, UI parcial |
-| `chat` | ✅ ChatLog + GM Mode | ✅ ChatLog.svelte, RollModifiersDrawer.svelte | ✅ | 📋 | ChatLog com isGmOnly e filtro de Modo Mestre (Fase 56) |
-| `sandbox` | ✅ GMSandboxPanel | ✅ GMSandboxPanel.svelte | ✅ sandboxUtils.spec | 📋 | GM Sandbox com mutação de estado via RPC (Fase 57/59) |
+| `chat` | ✅ ChatLog + GM Mode | ✅ ChatLog.svelte, RollModifiersDrawer.svelte | ✅ | 📋 | ChatLog com isGmOnly e filtro de Modo Mestre |
+| `sandbox` | ✅ GMSandboxPanel | ✅ GMSandboxPanel.svelte | ✅ | 📋 | GM Sandbox com mutação de estado via RPC |
 
-**Total features:** 27 · **UI Completa:** 12 · **Lógica completa, UI parcial:** 9 · **Em progresso:** 5 · **Não iniciados:** 1 (survival)
+**Total features:** 30 · **UI Completa:** 14 · **Lógica completa, UI parcial:** 9 · **Em progresso:** 4 · **Não iniciados:** 2 (`combat`, `survival`) · **UI parcial sem spec:** 1 (`dungeon-crawler`)
 
 ---
 
@@ -122,3 +127,4 @@
 | 2026-05-31 | Criação inicial do mapa | 23 | 25 |
 | 2026-06-08 | Phases 51–67+: siege, lore, chat, sandbox; social UI upgrade | 25 | 27 |
 | 2026-06-09 | Adicionado entities/combat (descoberto no filesystem); mapa sincronizado com task em progresso (Fases 68–72) e ADRs 009–013 | 26 | 27 |
+| 2026-06-15 | Auditoria completa por grilling: adicionados entities/campaign e entities/downtime; features/campaign-timeline, features/downtime, features/dungeon-crawler; corrigido status de combat (infra pronta, domain service ausente) e survival (vazio); features/combat rebaixado de 🔧 para ❌ | 28 | 30 |

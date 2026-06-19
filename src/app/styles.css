@@ -3,6 +3,8 @@
 @import "../features/quests/ui/questLog.css";
 @import "../features/investigation/ui/investigation.css";
 @import "../features/sandbox/ui/sandbox.css";
+@import "../features/campaign-timeline/ui/campaignTimeline.css";
+@import "../features/downtime/ui/downtime.css";
 
 @theme {
 	--color-void: #1c1917;

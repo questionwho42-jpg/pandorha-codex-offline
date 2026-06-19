@@ -1,9 +1,7 @@
+import type { CampaignEventRecord as EventHistoryRecord } from "$lib/entities/campaign";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import type { RpcResponse } from "$lib/shared/rpc";
-import type {
-	EventHistoryRecord,
-	SiegeEventRecord,
-} from "../model/siegeSchema";
+import type { SiegeEventRecord } from "../model/siegeSchema";
 import type { SiegeRepositoryFailure } from "../model/siegeTypes";
 
 export class WorkerSiegeRepository {

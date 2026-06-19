@@ -8,3 +8,5 @@ dist/
 dev.db
 scratch/
 system-backup/
+.stryker-tmp/
+reports/

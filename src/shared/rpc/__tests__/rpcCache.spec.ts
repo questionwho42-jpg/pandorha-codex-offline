@@ -50,4 +50,26 @@ describe("RpcCache", () => {
 
 		expect(cache.get("FIND_CHARACTER", { id: "1" })).toBeNull();
 	});
+
+	it("should expire cache entries after TTL duration", () => {
+		const shortCache = new RpcCache(50);
+		shortCache.set("FIND_CHARACTER", { id: "1" }, { name: "Hero" });
+
+		// Imediatamente deve retornar
+		expect(shortCache.get("FIND_CHARACTER", { id: "1" })).toEqual({
+			name: "Hero",
+		});
+
+		// Avançar o tempo em 100ms
+		const originalDateNow = Date.now;
+		let mockTime = Date.now();
+		Date.now = () => mockTime;
+
+		mockTime += 100; // Avança 100ms
+
+		expect(shortCache.get("FIND_CHARACTER", { id: "1" })).toBeNull();
+
+		// Restaurar original
+		Date.now = originalDateNow;
+	});
 });

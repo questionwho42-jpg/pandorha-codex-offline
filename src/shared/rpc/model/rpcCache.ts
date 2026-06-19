@@ -1,15 +1,32 @@
 export class RpcCache {
-	private readonly cache = new Map<string, unknown>();
+	private readonly cache = new Map<
+		string,
+		{ value: unknown; timestamp: number }
+	>();
+	private readonly ttlMs: number;
+
+	constructor(ttlMs = 500) {
+		this.ttlMs = ttlMs;
+	}
 
 	public get(type: string, payload: unknown): unknown | null {
 		const key = this.getKey(type, payload);
 		const cached = this.cache.get(key);
-		return cached !== undefined ? cached : null;
+		if (cached === undefined) {
+			return null;
+		}
+
+		if (Date.now() - cached.timestamp > this.ttlMs) {
+			this.cache.delete(key);
+			return null;
+		}
+
+		return cached.value;
 	}
 
 	public set(type: string, payload: unknown, value: unknown): void {
 		const key = this.getKey(type, payload);
-		this.cache.set(key, value);
+		this.cache.set(key, { value, timestamp: Date.now() });
 	}
 
 	public invalidate(type: string): void {

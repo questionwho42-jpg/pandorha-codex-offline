@@ -99,6 +99,12 @@ export const APP_NAVIGATION_ITEMS = [
 		description: "Gestão física de base de operações e projetos de downtime.",
 	},
 	{
+		id: "downtime",
+		label: "Downtime",
+		heading: "Recesso dos Andarilhos",
+		description: "Planejamento e resolução do recesso semanal dos andarilhos.",
+	},
+	{
 		id: "quests",
 		label: "Missões",
 		heading: "Diário de Missões e Rumores",
@@ -157,6 +163,13 @@ export const APP_NAVIGATION_ITEMS = [
 		heading: "Geração Procedural de Masmorras",
 		description:
 			"Explore e desbrave masmorras biomecânicas geradas proceduralmente a partir de sementes determinísticas.",
+	},
+	{
+		id: "campaign-timeline",
+		label: "Cronologia",
+		heading: "Cronologia da Campanha",
+		description:
+			"Acompanhe a linha do tempo de eventos de campanha e mude regras toggleable.",
 	},
 ] as const;
 

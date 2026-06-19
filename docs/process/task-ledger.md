@@ -87,10 +87,82 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - Improvements: Corrigido bug lógico de correspondência de eixo mental no NegotiationService
 - Model/config: gemini-2.5-pro; local automation zero-token
 <!-- /pandorha-task:e46c6695-a700-46dd-b5a0-9e07cd5c6270-task-12 -->
+<!-- pandorha-task:20260615-combat-service-domain -->
+### CombatService — Domain Service (Dívida Técnica Prioritária)
+- id: 20260615-combat-service-domain
+- status: unfinished
+- kind: task
+- planned: no
+- started_at: —
+- finished_at: —
+- model_started: —
+- model_finished: —
+- last_modified_at: 2026-06-15T21:18:00-03:00
+- branch: —
+- commit_at_start: —
+- summary: Implementar CombatService em src/entities/combat/domain/ — a maior dívida técnica do projeto. Infraestrutura já existe (CombatRepository interface, InMemoryCombatRepository, DrizzleCombatRepository, WorkerCombatRepository, combatSchema). Falta o domain service que conecta sessions de combate persistidas ao loop tático real (ADR-009, ADR-010, ADR-011). Requer TDD reverso, Result Pattern e desacoplamento do CombatEncounterService da feature layer.
+- last_change: Identificado como gap durante auditoria de documentação de 2026-06-15. Não iniciado.
+#### Files At Start
+- src/entities/combat/domain/CombatRepository.ts
+- src/entities/combat/infrastructure/InMemoryCombatRepository.ts
+- src/entities/combat/infrastructure/DrizzleCombatRepository.ts
+- src/entities/combat/infrastructure/WorkerCombatRepository.ts
+- src/entities/combat/model/combatSchema.ts
+- docs/adr/ADR-009-combat-session-persistence.md
+- docs/adr/ADR-010-combat-turn-service.md
+- docs/adr/ADR-011-combat-encounter-service.md
+<!-- /pandorha-task:20260615-combat-service-domain -->
 <!-- /pandorha-ledger:in-progress -->
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260613-024210-tarefa-25-downtime-recess-panel -->
+### Fase 4: Downtime dos Andarilhos e Recesso no Bastiao
+- id: 20260613-024210-tarefa-25-downtime-recess-panel
+- status: completed
+- kind: task
+- planned: yes
+- started_at: 2026-06-13T02:58:21-03:00
+- finished_at: 2026-06-13T02:58:28-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-13T02:58:28-03:00
+- branch: master
+- commit_at_start: 5a35414 style: aplica formataÃ§Ã£o Biome nos arquivos da master
+- summary: Fase 4: Downtime dos Andarilhos e Recesso no Bastiao (Painel e Integracoes RPC/SQLite WASM)
+- last_change: Fase 4 (Downtime e Recesso) concluida com sucesso. Implementacao do DowntimePanel, testes unitarios sob Happy-DOM e integracao completa do motor no App.svelte e RPC SQLite WASM.
+#### Files At Start
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/model/sqliteOpfsTypes.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- docs/adr/ADR-017-wanderer-downtime-engine.md
+- docs/process/issues-fase4.md
+- drizzle/0028_nasty_beast.sql
+- drizzle/meta/0028_snapshot.json
+- src/entities/downtime/
+- src/features/downtime/
+- src/shared/persistence/domain/DrizzleDowntimeContext.ts
+#### Checkpoints
+#### Checkpoint 2026-06-13T02:58:21-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-13T02:58:28-03:00
+- Done: Fase 4 (Downtime e Recesso) concluida com sucesso. Implementacao do DowntimePanel, testes unitarios sob Happy-DOM e integracao completa do motor no App.svelte e RPC SQLite WASM.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260613-024210-tarefa-25-downtime-recess-panel -->
 <!-- pandorha-task:20260612-182200-tarefa-24-espionage-panel -->
 ### Tarefa 24: Painel de Espionagem, Furtividade e Infiltração Urbana
 - id: 20260612-182200-tarefa-24-espionage-panel
@@ -5016,6 +5088,144 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-16T06:18:20-03:00 - manual
+- branch: master
+- commit: 5a35414 style: aplica formataÃ§Ã£o Biome nos arquivos da master
+- changed_files_count: 58
+#### Changed Files
+- .agents/skills/self-review-checklist/scripts/hard_stop.sh
+- .agents/skills/self-review-checklist/scripts/run_json_tests.sh
+- CONTEXT.md
+- RELATORIO_PROJETO_PANDORHA_2026-05-01.md
+- docs/architecture/feature-coverage-map.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- factions_companions_progress.md
+- index.html
+- llms.txt
+- marcar_tags_metadados.md
+- mcp/pandorha-arch-guard/src/server.js
+- mcp/pandorha-arch-guard/test/arch-guard.test.js
+- planejamento_bastiao.md
+- planejamento_campanha_sobrevivencia.md
+- planejamento_etapas.md
+- planejamento_loop_gameplay.md
+- planejamento_offline_persistencia.md
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/app/styles.css
+- src/entities/lore/__tests__/LoreService.spec.ts
+- src/entities/siege/domain/SiegeRepository.ts
+- src/entities/siege/index.ts
+- src/entities/siege/infrastructure/DrizzleSiegeRepository.ts
+- src/entities/siege/infrastructure/InMemorySiegeRepository.ts
+- src/entities/siege/infrastructure/WorkerSiegeRepository.ts
+- src/entities/siege/model/siegeSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/sandbox/__tests__/sandboxUtils.spec.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/model/sqliteOpfsTypes.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/__tests__/rpcCache.spec.ts
+- src/shared/rpc/model/rpcCache.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- ... 18 more
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-13T07:47:32-03:00 - fase4-downtime-events-delivery
+- branch: master
+- commit: 5a35414 style: aplica formataÃ§Ã£o Biome nos arquivos da master
+- changed_files_count: 34
+#### Changed Files
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/app/styles.css
+- src/entities/lore/__tests__/LoreService.spec.ts
+- src/entities/siege/domain/SiegeRepository.ts
+- src/entities/siege/index.ts
+- src/entities/siege/infrastructure/DrizzleSiegeRepository.ts
+- src/entities/siege/infrastructure/InMemorySiegeRepository.ts
+- src/entities/siege/infrastructure/WorkerSiegeRepository.ts
+- src/entities/siege/model/siegeSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/sandbox/__tests__/sandboxUtils.spec.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/model/sqliteOpfsTypes.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- src/shared/rpc/model/rpcTypes.ts
+- vitest.config.mjs
+- docs/adr/ADR-017-wanderer-downtime-engine.md
+- docs/adr/ADR-018-campaign-event-engine.md
+- docs/process/issues-fase4.md
+- drizzle/0028_nasty_beast.sql
+- drizzle/meta/0028_snapshot.json
+- src/entities/campaign/
+- src/entities/downtime/
+- src/features/campaign-timeline/
+- src/features/downtime/
+- src/shared/persistence/domain/DrizzleDowntimeContext.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-13T04:52:39-03:00 - Conclusao de Eventos Globais de Campanha e Clocks
+- branch: master
+- commit: 5a35414 style: aplica formataÃ§Ã£o Biome nos arquivos da master
+- changed_files_count: 33
+#### Changed Files
+- docs/process/task-ledger.md
+- drizzle.config.mjs
+- drizzle/meta/_journal.json
+- src/app/App.svelte
+- src/app/model/navigation.ts
+- src/app/styles.css
+- src/entities/lore/__tests__/LoreService.spec.ts
+- src/entities/siege/domain/SiegeRepository.ts
+- src/entities/siege/index.ts
+- src/entities/siege/infrastructure/DrizzleSiegeRepository.ts
+- src/entities/siege/infrastructure/InMemorySiegeRepository.ts
+- src/entities/siege/infrastructure/WorkerSiegeRepository.ts
+- src/entities/siege/model/siegeSchema.ts
+- src/features/bastion/ui/BastionPanel.svelte
+- src/features/sandbox/__tests__/sandboxUtils.spec.ts
+- src/shared/persistence/__tests__/SqliteOpfsBootstrapService.spec.ts
+- src/shared/persistence/domain/SqliteOpfsBootstrapService.ts
+- src/shared/persistence/model/sqliteMigrations.ts
+- src/shared/persistence/model/sqliteOpfsTypes.ts
+- src/shared/persistence/worker/databaseWorkerHandler.ts
+- src/shared/rpc/model/rpcSchemas.ts
+- src/shared/rpc/model/rpcTypes.ts
+- vitest.config.mjs
+- docs/adr/ADR-017-wanderer-downtime-engine.md
+- docs/adr/ADR-018-campaign-event-engine.md
+- docs/process/issues-fase4.md
+- drizzle/0028_nasty_beast.sql
+- drizzle/meta/0028_snapshot.json
+- src/entities/campaign/
+- src/entities/downtime/
+- src/features/campaign-timeline/
+- src/features/downtime/
+- src/shared/persistence/domain/DrizzleDowntimeContext.ts
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-12T11:34:58-03:00 - task_19_complete
 - branch: feat/fase3-lore-events
 - commit: 151b0ad test(gate): achieve 97% branch coverage and fix ts compile errors

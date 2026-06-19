@@ -125,6 +125,8 @@ export const rpcCommandTypeSchema = z.enum([
 	"FIND_DUNGEON_ROOM_BY_COORDS",
 	"UPDATE_DUNGEON_ROOM_STATUS",
 	"UPDATE_DUNGEON_DELVE_STATUS",
+	"GET_CAMPAIGN_TIMELINE",
+	"RECORD_CAMPAIGN_EVENT",
 ]);
 
 export const jsonSerializableValueSchema = z.custom<JsonValue>(
@@ -159,6 +161,8 @@ export const saveGameSnapshotSchema = z.object({
 	activeSessions: z.array(jsonSerializableObjectSchema).optional(),
 	combatEncounters: z.array(jsonSerializableObjectSchema).optional(),
 	combatMonsters: z.array(jsonSerializableObjectSchema).optional(),
+	espionageCells: z.array(jsonSerializableObjectSchema).optional(),
+	campaignEventsHistory: z.array(jsonSerializableObjectSchema).optional(),
 });
 
 export const initDatabaseRequestSchema = z.object({
@@ -1136,7 +1140,63 @@ export const listSiegeHistoryRequestSchema = z.object({
 	}),
 });
 
+export const getCampaignRecessRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("GET_CAMPAIGN_RECESS"),
+	payload: z.object({
+		campaignId: z.string().min(1),
+	}),
+});
+
+export const addRecessDaysRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("ADD_RECESS_DAYS"),
+	payload: z.object({
+		campaignId: z.string().min(1),
+		days: z.number().int(),
+	}),
+});
+
+export const resolveDowntimeWeekRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("RESOLVE_DOWNTIME_WEEK"),
+	payload: z.object({
+		campaignId: z.string().min(1),
+		location: z.enum(["city", "bastion"]),
+		allocations: z.array(
+			z.object({
+				characterId: z.string().min(1),
+				actionTag: z.string().min(1),
+				params: jsonSerializableObjectSchema,
+			}),
+		),
+	}),
+});
+
+export const getCampaignTimelineRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("GET_CAMPAIGN_TIMELINE"),
+	payload: z.object({
+		campaignId: z.string().min(1),
+	}),
+});
+
+export const recordCampaignEventRequestSchema = z.object({
+	messageId: rpcMessageIdSchema,
+	type: z.literal("RECORD_CAMPAIGN_EVENT"),
+	payload: z.object({
+		campaignId: z.string().min(1),
+		eventType: z.string().min(1),
+		description: z.string().min(1),
+	}),
+});
+
 export const rpcRequestSchema = z.discriminatedUnion("type", [
+	getCampaignTimelineRequestSchema,
+	recordCampaignEventRequestSchema,
+	getCampaignRecessRequestSchema,
+	addRecessDaysRequestSchema,
+	resolveDowntimeWeekRequestSchema,
 	getAncestryCatalogRequestSchema,
 	getBackgroundCatalogRequestSchema,
 	getCharacterClassCatalogRequestSchema,

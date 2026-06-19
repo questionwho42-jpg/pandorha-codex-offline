@@ -6,6 +6,7 @@ import test from "node:test";
 import {
 	analyzeSource,
 	findFeatureName,
+	findEntityName,
 	normalizeSpecifier,
 	resolveFeatureImport,
 	resolveProjectRoot,
@@ -125,16 +126,40 @@ test("finds feature names only inside src/features", () => {
 	assert.equal(findFeatureName("src/lib/x.ts"), null);
 });
 
-test("treats src/entities as an allowed non-feature layer", () => {
-	assert.equal(findFeatureName("src/entities/character/model/schema.ts"), null);
+test("finds entity names inside src/entities", () => {
+	assert.equal(findEntityName("src/entities/character/model/schema.ts"), "character");
+	assert.equal(findEntityName("src/features/combat/ui/x.svelte"), null);
+});
 
+test("blocks entity imports from features/upper layers", () => {
 	const result = analyzeSource(
-		"import { characterApi } from '@/entities/character';",
-		"src/entities/character/model/schema.ts",
+		"import { combat } from '@/features/combat';",
+		"src/entities/character/domain/Service.ts",
+	);
+
+	assert.equal(result.is_valid, false);
+	assert.equal(result.violations.length, 1);
+	assert.equal(result.violations[0].type, "fsd-layer-violation");
+});
+
+test("blocks entity cross-imports of non-schema files", () => {
+	const result = analyzeSource(
+		"import { otherService } from '@/entities/siege/domain/SiegeService';",
+		"src/entities/character/domain/Service.ts",
+	);
+
+	assert.equal(result.is_valid, false);
+	assert.equal(result.violations.length, 1);
+	assert.equal(result.violations[0].type, "fsd-entity-cross-import");
+});
+
+test("allows entity cross-imports of schema files", () => {
+	const result = analyzeSource(
+		"import { siegeSchema } from '@/entities/siege/model/siegeSchema';",
+		"src/entities/character/domain/Service.ts",
 	);
 
 	assert.equal(result.is_valid, true);
-	assert.equal(result.checks.feature, null);
 	assert.deepEqual(result.violations, []);
 });
 

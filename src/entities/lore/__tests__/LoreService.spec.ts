@@ -562,6 +562,32 @@ describe("LoreService", () => {
 				expect(result.error.message).toBe("Mocked write error");
 			}
 		});
+
+		it("captures thrown errors during rumor discovery", async () => {
+			const { service, loreRepo } = createSetup();
+			loreRepo.findRumorById = async () => {
+				throw new TypeError("catastrophic discover");
+			};
+			const result = await service.discoverRumor("rumor-1");
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.message).toBe("catastrophic discover");
+			}
+		});
+
+		it("captures generic thrown string during rumor discovery", async () => {
+			const { service, loreRepo } = createSetup();
+			loreRepo.findRumorById = async () => {
+				throw "catastrophic discover string";
+			};
+			const result = await service.discoverRumor("rumor-1");
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.message).toBe(
+					"An unexpected error occurred during rumor discovery.",
+				);
+			}
+		});
 	});
 
 	describe("listDiscoveredRumorsByTile", () => {
@@ -608,6 +634,32 @@ describe("LoreService", () => {
 			expect(result.success).toBe(false);
 			if (!result.success) {
 				expect(result.error.message).toBe("Mocked tile read error");
+			}
+		});
+
+		it("captures thrown errors during list rumors by tile", async () => {
+			const { service, loreRepo } = createSetup();
+			loreRepo.listRumorsByTile = async () => {
+				throw new TypeError("catastrophic list tile");
+			};
+			const result = await service.listDiscoveredRumorsByTile("tile-1");
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.message).toBe("catastrophic list tile");
+			}
+		});
+
+		it("captures generic thrown string during list rumors by tile", async () => {
+			const { service, loreRepo } = createSetup();
+			loreRepo.listRumorsByTile = async () => {
+				throw "catastrophic list tile string";
+			};
+			const result = await service.listDiscoveredRumorsByTile("tile-1");
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.message).toBe(
+					"An unexpected error occurred while listing rumors.",
+				);
 			}
 		});
 	});
@@ -667,6 +719,32 @@ describe("LoreService", () => {
 			expect(result.success).toBe(false);
 			if (!result.success) {
 				expect(result.error.message).toBe("Mocked all read error");
+			}
+		});
+
+		it("captures thrown errors during list all rumors", async () => {
+			const { service, loreRepo } = createSetup();
+			loreRepo.listAllRumors = async () => {
+				throw new TypeError("catastrophic list all");
+			};
+			const result = await service.listAllDiscoveredRumors();
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.message).toBe("catastrophic list all");
+			}
+		});
+
+		it("captures generic thrown string during list all rumors", async () => {
+			const { service, loreRepo } = createSetup();
+			loreRepo.listAllRumors = async () => {
+				throw "catastrophic list all string";
+			};
+			const result = await service.listAllDiscoveredRumors();
+			expect(result.success).toBe(false);
+			if (!result.success) {
+				expect(result.error.message).toBe(
+					"An unexpected error occurred while listing all rumors.",
+				);
 			}
 		});
 	});

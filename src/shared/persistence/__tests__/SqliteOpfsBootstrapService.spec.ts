@@ -78,6 +78,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"0025_tan_greymalkin",
 				"0026_colossal_violations",
 				"0027_absurd_blink",
+				"0028_nasty_beast",
 			],
 			tableNames: [
 				"_pandorha_migrations",
@@ -95,6 +96,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"campaign_events_history",
 				"campaign_investigations",
 				"campaign_quests",
+				"campaign_recess",
 				"campaign_regional_domains",
 				"campaign_rumors",
 				"campaign_siege_events",
@@ -107,6 +109,7 @@ describe("SqliteOpfsBootstrapService", () => {
 				"combat_encounters",
 				"combat_monsters",
 				"crafting_recipes",
+				"downtime_action_logs",
 				"dungeon_delves",
 				"dungeon_rooms",
 				"espionage_cells",
@@ -194,6 +197,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0025_tan_greymalkin",
 			"0026_colossal_violations",
 			"0027_absurd_blink",
+			"0028_nasty_beast",
 		]);
 		expect(initialized.tableNames).toContain("world_state_entries");
 	});
@@ -332,6 +336,7 @@ describe("SqliteOpfsBootstrapService", () => {
 			"0025_tan_greymalkin",
 			"0026_colossal_violations",
 			"0027_absurd_blink",
+			"0028_nasty_beast",
 		]);
 		expect(emptyTablesResult.tableNames).toEqual([]);
 	});
@@ -521,6 +526,15 @@ describe("database worker request handler", () => {
 								updatedAt: REQUESTED_AT,
 							},
 						],
+						campaignEventsHistory: [
+							{
+								id: "e51b73d5-2d05-4fec-a18c-7cd685cfed99",
+								campaignId: "primary",
+								eventType: "siege_start",
+								description: "O teste de cerco iniciou no snapshot",
+								createdAt: REQUESTED_AT,
+							},
+						],
 					},
 				},
 			},
@@ -611,6 +625,15 @@ describe("database worker request handler", () => {
 							assignedMissionId: null,
 							createdAt: REQUESTED_AT,
 							updatedAt: REQUESTED_AT,
+						},
+					],
+					campaignEventsHistory: [
+						{
+							id: "e51b73d5-2d05-4fec-a18c-7cd685cfed99",
+							campaignId: "primary",
+							eventType: "siege_start",
+							description: "O teste de cerco iniciou no snapshot",
+							createdAt: REQUESTED_AT,
 						},
 					],
 				},
@@ -802,6 +825,58 @@ describe("database worker request handler", () => {
 			messageId: MESSAGE_ID,
 			success: true,
 			data: null,
+		});
+	});
+
+	it("handles Campaign Events RPC operations (record, list)", async () => {
+		const storage = new InMemoryDatabaseFileStorage();
+		const service = createService(storage);
+
+		await service.initializeDatabase({ requestedAt: REQUESTED_AT });
+
+		const campaignId = "primary";
+		const eventType = "siege_start";
+		const description = "O cerco foi iniciado!";
+
+		// 1. RECORD_CAMPAIGN_EVENT
+		const recordRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "RECORD_CAMPAIGN_EVENT",
+				payload: { campaignId, eventType, description },
+			},
+			{ bootstrapService: service },
+		);
+
+		expect(recordRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+			data: expect.objectContaining({
+				campaignId,
+				eventType,
+				description,
+			}),
+		});
+
+		// 2. GET_CAMPAIGN_TIMELINE
+		const timelineRes = await handleDatabaseWorkerRequest(
+			{
+				messageId: MESSAGE_ID,
+				type: "GET_CAMPAIGN_TIMELINE",
+				payload: { campaignId },
+			},
+			{ bootstrapService: service },
+		);
+
+		expect(timelineRes).toMatchObject({
+			messageId: MESSAGE_ID,
+			success: true,
+		});
+		expect(timelineRes.success && (timelineRes.data as any)).toHaveLength(1);
+		expect(timelineRes.success && (timelineRes.data as any)[0]).toMatchObject({
+			campaignId,
+			eventType,
+			description,
 		});
 	});
 

@@ -1,4 +1,6 @@
 /* istanbul ignore file */
+
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/sql-js";
 import { DrizzleAncestryRepository } from "$lib/entities/ancestry/infrastructure/DrizzleAncestryRepository";
 import { DrizzleAncestryTraitRepository } from "$lib/entities/ancestry/infrastructure/DrizzleAncestryTraitRepository";
@@ -22,6 +24,7 @@ import {
 } from "$lib/entities/bastion/model/bastionSchema";
 import { DrizzleCampRepository } from "$lib/entities/camp/infrastructure/DrizzleCampRepository";
 import { campaignCampSessions } from "$lib/entities/camp/model/campSchema";
+import { campaignEventsHistory } from "$lib/entities/campaign";
 import { DrizzleCharacterRepository } from "$lib/entities/character/infrastructure/DrizzleCharacterRepository";
 import {
 	canCharacterLevelUp,
@@ -49,6 +52,11 @@ import { DrizzleDialogueRepository } from "$lib/entities/dialogue/infrastructure
 import { campaignDialogueStates } from "$lib/entities/dialogue/model/dialogueSchema";
 import { DrizzleRegionalDomainRepository } from "$lib/entities/domain-regional/infrastructure/DrizzleRegionalDomainRepository";
 import { campaignRegionalDomains } from "$lib/entities/domain-regional/model/regionalDomainSchema";
+import { DowntimeService } from "$lib/entities/downtime/domain/DowntimeService";
+import {
+	campaignRecess,
+	downtimeActionLogs,
+} from "$lib/entities/downtime/model/downtimeSchema";
 import { DrizzleDungeonRepository } from "$lib/entities/dungeon/infrastructure/DrizzleDungeonRepository";
 import { CraftingService } from "$lib/entities/equipment/domain/CraftingService";
 import { DrizzleCraftingRepository } from "$lib/entities/equipment/infrastructure/DrizzleCraftingRepository";
@@ -69,6 +77,7 @@ import {
 } from "$lib/entities/quest/model/questSchema";
 import { SiegeService } from "$lib/entities/siege/domain/SiegeService";
 import { DrizzleSiegeRepository } from "$lib/entities/siege/infrastructure/DrizzleSiegeRepository";
+import { campaignSiegeEvents } from "$lib/entities/siege/model/siegeSchema";
 import { DrizzleFactionRepository } from "$lib/entities/social/infrastructure/DrizzleFactionRepository";
 import { DrizzleSocialRepository } from "$lib/entities/social/infrastructure/DrizzleSocialRepository";
 import {
@@ -96,6 +105,7 @@ import type {
 	SqliteMigration,
 	SqliteWasmFactory,
 } from "../model/sqliteOpfsTypes";
+import { DrizzleDowntimeContext } from "./DrizzleDowntimeContext";
 
 const MIGRATION_TABLE_SQL = `
 CREATE TABLE IF NOT EXISTS _pandorha_migrations (
@@ -324,6 +334,7 @@ export class SqliteOpfsBootstrapService {
 			database.data.run("DELETE FROM mercenary_companies;");
 			database.data.run("DELETE FROM mercenary_squads;");
 			database.data.run("DELETE FROM espionage_cells;");
+			database.data.run("DELETE FROM campaign_events_history;");
 
 			if (snapshot.worldState && snapshot.worldState.length > 0) {
 				for (const state of snapshot.worldState) {
@@ -674,6 +685,25 @@ export class SqliteOpfsBootstrapService {
 				}
 			}
 
+			// campaign_events_history
+			const snapshotCampaignEventsHistory = (snapshot as any)
+				.campaignEventsHistory;
+			if (
+				snapshotCampaignEventsHistory &&
+				snapshotCampaignEventsHistory.length > 0
+			) {
+				for (const ev of snapshotCampaignEventsHistory) {
+					const mappedEv = {
+						id: String(ev.id),
+						campaignId: String(ev.campaignId),
+						eventType: String(ev.eventType),
+						description: String(ev.description),
+						createdAt: String(ev.createdAt),
+					};
+					db.insert(campaignEventsHistory).values(mappedEv).run();
+				}
+			}
+
 			const exported = this.exportDatabase(database.data);
 			if (!exported.success) {
 				database.data.close();
@@ -778,6 +808,10 @@ export class SqliteOpfsBootstrapService {
 			const loadedActiveSessions = db.select().from(activeSessions).all();
 			const loadedCombatEncounters = db.select().from(combatEncounters).all();
 			const loadedCombatMonsters = db.select().from(combatMonsters).all();
+			const loadedCampaignEventsHistory = db
+				.select()
+				.from(campaignEventsHistory)
+				.all();
 
 			const mappedBastionModules = loadedBastionModules.map((m: any) => ({
 				...m,
@@ -831,6 +865,7 @@ export class SqliteOpfsBootstrapService {
 				activeSessions: loadedActiveSessions,
 				combatEncounters: loadedCombatEncounters,
 				combatMonsters: loadedCombatMonsters,
+				campaignEventsHistory: loadedCampaignEventsHistory,
 			});
 		} catch (error: unknown) {
 			database.data.close();
@@ -6829,6 +6864,578 @@ export class SqliteOpfsBootstrapService {
 			}
 		} catch {
 			// Ignorar se tabela não existir
+		}
+	}
+
+	public async getCampaignRecess(
+		campaignId: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			let rows = db
+				.select()
+				.from(campaignRecess)
+				.where(eq(campaignRecess.id, campaignId))
+				.all();
+
+			if (rows.length === 0) {
+				db.insert(campaignRecess)
+					.values({
+						id: campaignId,
+						recessDays: 7,
+						currentDateDays: 0,
+					})
+					.run();
+				rows = db
+					.select()
+					.from(campaignRecess)
+					.where(eq(campaignRecess.id, campaignId))
+					.all();
+
+				const exported = this.exportDatabase(database.data);
+				if (exported.success) {
+					await this.storage.writeDatabaseFile(exported.data);
+				}
+			}
+
+			database.data.close();
+			return ok(rows[0]);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load campaign recess from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async addRecessDays(
+		campaignId: string,
+		days: number,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const rows = db
+				.select()
+				.from(campaignRecess)
+				.where(eq(campaignRecess.id, campaignId))
+				.all();
+
+			const firstRow = rows[0];
+			if (firstRow) {
+				const nextDays = Math.max(0, firstRow.recessDays + days);
+				db.update(campaignRecess)
+					.set({ recessDays: nextDays })
+					.where(eq(campaignRecess.id, campaignId))
+					.run();
+			} else {
+				db.insert(campaignRecess)
+					.values({
+						id: campaignId,
+						recessDays: Math.max(0, 7 + days),
+						currentDateDays: 0,
+					})
+					.run();
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok({ success: true });
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not add recess days in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async resolveDowntimeWeek(params: {
+		campaignId: string;
+		location: "city" | "bastion";
+		allocations: Array<{
+			characterId: string;
+			actionTag: string;
+			params: any;
+		}>;
+	}): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const recessRows = db
+				.select()
+				.from(campaignRecess)
+				.where(eq(campaignRecess.id, params.campaignId))
+				.all();
+
+			const currentRecess = recessRows[0] ?? {
+				recessDays: 7,
+				currentDateDays: 0,
+			};
+			if (currentRecess.recessDays < 7) {
+				database.data.close();
+				return fail({
+					code: "INSUFFICIENT_RECESS_DAYS",
+					message: `Saldo de recesso insuficiente para resolver semana. Disponível: ${currentRecess.recessDays} dias.`,
+				});
+			}
+
+			const nextRecessDays = currentRecess.recessDays - 7;
+			const nextDateDays = currentRecess.currentDateDays + 7;
+			const weekIndex = Math.floor(nextDateDays / 7);
+
+			if (recessRows.length > 0) {
+				db.update(campaignRecess)
+					.set({ recessDays: nextRecessDays, currentDateDays: nextDateDays })
+					.where(eq(campaignRecess.id, params.campaignId))
+					.run();
+			} else {
+				db.insert(campaignRecess)
+					.values({
+						id: params.campaignId,
+						recessDays: nextRecessDays,
+						currentDateDays: nextDateDays,
+					})
+					.run();
+			}
+
+			let bastionRow = db.select().from(bastions).all()[0];
+			if (!bastionRow) {
+				const defaultBastionId = "bastion_default";
+				db.insert(bastions)
+					.values({
+						id: defaultBastionId,
+						name: "O Bastião dos Andarilhos",
+						chassisId: "fortaleza_pedra",
+						tier: 1,
+						structure: 5,
+						vigilance: 5,
+						logistics: 5,
+						integrityCurrent: 100,
+						threatCurrent: 0,
+						vaultGold: 1000,
+						createdAt: new Date().toISOString(),
+						updatedAt: new Date().toISOString(),
+					})
+					.run();
+				bastionRow = db.select().from(bastions).all()[0];
+			}
+
+			if (!bastionRow) {
+				database.data.close();
+				return fail({
+					code: "CLOCK_NOT_FOUND",
+					message: "Bastion record could not be found or initialized.",
+				});
+			}
+
+			const context = new DrizzleDowntimeContext(
+				db,
+				params.campaignId,
+				bastionRow.id,
+			);
+			const service = new DowntimeService(context);
+			const logRecords: any[] = [];
+
+			for (const alloc of params.allocations) {
+				let details = "";
+				let roll = 0;
+
+				const tag = alloc.actionTag.toUpperCase();
+				if (tag === "A") {
+					const res = await service.resolveTagA({
+						characterId: alloc.characterId,
+						tier: alloc.params.tier ?? "sustento",
+						statName: alloc.params.statName ?? "physical",
+						regionId: alloc.params.regionId,
+					});
+					if (res.success) {
+						roll = res.data.rollResult;
+						details = res.data.outcomeDetails;
+					} else {
+						details = `Erro na Tag A: ${res.error}`;
+					}
+				} else if (tag === "B") {
+					const res = await service.resolveTagB(alloc.characterId);
+					if (res.success) {
+						details = res.data.outcomeDetails;
+					} else {
+						details = `Erro na Tag B: ${res.error}`;
+					}
+				} else if (tag === "C") {
+					const res = await service.resolveTagC({
+						characterId: alloc.characterId,
+						bossId: alloc.params.bossId ?? "default_boss",
+						dc: alloc.params.dc ?? 20,
+						subornoPO: alloc.params.subornoPO ?? 0,
+					});
+					if (res.success) {
+						roll = res.data.rollResult;
+						details = res.data.outcomeDetails;
+					} else {
+						details = `Erro na Tag C: ${res.error}`;
+					}
+				} else if (tag === "D") {
+					const res = await service.resolveTagD(
+						alloc.characterId,
+						alloc.params.statName ?? "social",
+					);
+					if (res.success) {
+						roll = res.data.rollResult;
+						details = res.data.outcomeDetails;
+					} else {
+						details = `Erro na Tag D: ${res.error}`;
+					}
+				} else if (tag === "E") {
+					const res = await service.resolveTagE({
+						characterId: alloc.characterId,
+						regionId: alloc.params.regionId ?? "region_default",
+						goldSpent: alloc.params.goldSpent ?? 15,
+						statName: alloc.params.statName ?? "social",
+						dc: alloc.params.dc ?? 15,
+					});
+					if (res.success) {
+						roll = res.data.rollResult;
+						details = res.data.outcomeDetails;
+					} else {
+						details = `Erro na Tag E: ${res.error}`;
+					}
+				} else if (tag === "F") {
+					const res = await service.resolveTagF({
+						characterId: alloc.characterId,
+						oldTalentId: alloc.params.oldTalentId,
+						newTalentId: alloc.params.newTalentId,
+					});
+					if (res.success) {
+						details = res.data.outcomeDetails;
+					} else {
+						details = `Erro na Tag F: ${res.error}`;
+					}
+				} else if (tag === "G") {
+					const res = await service.resolveTagG({
+						characterId: alloc.characterId,
+						actionType: alloc.params.actionType ?? "coleta_impostos",
+						statName: alloc.params.statName ?? "mental",
+					});
+					if (res.success) {
+						roll = res.data.rollResult;
+						details = res.data.outcomeDetails;
+					} else {
+						details = `Erro na Tag G: ${res.error}`;
+					}
+				} else if (tag === "H") {
+					const res = await service.resolveTagH({
+						characterId: alloc.characterId,
+						factionId: alloc.params.factionId,
+						statName: alloc.params.statName ?? "social",
+						dc: alloc.params.dc ?? 15,
+					});
+					if (res.success) {
+						roll = res.data.rollResult;
+						details = res.data.outcomeDetails;
+					} else {
+						details = `Erro na Tag H: ${res.error}`;
+					}
+				} else {
+					details = `Tag de ação [${alloc.actionTag}] inválida ou não implementada.`;
+				}
+
+				const logId = crypto.randomUUID();
+				db.insert(downtimeActionLogs)
+					.values({
+						id: logId,
+						characterId: alloc.characterId,
+						weekIndex,
+						actionTag: alloc.actionTag,
+						rollResult: roll,
+						outcomeDetails: details,
+						createdAt: new Date().toISOString(),
+					})
+					.run();
+
+				logRecords.push({
+					characterId: alloc.characterId,
+					actionTag: alloc.actionTag,
+					rollResult: roll,
+					outcomeDetails: details,
+				});
+			}
+
+			const activeClocks = db
+				.select()
+				.from(progressClocks)
+				.where(eq(progressClocks.isCompleted, false))
+				.all();
+
+			let siegeTriggered = false;
+			let siegeFactionId = "";
+
+			for (const clock of activeClocks) {
+				const nextFilled = clock.filledSegments + 1;
+				const isCompleted = nextFilled >= clock.totalSegments;
+
+				db.update(progressClocks)
+					.set({
+						filledSegments: nextFilled,
+						isCompleted,
+					})
+					.where(eq(progressClocks.id, clock.id))
+					.run();
+
+				if (
+					isCompleted &&
+					(clock.triggerEvent === "siege" ||
+						clock.name.toLowerCase().includes("ameaça"))
+				) {
+					siegeTriggered = true;
+					siegeFactionId = clock.name.toLowerCase().includes("ruína")
+						? "fac-ruin"
+						: "rival_faction";
+				}
+			}
+
+			let threatDelta = 1;
+			if (params.location === "bastion") {
+				threatDelta = -1;
+			}
+
+			const nextThreat = Math.min(
+				10,
+				Math.max(0, bastionRow.threatCurrent + threatDelta),
+			);
+			db.update(bastions)
+				.set({
+					threatCurrent: nextThreat,
+					updatedAt: new Date().toISOString(),
+				})
+				.where(eq(bastions.id, bastionRow.id))
+				.run();
+
+			if (nextThreat >= 10 && !siegeTriggered) {
+				siegeTriggered = true;
+				siegeFactionId = "rival_faction";
+			}
+
+			let siegeRecord: any = null;
+			if (siegeTriggered) {
+				let dangerLevel = 3;
+				if (params.location === "bastion") {
+					dangerLevel = 2;
+				}
+
+				const siegeId = crypto.randomUUID();
+				const newSiege = {
+					id: siegeId,
+					campaignId: params.campaignId,
+					bastionId: bastionRow.id,
+					factionId: siegeFactionId,
+					status: "active",
+					dangerLevel,
+					damagePoints: 0,
+					createdAt: new Date().toISOString(),
+					updatedAt: new Date().toISOString(),
+				};
+
+				db.insert(campaignSiegeEvents).values(newSiege).run();
+				siegeRecord = newSiege;
+
+				let description = `Fase Macro: O exército da Facção inimiga [${siegeFactionId}] cercou o Bastião com nível de perigo [${dangerLevel}]!`;
+				if (params.location === "bastion") {
+					description +=
+						" ATENUAÇÃO: Cerco atenuado (+2 Defesa temporária, 50% menos ouro roubado) devido à segurança do recesso guarnecido no Bastião.";
+				}
+
+				db.insert(campaignEventsHistory)
+					.values({
+						id: crypto.randomUUID(),
+						campaignId: params.campaignId,
+						eventType: "siege_start",
+						description,
+						createdAt: new Date().toISOString(),
+					})
+					.run();
+			}
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok({
+				weekIndex,
+				recessDaysRemaining: nextRecessDays,
+				currentDateDays: nextDateDays,
+				logRecords,
+				siegeTriggered,
+				siegeRecord,
+			});
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not resolve downtime week in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async getCampaignTimeline(
+		campaignId: string,
+	): Promise<Result<any[], SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const rows = db
+				.select()
+				.from(campaignEventsHistory)
+				.where(eq(campaignEventsHistory.campaignId, campaignId))
+				.orderBy(campaignEventsHistory.createdAt)
+				.all();
+
+			database.data.close();
+			return ok(rows);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_READ_FAILED",
+				message: "Could not load campaign timeline from SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
+		}
+	}
+
+	public async recordCampaignEvent(
+		campaignId: string,
+		eventType: string,
+		description: string,
+	): Promise<Result<any, SqliteBootstrapFailure>> {
+		const storedFile = await this.storage.readDatabaseFile();
+		if (!storedFile.success) {
+			return fail(storedFile.error);
+		}
+
+		const sqlite = await this.createSqliteModule();
+		if (!sqlite.success) {
+			return fail(sqlite.error);
+		}
+
+		const database = this.openDatabase(sqlite.data, storedFile.data);
+		if (!database.success) {
+			return fail(database.error);
+		}
+
+		try {
+			const db = drizzle(database.data);
+			const newEvent = {
+				id: crypto.randomUUID(),
+				campaignId,
+				eventType,
+				description,
+				createdAt: new Date().toISOString(),
+			};
+
+			db.insert(campaignEventsHistory).values(newEvent).run();
+
+			const exported = this.exportDatabase(database.data);
+			if (!exported.success) {
+				database.data.close();
+				return fail(exported.error);
+			}
+
+			const written = await this.storage.writeDatabaseFile(exported.data);
+			if (!written.success) {
+				database.data.close();
+				return fail(written.error);
+			}
+
+			database.data.close();
+			return ok(newEvent);
+		} catch (error: unknown) {
+			database.data.close();
+			return fail({
+				code: "DATABASE_FILE_WRITE_FAILED",
+				message: "Could not record campaign event in SQLite database.",
+				details: { cause: stringifyCause(error) },
+			});
 		}
 	}
 

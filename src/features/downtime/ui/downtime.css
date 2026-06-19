@@ -1,0 +1,75 @@
+/* Estilos HSL personalizados para manter o design medieval-futurista e neon premium */
+.bg-void {
+	background-color: #0b0c10;
+}
+.text-bone {
+	color: #e2e8f0;
+}
+.text-ether {
+	color: #00f3ff;
+}
+.text-purple-runic {
+	color: #cc00ff;
+}
+.text-orange-hungry {
+	color: #ff7b00;
+}
+.border-bronze\/35 {
+	border-color: rgba(168, 120, 50, 0.35);
+}
+.border-bronze\/15 {
+	border-color: rgba(168, 120, 50, 0.15);
+}
+.border-bronze\/20 {
+	border-color: rgba(168, 120, 50, 0.2);
+}
+.border-bronze\/25 {
+	border-color: rgba(168, 120, 50, 0.25);
+}
+.border-bronze\/10 {
+	border-color: rgba(168, 120, 50, 0.1);
+}
+.bg-purple-runic\/5 {
+	background-color: rgba(204, 0, 255, 0.05);
+}
+.bg-ruin\/20 {
+	background-color: rgba(30, 20, 20, 0.2);
+}
+.bg-ruin\/5 {
+	background-color: rgba(30, 20, 20, 0.05);
+}
+.bg-ruin\/40 {
+	background-color: rgba(30, 20, 20, 0.4);
+}
+.bg-purple-runic {
+	background-color: #cc00ff;
+}
+.from-purple-runic {
+	--tw-gradient-from: #cc00ff;
+	--tw-gradient-to: rgba(204, 0, 255, 0);
+	--tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.to-ether {
+	--tw-gradient-to: #00f3ff;
+}
+.shadow-purple-runic\/20 {
+	box-shadow: 0 10px 15px -3px rgba(204, 0, 255, 0.2);
+}
+
+/* Custom alerts to avoid Tailwind default color violations */
+.downtime-alert {
+	padding: 0.75rem;
+	font-size: 0.75rem;
+	border-radius: 4px;
+	z-index: 10;
+}
+.success-alert {
+	background-color: rgba(6, 78, 59, 0.4);
+	border: 1px solid rgba(16, 185, 129, 0.3);
+	color: #6ee7b7;
+}
+.error-alert {
+	background-color: rgba(136, 19, 55, 0.4);
+	border: 1px solid rgba(244, 63, 94, 0.3);
+	color: #fda4af;
+}

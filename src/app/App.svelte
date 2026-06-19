@@ -73,6 +73,7 @@ import {
 import { DialoguePanel } from "$lib/features/dialogue";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { DomainCouncilPanel } from "$lib/features/domain-regional";
+import { DowntimePanel } from "$lib/features/downtime";
 import { DungeonMap } from "$lib/features/dungeon-crawler";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import EspionageManagementPanel from "$lib/features/espionage/ui/EspionageManagementPanel.svelte";
@@ -94,6 +95,7 @@ import { NegotiationPanel, SocialDemo } from "$lib/features/social";
 import { SocialStandingService } from "$lib/features/social/domain/SocialStandingService";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { SpellbookPanel } from "$lib/features/spell-cast";
+import CampaignTimelinePanel from "../features/campaign-timeline/ui/CampaignTimelinePanel.svelte";
 import { createCharacterListView } from "../features/character-list/model/characterListView";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import TrapDeploymentPanel from "../features/traps/ui/TrapDeploymentPanel.svelte";
@@ -1898,6 +1900,21 @@ async function createCharacter(
 					characters={characterRecords}
 					onEndRecess={handleGlobalEndRecess}
 				/>
+			{:else if activeView === "downtime"}
+				<DowntimePanel
+					characters={characterRecords}
+					onDowntimeResolved={async () => {
+						characterRecords = characterSession.repository.all();
+						const tempEffects: any[] = [];
+						for (const char of characterRecords) {
+							const res = await characterSession.repository.findStatusEffectsByCharacterId(char.id);
+							if (res.success) {
+								tempEffects.push(...res.data);
+							}
+						}
+						activeStatusEffects = tempEffects;
+					}}
+				/>
 			{:else if activeView === "quests"}
 				<QuestsPanel />
 			{:else if activeView === "investigation"}
@@ -2024,6 +2041,8 @@ async function createCharacter(
 						}
 					}}
 				/>
+			{:else if activeView === "campaign-timeline"}
+				<CampaignTimelinePanel />
 			{:else}
 				<p class="max-w-3xl text-lg leading-8 text-bone">
 					{activeItem.description}

@@ -1294,6 +1294,44 @@ export async function handleDatabaseWorkerRequest(
 			});
 		}
 
+		case "GET_CAMPAIGN_TIMELINE": {
+			const result = await input.bootstrapService.getCampaignTimeline(
+				command.payload.campaignId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
+		case "RECORD_CAMPAIGN_EVENT": {
+			const result = await input.bootstrapService.recordCampaignEvent(
+				command.payload.campaignId,
+				command.payload.eventType,
+				command.payload.description,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data as unknown as JsonValue,
+			});
+		}
+
 		case "SAVE_QUEST": {
 			const result = await input.bootstrapService.saveQuest(
 				command.payload.quest,
@@ -2157,6 +2195,61 @@ export async function handleDatabaseWorkerRequest(
 
 		case "FORCE_SPAWN_ACTOR": {
 			const result = await input.bootstrapService.forceSpawnActor(
+				command.payload,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "GET_CAMPAIGN_RECESS": {
+			const result = await input.bootstrapService.getCampaignRecess(
+				command.payload.campaignId,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "ADD_RECESS_DAYS": {
+			const result = await input.bootstrapService.addRecessDays(
+				command.payload.campaignId,
+				command.payload.days,
+			);
+			if (!result.success) {
+				return createRpcFailureResponse({
+					messageId: command.messageId,
+					code: result.error.code,
+					message: result.error.message,
+					details: asSerializableDetails(result.error.details),
+				});
+			}
+			return createRpcSuccessResponse({
+				messageId: command.messageId,
+				data: result.data,
+			});
+		}
+
+		case "RESOLVE_DOWNTIME_WEEK": {
+			const result = await input.bootstrapService.resolveDowntimeWeek(
 				command.payload,
 			);
 			if (!result.success) {

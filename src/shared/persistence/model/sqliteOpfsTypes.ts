@@ -49,7 +49,8 @@ export type SqliteBootstrapFailureCode =
 	| "INVALID_LEVEL_UP_DISTRIBUTION"
 	| "SPELL_NOT_FOUND"
 	| "INSUFFICIENT_ETHER"
-	| "CLOCK_NOT_FOUND";
+	| "CLOCK_NOT_FOUND"
+	| "INSUFFICIENT_RECESS_DAYS";
 
 export interface SqliteBootstrapFailure {
 	readonly code: SqliteBootstrapFailureCode;

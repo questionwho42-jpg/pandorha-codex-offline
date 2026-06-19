@@ -201,10 +201,16 @@ _Avoid_: Base, acampamento permanente, quartel
 Estrutura construída no Bastião (ex.: Forja, Biblioteca Arcana, Enfermaria) que concede bônus específicos e ações de Downtime.
 _Avoid_: Upgrade, melhoria, building
 
-**Projeto de Downtime (Downtime Project):**
-Ação de longa duração executada durante dias livres no Bastião. Consome tempo (Turnos Diários) e pode requerer recursos.
-_Localização_: `src/features/bastion/ui/DowntimeProjectList.svelte`
-_Avoid_: Projeto de base, ação de descanso
+**Projeto de Infraestrutura do Bastião (Bastion Infrastructure Project):**
+Ação de construção ou manutenção de longa duração executada no Bastião. Consome tempo (Turnos Diários) e pode requerer recursos materiais. Gerenciada pelo `BastionService`.
+_Localização_: `src/entities/bastion/`, `src/features/bastion/ui/DowntimeProjectList.svelte`
+_Avoid_: Projeto de downtime (ambíguo), projeto de base, ação de descanso
+
+**Atividade de Recesso (Downtime Tag / Weekly Activity):**
+Uma das 8 atividades semanais (Tags A–H) disponíveis ao Andarilho durante períodos de tempo livre fora do ciclo de exploração. Cada Tag tem custo em ouro, rolagem de atributo e DC próprios. Tags canônicas: A (Sustento), B (Recuperação Prolongada), C (Investigação Arcana), D (Especulação no Submundo), E (Boemia e Lavagem de Infâmia), F (Re-Treinamento), G (Gestão de Domínio Regional), H (Juramento de Sangue). Resolvidas pelo `DowntimeService`.
+_Localização_: `src/entities/downtime/domain/DowntimeService.ts`, `src/features/downtime/ui/DowntimePanel.svelte`
+_ADR_: `docs/adr/ADR-017-wanderer-downtime-engine.md`
+_Avoid_: Projeto de downtime (confunde com infraestrutura do Bastião), ação de descanso genérica
 
 **Missão de Campanha (Campaign Quest):**
 Uma missão focada na crônica principal e narrativa do Andarilho, aceita e resolvida através de Diálogos e pistas de Investigação.
@@ -312,6 +318,30 @@ _Avoid_: Cache de banco de dados, cache de sessão
 Interface exclusiva do Modo Mestre para mutação direta do estado do mundo em tempo de jogo: spawn de monstros, alteração de Relógios de Progresso e injeção de eventos via RPC direto ao Worker.
 _Localização_: `src/features/sandbox/ui/GMSandboxPanel.svelte`
 _Avoid_: Debug panel, painel de trapaça
+
+---
+
+## Domínio de Campanha
+
+**Evento de Campanha (Campaign Event):**
+Registro imutável persistido em banco que captura efeitos colaterais significativos do mundo durante a sessão: cercos disparados por infâmia extrema, mudanças climáticas por Relógio de Progresso completado, e emboscadas por estado de Marcado pela Dívida no repouso. O `CampaignEventService` funciona como barramento de consequências cross-domain — não é narrativa, é lógica de causas e efeitos. Os tipos canônicos de evento são: `siege_start`, `weather_shift`, `clock_advance`, `ambience_change`.
+_Localização_: `src/entities/campaign/domain/CampaignEventService.ts`
+_ADR_: `docs/adr/ADR-018-campaign-event-engine.md`
+_Avoid_: Missão de Campanha (que é narrativa), log de debug, diário de sessão
+
+**Linha do Tempo de Campanha (Campaign Timeline):**
+Interface visual que exibe o histórico cronológico de Eventos de Campanha da sessão ativa, permitindo ao GM e aos jogadores rastrear a sequência de consequências disparadas durante a exploração.
+_Localização_: `src/features/campaign-timeline/ui/CampaignTimelinePanel.svelte`
+_Avoid_: Histórico de jogo genérico, log de chat
+
+---
+
+## Domínio de Masmorra (Dungeon)
+
+**Mapa de Masmorra (DungeonMap):**
+Interface visual interativa de exploração sala-a-sala da Incursão de Masmorra. Renderiza o grafo de Salas de Masmorra (`dungeon_rooms`) gerado proceduralmente a partir do seed único da masmorra e permite navegação pelo jogador.
+_Localização_: `src/features/dungeon-crawler/ui/DungeonMap.svelte`
+_Avoid_: Mapa de dungeon genérico, grade de tiles
 
 ---
 

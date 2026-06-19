@@ -1,10 +1,10 @@
 ---
 title: "Pandorha Engine - AI Context Map"
-version: "2.1.0"
+version: "2.2.0"
 stack: "Svelte 5 (Runes), Drizzle ORM, SQLite WASM, Web Workers, Vite"
 conventions: "Feature-Sliced Design (4 camadas), Strict TDD, Custom RPC Bridge"
 maintenance_protocol: "Hybrid (Agent suggests LLMS_DIFF, Human approves)"
-updated: "2026-06-11"
+updated: "2026-06-15"
 ---
 
 # 🗺️ PANDORHA ENGINE: AI ROOT MAP
@@ -30,7 +30,7 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 
 | Action | Command | Purpose |
 | :--- | :--- | :--- |
-| **Test** | `npm run test:unit` | Run Vitest suite (100% coverage required on 58 registered files) |
+| **Test** | `npm run test:unit` | Run Vitest suite (100% coverage required on 74 registered files) |
 | **Lint** | `npm run lint` | Verify architectural constraints (Biome) |
 | **Svelte 5** | `node scripts/validate_svelte_syntax.mjs src` | Verify Svelte 5 runes syntax compliance |
 | **Portable** | `node scripts/run_portable_command.mjs "<cmd>"` | Translate and run Unix commands on Windows |
@@ -52,7 +52,7 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 - [worker_rpc_spec.md](./docs/architecture/worker_rpc_spec.md): Worker RPC contract — CQRS, Result monad, serialization rules. Schema path: `src/shared/rpc/model/rpcSchemas.ts`.
 - [automation-spec.md](./docs/process/automation-spec.md): Zero-token maintenance, task ledger, inbox, and promotion protocol.
 - [task-ledger.md](./docs/process/task-ledger.md): Active, completed, unfinished, and snapshot records.
-- [change-inbox.md](./docs/process/change-inbox.md): Unplanned requests awaiting documentation promotion (currently empty — all promoted 2026-05-31).
+- [change-inbox.md](./docs/process/change-inbox.md): Unplanned requests awaiting documentation promotion (currently empty — all promoted 2026-06-13).
 - **CONSOLIDATED (Phase 3):** Traps (TrapService), Illnesses & Toxins (SurvivalService), Dialogue & Choice events (LoreService), Factions favors/patronage (PatronageService), and Siege/Invasion loop (SiegeService).
 
 ## 📐 TIER 1B: ARCHITECTURAL DECISIONS [REF:ADR]
@@ -72,6 +72,8 @@ O agente **DEVE** abrir um bloco `<thought>` interno para validar a mudança pro
 - [ADR-014](./docs/adr/ADR-014-rpc-cache-main-thread.md): RPC Cache global na thread principal — latência < 16ms, invalidação pessimista por escrita.
 - [ADR-015](./docs/adr/ADR-015-advanced-testing-fase2.md): Diretrizes para testes de integração robustos, cobertura rigorosa de repositories e fakes em memória.
 - [ADR-016](./docs/adr/ADR-016-siege-event-resolution-loop.md): Loop de resolução de cerco no Bastião desacoplado por interfaces locais (FSD compliance).
+- [ADR-017](./docs/adr/ADR-017-wanderer-downtime-engine.md): Motor de Atividades de Recesso Semanal (Tags A–H) — domínio independente do Bastião, resolvido pelo DowntimeService.
+- [ADR-018](./docs/adr/ADR-018-campaign-event-engine.md): Motor de Eventos de Campanha — barramento de consequências cross-domain (infâmia → cerco, relógio → clima, dívida → emboscada).
 
 ## 🧱 TIER 2: SKILLS & AGENTS [REF:TIER2]
 - [.agents/skills/](./.agents/skills/): Directory containing all skill definitions for AI agents (32+ skills).
