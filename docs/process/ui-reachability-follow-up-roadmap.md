@@ -85,6 +85,13 @@ novos. Itens sem perfil seguro seguem visiveis como carga/ownership, mas nao
 ganham acao de equipar, perfil de combate, ouro inicial, durabilidade mutavel ou
 efeitos mecanicos por inferencia.
 
+O gate de durabilidade v9 foi aprovado em
+`docs/process/equipment-durability-save-v9-gate.md`; ele cobre apenas condicao
+manual por ledger, UI no Inventario, bloqueio de item quebrado no
+loadout/Combate e migracao para save v9. Desgaste automatico, penalidade de
+item danificado, reparo por Acampamento, crafting, custos e HP real continuam
+exigindo fases proprias.
+
 Uma futura tarefa só deve começar quando:
 
 - a entrada correspondente do `change-inbox` tiver um plano aprovado;

@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260618-214152-equipment-durability-save-v9-gate -->
+### Equipment durability save v9 gate
+- id: 20260618-214152-equipment-durability-save-v9-gate
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-18T21:41:52-03:00
+- finished_at: 2026-06-18T21:43:52-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-18T21:43:52-03:00
+- branch: codex/docs/equipment-durability-save-v9-gate
+- commit_at_start: 2581698 docs(process): record starting equipment promotion merge
+- summary: Approve a bounded durability ledger v9 contract for manual inventory condition tracking without combat auto-wear, damaged penalties, camp repair, crafting, HP real or docs/system changes.
+- last_change: Approved the equipment durability save v9 gate with a bounded manual condition ledger, save v9 scope, inventory UI contract, broken-item combat/loadout blocking, and explicit exclusions for automatic wear, damaged penalties, camp repair, crafting, HP real and docs/system changes.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-18T21:41:52-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-18T21:43:52-03:00
+- Done: Approved the equipment durability save v9 gate with a bounded manual condition ledger, save v9 scope, inventory UI contract, broken-item combat/loadout blocking, and explicit exclusions for automatic wear, damaged penalties, camp repair, crafting, HP real and docs/system changes.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260618-214152-equipment-durability-save-v9-gate -->
 <!-- pandorha-task:20260618-213320-starting-equipment-promotion-sweep -->
 ### Starting equipment promotion sweep
 - id: 20260618-213320-starting-equipment-promotion-sweep

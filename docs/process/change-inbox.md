@@ -54,9 +54,23 @@ The automation owns the marked sections below. Manual edits should stay outside 
   starting-equipment slice: new characters receive class kits through the
   existing inventory ledger, while auto-loadout, gold, durability, HP real,
   expanded item profiles and `docs/system` changes remain outside the delivery.
+- `20260618-214152-equipment-durability-save-v9-gate` approves the bounded
+  save v9 step for `20260615-future-inventory-durability` through
+  `docs/process/equipment-durability-save-v9-gate.md`: manual item condition
+  tracking by ledger, without automatic wear, damaged penalties, camp repair,
+  crafting, HP real or `docs/system` changes.
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260618-214152-equipment-durability-save-v9-gate -->
+### Equipment durability save v9 gate
+- id: 20260618-214152-equipment-durability-save-v9-gate
+- status: open
+- created_at: 2026-06-18T21:41:52-03:00
+- source: task-ledger
+- summary: Approve a bounded durability ledger v9 contract for manual inventory condition tracking without combat auto-wear, damaged penalties, camp repair, crafting, HP real or docs/system changes.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260618-214152-equipment-durability-save-v9-gate -->
 <!-- pandorha-inbox:20260618-213320-starting-equipment-promotion-sweep -->
 ### Starting equipment promotion sweep
 - id: 20260618-213320-starting-equipment-promotion-sweep
