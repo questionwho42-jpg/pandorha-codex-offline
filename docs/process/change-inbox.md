@@ -58,6 +58,10 @@ The automation owns the marked sections below. Manual edits should stay outside 
   profiles for starting kit items that lack sovereign statistics. `chainmail`,
   `shortbow`, `staff`, `rapier` and `luxury-padded-armor` remain ownership/cargo
   only until a future profile contract is approved.
+- `20260619-175723-pwa-install-update-gate` approves the bounded PWA install
+  and update UI step for `20260606-future-pwa-update-install-ui` through
+  `docs/process/pwa-install-update-gate.md`, reusing the existing service
+  worker and local assets without new dependencies or RPG rule changes.
 - `20260618-214152-equipment-durability-save-v9-gate` approves the bounded
   save v9 step for `20260615-future-inventory-durability` through
   `docs/process/equipment-durability-save-v9-gate.md`: manual item condition
@@ -71,6 +75,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260619-175723-pwa-install-update-gate -->
+### PWA install update gate
+- id: 20260619-175723-pwa-install-update-gate
+- status: open
+- created_at: 2026-06-19T17:57:23-03:00
+- source: task-ledger
+- summary: Approve a bounded PWA install and update UI contract using the existing service worker, local manifest assets, and no new dependencies, push notifications, background sync, cloud sync or RPG rule changes.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260619-175723-pwa-install-update-gate -->
 <!-- pandorha-inbox:20260619-175238-starting-equipment-profile-gap-gate -->
 ### Starting equipment profile gap gate
 - id: 20260619-175238-starting-equipment-profile-gap-gate
@@ -140,7 +153,7 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - status: open
 - created_at: 2026-06-06T02:29:38-03:00
 - source: task-ledger
-- summary: Planejar manifest com ícones instaláveis e tela segura de atualização de cache após estabilizar o comportamento offline e a automação de rede.
+- summary: Gate de instalacao e atualizacao PWA aprovado; implementar manifest local, botao Instalar app e aviso Atualizacao disponivel sem nova dependencia, push notification, background sync, cloud sync ou regra de RPG.
 - expected_promotion: official docs after merge to main
 <!-- /pandorha-inbox:20260606-future-pwa-update-install-ui -->
 <!-- pandorha-inbox:20260606-future-social-higher-tiers -->

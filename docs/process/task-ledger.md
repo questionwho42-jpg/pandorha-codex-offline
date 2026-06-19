@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260619-175723-pwa-install-update-gate -->
+### PWA install update gate
+- id: 20260619-175723-pwa-install-update-gate
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-19T17:57:23-03:00
+- finished_at: 2026-06-19T17:58:19-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: GPT-5 Codex
+- last_modified_at: 2026-06-19T17:58:19-03:00
+- branch: codex/docs/pwa-install-update-gate
+- commit_at_start: 33870ef chore(process): record profile gap gate merge
+- summary: Approve a bounded PWA install and update UI contract using the existing service worker, local manifest assets, and no new dependencies, push notifications, background sync, cloud sync or RPG rule changes.
+- last_change: Approved the bounded PWA install and update UI contract using the existing service worker, local manifest assets and typed UI states, without new dependencies, push notifications, background sync, cloud sync or RPG rule changes.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-19T17:57:23-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-19T17:58:19-03:00
+- Done: Approved the bounded PWA install and update UI contract using the existing service worker, local manifest assets and typed UI states, without new dependencies, push notifications, background sync, cloud sync or RPG rule changes.
+- Next: Commit the PWA gate, merge to main, push, and run qa:next-phase-readiness before implementing the UI by TDD.
+- Risks: Cache update behavior must be validated carefully in Browser do Codex during implementation.
+- Improvements: The future PWA inbox item now has a concrete contract for manifest, install prompt and waiting-worker update flow.
+- Model/config: GPT-5 Codex
+<!-- /pandorha-task:20260619-175723-pwa-install-update-gate -->
 <!-- pandorha-task:20260619-175238-starting-equipment-profile-gap-gate -->
 ### Starting equipment profile gap gate
 - id: 20260619-175238-starting-equipment-profile-gap-gate
