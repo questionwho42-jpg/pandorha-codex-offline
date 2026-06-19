@@ -76,7 +76,7 @@ Esse comando executa `scripts/ui_reachability_smoke.mjs`. Ele protege o alcance 
 
 O smoke é contratual e não substitui a validação renderizada. Mudanças visuais ou de navegação continuam exigindo o Browser do Codex para abrir todas as abas, executar os fluxos afetados e confirmar ausência de erros no console.
 
-Última validação renderizada desta superfície: 2026-06-16, com Browser do Codex/Playwright e Chrome local. O fluxo abriu as nove abas, criou personagem, equipou arma/escudo/armadura, substituiu arma, bloqueou remoção equipada, criou duas pilhas de consumível, consumiu item, confirmou sobrecarga `Imobilizado`, salvou, recarregou de verdade e carregou o save v7 restaurando personagem, inventário, loadout, Acampamento e negociação sem erros de console. A durabilidade v9 exige nova validação renderizada nesta branch.
+Última validação renderizada desta superfície: 2026-06-19, com Browser do Codex/Playwright e Chrome local. O fluxo abriu as nove abas, criou personagem com kit inicial, marcou arma como `Danificado`, `Quebrado` e `Íntegro`, confirmou bloqueio de item quebrado no Inventário e no Combate, salvou, recarregou de verdade e carregou o save v9 restaurando personagem, inventário, loadout, durabilidade, Acampamento e negociação sem erros de console.
 
 ## Automação Da T62
 

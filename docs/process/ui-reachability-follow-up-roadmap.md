@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Este documento registra a auditoria executada depois das correções de alcance da UI em 2026-06-06, repetida depois da entrega do inventário editável em 2026-06-15 e atualizada durante a entrega de loadout persistente em 2026-06-16. Ele separa regressões de limitações deliberadas e recomenda quando cada ausência deve virar implementação.
+Este documento registra a auditoria executada depois das correções de alcance da UI em 2026-06-06, repetida depois da entrega do inventário editável em 2026-06-15, atualizada durante a entrega de loadout persistente em 2026-06-16 e revisada após a durabilidade manual v9 em 2026-06-19. Ele separa regressões de limitações deliberadas e recomenda quando cada ausência deve virar implementação.
 
 Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/system/`. Toda implementação futura deve seguir planejamento, TDD, memória tripla e revisão das fontes soberanas aplicáveis.
 
@@ -17,6 +17,7 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 - A auditoria renderizada foi repetida em 2026-06-16 com o Browser do Codex/Playwright usando Chrome local: as nove abas abriram sem erros de console, o inventário executou carregar, equipar arma/escudo/armadura, substituir arma, bloquear remoção equipada, desequipar, remover, criar duas pilhas de consumível, consumir e confirmar sobrecarga `Imobilizado`; o roundtrip de save v7 restaurou personagem, inventário com loadout, Acampamento e negociação social.
 - A entrega de integração de combate com loadout persistido removeu os seletores locais de arma/escudo/armadura da aba `Combate`; personagens da sessão agora derivam arma ativa e defesa equipada do ledger de inventário/loadout.
 - A entrega de cinto de poções em 2026-06-17 adicionou acesso rápido no `Combate` para `potion-belt-stack`, consumindo 1 unidade pelo ledger de inventário existente sem cura, HP real, HP de treino ou estados oficiais.
+- A entrega de durabilidade v9 em 2026-06-19 adicionou `equipmentDurabilityEvents` ao save/load, controles manuais `Íntegro`/`Danificado`/`Quebrado` no Inventário, bloqueio de item quebrado no loadout/Combate e roundtrip renderizado com Browser do Codex sem erros de console.
 - A auditoria encontrou um único erro de console: o request implícito de `favicon.ico` retornava 404. O favicon passou a ser declarado em `index.html` e servido por `public/favicon.svg`; uma sessão limpa confirmou zero erros e zero warnings ao abrir as nove abas.
 
 ## Classificação Pós-Correção
@@ -25,7 +26,7 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 | :--- | :--- |
 | Regressão bloqueadora | Nenhuma encontrada após os gates e a auditoria renderizada. |
 | Regressão não bloqueadora | Request 404 de `favicon.ico`, corrigido com favicon SVG estático e protegido por `qa:ui-reachability`. |
-| Validação renderizada | Concluída em 2026-06-16 para save v7/loadout: nove abas, console limpo, inventário editável, loadout persistido, Acampamento e negociação restaurados. |
+| Validação renderizada | Concluída em 2026-06-19 para save v9/durabilidade: nove abas, console limpo, Inventário com condição manual, bloqueio de item quebrado no Combate e restauração por save/load real. |
 | Limitações deliberadas | Combate ainda usa alvos de treino, HP de treino local e não persiste dano real; magia sem execução, compêndio curado, Acampamento de uma hora e relações Tier 1 permanecem limites deliberados. |
 | Internos sem necessidade de UI própria | `ActionQueueService`, `DiceService`, `ResolutionService`, repositories e serviços puros consumidos indiretamente pelas telas. |
 
@@ -33,7 +34,7 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 
 | Implementação futura | Evidência e impacto | Dependências e gates | Melhor momento para implementar | Risco arquitetural | Responsável e referência |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Durabilidade e desgaste | O catálogo e o núcleo T86 conhecem durabilidade, mas o ledger de ownership não registra desgaste. | Loadout persistente, integração com combate, revisão de regras soberanas e ledger próprio. | Depois da integração estável com combate e antes de crafting reparar itens. | Muito alto: afeta combate, crafting, inventário e save. | `inventory-management`/`equipment`/`combat-encounter`; inbox `20260615-future-inventory-durability`. |
+| Desgaste, penalidade e reparo de durabilidade | A condição manual v9 existe, mas não há desgaste automático, penalidade mecânica de item danificado, reparo por Acampamento, crafting ou custo. | Gate próprio para gatilhos de desgaste, revisão das regras soberanas, Decorator/modificadores e política de reparo. | Depois de aprovar quando itens se desgastam e antes de crafting reparar itens. | Muito alto: afeta combate, crafting, inventário, Acampamento e save. | `inventory-management`/`equipment`/`combat-encounter`/`camp-hour`; inbox `20260615-future-inventory-durability`. |
 | Efeitos reais de consumíveis | O cinto pode virar atalho, mas não existe contrato para cura, alvo, overdose, estado oficial ou economia de ação. | Gate próprio de efeitos de item, HP real persistido, alvos, condições e revisão das regras soberanas. | Depois do acesso rápido estar estável e depois da aprovação explícita de HP real/efeitos. | Muito alto: pode alterar combate, Character, save e regras soberanas. | `inventory-management`/`combat-encounter`/`character`; inbox `20260615-future-inventory-potion-belt` e gates futuros de HP real. |
 | Perfis completos dos itens de kit inicial | Personagens novos recebem kits de classe pelo ledger de inventário, mas alguns itens catalogados para ownership ainda não possuem perfil seguro de loadout/combate. | Contrato específico para perfis de arma/armadura, revisão das regras soberanas e validação contra loadout persistido. | Depois da durabilidade v9 ou junto de uma fase própria de expansão de perfis de equipamento. | Alto: pode tornar itens equipáveis com bônus inferidos. | `equipment`/`inventory-management`/`combat-encounter`; inbox `20260618-065745-starting-equipment-catalog-implementation`. |
 | Execução real de Magia | A UI apenas prepara `cast-spell`; não gasta EE, escolhe personagem conjurador ou aplica efeitos. | Serviços de EE, seleção de alvos, execução de efeitos, ActionQueue e revisão de regras mágicas. | Depois dos contratos de recursos, alvos e efeitos; antes de integrar magia ao combate real. | Alto: regras, recursos e efeitos atravessam múltiplas features. | `spell-cast`/`magic`; inbox `20260513-233033-t27-spellcastbuilder-core` e `20260513-234107-t28-ui-de-conjuracao-minima`. |
@@ -47,12 +48,12 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 
 ## Ordem Recomendada
 
-1. Implementar durabilidade v9 com ledger próprio antes de crafting, reparo por Acampamento ou efeitos reais de itens.
-2. Expandir perfis dos itens de kit inicial somente após contrato próprio de loadout/combate para esses itens.
+1. Expandir perfis dos itens de kit inicial somente após contrato próprio de loadout/combate para esses itens e estatísticas soberanas suficientes.
+2. Entregar UI PWA instalável/atualização como fatia segura de app, sem tocar regras de RPG.
 3. Ampliar Compêndio após pipeline de ingestão, pois ele reduz dependência de consulta manual às regras.
 4. Implementar Acampamento multi-hora e Relações superiores apenas após seus contratos explícitos.
-5. Manter efeitos reais de consumíveis, execução de Magia e HP real persistido para fases posteriores, pois possuem maior risco de regra, save e integração.
-6. Criar painel de WorldState e UI PWA quando houver demanda recorrente e contratos de visibilidade/atualização definidos.
+5. Manter efeitos reais de consumíveis, execução de Magia, desgaste automático e HP real persistido para fases posteriores, pois possuem maior risco de regra, save e integração.
+6. Criar painel de WorldState quando houver demanda recorrente e contrato de visibilidade definido.
 
 ## Gate Para Retomar Cada Item
 
@@ -85,12 +86,13 @@ novos. Itens sem perfil seguro seguem visiveis como carga/ownership, mas nao
 ganham acao de equipar, perfil de combate, ouro inicial, durabilidade mutavel ou
 efeitos mecanicos por inferencia.
 
-O gate de durabilidade v9 foi aprovado em
+O gate de durabilidade v9 foi aprovado e entregue em
 `docs/process/equipment-durability-save-v9-gate.md`; ele cobre apenas condicao
 manual por ledger, UI no Inventario, bloqueio de item quebrado no
 loadout/Combate e migracao para save v9. Desgaste automatico, penalidade de
 item danificado, reparo por Acampamento, crafting, custos e HP real continuam
-exigindo fases proprias.
+exigindo fases proprias. Itens de kit inicial sem estatisticas soberanas
+continuam sem perfil seguro de loadout/combate.
 
 Uma futura tarefa só deve começar quando:
 

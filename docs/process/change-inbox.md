@@ -59,27 +59,23 @@ The automation owns the marked sections below. Manual edits should stay outside 
   `docs/process/equipment-durability-save-v9-gate.md`: manual item condition
   tracking by ledger, without automatic wear, damaged penalties, camp repair,
   crafting, HP real or `docs/system` changes.
+- `20260618-214701-equipment-durability-v9-ui` implements that bounded
+  durability slice: save/load v9 persists `equipmentDurabilityEvents`, the
+  Inventory tab exposes manual condition controls, and Combat blocks broken
+  equipped items. Automatic wear, damaged penalties, camp repair, crafting,
+  costs and HP real remain open under `20260615-future-inventory-durability`.
 
 ## Open
 <!-- pandorha-inbox:open -->
-<!-- pandorha-inbox:20260618-214701-equipment-durability-v9-ui -->
-### Equipment durability v9 UI
-- id: 20260618-214701-equipment-durability-v9-ui
+<!-- pandorha-inbox:20260619-174512-durability-v9-promotion-sweep -->
+### Durability v9 promotion sweep
+- id: 20260619-174512-durability-v9-promotion-sweep
 - status: open
-- created_at: 2026-06-18T21:47:01-03:00
+- created_at: 2026-06-19T17:45:12-03:00
 - source: task-ledger
-- summary: Implement persisted equipment durability events in save v9, manual inventory condition controls, and broken-item loadout/combat blocking without automatic wear, damaged penalties, camp repair, crafting, HP real or docs/system changes.
+- summary: Promote delivered durability v9 gate and implementation records after main merge while preserving future automatic wear, damaged penalties, camp repair, crafting, costs, HP real and docs/system changes as separate gaps.
 - expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260618-214701-equipment-durability-v9-ui -->
-<!-- pandorha-inbox:20260618-214152-equipment-durability-save-v9-gate -->
-### Equipment durability save v9 gate
-- id: 20260618-214152-equipment-durability-save-v9-gate
-- status: open
-- created_at: 2026-06-18T21:41:52-03:00
-- source: task-ledger
-- summary: Approve a bounded durability ledger v9 contract for manual inventory condition tracking without combat auto-wear, damaged penalties, camp repair, crafting, HP real or docs/system changes.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260618-214152-equipment-durability-save-v9-gate -->
+<!-- /pandorha-inbox:20260619-174512-durability-v9-promotion-sweep -->
 <!-- pandorha-inbox:20260618-213320-starting-equipment-promotion-sweep -->
 ### Starting equipment promotion sweep
 - id: 20260618-213320-starting-equipment-promotion-sweep
@@ -122,7 +118,7 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - status: open
 - created_at: 2026-06-15T11:51:02-03:00
 - source: task-ledger
-- summary: Integrar desgaste e durabilidade somente após loadout persistente e regras soberanas revisadas.
+- summary: Durabilidade manual persistida foi entregue no save v9; desgaste automatico, penalidade de item danificado, reparo por Acampamento, crafting/custos e HP real continuam bloqueados ate gates proprios e revisao das regras soberanas.
 - expected_promotion: official docs after merge to main
 <!-- /pandorha-inbox:20260615-future-inventory-durability -->
 <!-- pandorha-inbox:20260606-future-pwa-update-install-ui -->
@@ -993,6 +989,24 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Promoted
 <!-- pandorha-inbox:promoted -->
+<!-- pandorha-inbox:20260618-214701-equipment-durability-v9-ui -->
+### Equipment durability v9 UI
+- id: 20260618-214701-equipment-durability-v9-ui
+- status: promoted
+- created_at: 2026-06-18T21:47:01-03:00
+- source: task-ledger
+- summary: Implement persisted equipment durability events in save v9, manual inventory condition controls, and broken-item loadout/combat blocking without automatic wear, damaged penalties, camp repair, crafting, HP real or docs/system changes.
+- expected_promotion: promoted to docs/process/equipment-durability-save-v9-gate.md, docs/user/inventory-management.md, docs/user/combat-training.md, docs/process/vertical-slice-qa.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260618-214701-equipment-durability-v9-ui -->
+<!-- pandorha-inbox:20260618-214152-equipment-durability-save-v9-gate -->
+### Equipment durability save v9 gate
+- id: 20260618-214152-equipment-durability-save-v9-gate
+- status: promoted
+- created_at: 2026-06-18T21:41:52-03:00
+- source: task-ledger
+- summary: Approve a bounded durability ledger v9 contract for manual inventory condition tracking without combat auto-wear, damaged penalties, camp repair, crafting, HP real or docs/system changes.
+- expected_promotion: promoted to docs/process/equipment-durability-save-v9-gate.md and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260618-214152-equipment-durability-save-v9-gate -->
 <!-- pandorha-inbox:20260618-130238-character-starting-equipment-grant -->
 ### Character starting equipment grant
 - id: 20260618-130238-character-starting-equipment-grant

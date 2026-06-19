@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260619-174512-durability-v9-promotion-sweep -->
+### Durability v9 promotion sweep
+- id: 20260619-174512-durability-v9-promotion-sweep
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-19T17:45:12-03:00
+- finished_at: 2026-06-19T17:46:58-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: GPT-5 Codex
+- last_modified_at: 2026-06-19T17:46:58-03:00
+- branch: codex/docs/durability-v9-promotion-sweep
+- commit_at_start: 12b68cf chore(process): record durability v9 merge
+- summary: Promote delivered durability v9 gate and implementation records after main merge while preserving future automatic wear, damaged penalties, camp repair, crafting, costs, HP real and docs/system changes as separate gaps.
+- last_change: Promoted the delivered durability v9 gate and UI records after main merge, updated the UI reachability roadmap and vertical slice QA to reflect Browser do Codex save/load v9 validation, and kept automatic wear, damaged penalties, camp repair, crafting, costs, HP real and docs/system changes open as separate gaps.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-19T17:45:12-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-19T17:46:58-03:00
+- Done: Promoted the delivered durability v9 gate and UI records after main merge, updated the UI reachability roadmap and vertical slice QA to reflect Browser do Codex save/load v9 validation, and kept automatic wear, damaged penalties, camp repair, crafting, costs, HP real and docs/system changes open as separate gaps.
+- Next: Commit the documentation promotion sweep, merge to main, push, and run qa:next-phase-readiness before opening the profile gap gate branch.
+- Risks: No docs/system changes were made; future durability mechanics remain gated.
+- Improvements: Durability v9 is now recorded as delivered while the future durability inbox entry tracks only remaining mechanics.
+- Model/config: GPT-5 Codex
+<!-- /pandorha-task:20260619-174512-durability-v9-promotion-sweep -->
 <!-- pandorha-task:20260618-214701-equipment-durability-v9-ui -->
 ### Equipment durability v9 UI
 - id: 20260618-214701-equipment-durability-v9-ui
