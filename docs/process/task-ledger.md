@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260619-175238-starting-equipment-profile-gap-gate -->
+### Starting equipment profile gap gate
+- id: 20260619-175238-starting-equipment-profile-gap-gate
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-19T17:52:38-03:00
+- finished_at: 2026-06-19T17:53:48-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: GPT-5 Codex
+- last_modified_at: 2026-06-19T17:53:48-03:00
+- branch: codex/docs/starting-equipment-profile-gap-gate
+- commit_at_start: 6251415 chore(process): record durability promotion merge
+- summary: Document that starting kit items without sovereign equipment statistics must stay visible as ownership/cargo only and must not gain loadout or combat profiles until an explicit profile contract is approved.
+- last_change: Created the starting equipment loadout profile gate, documenting that kit items without sovereign statistics remain ownership/cargo only and cannot receive loadout or combat profiles by inference.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-19T17:52:38-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-19T17:53:48-03:00
+- Done: Created the starting equipment loadout profile gate, documenting that kit items without sovereign statistics remain ownership/cargo only and cannot receive loadout or combat profiles by inference.
+- Next: Commit the gate, merge to main, push, and run qa:next-phase-readiness before opening the PWA contract branch.
+- Risks: No docs/system changes were made; profile expansion remains blocked until approved statistics or substitutions exist.
+- Improvements: The roadmap now points future profile work to the explicit gate instead of the generic starting equipment implementation record.
+- Model/config: GPT-5 Codex
+<!-- /pandorha-task:20260619-175238-starting-equipment-profile-gap-gate -->
 <!-- pandorha-task:20260619-174512-durability-v9-promotion-sweep -->
 ### Durability v9 promotion sweep
 - id: 20260619-174512-durability-v9-promotion-sweep

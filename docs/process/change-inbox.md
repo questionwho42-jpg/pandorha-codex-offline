@@ -54,6 +54,10 @@ The automation owns the marked sections below. Manual edits should stay outside 
   starting-equipment slice: new characters receive class kits through the
   existing inventory ledger, while auto-loadout, gold, durability, HP real,
   expanded item profiles and `docs/system` changes remain outside the delivery.
+- `20260619-175238-starting-equipment-profile-gap-gate` blocks loadout/combat
+  profiles for starting kit items that lack sovereign statistics. `chainmail`,
+  `shortbow`, `staff`, `rapier` and `luxury-padded-armor` remain ownership/cargo
+  only until a future profile contract is approved.
 - `20260618-214152-equipment-durability-save-v9-gate` approves the bounded
   save v9 step for `20260615-future-inventory-durability` through
   `docs/process/equipment-durability-save-v9-gate.md`: manual item condition
@@ -67,6 +71,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260619-175238-starting-equipment-profile-gap-gate -->
+### Starting equipment profile gap gate
+- id: 20260619-175238-starting-equipment-profile-gap-gate
+- status: open
+- created_at: 2026-06-19T17:52:38-03:00
+- source: task-ledger
+- summary: Document that starting kit items without sovereign equipment statistics must stay visible as ownership/cargo only and must not gain loadout or combat profiles until an explicit profile contract is approved.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260619-175238-starting-equipment-profile-gap-gate -->
 <!-- pandorha-inbox:20260619-174512-durability-v9-promotion-sweep -->
 ### Durability v9 promotion sweep
 - id: 20260619-174512-durability-v9-promotion-sweep
