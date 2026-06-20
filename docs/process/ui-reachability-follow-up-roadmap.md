@@ -98,6 +98,12 @@ item danificado, reparo por Acampamento, crafting, custos e HP real continuam
 exigindo fases proprias. Itens de kit inicial sem estatisticas soberanas
 continuam sem perfil seguro de loadout/combate.
 
+O gate de indexacao estatica do Compendio foi aprovado em
+`docs/process/compendium-ingestion-index-gate.md`; ele cobre apenas geracao
+versionada de metadados de descoberta a partir de `docs/system/`, sem parsing de
+Markdown em runtime, sem resumo por IA, sem banco, sem save e sem alterar
+`docs/system/`.
+
 Uma futura tarefa só deve começar quando:
 
 - a entrada correspondente do `change-inbox` tiver um plano aprovado;

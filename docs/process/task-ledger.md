@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260620-124110-compendium-ingestion-index-gate -->
+### Compendium ingestion index gate
+- id: 20260620-124110-compendium-ingestion-index-gate
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-20T12:41:10-03:00
+- finished_at: 2026-06-20T12:41:53-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5.5 high-reasoning final review; local automation
+- last_modified_at: 2026-06-20T12:41:53-03:00
+- branch: codex/docs/compendium-ingestion-index-gate
+- commit_at_start: 0c69217 chore(process): record pwa promotion merge
+- summary: Approve a bounded static Compendium ingestion/index contract for docs/system metadata, without runtime Markdown parsing, database persistence, AI summaries, or docs/system changes.
+- last_change: Approved the static Compendium ingestion/index contract for docs/system metadata, with generated versioned entries, category mapping, explicit exclusions, and no runtime Markdown parsing, AI summaries, database persistence, save changes or docs/system edits.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-20T12:41:10-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-20T12:41:53-03:00
+- Done: Approved the static Compendium ingestion/index contract for docs/system metadata, with generated versioned entries, category mapping, explicit exclusions, and no runtime Markdown parsing, AI summaries, database persistence, save changes or docs/system edits.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+<!-- /pandorha-task:20260620-124110-compendium-ingestion-index-gate -->
 <!-- pandorha-task:20260620-122839-pwa-promotion-sweep -->
 ### PWA promotion sweep
 - id: 20260620-122839-pwa-promotion-sweep

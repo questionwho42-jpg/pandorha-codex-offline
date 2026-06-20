@@ -75,6 +75,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260620-124110-compendium-ingestion-index-gate -->
+### Compendium ingestion index gate
+- id: 20260620-124110-compendium-ingestion-index-gate
+- status: open
+- created_at: 2026-06-20T12:41:10-03:00
+- source: task-ledger
+- summary: Approve a bounded static Compendium ingestion/index contract for docs/system metadata, without runtime Markdown parsing, database persistence, AI summaries, or docs/system changes.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260620-124110-compendium-ingestion-index-gate -->
 <!-- pandorha-inbox:20260620-122839-pwa-promotion-sweep -->
 ### PWA promotion sweep
 - id: 20260620-122839-pwa-promotion-sweep
