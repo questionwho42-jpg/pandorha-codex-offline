@@ -11,6 +11,7 @@
 - Add future inventory controls to `qa:ui-reachability` only after their ownership and persistence contracts are approved.
 - Keep PWA install/update checks static until offline network/cache automation proves stable enough to avoid flaky browser gates.
 - Expand `generate_compendium_catalog.mjs` only with deterministic parsing rules; semantic summaries, embeddings, or lore interpretation need a separate approved gate.
+- Keep Compendium browser checks in existing static smokes until rendered browser automation is approved; add only stable selectors, labels and documentation terms.
 
 ## Boundaries
 

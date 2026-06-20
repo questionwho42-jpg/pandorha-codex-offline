@@ -14,7 +14,7 @@ Este guia mostra como testar a criação de personagem que existe hoje no Pandor
 - O formulário permite escolher classes e antecedentes do catálogo atual.
 - Ao criar um personagem novo, o app concede o kit inicial da classe no Inventário usando o ledger persistido existente.
 - Os controles `Salvar sessão` e `Carregar save` preservam personagens e traços escolhidos no armazenamento local SQLite WASM/OPFS do navegador.
-- A aba `Compêndio` permite consultar o catálogo curado atual.
+- A aba `Compêndio` permite consultar o catálogo curado e o índice estático gerado das regras de sobrevivência, combate e magia.
 - Os erros aparecem em português e dizem o que precisa ser corrigido.
 
 ## Limites Desta Versão

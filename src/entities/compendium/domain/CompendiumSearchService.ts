@@ -3,6 +3,7 @@ import { z } from "zod/v4";
 import { fail, ok, type Result } from "$lib/shared/lib/result";
 import {
 	type CompendiumEntry,
+	compendiumCategorySchema,
 	compendiumEntrySelectSchema,
 } from "../model/compendiumSchema";
 import type { CompendiumFailure } from "../model/compendiumTypes";
@@ -10,7 +11,11 @@ import type { CompendiumRepository } from "./CompendiumRepository";
 
 export const compendiumSearchInputSchema = z
 	.object({
-		limit: z.number().int().min(1).max(50).optional().default(20),
+		category: z
+			.union([compendiumCategorySchema, z.literal("all")])
+			.optional()
+			.default("all"),
+		limit: z.number().int().min(1).max(200).optional().default(20),
 		query: z.string().max(120).optional().default(""),
 	})
 	.strict();
@@ -56,10 +61,15 @@ export class CompendiumSearchService {
 		}
 
 		const query = normalizeSearchText(parsedInput.data.query);
+		const category = parsedInput.data.category;
+		const categoryEntries =
+			category === "all"
+				? validated
+				: validated.filter((entry) => entry.category === category);
 		const matchingEntries =
 			query.length === 0
-				? validated
-				: validated.filter((entry) => entryMatchesQuery(entry, query));
+				? categoryEntries
+				: categoryEntries.filter((entry) => entryMatchesQuery(entry, query));
 
 		return ok(matchingEntries.slice(0, parsedInput.data.limit));
 	}

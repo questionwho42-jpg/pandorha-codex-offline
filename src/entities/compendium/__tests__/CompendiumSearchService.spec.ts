@@ -68,6 +68,43 @@ describe("CompendiumSearchService", () => {
 		expect(entries.map((entry) => entry.id)).toContain(expectedEntryId);
 	});
 
+	it("filters generated entries by category before applying the result limit", async () => {
+		const service = createService();
+
+		const result = await service.searchEntries({
+			category: "system-magic",
+			limit: 50,
+			query: "",
+		});
+		const entries = expectCompendiumSuccess(result);
+
+		expect(entries.length).toBeGreaterThan(1);
+		expect(entries.every((entry) => entry.category === "system-magic")).toBe(
+			true,
+		);
+		expect(entries.map((entry) => entry.id)).toContain(
+			"system-magic-12-00-codex-de-magia",
+		);
+	});
+
+	it("combines category and text filters", async () => {
+		const service = createService();
+
+		const survivalResult = await service.searchEntries({
+			category: "system-survival",
+			query: "descanso",
+		});
+		const magicResult = await service.searchEntries({
+			category: "system-magic",
+			query: "descanso",
+		});
+
+		expect(
+			expectCompendiumSuccess(survivalResult).map((entry) => entry.id),
+		).toContain("system-survival-descanso-e-acampamento-completo");
+		expect(expectCompendiumSuccess(magicResult)).toEqual([]);
+	});
+
 	it("returns an empty list for a query without results", async () => {
 		const service = createService();
 

@@ -4,6 +4,10 @@ import { fileURLToPath } from "node:url";
 
 const repoRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const parsedArgs = parseArgs(process.argv.slice(2));
+const compendiumSearchServicePath = [
+	"src/entities/compendium/domain",
+	"CompendiumSearchService.ts",
+].join("/");
 
 if (!parsedArgs.success) {
 	exitWithError(parsedArgs.error);
@@ -119,6 +123,34 @@ async function runUiReachabilitySmoke(root) {
 			'data-testid="character-trait-selection-list"',
 			'data-testid="character-trait-selection-item"',
 			"Traços de ancestralidade",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		compendiumSearchServicePath,
+		[
+			"compendiumCategorySchema",
+			"category:",
+			'z.literal("all")',
+			"max(200)",
+			"entry.category === category",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/compendium-browser/ui/CompendiumBrowser.svelte",
+		[
+			"selectedCategory",
+			"selectCategory",
+			"limit: 200",
+			'data-testid="compendium-category-filter"',
+			'data-testid="compendium-category-option"',
+			"Vanguarda, contramagia ou descanso",
+			"sourceLabel",
 		],
 		errors,
 	);
@@ -255,6 +287,21 @@ async function runUiReachabilitySmoke(root) {
 		errors,
 	);
 
+	await validateFileContains(
+		root,
+		"docs/user/compendium-browser.md",
+		[
+			"Vanguarda",
+			"contramagia",
+			"descanso",
+			"Sistema: Magia",
+			"Sistema: Combate",
+			"Sistema: Sobreviv",
+			"arquivo e linha",
+		],
+		errors,
+	);
+
 	await validateFileContainsInOrder(
 		root,
 		"src/features/camp-hour/ui/CampHourPanel.svelte",
@@ -269,7 +316,14 @@ async function runUiReachabilitySmoke(root) {
 	await validateFileContains(
 		root,
 		"docs/process/vertical-slice-qa.md",
-		["qa:ui-reachability", "Browser do Codex"],
+		[
+			"qa:ui-reachability",
+			"Browser do Codex",
+			"Vanguarda",
+			"contramagia",
+			"descanso",
+			"arquivo e linha",
+		],
 		errors,
 	);
 

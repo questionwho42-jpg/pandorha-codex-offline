@@ -6,7 +6,16 @@ import type {
 
 export type CompendiumBrowserOptions = Readonly<{
 	query: string;
+	selectedCategory: CompendiumCategoryFilter;
 	selectedEntryId: string | null;
+}>;
+
+export type CompendiumCategoryFilter = CompendiumCategory | "all";
+
+export type CompendiumCategoryFilterOption = Readonly<{
+	id: CompendiumCategoryFilter;
+	isSelected: boolean;
+	label: string;
 }>;
 
 export type CompendiumBrowserEntryItem = Readonly<{
@@ -14,6 +23,7 @@ export type CompendiumBrowserEntryItem = Readonly<{
 	id: string;
 	isSelected: boolean;
 	sourceFile: string;
+	sourceLabel: string;
 	summary: string;
 	title: string;
 }>;
@@ -24,12 +34,27 @@ export type CompendiumBrowserEmptyState = Readonly<{
 }>;
 
 export type CompendiumBrowserView = Readonly<{
+	categoryOptions: readonly CompendiumCategoryFilterOption[];
 	countLabel: string;
 	detailInstruction?: string;
 	emptyState?: CompendiumBrowserEmptyState;
 	items: readonly CompendiumBrowserEntryItem[];
 	selectedEntry?: CompendiumBrowserEntryItem;
 }>;
+
+export const COMPENDIUM_CATEGORY_FILTER_OPTIONS = [
+	{ id: "all", label: "Todas" },
+	{ id: "character-creation", label: "Criação de ficha" },
+	{ id: "ancestry", label: "Ancestralidade" },
+	{ id: "class", label: "Classe" },
+	{ id: "background", label: "Antecedente" },
+	{ id: "system-survival", label: "Sistema: Sobrevivência" },
+	{ id: "system-combat", label: "Sistema: Combate" },
+	{ id: "system-magic", label: "Sistema: Magia" },
+] as const satisfies readonly Readonly<{
+	id: CompendiumCategoryFilter;
+	label: string;
+}>[];
 
 export function createCompendiumBrowserView(
 	entries: readonly CompendiumEntry[],
@@ -42,11 +67,12 @@ export function createCompendiumBrowserView(
 
 	if (items.length === 0) {
 		return {
+			categoryOptions: toCategoryOptions(options.selectedCategory),
 			countLabel: "Nenhum resultado",
 			emptyState: {
 				title: "Nenhuma entrada encontrada",
 				description:
-					"Tente buscar por criação de ficha, ancestralidade, classe ou antecedente.",
+					"Tente buscar por criação de ficha, magia, combate ou sobrevivência.",
 			},
 			items,
 		};
@@ -54,6 +80,7 @@ export function createCompendiumBrowserView(
 
 	if (selectedEntry) {
 		return {
+			categoryOptions: toCategoryOptions(options.selectedCategory),
 			countLabel: `${items.length} ${items.length === 1 ? "resultado" : "resultados"}`,
 			items,
 			selectedEntry,
@@ -61,6 +88,7 @@ export function createCompendiumBrowserView(
 	}
 
 	return {
+		categoryOptions: toCategoryOptions(options.selectedCategory),
 		countLabel: `${items.length} ${items.length === 1 ? "resultado" : "resultados"}`,
 		detailInstruction:
 			"Selecione uma entrada para ler o resumo e a fonte da regra.",
@@ -113,7 +141,17 @@ function toCompendiumBrowserEntryItem(
 		id: entry.id,
 		isSelected: entry.id === selectedEntryId,
 		sourceFile: entry.sourceFile,
+		sourceLabel: `${entry.sourceFile}:${entry.sourceLine}`,
 		summary: entry.summary,
 		title: entry.title,
 	};
+}
+
+function toCategoryOptions(
+	selectedCategory: CompendiumCategoryFilter,
+): readonly CompendiumCategoryFilterOption[] {
+	return COMPENDIUM_CATEGORY_FILTER_OPTIONS.map((option) => ({
+		...option,
+		isSelected: option.id === selectedCategory,
+	}));
 }

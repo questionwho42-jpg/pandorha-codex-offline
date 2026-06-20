@@ -11,3 +11,10 @@
 
 - `mapCompendiumCategoryLabel` now includes labels for `system-survival`, `system-combat`, and `system-magic`.
 - This keeps generated entries readable before the category-filter UI is implemented.
+
+## 2026-06-20 - Indexed Browser Filters
+
+- The browser now keeps `selectedCategory` as local Svelte state and sends it to `CompendiumSearchService`.
+- Category filters are rendered as reachable buttons with `data-testid="compendium-category-filter"` and `data-testid="compendium-category-option"`.
+- Result and detail views show `sourceLabel` in `sourceFile:sourceLine` form so generated entries keep visible provenance.
+- The UI raises the search limit to 200 for category browsing; pagination and ranking remain future work.

@@ -75,6 +75,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260620-153216-compendium-indexed-browser-ui -->
+### Compendium indexed browser UI
+- id: 20260620-153216-compendium-indexed-browser-ui
+- status: open
+- created_at: 2026-06-20T15:32:16-03:00
+- source: task-ledger
+- summary: Add a category filter to the Compendium browser, expose generated system categories with source-aware results, and update QA/user documentation without changing docs/system.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260620-153216-compendium-indexed-browser-ui -->
 <!-- pandorha-inbox:20260620-124551-compendium-generated-index-core -->
 ### Compendium generated index core
 - id: 20260620-124551-compendium-generated-index-core

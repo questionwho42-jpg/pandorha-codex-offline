@@ -90,3 +90,9 @@ nova versao do service worker esperando ativacao, aparece `Atualizar agora`; ao
 clicar, o app pede a troca segura do worker e recarrega a pagina depois que o
 navegador confirma a nova versao. Isso nao muda save, regras de jogo ou dados
 do personagem.
+
+A aba Compendio agora tambem navega pelo indice estatico gerado das regras de
+sobrevivencia, combate e magia. O usuario pode buscar termos como Vanguarda,
+contramagia e descanso, filtrar por categoria e ver a fonte por arquivo e linha.
+Isso e apenas descoberta de regras: o app nao interpreta mecanicas nem muda
+`docs/system/`.

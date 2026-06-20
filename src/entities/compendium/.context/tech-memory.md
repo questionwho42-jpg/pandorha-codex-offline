@@ -20,3 +20,9 @@
 - The generated catalog is versioned in `generatedCompendiumCatalog.ts`; runtime code still does not parse Markdown.
 - System categories are `system-survival`, `system-combat`, and `system-magic`; labels remain handled by the browser feature.
 - Generated entry tags must still pass the existing Zod tag regex, so numeric path parts are emitted as `ref-<number>` tags.
+
+## 2026-06-20 - Search Category Filter
+
+- `CompendiumSearchService` accepts `category: CompendiumCategory | "all"` and filters entries before applying text matching and the result limit.
+- The search limit cap is now 200 so the browser can show generated system categories without adding pagination in the first UI slice.
+- Category filtering remains read-only and does not introduce runtime Markdown parsing, SQLite, Worker access, save state or rule interpretation.

@@ -111,6 +111,34 @@ async function runVerticalSliceSmoke(root) {
 
 	await validateFileContains(
 		root,
+		"src/features/compendium-browser/model/compendiumBrowserView.ts",
+		[
+			"COMPENDIUM_CATEGORY_FILTER_OPTIONS",
+			"Sistema: Sobreviv",
+			"Sistema: Combate",
+			"Sistema: Magia",
+			"sourceLabel",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"src/features/compendium-browser/ui/CompendiumBrowser.svelte",
+		[
+			"selectedCategory",
+			"selectCategory",
+			"limit: 200",
+			'data-testid="compendium-category-filter"',
+			'data-testid="compendium-category-option"',
+			"Vanguarda, contramagia ou descanso",
+			"sourceLabel",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
 		"src/app/model/combatEncounterSession.ts",
 		[
 			"EquipmentLoadoutService",
@@ -381,6 +409,7 @@ async function runVerticalSliceSmoke(root) {
 
 	for (const docPath of [
 		"docs/user/character-creation.md",
+		"docs/user/compendium-browser.md",
 		"docs/user/inventory-management.md",
 		"docs/user/combat-training.md",
 		"docs/user/camp-training.md",
@@ -395,6 +424,21 @@ async function runVerticalSliceSmoke(root) {
 			errors,
 		);
 	}
+
+	await validateFileContains(
+		root,
+		"docs/user/compendium-browser.md",
+		[
+			"Vanguarda",
+			"contramagia",
+			"descanso",
+			"Sistema: Magia",
+			"Sistema: Combate",
+			"Sistema: Sobreviv",
+			"arquivo e linha",
+		],
+		errors,
+	);
 
 	await validateFileContains(
 		root,

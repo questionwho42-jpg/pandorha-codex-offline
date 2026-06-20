@@ -13,6 +13,7 @@ Este roteiro valida o MVP navegavel atual do Pandorha Engine depois da T80. Ele 
 3. Abra `http://127.0.0.1:5173/manifest.webmanifest`, confirme que responde sem 404 e volte ao app.
 4. Quando o navegador liberar o prompt, confirme `Instalar app`; quando houver worker aguardando, confirme `Atualizacao disponivel` e acione `Atualizar agora`.
 5. Entre em `Personagens`, crie um personagem válido e confirme que ele aparece na lista com os 3 traços escolhidos e mensagem de kit inicial concedido.
+6. Entre em `Compêndio`, busque `Vanguarda`, `contramagia` e `descanso`, filtre por `Magia`, `Combate` e `Sobrevivência`, selecione uma entrada e confirme fonte com arquivo e linha.
 4. Clique em `Salvar sessão`, recarregue a página, clique em `Carregar save` e confirme que o personagem voltou.
 5. Entre em `Inventário`, selecione o personagem, confirme o kit inicial já carregado, carregue arma, escudo, armadura e `Cinto de Poções` até `5/5`; carregue outros consumíveis até criar mais de uma pilha; confirme slots usados, limite e penalidade atual.
 6. Equipe arma, escudo e armadura, substitua a arma no mesmo slot, use `Marcar danificado`, `Marcar quebrado` e `Reparar`, confirme que item quebrado nao equipa, confirme que remover item equipado mostra `Desequipe antes de remover`, desequipe e remova o item.
@@ -52,6 +53,7 @@ Esse comando executa `scripts/vertical_slice_smoke.mjs`. Ele valida contratos m�
 
 - abas principais registradas na navegação state-driven;
 - componentes centrais montados em `App.svelte`;
+- Compêndio com filtro de categoria, busca por `Vanguarda`, `contramagia` e `descanso`, categorias `Sistema: Magia`, `Sistema: Combate` e `Sistema: Sobrevivência`, e fonte por arquivo e linha;
 - guias de usuário com URL local;
 - painel de negociação social e guia `docs/user/social-encounter.md`;
 - seletor de `Argumento`, árvore curta de diálogo, opção `Barganhar` e log com escolha social;
@@ -75,6 +77,8 @@ npm.cmd run qa:ui-reachability
 ```
 
 Esse comando executa `scripts/ui_reachability_smoke.mjs`. Ele protege o alcance das nove abas, as ações editáveis do inventário, a persistência do ledger no save atual, o acesso ao cinto de poções no combate de treino, o favicon estático sem request 404, bloqueia placeholders obsoletos e verifica o contrato que preserva o log recém-resolvido do Acampamento antes do eco de estado do componente pai.
+
+Para o Compêndio, ele também exige filtro de categoria, busca ampliada para entradas geradas, termos `Vanguarda`, `contramagia` e `descanso`, categorias de sistema e fonte por arquivo e linha.
 
 O smoke é contratual e não substitui a validação renderizada. Mudanças visuais ou de navegação continuam exigindo o Browser do Codex para abrir todas as abas, executar os fluxos afetados e confirmar ausência de erros no console.
 
@@ -115,6 +119,7 @@ O smoke T65 é estático e não substitui o Browser do Codex quando uma mudança
 ## O Que Funciona Hoje
 
 - Criação e listagem de personagens básicos com 3 traços persistidos e kit inicial concedido pelo ledger de inventário.
+- Compêndio com entradas curadas e índice estático gerado para sobrevivência, combate e magia, busca textual, filtro de categoria e fonte por arquivo e linha.
 - Save/load local real com SQLite WASM, OPFS e Worker.
 - Combate de treino com atacante da sessão, loadout persistido do inventário para arma/escudo/armadura, alvos fixos, turno, ações, rolagem auditável de arma, RD/afinidades de alvo, ataque passivo do alvo contra CA de treino, HP de treino local não persistido, estado `Teste recebido encerrado` em 0 HP de treino e derrota do alvo.
 - O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura, recebe o kit inicial de personagens novos, bloqueia remoção de item equipado, registra durabilidade manual e persiste inventário + loadout + durabilidade no save v9.
@@ -134,6 +139,7 @@ O smoke T65 é estático e não substitui o Browser do Codex quando uma mudança
 ## Limitações Conhecidas
 
 - O modo offline ainda não tem automação de rede confiável dentro do Browser do Codex atual.
+- O índice do Compêndio é metadado de descoberta; ele não interpreta mecânicas, não resume regras por IA, não altera `docs/system/` e não faz parsing de Markdown em runtime.
 - As árvores de diálogo ainda são curtas, cobrem apenas a `Corretora de Treino`, o `Informante de Treino` e o `Capitão de Treino`, e preparam o argumento antes do apelo social.
 - `Pressionar` altera a relação individual por NPC e avança clocks de retaliação apenas por gatilho explícito `social-pressure`; não há avanço automático por tempo.
 - Magia e exploração ainda usam dados de treino; combate ainda usa alvos de treino e HP de treino local, mas deriva arma/escudo/armadura do loadout persistido, bloqueia item quebrado e usa cinto de poções do inventário persistido.

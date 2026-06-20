@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260620-153216-compendium-indexed-browser-ui -->
+### Compendium indexed browser UI
+- id: 20260620-153216-compendium-indexed-browser-ui
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-20T15:32:16-03:00
+- finished_at: 2026-06-20T18:16:59-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5.5 high-reasoning final review; local automation
+- last_modified_at: 2026-06-20T18:16:59-03:00
+- branch: codex/feat/compendium-indexed-browser-ui
+- commit_at_start: 1e98f9f chore(process): record compendium index merge
+- summary: Add a category filter to the Compendium browser, expose generated system categories with source-aware results, and update QA/user documentation without changing docs/system.
+- last_change: Compendium browser now supports category filters for curated and generated system entries, displays source file/line, updates QA/user docs and static smokes, and was validated in a rendered browser on 127.0.0.1:5174 with nine tabs, Vanguarda, contramagia, descanso, system filters and clean console.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-20T15:32:16-03:00
+- Done: task record created
+- Next: Implement filtered view model and Svelte controls with focused tests.
+- Risks: The generated catalog is discovery metadata only; UI must not imply new RPG rules.
+- Improvements: Consider pagination or ranking only after category filtering is validated.
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-20T18:16:59-03:00
+- Done: Compendium browser now supports category filters for curated and generated system entries, displays source file/line, updates QA/user docs and static smokes, and was validated in a rendered browser on 127.0.0.1:5174 with nine tabs, Vanguarda, contramagia, descanso, system filters and clean console.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+<!-- /pandorha-task:20260620-153216-compendium-indexed-browser-ui -->
 <!-- pandorha-task:20260620-124551-compendium-generated-index-core -->
 ### Compendium generated index core
 - id: 20260620-124551-compendium-generated-index-core

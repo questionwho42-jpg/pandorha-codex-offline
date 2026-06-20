@@ -17,3 +17,5 @@ The UI reachability smoke checks that every visible area still has a browser pan
 For the PWA slice, the smokes now also check that the app has an installable manifest, visible install/update controls when the browser state allows them, and a service worker message that can activate a waiting update. They still do not pretend to test real offline networking; that remains a rendered browser validation job.
 
 The Compendium generator reads selected official rule folders and creates a ready-to-use catalog file for the app. It is a repeatable preparation step: the browser receives a validated index, but the script does not change the original rule documents or invent new summaries.
+
+The UI smokes also check that the Compendium keeps its category filter, system categories and source file/line visible. They catch missing contracts quickly, but the real rendered browsing flow still has to be checked in Browser do Codex.

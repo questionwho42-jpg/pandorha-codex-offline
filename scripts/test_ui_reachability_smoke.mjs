@@ -8,6 +8,10 @@ import { fileURLToPath } from "node:url";
 
 const repoRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const scriptPath = path.join(repoRoot, "scripts", "ui_reachability_smoke.mjs");
+const compendiumSearchServicePath = [
+	"src/entities/compendium/domain",
+	"CompendiumSearchService.ts",
+].join("/");
 
 test("ui reachability smoke passes with the current navigable UI contract", async () => {
 	const root = await createFixtureRoot();
@@ -117,6 +121,27 @@ test("ui reachability smoke fails when the PWA update action is unreachable", as
 
 		assert.notEqual(result.status, 0);
 		assert.match(result.stderr, /pwa-update-button/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
+test("ui reachability smoke fails when the compendium category filter is unreachable", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/compendium-browser/ui/CompendiumBrowser.svelte":
+				renderCompendiumBrowser().replace(
+					'data-testid="compendium-category-filter"',
+					'data-testid="compendium-category-missing"',
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /compendium-category-filter/);
 	} finally {
 		await rm(root, { recursive: true, force: true });
 	}
@@ -341,6 +366,9 @@ async function createFixtureRoot({ fileOverrides = {} } = {}) {
 			renderStartingEquipmentKit(),
 		"src/features/character-list/ui/CharacterList.svelte":
 			renderCharacterList(),
+		[compendiumSearchServicePath]: renderCompendiumSearchService(),
+		"src/features/compendium-browser/ui/CompendiumBrowser.svelte":
+			renderCompendiumBrowser(),
 		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
 			renderCombatPanel(),
 		"src/features/inventory-management/model/inventoryManagementView.ts":
@@ -349,6 +377,7 @@ async function createFixtureRoot({ fileOverrides = {} } = {}) {
 			renderInventoryPanel(),
 		"docs/user/character-creation.md": renderCharacterGuide(),
 		"docs/user/camp-training.md": renderCampGuide(),
+		"docs/user/compendium-browser.md": renderCompendiumGuide(),
 		"docs/process/vertical-slice-qa.md": renderQaGuide(),
 		...fileOverrides,
 	};
@@ -520,6 +549,44 @@ function renderCharacterList() {
 `;
 }
 
+function renderCompendiumSearchService() {
+	return `
+import { compendiumCategorySchema } from "../model/compendiumSchema";
+
+const input = {
+	category: z.union([compendiumCategorySchema, z.literal("all")]).optional().default("all"),
+	limit: z.number().int().min(1).max(200).optional().default(20),
+};
+
+const categoryEntries =
+	category === "all"
+		? validated
+		: validated.filter((entry) => entry.category === category);
+`;
+}
+
+function renderCompendiumBrowser() {
+	return `
+let selectedCategory = $state("all");
+function selectCategory(category) {
+	selectedCategory = category;
+}
+
+void searchEntries({
+	category: selectedCategory,
+	limit: 200,
+	query,
+});
+
+<input placeholder="Ex.: Vanguarda, contramagia ou descanso" />
+<div data-testid="compendium-category-filter">
+	<button data-testid="compendium-category-option">Sistema: Magia</button>
+</div>
+<span>{item.sourceLabel}</span>
+<p>{view.selectedEntry.sourceLabel}</p>
+`;
+}
+
 function renderCombatPanel() {
 	return `
 export let resolvePersistentLoadout = () => undefined;
@@ -601,12 +668,24 @@ Use Salvar sessão, recarregue a página e use Carregar save para restaurar o pe
 `;
 }
 
+function renderCompendiumGuide() {
+	return `
+# Guia De Usuário: Compêndio
+
+Abra http://localhost:5173/ e entre em Compêndio.
+Busque Vanguarda, contramagia e descanso.
+Use os filtros Sistema: Magia, Sistema: Combate e Sistema: Sobrevivência.
+Selecione uma entrada e confirme fonte por arquivo e linha.
+`;
+}
+
 function renderQaGuide() {
 	return `
 # QA
 
 Execute npm.cmd run qa:ui-reachability.
 Mudanças visuais exigem validação renderizada pelo Browser do Codex.
+No Compêndio, busque Vanguarda, contramagia e descanso, filtre por Magia, Combate e Sobrevivência e confirme fonte por arquivo e linha.
  O inventário editável pertence ao personagem, permite equipar/desequipar arma, escudo e armadura, bloqueia remoção de item equipado e persiste inventário + loadout + durabilidade no save v9.
 O cinto de poções consome 1 unidade pelo inventário persistido sem alterar HP real.
 Magia e exploração ainda usam dados de treino; combate ainda usa alvos de treino e HP de treino local.

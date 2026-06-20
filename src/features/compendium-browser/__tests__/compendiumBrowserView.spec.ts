@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { OFFICIAL_COMPENDIUM_ENTRIES } from "$lib/entities/compendium";
 import {
+	COMPENDIUM_CATEGORY_FILTER_OPTIONS,
 	createCompendiumBrowserView,
 	mapCompendiumCategoryLabel,
 	mapCompendiumFailure,
@@ -10,6 +11,7 @@ describe("createCompendiumBrowserView", () => {
 	it("uses a zero-results label and empty state", () => {
 		const view = createCompendiumBrowserView([], {
 			query: "inexistente",
+			selectedCategory: "all",
 			selectedEntryId: null,
 		});
 
@@ -17,19 +19,45 @@ describe("createCompendiumBrowserView", () => {
 		expect(view.emptyState).toEqual({
 			title: "Nenhuma entrada encontrada",
 			description:
-				"Tente buscar por criação de ficha, ancestralidade, classe ou antecedente.",
+				"Tente buscar por criação de ficha, magia, combate ou sobrevivência.",
 		});
 		expect(view.selectedEntry).toBeUndefined();
+	});
+
+	it("exposes category filter options with the current selection", () => {
+		const view = createCompendiumBrowserView(OFFICIAL_COMPENDIUM_ENTRIES, {
+			query: "",
+			selectedCategory: "system-magic",
+			selectedEntryId: null,
+		});
+
+		expect(
+			COMPENDIUM_CATEGORY_FILTER_OPTIONS.map((option) => option.id),
+		).toEqual([
+			"all",
+			"character-creation",
+			"ancestry",
+			"class",
+			"background",
+			"system-survival",
+			"system-combat",
+			"system-magic",
+		]);
+		expect(view.categoryOptions).toContainEqual({
+			id: "system-magic",
+			isSelected: true,
+			label: "Sistema: Magia",
+		});
 	});
 
 	it("uses singular and plural result labels", () => {
 		const oneResult = createCompendiumBrowserView(
 			[OFFICIAL_COMPENDIUM_ENTRIES[3]],
-			{ query: "Vanguarda", selectedEntryId: null },
+			{ query: "Vanguarda", selectedCategory: "all", selectedEntryId: null },
 		);
 		const manyResults = createCompendiumBrowserView(
 			OFFICIAL_COMPENDIUM_ENTRIES,
-			{ query: "", selectedEntryId: null },
+			{ query: "", selectedCategory: "all", selectedEntryId: null },
 		);
 
 		expect(oneResult.countLabel).toBe("1 resultado");
@@ -57,6 +85,7 @@ describe("createCompendiumBrowserView", () => {
 
 	it("marks the selected entry and exposes readable detail", () => {
 		const view = createCompendiumBrowserView(OFFICIAL_COMPENDIUM_ENTRIES, {
+			selectedCategory: "all",
 			query: "Vanguarda",
 			selectedEntryId: "class-vanguard",
 		});
@@ -71,6 +100,7 @@ describe("createCompendiumBrowserView", () => {
 		expect(view.selectedEntry).toMatchObject({
 			categoryLabel: "Classe",
 			sourceFile: "docs/system/survival/05-01-vanguarda.md",
+			sourceLabel: "docs/system/survival/05-01-vanguarda.md:20",
 			title: "Vanguarda",
 		});
 	});
@@ -78,6 +108,7 @@ describe("createCompendiumBrowserView", () => {
 	it("uses singular result label when one entry is selected", () => {
 		const view = createCompendiumBrowserView([OFFICIAL_COMPENDIUM_ENTRIES[3]], {
 			query: "Vanguarda",
+			selectedCategory: "all",
 			selectedEntryId: "class-vanguard",
 		});
 
@@ -88,6 +119,7 @@ describe("createCompendiumBrowserView", () => {
 	it("uses an instruction when no entry is selected", () => {
 		const view = createCompendiumBrowserView(OFFICIAL_COMPENDIUM_ENTRIES, {
 			query: "",
+			selectedCategory: "all",
 			selectedEntryId: null,
 		});
 

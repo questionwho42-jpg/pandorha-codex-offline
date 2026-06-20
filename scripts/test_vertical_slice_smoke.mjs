@@ -128,6 +128,31 @@ test("vertical slice smoke fails when combat potion belt access is missing", asy
 	}
 });
 
+test("vertical slice smoke fails when compendium category filters are missing", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/compendium-browser/ui/CompendiumBrowser.svelte":
+				renderCompendiumBrowser().replace(
+					'data-testid="compendium-category-filter"',
+					'data-testid="compendium-filter-missing"',
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(
+			result.stderr,
+			/src\/features\/compendium-browser\/ui\/CompendiumBrowser\.svelte/,
+		);
+		assert.match(result.stderr, /compendium-category-filter/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("vertical slice smoke fails when PWA install and update controls are missing", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -308,6 +333,10 @@ async function createFixtureRoot({
 			renderCombatPersistentLoadoutResolver(),
 		"src/features/character-starting-equipment/model/startingEquipmentKit.ts":
 			renderStartingEquipmentKit(),
+		"src/features/compendium-browser/model/compendiumBrowserView.ts":
+			renderCompendiumBrowserView(),
+		"src/features/compendium-browser/ui/CompendiumBrowser.svelte":
+			renderCompendiumBrowser(),
 		"src/features/combat-encounter/ui/CombatEncounterPanel.svelte":
 			renderCombatEncounterPanel(),
 		"src/features/combat-encounter/model/combatPotionBelt.ts":
@@ -333,6 +362,7 @@ async function createFixtureRoot({
 		"public/pandorha-sw.js": renderServiceWorker(),
 		"src/features/save-load/model/saveLoadSchemas.ts": renderSaveSchemas(),
 		"docs/user/character-creation.md": renderDoc("Personagens"),
+		"docs/user/compendium-browser.md": renderCompendiumDoc(),
 		"docs/user/inventory-management.md": renderInventoryDoc(),
 		"docs/user/combat-training.md": renderCombatTrainingDoc(),
 		"docs/user/camp-training.md": renderDoc("Acampamento"),
@@ -449,6 +479,35 @@ export function resolveStartingEquipmentKit() {
 		},
 	};
 }
+`;
+}
+
+function renderCompendiumBrowserView() {
+	return `
+export const COMPENDIUM_CATEGORY_FILTER_OPTIONS = [
+	{ id: "all", label: "Todas" },
+	{ id: "system-survival", label: "Sistema: Sobrevivência" },
+	{ id: "system-combat", label: "Sistema: Combate" },
+	{ id: "system-magic", label: "Sistema: Magia" },
+];
+const sourceLabel = "docs/system/magic/12-00-codex-de-magia.md:1";
+`;
+}
+
+function renderCompendiumBrowser() {
+	return `
+let selectedCategory = $state("all");
+function selectCategory(category) {
+	selectedCategory = category;
+}
+runSearch(query, selectedCategory);
+searchEntries({ category: selectedCategory, limit: 200, query });
+<input placeholder="Ex.: Vanguarda, contramagia ou descanso" />
+<div data-testid="compendium-category-filter">
+	<button data-testid="compendium-category-option">Sistema: Magia</button>
+</div>
+<span>{item.sourceLabel}</span>
+<p>{view.selectedEntry.sourceLabel}</p>
 `;
 }
 
@@ -722,6 +781,17 @@ const save = {
 
 function renderDoc(title) {
 	return `# ${title}\n\nAbra http://127.0.0.1:5173/ para testar.\n`;
+}
+
+function renderCompendiumDoc() {
+	return `# Compendio
+
+Abra http://127.0.0.1:5173/ para testar.
+
+Busque Vanguarda, contramagia e descanso.
+Filtre por Sistema: Magia, Sistema: Combate e Sistema: Sobrevivencia.
+Selecione uma entrada e confirme fonte por arquivo e linha.
+`;
 }
 
 function renderInventoryDoc() {

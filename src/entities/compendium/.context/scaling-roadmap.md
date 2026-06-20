@@ -3,7 +3,7 @@
 ## Near Term
 
 - Keep the initial UI paginated and source-aware so the user can see which rule document each result comes from.
-- Add category filtering in the Compendium browser now that generated system categories are available.
+- Category filtering is delivered in the browser; next search work should focus on ranking and pagination when result volume starts to hurt scanning.
 - Add ranking only after the catalog grows enough for ordering to matter.
 
 ## Later

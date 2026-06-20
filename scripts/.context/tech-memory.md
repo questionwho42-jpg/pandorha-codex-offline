@@ -28,3 +28,8 @@
 - The generator excludes `docs/system/survival/pandorha-sistema-compilado.md` to avoid indexing the compiled duplicate.
 - `--check` compares the generated file without writing and is wired into `quality:automation`.
 - `scripts/test_generate_compendium_catalog.mjs` uses temporary fixture docs and verifies deterministic output, ignored-block stripping, stale-output failure, and schema-safe numeric tags.
+
+## Compendium Browser QA Contracts
+
+- `qa:ui-reachability` and `qa:vertical-slice` now require the Compendium category filter, generated system categories, source labels and the user guide terms `Vanguarda`, `contramagia` and `descanso`.
+- These checks stay static and contractual; rendered Compendium browsing still belongs to Browser do Codex validation.

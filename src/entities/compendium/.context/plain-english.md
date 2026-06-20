@@ -11,3 +11,5 @@ Na T17A, esse módulo também ganhou uma busca simples. Ela encontra termos mesm
 Em 2026-06-20, o Compêndio passou a incluir um índice gerado dos documentos oficiais de sobrevivência, combate e magia. Esse índice é criado antes do app rodar e fica salvo como código validado; o navegador não tenta ler Markdown bruto durante o uso.
 
 O índice ajuda o jogador a descobrir documentos e fontes, mas não cria novas regras nem interpreta mecânicas por conta própria.
+
+Na mesma rodada, a busca passou a aceitar filtro de categoria. Assim o usuário pode procurar só em magia, combate ou sobrevivência sem carregar nada novo do disco durante o uso.

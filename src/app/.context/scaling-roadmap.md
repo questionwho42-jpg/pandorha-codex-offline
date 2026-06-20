@@ -5,7 +5,7 @@
 - T04 applied the first official visual tokens from `docs/conventions/styleguide.md`.
 - Future UI tasks should extract repeated shell pieces only when a second real screen needs the same structure.
 - T07/T08 should replace the `Personagens` placeholder with the real Character list/create flows.
-- T16/T17 should replace the `Compêndio` placeholder with validated searchable rule content.
+- T16/T17 replaced the `Compêndio` placeholder with searchable rule content; the 2026-06-20 indexed browser added generated system categories, category filters and source provenance. Future work should add pagination or ranking before expanding into semantic search.
 - T22B added the first fixed `Combate` panel.
 - T22C added selectable static training targets.
 - T22D connected session characters as attacker identity.
