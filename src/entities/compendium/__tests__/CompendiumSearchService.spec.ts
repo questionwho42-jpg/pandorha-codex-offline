@@ -12,14 +12,14 @@ import type {
 import { InMemoryCompendiumRepository } from "../testing/InMemoryCompendiumRepository";
 
 describe("CompendiumSearchService", () => {
-	it("returns all base entries when the query is empty", async () => {
+	it("returns the default catalog page when the query is empty", async () => {
 		const service = createService();
 
 		const result = await service.searchEntries({ query: "" });
 		const entries = expectCompendiumSuccess(result);
 
 		expect(entries.map((entry) => entry.id)).toEqual(
-			OFFICIAL_COMPENDIUM_ENTRIES.map((entry) => entry.id),
+			OFFICIAL_COMPENDIUM_ENTRIES.slice(0, 20).map((entry) => entry.id),
 		);
 	});
 
@@ -30,7 +30,7 @@ describe("CompendiumSearchService", () => {
 		const entries = expectCompendiumSuccess(result);
 
 		expect(entries.map((entry) => entry.id)).toEqual(
-			OFFICIAL_COMPENDIUM_ENTRIES.map((entry) => entry.id),
+			OFFICIAL_COMPENDIUM_ENTRIES.slice(0, 20).map((entry) => entry.id),
 		);
 	});
 
@@ -54,6 +54,18 @@ describe("CompendiumSearchService", () => {
 		const entries = expectCompendiumSuccess(result);
 
 		expect(entries.map((entry) => entry.id)).toContain("class-weaver");
+	});
+
+	it.each([
+		["contramagia", "system-survival-capitulo-xx-contramagia-e-anulacao"],
+		["descanso", "system-survival-descanso-e-acampamento-completo"],
+	])("finds generated system entries with query %s", async (query, expectedEntryId) => {
+		const service = createService();
+
+		const result = await service.searchEntries({ query });
+		const entries = expectCompendiumSuccess(result);
+
+		expect(entries.map((entry) => entry.id)).toContain(expectedEntryId);
 	});
 
 	it("returns an empty list for a query without results", async () => {

@@ -1,6 +1,7 @@
 import type { CompendiumEntry } from "./compendiumSchema";
+import { GENERATED_COMPENDIUM_ENTRIES } from "./generatedCompendiumCatalog";
 
-export const OFFICIAL_COMPENDIUM_ENTRIES = [
+const CURATED_COMPENDIUM_ENTRIES = [
 	{
 		id: "character-creation-guide",
 		title: "Guia de criação de ficha",
@@ -97,6 +98,11 @@ export const OFFICIAL_COMPENDIUM_ENTRIES = [
 			"antecedentes origens acólito aristocrata artesão mercador nômade talento origem personagem",
 		tags: ["background", "origin", "character"],
 	},
+] as const satisfies readonly CompendiumEntry[];
+
+export const OFFICIAL_COMPENDIUM_ENTRIES = [
+	...CURATED_COMPENDIUM_ENTRIES,
+	...GENERATED_COMPENDIUM_ENTRIES,
 ] as const satisfies readonly CompendiumEntry[];
 
 export const OFFICIAL_COMPENDIUM_ENTRY_IDS = OFFICIAL_COMPENDIUM_ENTRIES.map(

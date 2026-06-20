@@ -75,6 +75,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260620-124551-compendium-generated-index-core -->
+### Compendium generated index core
+- id: 20260620-124551-compendium-generated-index-core
+- status: open
+- created_at: 2026-06-20T12:45:51-03:00
+- source: task-ledger
+- summary: Implement the static Compendium index generator, generated catalog integration, schema/category updates, automation gates and tests without runtime Markdown parsing or docs/system changes.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260620-124551-compendium-generated-index-core -->
 <!-- pandorha-inbox:20260620-124110-compendium-ingestion-index-gate -->
 ### Compendium ingestion index gate
 - id: 20260620-124110-compendium-ingestion-index-gate

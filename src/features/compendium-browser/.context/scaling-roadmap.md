@@ -3,7 +3,7 @@
 ## Near Term
 
 - Add pagination before the catalog grows beyond the initial curated slice.
-- Add category filters once more categories are available.
+- Add category filters for `system-survival`, `system-combat`, and `system-magic`.
 - Preserve selected entry across query changes only after there is a stable detail route or state contract.
 
 ## Later

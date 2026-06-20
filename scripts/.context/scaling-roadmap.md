@@ -10,9 +10,11 @@
 - Extend `qa:ui-reachability` only with stable source contracts; keep rendered interactions in the Browser do Codex until the T84 Playwright decision is explicitly reopened.
 - Add future inventory controls to `qa:ui-reachability` only after their ownership and persistence contracts are approved.
 - Keep PWA install/update checks static until offline network/cache automation proves stable enough to avoid flaky browser gates.
+- Expand `generate_compendium_catalog.mjs` only with deterministic parsing rules; semantic summaries, embeddings, or lore interpretation need a separate approved gate.
 
 ## Boundaries
 
 - Keep the auditor deterministic and local. It should not call models, browsers, network services, or MCP servers.
 - Keep reports advisory unless the project explicitly decides which findings should block commits.
 - Keep `docs/system/` review separate from mechanical Markdown cleanup to avoid accidental rule drift.
+- Keep Compendium generation write-only to the generated catalog file; it must not rewrite `docs/system/`.

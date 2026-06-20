@@ -33,7 +33,9 @@ describe("createCompendiumBrowserView", () => {
 		);
 
 		expect(oneResult.countLabel).toBe("1 resultado");
-		expect(manyResults.countLabel).toBe("8 resultados");
+		expect(manyResults.countLabel).toBe(
+			`${OFFICIAL_COMPENDIUM_ENTRIES.length} resultados`,
+		);
 	});
 
 	it("maps class category to pt-BR", () => {
@@ -44,6 +46,13 @@ describe("createCompendiumBrowserView", () => {
 		expect(mapCompendiumCategoryLabel("ancestry")).toBe("Ancestralidade");
 		expect(mapCompendiumCategoryLabel("background")).toBe("Antecedente");
 		expect(mapCompendiumCategoryLabel("character-creation")).toContain("ficha");
+		expect(mapCompendiumCategoryLabel("system-combat")).toBe(
+			"Sistema: Combate",
+		);
+		expect(mapCompendiumCategoryLabel("system-magic")).toBe("Sistema: Magia");
+		expect(mapCompendiumCategoryLabel("system-survival")).toBe(
+			"Sistema: Sobrevivência",
+		);
 	});
 
 	it("marks the selected entry and exposes readable detail", () => {

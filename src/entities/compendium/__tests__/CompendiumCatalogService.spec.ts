@@ -18,9 +18,8 @@ import type {
 import { InMemoryCompendiumRepository } from "../testing/InMemoryCompendiumRepository";
 
 describe("Official compendium catalog", () => {
-	it("contains the first validated character-creation slice", () => {
-		expect(OFFICIAL_COMPENDIUM_ENTRIES).toHaveLength(8);
-		expect(OFFICIAL_COMPENDIUM_ENTRY_IDS).toEqual([
+	it("contains the curated slice followed by the generated system index", () => {
+		const curatedEntryIds = [
 			"character-creation-guide",
 			"ancestry-overview",
 			"class-overview",
@@ -29,7 +28,36 @@ describe("Official compendium catalog", () => {
 			"class-emissary",
 			"class-hunter",
 			"background-overview",
-		]);
+		];
+		const categories = new Set(
+			OFFICIAL_COMPENDIUM_ENTRIES.map((entry) => entry.category),
+		);
+
+		expect(OFFICIAL_COMPENDIUM_ENTRIES.length).toBeGreaterThan(
+			curatedEntryIds.length,
+		);
+		expect(
+			OFFICIAL_COMPENDIUM_ENTRY_IDS.slice(0, curatedEntryIds.length),
+		).toEqual(curatedEntryIds);
+		expect(new Set(OFFICIAL_COMPENDIUM_ENTRY_IDS).size).toBe(
+			OFFICIAL_COMPENDIUM_ENTRY_IDS.length,
+		);
+		expect(categories).toEqual(
+			new Set([
+				"character-creation",
+				"ancestry",
+				"class",
+				"background",
+				"system-survival",
+				"system-combat",
+				"system-magic",
+			]),
+		);
+		expect(
+			OFFICIAL_COMPENDIUM_ENTRIES.some((entry) =>
+				entry.sourceFile.endsWith("pandorha-sistema-compilado.md"),
+			),
+		).toBe(false);
 
 		for (const entry of OFFICIAL_COMPENDIUM_ENTRIES) {
 			expect(compendiumEntrySelectSchema.safeParse(entry).success).toBe(true);
@@ -44,13 +72,20 @@ describe("CompendiumCatalogService", () => {
 		const result = await service.listEntries();
 		const entries = expectCompendiumSuccess(result);
 
-		expect(entries).toHaveLength(8);
+		expect(entries.length).toBeGreaterThan(8);
 		expect(entries[0]).toMatchObject({
 			id: "character-creation-guide",
 			title: "Guia de criação de ficha",
 			category: "character-creation",
 			sourceFile: "docs/system/survival/guia-criacao-de-ficha.md",
 		});
+		expect(entries).toContainEqual(
+			expect.objectContaining({
+				id: "system-survival-descanso-e-acampamento-completo",
+				category: "system-survival",
+				sourceFile: "docs/system/survival/descanso-e-acampamento-completo.md",
+			}),
+		);
 	});
 
 	it("finds Vanguarda by its English technical id", async () => {

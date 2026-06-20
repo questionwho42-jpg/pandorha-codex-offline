@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260620-124551-compendium-generated-index-core -->
+### Compendium generated index core
+- id: 20260620-124551-compendium-generated-index-core
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-20T12:45:51-03:00
+- finished_at: 2026-06-20T13:02:54-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5.5 high-reasoning final review; local automation
+- last_modified_at: 2026-06-20T13:02:54-03:00
+- branch: codex/feat/compendium-generated-index-core
+- commit_at_start: 7cb1a67 chore(process): record compendium gate merge
+- summary: Implement the static Compendium index generator, generated catalog integration, schema/category updates, automation gates and tests without runtime Markdown parsing or docs/system changes.
+- last_change: Generated a static validated Compendium catalog from system docs, integrated it with the official catalog, and wired generation checks into quality automation.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-20T12:45:51-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-20T13:02:54-03:00
+- Done: Generated a static validated Compendium catalog from system docs, integrated it with the official catalog, and wired generation checks into quality automation.
+- Next: Implement the category-filtered Compendium browser UI on the next branch.
+- Risks: Generated entries are discovery metadata only and must not be treated as new RPG rules.
+- Improvements: Add deterministic ranking only after the indexed catalog needs ordering beyond source categories.
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+<!-- /pandorha-task:20260620-124551-compendium-generated-index-core -->
 <!-- pandorha-task:20260620-124110-compendium-ingestion-index-gate -->
 ### Compendium ingestion index gate
 - id: 20260620-124110-compendium-ingestion-index-gate

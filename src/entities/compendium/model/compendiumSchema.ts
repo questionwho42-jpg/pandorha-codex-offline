@@ -17,6 +17,9 @@ export const compendiumCategorySchema = z.enum([
 	"ancestry",
 	"class",
 	"background",
+	"system-survival",
+	"system-combat",
+	"system-magic",
 ]);
 
 export const compendiumEntries = sqliteTable("compendium_entries", {

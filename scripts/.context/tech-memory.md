@@ -21,3 +21,10 @@
 - `scripts/test_ui_reachability_smoke.mjs` uses temporary fixtures with one positive case and focused negative regressions.
 - The 2026-06-19 PWA slice extended `qa:ui-reachability` to require `manifest.webmanifest`, the manifest link, `pwa-install-*`/`pwa-update-*` controls and a service worker `SKIP_WAITING` message handler.
 - `qa:vertical-slice` now also requires the PWA install/update controls and service worker update message so the MVP contract cannot regress to status-only offline support.
+
+## Compendium Catalog Generation
+
+- `scripts/generate_compendium_catalog.mjs` creates a static TypeScript catalog from `docs/system/survival`, `docs/system/combat`, and `docs/system/magic`.
+- The generator excludes `docs/system/survival/pandorha-sistema-compilado.md` to avoid indexing the compiled duplicate.
+- `--check` compares the generated file without writing and is wired into `quality:automation`.
+- `scripts/test_generate_compendium_catalog.mjs` uses temporary fixture docs and verifies deterministic output, ignored-block stripping, stale-output failure, and schema-safe numeric tags.

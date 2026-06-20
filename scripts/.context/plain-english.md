@@ -15,3 +15,5 @@ Alternatives:
 The UI reachability smoke checks that every visible area still has a browser panel, that editable inventory actions and save wiring remain reachable, that old placeholder promises do not return, and that important UI fixes remain represented in code and documentation. It is fast and repeatable, while the Browser do Codex remains responsible for proving the rendered interaction really works.
 
 For the PWA slice, the smokes now also check that the app has an installable manifest, visible install/update controls when the browser state allows them, and a service worker message that can activate a waiting update. They still do not pretend to test real offline networking; that remains a rendered browser validation job.
+
+The Compendium generator reads selected official rule folders and creates a ready-to-use catalog file for the app. It is a repeatable preparation step: the browser receives a validated index, but the script does not change the original rule documents or invent new summaries.

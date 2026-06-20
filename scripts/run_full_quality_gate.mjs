@@ -128,6 +128,13 @@ async function runAutomationGate() {
 		"--scope",
 		"all",
 	]);
+	await runStep("automation:compendium-generation-tests", "node", [
+		"scripts/test_generate_compendium_catalog.mjs",
+	]);
+	await runStep("automation:compendium-generation-check", "node", [
+		"scripts/generate_compendium_catalog.mjs",
+		"--check",
+	]);
 	await runStep("automation:vertical-slice-smoke-tests", "node", [
 		"scripts/test_vertical_slice_smoke.mjs",
 	]);

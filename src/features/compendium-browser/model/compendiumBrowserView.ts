@@ -80,6 +80,12 @@ export function mapCompendiumCategoryLabel(
 			return "Criação de ficha";
 		case "class":
 			return "Classe";
+		case "system-combat":
+			return "Sistema: Combate";
+		case "system-magic":
+			return "Sistema: Magia";
+		case "system-survival":
+			return "Sistema: Sobrevivência";
 	}
 }
 
