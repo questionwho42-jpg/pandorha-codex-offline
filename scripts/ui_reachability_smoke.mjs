@@ -22,7 +22,12 @@ async function runUiReachabilitySmoke(root) {
 	await validateFileContains(
 		root,
 		"index.html",
-		['rel="icon"', 'href="/favicon.svg"'],
+		[
+			'rel="icon"',
+			'href="/favicon.svg"',
+			'rel="manifest"',
+			'href="/manifest.webmanifest"',
+		],
 		errors,
 	);
 
@@ -30,6 +35,25 @@ async function runUiReachabilitySmoke(root) {
 		root,
 		"public/favicon.svg",
 		["<svg", "#1c1917", "#dab973"],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"public/manifest.webmanifest",
+		[
+			'"name": "Pandorha Engine"',
+			'"short_name": "Pandorha"',
+			'"display": "standalone"',
+			'"/favicon.svg"',
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
+		"public/pandorha-sw.js",
+		['addEventListener("message"', '"SKIP_WAITING"', "self.skipWaiting()"],
 		errors,
 	);
 
@@ -80,6 +104,10 @@ async function runUiReachabilitySmoke(root) {
 			"consumePotionBelt={consumeCombatPotionBelt}",
 			"onOpenInventory",
 			"activeItem.description",
+			'data-testid="pwa-install-status"',
+			'data-testid="pwa-install-button"',
+			'data-testid="pwa-update-status"',
+			'data-testid="pwa-update-button"',
 		],
 		errors,
 	);

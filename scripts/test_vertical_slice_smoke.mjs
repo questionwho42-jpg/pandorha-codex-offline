@@ -128,6 +128,26 @@ test("vertical slice smoke fails when combat potion belt access is missing", asy
 	}
 });
 
+test("vertical slice smoke fails when PWA install and update controls are missing", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/app/App.svelte": renderApp().replace(
+				'data-testid="pwa-update-button"',
+				'data-testid="pwa-update-missing"',
+			),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /pwa-update-button/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("vertical slice smoke fails when obsolete combat loadout selectors remain", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -408,6 +428,10 @@ consumePotionBelt={consumeCombatPotionBelt};
 resolveTrainingEnemyAttack={(input) => combatEncounterSession.trainingEnemyAttackService.resolveTrainingEnemyAttack(input)};
 </script>
 <p data-testid="pwa-status">Offline disponível neste navegador.</p>
+<p data-testid="pwa-install-status">Instalação disponível neste navegador.</p>
+<button data-testid="pwa-install-button">Instalar app</button>
+<p data-testid="pwa-update-status">Atualização disponível.</p>
+<button data-testid="pwa-update-button">Atualizar agora</button>
 `;
 }
 
@@ -670,6 +694,11 @@ const CACHE_NAME = "fixture";
 self.addEventListener("install", () => undefined);
 self.addEventListener("activate", () => undefined);
 self.addEventListener("fetch", () => handleNavigationRequest());
+self.addEventListener("message", (event) => {
+	if (event.data?.type === "SKIP_WAITING") {
+		self.skipWaiting();
+	}
+});
 function handleNavigationRequest() {}
 function handleRuntimeRequest() {}
 `;

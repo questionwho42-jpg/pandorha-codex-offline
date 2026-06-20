@@ -1,0 +1,18 @@
+{
+	"name": "Pandorha Engine",
+	"short_name": "Pandorha",
+	"description": "Painel local-first do Pandorha Engine.",
+	"start_url": "/",
+	"scope": "/",
+	"display": "standalone",
+	"background_color": "#1c1917",
+	"theme_color": "#1c1917",
+	"icons": [
+		{
+			"src": "/favicon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml",
+			"purpose": "any maskable"
+		}
+	]
+}

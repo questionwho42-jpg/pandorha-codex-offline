@@ -19,3 +19,5 @@
 - `scripts/ui_reachability_smoke.mjs` is a contractual source-and-documentation gate; it does not automate a rendered browser.
 - The smoke protects tab mounting, current navigation copy, character save documentation, camp event-preservation order, known limitation classification, editable inventory actions, inventory save/load wiring, and the Browser do Codex acceptance requirement.
 - `scripts/test_ui_reachability_smoke.mjs` uses temporary fixtures with one positive case and focused negative regressions.
+- The 2026-06-19 PWA slice extended `qa:ui-reachability` to require `manifest.webmanifest`, the manifest link, `pwa-install-*`/`pwa-update-*` controls and a service worker `SKIP_WAITING` message handler.
+- `qa:vertical-slice` now also requires the PWA install/update controls and service worker update message so the MVP contract cannot regress to status-only offline support.

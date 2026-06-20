@@ -35,3 +35,4 @@
 - Future combat app wiring should pass persisted HP only after a dedicated character-combat-state contract exists.
 - Keep navigation copy synchronized with reachable panels through `qa:ui-reachability`; add new panel contracts to the smoke when a new tab is introduced.
 - Durability v9 is wired through app state and save/load. Future auto-wear, repair workflows, and damaged modifiers should stay behind dedicated gates instead of expanding `App.svelte` conditionally.
+- The PWA header now supports install prompt and waiting-worker update controls. Future offline work should focus on reliable browser-network automation or a deliberate cache-data strategy, not on broadening cache scope implicitly.

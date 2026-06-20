@@ -62,6 +62,86 @@ test("ui reachability smoke fails when the static favicon is removed", async () 
 	}
 });
 
+test("ui reachability smoke fails when the web app manifest is not linked", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"index.html": renderIndex().replace(
+				'<link rel="manifest" href="/manifest.webmanifest" />',
+				"",
+			),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /manifest\.webmanifest/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
+test("ui reachability smoke fails when the PWA install action is unreachable", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/app/App.svelte": renderApp().replace(
+				'data-testid="pwa-install-button"',
+				'data-testid="pwa-install-missing"',
+			),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /pwa-install-button/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
+test("ui reachability smoke fails when the PWA update action is unreachable", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/app/App.svelte": renderApp().replace(
+				'data-testid="pwa-update-button"',
+				'data-testid="pwa-update-missing"',
+			),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /pwa-update-button/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
+test("ui reachability smoke fails when the service worker cannot skip waiting", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"public/pandorha-sw.js": renderServiceWorker().replace(
+				'"SKIP_WAITING"',
+				'"IGNORE_WAITING"',
+			),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /SKIP_WAITING/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("ui reachability smoke fails when an editable inventory action is unreachable", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -249,6 +329,8 @@ async function createFixtureRoot({ fileOverrides = {} } = {}) {
 	);
 	const files = {
 		"index.html": renderIndex(),
+		"public/manifest.webmanifest": renderManifest(),
+		"public/pandorha-sw.js": renderServiceWorker(),
 		"public/favicon.svg": renderFavicon(),
 		"src/app/App.svelte": renderApp(),
 		"src/app/model/navigation.ts": renderNavigation(),
@@ -295,14 +377,42 @@ function renderIndex() {
 <html lang="pt-BR">
 	<head>
 		<link rel="icon" href="/favicon.svg" />
+		<link rel="manifest" href="/manifest.webmanifest" />
 		<title>Pandorha Engine</title>
 	</head>
 </html>
 `;
 }
 
+function renderManifest() {
+	return `
+{
+	"name": "Pandorha Engine",
+	"short_name": "Pandorha",
+	"start_url": "/",
+	"display": "standalone",
+	"icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
+`;
+}
+
+function renderServiceWorker() {
+	return `
+self.addEventListener("message", (event) => {
+	const message = event.data;
+	if (message?.type === "SKIP_WAITING") {
+		self.skipWaiting();
+	}
+});
+`;
+}
+
 function renderApp() {
 	return `
+<p data-testid="pwa-install-status">Instalação disponível neste navegador.</p>
+<button data-testid="pwa-install-button">Instalar app</button>
+<p data-testid="pwa-update-status">Atualização disponível.</p>
+<button data-testid="pwa-update-button">Atualizar agora</button>
 inventoryEvents: inventoryEventRecords;
 equipmentLoadoutEvents: equipmentLoadoutEventRecords;
 equipmentDurabilityEvents: equipmentDurabilityEventRecords;

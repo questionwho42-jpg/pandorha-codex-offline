@@ -83,3 +83,10 @@ Agora o app tambem salva a durabilidade manual dos equipamentos. Ao carregar o
 save, ele devolve para o Inventario se cada equipamento estava integro,
 danificado ou quebrado. O Combate recebe essa leitura pelo app e bloqueia o uso
 de item quebrado sem misturar o codigo de Combate com o codigo de Inventario.
+
+O cabecalho agora tambem ajuda o navegador a tratar o app como instalavel.
+Quando o navegador permite, aparece o botao `Instalar app`. Quando existe uma
+nova versao do service worker esperando ativacao, aparece `Atualizar agora`; ao
+clicar, o app pede a troca segura do worker e recarrega a pagina depois que o
+navegador confirma a nova versao. Isso nao muda save, regras de jogo ou dados
+do personagem.

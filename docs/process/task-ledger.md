@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260619-180221-pwa-install-update-ui -->
+### PWA install update UI
+- id: 20260619-180221-pwa-install-update-ui
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-19T18:02:21-03:00
+- finished_at: 2026-06-20T10:18:15-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5.5 high-reasoning final review; local automation
+- last_modified_at: 2026-06-20T10:18:15-03:00
+- branch: codex/feat/pwa-install-update-ui
+- commit_at_start: 2916254 chore(process): record pwa gate merge
+- summary: Implement minimal PWA install and update controls using the approved gate, existing service worker, local manifest assets, typed states, and no new dependencies or RPG rule changes.
+- last_change: Implemented manifest.webmanifest, install prompt UI, waiting-worker update UI, SKIP_WAITING service worker handling, static smokes, user/process docs and triple memory. Browser do Codex/Playwright validation passed on http://127.0.0.1:5174 with manifest 200, nine tabs, install prompt simulation, update waiting simulation and clean console.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-19T18:02:21-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-20T10:14:19-03:00
+- Done: Browser do Codex/Playwright validou http://127.0.0.1:5174/: manifest 200, status offline, nove abas, beforeinstallprompt com Instalar app, update waiting com SKIP_WAITING e console sem erros ou warnings.
+- Next: Executar gates finais, completar tarefa, commitar, mergear em main, publicar no GitHub e rodar qa:next-phase-readiness.
+- Risks: Porta 5173 ja estava ocupada; a branch atual foi validada no Vite em 5174.
+- Improvements: Manter a automacao de rede/cache offline para gate futuro quando o navegador oferecer controle estavel.
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-20T10:18:15-03:00
+- Done: Implemented manifest.webmanifest, install prompt UI, waiting-worker update UI, SKIP_WAITING service worker handling, static smokes, user/process docs and triple memory. Browser do Codex/Playwright validation passed on http://127.0.0.1:5174 with manifest 200, nine tabs, install prompt simulation, update waiting simulation and clean console.
+- Next: Commit atomico, merge em main, push e qa:next-phase-readiness.
+- Risks: Porta 5173 ja estava ocupada; a branch atual foi validada no Vite em 5174.
+- Improvements: Planejar automacao offline/renderizada somente quando houver controle confiavel de rede/cache no navegador.
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+<!-- /pandorha-task:20260619-180221-pwa-install-update-ui -->
 <!-- pandorha-task:20260619-175723-pwa-install-update-gate -->
 ### PWA install update gate
 - id: 20260619-175723-pwa-install-update-gate

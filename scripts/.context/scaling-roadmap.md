@@ -9,6 +9,7 @@
 - Add a formatter bridge to `ai-docs-formatter` only after the schema becomes stricter than the current permissive JSON shape.
 - Extend `qa:ui-reachability` only with stable source contracts; keep rendered interactions in the Browser do Codex until the T84 Playwright decision is explicitly reopened.
 - Add future inventory controls to `qa:ui-reachability` only after their ownership and persistence contracts are approved.
+- Keep PWA install/update checks static until offline network/cache automation proves stable enough to avoid flaky browser gates.
 
 ## Boundaries
 

@@ -68,10 +68,17 @@ import { createInventorySession } from "./model/inventorySession";
 import type { AppNavigationId } from "./model/navigation";
 // biome-ignore lint/correctness/noUnusedImports: consumed by Svelte markup.
 import { APP_NAVIGATION_ITEMS, getAppNavigationItem } from "./model/navigation";
-import { registerPwaOfflineSupport } from "./model/pwaOfflineRegistration";
 import {
+	type BeforeInstallPromptEvent,
+	registerPwaOfflineSupport,
+} from "./model/pwaOfflineRegistration";
+import {
+	createPwaInstallView,
 	createPwaStatusView,
+	createPwaUpdateView,
+	type PwaInstallStatus,
 	type PwaOfflineStatus,
+	type PwaUpdateStatus,
 } from "./model/pwaStatusView";
 import { createSaveLoadSession } from "./model/saveLoadSession";
 import { createSocialEncounterSession } from "./model/socialEncounterSession";
@@ -137,6 +144,11 @@ let socialEncounterRecords = $state<SocialEncounterRecord[]>([]);
 let socialEncounterEventRecords = $state<SocialEncounterEventRecord[]>([]);
 let worldStateRecords = $state<WorldStateFlagView[]>([]);
 let pwaOfflineStatus = $state<PwaOfflineStatus>({ kind: "checking" });
+let pwaInstallStatus = $state<PwaInstallStatus>({ kind: "unavailable" });
+let pwaUpdateStatus = $state<PwaUpdateStatus>({ kind: "idle" });
+let deferredInstallPrompt = $state<BeforeInstallPromptEvent | null>(null);
+let pwaWaitingWorker = $state<ServiceWorker | null>(null);
+let pwaReloadPending = false;
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let saveLoadState = $state<SaveLoadUiState>({ kind: "initializing" });
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -149,6 +161,10 @@ let isCreatingCharacter = $state(false);
 let activeItem = $derived(getAppNavigationItem(activeView));
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let pwaStatusView = $derived(createPwaStatusView(pwaOfflineStatus));
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let pwaInstallView = $derived(createPwaInstallView(pwaInstallStatus));
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+let pwaUpdateView = $derived(createPwaUpdateView(pwaUpdateStatus));
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let factionFameLevelsByNpcId = $derived(
 	createFactionFameLevelsByNpcId(
@@ -234,10 +250,99 @@ async function initializeSaveLoad(): Promise<void> {
 		: { kind: "error", message: "Não foi possível preparar o save local." };
 }
 
-async function initializePwaOfflineSupport(): Promise<void> {
+function registerPwaInstallPromptListener(): () => void {
+	if (typeof window === "undefined") {
+		return () => undefined;
+	}
+
+	const handleBeforeInstallPrompt = (event: Event) => {
+		event.preventDefault();
+		deferredInstallPrompt = event as BeforeInstallPromptEvent;
+		pwaInstallStatus = { kind: "available" };
+	};
+
+	window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+	return () => {
+		window.removeEventListener(
+			"beforeinstallprompt",
+			handleBeforeInstallPrompt,
+		);
+	};
+}
+
+function setPwaWaitingWorker(worker: ServiceWorker): void {
+	pwaWaitingWorker = worker;
+	pwaUpdateStatus = { kind: "available" };
+}
+
+function watchPwaRegistration(
+	registration: ServiceWorkerRegistration,
+): () => void {
+	const workerCleanups: (() => void)[] = [];
+	const watchInstallingWorker = (worker: ServiceWorker | null) => {
+		if (!worker) {
+			return;
+		}
+
+		const handleStateChange = () => {
+			if (worker.state === "installed" && navigator.serviceWorker.controller) {
+				setPwaWaitingWorker(worker);
+			}
+		};
+		worker.addEventListener("statechange", handleStateChange);
+		workerCleanups.push(() => {
+			worker.removeEventListener("statechange", handleStateChange);
+		});
+	};
+
+	const handleUpdateFound = () => {
+		watchInstallingWorker(registration.installing);
+	};
+
+	if (registration.waiting) {
+		setPwaWaitingWorker(registration.waiting);
+	}
+	watchInstallingWorker(registration.installing);
+	registration.addEventListener("updatefound", handleUpdateFound);
+
+	return () => {
+		registration.removeEventListener("updatefound", handleUpdateFound);
+		for (const cleanup of workerCleanups) {
+			cleanup();
+		}
+	};
+}
+
+function registerPwaControllerChangeListener(): () => void {
+	if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) {
+		return () => undefined;
+	}
+
+	const handleControllerChange = () => {
+		if (pwaReloadPending && typeof window !== "undefined") {
+			window.location.reload();
+		}
+	};
+
+	navigator.serviceWorker.addEventListener(
+		"controllerchange",
+		handleControllerChange,
+	);
+	return () => {
+		navigator.serviceWorker.removeEventListener(
+			"controllerchange",
+			handleControllerChange,
+		);
+	};
+}
+
+async function initializePwaOfflineSupport(
+	onRegistrationCleanup: (cleanup: () => void) => void,
+): Promise<void> {
 	const registered = await registerPwaOfflineSupport();
 	if (registered.success) {
-		pwaOfflineStatus = registered.data;
+		pwaOfflineStatus = registered.data.status;
+		onRegistrationCleanup(watchPwaRegistration(registered.data.registration));
 		return;
 	}
 
@@ -245,6 +350,43 @@ async function initializePwaOfflineSupport(): Promise<void> {
 		registered.error.code === "SERVICE_WORKER_UNSUPPORTED"
 			? { kind: "unsupported" }
 			: { kind: "failed" };
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+async function installPwa(): Promise<void> {
+	if (!deferredInstallPrompt) {
+		return;
+	}
+
+	const prompt = deferredInstallPrompt;
+	deferredInstallPrompt = null;
+	pwaInstallStatus = { kind: "installing" };
+	try {
+		await prompt.prompt();
+		const choice = await prompt.userChoice;
+		pwaInstallStatus =
+			choice.outcome === "accepted"
+				? { kind: "accepted" }
+				: { kind: "dismissed" };
+	} catch {
+		pwaInstallStatus = { kind: "failed" };
+	}
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function applyPwaUpdate(): void {
+	if (!pwaWaitingWorker) {
+		return;
+	}
+
+	pwaUpdateStatus = { kind: "applying" };
+	pwaReloadPending = true;
+	try {
+		pwaWaitingWorker.postMessage({ type: "SKIP_WAITING" });
+	} catch {
+		pwaReloadPending = false;
+		pwaUpdateStatus = { kind: "failed" };
+	}
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
@@ -389,8 +531,20 @@ function createFactionFameLevelsByNpcId(
 }
 
 onMount(() => {
+	const cleanupHandlers: (() => void)[] = [
+		registerPwaInstallPromptListener(),
+		registerPwaControllerChangeListener(),
+	];
 	void initializeSaveLoad();
-	void initializePwaOfflineSupport();
+	void initializePwaOfflineSupport((cleanup) => {
+		cleanupHandlers.push(cleanup);
+	});
+
+	return () => {
+		for (const cleanup of cleanupHandlers) {
+			cleanup();
+		}
+	};
 });
 </script>
 
@@ -404,16 +558,70 @@ onMount(() => {
 		<header class="border-b border-ether pb-6">
 			<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 				<p class="text-sm font-semibold text-ether">Pandorha Engine</p>
-				<p
-					aria-live="polite"
-					class="border border-bronze bg-blood-shadow px-3 py-2 text-sm font-semibold"
-					class:text-ether={pwaStatusView.tone === "ready"}
-					class:text-bone={pwaStatusView.tone === "pending"}
-					class:text-bronze={pwaStatusView.tone === "warning"}
-					data-testid="pwa-status"
-				>
-					{pwaStatusView.label}
-				</p>
+				<div class="flex flex-col gap-2 sm:items-end">
+					<p
+						aria-live="polite"
+						class="border border-bronze bg-blood-shadow px-3 py-2 text-sm font-semibold"
+						class:text-ether={pwaStatusView.tone === "ready"}
+						class:text-bone={pwaStatusView.tone === "pending"}
+						class:text-bronze={pwaStatusView.tone === "warning"}
+						data-testid="pwa-status"
+					>
+						{pwaStatusView.label}
+					</p>
+					{#if pwaInstallView.isVisible || pwaUpdateView.isVisible}
+						<div class="flex flex-wrap gap-2 sm:justify-end">
+							{#if pwaInstallView.isVisible}
+								<div
+									class="flex min-h-10 items-center gap-2 border border-bronze bg-blood-shadow px-3 py-2 text-sm font-semibold"
+								>
+									<span
+										aria-live="polite"
+										class:text-ether={pwaInstallView.tone === "ready"}
+										class:text-bone={pwaInstallView.tone === "pending"}
+										class:text-bronze={pwaInstallView.tone === "warning"}
+										data-testid="pwa-install-status"
+									>
+										{pwaInstallView.label}
+									</span>
+									<button
+										type="button"
+										class="border border-ether bg-ether px-3 py-1.5 text-xs font-semibold text-void transition-colors hover:border-bone hover:bg-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:cursor-not-allowed disabled:border-bronze disabled:bg-ruin disabled:text-bronze"
+										data-testid="pwa-install-button"
+										disabled={!pwaInstallView.canInstall}
+										onclick={installPwa}
+									>
+										{pwaInstallView.buttonLabel}
+									</button>
+								</div>
+							{/if}
+							{#if pwaUpdateView.isVisible}
+								<div
+									class="flex min-h-10 items-center gap-2 border border-bronze bg-blood-shadow px-3 py-2 text-sm font-semibold"
+								>
+									<span
+										aria-live="polite"
+										class:text-ether={pwaUpdateView.tone === "ready"}
+										class:text-bone={pwaUpdateView.tone === "pending"}
+										class:text-bronze={pwaUpdateView.tone === "warning"}
+										data-testid="pwa-update-status"
+									>
+										{pwaUpdateView.label}
+									</span>
+									<button
+										type="button"
+										class="border border-ether bg-ether px-3 py-1.5 text-xs font-semibold text-void transition-colors hover:border-bone hover:bg-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:cursor-not-allowed disabled:border-bronze disabled:bg-ruin disabled:text-bronze"
+										data-testid="pwa-update-button"
+										disabled={!pwaUpdateView.canApply}
+										onclick={applyPwaUpdate}
+									>
+										{pwaUpdateView.buttonLabel}
+									</button>
+								</div>
+							{/if}
+						</div>
+					{/if}
+				</div>
 			</div>
 			<h1
 				id="pandorha-title"

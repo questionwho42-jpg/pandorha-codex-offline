@@ -75,6 +75,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260619-180221-pwa-install-update-ui -->
+### PWA install update UI
+- id: 20260619-180221-pwa-install-update-ui
+- status: open
+- created_at: 2026-06-19T18:02:21-03:00
+- source: task-ledger
+- summary: Implement minimal PWA install and update controls using the approved gate, existing service worker, local manifest assets, typed states, and no new dependencies or RPG rule changes.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260619-180221-pwa-install-update-ui -->
 <!-- pandorha-inbox:20260619-175723-pwa-install-update-gate -->
 ### PWA install update gate
 - id: 20260619-175723-pwa-install-update-gate

@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Este documento registra a auditoria executada depois das correções de alcance da UI em 2026-06-06, repetida depois da entrega do inventário editável em 2026-06-15, atualizada durante a entrega de loadout persistente em 2026-06-16 e revisada após a durabilidade manual v9 em 2026-06-19. Ele separa regressões de limitações deliberadas e recomenda quando cada ausência deve virar implementação.
+Este documento registra a auditoria executada depois das correções de alcance da UI em 2026-06-06, repetida depois da entrega do inventário editável em 2026-06-15, atualizada durante a entrega de loadout persistente em 2026-06-16 e revisada após a durabilidade manual v9 e a UI PWA instalável em 2026-06-19. Ele separa regressões de limitações deliberadas e recomenda quando cada ausência deve virar implementação.
 
 Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/system/`. Toda implementação futura deve seguir planejamento, TDD, memória tripla e revisão das fontes soberanas aplicáveis.
 
@@ -18,6 +18,7 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 - A entrega de integração de combate com loadout persistido removeu os seletores locais de arma/escudo/armadura da aba `Combate`; personagens da sessão agora derivam arma ativa e defesa equipada do ledger de inventário/loadout.
 - A entrega de cinto de poções em 2026-06-17 adicionou acesso rápido no `Combate` para `potion-belt-stack`, consumindo 1 unidade pelo ledger de inventário existente sem cura, HP real, HP de treino ou estados oficiais.
 - A entrega de durabilidade v9 em 2026-06-19 adicionou `equipmentDurabilityEvents` ao save/load, controles manuais `Íntegro`/`Danificado`/`Quebrado` no Inventário, bloqueio de item quebrado no loadout/Combate e roundtrip renderizado com Browser do Codex sem erros de console.
+- A entrega PWA em 2026-06-19 adicionou manifest local, controle `Instalar app`, aviso `Atualizacao disponivel`, botao `Atualizar agora` e handler seguro `SKIP_WAITING`, sem nova dependencia, push, background sync, cloud sync ou regra de RPG.
 - A auditoria encontrou um único erro de console: o request implícito de `favicon.ico` retornava 404. O favicon passou a ser declarado em `index.html` e servido por `public/favicon.svg`; uma sessão limpa confirmou zero erros e zero warnings ao abrir as nove abas.
 
 ## Classificação Pós-Correção
@@ -44,12 +45,12 @@ Nenhuma ausência descrita aqui autoriza inferir ou alterar regras em `docs/syst
 | Acampamento multi-hora | A sessão resolvida fica corretamente encerrada após uma hora e não oferece nova hora ou noite completa. | Orquestração explícita de nova hora, transições de sessão, persistência e revisão de atividades avançadas. | Depois que o fluxo atual de uma hora permanecer estável e o contrato de nova hora for aprovado. | Alto: pode confundir estado restaurado, clocks e histórico de atividades. | `camp-hour`; inbox `20260606-future-camp-multi-hour`. |
 | Relações acima de Tier 1 | A UI permite apenas invocar favor e abater dívida Tier 1. | Revisão das regras soberanas de fama, influência, facções, custos e limites por Tier. | Depois da revisão formal das regras e antes de ampliar recompensas sociais. | Alto: implementar cedo pode inventar regras não aprovadas. | `social-standing`/`social-relations`; inbox `20260606-future-social-higher-tiers`. |
 | Painel de inspeção de WorldState | WorldState é salvo e afeta diálogos, mas o jogador não possui uma visão geral dedicada. | Definir quais flags são visíveis ao jogador, labels seguras e política para esconder estado narrativo interno. | Quando houver necessidade recorrente de o jogador inspecionar fatos persistidos fora de Relações. | Médio: pode revelar spoilers ou estado técnico. | `world-state`/`app`; inbox `20260514-065055-t32-worldstate-key-value`. |
-| Instalação e atualização PWA | O status offline existe, mas ainda falta manifest instalável e controle de atualização de service worker. | Gate `docs/process/pwa-install-update-gate.md`, manifest local, asset local e política segura de `SKIP_WAITING`. | Próxima fatia implementável de baixo risco, antes de qualquer mecânica de jogo nova. | Médio: cache incorreto pode manter versões obsoletas. | `app`/`public`; inbox `20260606-future-pwa-update-install-ui` e `20260619-175723-pwa-install-update-gate`. |
+| Automacao offline/renderizada PWA | Manifest, instalacao e aviso de update foram entregues, mas a automacao de rede offline completa ainda depende de ambiente de navegador confiavel. | Gate futuro somente se o Browser do Codex expuser controle estavel de rede/cache ou se uma automacao renderizada dedicada for aprovada. | Depois de estabilizar a recorrencia de QA offline e antes de ampliar cache de dados de jogo. | Medio: testes de rede/cache podem flakar e prender versoes antigas. | `app`/`public`; inbox `20260606-future-pwa-update-install-ui` permanece apenas para automacao offline avancada. |
 
 ## Ordem Recomendada
 
 1. Expandir perfis dos itens de kit inicial somente após o gate `starting-equipment-loadout-profile-gate` ser satisfeito por estatísticas soberanas ou substituições explícitas.
-2. Entregar UI PWA instalável/atualização pelo gate `pwa-install-update-gate`, sem tocar regras de RPG.
+2. Planejar automacao offline/renderizada PWA somente quando o Browser do Codex oferecer controle confiavel de rede/cache ou quando o fluxo ficar recorrente o bastante para justificar gate proprio.
 3. Ampliar Compêndio após pipeline de ingestão, pois ele reduz dependência de consulta manual às regras.
 4. Implementar Acampamento multi-hora e Relações superiores apenas após seus contratos explícitos.
 5. Manter efeitos reais de consumíveis, execução de Magia, desgaste automático e HP real persistido para fases posteriores, pois possuem maior risco de regra, save e integração.

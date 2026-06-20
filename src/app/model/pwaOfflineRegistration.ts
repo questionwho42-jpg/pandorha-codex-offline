@@ -16,9 +16,24 @@ export interface PwaOfflineRegistrationInput {
 	readonly serviceWorkerPath?: string;
 }
 
+export interface BeforeInstallPromptEvent extends Event {
+	readonly userChoice: Promise<{
+		readonly outcome: "accepted" | "dismissed";
+		readonly platform: string;
+	}>;
+	prompt(): Promise<void>;
+}
+
+export interface PwaOfflineRegistrationSuccess {
+	readonly status: PwaOfflineStatus;
+	readonly registration: ServiceWorkerRegistration;
+}
+
 export async function registerPwaOfflineSupport(
 	input: PwaOfflineRegistrationInput = {},
-): Promise<Result<PwaOfflineStatus, PwaOfflineRegistrationFailure>> {
+): Promise<
+	Result<PwaOfflineRegistrationSuccess, PwaOfflineRegistrationFailure>
+> {
 	const navigatorRef =
 		input.navigatorRef ?? (typeof navigator === "undefined" ? null : navigator);
 	if (!navigatorRef || !("serviceWorker" in navigatorRef)) {
@@ -29,11 +44,11 @@ export async function registerPwaOfflineSupport(
 	}
 
 	try {
-		await navigatorRef.serviceWorker.register(
+		const registration = await navigatorRef.serviceWorker.register(
 			input.serviceWorkerPath ?? DEFAULT_SERVICE_WORKER_PATH,
 		);
 		await navigatorRef.serviceWorker.ready;
-		return ok({ kind: "ready" });
+		return ok({ status: { kind: "ready" }, registration });
 	} catch (error: unknown) {
 		return fail({
 			code: "SERVICE_WORKER_REGISTRATION_FAILED",

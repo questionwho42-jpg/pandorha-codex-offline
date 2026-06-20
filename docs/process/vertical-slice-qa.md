@@ -10,7 +10,9 @@ Este roteiro valida o MVP navegavel atual do Pandorha Engine depois da T80. Ele 
 
 1. Abra `http://127.0.0.1:5173/`.
 2. Confirme que o cabeçalho mostra `Offline disponível neste navegador.`.
-3. Entre em `Personagens`, crie um personagem válido e confirme que ele aparece na lista com os 3 traços escolhidos e mensagem de kit inicial concedido.
+3. Abra `http://127.0.0.1:5173/manifest.webmanifest`, confirme que responde sem 404 e volte ao app.
+4. Quando o navegador liberar o prompt, confirme `Instalar app`; quando houver worker aguardando, confirme `Atualizacao disponivel` e acione `Atualizar agora`.
+5. Entre em `Personagens`, crie um personagem válido e confirme que ele aparece na lista com os 3 traços escolhidos e mensagem de kit inicial concedido.
 4. Clique em `Salvar sessão`, recarregue a página, clique em `Carregar save` e confirme que o personagem voltou.
 5. Entre em `Inventário`, selecione o personagem, confirme o kit inicial já carregado, carregue arma, escudo, armadura e `Cinto de Poções` até `5/5`; carregue outros consumíveis até criar mais de uma pilha; confirme slots usados, limite e penalidade atual.
 6. Equipe arma, escudo e armadura, substitua a arma no mesmo slot, use `Marcar danificado`, `Marcar quebrado` e `Reparar`, confirme que item quebrado nao equipa, confirme que remover item equipado mostra `Desequipe antes de remover`, desequipe e remova o item.

@@ -1,5 +1,12 @@
 # App Technical Memory
 
+## 2026-06-19 - PWA Install And Update UI
+
+- `App.svelte` now tracks install prompt state and waiting service worker state separately from the existing offline status.
+- `pwaStatusView` owns pt-BR labels for offline, install and update states; the Svelte component only renders the derived view models.
+- `registerPwaOfflineSupport` returns the `ServiceWorkerRegistration` with the ready status so the app can observe `updatefound` and `waiting` without exposing that detail to feature slices.
+- `public/manifest.webmanifest` reuses `public/favicon.svg`; no external PWA asset, push notification, background sync, cloud sync, save change or RPG rule was introduced.
+
 ## 2026-05-02
 
 - Added the minimal Svelte 5/Vite browser scaffold as the first navigable app shell.
