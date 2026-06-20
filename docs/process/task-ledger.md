@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260620-122839-pwa-promotion-sweep -->
+### PWA promotion sweep
+- id: 20260620-122839-pwa-promotion-sweep
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-20T12:28:39-03:00
+- finished_at: 2026-06-20T12:29:49-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation
+- model_finished: gpt-5.5 high-reasoning final review; local automation
+- last_modified_at: 2026-06-20T12:29:49-03:00
+- branch: codex/docs/pwa-promotion-sweep
+- commit_at_start: c548dc7 chore(process): record pwa ui merge
+- summary: Promote delivered PWA install/update gate and UI records after main merge while keeping advanced offline/cache automation open.
+- last_change: Promoted delivered PWA install/update gate and UI records after main merge, while preserving advanced offline/cache automation as the remaining future PWA gap.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-20T12:28:39-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+
+#### Checkpoint 2026-06-20T12:29:49-03:00
+- Done: Promoted delivered PWA install/update gate and UI records after main merge, while preserving advanced offline/cache automation as the remaining future PWA gap.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation
+<!-- /pandorha-task:20260620-122839-pwa-promotion-sweep -->
 <!-- pandorha-task:20260619-180221-pwa-install-update-ui -->
 ### PWA install update UI
 - id: 20260619-180221-pwa-install-update-ui

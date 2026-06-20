@@ -75,24 +75,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
-<!-- pandorha-inbox:20260619-180221-pwa-install-update-ui -->
-### PWA install update UI
-- id: 20260619-180221-pwa-install-update-ui
+<!-- pandorha-inbox:20260620-122839-pwa-promotion-sweep -->
+### PWA promotion sweep
+- id: 20260620-122839-pwa-promotion-sweep
 - status: open
-- created_at: 2026-06-19T18:02:21-03:00
+- created_at: 2026-06-20T12:28:39-03:00
 - source: task-ledger
-- summary: Implement minimal PWA install and update controls using the approved gate, existing service worker, local manifest assets, typed states, and no new dependencies or RPG rule changes.
+- summary: Promote delivered PWA install/update gate and UI records after main merge while keeping advanced offline/cache automation open.
 - expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260619-180221-pwa-install-update-ui -->
-<!-- pandorha-inbox:20260619-175723-pwa-install-update-gate -->
-### PWA install update gate
-- id: 20260619-175723-pwa-install-update-gate
-- status: open
-- created_at: 2026-06-19T17:57:23-03:00
-- source: task-ledger
-- summary: Approve a bounded PWA install and update UI contract using the existing service worker, local manifest assets, and no new dependencies, push notifications, background sync, cloud sync or RPG rule changes.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260619-175723-pwa-install-update-gate -->
+<!-- /pandorha-inbox:20260620-122839-pwa-promotion-sweep -->
 <!-- pandorha-inbox:20260619-175238-starting-equipment-profile-gap-gate -->
 ### Starting equipment profile gap gate
 - id: 20260619-175238-starting-equipment-profile-gap-gate
@@ -162,7 +153,7 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - status: open
 - created_at: 2026-06-06T02:29:38-03:00
 - source: task-ledger
-- summary: Gate de instalacao e atualizacao PWA aprovado; implementar manifest local, botao Instalar app e aviso Atualizacao disponivel sem nova dependencia, push notification, background sync, cloud sync ou regra de RPG.
+- summary: Manifest local, botao Instalar app e aviso Atualizacao disponivel foram entregues; manter aberta apenas a automacao offline/cache avancada, sem push notification, background sync, cloud sync ou regra de RPG.
 - expected_promotion: official docs after merge to main
 <!-- /pandorha-inbox:20260606-future-pwa-update-install-ui -->
 <!-- pandorha-inbox:20260606-future-social-higher-tiers -->
@@ -1222,4 +1213,22 @@ The automation owns the marked sections below. Manual edits should stay outside 
 - summary: Persistir loadout por personagem sem duplicar itens do ledger e sem antecipar efeitos de combate.
 - expected_promotion: promoted to docs/process/equipment-loadout-save-v7-gate.md, docs/user/inventory-management.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
 <!-- /pandorha-inbox:20260615-future-inventory-persistent-loadout -->
+<!-- pandorha-inbox:20260619-180221-pwa-install-update-ui -->
+### PWA install update UI
+- id: 20260619-180221-pwa-install-update-ui
+- status: promoted
+- created_at: 2026-06-19T18:02:21-03:00
+- source: task-ledger
+- summary: Implement minimal PWA install and update controls using the approved gate, existing service worker, local manifest assets, typed states, and no new dependencies or RPG rule changes.
+- expected_promotion: promoted to docs/process/pwa-install-update-gate.md, docs/user/offline-smoke.md, docs/process/vertical-slice-qa.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260619-180221-pwa-install-update-ui -->
+<!-- pandorha-inbox:20260619-175723-pwa-install-update-gate -->
+### PWA install update gate
+- id: 20260619-175723-pwa-install-update-gate
+- status: promoted
+- created_at: 2026-06-19T17:57:23-03:00
+- source: task-ledger
+- summary: Approve a bounded PWA install and update UI contract using the existing service worker, local manifest assets, and no new dependencies, push notifications, background sync, cloud sync or RPG rule changes.
+- expected_promotion: promoted to docs/process/pwa-install-update-gate.md and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260619-175723-pwa-install-update-gate -->
 <!-- /pandorha-inbox:promoted -->
