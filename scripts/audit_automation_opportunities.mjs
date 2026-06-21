@@ -10,7 +10,10 @@ export async function auditAutomationOpportunities(rootDir) {
 	const packageJson = await readJsonIfExists(path.join(root, "package.json"));
 	const scriptFiles = await listFiles(path.join(root, "scripts"));
 	const packageScripts = packageJson?.scripts ?? {};
-	const qualityAutomation = packageScripts["quality:automation"] ?? "";
+	const qualityAutomation = await getQualityAutomationEvidence(
+		root,
+		packageScripts["quality:automation"] ?? "",
+	);
 	const opportunities = [
 		...(await findScriptOpportunities(root, scriptFiles, qualityAutomation)),
 		...(await findMcpOpportunities(root)),
@@ -79,6 +82,20 @@ async function findScriptOpportunities(root, scriptFiles, qualityAutomation) {
 	}
 
 	return opportunities;
+}
+
+async function getQualityAutomationEvidence(root, command) {
+	const scriptReferences = [
+		...command.matchAll(/scripts[\\/][\w.-]+\.mjs/g),
+	].map((match) => match[0]);
+	const referencedScripts = await Promise.all(
+		scriptReferences.map(async (scriptReference) => {
+			const content = await readTextIfExists(path.join(root, scriptReference));
+			return content ?? "";
+		}),
+	);
+
+	return [command, ...referencedScripts].join("\n");
 }
 
 async function findMcpOpportunities(root) {

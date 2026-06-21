@@ -34,6 +34,33 @@ test("automation audit detects unpaired scripts, weak MCP gates, and weak skill 
 	}
 });
 
+test("automation audit accepts tests referenced by the quality gate orchestrator", async () => {
+	const root = await createFixtureRoot({
+		packageScripts: {
+			"quality:automation":
+				"node scripts/run_full_quality_gate.mjs --only=automation",
+		},
+		extraFiles: {
+			"scripts/run_full_quality_gate.mjs": `
+await runStep("automation:tested-tests", "node", [
+	"scripts/test_tested.mjs",
+]);
+`,
+		},
+	});
+
+	try {
+		const result = runAudit(root, ["--format", "json"]);
+		const audit = parseJson(result);
+		const findingIds = audit.opportunities.map((entry) => entry.id);
+
+		assert.equal(result.status, 0, result.stderr);
+		assert.ok(!findingIds.includes("script:not-in-quality-automation:tested"));
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("automation audit renders markdown and stays read-only without output", async () => {
 	const root = await createFixtureRoot();
 
@@ -71,14 +98,15 @@ test("automation audit writes an explicit output report", async () => {
 	}
 });
 
-async function createFixtureRoot() {
+async function createFixtureRoot(options = {}) {
 	const root = await mkdtemp(path.join(os.tmpdir(), "pandorha-auto-audit-"));
+	const packageScripts = options.packageScripts ?? {
+		"quality:automation": "node scripts/test_tested.mjs",
+	};
 	const files = {
 		"package.json": JSON.stringify(
 			{
-				scripts: {
-					"quality:automation": "node scripts/test_tested.mjs",
-				},
+				scripts: packageScripts,
 			},
 			null,
 			2,
@@ -96,6 +124,7 @@ async function createFixtureRoot() {
 		),
 		".agents/skills/thin-skill/SKILL.md": "# Thin Skill\n",
 		"docs/process/automation-spec.md": "# Automation Spec\n",
+		...(options.extraFiles ?? {}),
 	};
 
 	for (const [relativePath, content] of Object.entries(files)) {

@@ -66,6 +66,12 @@ It runs `scripts/audit_automation_opportunities.mjs` in read-only mode and repor
 - skills missing minimum frontmatter metadata;
 - the current plugin recommendation.
 
+When `quality:automation` delegates to `scripts/run_full_quality_gate.mjs`, the
+audit reads that local orchestrator as evidence before reporting missing
+quality-gate wiring. This prevents false positives for paired tests that are not
+spelled directly in `package.json` but are still executed by the recurring
+automation gate.
+
 The current default recommendation is to avoid creating a plugin while the capabilities remain specific to this repository. Use explicit output only when recording a versioned report:
 
 ```powershell

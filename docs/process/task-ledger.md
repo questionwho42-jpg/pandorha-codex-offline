@@ -13,6 +13,84 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260621-084115-wire-existing-automation-tests-into-quality-gate -->
+### Wire existing automation tests into quality gate
+- id: 20260621-084115-wire-existing-automation-tests-into-quality-gate
+- status: completed
+- kind: maintenance
+- planned: no
+- started_at: 2026-06-21T08:41:15-03:00
+- finished_at: 2026-06-21T08:41:21-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-21T08:41:21-03:00
+- branch: codex/automation/microtasks-round
+- commit_at_start: 28c3ece feat: add automation audit and MCP gates
+- summary: Wire existing scaffold and coverage-registration tests into the recurring quality automation gate so automation:opportunities reports only scripts that truly lack paired tests.
+- last_change: Wired existing scaffold_catalog_entity, scaffold_domain_service, and validate_coverage_registration tests into scripts/run_full_quality_gate.mjs; automation:opportunities now reports only the four scripts that still lack paired tests.
+#### Files At Start
+- docs/process/automation-spec.md
+- docs/process/change-inbox.md
+- docs/process/task-ledger.md
+- docs/process/ui-reachability-follow-up-roadmap.md
+- scripts/audit_automation_opportunities.mjs
+- scripts/run_full_quality_gate.mjs
+- scripts/test_audit_automation_opportunities.mjs
+- docs/process/camp-multi-hour-orchestration-gate.md
+#### Checkpoints
+#### Checkpoint 2026-06-21T08:41:15-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-21T08:41:21-03:00
+- Done: Wired existing scaffold_catalog_entity, scaffold_domain_service, and validate_coverage_registration tests into scripts/run_full_quality_gate.mjs; automation:opportunities now reports only the four scripts that still lack paired tests.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260621-084115-wire-existing-automation-tests-into-quality-gate -->
+<!-- pandorha-task:20260621-082617-implement-economical-next-phases -->
+### Implement economical next phases
+- id: 20260621-082617-implement-economical-next-phases
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-21T08:26:17-03:00
+- finished_at: 2026-06-21T08:34:46-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-21T08:34:46-03:00
+- branch: codex/automation/microtasks-round
+- commit_at_start: 28c3ece feat: add automation audit and MCP gates
+- summary: Implement approved B Economica plan: baseline/process closeout, faithful automation audit, and gated next-phase documentation without opening blocked RPG mechanics.
+- last_change: Implemented the economical next-phase slice: faithful automation audit evidence from the quality gate orchestrator, regression coverage, controlled camp multi-hour gate, process roadmap updates, and validation evidence without docs/system changes.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-21T08:26:17-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-21T08:31:20-03:00
+- Done: Implemented faithful automation audit evidence from quality gate orchestrator, added regression test, documented true remaining automation gaps, and created camp multi-hour orchestration gate without docs/system changes.
+- Next: Run final root/build gates, complete process record, and report remaining non-blocking automation opportunities.
+- Risks: quality:root or quality:gate may need elevated execution if Vitest hits the known Windows sandbox esbuild access signature.
+- Improvements: Future task can add paired tests for process hooks, advisory refresh, and full quality gate, then wire remaining scaffold tests into quality automation.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-21T08:34:46-03:00
+- Done: Implemented the economical next-phase slice: faithful automation audit evidence from the quality gate orchestrator, regression coverage, controlled camp multi-hour gate, process roadmap updates, and validation evidence without docs/system changes.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260621-082617-implement-economical-next-phases -->
 <!-- pandorha-task:20260621-013606-automation-microtasks-round -->
 ### Automation microtasks round
 - id: 20260621-013606-automation-microtasks-round

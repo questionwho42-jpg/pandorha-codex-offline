@@ -83,9 +83,32 @@ The automation owns the marked sections below. Manual edits should stay outside 
   filters, source file/line display and QA coverage, without runtime Markdown
   parsing, database persistence, AI summaries, save changes or `docs/system`
   edits.
+- `docs/process/camp-multi-hour-orchestration-gate.md` approves only a future
+  bounded contract step for `20260606-future-camp-multi-hour`: explicit next-hour
+  orchestration, resolved/restored/reset state separation, and Browser QA before
+  UI, without save changes, healing, random encounters, repair, crafting or
+  `docs/system` edits.
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260621-084115-wire-existing-automation-tests-into-quality-gate -->
+### Wire existing automation tests into quality gate
+- id: 20260621-084115-wire-existing-automation-tests-into-quality-gate
+- status: open
+- created_at: 2026-06-21T08:41:15-03:00
+- source: task-ledger
+- summary: Wire existing scaffold and coverage-registration tests into the recurring quality automation gate so automation:opportunities reports only scripts that truly lack paired tests.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260621-084115-wire-existing-automation-tests-into-quality-gate -->
+<!-- pandorha-inbox:20260621-082617-implement-economical-next-phases -->
+### Implement economical next phases
+- id: 20260621-082617-implement-economical-next-phases
+- status: open
+- created_at: 2026-06-21T08:26:17-03:00
+- source: task-ledger
+- summary: Implement approved B Economica plan: baseline/process closeout, faithful automation audit, and gated next-phase documentation without opening blocked RPG mechanics.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260621-082617-implement-economical-next-phases -->
 <!-- pandorha-inbox:20260621-013606-automation-microtasks-round -->
 ### Automation microtasks round
 - id: 20260621-013606-automation-microtasks-round

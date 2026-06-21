@@ -193,8 +193,17 @@ async function runAutomationGate() {
 	await runStep("automation:next-phase-readiness-tests", "node", [
 		"scripts/test_next_phase_readiness.mjs",
 	]);
+	await runStep("automation:coverage-registration-tests", "node", [
+		"scripts/test_validate_coverage_registration.mjs",
+	]);
 	await runStep("automation:coverage-registration", "node", [
 		"scripts/validate_coverage_registration.mjs",
+	]);
+	await runStep("automation:catalog-entity-scaffold-tests", "node", [
+		"scripts/test_scaffold_catalog_entity.mjs",
+	]);
+	await runStep("automation:domain-service-scaffold-tests", "node", [
+		"scripts/test_scaffold_domain_service.mjs",
 	]);
 	await runStep("automation:event-ledger-scaffold-tests", "node", [
 		"scripts/test_scaffold_event_ledger.mjs",
