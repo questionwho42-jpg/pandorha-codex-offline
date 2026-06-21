@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260621-094325-pair-remaining-automation-scripts-with-tests -->
+### Pair remaining automation scripts with tests
+- id: 20260621-094325-pair-remaining-automation-scripts-with-tests
+- status: completed
+- kind: maintenance
+- planned: no
+- started_at: 2026-06-21T09:43:25-03:00
+- finished_at: 2026-06-21T09:50:58-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-21T09:50:58-03:00
+- branch: codex/automation/microtasks-round
+- commit_at_start: 3b0b2fe chore: consolidate automation planning baseline
+- summary: Add deterministic paired tests for the four remaining automation scripts, wire them into quality:automation, and close automation:opportunities at zero.
+- last_change: Added deterministic paired tests for install_process_hooks, process_hook_runner, refresh_dependency_advisories, and run_full_quality_gate; wired them into quality:automation and reduced automation:opportunities to zero.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-21T09:43:25-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-21T09:50:58-03:00
+- Done: Added deterministic paired tests for install_process_hooks, process_hook_runner, refresh_dependency_advisories, and run_full_quality_gate; wired them into quality:automation and reduced automation:opportunities to zero.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260621-094325-pair-remaining-automation-scripts-with-tests -->
 <!-- pandorha-task:20260621-084115-wire-existing-automation-tests-into-quality-gate -->
 ### Wire existing automation tests into quality gate
 - id: 20260621-084115-wire-existing-automation-tests-into-quality-gate

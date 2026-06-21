@@ -91,6 +91,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260621-094325-pair-remaining-automation-scripts-with-tests -->
+### Pair remaining automation scripts with tests
+- id: 20260621-094325-pair-remaining-automation-scripts-with-tests
+- status: open
+- created_at: 2026-06-21T09:43:25-03:00
+- source: task-ledger
+- summary: Add deterministic paired tests for the four remaining automation scripts, wire them into quality:automation, and close automation:opportunities at zero.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260621-094325-pair-remaining-automation-scripts-with-tests -->
 <!-- pandorha-inbox:20260621-084115-wire-existing-automation-tests-into-quality-gate -->
 ### Wire existing automation tests into quality gate
 - id: 20260621-084115-wire-existing-automation-tests-into-quality-gate
