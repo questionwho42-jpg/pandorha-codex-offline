@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260621-001402-compendium-promotion-sweep -->
+### Compendium promotion sweep
+- id: 20260621-001402-compendium-promotion-sweep
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-21T00:14:02-03:00
+- finished_at: 2026-06-21T00:15:52-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-21T00:15:52-03:00
+- branch: codex/docs/compendium-promotion-sweep
+- commit_at_start: 5743c6f chore(process): record compendium merge snapshot
+- summary: Promote delivered Compendium ingestion, generated index and indexed browser records after merge to main without docs/system changes.
+- last_change: Promoted the delivered Compendium ingestion gate, generated index core and indexed browser UI records after main merge; updated the reachability roadmap to mark the static index as delivered while keeping semantic search, lore expansion and AI summaries out of scope.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-21T00:14:02-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-21T00:15:52-03:00
+- Done: Promoted the delivered Compendium ingestion gate, generated index core and indexed browser UI records after main merge; updated the reachability roadmap to mark the static index as delivered while keeping semantic search, lore expansion and AI summaries out of scope.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260621-001402-compendium-promotion-sweep -->
 <!-- pandorha-task:20260620-153216-compendium-indexed-browser-ui -->
 ### Compendium indexed browser UI
 - id: 20260620-153216-compendium-indexed-browser-ui

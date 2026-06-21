@@ -72,36 +72,25 @@ The automation owns the marked sections below. Manual edits should stay outside 
   Inventory tab exposes manual condition controls, and Combat blocks broken
   equipped items. Automatic wear, damaged penalties, camp repair, crafting,
   costs and HP real remain open under `20260615-future-inventory-durability`.
+- `20260620-124110-compendium-ingestion-index-gate`,
+  `20260620-124551-compendium-generated-index-core` and
+  `20260620-153216-compendium-indexed-browser-ui` deliver the static Compendium
+  index slice: generated discovery metadata from `docs/system/`, category
+  filters, source file/line display and QA coverage, without runtime Markdown
+  parsing, database persistence, AI summaries, save changes or `docs/system`
+  edits.
 
 ## Open
 <!-- pandorha-inbox:open -->
-<!-- pandorha-inbox:20260620-153216-compendium-indexed-browser-ui -->
-### Compendium indexed browser UI
-- id: 20260620-153216-compendium-indexed-browser-ui
+<!-- pandorha-inbox:20260621-001402-compendium-promotion-sweep -->
+### Compendium promotion sweep
+- id: 20260621-001402-compendium-promotion-sweep
 - status: open
-- created_at: 2026-06-20T15:32:16-03:00
+- created_at: 2026-06-21T00:14:02-03:00
 - source: task-ledger
-- summary: Add a category filter to the Compendium browser, expose generated system categories with source-aware results, and update QA/user documentation without changing docs/system.
+- summary: Promote delivered Compendium ingestion, generated index and indexed browser records after merge to main without docs/system changes.
 - expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260620-153216-compendium-indexed-browser-ui -->
-<!-- pandorha-inbox:20260620-124551-compendium-generated-index-core -->
-### Compendium generated index core
-- id: 20260620-124551-compendium-generated-index-core
-- status: open
-- created_at: 2026-06-20T12:45:51-03:00
-- source: task-ledger
-- summary: Implement the static Compendium index generator, generated catalog integration, schema/category updates, automation gates and tests without runtime Markdown parsing or docs/system changes.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260620-124551-compendium-generated-index-core -->
-<!-- pandorha-inbox:20260620-124110-compendium-ingestion-index-gate -->
-### Compendium ingestion index gate
-- id: 20260620-124110-compendium-ingestion-index-gate
-- status: open
-- created_at: 2026-06-20T12:41:10-03:00
-- source: task-ledger
-- summary: Approve a bounded static Compendium ingestion/index contract for docs/system metadata, without runtime Markdown parsing, database persistence, AI summaries, or docs/system changes.
-- expected_promotion: official docs after merge to main
-<!-- /pandorha-inbox:20260620-124110-compendium-ingestion-index-gate -->
+<!-- /pandorha-inbox:20260621-001402-compendium-promotion-sweep -->
 <!-- pandorha-inbox:20260620-122839-pwa-promotion-sweep -->
 ### PWA promotion sweep
 - id: 20260620-122839-pwa-promotion-sweep
@@ -1042,6 +1031,33 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Promoted
 <!-- pandorha-inbox:promoted -->
+<!-- pandorha-inbox:20260620-153216-compendium-indexed-browser-ui -->
+### Compendium indexed browser UI
+- id: 20260620-153216-compendium-indexed-browser-ui
+- status: promoted
+- created_at: 2026-06-20T15:32:16-03:00
+- source: task-ledger
+- summary: Add a category filter to the Compendium browser, expose generated system categories with source-aware results, and update QA/user documentation without changing docs/system.
+- expected_promotion: promoted to docs/process/compendium-ingestion-index-gate.md, docs/user/compendium-browser.md, docs/process/vertical-slice-qa.md, and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260620-153216-compendium-indexed-browser-ui -->
+<!-- pandorha-inbox:20260620-124551-compendium-generated-index-core -->
+### Compendium generated index core
+- id: 20260620-124551-compendium-generated-index-core
+- status: promoted
+- created_at: 2026-06-20T12:45:51-03:00
+- source: task-ledger
+- summary: Implement the static Compendium index generator, generated catalog integration, schema/category updates, automation gates and tests without runtime Markdown parsing or docs/system changes.
+- expected_promotion: promoted to docs/process/compendium-ingestion-index-gate.md, docs/process/vertical-slice-qa.md, docs/process/ui-reachability-follow-up-roadmap.md, package scripts and generated Compendium catalog after main merge
+<!-- /pandorha-inbox:20260620-124551-compendium-generated-index-core -->
+<!-- pandorha-inbox:20260620-124110-compendium-ingestion-index-gate -->
+### Compendium ingestion index gate
+- id: 20260620-124110-compendium-ingestion-index-gate
+- status: promoted
+- created_at: 2026-06-20T12:41:10-03:00
+- source: task-ledger
+- summary: Approve a bounded static Compendium ingestion/index contract for docs/system metadata, without runtime Markdown parsing, database persistence, AI summaries, or docs/system changes.
+- expected_promotion: promoted to docs/process/compendium-ingestion-index-gate.md and docs/process/ui-reachability-follow-up-roadmap.md after main merge
+<!-- /pandorha-inbox:20260620-124110-compendium-ingestion-index-gate -->
 <!-- pandorha-inbox:20260618-214701-equipment-durability-v9-ui -->
 ### Equipment durability v9 UI
 - id: 20260618-214701-equipment-durability-v9-ui
