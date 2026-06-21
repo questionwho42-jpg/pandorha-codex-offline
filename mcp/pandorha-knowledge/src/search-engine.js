@@ -77,8 +77,59 @@ export function createSearchEngine(segments, options = {}) {
           relevance: Number((1 - adjustedScore).toFixed(4))
         }))
       };
+    },
+
+    mapRuleEvidence(query, searchOptions = {}) {
+      const result = this.searchRpgRule(query, {
+        limit: searchOptions.limit || 10
+      });
+      const include = normalizePathFilters(searchOptions.include);
+      const exclude = normalizePathFilters(searchOptions.exclude);
+      const matches = result.matches
+        .filter((match) => pathIsIncluded(match.file, include))
+        .filter((match) => !pathIsExcluded(match.file, exclude))
+        .map((match) => ({
+          file: match.file,
+          line: match.lineStart,
+          heading: match.title,
+          snippet: match.snippet,
+          evidenceKind: classifyEvidence(query, match),
+          sourceKind: match.kind
+        }));
+
+      return {
+        query: normalizeTerm(query),
+        count: matches.length,
+        matches
+      };
     }
   };
+}
+
+function normalizePathFilters(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((entry) => (typeof entry === "string" ? entry.trim().replace(/\\/g, "/") : ""))
+    .filter(Boolean);
+}
+
+function pathIsIncluded(file, include) {
+  return include.length === 0 || include.some((entry) => file === entry || file.startsWith(`${entry}/`));
+}
+
+function pathIsExcluded(file, exclude) {
+  return exclude.some((entry) => file === entry || file.startsWith(`${entry}/`));
+}
+
+function classifyEvidence(query, match) {
+  const cleanQuery = normalizeForSearch(query);
+  const cleanHeading = normalizeForSearch(match.title);
+
+  if (cleanQuery.length > 0 && cleanHeading === cleanQuery) {
+    return "exact";
+  }
+
+  return "partial";
 }
 
 function rankFuseResult(result, term, maxSnippetChars) {

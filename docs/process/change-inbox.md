@@ -83,9 +83,50 @@ The automation owns the marked sections below. Manual edits should stay outside 
   filters, source file/line display and QA coverage, without runtime Markdown
   parsing, database persistence, AI summaries, save changes or `docs/system`
   edits.
+- `docs/process/camp-multi-hour-orchestration-gate.md` approves only a future
+  bounded contract step for `20260606-future-camp-multi-hour`: explicit next-hour
+  orchestration, resolved/restored/reset state separation, and Browser QA before
+  UI, without save changes, healing, random encounters, repair, crafting or
+  `docs/system` edits.
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260621-094325-pair-remaining-automation-scripts-with-tests -->
+### Pair remaining automation scripts with tests
+- id: 20260621-094325-pair-remaining-automation-scripts-with-tests
+- status: open
+- created_at: 2026-06-21T09:43:25-03:00
+- source: task-ledger
+- summary: Add deterministic paired tests for the four remaining automation scripts, wire them into quality:automation, and close automation:opportunities at zero.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260621-094325-pair-remaining-automation-scripts-with-tests -->
+<!-- pandorha-inbox:20260621-084115-wire-existing-automation-tests-into-quality-gate -->
+### Wire existing automation tests into quality gate
+- id: 20260621-084115-wire-existing-automation-tests-into-quality-gate
+- status: open
+- created_at: 2026-06-21T08:41:15-03:00
+- source: task-ledger
+- summary: Wire existing scaffold and coverage-registration tests into the recurring quality automation gate so automation:opportunities reports only scripts that truly lack paired tests.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260621-084115-wire-existing-automation-tests-into-quality-gate -->
+<!-- pandorha-inbox:20260621-082617-implement-economical-next-phases -->
+### Implement economical next phases
+- id: 20260621-082617-implement-economical-next-phases
+- status: open
+- created_at: 2026-06-21T08:26:17-03:00
+- source: task-ledger
+- summary: Implement approved B Economica plan: baseline/process closeout, faithful automation audit, and gated next-phase documentation without opening blocked RPG mechanics.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260621-082617-implement-economical-next-phases -->
+<!-- pandorha-inbox:20260621-013606-automation-microtasks-round -->
+### Automation microtasks round
+- id: 20260621-013606-automation-microtasks-round
+- status: open
+- created_at: 2026-06-21T01:36:06-03:00
+- source: task-ledger
+- summary: Implement approved economical automation round with root scripts, MCP extensions, scaffold, skill guidance, and documentary gates.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260621-013606-automation-microtasks-round -->
 <!-- pandorha-inbox:20260621-003722-starting-equipment-profile-evidence-gate -->
 ### Starting equipment profile evidence gate
 - id: 20260621-003722-starting-equipment-profile-evidence-gate

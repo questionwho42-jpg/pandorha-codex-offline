@@ -33,31 +33,40 @@ const requiredSkillDirs = [
 	".agents/skills/world-state-manager",
 ];
 
-const startedAt = new Date().toISOString();
-const results = [];
-const argumentValidation = parseOnlyArgument(process.argv.slice(2));
-
-if (argumentValidation.success) {
-	await runSelectedGate(argumentValidation.value);
-} else {
-	results.push({
-		label: "quality-gate:arguments",
-		command: process.argv.slice(2).join(" "),
-		status: "failed",
-		exitCode: 1,
-		startedAt,
-		finishedAt: new Date().toISOString(),
-		stdout: "",
-		stderr: argumentValidation.error,
-	});
+if (isMainModule()) {
+	process.exitCode = await runQualityGate(process.argv.slice(2));
 }
 
-await writeReports(
-	argumentValidation.success ? argumentValidation.value : "invalid",
-);
-process.exitCode = results.some((result) => result.status === "failed") ? 1 : 0;
+export async function runQualityGate(args) {
+	const startedAt = new Date().toISOString();
+	const results = [];
+	const argumentValidation = parseOnlyArgument(args);
 
-function parseOnlyArgument(args) {
+	if (argumentValidation.success) {
+		await runSelectedGate(argumentValidation.value, results);
+	} else {
+		results.push({
+			label: "quality-gate:arguments",
+			command: args.join(" "),
+			status: "failed",
+			exitCode: 1,
+			startedAt,
+			finishedAt: new Date().toISOString(),
+			stdout: "",
+			stderr: argumentValidation.error,
+		});
+	}
+
+	await writeReports(
+		argumentValidation.success ? argumentValidation.value : "invalid",
+		startedAt,
+		results,
+	);
+
+	return results.some((result) => result.status === "failed") ? 1 : 0;
+}
+
+export function parseOnlyArgument(args) {
 	const onlyArg = args.find((arg) => arg.startsWith("--only="));
 	if (!onlyArg) {
 		return { success: true, value: "all" };
@@ -73,143 +82,317 @@ function parseOnlyArgument(args) {
 	return { success: false, error: `Unsupported --only value: ${value}` };
 }
 
-async function runSelectedGate(selectedGate) {
+export function createGatePlan(selectedGate) {
+	if (selectedGate === "root") {
+		return createRootGatePlan();
+	}
+	if (selectedGate === "automation") {
+		return createAutomationGatePlan();
+	}
+	if (selectedGate === "mcp") {
+		return createMcpGatePlan();
+	}
+	if (selectedGate === "skills") {
+		return createSkillGatePlan();
+	}
 	if (selectedGate === "release") {
-		await runRootGate();
-		await runStep("root:build", npmCommand, ["run", "build"]);
-		await runAutomationGate();
-		await runMcpGate();
-		await runSkillGate();
+		return [
+			...createRootGatePlan(),
+			{ label: "root:build", command: npmCommand, args: ["run", "build"] },
+			...createAutomationGatePlan(),
+			...createMcpGatePlan(),
+			...createSkillGatePlan(),
+		];
+	}
+	if (selectedGate === "all") {
+		return [
+			...createRootGatePlan(),
+			...createAutomationGatePlan(),
+			...createMcpGatePlan(),
+			...createSkillGatePlan(),
+		];
+	}
+
+	return [];
+}
+
+async function runSelectedGate(selectedGate, results) {
+	if (selectedGate === "release") {
+		await runStepPlan(createGatePlan("root"), results);
+		await runStep("root:build", npmCommand, ["run", "build"], results);
+		await runAutomationGate(results);
+		await runMcpGate(results);
+		await runSkillGate(results);
 		return;
 	}
 
 	if (selectedGate === "all" || selectedGate === "root") {
-		await runRootGate();
+		await runStepPlan(createGatePlan("root"), results);
 	}
 
 	if (selectedGate === "all" || selectedGate === "automation") {
-		await runAutomationGate();
+		await runAutomationGate(results);
 	}
 
 	if (selectedGate === "all" || selectedGate === "mcp") {
-		await runMcpGate();
+		await runMcpGate(results);
 	}
 
 	if (selectedGate === "all" || selectedGate === "skills") {
-		await runSkillGate();
+		await runSkillGate(results);
 	}
 }
 
-async function runRootGate() {
-	await runStep("root:lint", npmCommand, ["run", "lint"]);
-	await runStep("root:test", npmCommand, ["test"]);
-	await runStep("root:coverage", npmCommand, ["run", "test:coverage"]);
-	await runStep("root:dependency-security", "node", [
-		"scripts/dependency_security_gate.mjs",
-		"--audit-level=high",
-	]);
+async function runAutomationGate(results) {
+	await runStepPlan(createGatePlan("automation"), results);
 }
 
-async function runAutomationGate() {
-	await runStep("automation:dependency-security-tests", "node", [
-		"scripts/test_dependency_security_gate.mjs",
-	]);
-	await runStep("automation:dependency-security", "node", [
-		"scripts/dependency_security_gate.mjs",
-		"--audit-level=high",
-	]);
-	await runStep("automation:documentation-audit-tests", "node", [
-		"scripts/test_audit_docs.mjs",
-	]);
-	await runStep("automation:documentation-audit", "node", [
-		"scripts/audit_docs.mjs",
-		"--format",
-		"json",
-		"--scope",
-		"all",
-	]);
-	await runStep("automation:compendium-generation-tests", "node", [
-		"scripts/test_generate_compendium_catalog.mjs",
-	]);
-	await runStep("automation:compendium-generation-check", "node", [
-		"scripts/generate_compendium_catalog.mjs",
-		"--check",
-	]);
-	await runStep("automation:vertical-slice-smoke-tests", "node", [
-		"scripts/test_vertical_slice_smoke.mjs",
-	]);
-	await runStep("automation:vertical-slice-smoke", "node", [
-		"scripts/vertical_slice_smoke.mjs",
-	]);
-	await runStep("automation:ui-reachability-smoke-tests", "node", [
-		"scripts/test_ui_reachability_smoke.mjs",
-	]);
-	await runStep("automation:ui-reachability-smoke", "node", [
-		"scripts/ui_reachability_smoke.mjs",
-	]);
-	await runStep("automation:social-browser-smoke-tests", "node", [
-		"scripts/test_social_browser_smoke.mjs",
-	]);
-	await runStep("automation:social-browser-smoke", "node", [
-		"scripts/social_browser_smoke.mjs",
-	]);
-	await runStep("automation:dialogue-seed-smoke-tests", "node", [
-		"scripts/test_dialogue_seed_smoke.mjs",
-	]);
-	await runStep("automation:dialogue-seed-smoke", "node", [
-		"scripts/dialogue_seed_smoke.mjs",
-	]);
-	await runStep("automation:next-phase-readiness-tests", "node", [
-		"scripts/test_next_phase_readiness.mjs",
-	]);
-	await runStep("automation:coverage-registration", "node", [
-		"scripts/validate_coverage_registration.mjs",
-	]);
-	await runStep("automation:process-doctor", pythonCommand, [
-		"scripts/pandorha_process_automation.py",
-		"validate",
-	]);
+async function runMcpGate(results) {
+	await runStepPlan(createGatePlan("mcp"), results);
 }
 
-async function runMcpGate() {
-	for (const packagePath of mcpPackages) {
-		await runStep(`${packagePath}:test`, npmCommand, [
-			"test",
-			"--prefix",
-			packagePath,
-		]);
-		await runStep(`${packagePath}:validate:stdio`, npmCommand, [
-			"run",
-			"validate:stdio",
-			"--prefix",
-			packagePath,
-		]);
-	}
-}
-
-async function runSkillGate() {
-	await runStep("skills:validator-fixtures", "node", [
-		"scripts/test_skill_validators.mjs",
-	]);
-	await runStep("skills:core-conventions", "node", [
-		".agents/skills/core-conventions/scripts/validate.mjs",
-		"src",
-	]);
-	await runStep("skills:self-review-hard-stop", "node", [
-		".agents/skills/self-review-checklist/scripts/hard_stop.mjs",
-		"src",
-	]);
-	await runStep("skills:json-validator", "node", [
-		".agents/skills/self-review-checklist/scripts/run_json_tests.mjs",
-		".agents/skills",
-	]);
+async function runSkillGate(results) {
+	await runStepPlan(createGatePlan("skills"), results);
 
 	for (const skillPath of requiredSkillDirs) {
-		await validateSkillMetadata(skillPath);
+		await validateSkillMetadata(skillPath, results);
 	}
 }
 
-async function validateSkillMetadata(skillPath) {
+function createRootGatePlan() {
+	return [
+		{ label: "root:lint", command: npmCommand, args: ["run", "lint"] },
+		{ label: "root:test", command: npmCommand, args: ["test"] },
+		{
+			label: "root:coverage",
+			command: npmCommand,
+			args: ["run", "test:coverage"],
+		},
+		{
+			label: "root:dependency-security",
+			command: "node",
+			args: ["scripts/dependency_security_gate.mjs", "--audit-level=high"],
+		},
+	];
+}
+
+function createAutomationGatePlan() {
+	return [
+		{
+			label: "automation:dependency-security-tests",
+			command: "node",
+			args: ["scripts/test_dependency_security_gate.mjs"],
+		},
+		{
+			label: "automation:dependency-advisory-refresh-tests",
+			command: "node",
+			args: ["scripts/test_refresh_dependency_advisories.mjs"],
+		},
+		{
+			label: "automation:dependency-security",
+			command: "node",
+			args: ["scripts/dependency_security_gate.mjs", "--audit-level=high"],
+		},
+		{
+			label: "automation:install-process-hooks-tests",
+			command: "node",
+			args: ["scripts/test_install_process_hooks.mjs"],
+		},
+		{
+			label: "automation:process-hook-runner-tests",
+			command: "node",
+			args: ["scripts/test_process_hook_runner.mjs"],
+		},
+		{
+			label: "automation:quality-gate-tests",
+			command: "node",
+			args: ["scripts/test_run_full_quality_gate.mjs"],
+		},
+		{
+			label: "automation:documentation-audit-tests",
+			command: "node",
+			args: ["scripts/test_audit_docs.mjs"],
+		},
+		{
+			label: "automation:documentation-audit",
+			command: "node",
+			args: ["scripts/audit_docs.mjs", "--format", "json", "--scope", "all"],
+		},
+		{
+			label: "automation:opportunity-audit-tests",
+			command: "node",
+			args: ["scripts/test_audit_automation_opportunities.mjs"],
+		},
+		{
+			label: "automation:opportunity-audit",
+			command: "node",
+			args: ["scripts/audit_automation_opportunities.mjs", "--format", "json"],
+		},
+		{
+			label: "automation:context-triplet-tests",
+			command: "node",
+			args: ["scripts/test_validate_context_triplets.mjs"],
+		},
+		{
+			label: "automation:context-triplets",
+			command: "node",
+			args: ["scripts/validate_context_triplets.mjs", "--format", "json"],
+		},
+		{
+			label: "automation:browser-runbook-tests",
+			command: "node",
+			args: ["scripts/test_generate_browser_qa_runbook.mjs"],
+		},
+		{
+			label: "automation:browser-runbook-check",
+			command: "node",
+			args: ["scripts/generate_browser_qa_runbook.mjs", "--check"],
+		},
+		{
+			label: "automation:save-migration-matrix-tests",
+			command: "node",
+			args: ["scripts/test_validate_save_migration_matrix.mjs"],
+		},
+		{
+			label: "automation:save-migration-matrix",
+			command: "node",
+			args: ["scripts/validate_save_migration_matrix.mjs", "--format", "json"],
+		},
+		{
+			label: "automation:compendium-generation-tests",
+			command: "node",
+			args: ["scripts/test_generate_compendium_catalog.mjs"],
+		},
+		{
+			label: "automation:compendium-generation-check",
+			command: "node",
+			args: ["scripts/generate_compendium_catalog.mjs", "--check"],
+		},
+		{
+			label: "automation:vertical-slice-smoke-tests",
+			command: "node",
+			args: ["scripts/test_vertical_slice_smoke.mjs"],
+		},
+		{
+			label: "automation:vertical-slice-smoke",
+			command: "node",
+			args: ["scripts/vertical_slice_smoke.mjs"],
+		},
+		{
+			label: "automation:ui-reachability-smoke-tests",
+			command: "node",
+			args: ["scripts/test_ui_reachability_smoke.mjs"],
+		},
+		{
+			label: "automation:ui-reachability-smoke",
+			command: "node",
+			args: ["scripts/ui_reachability_smoke.mjs"],
+		},
+		{
+			label: "automation:social-browser-smoke-tests",
+			command: "node",
+			args: ["scripts/test_social_browser_smoke.mjs"],
+		},
+		{
+			label: "automation:social-browser-smoke",
+			command: "node",
+			args: ["scripts/social_browser_smoke.mjs"],
+		},
+		{
+			label: "automation:dialogue-seed-smoke-tests",
+			command: "node",
+			args: ["scripts/test_dialogue_seed_smoke.mjs"],
+		},
+		{
+			label: "automation:dialogue-seed-smoke",
+			command: "node",
+			args: ["scripts/dialogue_seed_smoke.mjs"],
+		},
+		{
+			label: "automation:next-phase-readiness-tests",
+			command: "node",
+			args: ["scripts/test_next_phase_readiness.mjs"],
+		},
+		{
+			label: "automation:coverage-registration-tests",
+			command: "node",
+			args: ["scripts/test_validate_coverage_registration.mjs"],
+		},
+		{
+			label: "automation:coverage-registration",
+			command: "node",
+			args: ["scripts/validate_coverage_registration.mjs"],
+		},
+		{
+			label: "automation:catalog-entity-scaffold-tests",
+			command: "node",
+			args: ["scripts/test_scaffold_catalog_entity.mjs"],
+		},
+		{
+			label: "automation:domain-service-scaffold-tests",
+			command: "node",
+			args: ["scripts/test_scaffold_domain_service.mjs"],
+		},
+		{
+			label: "automation:event-ledger-scaffold-tests",
+			command: "node",
+			args: ["scripts/test_scaffold_event_ledger.mjs"],
+		},
+		{
+			label: "automation:process-doctor",
+			command: pythonCommand,
+			args: ["scripts/pandorha_process_automation.py", "validate"],
+		},
+	];
+}
+
+function createMcpGatePlan() {
+	return mcpPackages.flatMap((packagePath) => [
+		{
+			label: `${packagePath}:test`,
+			command: npmCommand,
+			args: ["test", "--prefix", packagePath],
+		},
+		{
+			label: `${packagePath}:validate:stdio`,
+			command: npmCommand,
+			args: ["run", "validate:stdio", "--prefix", packagePath],
+		},
+	]);
+}
+
+function createSkillGatePlan() {
+	return [
+		{
+			label: "skills:validator-fixtures",
+			command: "node",
+			args: ["scripts/test_skill_validators.mjs"],
+		},
+		{
+			label: "skills:core-conventions",
+			command: "node",
+			args: [".agents/skills/core-conventions/scripts/validate.mjs", "src"],
+		},
+		{
+			label: "skills:self-review-hard-stop",
+			command: "node",
+			args: [
+				".agents/skills/self-review-checklist/scripts/hard_stop.mjs",
+				"src",
+			],
+		},
+		{
+			label: "skills:json-validator",
+			command: "node",
+			args: [
+				".agents/skills/self-review-checklist/scripts/run_json_tests.mjs",
+				".agents/skills",
+			],
+		},
+	];
+}
+
+async function validateSkillMetadata(skillPath, results) {
 	const label = `${skillPath}:metadata`;
 	const started = new Date().toISOString();
 	const skillFile = path.join(rootDir, skillPath, "SKILL.md");
@@ -303,7 +486,13 @@ function getErrorCode(error) {
 	return null;
 }
 
-async function runStep(label, command, args) {
+async function runStepPlan(steps, results) {
+	for (const step of steps) {
+		await runStep(step.label, step.command, step.args, results);
+	}
+}
+
+async function runStep(label, command, args, results) {
 	const started = new Date().toISOString();
 	const output = await spawnCommand(command, args);
 
@@ -367,7 +556,7 @@ function spawnCommand(command, args) {
 	});
 }
 
-async function writeReports(selectedGate) {
+async function writeReports(selectedGate, startedAt, results) {
 	await mkdir(artifactDir, { recursive: true });
 
 	const finishedAt = new Date().toISOString();
@@ -394,7 +583,7 @@ async function writeReports(selectedGate) {
 	);
 }
 
-function renderMarkdownReport(summary) {
+export function renderMarkdownReport(summary) {
 	const lines = [
 		"# Pandorha Quality Gate Report",
 		"",
@@ -434,4 +623,10 @@ function renderMarkdownReport(summary) {
 	}
 
 	return `${lines.join("\n")}\n`;
+}
+
+function isMainModule() {
+	return process.argv[1]
+		? path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+		: false;
 }

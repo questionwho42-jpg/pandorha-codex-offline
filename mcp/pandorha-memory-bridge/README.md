@@ -35,3 +35,16 @@ Run validation:
 ```powershell
 npm run validate:stdio --prefix mcp/pandorha-memory-bridge
 ```
+
+`audit_module_context`
+
+Input:
+
+```json
+{
+  "module_name": "combat",
+  "layer": "features"
+}
+```
+
+Use `scan_all: true` to audit every `.context` directory under `src/`. The audit is read-only and reports missing triplet files or missing H1 headings.

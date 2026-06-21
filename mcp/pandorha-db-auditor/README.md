@@ -7,6 +7,7 @@ Tools:
 - `get_actor_stats`: reads the `actors` table and returns available 3x3 axes/applications for one actor.
 - `verify_math`: validates `HP = (Base + Fis + Res) * Nv` and `EE = Nv + Mental` when matching columns exist.
 - `execute_query`: executes read-only SQL (`SELECT`, `WITH`, and safe schema `PRAGMA` calls).
+- `audit_save_migration_matrix`: compares save metadata and required SQLite tables against the expected current save version without running migrations.
 
 Default DB path:
 

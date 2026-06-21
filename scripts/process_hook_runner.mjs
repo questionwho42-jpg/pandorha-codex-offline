@@ -3,7 +3,6 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const hookName = process.argv[2];
 const pythonCommand = process.platform === "win32" ? "python" : "python3";
 
 const hookCommands = {
@@ -17,15 +16,39 @@ const hookCommands = {
 	"post-merge": ["scripts/pandorha_process_automation.py", "post-merge"],
 };
 
-if (!hookName || !(hookName in hookCommands)) {
-	console.error(`Unsupported hook: ${hookName ?? "missing"}`);
-	process.exitCode = 1;
-} else {
-	const exitCode = await run(pythonCommand, hookCommands[hookName]);
-	process.exitCode = exitCode;
+if (isMainModule()) {
+	process.exitCode = await runHook({
+		hookName: process.argv[2],
+		pythonCommand,
+		runCommand,
+		writeError: (message) => console.error(message),
+	});
 }
 
-function run(command, args) {
+export function getHookCommand(hookName) {
+	if (!hookName || !(hookName in hookCommands)) {
+		return null;
+	}
+
+	return [...hookCommands[hookName]];
+}
+
+export async function runHook({
+	hookName,
+	pythonCommand: command = pythonCommand,
+	runCommand: runner = runCommand,
+	writeError = console.error,
+}) {
+	const hookCommand = getHookCommand(hookName);
+	if (!hookCommand) {
+		writeError(`Unsupported hook: ${hookName ?? "missing"}`);
+		return 1;
+	}
+
+	return runner(command, hookCommand);
+}
+
+function runCommand(command, args) {
 	return new Promise((resolve) => {
 		const child = spawn(command, args, {
 			cwd: rootDir,
@@ -38,4 +61,10 @@ function run(command, args) {
 		child.on("error", () => resolve(1));
 		child.on("close", (code) => resolve(code ?? 1));
 	});
+}
+
+function isMainModule() {
+	return process.argv[1]
+		? path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+		: false;
 }

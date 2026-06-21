@@ -10,6 +10,11 @@ type SQLiteDatabase = ReturnType<typeof Database>;
 type RowValue = string | number | bigint | Buffer | null;
 type QueryParams = RowValue[] | Record<string, RowValue>;
 type ActorSelector = { actor_id?: string | number; actor_name?: string };
+type SaveMigrationAuditOptions = {
+  current_save_version: number;
+  metadata_key?: string;
+  required_tables?: string[];
+};
 
 type ColumnMap = {
   id?: string;
@@ -143,8 +148,78 @@ export function createAuditor(db: SQLiteDatabase) {
         sql: cleanSql,
         rows: prepared.all(params as never)
       };
+    },
+
+    auditSaveMigrationMatrix(options: SaveMigrationAuditOptions) {
+      return auditSaveMigrationMatrix(db, options);
     }
   };
+}
+
+export function auditSaveMigrationMatrix(db: SQLiteDatabase, options: SaveMigrationAuditOptions) {
+  const metadataKey = options.metadata_key || "system:save:primary:metadata";
+  const requiredTables = options.required_tables || ["world_state_entries"];
+  const existingTables = listTables(db);
+  const issues: Array<{ type: string; message: string; table?: string; version?: number }> = [];
+
+  for (const table of requiredTables) {
+    if (!existingTables.includes(table)) {
+      issues.push({
+        type: "missing-table",
+        table,
+        message: `Required table '${table}' was not found.`
+      });
+    }
+  }
+
+  const metadata = readSaveMetadata(db, metadataKey);
+  if (!metadata) {
+    issues.push({
+      type: "missing-save-metadata",
+      message: `Save metadata '${metadataKey}' was not found.`
+    });
+  } else if (typeof metadata.version !== "number") {
+    issues.push({
+      type: "invalid-save-version",
+      message: "Save metadata version is not numeric."
+    });
+  } else if (metadata.version > options.current_save_version) {
+    issues.push({
+      type: "future-save-version",
+      version: metadata.version,
+      message: `Save metadata version ${metadata.version} is newer than current ${options.current_save_version}.`
+    });
+  }
+
+  return {
+    ok: issues.length === 0,
+    currentSaveVersion: options.current_save_version,
+    metadataKey,
+    tables: existingTables,
+    metadata,
+    issues
+  };
+}
+
+function listTables(db: SQLiteDatabase): string[] {
+  return db.prepare("SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name").all()
+    .map((row) => String((row as { name: string }).name));
+}
+
+function readSaveMetadata(db: SQLiteDatabase, metadataKey: string): { version?: unknown; savedAt?: unknown } | null {
+  if (!listTables(db).includes("world_state_entries")) return null;
+
+  const row = db.prepare("SELECT value_json FROM world_state_entries WHERE key = ? LIMIT 1").get(metadataKey) as
+    | { value_json?: string }
+    | undefined;
+  if (!row?.value_json) return null;
+
+  try {
+    const parsed = JSON.parse(row.value_json) as { version?: unknown; savedAt?: unknown };
+    return parsed;
+  } catch {
+    return { version: "invalid-json" };
+  }
 }
 
 export function inspectActorsSchema(db: SQLiteDatabase) {
@@ -384,6 +459,16 @@ export async function createServer(dbPath = resolveDbPath()): Promise<{ server: 
       ]).optional()
     },
     async ({ sql, params = [] }) => jsonText(auditor.executeQuery(sql, params))
+  );
+
+  server.tool(
+    "audit_save_migration_matrix",
+    {
+      current_save_version: z.number().int().min(1),
+      metadata_key: z.string().optional(),
+      required_tables: z.array(z.string()).optional()
+    },
+    async (input) => jsonText(auditor.auditSaveMigrationMatrix(input))
   );
 
   return {

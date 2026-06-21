@@ -4,9 +4,10 @@ import os from "node:os";
 import { test } from "node:test";
 import path from "node:path";
 import {
-  appendMemoryEntry,
-  commitModuleContext,
-  createTempProjectRoot,
+	appendMemoryEntry,
+	auditModuleContext,
+	commitModuleContext,
+	createTempProjectRoot,
   normalizeContextLayer,
   normalizeModuleName,
   readOptionalText,
@@ -155,5 +156,23 @@ test("renderers provide defaults for empty optional content", () => {
 });
 
 test("resolveProjectRoot honors env override", () => {
-  assert.equal(resolveProjectRoot({ PANDORHA_PROJECT_ROOT: "C:/tmp/pandorha" }), path.resolve("C:/tmp/pandorha"));
+	assert.equal(resolveProjectRoot({ PANDORHA_PROJECT_ROOT: "C:/tmp/pandorha" }), path.resolve("C:/tmp/pandorha"));
+});
+
+test("auditModuleContext reports complete and incomplete context triplets without writing", async () => {
+  const projectRoot = await createTempProjectRoot();
+  const contextDir = path.join(projectRoot, "src", "features", "combat", ".context");
+  await fs.mkdir(contextDir, { recursive: true });
+  await fs.writeFile(path.join(contextDir, "tech-memory.md"), "# Combat Tech\n", "utf8");
+  await fs.writeFile(path.join(contextDir, "scaling-roadmap.md"), "# Combat Scaling\n", "utf8");
+  await fs.writeFile(path.join(contextDir, "plain-english.md"), "# Combat Plain\n", "utf8");
+
+  const complete = await auditModuleContext({ module_name: "combat" }, { projectRoot });
+  assert.equal(complete.status, "passed");
+  assert.equal(complete.issues.length, 0);
+
+  await fs.writeFile(path.join(contextDir, "plain-english.md"), "No heading\n", "utf8");
+  const incomplete = await auditModuleContext({ module_name: "combat" }, { projectRoot });
+  assert.equal(incomplete.status, "failed");
+  assert.equal(incomplete.issues[0].type, "missing-h1");
 });

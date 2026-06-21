@@ -94,6 +94,59 @@ export async function validateImplementation(input, options = {}) {
   return analyzeSource(source, target.relativePath);
 }
 
+export async function validateImplementationBatch(input, options = {}) {
+  const projectRoot = path.resolve(options.projectRoot || resolveProjectRoot());
+  const files = collectBatchFiles(input);
+  const results = [];
+
+  for (const filePath of files) {
+    try {
+      const result = await validateImplementation({ file_path: filePath }, { projectRoot });
+      results.push({
+        file: result.file,
+        status: result.is_valid ? "passed" : "failed",
+        result
+      });
+    } catch (error) {
+      results.push({
+        file: toPosix(filePath),
+        status: "failed",
+        error: error instanceof Error ? error.message : String(error)
+      });
+    }
+  }
+
+  return {
+    is_valid: results.every((entry) => entry.status === "passed"),
+    count: results.length,
+    files: results
+  };
+}
+
+export function collectBatchFiles(input = {}) {
+  const candidates = [
+    ...(Array.isArray(input.files) ? input.files : []),
+    ...parseDiffNameOnly(input.diff_name_only)
+  ];
+  const seen = new Set();
+  const files = [];
+
+  for (const candidate of candidates) {
+    if (typeof candidate !== "string") continue;
+    const clean = candidate.trim();
+    if (!clean || seen.has(clean)) continue;
+    seen.add(clean);
+    files.push(clean);
+  }
+
+  return files;
+}
+
+function parseDiffNameOnly(value) {
+  if (typeof value !== "string") return [];
+  return value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+}
+
 export function analyzeSource(source, relativePath) {
   const lines = source.split(/\r?\n/);
   const currentFeature = findFeatureName(relativePath);
@@ -263,6 +316,15 @@ export function createServer(projectRoot = resolveProjectRoot()) {
       file_path: z.string().min(1).describe("Arquivo .svelte ou .ts a validar dentro do projeto Pandorha.")
     },
     async (input) => jsonText(await validateImplementation(input, { projectRoot }))
+  );
+
+  server.tool(
+    "validate_implementation_batch",
+    {
+      files: z.array(z.string()).optional().describe("Lista de arquivos .svelte ou .ts dentro do projeto."),
+      diff_name_only: z.string().optional().describe("Conteudo explicito de git diff --name-only; o MCP nao executa Git.")
+    },
+    async (input) => jsonText(await validateImplementationBatch(input, { projectRoot }))
   );
 
   return server;
