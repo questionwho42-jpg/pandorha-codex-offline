@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260621-003722-starting-equipment-profile-evidence-gate -->
+### Starting equipment profile evidence gate
+- id: 20260621-003722-starting-equipment-profile-evidence-gate
+- status: completed
+- kind: docs
+- planned: no
+- started_at: 2026-06-21T00:37:22-03:00
+- finished_at: 2026-06-21T00:41:24-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-21T00:41:24-03:00
+- branch: codex/docs/starting-equipment-profile-evidence-gate
+- commit_at_start: e557b2a chore(process): record compendium promotion merge
+- summary: Map sovereign non-compiled evidence for starting kit loadout profiles and keep unsupported items blocked unless the source fully defines profile type, dice or armor class, hands or slot, tags, penalties, and source line.
+- last_change: Audited non-compiled sovereign evidence for chainmail, shortbow, staff, rapier and luxury-padded-armor; no item satisfies the full loadout/combat profile criterion, so no equipment code branch was opened.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-21T00:37:22-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-21T00:41:24-03:00
+- Done: Audited non-compiled sovereign evidence for chainmail, shortbow, staff, rapier and luxury-padded-armor; no item satisfies the full loadout/combat profile criterion, so no equipment code branch was opened.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260621-003722-starting-equipment-profile-evidence-gate -->
 <!-- pandorha-task:20260621-001402-compendium-promotion-sweep -->
 ### Compendium promotion sweep
 - id: 20260621-001402-compendium-promotion-sweep

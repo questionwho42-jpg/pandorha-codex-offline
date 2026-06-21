@@ -58,6 +58,10 @@ The automation owns the marked sections below. Manual edits should stay outside 
   profiles for starting kit items that lack sovereign statistics. `chainmail`,
   `shortbow`, `staff`, `rapier` and `luxury-padded-armor` remain ownership/cargo
   only until a future profile contract is approved.
+- `20260621-003722-starting-equipment-profile-evidence-gate` audits the
+  available non-compiled sovereign evidence for those five items and keeps all
+  of them blocked from loadout/Combat profiles because no item satisfies the
+  full evidence criterion yet.
 - `20260619-175723-pwa-install-update-gate` approves the bounded PWA install
   and update UI step for `20260606-future-pwa-update-install-ui` through
   `docs/process/pwa-install-update-gate.md`, reusing the existing service
@@ -82,6 +86,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260621-003722-starting-equipment-profile-evidence-gate -->
+### Starting equipment profile evidence gate
+- id: 20260621-003722-starting-equipment-profile-evidence-gate
+- status: open
+- created_at: 2026-06-21T00:37:22-03:00
+- source: task-ledger
+- summary: Map sovereign non-compiled evidence for starting kit loadout profiles and keep unsupported items blocked unless the source fully defines profile type, dice or armor class, hands or slot, tags, penalties, and source line.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260621-003722-starting-equipment-profile-evidence-gate -->
 <!-- pandorha-inbox:20260621-001402-compendium-promotion-sweep -->
 ### Compendium promotion sweep
 - id: 20260621-001402-compendium-promotion-sweep

@@ -19,6 +19,8 @@ inventario, nao concede itens novos e nao torna item equipavel.
   `docs/process/starting-equipment-catalog-gap.md`.
 - Gate de concessao por ledger:
   `docs/process/starting-equipment-ledger-grant-gate.md`.
+- Gate de evidencia pos-Compendio:
+  `docs/process/starting-equipment-profile-evidence-gate.md`.
 - Catalogo atual:
   `src/entities/equipment/model/equipmentCatalog.ts`.
 
@@ -52,6 +54,11 @@ equipaveis:
 
 Qualquer expansao deve ser uma nova fase com TDD, Browser do Codex e revisao das
 fontes soberanas. Itens parecidos nao contam como substitutos automaticos.
+
+A auditoria de evidencia em
+`docs/process/starting-equipment-profile-evidence-gate.md` confirmou que nenhum
+dos cinco itens bloqueados possui fonte soberana especifica suficiente para
+desbloquear codigo nesta rodada.
 
 ## Pre-Requisitos Para Desbloquear
 
