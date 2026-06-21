@@ -5,6 +5,18 @@ This file receives zero-token promotion summaries after changes reach `main`.
 Detailed architectural decisions belong in `docs/adr/`. RPG and business rules remain in `docs/system/`.
 
 <!-- pandorha-changelog:main -->
+## 2026-06-20T18:38:12-03:00 - main merge promotion candidate
+- branch: main
+- commit: 9159f72 chore(process): record compendium browser merge
+- changed_files_count: 0
+- review_model: gpt-5.5 high-reasoning final review; local automation zero-token
+#### Changed Files
+- none
+#### Promotion Review
+- Done: merge detected on main and changelog promotion candidate created
+- Next: model final review should decide whether ADR, system docs, conventions, or llms.txt need updates
+- Risks: semantic promotion still requires human/model judgment
+- Improvements: include task ids in commit messages for tighter traceability
 ## 2026-06-20T18:21:47-03:00 - main merge promotion candidate
 - branch: main
 - commit: 7ed673a feat(compendium): add indexed browser filters

@@ -6136,6 +6136,29 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Snapshots
 <!-- pandorha-ledger:snapshots -->
+### 2026-06-20T18:43:14-03:00 - post-commit
+- branch: main
+- commit: 9159f72 chore(process): record compendium browser merge
+- changed_files_count: 2
+#### Changed Files
+- docs/changelog.md
+- docs/process/task-ledger.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
+### 2026-06-20T18:42:25-03:00 - post-commit
+- branch: main
+- commit: 9159f72 chore(process): record compendium browser merge
+- changed_files_count: 1
+#### Changed Files
+- docs/changelog.md
+#### Checkpoint
+- Done: captured git state
+- Next: review whether changes need task records or documentation promotion
+- Risks: snapshot is structural only and does not validate business intent
+- Improvements: add explicit task ids with `start` and `checkpoint` commands for complex work
 ### 2026-06-18T21:39:10-03:00 - post-commit
 - branch: main
 - commit: b995c43 docs(process): promote starting equipment records
