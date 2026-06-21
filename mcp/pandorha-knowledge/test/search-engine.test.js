@@ -221,6 +221,46 @@ test("searchRpgRule removes duplicate results from the same source line", () => 
   assert.equal(result.matches[0].kind, "heading");
 });
 
+test("mapRuleEvidence filters include and exclude paths without interpreting rules", () => {
+  const segments = [
+    {
+      id: "magic-staff",
+      kind: "section",
+      filePath: path.join(projectRoot, "docs/system/magic/focos.md"),
+      relativePath: "docs/system/magic/focos.md",
+      rootKind: "docs",
+      lineStart: 12,
+      title: "Focos",
+      headings: ["Codex de Magia", "Focos"],
+      headingsText: "Codex de Magia > Focos",
+      content: "Staff arcano pode atuar como foco parcial para conjuracao."
+    },
+    {
+      id: "compiled-staff",
+      kind: "section",
+      filePath: path.join(projectRoot, "docs/system/survival/pandorha-sistema-compilado.md"),
+      relativePath: "docs/system/survival/pandorha-sistema-compilado.md",
+      rootKind: "docs",
+      lineStart: 99,
+      title: "Compilado",
+      headings: ["Compilado"],
+      headingsText: "Compilado",
+      content: "Staff aparece no compilado."
+    }
+  ];
+  const engine = createSearchEngine(segments);
+  const result = engine.mapRuleEvidence("staff", {
+    include: ["docs/system/magic", "docs/system/survival"],
+    exclude: ["docs/system/survival/pandorha-sistema-compilado.md"]
+  });
+
+  assert.equal(result.matches.length, 1);
+  assert.equal(result.matches[0].file, "docs/system/magic/focos.md");
+  assert.equal(result.matches[0].line, 12);
+  assert.equal(result.matches[0].heading, "Focos");
+  assert.equal(result.matches[0].evidenceKind, "partial");
+});
+
 test("short single-token searches reject substring-only fuzzy matches", () => {
   const engine = createSearchEngine([{
     id: "mundano",

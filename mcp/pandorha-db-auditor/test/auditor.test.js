@@ -5,9 +5,10 @@ import { test } from "node:test";
 import path from "node:path";
 import Database from "better-sqlite3";
 import {
-  buildColumnMap,
-  createAuditor,
-  isReadOnlySql,
+	buildColumnMap,
+	auditSaveMigrationMatrix,
+	createAuditor,
+	isReadOnlySql,
   openDatabase,
   resolveDbPath
 } from "../dist/index.js";
@@ -179,6 +180,49 @@ test("actor lookup by name requires a detected name column", () => {
   db.exec("CREATE TABLE actors (base INTEGER)");
 
   assert.throws(() => createAuditor(db).getActorStats({ actor_name: "Aelia" }), /name column/);
+  db.close();
+});
+
+test("auditSaveMigrationMatrix validates snapshot metadata and required tables without mutation", () => {
+  const db = new Database(":memory:");
+  db.exec(`
+    CREATE TABLE world_state_entries (key TEXT PRIMARY KEY, value_json TEXT NOT NULL);
+    CREATE TABLE characters (id TEXT PRIMARY KEY);
+  `);
+  db.prepare("INSERT INTO world_state_entries VALUES (?, ?)").run(
+    "system:save:primary:metadata",
+    JSON.stringify({ version: 9, savedAt: "2026-01-01T00:00:00.000Z" })
+  );
+
+  const before = db.prepare("SELECT COUNT(*) AS total FROM world_state_entries").get();
+  const result = auditSaveMigrationMatrix(db, {
+    current_save_version: 9,
+    required_tables: ["world_state_entries", "characters"]
+  });
+  const after = db.prepare("SELECT COUNT(*) AS total FROM world_state_entries").get();
+
+  assert.equal(result.ok, true);
+  assert.equal(result.issues.length, 0);
+  assert.deepEqual(after, before);
+  db.close();
+});
+
+test("auditSaveMigrationMatrix reports incompatible schema and future metadata", () => {
+  const db = new Database(":memory:");
+  db.exec("CREATE TABLE world_state_entries (key TEXT PRIMARY KEY, value_json TEXT NOT NULL);");
+  db.prepare("INSERT INTO world_state_entries VALUES (?, ?)").run(
+    "system:save:primary:metadata",
+    JSON.stringify({ version: 10, savedAt: "2026-01-01T00:00:00.000Z" })
+  );
+
+  const result = auditSaveMigrationMatrix(db, {
+    current_save_version: 9,
+    required_tables: ["missing_table"]
+  });
+
+  assert.equal(result.ok, false);
+  assert.ok(result.issues.some((issue) => issue.type === "missing-table"));
+  assert.ok(result.issues.some((issue) => issue.type === "future-save-version"));
   db.close();
 });
 

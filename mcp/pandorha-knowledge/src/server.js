@@ -34,6 +34,29 @@ server.tool(
   }
 );
 
+server.tool(
+  "map_rule_evidence",
+  {
+    query: z.string().min(2).describe("Termo para mapear evidencia rastreavel sem interpretar regra."),
+    include: z.array(z.string()).optional().describe("Caminhos relativos permitidos, como docs/system/magic."),
+    exclude: z.array(z.string()).optional().describe("Caminhos relativos a ignorar."),
+    limit: z.number().int().min(1).max(10).optional().describe("Numero maximo de evidencias.")
+  },
+  async ({ query, include = [], exclude = [], limit = 10 }) => {
+    const index = await indexPromise;
+    const result = index.mapRuleEvidence(query, { include, exclude, limit });
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
+    };
+  }
+);
+
 try {
   const transport = new StdioServerTransport();
   await server.connect(transport);

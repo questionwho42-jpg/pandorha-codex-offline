@@ -128,6 +128,37 @@ async function runAutomationGate() {
 		"--scope",
 		"all",
 	]);
+	await runStep("automation:opportunity-audit-tests", "node", [
+		"scripts/test_audit_automation_opportunities.mjs",
+	]);
+	await runStep("automation:opportunity-audit", "node", [
+		"scripts/audit_automation_opportunities.mjs",
+		"--format",
+		"json",
+	]);
+	await runStep("automation:context-triplet-tests", "node", [
+		"scripts/test_validate_context_triplets.mjs",
+	]);
+	await runStep("automation:context-triplets", "node", [
+		"scripts/validate_context_triplets.mjs",
+		"--format",
+		"json",
+	]);
+	await runStep("automation:browser-runbook-tests", "node", [
+		"scripts/test_generate_browser_qa_runbook.mjs",
+	]);
+	await runStep("automation:browser-runbook-check", "node", [
+		"scripts/generate_browser_qa_runbook.mjs",
+		"--check",
+	]);
+	await runStep("automation:save-migration-matrix-tests", "node", [
+		"scripts/test_validate_save_migration_matrix.mjs",
+	]);
+	await runStep("automation:save-migration-matrix", "node", [
+		"scripts/validate_save_migration_matrix.mjs",
+		"--format",
+		"json",
+	]);
 	await runStep("automation:compendium-generation-tests", "node", [
 		"scripts/test_generate_compendium_catalog.mjs",
 	]);
@@ -164,6 +195,9 @@ async function runAutomationGate() {
 	]);
 	await runStep("automation:coverage-registration", "node", [
 		"scripts/validate_coverage_registration.mjs",
+	]);
+	await runStep("automation:event-ledger-scaffold-tests", "node", [
+		"scripts/test_scaffold_event_ledger.mjs",
 	]);
 	await runStep("automation:process-doctor", pythonCommand, [
 		"scripts/pandorha_process_automation.py",

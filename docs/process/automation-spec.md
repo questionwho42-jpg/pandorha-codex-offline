@@ -51,6 +51,57 @@ node scripts/audit_docs.mjs --format markdown --scope all --output docs/process/
 
 The report is advisory. It must not promote inbox items, update `docs/changelog.md`, or rewrite `docs/system/` rules without human approval and source-of-truth review.
 
+## Automation Opportunity Audit
+
+The automation opportunity command is:
+
+```powershell
+npm.cmd run automation:opportunities
+```
+
+It runs `scripts/audit_automation_opportunities.mjs` in read-only mode and reports:
+
+- root scripts without paired `test_*.mjs` files;
+- MCP packages missing `test` or `validate:stdio`;
+- skills missing minimum frontmatter metadata;
+- the current plugin recommendation.
+
+The current default recommendation is to avoid creating a plugin while the capabilities remain specific to this repository. Use explicit output only when recording a versioned report:
+
+```powershell
+node scripts/audit_automation_opportunities.mjs --format markdown --output docs/process/automation-opportunities.md
+```
+
+## Context Triplet Validation
+
+The context triplet command is:
+
+```powershell
+npm.cmd run context:validate
+```
+
+It runs `scripts/validate_context_triplets.mjs` and fails when any `.context` directory under `src/` lacks `tech-memory.md`, `scaling-roadmap.md`, `plain-english.md`, or a Markdown H1 in those files. This keeps the module memory contract enforceable without asking the model to inspect every module manually.
+
+## Save Migration Matrix
+
+The save migration matrix command is:
+
+```powershell
+npm.cmd run save:migration-matrix
+```
+
+It runs `scripts/validate_save_migration_matrix.mjs` and checks that the current save version, legacy schemas, legacy migration paths, version tests, and current snapshot fixture shape stay aligned. The script is static and read-only; it must not run destructive migrations or alter `dev.db`.
+
+## Event Ledger Scaffold
+
+The event-ledger scaffold command is:
+
+```powershell
+npm.cmd run scaffold:event-ledger -- --layer features --slice example-ledger --service ExampleLedgerReplayService
+```
+
+It creates only structural files: Zod event schema, repository interface, in-memory fake, replay service, placeholder spec, and the `.context` triplet. It must not create migrations, fill RPG rules, or infer event semantics. Replace placeholder specs with failing tests before adding domain behavior.
+
 ## UI Reachability Gate
 
 The recurring UI reachability command is:
@@ -62,6 +113,20 @@ npm.cmd run qa:ui-reachability
 It runs `scripts/ui_reachability_smoke.mjs` as a deterministic contractual gate. The smoke verifies that every navigation tab still mounts its expected browser panel, blocks obsolete placeholder copy, protects the immediate camp-resolution log from parent-state echo, and requires current user and QA documentation.
 
 The gate does not replace rendered validation. UI changes must still be exercised in the Browser do Codex, including affected interactions, save/load when relevant, and browser console inspection.
+
+## Browser QA Runbook
+
+The deterministic Browser runbook check is:
+
+```powershell
+npm.cmd run qa:browser-runbook:check
+```
+
+It runs `scripts/generate_browser_qa_runbook.mjs --check` and verifies that [browser-qa-runbook.md](./browser-qa-runbook.md) matches the current vertical-slice QA source. Regenerate the versioned report only when the source QA flow changes intentionally:
+
+```powershell
+node scripts/generate_browser_qa_runbook.mjs --output docs/process/browser-qa-runbook.md
+```
 
 ## Dependency Security Gate
 

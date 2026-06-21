@@ -7,10 +7,11 @@ import {
   analyzeSource,
   findFeatureName,
   normalizeSpecifier,
-  resolveFeatureImport,
-  resolveProjectRoot,
-  resolveTargetFile,
-  validateImplementation
+	resolveFeatureImport,
+	resolveProjectRoot,
+	resolveTargetFile,
+	validateImplementation,
+	validateImplementationBatch
 } from "../src/server.js";
 
 test("detects Svelte runes without treating them as violations", () => {
@@ -147,4 +148,40 @@ test("validates a real project file", async () => {
     result.violations.map((violation) => violation.type),
     ["fsd-private-import", "tailwind-default-color"]
   );
+});
+
+test("validates multiple files and reports every batch result", async () => {
+	const projectRoot = await fs.mkdtemp(path.join(os.tmpdir(), "pandorha-arch-guard-batch-"));
+	const combatPanel = path.join(projectRoot, "src", "features", "combat", "ui", "panel.svelte");
+	const inventoryPanel = path.join(projectRoot, "src", "features", "inventory", "ui", "panel.svelte");
+	await fs.mkdir(path.dirname(combatPanel), { recursive: true });
+	await fs.mkdir(path.dirname(inventoryPanel), { recursive: true });
+	await fs.writeFile(
+		combatPanel,
+		"<script lang=\"ts\">import { x } from '@/features/inventory/model/x';</script>",
+		"utf8"
+	);
+	await fs.writeFile(inventoryPanel, "<div class=\"text-gray-100\"></div>", "utf8");
+
+	const result = await validateImplementationBatch(
+		{
+			files: ["src/features/combat/ui/panel.svelte"],
+			diff_name_only: [
+				"src/features/inventory/ui/panel.svelte",
+				"src/features/combat/ui/panel.svelte"
+			].join("\n")
+		},
+		{ projectRoot }
+	);
+
+	assert.equal(result.is_valid, false);
+	assert.equal(result.files.length, 2);
+	assert.deepEqual(
+		result.files.map((entry) => entry.file).sort(),
+		[
+			"src/features/combat/ui/panel.svelte",
+			"src/features/inventory/ui/panel.svelte"
+		]
+	);
+	assert.equal(result.files.every((entry) => entry.status === "failed"), true);
 });

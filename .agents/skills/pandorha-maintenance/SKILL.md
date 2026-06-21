@@ -55,6 +55,24 @@ Record git state:
 python scripts/pandorha_process_automation.py snapshot --reason manual
 ```
 
+## Automation Discovery Commands
+Use these local commands before asking the model to inspect repetitive process state:
+
+```powershell
+npm.cmd run automation:opportunities
+npm.cmd run context:validate
+npm.cmd run save:migration-matrix
+npm.cmd run qa:browser-runbook:check
+```
+
+Use `scaffold:event-ledger` only after a module needs an event-sourced skeleton and an explicit task has approved the target layer, slice, and replay service name:
+
+```powershell
+npm.cmd run scaffold:event-ledger -- --layer features --slice example-ledger --service ExampleLedgerReplayService
+```
+
+Do not create `pandorha-phase-runner` until `docs/process/pandorha-phase-runner-skill-gate.md` is satisfied.
+
 ## Review Workflow
 After automation runs, review these files:
 - `docs/process/task-ledger.md`
@@ -66,6 +84,12 @@ Verify:
 - Finished tasks include finish time and model/config.
 - Open inbox items are either still unplanned or have a clear promotion path.
 - Main-branch promotion candidates are moved into the right official docs.
+
+## Gate Order By Task Type
+- Script automation: focused `node scripts/test_*.mjs`, then `npm.cmd run quality:automation`.
+- MCP automation: package `npm.cmd test --prefix mcp/<name>`, `npm.cmd run validate:stdio --prefix mcp/<name>`, then `npm.cmd run quality:mcp`.
+- Skill/documentation updates: `npm.cmd run quality:skills` and `npm.cmd run docs:audit`.
+- Final branch closeout: `npm.cmd run lint`, `npm.cmd test`, `npm.cmd run build`, `npm.cmd run quality:gate`, process validation, then `qa:next-phase-readiness` only after the tree is clean.
 
 ## Promotion Rules
 Promote after merge to `main`:

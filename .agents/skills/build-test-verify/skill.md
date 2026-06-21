@@ -43,6 +43,21 @@ Siga esta sequência sem exceções:
   - **Tentativa 1-2**: Analise o erro, ajuste sintaxe/imports e re-execute.
   - **Tentativa 3**: Aborte, execute `git checkout -- .`, e gere o relatório de falha técnica citando a ambiguidade no GDD.
 
+## 4.1 AUTOMAÇÕES LOCAIS WINDOWS-FIRST
+
+Antes de pedir análise manual do modelo para tarefas recorrentes, rode os gates determinísticos apropriados:
+
+```powershell
+npm.cmd run automation:opportunities
+npm.cmd run context:validate
+npm.cmd run save:migration-matrix
+npm.cmd run qa:browser-runbook:check
+```
+
+Para scripts novos, o ciclo mínimo é: escrever `scripts/test_*.mjs`, confirmar RED, implementar `scripts/*.mjs`, confirmar GREEN e ligar em `quality:automation` quando recorrente.
+
+Para MCPs, o ciclo mínimo é: teste de função pura, `server.tool(...)` com Zod, README, `npm.cmd test --prefix mcp/<name>`, `npm.cmd run validate:stdio --prefix mcp/<name>` e `npm.cmd run quality:mcp`.
+
 ## 5. ENTREGA E EVIDÊNCIA ESTRUTURADA
 
 Gere o output final usando o `docs/templates/evidence-template.md`:

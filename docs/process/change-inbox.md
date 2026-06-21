@@ -86,6 +86,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260621-013606-automation-microtasks-round -->
+### Automation microtasks round
+- id: 20260621-013606-automation-microtasks-round
+- status: open
+- created_at: 2026-06-21T01:36:06-03:00
+- source: task-ledger
+- summary: Implement approved economical automation round with root scripts, MCP extensions, scaffold, skill guidance, and documentary gates.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260621-013606-automation-microtasks-round -->
 <!-- pandorha-inbox:20260621-003722-starting-equipment-profile-evidence-gate -->
 ### Starting equipment profile evidence gate
 - id: 20260621-003722-starting-equipment-profile-evidence-gate

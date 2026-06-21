@@ -6,6 +6,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { hasH1, validateContextTriplets } from "../../../scripts/validate_context_triplets.mjs";
 
 const sourceDir = path.dirname(fileURLToPath(import.meta.url));
 const packageRoot = path.resolve(sourceDir, "..");
@@ -17,6 +18,8 @@ const FILES = {
   plain: "plain-english.md"
 };
 const SUPPORTED_CONTEXT_LAYERS = new Set(["features", "entities"]);
+const SUPPORTED_AUDIT_LAYERS = new Set(["features", "entities", "shared"]);
+const REQUIRED_CONTEXT_FILES = ["tech-memory.md", "scaling-roadmap.md", "plain-english.md"];
 
 export function resolveProjectRoot(env = process.env) {
   return path.resolve(env.PANDORHA_PROJECT_ROOT || defaultProjectRoot);
@@ -55,6 +58,15 @@ export function normalizeContextLayer(layer = "features") {
   const value = layer ?? "features";
   if (!SUPPORTED_CONTEXT_LAYERS.has(value)) {
     throw new Error("layer must be features or entities");
+  }
+
+  return value;
+}
+
+export function normalizeAuditLayer(layer = "features") {
+  const value = layer ?? "features";
+  if (!SUPPORTED_AUDIT_LAYERS.has(value)) {
+    throw new Error("layer must be features, entities, or shared");
   }
 
   return value;
@@ -123,6 +135,49 @@ export async function commitModuleContext(input, options = {}) {
     contextDir: toPosix(path.relative(projectRoot, contextDir)),
     timestamp,
     files: touched
+  };
+}
+
+export async function auditModuleContext(input = {}, options = {}) {
+  const projectRoot = path.resolve(options.projectRoot || resolveProjectRoot());
+
+  if (input.scan_all) {
+    return validateContextTriplets(projectRoot);
+  }
+
+  const moduleSlug = normalizeModuleName(input.module_name);
+  const layer = normalizeAuditLayer(input.layer);
+  const contextDir = path.join(projectRoot, "src", layer, moduleSlug, ".context");
+  const issues = [];
+
+  for (const fileName of REQUIRED_CONTEXT_FILES) {
+    const filePath = path.join(contextDir, fileName);
+    const content = await readOptionalText(filePath);
+
+    if (content === null) {
+      issues.push({
+        type: "missing-file",
+        file: toPosix(path.relative(projectRoot, filePath)),
+        message: `${fileName} is required in every module context.`
+      });
+      continue;
+    }
+
+    if (!hasH1(content)) {
+      issues.push({
+        type: "missing-h1",
+        file: toPosix(path.relative(projectRoot, filePath)),
+        message: `${fileName} must start with a Markdown H1 heading.`
+      });
+    }
+  }
+
+  return {
+    module: moduleSlug,
+    layer,
+    contextDir: toPosix(path.relative(projectRoot, contextDir)),
+    status: issues.length === 0 ? "passed" : "failed",
+    issues
   };
 }
 
@@ -247,6 +302,16 @@ export function createServer(projectRoot = resolveProjectRoot()) {
       scaling_notes: z.string().optional().describe("Optional scalability notes and future work.")
     },
     async (input) => jsonText(await commitModuleContext(input, { projectRoot }))
+  );
+
+  server.tool(
+    "audit_module_context",
+    {
+      module_name: z.string().min(1).optional().describe("Module name under the selected src layer."),
+      layer: z.enum(["features", "entities", "shared"]).optional().describe("Context layer under src; defaults to features."),
+      scan_all: z.boolean().optional().describe("When true, audit every .context directory under src.")
+    },
+    async (input) => jsonText(await auditModuleContext(input, { projectRoot }))
   );
 
   return server;
