@@ -69,13 +69,48 @@ export class CompendiumSearchService {
 		const matchingEntries =
 			query.length === 0
 				? categoryEntries
-				: categoryEntries.filter((entry) => entryMatchesQuery(entry, query));
+				: rankMatchingEntries(categoryEntries, query);
 
 		return ok(matchingEntries.slice(0, parsedInput.data.limit));
 	}
 }
 
-function entryMatchesQuery(entry: CompendiumEntry, query: string): boolean {
+function rankMatchingEntries(
+	entries: readonly CompendiumEntry[],
+	query: string,
+): readonly CompendiumEntry[] {
+	const terms = splitSearchTerms(query);
+
+	return [...entries]
+		.filter((entry) => entryMatchesQuery(entry, terms))
+		.sort((left, right) => {
+			const rankDifference =
+				rankEntry(left, query, terms) - rankEntry(right, query, terms);
+			if (rankDifference !== 0) {
+				return rankDifference;
+			}
+
+			const titleDifference = left.title.localeCompare(right.title, "pt-BR");
+			if (titleDifference !== 0) {
+				return titleDifference;
+			}
+
+			const sourceDifference = left.sourceFile.localeCompare(
+				right.sourceFile,
+				"pt-BR",
+			);
+			if (sourceDifference !== 0) {
+				return sourceDifference;
+			}
+
+			return left.id.localeCompare(right.id, "pt-BR");
+		});
+}
+
+function entryMatchesQuery(
+	entry: CompendiumEntry,
+	terms: readonly string[],
+): boolean {
 	const searchableText = normalizeSearchText(
 		[
 			entry.title,
@@ -86,10 +121,39 @@ function entryMatchesQuery(entry: CompendiumEntry, query: string): boolean {
 		].join(" "),
 	);
 
-	return query
-		.split(" ")
-		.filter(Boolean)
-		.every((term) => searchableText.includes(term));
+	return terms.every((term) => searchableText.includes(term));
+}
+
+function rankEntry(
+	entry: CompendiumEntry,
+	query: string,
+	terms: readonly string[],
+): number {
+	const normalizedTitle = normalizeSearchText(entry.title);
+	if (normalizedTitle === query) {
+		return 0;
+	}
+
+	if (normalizedTitle.startsWith(query)) {
+		return 1;
+	}
+
+	if (terms.every((term) => normalizedTitle.includes(term))) {
+		return 2;
+	}
+
+	const normalizedTagsAndCategory = normalizeSearchText(
+		[entry.category, ...entry.tags].join(" "),
+	);
+	if (terms.every((term) => normalizedTagsAndCategory.includes(term))) {
+		return 3;
+	}
+
+	return 4;
+}
+
+function splitSearchTerms(query: string): readonly string[] {
+	return query.split(" ").filter(Boolean);
 }
 
 function normalizeSearchText(value: string): string {

@@ -506,6 +506,11 @@ searchEntries({ category: selectedCategory, limit: 200, query });
 <div data-testid="compendium-category-filter">
 	<button data-testid="compendium-category-option">Sistema: Magia</button>
 </div>
+<nav data-testid="compendium-pagination">
+	<button data-testid="compendium-previous-page">Anterior</button>
+	<button data-testid="compendium-next-page">Proxima</button>
+</nav>
+<button data-testid="compendium-clear-filters">Limpar busca e filtros</button>
 <span>{item.sourceLabel}</span>
 <p>{view.selectedEntry.sourceLabel}</p>
 `;
@@ -790,6 +795,7 @@ Abra http://127.0.0.1:5173/ para testar.
 
 Busque Vanguarda, contramagia e descanso.
 Filtre por Sistema: Magia, Sistema: Combate e Sistema: Sobrevivencia.
+Confirme ranking textual e navegacao por pagina.
 Selecione uma entrada e confirme fonte por arquivo e linha.
 `;
 }

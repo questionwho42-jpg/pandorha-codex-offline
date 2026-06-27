@@ -91,6 +91,15 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Open
 <!-- pandorha-inbox:open -->
+<!-- pandorha-inbox:20260621-181345-compendium-usable-browser -->
+### Compendium usable browser
+- id: 20260621-181345-compendium-usable-browser
+- status: open
+- created_at: 2026-06-21T18:13:45-03:00
+- source: task-ledger
+- summary: Improve the Compendium browser with deterministic textual ranking, pagination, clearer empty states, source provenance preservation, and no new RPG rules, save changes, AI, semantic search, runtime Markdown parsing, or docs/system edits.
+- expected_promotion: official docs after merge to main
+<!-- /pandorha-inbox:20260621-181345-compendium-usable-browser -->
 <!-- pandorha-inbox:20260621-003722-starting-equipment-profile-evidence-gate -->
 ### Starting equipment profile evidence gate
 - id: 20260621-003722-starting-equipment-profile-evidence-gate

@@ -582,6 +582,11 @@ void searchEntries({
 <div data-testid="compendium-category-filter">
 	<button data-testid="compendium-category-option">Sistema: Magia</button>
 </div>
+<nav data-testid="compendium-pagination">
+	<button data-testid="compendium-previous-page">Anterior</button>
+	<button data-testid="compendium-next-page">Proxima</button>
+</nav>
+<button data-testid="compendium-clear-filters">Limpar busca e filtros</button>
 <span>{item.sourceLabel}</span>
 <p>{view.selectedEntry.sourceLabel}</p>
 `;
@@ -675,6 +680,7 @@ function renderCompendiumGuide() {
 Abra http://localhost:5173/ e entre em Compêndio.
 Busque Vanguarda, contramagia e descanso.
 Use os filtros Sistema: Magia, Sistema: Combate e Sistema: Sobrevivência.
+Confirme ranking textual e navegacao por pagina.
 Selecione uma entrada e confirme fonte por arquivo e linha.
 `;
 }

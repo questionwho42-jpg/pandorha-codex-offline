@@ -105,6 +105,115 @@ describe("CompendiumSearchService", () => {
 		expect(expectCompendiumSuccess(magicResult)).toEqual([]);
 	});
 
+	it("ranks text results by title, tags, then summary relevance", async () => {
+		const service = new CompendiumSearchService(
+			new InMemoryCompendiumRepository([
+				createEntry({
+					id: "summary-only",
+					title: "Tatica de muralha",
+					summary: "Resumo menciona vanguarda apenas no corpo.",
+					searchText: "taticas defensivas de vanguarda",
+					tags: ["combat"],
+				}),
+				createEntry({
+					id: "tag-hit",
+					title: "Doutrina marcial",
+					summary: "Entrada de apoio.",
+					searchText: "doutrina marcial",
+					tags: ["vanguarda"],
+				}),
+				createEntry({
+					id: "title-contains",
+					title: "A vanguarda em campo",
+					summary: "Entrada de apoio.",
+					searchText: "a vanguarda em campo",
+					tags: ["class"],
+				}),
+				createEntry({
+					id: "title-prefix",
+					title: "Vanguarda do norte",
+					summary: "Entrada de apoio.",
+					searchText: "vanguarda do norte",
+					tags: ["class"],
+				}),
+				createEntry({
+					id: "title-exact",
+					title: "Vanguarda",
+					summary: "Entrada principal.",
+					searchText: "vanguarda",
+					tags: ["class"],
+				}),
+			]),
+		);
+
+		const result = await service.searchEntries({ query: "vanguarda" });
+		const entries = expectCompendiumSuccess(result);
+
+		expect(entries.map((entry) => entry.id)).toEqual([
+			"title-exact",
+			"title-prefix",
+			"title-contains",
+			"tag-hit",
+			"summary-only",
+		]);
+	});
+
+	it("uses a deterministic title tie-breaker for equally relevant entries", async () => {
+		const service = new CompendiumSearchService(
+			new InMemoryCompendiumRepository([
+				createEntry({
+					id: "vanguard-zeta",
+					title: "Vanguarda Zeta",
+					searchText: "vanguarda zeta",
+				}),
+				createEntry({
+					id: "vanguard-alpha",
+					title: "Vanguarda Alfa",
+					searchText: "vanguarda alfa",
+				}),
+			]),
+		);
+
+		const result = await service.searchEntries({ query: "vanguarda" });
+		const entries = expectCompendiumSuccess(result);
+
+		expect(entries.map((entry) => entry.id)).toEqual([
+			"vanguard-alpha",
+			"vanguard-zeta",
+		]);
+	});
+
+	it("uses source file and id tie-breakers when titles are equal", async () => {
+		const service = new CompendiumSearchService(
+			new InMemoryCompendiumRepository([
+				createEntry({
+					id: "same-source-b",
+					title: "Vanguarda",
+					sourceFile: "docs/system/survival/a.md",
+				}),
+				createEntry({
+					id: "other-source",
+					title: "Vanguarda",
+					sourceFile: "docs/system/survival/z.md",
+				}),
+				createEntry({
+					id: "same-source-a",
+					title: "Vanguarda",
+					sourceFile: "docs/system/survival/a.md",
+				}),
+			]),
+		);
+
+		const result = await service.searchEntries({ query: "vanguarda" });
+		const entries = expectCompendiumSuccess(result);
+
+		expect(entries.map((entry) => entry.id)).toEqual([
+			"same-source-a",
+			"same-source-b",
+			"other-source",
+		]);
+	});
+
 	it("returns an empty list for a query without results", async () => {
 		const service = createService();
 
@@ -227,4 +336,19 @@ class CorruptCompendiumRepository implements CompendiumRepository {
 	> {
 		return ok(OFFICIAL_COMPENDIUM_ENTRIES[0] as CompendiumEntry);
 	}
+}
+
+function createEntry(
+	overrides: Partial<CompendiumEntry> & Pick<CompendiumEntry, "id" | "title">,
+): CompendiumEntry {
+	return {
+		category: "class",
+		id: overrides.id,
+		searchText: overrides.searchText ?? overrides.title,
+		sourceFile: overrides.sourceFile ?? "docs/system/survival/teste.md",
+		sourceLine: overrides.sourceLine ?? 1,
+		summary: overrides.summary ?? "Entrada de teste.",
+		tags: overrides.tags ?? ["class"],
+		title: overrides.title,
+	};
 }

@@ -13,6 +13,38 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260621-181345-compendium-usable-browser -->
+### Compendium usable browser
+- id: 20260621-181345-compendium-usable-browser
+- status: completed
+- kind: feature
+- planned: no
+- started_at: 2026-06-21T18:13:45-03:00
+- finished_at: 2026-06-21T18:28:45-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-21T18:28:45-03:00
+- branch: codex/feat/compendium-usable-browser
+- commit_at_start: d6a3ec7 docs(process): promote automation closeout records
+- summary: Improve the Compendium browser with deterministic textual ranking, pagination, clearer empty states, source provenance preservation, and no new RPG rules, save changes, AI, semantic search, runtime Markdown parsing, or docs/system edits.
+- last_change: Delivered deterministic textual ranking, pagination, contextual empty states, updated docs/smokes/context, preserved source provenance, and kept docs/system untouched. Verified lint, npm test, quality:automation, docs:audit, compendium:generate:check, context:validate, save:migration-matrix, qa:vertical-slice, qa:ui-reachability, qa:browser-runbook:check, qa:social-browser-smoke, qa:dialogue-seeds, and self-review hard stop. Build, coverage, quality:gate, and rendered Browser QA were blocked by the Windows sandbox/escalation environment.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-21T18:13:45-03:00
+- Done: task record created
+- Next: implement the requested change
+- Risks: unknown until implementation begins
+- Improvements: automate repeated manual steps where practical
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-21T18:28:45-03:00
+- Done: Delivered deterministic textual ranking, pagination, contextual empty states, updated docs/smokes/context, preserved source provenance, and kept docs/system untouched. Verified lint, npm test, quality:automation, docs:audit, compendium:generate:check, context:validate, save:migration-matrix, qa:vertical-slice, qa:ui-reachability, qa:browser-runbook:check, qa:social-browser-smoke, qa:dialogue-seeds, and self-review hard stop. Build, coverage, quality:gate, and rendered Browser QA were blocked by the Windows sandbox/escalation environment.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260621-181345-compendium-usable-browser -->
 <!-- pandorha-task:20260621-094325-pair-remaining-automation-scripts-with-tests -->
 ### Pair remaining automation scripts with tests
 - id: 20260621-094325-pair-remaining-automation-scripts-with-tests
