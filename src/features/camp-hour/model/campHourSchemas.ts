@@ -19,11 +19,21 @@ export const campHourInputSchema = z.object({
 	resolvedAt: isoTimestamp,
 });
 
+export const campHourTransitionInputSchema = z.object({
+	session: campSessionSelectSchema,
+	preparedAt: isoTimestamp,
+});
+
 export type CampHourInput = {
 	readonly session: CampSessionRecord;
 	readonly assignments: readonly CampAssignmentRecord[];
 	readonly activities: readonly CampActivityRecord[];
 	readonly resolvedAt: string;
+};
+
+export type CampHourTransitionInput = {
+	readonly session: CampSessionRecord;
+	readonly preparedAt: string;
 };
 
 export type ParsedCampHourInput = z.infer<typeof campHourInputSchema>;

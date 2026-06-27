@@ -5,7 +5,17 @@ import type {
 } from "$lib/entities/camp-session";
 import type { CharacterRecord } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
-import type { CampHourEvent, CampHourFailure } from "./campHourTypes";
+import type {
+	CampHourEvent,
+	CampHourFailure,
+	CampHourTransitionFailure,
+} from "./campHourTypes";
+
+export type CampHourLifecycleState =
+	| "initial-planning"
+	| "resolved-local"
+	| "resolved-restored"
+	| "next-hour-ready";
 
 export interface CampHourCharacterRow {
 	readonly characterId: string;
@@ -16,6 +26,7 @@ export interface CampHourCharacterRow {
 
 export interface CampHourView {
 	readonly actionOptions: readonly CampActivityRecord[];
+	readonly canPrepareNextHour: boolean;
 	readonly canResolve: boolean;
 	readonly characterRows: readonly CampHourCharacterRow[];
 	readonly clockLabel: string;
@@ -25,7 +36,9 @@ export interface CampHourView {
 	readonly emptyStateLabel: string | null;
 	readonly errorMessage: string | null;
 	readonly logLines: readonly string[];
+	readonly nextHourUnavailableLabel: string | null;
 	readonly sessionStatusLabel: string;
+	readonly showPrepareNextHour: boolean;
 }
 
 export interface CampHourViewInput {
@@ -36,6 +49,7 @@ export interface CampHourViewInput {
 	readonly errorMessage: string | null;
 	readonly events: readonly CampHourEvent[];
 	readonly isResolving: boolean;
+	readonly lifecycleState: CampHourLifecycleState;
 	readonly selectedActivityIds: Readonly<Record<string, string>>;
 	readonly session: CampSessionRecord | null;
 }
@@ -43,9 +57,13 @@ export interface CampHourViewInput {
 export function createCampHourView(input: CampHourViewInput): CampHourView {
 	const defaultActivityId = input.activities[0]?.id ?? "watch";
 	const isResolved = input.session?.status === "resolved";
+	const currentHour = input.session?.currentHour ?? 1;
+	const showPrepareNextHour = isResolved;
 
 	return {
 		actionOptions: input.activities,
+		canPrepareNextHour:
+			showPrepareNextHour && !input.isResolving && currentHour < 24,
 		canResolve:
 			input.characters.length > 0 &&
 			!input.isResolving &&
@@ -72,9 +90,12 @@ export function createCampHourView(input: CampHourViewInput): CampHourView {
 				: null,
 		errorMessage: input.errorMessage,
 		logLines: createCampLogLines(input),
-		sessionStatusLabel: isResolved
-			? "Hora resolvida"
-			: "Planejando 1 hora de acampamento",
+		nextHourUnavailableLabel:
+			showPrepareNextHour && currentHour >= 24
+				? "O acampamento atingiu o limite de 24 horas."
+				: null,
+		sessionStatusLabel: createSessionStatusLabel(input),
+		showPrepareNextHour,
 	};
 }
 
@@ -98,6 +119,34 @@ export function mapCampHourFailureToMessage(failure: CampHourFailure): string {
 	}
 }
 
+export function mapCampHourTransitionFailureToMessage(
+	failure: CampHourTransitionFailure,
+): string {
+	switch (failure.code) {
+		case "INVALID_CAMP_HOUR_TRANSITION_INPUT":
+			return "Não foi possível preparar a próxima hora.";
+		case "CAMP_SESSION_NOT_RESOLVED":
+			return "Resolva a hora atual antes de preparar a próxima.";
+		case "CAMP_HOUR_LIMIT_REACHED":
+			return "O acampamento atingiu o limite de 24 horas.";
+	}
+}
+
+function createSessionStatusLabel(input: CampHourViewInput): string {
+	const currentHour = input.session?.currentHour ?? 1;
+
+	switch (input.lifecycleState) {
+		case "resolved-local":
+			return `Hora ${currentHour} resolvida`;
+		case "resolved-restored":
+			return `Hora ${currentHour} restaurada do save local`;
+		case "next-hour-ready":
+			return `Hora ${currentHour} pronta para planejamento`;
+		case "initial-planning":
+			return `Planejando hora ${currentHour} de acampamento`;
+	}
+}
+
 function createClockStatusLabel(clock: ClockRecord | null): string {
 	if (!clock) {
 		return "Relógio pronto";
@@ -109,6 +158,12 @@ function createClockStatusLabel(clock: ClockRecord | null): string {
 function createCampLogLines(input: CampHourViewInput): readonly string[] {
 	if (input.events.length > 0) {
 		return input.events.map((event) => event.message);
+	}
+
+	if (input.lifecycleState === "next-hour-ready" && input.session) {
+		return [
+			`Hora ${input.session.currentHour} pronta. Escolha as ações antes de resolver.`,
+		];
 	}
 
 	if (input.session?.status === "resolved") {

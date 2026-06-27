@@ -312,6 +312,27 @@ test("ui reachability smoke fails when camp state echo can erase resolved events
 	}
 });
 
+test("ui reachability smoke fails when the next camp hour action is unreachable", async () => {
+	const root = await createFixtureRoot({
+		fileOverrides: {
+			"src/features/camp-hour/ui/CampHourPanel.svelte":
+				renderCampPanel().replace(
+					'data-testid="camp-prepare-next-hour"',
+					'data-testid="removed-camp-prepare-next-hour"',
+				),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /camp-prepare-next-hour/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("ui reachability smoke fails when Browser do Codex validation is removed", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -342,7 +363,7 @@ test("ui reachability smoke fails when known limitations lose their classificati
 		const result = runSmoke(root);
 
 		assert.notEqual(result.status, 0);
-		assert.match(result.stderr, /resolve apenas 1 hora/i);
+		assert.match(result.stderr, /noite completa/i);
 	} finally {
 		await rm(root, { recursive: true, force: true });
 	}
@@ -642,6 +663,9 @@ const message = "Repare antes de equipar";
 
 function renderCampPanel() {
 	return `
+const lifecycleState = "next-hour-ready";
+const prepareNextHour = () => {};
+const mapCampHourTransitionFailureToMessage = () => "";
 events = [...result.data.events];
 hydratedKey = createHydrationKey({
 	assignments: localAssignments,
@@ -654,6 +678,7 @@ onStateChange({
 	campSessions: localCampSessions,
 	campAssignments: localAssignments,
 });
+<button data-testid="camp-prepare-next-hour">Preparar próxima hora</button>
 `;
 }
 
@@ -704,7 +729,9 @@ function renderCampGuide() {
 
 ## Limitações atuais
 
-- A versão atual resolve apenas 1 hora.
+- Clique em Preparar próxima hora para continuar manualmente.
+- Não existe comando de noite completa.
+- O save continua na versão 9.
 `;
 }
 

@@ -8,14 +8,20 @@ import type { CharacterRecord } from "$lib/entities/character";
 import type { ClockRecord } from "$lib/entities/clock";
 import type { Result } from "$lib/shared/lib/result";
 import type {
+	CampHourInput,
+	CampHourTransitionInput,
+} from "../model/campHourSchemas";
+import type {
 	CampHourEvent,
 	CampHourFailure,
-	CampHourInput,
 	CampHourResult,
+	CampHourTransitionFailure,
 } from "../model/campHourTypes";
 import {
+	type CampHourLifecycleState,
 	createCampHourView,
 	mapCampHourFailureToMessage,
+	mapCampHourTransitionFailureToMessage,
 } from "../model/campHourView";
 
 interface CampPersistedState {
@@ -32,6 +38,9 @@ type Props = {
 	readonly clocks: readonly ClockRecord[];
 	readonly createInitialState: (createdAt: string) => CampPersistedState;
 	readonly onStateChange: (state: CampPersistedState) => void;
+	readonly prepareNextHour: (
+		input: CampHourTransitionInput,
+	) => Result<CampSessionRecord, CampHourTransitionFailure>;
 	readonly resolveHour: (
 		input: CampHourInput,
 		clocks: readonly ClockRecord[],
@@ -46,6 +55,7 @@ let {
 	clocks,
 	createInitialState,
 	onStateChange,
+	prepareNextHour,
 	resolveHour,
 }: Props = $props();
 
@@ -56,6 +66,7 @@ let selectedActivityIds = $state<Record<string, string>>({});
 let events = $state<CampHourEvent[]>([]);
 let errorMessage = $state<string | null>(null);
 let isResolving = $state(false);
+let lifecycleState = $state<CampHourLifecycleState>("initial-planning");
 let hydratedKey = $state("");
 
 $effect(() => {
@@ -81,6 +92,7 @@ $effect(() => {
 	);
 	events = [];
 	errorMessage = null;
+	lifecycleState = inferLifecycleState(localCampSessions[0] ?? null);
 	hydratedKey = nextKey;
 });
 
@@ -95,6 +107,7 @@ let view = $derived(
 		errorMessage,
 		events,
 		isResolving,
+		lifecycleState,
 		selectedActivityIds,
 		session: currentSession,
 	}),
@@ -146,6 +159,41 @@ async function resolveCurrentHour(): Promise<void> {
 		: localClocks;
 	events = [...result.data.events];
 	errorMessage = null;
+	lifecycleState = "resolved-local";
+	hydratedKey = createHydrationKey({
+		assignments: localAssignments,
+		characters,
+		clocks: localClocks,
+		sessions: localCampSessions,
+	});
+	onStateChange({
+		clocks: localClocks,
+		campSessions: localCampSessions,
+		campAssignments: localAssignments,
+	});
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function prepareFollowingHour(): void {
+	if (!view.canPrepareNextHour || !currentSession) {
+		return;
+	}
+
+	const result = prepareNextHour({
+		session: currentSession,
+		preparedAt: new Date().toISOString(),
+	});
+	if (!result.success) {
+		errorMessage = mapCampHourTransitionFailureToMessage(result.error);
+		return;
+	}
+
+	localAssignments = [];
+	localCampSessions = [result.data];
+	events = [];
+	errorMessage = null;
+	lifecycleState = "next-hour-ready";
+	selectedActivityIds = createInitialSelections(characters, [], activities);
 	hydratedKey = createHydrationKey({
 		assignments: localAssignments,
 		characters,
@@ -183,6 +231,19 @@ function createHydrationKey(input: {
 			session.status,
 		]),
 	});
+}
+
+function inferLifecycleState(
+	session: CampSessionRecord | null,
+): CampHourLifecycleState {
+	if (session?.status === "resolved") {
+		return "resolved-restored";
+	}
+	if (session && session.currentHour > 1) {
+		return "next-hour-ready";
+	}
+
+	return "initial-planning";
 }
 
 function createInitialSelections(
@@ -339,6 +400,22 @@ function replaceClock(
 					>
 						Resolver 1 hora
 					</button>
+					{#if view.showPrepareNextHour}
+						<button
+							type="button"
+							class="mt-3 border border-ether bg-ruin px-4 py-2 text-sm font-semibold text-bone transition-colors hover:bg-blood-shadow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:cursor-not-allowed disabled:opacity-50"
+							disabled={!view.canPrepareNextHour}
+							onclick={prepareFollowingHour}
+							data-testid="camp-prepare-next-hour"
+						>
+							Preparar próxima hora
+						</button>
+						{#if view.nextHourUnavailableLabel}
+							<p class="mt-3 text-sm font-semibold text-ether">
+								{view.nextHourUnavailableLabel}
+							</p>
+						{/if}
+					{/if}
 				</div>
 			</div>
 

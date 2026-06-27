@@ -13,6 +13,45 @@ The automation owns the marked sections below. Manual edits should stay outside 
 
 ## Completed
 <!-- pandorha-ledger:completed -->
+<!-- pandorha-task:20260626-222046-camp-next-hour-orchestration -->
+### Camp next-hour orchestration
+- id: 20260626-222046-camp-next-hour-orchestration
+- status: completed
+- kind: feature
+- planned: yes
+- started_at: 2026-06-26T22:20:46-03:00
+- finished_at: 2026-06-26T22:49:06-03:00
+- model_started: gpt-5.5 high-reasoning final review; local automation zero-token
+- model_finished: gpt-5.5 high-reasoning final review; local automation zero-token
+- last_modified_at: 2026-06-26T22:49:06-03:00
+- branch: codex/feat/camp-next-hour
+- commit_at_start: f812159 docs(process): record compendium merge promotion
+- summary: Implement the approved bounded next-hour camp transition and UI without automatic night, advanced activity effects, docs/system changes, or save version changes.
+- last_change: Implementada a transicao manual e limitada para a proxima hora de acampamento, com TDD, save v9 preservado, smokes, documentacao, memoria tripla, quality gate e QA desktop/mobile.
+#### Files At Start
+- none
+#### Checkpoints
+#### Checkpoint 2026-06-26T22:20:46-03:00
+- Done: task record created
+- Next: Write failing transition service tests before production code.
+- Risks: Must preserve danger, clock, save v9 shape, and the distinction between local resolution and restored state.
+- Improvements: Reuse existing quality gates and Browser QA instead of creating new automation.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-26T22:36:55-03:00
+- Done: Implemented CampHourTransitionService with TDD, app-model bridge, explicit lifecycle UI, next-hour command, paired smokes, docs, runbook, and context triplet without save or docs/system changes.
+- Next: Run coverage, full gates, and rendered Browser QA including save/load of hour 2.
+- Risks: Rendered flow must confirm parent-state echo preserves the immediate log and planning hour 2 survives save/load.
+- Improvements: Keep automatic night and visible reset in the existing future gate.
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+
+#### Checkpoint 2026-06-26T22:49:06-03:00
+- Done: Implementada a transicao manual e limitada para a proxima hora de acampamento, com TDD, save v9 preservado, smokes, documentacao, memoria tripla, quality gate e QA desktop/mobile.
+- Next: none
+- Risks: none recorded
+- Improvements: none recorded
+- Model/config: gpt-5.5 high-reasoning final review; local automation zero-token
+<!-- /pandorha-task:20260626-222046-camp-next-hour-orchestration -->
 <!-- pandorha-task:20260621-181345-compendium-usable-browser -->
 ### Compendium usable browser
 - id: 20260621-181345-compendium-usable-browser

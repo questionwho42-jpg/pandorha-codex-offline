@@ -44,6 +44,17 @@ export interface CampHourFailure {
 	readonly details?: unknown;
 }
 
+export type CampHourTransitionFailureCode =
+	| "INVALID_CAMP_HOUR_TRANSITION_INPUT"
+	| "CAMP_SESSION_NOT_RESOLVED"
+	| "CAMP_HOUR_LIMIT_REACHED";
+
+export interface CampHourTransitionFailure {
+	readonly code: CampHourTransitionFailureCode;
+	readonly message: string;
+	readonly details?: unknown;
+}
+
 export interface CampClockProgressPort {
 	advanceClock(input: {
 		readonly clockId: string;

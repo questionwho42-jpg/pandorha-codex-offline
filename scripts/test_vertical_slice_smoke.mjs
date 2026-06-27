@@ -56,6 +56,23 @@ test("vertical slice smoke fails when a user guide is missing localhost steps", 
 	}
 });
 
+test("vertical slice smoke fails when the camp guide loses the next-hour flow", async () => {
+	const root = await createFixtureRoot({
+		docOverrides: {
+			"docs/user/camp-training.md": renderDoc("Acampamento"),
+		},
+	});
+
+	try {
+		const result = runSmoke(root);
+
+		assert.notEqual(result.status, 0);
+		assert.match(result.stderr, /Preparar próxima hora/);
+	} finally {
+		await rm(root, { recursive: true, force: true });
+	}
+});
+
 test("vertical slice smoke fails when social choice UI contract is missing", async () => {
 	const root = await createFixtureRoot({
 		fileOverrides: {
@@ -365,7 +382,7 @@ async function createFixtureRoot({
 		"docs/user/compendium-browser.md": renderCompendiumDoc(),
 		"docs/user/inventory-management.md": renderInventoryDoc(),
 		"docs/user/combat-training.md": renderCombatTrainingDoc(),
-		"docs/user/camp-training.md": renderDoc("Acampamento"),
+		"docs/user/camp-training.md": renderCampDoc(),
 		"docs/user/social-relations.md": renderDoc("Relações"),
 		"docs/user/social-encounter.md": renderSocialEncounterDoc(),
 		"docs/user/offline-smoke.md": renderDoc("Offline"),
@@ -797,6 +814,18 @@ Busque Vanguarda, contramagia e descanso.
 Filtre por Sistema: Magia, Sistema: Combate e Sistema: Sobrevivencia.
 Confirme ranking textual e navegacao por pagina.
 Selecione uma entrada e confirme fonte por arquivo e linha.
+`;
+}
+
+function renderCampDoc() {
+	return `# Acampamento
+
+Abra http://127.0.0.1:5173/ para testar.
+
+Resolva a hora 1 e confirme o log.
+Clique em Preparar próxima hora e confirme a hora 2.
+O save continua na versão 9.
+Ainda nao existe noite completa.
 `;
 }
 
