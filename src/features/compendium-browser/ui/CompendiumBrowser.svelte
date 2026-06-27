@@ -17,11 +17,14 @@ type Props = {
 	) => Promise<Result<readonly CompendiumEntry[], CompendiumFailure>>;
 };
 
+const COMPENDIUM_PAGE_SIZE = 20;
+
 let { searchEntries }: Props = $props();
 
 let query = $state("");
 let selectedCategory = $state<CompendiumCategoryFilter>("all");
 let entries = $state<readonly CompendiumEntry[]>([]);
+let currentPage = $state(1);
 let selectedEntryId = $state<string | null>(null);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let errorMessage = $state<string | null>(null);
@@ -30,6 +33,8 @@ let isSearching = $state(false);
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 let view = $derived(
 	createCompendiumBrowserView(entries, {
+		currentPage,
+		pageSize: COMPENDIUM_PAGE_SIZE,
 		query,
 		selectedCategory,
 		selectedEntryId,
@@ -45,6 +50,7 @@ onMount(() => {
 function updateQuery(event: Event): void {
 	const nextQuery = (event.currentTarget as HTMLInputElement).value;
 	query = nextQuery;
+	currentPage = 1;
 	void runSearch(nextQuery, selectedCategory);
 }
 
@@ -56,8 +62,24 @@ function selectEntry(entryId: string): void {
 // biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
 function selectCategory(category: CompendiumCategoryFilter): void {
 	selectedCategory = category;
+	currentPage = 1;
 	selectedEntryId = null;
 	void runSearch(query, category);
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function goToPage(page: number): void {
+	currentPage = page;
+	selectedEntryId = null;
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: consumed by Svelte markup.
+function clearSearchAndFilters(): void {
+	query = "";
+	selectedCategory = "all";
+	currentPage = 1;
+	selectedEntryId = null;
+	void runSearch("", "all");
 }
 
 async function runSearch(
@@ -166,6 +188,16 @@ async function runSearch(
 				>
 					<h3 class="text-lg font-semibold text-bone">{view.emptyState.title}</h3>
 					<p class="mt-3 leading-7 text-bone">{view.emptyState.description}</p>
+					{#if view.emptyState.canClearFilters}
+						<button
+							type="button"
+							class="mt-5 border border-ether bg-ether px-4 py-2 text-sm font-semibold text-void transition-colors hover:bg-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether"
+							data-testid="compendium-clear-filters"
+							onclick={clearSearchAndFilters}
+						>
+							Limpar busca e filtros
+						</button>
+					{/if}
 				</div>
 			{:else}
 				<ul class="divide-y divide-bronze border-y border-bronze">
@@ -195,6 +227,43 @@ async function runSearch(
 						</li>
 					{/each}
 				</ul>
+				{#if view.pagination && view.pagination.totalPages > 1}
+					<nav
+						aria-label="Paginação do compêndio"
+						class="mt-4 flex flex-col gap-3 border border-bronze bg-ruin px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+						data-testid="compendium-pagination"
+					>
+						<p class="text-sm font-semibold text-ether">{view.pagination.label}</p>
+						<div class="flex gap-2">
+							<button
+								type="button"
+								class="border px-3 py-2 text-sm font-semibold text-bone transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:cursor-not-allowed disabled:opacity-50"
+								class:border-bronze={!view.pagination.hasPreviousPage}
+								class:border-ether={view.pagination.hasPreviousPage}
+								class:bg-blood-shadow={!view.pagination.hasPreviousPage}
+								class:bg-ruin={view.pagination.hasPreviousPage}
+								data-testid="compendium-previous-page"
+								disabled={!view.pagination.hasPreviousPage}
+								onclick={() => goToPage(view.pagination?.previousPage ?? 1)}
+							>
+								Anterior
+							</button>
+							<button
+								type="button"
+								class="border px-3 py-2 text-sm font-semibold text-bone transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ether disabled:cursor-not-allowed disabled:opacity-50"
+								class:border-bronze={!view.pagination.hasNextPage}
+								class:border-ether={view.pagination.hasNextPage}
+								class:bg-blood-shadow={!view.pagination.hasNextPage}
+								class:bg-ruin={view.pagination.hasNextPage}
+								data-testid="compendium-next-page"
+								disabled={!view.pagination.hasNextPage}
+								onclick={() => goToPage(view.pagination?.nextPage ?? 1)}
+							>
+								Próxima
+							</button>
+						</div>
+					</nav>
+				{/if}
 			{/if}
 		</div>
 

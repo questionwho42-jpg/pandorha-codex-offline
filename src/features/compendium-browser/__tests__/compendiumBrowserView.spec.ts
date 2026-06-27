@@ -17,11 +17,56 @@ describe("createCompendiumBrowserView", () => {
 
 		expect(view.countLabel).toBe("Nenhum resultado");
 		expect(view.emptyState).toEqual({
-			title: "Nenhuma entrada encontrada",
+			title: 'Nenhum resultado para "inexistente"',
 			description:
-				"Tente buscar por criação de ficha, magia, combate ou sobrevivência.",
+				"Limpe a busca ou tente outro termo mantendo todas as categorias.",
+			canClearFilters: true,
 		});
 		expect(view.selectedEntry).toBeUndefined();
+	});
+
+	it("uses category-aware empty copy when a category filter is active", () => {
+		const view = createCompendiumBrowserView([], {
+			query: "",
+			selectedCategory: "system-magic",
+			selectedEntryId: null,
+		});
+
+		expect(view.emptyState).toEqual({
+			title: "Nenhuma entrada em Sistema: Magia",
+			description:
+				"Limpe o filtro de categoria ou volte para Todas para ampliar a consulta.",
+			canClearFilters: true,
+		});
+	});
+
+	it("uses query and category-aware empty copy when both filters are active", () => {
+		const view = createCompendiumBrowserView([], {
+			query: "ritual",
+			selectedCategory: "system-magic",
+			selectedEntryId: null,
+		});
+
+		expect(view.emptyState).toEqual({
+			title: 'Nenhum resultado para "ritual" em Sistema: Magia',
+			description:
+				"Limpe a busca, remova o filtro de categoria ou tente outro termo.",
+			canClearFilters: true,
+		});
+	});
+
+	it("distinguishes an empty catalog from filtered empty results", () => {
+		const view = createCompendiumBrowserView([], {
+			query: "",
+			selectedCategory: "all",
+			selectedEntryId: null,
+		});
+
+		expect(view.emptyState).toEqual({
+			title: "Nenhuma entrada cadastrada",
+			description: "O índice do Compêndio não retornou entradas nesta sessão.",
+			canClearFilters: false,
+		});
 	});
 
 	it("exposes category filter options with the current selection", () => {
@@ -114,6 +159,75 @@ describe("createCompendiumBrowserView", () => {
 
 		expect(view.countLabel).toBe("1 resultado");
 		expect(view.selectedEntry?.title).toBe("Vanguarda");
+	});
+
+	it("paginates result items and exposes pt-BR navigation labels", () => {
+		const view = createCompendiumBrowserView(OFFICIAL_COMPENDIUM_ENTRIES, {
+			currentPage: 2,
+			pageSize: 3,
+			query: "",
+			selectedCategory: "all",
+			selectedEntryId: null,
+		});
+
+		expect(view.items.map((item) => item.id)).toEqual(
+			OFFICIAL_COMPENDIUM_ENTRIES.slice(3, 6).map((entry) => entry.id),
+		);
+		expect(view.pagination).toEqual({
+			currentPage: 2,
+			hasNextPage: true,
+			hasPreviousPage: true,
+			label: `Página 2 de ${Math.ceil(OFFICIAL_COMPENDIUM_ENTRIES.length / 3)}`,
+			nextPage: 3,
+			pageSize: 3,
+			previousPage: 1,
+			totalItems: OFFICIAL_COMPENDIUM_ENTRIES.length,
+			totalPages: Math.ceil(OFFICIAL_COMPENDIUM_ENTRIES.length / 3),
+		});
+	});
+
+	it("normalizes an out-of-range current page to the last available page", () => {
+		const view = createCompendiumBrowserView(OFFICIAL_COMPENDIUM_ENTRIES, {
+			currentPage: 999,
+			pageSize: 50,
+			query: "",
+			selectedCategory: "all",
+			selectedEntryId: null,
+		});
+
+		expect(view.pagination?.currentPage).toBe(
+			Math.ceil(OFFICIAL_COMPENDIUM_ENTRIES.length / 50),
+		);
+		expect(view.items).toHaveLength(OFFICIAL_COMPENDIUM_ENTRIES.length % 50);
+	});
+
+	it.each([
+		{ currentPage: 0, pageSize: 0 },
+		{ currentPage: 1.5, pageSize: 2.5 },
+	])("normalizes invalid pagination values", ({ currentPage, pageSize }) => {
+		const view = createCompendiumBrowserView(OFFICIAL_COMPENDIUM_ENTRIES, {
+			currentPage,
+			pageSize,
+			query: "",
+			selectedCategory: "all",
+			selectedEntryId: null,
+		});
+
+		expect(view.pagination?.currentPage).toBe(1);
+		expect(view.pagination?.pageSize).toBe(20);
+	});
+
+	it("only exposes selected entry detail when the selected item is visible", () => {
+		const view = createCompendiumBrowserView(OFFICIAL_COMPENDIUM_ENTRIES, {
+			currentPage: 2,
+			pageSize: 3,
+			query: "",
+			selectedCategory: "all",
+			selectedEntryId: OFFICIAL_COMPENDIUM_ENTRIES[0].id,
+		});
+
+		expect(view.selectedEntry).toBeUndefined();
+		expect(view.items.some((item) => item.isSelected)).toBe(false);
 	});
 
 	it("uses an instruction when no entry is selected", () => {
