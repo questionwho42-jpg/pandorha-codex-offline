@@ -33,7 +33,7 @@ Este runbook transforma o roteiro humano atual em checklist repetivel para o Bro
 - Incremente, consuma e remova consumíveis; salve a sessão, recarregue realmente a página, carregue o save e confirme que o inventário e o loadout equipado do personagem foram restaurados.
 - Entre em Combate, selecione o personagem como atacante, confirme Loadout do Inventário com arma/escudo/armadura restaurados, confirme Cinto de poções: 5/5, use uma poção do cinto, confirme Poção do cinto usada em treino. HP real não foi alterado., confirme 4/5, ataque um alvo de treino e confirme log, dano, HP e ações.
 - Entre em Exploração, mova para um hex adjacente e confirme log em pt-BR sem mudança de URL.
-- Entre em Acampamento, atribua ações para personagens, resolva 1 hora e confirme perigo, relógio e log.
+- Entre em Acampamento, atribua ações, resolva a hora 1, confirme perigo/relógio/log, clique em Preparar próxima hora, confirme a hora 2 com ações padrão e resolva novamente.
 - Entre em Relações, invoque Favor Tier 1, confirme Dívida 1/3 e Intriga 1.
 - Na mesma aba, selecione Corretora de Treino, clique em Iniciar negociação, confirme Fala do NPC, escolha a opção de diálogo Barganhar, confirme a resposta sobre a troca proposta, confirme Modificador do argumento: +1, clique em Fazer apelo e confirme Bônus 1, HP mental 5/8, Persuasão 1/3 e log citando Opção de diálogo escolhida: Barganhar.
 - Selecione Informante de Treino, clique em Reiniciar negociação, confirme HP mental 6/6, confirme a fala sobre exigir uma garantia e confirme que Pressionar aparece bloqueado com Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena..

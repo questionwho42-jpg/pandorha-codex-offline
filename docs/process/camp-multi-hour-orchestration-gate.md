@@ -49,5 +49,10 @@ A proxima microtarefa pode adicionar somente:
 
 ## Decisao
 
-A fase de Acampamento multi-hora permanece documental ate este gate ser usado
-por uma tarefa pequena, com TDD e sem ampliar regras soberanas por inferencia.
+Este gate foi consumido pela microtarefa limitada de preparar a proxima hora
+manualmente, com TDD, save v9 inalterado e separacao entre resolucao local,
+restauracao e nova hora pronta.
+
+Noite completa automatica, reset manual visivel, historico persistido de todas
+as horas e atividades avancadas permanecem bloqueados e exigem tarefa e gate
+proprios.

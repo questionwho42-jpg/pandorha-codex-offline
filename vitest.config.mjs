@@ -51,6 +51,7 @@ export default defineConfig({
 				"src/features/combat-encounter/domain/CombatTrainingEnemyAttackService.ts",
 				"src/features/combat-encounter/domain/CombatTurnService.ts",
 				"src/features/camp-hour/domain/CampHourService.ts",
+				"src/features/camp-hour/domain/CampHourTransitionService.ts",
 				"src/features/hexcrawl-map/domain/HexcrawlMovementService.ts",
 				"src/features/inventory-management/domain/InventoryManagementService.ts",
 				"src/features/save-load/domain/SaveLoadService.ts",

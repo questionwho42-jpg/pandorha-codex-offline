@@ -448,6 +448,18 @@ async function runVerticalSliceSmoke(root) {
 
 	await validateFileContains(
 		root,
+		"docs/user/camp-training.md",
+		[
+			"Preparar próxima hora",
+			"hora 2",
+			"save continua na versão 9",
+			"noite completa",
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
 		"docs/user/inventory-management.md",
 		[
 			"kit inicial da classe",

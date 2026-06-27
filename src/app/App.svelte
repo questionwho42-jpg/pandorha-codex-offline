@@ -724,6 +724,7 @@ onMount(() => {
 					characters={characterRecords}
 					clocks={clockRecords}
 					createInitialState={campSession.createInitialState}
+					prepareNextHour={campSession.prepareNextHour}
 					onStateChange={(state) => {
 						clockRecords = [...state.clocks];
 						campSessionRecords = [...state.campSessions];

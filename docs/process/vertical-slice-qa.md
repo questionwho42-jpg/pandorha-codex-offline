@@ -20,7 +20,7 @@ Este roteiro valida o MVP navegavel atual do Pandorha Engine depois da T80. Ele 
 7. Incremente, consuma e remova consumíveis; salve a sessão, recarregue realmente a página, carregue o save e confirme que o inventário e o loadout equipado do personagem foram restaurados.
 8. Entre em `Combate`, selecione o personagem como atacante, confirme `Loadout do Inventário` com arma/escudo/armadura restaurados, confirme `Cinto de poções: 5/5`, use uma poção do cinto, confirme `Poção do cinto usada em treino. HP real não foi alterado.`, confirme `4/5`, ataque um alvo de treino e confirme log, dano, HP e ações.
 9. Entre em `Exploração`, mova para um hex adjacente e confirme log em pt-BR sem mudança de URL.
-10. Entre em `Acampamento`, atribua ações para personagens, resolva 1 hora e confirme perigo, relógio e log.
+10. Entre em `Acampamento`, atribua ações, resolva a hora 1, confirme perigo/relógio/log, clique em `Preparar próxima hora`, confirme a hora 2 com ações padrão e resolva novamente.
 11. Entre em `Relações`, invoque `Favor Tier 1`, confirme `Dívida 1/3` e `Intriga 1`.
 12. Na mesma aba, selecione `Corretora de Treino`, clique em `Iniciar negociação`, confirme `Fala do NPC`, escolha a opção de diálogo `Barganhar`, confirme a resposta sobre a `troca proposta`, confirme `Modificador do argumento: +1`, clique em `Fazer apelo` e confirme `Bônus 1`, `HP mental 5/8`, `Persuasão 1/3` e log citando `Opção de diálogo escolhida: Barganhar`.
 13. Selecione `Informante de Treino`, clique em `Reiniciar negociação`, confirme `HP mental 6/6`, confirme a fala sobre exigir uma garantia e confirme que `Pressionar` aparece bloqueado com `Exige HP mental 7 ou maior para pressionar o informante sem quebrar a cena.`.
@@ -76,7 +76,7 @@ Use:
 npm.cmd run qa:ui-reachability
 ```
 
-Esse comando executa `scripts/ui_reachability_smoke.mjs`. Ele protege o alcance das nove abas, as ações editáveis do inventário, a persistência do ledger no save atual, o acesso ao cinto de poções no combate de treino, o favicon estático sem request 404, bloqueia placeholders obsoletos e verifica o contrato que preserva o log recém-resolvido do Acampamento antes do eco de estado do componente pai.
+Esse comando executa `scripts/ui_reachability_smoke.mjs`. Ele protege o alcance das nove abas, as ações editáveis do inventário, a persistência do ledger no save atual, o acesso ao cinto de poções no combate de treino, o favicon estático sem request 404, bloqueia placeholders obsoletos e verifica o contrato que preserva o log recém-resolvido do Acampamento até o comando explícito de preparar a próxima hora.
 
 Para o Compêndio, ele também exige filtro de categoria, busca ampliada para entradas geradas, termos `Vanguarda`, `contramagia` e `descanso`, categorias de sistema, paginação, limpeza de filtros no estado vazio e fonte por arquivo e linha.
 
@@ -126,7 +126,7 @@ O smoke T65 é estático e não substitui o Browser do Codex quando uma mudança
 - Cinto de poções de treino: o combate exibe a pilha `potion-belt-stack`, consome 1 unidade pelo ledger de inventário existente e registra que HP real não foi alterado.
 - Magia mínima que prepara comando sem executar efeito.
 - Exploração hexcrawl mínima com mapa de 7 hexes.
-- Acampamento de 1 hora com perigo e relógio coletivo.
+- Acampamento com horas manuais encadeadas, perigo acumulado e relógio coletivo, ainda sem noite automática.
 - Relações sociais de treino com dívida, intriga e save/load.
 - NPCs de treino, negociação social, HP mental, paciência, trilha de persuasão, relação individual por NPC e save/load v9.
 - Escolhas de argumento social (`Persuadir`, `Barganhar`, `Pressionar`) com modificador visível, árvores curtas de diálogo para a `Corretora de Treino`, o `Informante de Treino` e o `Capitão de Treino`, log persistido e consequência em `WorldState` com a última escolha de diálogo usada.

@@ -3,10 +3,14 @@ import { CAMP_ACTIVITY_CATALOG } from "$lib/entities/camp-activity";
 import type { CampSessionRecord } from "$lib/entities/camp-session";
 import { CharacterBuilder } from "$lib/entities/character/testing/CharacterBuilder";
 import type { ClockRecord } from "$lib/entities/clock";
-import type { CampHourFailure } from "../model/campHourTypes";
+import type {
+	CampHourFailure,
+	CampHourTransitionFailure,
+} from "../model/campHourTypes";
 import {
 	createCampHourView,
 	mapCampHourFailureToMessage,
+	mapCampHourTransitionFailureToMessage,
 } from "../model/campHourView";
 
 const TEST_TIMESTAMP = "2026-05-19T13:05:00.000Z";
@@ -21,6 +25,7 @@ describe("campHourView", () => {
 			errorMessage: null,
 			events: [],
 			isResolving: false,
+			lifecycleState: "initial-planning",
 			selectedActivityIds: {},
 			session: buildSession(),
 		});
@@ -41,11 +46,12 @@ describe("campHourView", () => {
 			errorMessage: null,
 			events: [],
 			isResolving: false,
+			lifecycleState: "initial-planning",
 			selectedActivityIds: { [character.id]: "fortify-perimeter" },
 			session: buildSession(),
 		});
 
-		expect(view.sessionStatusLabel).toBe("Planejando 1 hora de acampamento");
+		expect(view.sessionStatusLabel).toBe("Planejando hora 1 de acampamento");
 		expect(view.dangerLabel).toBe("Perigo 0");
 		expect(view.clockProgressLabel).toBe("0/4 fatias");
 		expect(view.clockStatusLabel).toBe("Relógio ativo");
@@ -75,17 +81,20 @@ describe("campHourView", () => {
 				},
 			],
 			isResolving: false,
+			lifecycleState: "resolved-local",
 			selectedActivityIds: {},
 			session: buildSession({ danger: 1, status: "resolved" }),
 		});
 
-		expect(view.sessionStatusLabel).toBe("Hora resolvida");
+		expect(view.sessionStatusLabel).toBe("Hora 1 resolvida");
 		expect(view.dangerLabel).toBe("Perigo 1");
 		expect(view.clockProgressLabel).toBe("4/4 fatias");
 		expect(view.clockStatusLabel).toBe("Relógio concluído");
 		expect(view.logLines).toEqual(["Hora 1 do acampamento resolvida."]);
 		expect(view.characterRows[0]?.isLocked).toBe(true);
 		expect(view.canResolve).toBe(false);
+		expect(view.showPrepareNextHour).toBe(true);
+		expect(view.canPrepareNextHour).toBe(true);
 	});
 
 	it("shows restored assignment logs for resolved saved camp state", () => {
@@ -98,10 +107,13 @@ describe("campHourView", () => {
 			errorMessage: null,
 			events: [],
 			isResolving: false,
+			lifecycleState: "resolved-restored",
 			selectedActivityIds: {},
 			session: buildSession({ danger: 1, status: "resolved" }),
 		});
 
+		expect(view.sessionStatusLabel).toBe("Hora 1 restaurada do save local");
+		expect(view.canPrepareNextHour).toBe(true);
 		expect(view.logLines).toEqual([
 			"Hora de acampamento restaurada do save local.",
 			"Lia: Fortificar perímetro.",
@@ -118,6 +130,7 @@ describe("campHourView", () => {
 			errorMessage: null,
 			events: [],
 			isResolving: false,
+			lifecycleState: "resolved-restored",
 			selectedActivityIds: {},
 			session: buildSession({ danger: 1, status: "resolved" }),
 		});
@@ -134,6 +147,7 @@ describe("campHourView", () => {
 			errorMessage: null,
 			events: [],
 			isResolving: false,
+			lifecycleState: "resolved-restored",
 			selectedActivityIds: {},
 			session: buildSession({ danger: 1, status: "resolved" }),
 		});
@@ -154,6 +168,7 @@ describe("campHourView", () => {
 			errorMessage: "Erro visível",
 			events: [],
 			isResolving: true,
+			lifecycleState: "initial-planning",
 			selectedActivityIds: {},
 			session: null,
 		});
@@ -181,6 +196,7 @@ describe("campHourView", () => {
 			errorMessage: null,
 			events: [],
 			isResolving: false,
+			lifecycleState: "initial-planning",
 			selectedActivityIds: {},
 			session: buildSession(),
 		});
@@ -188,7 +204,71 @@ describe("campHourView", () => {
 		expect(view.characterRows[0]?.selectedActivityId).toBe("watch");
 	});
 
+	it("shows the next hour ready with unlocked actions", () => {
+		const view = createCampHourView({
+			activities: CAMP_ACTIVITY_CATALOG,
+			assignments: [],
+			characters: [buildCharacter()],
+			clock: buildClock({ currentSlices: 1 }),
+			errorMessage: null,
+			events: [],
+			isResolving: false,
+			lifecycleState: "next-hour-ready",
+			selectedActivityIds: {},
+			session: buildSession({
+				currentHour: 2,
+				danger: 1,
+				status: "planning",
+			}),
+		});
+
+		expect(view.sessionStatusLabel).toBe("Hora 2 pronta para planejamento");
+		expect(view.logLines).toEqual([
+			"Hora 2 pronta. Escolha as ações antes de resolver.",
+		]);
+		expect(view.characterRows[0]?.isLocked).toBe(false);
+		expect(view.canResolve).toBe(true);
+		expect(view.showPrepareNextHour).toBe(false);
+		expect(view.canPrepareNextHour).toBe(false);
+	});
+
+	it("blocks another transition at the 24-hour boundary", () => {
+		const view = createCampHourView({
+			activities: CAMP_ACTIVITY_CATALOG,
+			assignments: [buildAssignment({ hour: 24 })],
+			characters: [buildCharacter()],
+			clock: buildClock(),
+			errorMessage: null,
+			events: [],
+			isResolving: false,
+			lifecycleState: "resolved-restored",
+			selectedActivityIds: {},
+			session: buildSession({ currentHour: 24, status: "resolved" }),
+		});
+
+		expect(view.showPrepareNextHour).toBe(true);
+		expect(view.canPrepareNextHour).toBe(false);
+		expect(view.nextHourUnavailableLabel).toBe(
+			"O acampamento atingiu o limite de 24 horas.",
+		);
+	});
+
 	it("maps failures to useful user messages without technical codes", () => {
+		expect(
+			mapCampHourTransitionFailureToMessage(
+				buildTransitionFailure("INVALID_CAMP_HOUR_TRANSITION_INPUT"),
+			),
+		).toBe("Não foi possível preparar a próxima hora.");
+		expect(
+			mapCampHourTransitionFailureToMessage(
+				buildTransitionFailure("CAMP_SESSION_NOT_RESOLVED"),
+			),
+		).toBe("Resolva a hora atual antes de preparar a próxima.");
+		expect(
+			mapCampHourTransitionFailureToMessage(
+				buildTransitionFailure("CAMP_HOUR_LIMIT_REACHED"),
+			),
+		).toBe("O acampamento atingiu o limite de 24 horas.");
 		expect(
 			mapCampHourFailureToMessage(buildFailure("INVALID_CAMP_HOUR_INPUT")),
 		).toBe("Revise as ações escolhidas antes de resolver a hora.");
@@ -291,6 +371,15 @@ function baseAssignment() {
 }
 
 function buildFailure(code: CampHourFailure["code"]): CampHourFailure {
+	return {
+		code,
+		message: "failure",
+	};
+}
+
+function buildTransitionFailure(
+	code: CampHourTransitionFailure["code"],
+): CampHourTransitionFailure {
 	return {
 		code,
 		message: "failure",

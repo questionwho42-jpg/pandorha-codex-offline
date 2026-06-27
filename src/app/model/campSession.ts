@@ -11,12 +11,17 @@ import {
 	ClockService,
 	InMemoryClockRepository,
 } from "$lib/entities/clock";
-import {
-	type CampHourFailure,
-	type CampHourInput,
-	type CampHourResult,
-	CampHourService,
-} from "$lib/features/camp-hour";
+import { CampHourService } from "$lib/features/camp-hour/domain/CampHourService";
+import { CampHourTransitionService } from "$lib/features/camp-hour/domain/CampHourTransitionService";
+import type {
+	CampHourInput,
+	CampHourTransitionInput,
+} from "$lib/features/camp-hour/model/campHourSchemas";
+import type {
+	CampHourFailure,
+	CampHourResult,
+	CampHourTransitionFailure,
+} from "$lib/features/camp-hour/model/campHourTypes";
 import type { Result } from "$lib/shared/lib/result";
 
 export interface CampPersistedState {
@@ -32,12 +37,18 @@ export interface CampSessionAppModel {
 		input: CampHourInput,
 		clocks: readonly ClockRecord[],
 	): Promise<Result<CampHourResult, CampHourFailure>>;
+	prepareNextHour(
+		input: CampHourTransitionInput,
+	): Result<CampSessionRecord, CampHourTransitionFailure>;
 }
 
 export function createCampSession(): CampSessionAppModel {
+	const transitionService = new CampHourTransitionService();
+
 	return {
 		activities: CAMP_ACTIVITY_CATALOG,
 		createInitialState,
+		prepareNextHour: (input) => transitionService.prepareNextHour(input),
 		resolveHour: (input, clocks) => {
 			const clockRepository = new InMemoryClockRepository({ records: clocks });
 			const service = new CampHourService(new ClockService(clockRepository));

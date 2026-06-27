@@ -321,6 +321,20 @@ async function runUiReachabilitySmoke(root) {
 
 	await validateFileContains(
 		root,
+		"src/features/camp-hour/ui/CampHourPanel.svelte",
+		[
+			"prepareNextHour",
+			"lifecycleState",
+			'data-testid="camp-prepare-next-hour"',
+			"Preparar próxima hora",
+			"mapCampHourTransitionFailureToMessage",
+			'"next-hour-ready"',
+		],
+		errors,
+	);
+
+	await validateFileContains(
+		root,
 		"docs/process/vertical-slice-qa.md",
 		[
 			"qa:ui-reachability",
@@ -336,7 +350,12 @@ async function runUiReachabilitySmoke(root) {
 	await validateFileContains(
 		root,
 		"docs/user/camp-training.md",
-		["## Limitações atuais", "A versão atual resolve apenas 1 hora."],
+		[
+			"## Limitações atuais",
+			"Preparar próxima hora",
+			"Não existe comando de noite completa",
+			"save continua na versão 9",
+		],
 		errors,
 	);
 
